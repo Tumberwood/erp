@@ -1,0 +1,7 @@
+*~
+*.swp
+*.bak
+/users/init.php
+/usersc/lib/config.php
+/data
+/@

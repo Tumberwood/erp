@@ -1,0 +1,78 @@
+/*
+  *custom tampilan
+*/
+
+.menu-item {
+  display: block;
+  padding: 10px 15px;
+  padding-right: 200px;
+  margin-left: 16px;
+  text-decoration: none;
+  color: rgb(167, 177, 194);
+  background-color: rgb(47, 64, 80);
+  margin-bottom: 5px;
+  margin-top: 4px;
+  border-radius: 4px;
+  white-space: nowrap; 
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.menu-item:hover {
+  color: white; 
+  background-color: rgb(41, 56, 70); 
+}
+
+#searchInput {
+  border-radius: 5px; 
+  width: 200px; 
+  margin-left: 7px;
+}
+
+/*
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: 1px solid #e7eaec;
+  line-height: 1.42857;
+  padding: 5px !important;
+  vertical-align: top;
+}
+
+table.dataTable td {
+  font-size: 11.5px;
+}
+
+.dataTables_info, .dataTables_length, .dataTables_length select{ 
+  font-size: 11px !important;
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+  background-color:#1ab394 !important;
+  border-color: #18a689;
+  color: #FFFFFF;
+}
+
+.table > thead > tr > th, 
+.table > thead > tr > td {
+  background-color: #fff !important;
+  font-size: 13px;
+}
+*/
+.text-approved {
+  color: #239B56;
+}
+.bg-defaultprogram {
+  background-color: #edffc1;
+}
+
+.dt-button.buttons-columnVisibility {
+  background-color: #7ebdb0;
+  color: white;
+}
+ 
+.dt-button.buttons-columnVisibility.active {
+  background-color: #1ab394;
+}
