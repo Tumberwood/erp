@@ -68,11 +68,11 @@
 			$nama_field_tanggal = $values['field_tanggal'];
 			
 			// cek inputan parameter field_tanggal dari front end
-			// jika 'created_on'
+			// jika 'start_at'
 			// jika tidak	: gunakan field tanggal
-			if ($nama_field_tanggal == 'created_on'){
+			if ($nama_field_tanggal == 'start_at'){
 				$field_tanggal 		= date('Y-m-d');
-				$nama_field_tanggal	= 'created_on';
+				$nama_field_tanggal	= 'start_at';
 			}else{
 				$field_tanggal 	= date_create($values[$nama_tabel][$nama_field_tanggal]);
 				$field_tanggal 	= date_format($field_tanggal,"Y-m-d");
@@ -96,7 +96,7 @@
 				SELECT 
 					*
 				FROM gdnxxsh
-				WHERE nama_tabel = '" . $values['nama_tabel'] . "' AND  is_active = 1" . $_and_where_kategori_dokumen;
+				WHERE nama_tabel = '" . $values['nama_tabel'] . "' AND  transaction_state = 1" . $_and_where_kategori_dokumen;
 				
 				$r_gdnxxsh          = $editor->db()->sql($qs_gdnxxsh)->fetch();
 				$mode 				= $r_gdnxxsh['mode'];
