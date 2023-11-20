@@ -54,7 +54,7 @@
             'gpvxxmh.id as id',
             'gpvxxmh.nama as text'
         ])
-        ->where('gpvxxmh.is_active',1)
+        ->where('gpvxxmh.transaction_state',1)
         ->where('gpvxxmh.id', $id_gpvxxmh_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
