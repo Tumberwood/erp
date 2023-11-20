@@ -1,5 +1,5 @@
 <?php
-$path=['','users/','usersc/applications/views/core/','usersc/applications/views/iittpmh/','usersc/applications/views/iicctmh/','usersc/applications/views/iibbrmh/','usersc/applications/views/iumxxmh/','usersc/applications/views/iimxxmh/','usersc/applications/views/iwhctmh/','usersc/applications/views/iwhxxmh/','usersc/applications/views/fcrxxmh/','usersc/applications/views/aakxxmh/','usersc/applications/views/fbtxxth/','usersc/applications/views/forxxth/'];
+$path=['','users/','usersc/applications/views/core/','usersc/applications/views/iittpmh/','usersc/applications/views/iicctmh/','usersc/applications/views/iibbrmh/','usersc/applications/views/iumxxmh/','usersc/applications/views/iimxxmh/','usersc/applications/views/iwhctmh/','usersc/applications/views/iwhxxmh/','usersc/applications/views/fcrxxmh/','usersc/applications/views/aakxxmh/','usersc/applications/views/fbtxxth/','usersc/applications/views/forxxth/','usersc/applications/views/psuxxmh/','usersc/applications/views/hbnxxmh/'];
 $abs_us_root=$_SERVER['DOCUMENT_ROOT'];
 
 $self_path=explode("/", $_SERVER['PHP_SELF']);
