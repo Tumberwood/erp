@@ -175,7 +175,7 @@
 					{
 						label: "Field Tanggal <sup class='text-danger'>*<sup>",
 						name: "gdnxxsh.field_tanggal",
-						def: "created_on"
+						def: "start_at"
 					}					
 				]
 
