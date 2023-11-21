@@ -1,41 +1,5 @@
-<?php
-    /*
-        05 Dec 2022
-        Ganti nama table ke standarisai nama table baru
-
-        31 May 2022
-        ini dipanggil dari tombol approval
-        kode di generate saat apporval, menandakan dokumen sudah ready.
-        
-		Generate Autonumber untuk pengkodean dokumen
-		Settingan ada di table sh_dokumen_number
-		parameter dari front end:
-		- nama_tabel		: digunakan untuk memilih table mana yang akan dibuat autonumber nya
-		- kategori_dokumen	: pembeda kategori di dalam nama_table (jika ada)
-							  misalnya: dalam table purchase_order, dibedakan atas PO Bahan Baku, PO Service
-							  
-		TO DO
-		- dibedakan atas mhcompany dan mhcabang
-		- pilihan bentuk format dokumen
-			prefix/yymm/autonumber -> SPL/1908/0001
-			prefix/yymm/autonumber/suffix -> SPL/1908/0001/ID
-			
-		changes log	:
-		200803
-			Recode 	: karena format tanggal sering tidak terbaca Tanggal dijadikan string 
-			
-		200102
-			Add: Penambahan field Jumlah Digit Tahun: 2 | 4
-		191216 
-			Bug fix: Perbaikan pengambilan field tanggal yang salah
-			Bug fix: Perbaikan counter angka 9 yang kurang 0 satu
-	*/
-?>
 
 <?php    
-	require_once( "../../users/init.php" );
-	require_once( "../../usersc/lib/DataTables.php" );
-	require_once( "datatables_fn_debug.php" );
 	
 	// BEGIN definisi variable untuk fn_ajax_results.php
     $data      = array();
@@ -82,12 +46,29 @@
 
 
 	// BEGIN ambil data dari variable approval
-	$state 			= $_POST['state'];
-	$nama_tabel 	= $_POST['nama_tabel'];
-	$id_transaksi 	= $_POST['id_transaksi'];
+	$state 			= 0;
+	$nama_tabel 	= '';
+	$id_transaksi 	= 0;
+	$message 		= '';
+	$type_message 	= '';
+	$formatted_kode = '';
+
+	if (isset($_POST['state']) && !empty($_POST['state'])) {
+		$state 			= $_POST['state'];
+	}
+	if (isset($_POST['nama_tabel']) && !empty($_POST['nama_tabel'])) {
+		$nama_tabel 	= $_POST['nama_tabel'];
+	}
+	if (isset($_POST['id_transaksi']) && !empty($_POST['id_transaksi'])) {
+		$id_transaksi 	= $_POST['id_transaksi'];
+	}
 	// END ambil data dari variable approval
 	
 	if($state == 1){
+		require_once( "../../users/init.php" );
+		require_once( "../../usersc/lib/DataTables.php" );
+		require_once( "datatables_fn_debug.php" );
+		
 		// BEGIN ambil data tambahan dari variable approval
 		$kategori_dokumen 		= $_POST['kategori_dokumen'];
 		$kategori_dokumen_value = $_POST['kategori_dokumen_value'];
@@ -267,22 +248,6 @@
 			$type_message = 'danger';
 		} 
 		
-	}elseif($state == 2){
-		// cancel Approve
-		// no dokumen dihapus
-		// cek apakah beda bulan, jika beda bulan, tidak bisa dilakukan
-		$message 		= '';
-		$type_message 	= '';
-		$formatted_kode = '';
-		
-	}elseif($state == -9){
-		// void
-		// void tidak mengubah nomor dokumen
-		// nomor dokumen yang sudah di generate saat approve, tetap dipakai, 
-		// tetapi status dokumen menjadi void dan transaksi tidak dapat digunakan lagi
-		$message 		= '';
-		$type_message 	= '';
-		$formatted_kode = '';
 	}
 	
 	$data = array(
@@ -292,7 +257,7 @@
 	);
 
 	// tampilkan results
-    require_once( "fn_ajax_results.php" );
+    // require_once( "fn_ajax_results.php" );
 
 
 
