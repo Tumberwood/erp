@@ -10,6 +10,7 @@
 	$nama_tabel       = 'psuxxmh';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'psuxxtd';
+    $nama_tabels_d[1] = 'psucttd';
 ?>
 
 <!-- begin content here -->
@@ -45,7 +46,7 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabpsuxxtd_1"> Bank</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabpsuxxtd_2"> Tab 2</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabpsucttd"> Kontak</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabpsuxxtd_1" class="tab-pane active">
@@ -67,17 +68,18 @@
 
 					</div>
 				</div>
-				<div role="tabpanel" id="tabpsuxxtd_2" class="tab-pane">
+				<div role="tabpanel" id="tabpsucttd" class="tab-pane">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblpsuxxtd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblpsucttd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_psuxxmh</th>
-										<th>Kode</th>
 										<th>Nama</th>
-										<th>Keterangan</th>
+										<th>Posisi</th>
+										<th>Email</th>
+										<th>Handphone</th>
 									</tr>
 								</thead>
 							</table>
@@ -114,11 +116,13 @@
 	// ------------- default variable, do not erase
 	var edtpsuxxmh, tblpsuxxmh, show_deleted_psuxxmh = 0, id_psuxxmh;
 	var edtpsuxxtd, tblpsuxxtd, show_deleted_psuxxtd = 0, id_psuxxtd;
+	var edtpsucttd, tblpsucttd, show_deleted_psucttd = 0, id_psucttd;
 	// ------------- end of default variable
 	var id_gctxxmh_old = 0;
 	var id_gbuxxmh_old = 0;
 	var id_gpvxxmh_old = 0;
 	var id_hbnxxmh_old = 0;
+	var is_need_generate_kode = 1;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -594,7 +598,7 @@
 		
 		tblpsuxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tblpsuxxtd];
+			tbl_details = [tblpsuxxtd, tblpsucttd];
 			CekInitHeaderHD(tblpsuxxmh, tbl_details);
 		} );
 		
@@ -612,7 +616,7 @@
 			id_gctxxmh_old      		= psuxxmh_data.id_gctxxmh;
 			
 			// atur hak akses
-			tbl_details = [tblpsuxxtd];
+			tbl_details = [tblpsuxxtd, tblpsucttd];
 			CekSelectHeaderHD(tblpsuxxmh, tbl_details);
 
 		} );
@@ -625,7 +629,7 @@
 			id_gpvxxmh_old = 0;
 
 			// atur hak akses
-			tbl_details = [tblpsuxxtd];
+			tbl_details = [tblpsuxxtd, tblpsucttd];
 			CekDeselectHeaderHD(tblpsuxxmh, tbl_details);
 		} );
 		
@@ -903,6 +907,235 @@
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblpsuxxmh, tblpsuxxtd );
+		} );
+
+// --------- end _detail --------------- //		
+// --------- start _detail --------------- //
+
+		//start datatables editor
+		edtpsucttd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/psuxxmh/psucttd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_psucttd = show_deleted_psucttd;
+					d.id_psuxxmh = id_psuxxmh;
+				}
+			},
+			table: "#tblpsucttd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "psucttd.start_at",
+					name: "psucttd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "psucttd.finish_at",
+					name: "psucttd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "psucttd",
+					type: "hidden"
+				},	
+				{
+					label: "psucttd.transaction_state",
+					name: "psucttd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_psuxxmh",
+					name: "psucttd.id_psuxxmh",
+					type: "hidden"
+				},	
+				{
+					label: "Nama <sup class='text-danger'>*<sup>",
+					name: "psucttd.nama"
+				}, 	
+				{
+					label: "Posisi <sup class='text-danger'>*<sup>",
+					name: "psucttd.posisi"
+				},
+				{
+					label: "Email",
+					name: "psucttd.email"
+				},
+				{
+					label: "Handphone",
+					name: "psucttd.handphone"
+				}
+			]
+		} );
+			
+		edtpsucttd.on( 'preOpen', function( e, mode, action ) {
+			edtpsucttd.field('psucttd.id_psuxxmh').val(id_psuxxmh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtpsucttd.field('psucttd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblpsucttd.rows().deselect();
+			}
+		});
+
+		edtpsucttd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+		
+		edtpsucttd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				nama = edtpsucttd.field('psucttd.nama').val();
+				if(!nama || nama == ''){
+					edtpsucttd.field('psucttd.nama').error( 'Wajib diisi!' );
+				}
+
+				posisi = edtpsucttd.field('psucttd.posisi').val();
+				if(!posisi || posisi == ''){
+					edtpsucttd.field('psucttd.posisi').error( 'Wajib diisi!' );
+				}
+
+				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				email = edtpsucttd.field('psucttd.email').val();
+				if(email != ''){
+					if (emailRegex.test(email)) {
+						
+					} else {
+						edtpsucttd.field('psucttd.email').error( 'Format Email Salah!' );
+					}
+				}
+
+				handphone = edtpsucttd.field('psucttd.handphone').val();
+				if(handphone != ''){
+					// validasi min atau max angka
+					if(handphone <= 0 ){
+						edtpsucttd.field('psucttd.handphone').error( 'Inputan harus > 0' );
+					}
+					
+					// validasi angka
+					if(isNaN(handphone) ){
+						edtpsucttd.field('psucttd.handphone').error( 'Inputan harus berupa Angka!' );
+					}
+				}
+			}
+			
+			if ( edtpsucttd.inError() ) {
+				return false;
+			}
+		});
+
+		edtpsucttd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtpsucttd.field('psucttd.finish_at').val(finish_at);
+		});
+			
+		edtpsucttd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+		} );
+
+		edtpsucttd.on( 'close', function () {
+			edtpsucttd.enable();
+		} );
+		
+		//start datatables
+		tblpsucttd = $('#tblpsucttd').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-4',
+			},
+			ajax: {
+				url: "../../models/psuxxmh/psucttd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_psucttd = show_deleted_psucttd;
+					d.id_psuxxmh = id_psuxxmh;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [1,2,3]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: [0]
+				}
+			],
+			columns: [
+				{ data: "psucttd.id",visible:false },
+				{ data: "psucttd.id_psuxxmh",visible:false },
+				{ data: "psucttd.nama" },
+				{ data: "psucttd.posisi" },
+				{ data: "psucttd.email" },
+				{ data: "psucttd.handphone" }
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_psucttd';
+					$table       = 'tblpsucttd';
+					$edt         = 'edtpsucttd';
+					$show_status = '_psucttd';
+					$table_name  = $nama_tabels_d[1];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					$arr_buttons_approve 	= ['noapprove'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblpsucttd.searchPanes.container().appendTo('#sppsucttd');
+		tblpsucttd.searchBuilder.container().appendTo( '#sbpsucttd' );
+
+		tblpsucttd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			cek_c_detail= 1;
+			CekDrawDetailHD(tblpsuxxmh, tblpsucttd, 'psucttd' );
+			CekDrawDetailHDFinal(tblpsuxxmh);
+		} );
+
+		tblpsucttd.on( 'select', function( e, dt, type, indexes ) {
+			data_psucttd 		= tblpsucttd.row( { selected: true } ).data().psucttd;
+			id_psucttd   		= data_psucttd.id;
+			id_transaksi_d 		= id_psucttd; // dipakai untuk general
+			id_transaksi_log 	= id_psucttd; // dipakai untuk log
+
+			transaction_state_d   = data_psucttd.transaction_state;
+			id_hbnxxmh_old   = data_psucttd.id_hbnxxmh;
+			
+			// atur hak akses
+			CekSelectDetailHD(tblpsuxxmh, tblpsucttd );
+		} );
+
+		tblpsucttd.on( 'deselect', function() {
+			id_psucttd = 0;
+			is_active_d = 0;
+			id_hbnxxmh_old = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD(tblpsuxxmh, tblpsucttd );
 		} );
 
 // --------- end _detail --------------- //		

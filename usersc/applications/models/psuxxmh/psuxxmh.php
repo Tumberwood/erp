@@ -72,11 +72,11 @@
 	}
 	
 	include( "psuxxmh_extra.php" );
+	include( "../../../helpers/kode_fn_generate_confirm.php" );
 
 	// BEGIN log
 	$nama_table = 'psuxxmh';
 	include( "../../../helpers/edt_log.php" );
-	include( "../../../helpers/kode_fn_generate_c.php" );
 	// END log
 	
 	$json = $editor
