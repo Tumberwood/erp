@@ -18,6 +18,31 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
+				<!-- start Custom Form Datatables Editor -->
+				<div id="custom_psuxxmh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.nama"></editor-field>
+								<editor-field name="psuxxmh.id_gctxxmh"></editor-field>
+								<editor-field name="psuxxmh.id_gbuxxmh"></editor-field>
+								<editor-field name="psuxxmh.telepon"></editor-field>
+								<editor-field name="psuxxmh.whatsapp"></editor-field>
+								<editor-field name="psuxxmh.fax"></editor-field>
+								<editor-field name="psuxxmh.email"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.alamat"></editor-field>
+								<editor-field name="psuxxmh.id_gpvxxmh"></editor-field>
+								<editor-field name="psuxxmh.nik"></editor-field>
+								<editor-field name="psuxxmh.npwp"></editor-field>
+								<editor-field name="psuxxmh.default_pembayaran"></editor-field>
+								<editor-field name="psuxxmh.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end Custom Form Datatables Editor -->
 				<div class="table-responsive">
                     <table id="tblpsuxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -135,6 +160,7 @@
 				}
 			},
 			table: "#tblpsuxxmh",
+			template: "#custom_psuxxmh",
 			fields: [ 
 				{
 					// untuk generate_kode
@@ -360,7 +386,7 @@
 		});
 
 		edtpsuxxmh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 		
 		edtpsuxxmh.on( 'preSubmit', function (e, data, action) {
