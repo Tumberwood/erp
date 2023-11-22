@@ -419,7 +419,7 @@
 				}, 	
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
-					name: "prqittd.qty"
+					name: "prqittd.jumlah_unit"
 				}, 
 				{
 					label: "UoM",
@@ -500,19 +500,19 @@
 					edtprqittd.field('prqittd.nama').error( 'Wajib diisi!' );
 				}
 				
-				qty = edtprqittd.field('prqittd.qty').val();
-				if(!qty || qty == ''){
-					edtprqittd.field('prqittd.qty').error( 'Wajib diisi!' );
+				jumlah_unit = edtprqittd.field('prqittd.jumlah_unit').val();
+				if(!jumlah_unit || jumlah_unit == ''){
+					edtprqittd.field('prqittd.jumlah_unit').error( 'Wajib diisi!' );
 				}
 
 				// validasi min atau max angka
-				if(qty <= 0 ){
-					edtprqittd.field('prqittd.qty').error( 'Inputan harus > 0' );
+				if(jumlah_unit <= 0 ){
+					edtprqittd.field('prqittd.jumlah_unit').error( 'Inputan harus > 0' );
 				}
 				
 				// validasi angka
-				if(isNaN(qty) ){
-					edtprqittd.field('prqittd.qty').error( 'Inputan harus berupa Angka!' );
+				if(isNaN(jumlah_unit) ){
+					edtprqittd.field('prqittd.jumlah_unit').error( 'Inputan harus berupa Angka!' );
 				}
 			}
 			
@@ -570,7 +570,7 @@
 				{ data: "prqittd.id_prqxxth",visible:false },
 				{ data: "prqittd.nama" },
 				{ 
-					data: "prqittd.qty",
+					data: "prqittd.jumlah_unit",
 					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
 					class: "text-right"
 				},
@@ -618,6 +618,7 @@
 			id_transaksi_log 	= id_prqittd; // dipakai untuk log
 
 			transaction_state_d   = data_prqittd.transaction_state;
+			id_iumxxmh_old   = data_prqittd.id_iumxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD(tblprqxxth, tblprqittd );
@@ -626,6 +627,7 @@
 		tblprqittd.on( 'deselect', function() {
 			id_prqittd = 0;
 			is_active_d = 0;
+			id_iumxxmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblprqxxth, tblprqittd );

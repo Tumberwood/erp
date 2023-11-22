@@ -51,7 +51,7 @@
 						'to' =>   'Y-m-d'
 					) ),
 				Field::inst( 'prqittd.is_defaultprogram' ),
-				Field::inst( 'prqittd.qty' ),
+				Field::inst( 'prqittd.jumlah_unit' ),
 				Field::inst( 'iumxxmh.nama' )
 			)
 			->leftJoin( 'iumxxmh','iumxxmh.id','=','prqittd.id_iumxxmh' )
