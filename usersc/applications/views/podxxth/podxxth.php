@@ -43,6 +43,31 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabpodittd_1" class="tab-pane active">
 					<div class="panel-body">
+					<!-- start Custom Form Datatables Editor -->
+					<div id="custom_podittd">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podittd.id_prqittd"></editor-field>
+									<editor-field name="podittd.id_iumxxmh"></editor-field>
+									<editor-field name="podittd.harga_unit"></editor-field>
+									<editor-field name="podittd.is_diskon_persen"></editor-field>
+									<editor-field name="podittd.diskon_final"></editor-field>
+									<editor-field name="podittd.dpp"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="podittd.id_iimxxmh"></editor-field>
+									<editor-field name="podittd.jumlah_unit"></editor-field>
+									<editor-field name="podittd.subtotal"></editor-field>
+									<editor-field name="podittd.diskon_persen"></editor-field>
+									<editor-field name="podittd.diskon_value"></editor-field>
+									<editor-field name="podittd.tanggal"></editor-field>
+									<editor-field name="podittd.keterangan"></editor-field>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end Custom Form Datatables Editor -->
 						<div class="table-responsive">
 							<table id="tblpodittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
@@ -471,6 +496,7 @@
 					d.id_podxxth = id_podxxth;
 				}
 			},
+			template: "#custom_podittd",
 			table: "#tblpodittd",
 			formOptions: {
 				main: {
@@ -685,7 +711,7 @@
 		});
 
 		edtpodittd.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 		
 		edtpodittd.dependent( 'podittd.harga_unit', function ( val, data, callback ) {
