@@ -440,6 +440,16 @@
 					}
 				}
 
+				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				email = edtpsuxxmh.field('psuxxmh.email').val();
+				if(email != ''){
+					if (emailRegex.test(email)) {
+						
+					} else {
+						edtpsuxxmh.field('psuxxmh.email').error( 'Format Email Salah!' );
+					}
+				}
+				
 				nik = edtpsuxxmh.field('psuxxmh.nik').val();
 				if (nik != '') {
 					if(nik <= 0 ){

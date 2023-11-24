@@ -24,6 +24,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'scuxxmh.id' ),
+			Field::inst( 'scuxxmh.id_gbuxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'scuxxmh.id_gctxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'scuxxmh.id_gpvxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'scuxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -38,8 +44,24 @@
 			Field::inst( 'scuxxmh.approval_state' ),
 			Field::inst( 'scuxxmh.start_at' ),
 			Field::inst( 'scuxxmh.finish_at' ),
-			Field::inst( 'scuxxmh.is_defaultprogram' )
-		);
+			Field::inst( 'scuxxmh.is_defaultprogram' ),
+			Field::inst( 'scuxxmh.alamat' ),
+			Field::inst( 'scuxxmh.telepon' ),
+			Field::inst( 'scuxxmh.whatsapp' ),
+			Field::inst( 'scuxxmh.fax' ),
+			Field::inst( 'scuxxmh.email' ),
+			Field::inst( 'scuxxmh.nik' ),
+			Field::inst( 'scuxxmh.npwp' ),
+			Field::inst( 'scuxxmh.kredit_limit' ),
+			Field::inst( 'scuxxmh.tag' ),
+			Field::inst( 'scuxxmh.default_pembayaran' ),
+			Field::inst( 'scuxxmh.is_pkp' ),
+			Field::inst( 'gctxxmh.nama' ),
+			Field::inst( 'gpvxxmh.nama' )
+		)
+		->leftJoin( 'gctxxmh','gctxxmh.id','=','scuxxmh.id_gctxxmh' )
+		->leftJoin( 'gpvxxmh','gpvxxmh.id','=','scuxxmh.id_gpvxxmh' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document
