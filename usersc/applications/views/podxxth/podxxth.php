@@ -500,7 +500,8 @@
 			table: "#tblpodittd",
 			formOptions: {
 				main: {
-					focus: 3
+					focus: 5,
+					onBackground: 'none'
 				}
 			},
 			fields: [ 
@@ -568,7 +569,7 @@
 					}
 				}, 	
 				{
-					label: "Item",
+					label: "Item <sup class='text-danger'>*<sup>",
 					name: "podittd.id_iimxxmh",
 					type: "select2",
 					opts: {
@@ -604,7 +605,7 @@
 					}
 				}, 	
 				{
-					label: "UoM",
+					label: "UoM <sup class='text-danger'>*<sup>",
 					name: "podittd.id_iumxxmh",
 					type: "select2",
 					opts: {
@@ -764,6 +765,16 @@
 				id_prqittd = edtpodittd.field('podittd.id_prqittd').val();
 				if(!id_prqittd || id_prqittd == ''){
 					edtpodittd.field('podittd.id_prqittd').error( 'Wajib diisi!' );
+				}
+				
+				id_iumxxmh = edtpodittd.field('podittd.id_iumxxmh').val();
+				if(!id_iumxxmh || id_iumxxmh == ''){
+					edtpodittd.field('podittd.id_iumxxmh').error( 'Wajib diisi!' );
+				}
+				
+				id_iimxxmh = edtpodittd.field('podittd.id_iimxxmh').val();
+				if(!id_iimxxmh || id_iimxxmh == ''){
+					edtpodittd.field('podittd.id_iimxxmh').error( 'Wajib diisi!' );
 				}
 				
 				jumlah_unit = edtpodittd.field('podittd.jumlah_unit').val();

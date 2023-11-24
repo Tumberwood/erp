@@ -382,7 +382,8 @@
 			table: "#tblprqittd",
 			formOptions: {
 				main: {
-					focus: 3
+					focus: 5,
+					onBackground: 'none'
 				}
 			},
 			fields: [ 
@@ -422,7 +423,7 @@
 					name: "prqittd.jumlah_unit"
 				}, 
 				{
-					label: "UoM",
+					label: "UoM <sup class='text-danger'>*<sup>",
 					name: "prqittd.id_iumxxmh",
 					type: "select2",
 					opts: {
@@ -498,6 +499,11 @@
 				nama = edtprqittd.field('prqittd.nama').val();
 				if(!nama || nama == ''){
 					edtprqittd.field('prqittd.nama').error( 'Wajib diisi!' );
+				}
+				
+				id_iumxxmh = edtprqittd.field('prqittd.id_iumxxmh').val();
+				if(!id_iumxxmh || id_iumxxmh == ''){
+					edtprqittd.field('prqittd.id_iumxxmh').error( 'Wajib diisi!' );
 				}
 				
 				jumlah_unit = edtprqittd.field('prqittd.jumlah_unit').val();
