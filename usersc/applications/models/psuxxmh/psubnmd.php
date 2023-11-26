@@ -23,38 +23,40 @@
 	if ( ! isset($_POST['id_psuxxmh']) || ! is_numeric($_POST['id_psuxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'psucttd' )
+		$editor = Editor::inst( $db, 'psubnmd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'psucttd.id' ),
-				Field::inst( 'psucttd.id_psuxxmh' ),
-				Field::inst( 'psucttd.kode' ),
-				Field::inst( 'psucttd.nama' ),
-				Field::inst( 'psucttd.keterangan' ),
-				Field::inst( 'psucttd.created_by' ),
-				Field::inst( 'psucttd.transaction_state' ),
-				Field::inst( 'psucttd.approval_state' ),
-				Field::inst( 'psucttd.start_at' ),
-				Field::inst( 'psucttd.finish_at' ),
-				Field::inst( 'psucttd.is_defaultprogram' ),
-				Field::inst( 'psucttd.email' ),
-				Field::inst( 'psucttd.posisi' ),
-				Field::inst( 'psucttd.handphone' )
+				Field::inst( 'psubnmd.id' ),
+				Field::inst( 'psubnmd.id_psuxxmh' ),
+				Field::inst( 'psubnmd.id_fbnxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'psubnmd.kode' ),
+				Field::inst( 'psubnmd.nama' ),
+				Field::inst( 'psubnmd.keterangan' ),
+				Field::inst( 'psubnmd.created_by' ),
+				Field::inst( 'psubnmd.transaction_state' ),
+				Field::inst( 'psubnmd.approval_state' ),
+				Field::inst( 'psubnmd.start_at' ),
+				Field::inst( 'psubnmd.finish_at' ),
+				Field::inst( 'psubnmd.is_defaultprogram' ),
+				Field::inst( 'psubnmd.is_default' ),
+				Field::inst( 'psubnmd.no_rek' ),
+				Field::inst( 'fbnxxmh.nama' )
 			)
-			->where('psucttd.id_psuxxmh',$_POST['id_psuxxmh'])
-			;
+			->leftJoin( 'fbnxxmh','fbnxxmh.id','=','psubnmd.id_fbnxxmh' )
+			->where('psubnmd.id_psuxxmh',$_POST['id_psuxxmh']);
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_psucttd'] == 0){
+		if ( $_POST['show_deleted_psubnmd'] == 0){
 			$editor
-				->where( 'psucttd.transaction_state', -9, '<>');
+				->where( 'psubnmd.transaction_state', -9, '<>');
 		}
 		
-		include( "psucttd_extra.php" );
+		include( "psubnmd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'psucttd';
+		$nama_table = 'psubnmd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		

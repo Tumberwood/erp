@@ -9,8 +9,8 @@
 <?php
 	$nama_tabel       = 'psuxxmh';
     $nama_tabels_d 	= [];
-    $nama_tabels_d[0] = 'psuxxtd';
-    $nama_tabels_d[1] = 'psucttd';
+    $nama_tabels_d[0] = 'psubnmd';
+    $nama_tabels_d[1] = 'psuctmd';
 ?>
 
 <!-- begin content here -->
@@ -70,14 +70,14 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabpsuxxtd_1"> Bank</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabpsucttd"> Kontak</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabpsubnmd_1"> Bank</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabpsuctmd"> Kontak</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabpsuxxtd_1" class="tab-pane active">
+				<div role="tabpanel" id="tabpsubnmd_1" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblpsuxxtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblpsubnmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -93,10 +93,10 @@
 
 					</div>
 				</div>
-				<div role="tabpanel" id="tabpsucttd" class="tab-pane">
+				<div role="tabpanel" id="tabpsuctmd" class="tab-pane">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblpsucttd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblpsuctmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -140,13 +140,13 @@
 <script type="text/javascript">
 	// ------------- default variable, do not erase
 	var edtpsuxxmh, tblpsuxxmh, show_deleted_psuxxmh = 0, id_psuxxmh;
-	var edtpsuxxtd, tblpsuxxtd, show_deleted_psuxxtd = 0, id_psuxxtd;
-	var edtpsucttd, tblpsucttd, show_deleted_psucttd = 0, id_psucttd;
+	var edtpsubnmd, tblpsubnmd, show_deleted_psubnmd = 0, id_psubnmd;
+	var edtpsuctmd, tblpsuctmd, show_deleted_psuctmd = 0, id_psuctmd;
 	// ------------- end of default variable
 	var id_gctxxmh_old = 0;
 	var id_gbuxxmh_old = 0;
 	var id_gpvxxmh_old = 0;
-	var id_hbnxxmh_old = 0;
+	var id_fbnxxmh_old = 0;
 	var is_need_generate_kode = 1;
 
 	$(document).ready(function() {
@@ -634,7 +634,7 @@
 		
 		tblpsuxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tblpsuxxtd, tblpsucttd];
+			tbl_details = [tblpsubnmd, tblpsuctmd];
 			CekInitHeaderHD(tblpsuxxmh, tbl_details);
 		} );
 		
@@ -652,7 +652,7 @@
 			id_gctxxmh_old      		= psuxxmh_data.id_gctxxmh;
 			
 			// atur hak akses
-			tbl_details = [tblpsuxxtd, tblpsucttd];
+			tbl_details = [tblpsubnmd, tblpsuctmd];
 			CekSelectHeaderHD(tblpsuxxmh, tbl_details);
 
 		} );
@@ -665,23 +665,23 @@
 			id_gpvxxmh_old = 0;
 
 			// atur hak akses
-			tbl_details = [tblpsuxxtd, tblpsucttd];
+			tbl_details = [tblpsubnmd, tblpsuctmd];
 			CekDeselectHeaderHD(tblpsuxxmh, tbl_details);
 		} );
 		
 // --------- start _detail --------------- //
 
 		//start datatables editor
-		edtpsuxxtd = new $.fn.dataTable.Editor( {
+		edtpsubnmd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/psuxxmh/psuxxtd.php",
+				url: "../../models/psuxxmh/psubnmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psuxxtd = show_deleted_psuxxtd;
+					d.show_deleted_psubnmd = show_deleted_psubnmd;
 					d.id_psuxxmh = id_psuxxmh;
 				}
 			},
-			table: "#tblpsuxxtd",
+			table: "#tblpsubnmd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -689,46 +689,46 @@
 			},
 			fields: [ 
 				{
-					label: "psuxxtd.start_at",
-					name: "psuxxtd.start_at",
+					label: "psubnmd.start_at",
+					name: "psubnmd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "psuxxtd.finish_at",
-					name: "psuxxtd.finish_at",
+					label: "psubnmd.finish_at",
+					name: "psubnmd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "psuxxtd",
+					def: "psubnmd",
 					type: "hidden"
 				},	
 				{
-					label: "psuxxtd.transaction_state",
-					name: "psuxxtd.transaction_state",
+					label: "psubnmd.transaction_state",
+					name: "psubnmd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
 					label: "id_psuxxmh",
-					name: "psuxxtd.id_psuxxmh",
+					name: "psubnmd.id_psuxxmh",
 					type: "hidden"
 				},	
 				{
 					label: "Bank <sup class='text-danger'>*<sup>",
-					name: "psuxxtd.id_hbnxxmh",
+					name: "psubnmd.id_fbnxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/hbnxxmh/hbnxxmh_fn_opt.php",
+							url: "../../models/fbnxxmh/fbnxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_hbnxxmh_old: id_hbnxxmh_old,
+									id_fbnxxmh_old: id_fbnxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -753,15 +753,15 @@
 				},	
 				{
 					label: "Nama di Rekening<sup class='text-danger'>*<sup>",
-					name: "psuxxtd.nama"
+					name: "psubnmd.nama"
 				}, 	
 				{
 					label: "Nomor Rekening<sup class='text-danger'>*<sup>",
-					name: "psuxxtd.no_rek"
+					name: "psubnmd.no_rek"
 				}, 	
 				{
 					label: "Default Rekening",
-					name: "psuxxtd.is_default",
+					name: "psubnmd.is_default",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -771,90 +771,90 @@
 				},
 				{
 					label: "Keterangan",
-					name: "psuxxtd.keterangan",
+					name: "psubnmd.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 			
-		edtpsuxxtd.on( 'preOpen', function( e, mode, action ) {
-			edtpsuxxtd.field('psuxxtd.id_psuxxmh').val(id_psuxxmh);
+		edtpsubnmd.on( 'preOpen', function( e, mode, action ) {
+			edtpsubnmd.field('psubnmd.id_psuxxmh').val(id_psuxxmh);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsuxxtd.field('psuxxtd.start_at').val(start_at);
+			edtpsubnmd.field('psubnmd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblpsuxxtd.rows().deselect();
+				tblpsubnmd.rows().deselect();
 			}
 		});
 
-		edtpsuxxtd.on("open", function (e, mode, action) {
+		edtpsubnmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtpsuxxtd.on( 'preSubmit', function (e, data, action) {
+		edtpsubnmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi psuxxtd.id_hbnxxmh 
-				id_hbnxxmh = edtpsuxxtd.field('psuxxtd.id_hbnxxmh').val();
-				if(!id_hbnxxmh || id_hbnxxmh == ''){
-					edtpsuxxtd.field('psuxxtd.id_hbnxxmh').error( 'Wajib diisi!' );
+				// BEGIN of validasi psubnmd.id_fbnxxmh 
+				id_fbnxxmh = edtpsubnmd.field('psubnmd.id_fbnxxmh').val();
+				if(!id_fbnxxmh || id_fbnxxmh == ''){
+					edtpsubnmd.field('psubnmd.id_fbnxxmh').error( 'Wajib diisi!' );
 				}
-				// END of validasi psuxxtd.id_hbnxxmh 
+				// END of validasi psubnmd.id_fbnxxmh 
 
-				// BEGIN of validasi psuxxtd.nama 
-				nama = edtpsuxxtd.field('psuxxtd.nama').val();
+				// BEGIN of validasi psubnmd.nama 
+				nama = edtpsubnmd.field('psubnmd.nama').val();
 				if(!nama || nama == ''){
-					edtpsuxxtd.field('psuxxtd.nama').error( 'Wajib diisi!' );
+					edtpsubnmd.field('psubnmd.nama').error( 'Wajib diisi!' );
 				}
-				// END of validasi psuxxtd.nama 
+				// END of validasi psubnmd.nama 
 				
-				no_rek = edtpsuxxtd.field('psuxxtd.no_rek').val();
+				no_rek = edtpsubnmd.field('psubnmd.no_rek').val();
 				if(!no_rek || no_rek == ''){
-					edtpsuxxtd.field('psuxxtd.no_rek').error( 'Wajib diisi!' );
+					edtpsubnmd.field('psubnmd.no_rek').error( 'Wajib diisi!' );
 				}
 				if (no_rek != '') {
 					if(no_rek <= 0 ){
-						edtpsuxxtd.field('psuxxtd.no_rek').error( 'Inputan harus > 0' );
+						edtpsubnmd.field('psubnmd.no_rek').error( 'Inputan harus > 0' );
 					}
 					
 					// validasi angka
 					if(isNaN(no_rek) ){
-						edtpsuxxtd.field('psuxxtd.no_rek').error( 'Inputan harus berupa Angka!' );
+						edtpsubnmd.field('psubnmd.no_rek').error( 'Inputan harus berupa Angka!' );
 					}
 				}
 			}
 			
-			if ( edtpsuxxtd.inError() ) {
+			if ( edtpsubnmd.inError() ) {
 				return false;
 			}
 		});
 
-		edtpsuxxtd.on('initSubmit', function(e, action) {
+		edtpsubnmd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsuxxtd.field('psuxxtd.finish_at').val(finish_at);
+			edtpsubnmd.field('psubnmd.finish_at').val(finish_at);
 		});
 			
-		edtpsuxxtd.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtpsubnmd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
 		} );
 
-		edtpsuxxtd.on( 'close', function () {
-			edtpsuxxtd.enable();
+		edtpsubnmd.on( 'close', function () {
+			edtpsubnmd.enable();
 		} );
 		
 		//start datatables
-		tblpsuxxtd = $('#tblpsuxxtd').DataTable( {
+		tblpsubnmd = $('#tblpsubnmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/psuxxmh/psuxxtd.php",
+				url: "../../models/psuxxmh/psubnmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psuxxtd = show_deleted_psuxxtd;
+					d.show_deleted_psubnmd = show_deleted_psubnmd;
 					d.id_psuxxmh = id_psuxxmh;
 				}
 			},
@@ -874,13 +874,13 @@
 				}
 			],
 			columns: [
-				{ data: "psuxxtd.id",visible:false },
-				{ data: "psuxxtd.id_psuxxmh",visible:false },
-				{ data: "hbnxxmh.nama" },
-				{ data: "psuxxtd.nama" },
-				{ data: "psuxxtd.no_rek" },
+				{ data: "psubnmd.id",visible:false },
+				{ data: "psubnmd.id_psuxxmh",visible:false },
+				{ data: "fbnxxmh.nama" },
+				{ data: "psubnmd.nama" },
+				{ data: "psubnmd.no_rek" },
 				{ 
-					data: "psuxxtd.is_default",
+					data: "psubnmd.is_default",
 					render: function (data){ 	// render model tulisan
 						if (data == 1){
 							return 'Ya';
@@ -893,10 +893,10 @@
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_psuxxtd';
-					$table       = 'tblpsuxxtd';
-					$edt         = 'edtpsuxxtd';
-					$show_status = '_psuxxtd';
+					$id_table    = 'id_psubnmd';
+					$table       = 'tblpsubnmd';
+					$edt         = 'edtpsubnmd';
+					$show_status = '_psubnmd';
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -913,52 +913,52 @@
 			}
 		} );
 
-		tblpsuxxtd.searchPanes.container().appendTo('#sppsuxxtd');
-		tblpsuxxtd.searchBuilder.container().appendTo( '#sbpsuxxtd' );
+		tblpsubnmd.searchPanes.container().appendTo('#sppsubnmd');
+		tblpsubnmd.searchBuilder.container().appendTo( '#sbpsubnmd' );
 
-		tblpsuxxtd.on( 'draw', function( e, settings ) { 
+		tblpsubnmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblpsuxxmh, tblpsuxxtd, 'psuxxtd' );
+			CekDrawDetailHD(tblpsuxxmh, tblpsubnmd, 'psubnmd' );
 			CekDrawDetailHDFinal(tblpsuxxmh);
 		} );
 
-		tblpsuxxtd.on( 'select', function( e, dt, type, indexes ) {
-			data_psuxxtd 		= tblpsuxxtd.row( { selected: true } ).data().psuxxtd;
-			id_psuxxtd   		= data_psuxxtd.id;
-			id_transaksi_d 		= id_psuxxtd; // dipakai untuk general
-			id_transaksi_log 	= id_psuxxtd; // dipakai untuk log
+		tblpsubnmd.on( 'select', function( e, dt, type, indexes ) {
+			data_psubnmd 		= tblpsubnmd.row( { selected: true } ).data().psubnmd;
+			id_psubnmd   		= data_psubnmd.id;
+			id_transaksi_d 		= id_psubnmd; // dipakai untuk general
+			id_transaksi_log 	= id_psubnmd; // dipakai untuk log
 
-			transaction_state_d   = data_psuxxtd.transaction_state;
-			id_hbnxxmh_old   = data_psuxxtd.id_hbnxxmh;
+			transaction_state_d   = data_psubnmd.transaction_state;
+			id_fbnxxmh_old   = data_psubnmd.id_fbnxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblpsuxxmh, tblpsuxxtd );
+			CekSelectDetailHD(tblpsuxxmh, tblpsubnmd );
 		} );
 
-		tblpsuxxtd.on( 'deselect', function() {
-			id_psuxxtd = 0;
+		tblpsubnmd.on( 'deselect', function() {
+			id_psubnmd = 0;
 			is_active_d = 0;
-			id_hbnxxmh_old = 0;
+			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblpsuxxmh, tblpsuxxtd );
+			CekDeselectDetailHD(tblpsuxxmh, tblpsubnmd );
 		} );
 
 // --------- end _detail --------------- //		
 // --------- start _detail --------------- //
 
 		//start datatables editor
-		edtpsucttd = new $.fn.dataTable.Editor( {
+		edtpsuctmd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/psuxxmh/psucttd.php",
+				url: "../../models/psuxxmh/psuctmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psucttd = show_deleted_psucttd;
+					d.show_deleted_psuctmd = show_deleted_psuctmd;
 					d.id_psuxxmh = id_psuxxmh;
 				}
 			},
-			table: "#tblpsucttd",
+			table: "#tblpsuctmd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -966,133 +966,133 @@
 			},
 			fields: [ 
 				{
-					label: "psucttd.start_at",
-					name: "psucttd.start_at",
+					label: "psuctmd.start_at",
+					name: "psuctmd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "psucttd.finish_at",
-					name: "psucttd.finish_at",
+					label: "psuctmd.finish_at",
+					name: "psuctmd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "psucttd",
+					def: "psuctmd",
 					type: "hidden"
 				},	
 				{
-					label: "psucttd.transaction_state",
-					name: "psucttd.transaction_state",
+					label: "psuctmd.transaction_state",
+					name: "psuctmd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
 					label: "id_psuxxmh",
-					name: "psucttd.id_psuxxmh",
+					name: "psuctmd.id_psuxxmh",
 					type: "hidden"
 				},	
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "psucttd.nama"
+					name: "psuctmd.nama"
 				}, 	
 				{
 					label: "Posisi <sup class='text-danger'>*<sup>",
-					name: "psucttd.posisi"
+					name: "psuctmd.posisi"
 				},
 				{
 					label: "Email",
-					name: "psucttd.email"
+					name: "psuctmd.email"
 				},
 				{
 					label: "Handphone",
-					name: "psucttd.handphone"
+					name: "psuctmd.handphone"
 				}
 			]
 		} );
 			
-		edtpsucttd.on( 'preOpen', function( e, mode, action ) {
-			edtpsucttd.field('psucttd.id_psuxxmh').val(id_psuxxmh);
+		edtpsuctmd.on( 'preOpen', function( e, mode, action ) {
+			edtpsuctmd.field('psuctmd.id_psuxxmh').val(id_psuxxmh);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsucttd.field('psucttd.start_at').val(start_at);
+			edtpsuctmd.field('psuctmd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblpsucttd.rows().deselect();
+				tblpsuctmd.rows().deselect();
 			}
 		});
 
-		edtpsucttd.on("open", function (e, mode, action) {
+		edtpsuctmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtpsucttd.on( 'preSubmit', function (e, data, action) {
+		edtpsuctmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				nama = edtpsucttd.field('psucttd.nama').val();
+				nama = edtpsuctmd.field('psuctmd.nama').val();
 				if(!nama || nama == ''){
-					edtpsucttd.field('psucttd.nama').error( 'Wajib diisi!' );
+					edtpsuctmd.field('psuctmd.nama').error( 'Wajib diisi!' );
 				}
 
-				posisi = edtpsucttd.field('psucttd.posisi').val();
+				posisi = edtpsuctmd.field('psuctmd.posisi').val();
 				if(!posisi || posisi == ''){
-					edtpsucttd.field('psucttd.posisi').error( 'Wajib diisi!' );
+					edtpsuctmd.field('psuctmd.posisi').error( 'Wajib diisi!' );
 				}
 
 				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				email = edtpsucttd.field('psucttd.email').val();
+				email = edtpsuctmd.field('psuctmd.email').val();
 				if(email != ''){
 					if (emailRegex.test(email)) {
 						
 					} else {
-						edtpsucttd.field('psucttd.email').error( 'Format Email Salah!' );
+						edtpsuctmd.field('psuctmd.email').error( 'Format Email Salah!' );
 					}
 				}
 
-				handphone = edtpsucttd.field('psucttd.handphone').val();
+				handphone = edtpsuctmd.field('psuctmd.handphone').val();
 				if(handphone != ''){
 					// validasi min atau max angka
 					if(handphone <= 0 ){
-						edtpsucttd.field('psucttd.handphone').error( 'Inputan harus > 0' );
+						edtpsuctmd.field('psuctmd.handphone').error( 'Inputan harus > 0' );
 					}
 					
 					// validasi angka
 					if(isNaN(handphone) ){
-						edtpsucttd.field('psucttd.handphone').error( 'Inputan harus berupa Angka!' );
+						edtpsuctmd.field('psuctmd.handphone').error( 'Inputan harus berupa Angka!' );
 					}
 				}
 			}
 			
-			if ( edtpsucttd.inError() ) {
+			if ( edtpsuctmd.inError() ) {
 				return false;
 			}
 		});
 
-		edtpsucttd.on('initSubmit', function(e, action) {
+		edtpsuctmd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsucttd.field('psucttd.finish_at').val(finish_at);
+			edtpsuctmd.field('psuctmd.finish_at').val(finish_at);
 		});
 			
-		edtpsucttd.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtpsuctmd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
 		} );
 
-		edtpsucttd.on( 'close', function () {
-			edtpsucttd.enable();
+		edtpsuctmd.on( 'close', function () {
+			edtpsuctmd.enable();
 		} );
 		
 		//start datatables
-		tblpsucttd = $('#tblpsucttd').DataTable( {
+		tblpsuctmd = $('#tblpsuctmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/psuxxmh/psucttd.php",
+				url: "../../models/psuxxmh/psuctmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psucttd = show_deleted_psucttd;
+					d.show_deleted_psuctmd = show_deleted_psuctmd;
 					d.id_psuxxmh = id_psuxxmh;
 				}
 			},
@@ -1112,20 +1112,20 @@
 				}
 			],
 			columns: [
-				{ data: "psucttd.id",visible:false },
-				{ data: "psucttd.id_psuxxmh",visible:false },
-				{ data: "psucttd.nama" },
-				{ data: "psucttd.posisi" },
-				{ data: "psucttd.email" },
-				{ data: "psucttd.handphone" }
+				{ data: "psuctmd.id",visible:false },
+				{ data: "psuctmd.id_psuxxmh",visible:false },
+				{ data: "psuctmd.nama" },
+				{ data: "psuctmd.posisi" },
+				{ data: "psuctmd.email" },
+				{ data: "psuctmd.handphone" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_psucttd';
-					$table       = 'tblpsucttd';
-					$edt         = 'edtpsucttd';
-					$show_status = '_psucttd';
+					$id_table    = 'id_psuctmd';
+					$table       = 'tblpsuctmd';
+					$edt         = 'edtpsuctmd';
+					$show_status = '_psuctmd';
 					$table_name  = $nama_tabels_d[1];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -1142,36 +1142,36 @@
 			}
 		} );
 
-		tblpsucttd.searchPanes.container().appendTo('#sppsucttd');
-		tblpsucttd.searchBuilder.container().appendTo( '#sbpsucttd' );
+		tblpsuctmd.searchPanes.container().appendTo('#sppsuctmd');
+		tblpsuctmd.searchBuilder.container().appendTo( '#sbpsuctmd' );
 
-		tblpsucttd.on( 'draw', function( e, settings ) { 
+		tblpsuctmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblpsuxxmh, tblpsucttd, 'psucttd' );
+			CekDrawDetailHD(tblpsuxxmh, tblpsuctmd, 'psuctmd' );
 			CekDrawDetailHDFinal(tblpsuxxmh);
 		} );
 
-		tblpsucttd.on( 'select', function( e, dt, type, indexes ) {
-			data_psucttd 		= tblpsucttd.row( { selected: true } ).data().psucttd;
-			id_psucttd   		= data_psucttd.id;
-			id_transaksi_d 		= id_psucttd; // dipakai untuk general
-			id_transaksi_log 	= id_psucttd; // dipakai untuk log
+		tblpsuctmd.on( 'select', function( e, dt, type, indexes ) {
+			data_psuctmd 		= tblpsuctmd.row( { selected: true } ).data().psuctmd;
+			id_psuctmd   		= data_psuctmd.id;
+			id_transaksi_d 		= id_psuctmd; // dipakai untuk general
+			id_transaksi_log 	= id_psuctmd; // dipakai untuk log
 
-			transaction_state_d   = data_psucttd.transaction_state;
-			id_hbnxxmh_old   = data_psucttd.id_hbnxxmh;
+			transaction_state_d   = data_psuctmd.transaction_state;
+			id_fbnxxmh_old   = data_psuctmd.id_fbnxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblpsuxxmh, tblpsucttd );
+			CekSelectDetailHD(tblpsuxxmh, tblpsuctmd );
 		} );
 
-		tblpsucttd.on( 'deselect', function() {
-			id_psucttd = 0;
+		tblpsuctmd.on( 'deselect', function() {
+			id_psuctmd = 0;
 			is_active_d = 0;
-			id_hbnxxmh_old = 0;
+			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblpsuxxmh, tblpsucttd );
+			CekDeselectDetailHD(tblpsuxxmh, tblpsuctmd );
 		} );
 
 // --------- end _detail --------------- //		

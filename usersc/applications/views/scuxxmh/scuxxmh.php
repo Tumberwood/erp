@@ -143,7 +143,7 @@
 	var id_gctxxmh_old = 0;
 	var id_gbuxxmh_old = 0;
 	var id_gpvxxmh_old = 0;
-	var id_hbnxxmh_old = 0;
+	var id_fbnxxmh_old = 0;
 	
 	var is_need_generate_kode = 1;
 
