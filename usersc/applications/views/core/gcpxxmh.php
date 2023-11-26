@@ -26,6 +26,8 @@
                                 <th>Perusahaan</th>
                                 <th>Alamat</th>
                                 <th>Kota</th>
+                                <th>NPWP</th>
+                                <th>KLU</th>
                             </tr>
                         </thead>
                     </table>
@@ -172,6 +174,14 @@
 								minimumResultsForSearch: -1,
 							},
 						}
+					},
+					{
+						label: "NPWP",
+						name: "gcpxxmh.npwp"
+					},	
+					{
+						label: "KLU",
+						name: "gcpxxmh.klu"
 					}
 				]
 			} );
@@ -218,6 +228,38 @@
 						}
 					}
 					// END of validasi gcpxxmh.id_gctxxmh
+
+					npwp = edtgcpxxmh.field('gcpxxmh.npwp').val();
+					if (npwp != '') {
+						if(npwp <= 0 ){
+							edtgcpxxmh.field('gcpxxmh.npwp').error( 'Inputan harus > 0' );
+						}
+						
+						// validasi angka
+						if(isNaN(npwp) ){
+							edtgcpxxmh.field('gcpxxmh.npwp').error( 'Inputan harus berupa Angka!' );
+						}
+
+						if (npwp.length != 15) {
+							edtgcpxxmh.field('gcpxxmh.npwp').error( 'Inputan Wajib 15 Digit Angka!' );
+						}
+					}
+
+					klu = edtgcpxxmh.field('gcpxxmh.klu').val();
+					if (klu != '') {
+						if(klu <= 0 ){
+							edtgcpxxmh.field('gcpxxmh.klu').error( 'Inputan harus > 0' );
+						}
+						
+						// validasi angka
+						if(isNaN(klu) ){
+							edtgcpxxmh.field('gcpxxmh.klu').error( 'Inputan harus berupa Angka!' );
+						}
+
+						if (klu.length != 5) {
+							edtgcpxxmh.field('gcpxxmh.klu').error( 'Inputan Wajib 5 Digit Angka!' );
+						}
+					}
 				}
 				
 				if ( edtgcpxxmh.inError() ) {
@@ -249,7 +291,9 @@
 					{ data: "gbuxxmh.kode" },
 					{ data: "gcpxxmh.nama" },
 					{ data: "gcpxxmh.alamat" },
-					{ data: "gctxxmh.nama" }
+					{ data: "gctxxmh.nama" },
+					{ data: "gcpxxmh.npwp" },
+					{ data: "gcpxxmh.klu" }
 				],
 				buttons: [
 					// BEGIN breaking generate button

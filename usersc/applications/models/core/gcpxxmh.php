@@ -44,6 +44,8 @@
 			Field::inst( 'gcpxxmh.finish_at' ),
 			Field::inst( 'gcpxxmh.is_defaultprogram' ),
 			Field::inst( 'gcpxxmh.alamat' ),
+			Field::inst( 'gcpxxmh.npwp' ),
+			Field::inst( 'gcpxxmh.klu' ),
 
             Field::inst( 'gctxxmh.nama' ),
             Field::inst( 'gbuxxmh.kode' )
