@@ -26,6 +26,10 @@
 			Field::inst( 'podxxth.id' ),
 			Field::inst( 'podxxth.id_iittpmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'podxxth.id_fpytmmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'podxxth.id_fcrxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'podxxth.id_gcpxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue(1),

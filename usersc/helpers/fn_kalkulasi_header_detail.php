@@ -1,9 +1,15 @@
 <script>
     function totalDetail(edt, tabel){
+        var subtotal = 0;
         harga_unit = parseFloat(edt.field(tabel+'.harga_unit').val());
         jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
 
-        var subtotal = (jumlah_unit * harga_unit).toFixed(2);
+        total = (jumlah_unit * harga_unit).toFixed(2);
+
+        if (total > 0) {
+            subtotal = total;
+        }
+
         edt.field(tabel+'.subtotal').val(subtotal);
         edt.field(tabel+'.dpp').val(subtotal);
     }

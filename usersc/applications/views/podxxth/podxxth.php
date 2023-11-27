@@ -25,15 +25,40 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<editor-field name="podxxth.id_iittpmh"></editor-field>
-									<editor-field name="podxxth.subtotal"></editor-field>
-									<editor-field name="podxxth.diskon_persen"></editor-field>
-									<editor-field name="podxxth.diskon_value"></editor-field>
-									<editor-field name="podxxth.dpp"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="podxxth.tanggal"></editor-field>
+									<editor-field name="podxxth.id_fcrxxmh"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podxxth.id_fpytmmh"></editor-field>
+								</div>
+								<div class="col-lg-6">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
 									<editor-field name="podxxth.is_diskon_persen"></editor-field>
-									<editor-field name="podxxth.diskon_final"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="podxxth.diskon_persen"></editor-field>
+									<editor-field name="podxxth.diskon_value"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podxxth.subtotal"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="podxxth.dpp"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podxxth.tanggal"></editor-field>
+								</div>
+								<div class="col-lg-6">
 									<editor-field name="podxxth.keterangan"></editor-field>
 								</div>
 							</div>
@@ -71,19 +96,51 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<editor-field name="podittd.id_prqittd"></editor-field>
-									<editor-field name="podittd.id_iumxxmh"></editor-field>
-									<editor-field name="podittd.harga_unit"></editor-field>
-									<editor-field name="podittd.is_diskon_persen"></editor-field>
-									<editor-field name="podittd.diskon_final"></editor-field>
-									<editor-field name="podittd.dpp"></editor-field>
 								</div>
 								<div class="col-lg-6">
 									<editor-field name="podittd.id_iimxxmh"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podittd.id_iumxxmh"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podittd.harga_unit"></editor-field>
+								</div>
+								<div class="col-lg-6">
 									<editor-field name="podittd.jumlah_unit"></editor-field>
-									<editor-field name="podittd.subtotal"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podittd.is_diskon_persen"></editor-field>
+								</div>
+								<div class="col-lg-6">
 									<editor-field name="podittd.diskon_persen"></editor-field>
 									<editor-field name="podittd.diskon_value"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podittd.diskon_final"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="podittd.subtotal"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podittd.dpp"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
 									<editor-field name="podittd.tanggal"></editor-field>
+								</div>
+								<div class="col-lg-6">
 									<editor-field name="podittd.keterangan"></editor-field>
 								</div>
 							</div>
@@ -175,6 +232,8 @@
 	var edtpodittd, tblpodittd, show_deleted_podittd = 0, id_podittd;
 	// ------------- end of default variable
 	var id_iittpmh_old = 0;
+	var id_fcrxxmh_old = 0;
+	var id_fpytmmh_old = 0;
 	var id_iumxxmh_old = 0;
 	var id_iimxxmh_old = 0;
 	var id_prqittd_old = 0;
@@ -268,6 +327,78 @@
 					}
 				},		
 				{
+					label: "Payment Terms <sup class='text-danger'>*<sup>",
+					name: "podxxth.id_fpytmmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/fpytmmh/fpytmmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_fpytmmh_old: id_fpytmmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
+				{
+					label: "Currency <sup class='text-danger'>*<sup>",
+					name: "podxxth.id_fcrxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/fcrxxmh/fcrxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_fcrxxmh_old: id_fcrxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
+				{
 					label: "Tanggal <sup class='text-danger'>*<sup>",
 					name: "podxxth.tanggal",
 					type: "datetime",
@@ -291,8 +422,9 @@
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "Persen", "value": 1 },
-						{ "label": "Rupiah", "value": 0 }
+						{ "label": "Percent", "value": 1 },
+						{ "label": "Value", "value": 0 },
+						{ "label": "", "value": -9 }
 					]
 				},
 				{
@@ -342,12 +474,17 @@
 				
 				edtpodxxth.field('podxxth.diskon_persen').val();
 				edtpodxxth.field('podxxth.diskon_value').val('');
-			} else {
+			} else if (val == 0) {
 				edtpodxxth.field('podxxth.diskon_persen').hide();
 				edtpodxxth.field('podxxth.diskon_value').show();
 				
 				edtpodxxth.field('podxxth.diskon_persen').val('');
 				edtpodxxth.field('podxxth.diskon_value').val();
+			} else {
+				edtpodxxth.field('podxxth.diskon_persen').hide();
+				edtpodxxth.field('podxxth.diskon_value').hide();
+				edtpodxxth.field('podxxth.diskon_persen').val('');
+				edtpodxxth.field('podxxth.diskon_value').val('');
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -368,6 +505,20 @@
 		
 		edtpodxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
+				// BEGIN of validasi podxxth.id_fpytmmh 
+				id_fpytmmh = edtpodxxth.field('podxxth.id_fpytmmh').val();
+				if(!id_fpytmmh || id_fpytmmh == ''){
+					edtpodxxth.field('podxxth.id_fpytmmh').error( 'Wajib diisi!' );
+				}
+				// END of validasi podxxth.id_fpytmmh 
+
+				// BEGIN of validasi podxxth.id_fcrxxmh 
+				id_fcrxxmh = edtpodxxth.field('podxxth.id_fcrxxmh').val();
+				if(!id_fcrxxmh || id_fcrxxmh == ''){
+					edtpodxxth.field('podxxth.id_fcrxxmh').error( 'Wajib diisi!' );
+				}
+				// END of validasi podxxth.id_fcrxxmh 
+
 				// BEGIN of validasi podxxth.id_iittpmh 
 				id_iittpmh = edtpodxxth.field('podxxth.id_iittpmh').val();
 				if(!id_iittpmh || id_iittpmh == ''){
@@ -495,6 +646,8 @@
 			is_nextprocess 		= podxxth_data.is_nextprocess;
 			is_jurnal      		= podxxth_data.is_jurnal;
 			id_iittpmh_old		= podxxth_data.id_iittpmh;
+			id_fcrxxmh_old		= podxxth_data.id_fcrxxmh;
+			id_fpytmmh_old		= podxxth_data.id_fpytmmh;
 			
 			// atur hak akses
 			tbl_details = [tblpodittd];
@@ -505,6 +658,8 @@
 		tblpodxxth.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
 			id_podxxth = 0;
+			id_fpytmmh_old = 0;
+			id_fcrxxmh_old = 0;
 			id_iittpmh_old = 0;
 
 			// atur hak akses
@@ -687,8 +842,9 @@
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "Persen", "value": 1 },
-						{ "label": "Rupiah", "value": 0 }
+						{ "label": "Percent", "value": 1 },
+						{ "label": "Value", "value": 0 },
+						{ "label": "", "value": -9 }
 					]
 				},
 				{
@@ -764,12 +920,17 @@
 				
 				edtpodittd.field('podittd.diskon_persen').val();
 				edtpodittd.field('podittd.diskon_value').val('');
-			} else {
+			} else if (val == 0) {
 				edtpodittd.field('podittd.diskon_persen').hide();
 				edtpodittd.field('podittd.diskon_value').show();
 				
 				edtpodittd.field('podittd.diskon_persen').val('');
 				edtpodittd.field('podittd.diskon_value').val();
+			} else {
+				edtpodittd.field('podittd.diskon_persen').hide();
+				edtpodittd.field('podittd.diskon_value').hide();
+				edtpodittd.field('podittd.diskon_persen').val('');
+				edtpodittd.field('podittd.diskon_value').val('');
 			}
 			return {}
 		}, {event: 'keyup change'});
