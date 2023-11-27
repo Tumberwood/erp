@@ -99,7 +99,7 @@
 						name: "fpytmmh.nama"
 					},
 					{
-						label: "Jatuh Tempo <sup class='text-danger'>*<sup>",
+						label: "Jatuh Tempo (Hari)<sup class='text-danger'>*<sup>",
 						name: "fpytmmh.jatuh_tempo"
 					},
 					{
