@@ -18,6 +18,28 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
+					
+					<!-- start Custom Form Datatables Editor -->
+					<div id="custom_podxxth">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="podxxth.id_iittpmh"></editor-field>
+									<editor-field name="podxxth.subtotal"></editor-field>
+									<editor-field name="podxxth.diskon_persen"></editor-field>
+									<editor-field name="podxxth.diskon_value"></editor-field>
+									<editor-field name="podxxth.dpp"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="podxxth.tanggal"></editor-field>
+									<editor-field name="podxxth.is_diskon_persen"></editor-field>
+									<editor-field name="podxxth.diskon_final"></editor-field>
+									<editor-field name="podxxth.keterangan"></editor-field>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end Custom Form Datatables Editor -->
                     <table id="tblpodxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -168,6 +190,7 @@
 					d.show_deleted_podxxth = show_deleted_podxxth;
 				}
 			},
+			template: "#custom_podxxth",
 			table: "#tblpodxxth",
 			fields: [ 
 				{
@@ -288,6 +311,11 @@
 					name: "podxxth.dpp",
 					type: "readonly"
 				},
+				{
+					label: "Keterangan",
+					name: "podxxth.keterangan",
+					type: "textarea"
+				},
 			]
 		} );
 		
@@ -304,7 +332,7 @@
 		});
 
 		edtpodxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 		
 		edtpodxxth.dependent( 'podxxth.is_diskon_persen', function ( val, data, callback ) {

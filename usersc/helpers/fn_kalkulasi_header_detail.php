@@ -14,17 +14,20 @@
         is_diskon_persen = parseFloat(edt.field(tabel+'.is_diskon_persen').val());
         subtotal = parseFloat(edt.field(tabel+'.subtotal').val());
         var diskon_final = 0;
+        var dpp = 0;
 
         if (is_diskon_persen == 1) {
             // Diskon Persen
-            edt.field(tabel+'.diskon_value').val('')
-            edt.field(tabel+'.diskon_final').val('')
+            if (subtotal > 0) {
+                edt.field(tabel+'.diskon_value').val('')
+                edt.field(tabel+'.diskon_final').val('')
 
-            if (diskon_persen > 0) {
-                diskon_final = (diskon_persen / 100 * subtotal).toFixed(2);
+                if (diskon_persen > 0) {
+                    diskon_final = (diskon_persen / 100 * subtotal).toFixed(2);
+                }
             }
         } else {
-            // Diskon Persen
+            // Diskon Value
             edt.field(tabel+'.diskon_persen').val('')
             edt.field(tabel+'.diskon_final').val('')
             
@@ -32,9 +35,12 @@
                 diskon_final = (diskon_value).toFixed(2);
             }
         }
-        edt.field(tabel+'.diskon_final').val(diskon_final);
 
-        var dpp = (subtotal - diskon_final).toFixed(2);
+        if (subtotal > 0) {
+            var dpp = (subtotal - diskon_final).toFixed(2);
+        }
+        
+        edt.field(tabel+'.diskon_final').val(diskon_final);
         edt.field(tabel+'.dpp').val(dpp);
     }
 
