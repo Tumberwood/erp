@@ -211,6 +211,11 @@
 					},
 					format: 'DD MMM YYYY'
 				},
+				{
+					label: "Keterangan",
+					name: "prqxxth.keterangan",
+					type: "textarea"
+				}
 			]
 		} );
 		
