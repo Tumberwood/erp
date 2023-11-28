@@ -48,8 +48,13 @@
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
+									<editor-field name="podxxth.diskon_final"></editor-field>
+								</div>
+								<div class="col-lg-6">
 									<editor-field name="podxxth.subtotal"></editor-field>
 								</div>
+							</div>
+							<div class="row">
 								<div class="col-lg-6">
 									<editor-field name="podxxth.dpp"></editor-field>
 								</div>
@@ -434,7 +439,7 @@
 					label: "Diskon (Rp)",
 					name: "podxxth.diskon_value"
 				}, 	{
-					label: "Diskon",
+					label: "Diskon Final",
 					name: "podxxth.diskon_final",
 					type: "readonly"
 				},
@@ -483,6 +488,7 @@
 			} else {
 				edtpodxxth.field('podxxth.diskon_persen').hide();
 				edtpodxxth.field('podxxth.diskon_value').hide();
+				
 				edtpodxxth.field('podxxth.diskon_persen').val('');
 				edtpodxxth.field('podxxth.diskon_value').val('');
 			}
@@ -854,7 +860,7 @@
 					label: "Diskon (Rp)",
 					name: "podittd.diskon_value"
 				}, 	{
-					label: "Diskon",
+					label: "Diskon Final",
 					name: "podittd.diskon_final",
 					type: "readonly"
 				},
