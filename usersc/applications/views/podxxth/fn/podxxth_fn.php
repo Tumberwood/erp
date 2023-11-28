@@ -1,7 +1,7 @@
 <script>
     function validasiDiskon(edt, tabel) {
         diskon_value = edt.field(tabel+'.diskon_value').val();
-        if(diskon_value != ''){
+        if(diskon_value > 0){
             // validasi min atau max angka
             if(diskon_value <= 0 ){
                 edt.field(tabel+'.diskon_value').error( 'Inputan harus > 0' );
@@ -14,7 +14,7 @@
         }
 
         diskon_persen = edt.field(tabel+'.diskon_persen').val();
-        if(diskon_persen != ''){
+        if(diskon_persen > 0){
             // validasi min atau max angka
             if(diskon_persen <= 0 ){
                 edt.field(tabel+'.diskon_persen').error( 'Inputan harus > 0' );

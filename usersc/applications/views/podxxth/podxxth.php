@@ -24,6 +24,11 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-6">
+									<editor-field name="podxxth.tanggal"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
 									<editor-field name="podxxth.id_iittpmh"></editor-field>
 								</div>
 								<div class="col-lg-6">
@@ -60,9 +65,6 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="podxxth.tanggal"></editor-field>
-								</div>
 								<div class="col-lg-6">
 									<editor-field name="podxxth.keterangan"></editor-field>
 								</div>
@@ -424,12 +426,12 @@
 				{
 					label: "Diskon",
 					name: "podxxth.is_diskon_persen",
-					type: "select",
-					placeholder : "Select",
+					type: "select2",
+					placeholder : "",
+					allowClear: true,
 					options: [
 						{ "label": "Percent", "value": 1 },
-						{ "label": "Value", "value": 0 },
-						{ "label": "", "value": -9 }
+						{ "label": "Value", "value": 2 }
 					]
 				},
 				{
@@ -479,7 +481,7 @@
 				
 				edtpodxxth.field('podxxth.diskon_persen').val();
 				edtpodxxth.field('podxxth.diskon_value').val('');
-			} else if (val == 0) {
+			} else if (val == 2) {
 				edtpodxxth.field('podxxth.diskon_persen').hide();
 				edtpodxxth.field('podxxth.diskon_value').show();
 				
@@ -652,6 +654,7 @@
 			is_nextprocess 		= podxxth_data.is_nextprocess;
 			is_jurnal      		= podxxth_data.is_jurnal;
 			id_iittpmh_old		= podxxth_data.id_iittpmh;
+			id_iittpmh			= podxxth_data.id_iittpmh;
 			id_fcrxxmh_old		= podxxth_data.id_fcrxxmh;
 			id_fpytmmh_old		= podxxth_data.id_fpytmmh;
 			
@@ -771,6 +774,7 @@
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
+									ids_iittpmh: id_iittpmh,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -845,12 +849,12 @@
 				{
 					label: "Diskon",
 					name: "podittd.is_diskon_persen",
-					type: "select",
-					placeholder : "Select",
+					type: "select2",
+					placeholder : "",
+					allowClear: true,
 					options: [
 						{ "label": "Percent", "value": 1 },
-						{ "label": "Value", "value": 0 },
-						{ "label": "", "value": -9 }
+						{ "label": "Value", "value": 2 }
 					]
 				},
 				{
@@ -926,7 +930,7 @@
 				
 				edtpodittd.field('podittd.diskon_persen').val();
 				edtpodittd.field('podittd.diskon_value').val('');
-			} else if (val == 0) {
+			} else if (val == 2) {
 				edtpodittd.field('podittd.diskon_persen').hide();
 				edtpodittd.field('podittd.diskon_value').show();
 				

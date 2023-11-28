@@ -161,6 +161,19 @@
 					name: "prqxxth.transaction_state",
 					type: "hidden",
 					def: 0
+				},		
+				{
+					label: "Tanggal <sup class='text-danger'>*<sup>",
+					name: "prqxxth.tanggal",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
 				},
 				{
 					label: "Department <sup class='text-danger'>*<sup>",
@@ -197,19 +210,6 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},		
-				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
-					name: "prqxxth.tanggal",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
 				},
 				{
 					label: "Keterangan",

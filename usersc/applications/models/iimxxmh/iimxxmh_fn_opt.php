@@ -27,6 +27,14 @@
     }else{
         $id_iimxxmh_old = 0;
     }
+    
+    if(isset($_GET['ids_iittpmh']) && !empty($_GET['ids_iittpmh']) ){
+        $id_iittpmh = $_GET['ids_iittpmh'];
+        $w_iitp = '=';
+    }else{
+        $id_iittpmh = -9;
+        $w_iitp = '<>';
+    }
 
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
@@ -54,6 +62,7 @@
         ])
         ->where('transaction_state',1)
         ->where('id', $id_iimxxmh_old, '<>' )
+        ->where('id_iittpmh', $id_iittpmh, $w_iitp )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
