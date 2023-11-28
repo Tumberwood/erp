@@ -84,13 +84,13 @@
 						searchPanes:{
 							show: true,
 						},
-						targets: [1,2,3,4,5]
+						targets: [1,2,3,5]
 					},
 					{
 						searchPanes:{
 							show: false,
 						},
-						targets: [0]
+						targets: [0,4,6,7,8,9]
 					}
 				],
 				responsive: false,
