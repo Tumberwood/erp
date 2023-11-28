@@ -24,6 +24,7 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Simbol</th>
+                                <th>Default</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -103,6 +104,16 @@
 					{
 						label: "Simbol",
 						name: "fcrxxmh.simbol"
+					},
+					{
+						label: "Default",
+						name: "fcrxxmh.is_default",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Ya", "value": 1 },
+							{ "label": "Tidak", "value": 0 }
+						]
 					}
 				]
 			} );
@@ -232,6 +243,14 @@
 				edtfcrxxmh.field('fcrxxmh.finish_at').val(finish_at);
 			});
 
+			edtfcrxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+				// event setelah Create atau Edit, dibedakan dari parameter action
+				// action : "create" | "edit"
+				// do something
+				id_last_insert = json.data[0].fcrxxmh.id;
+				cekDefault(id_last_insert);
+			} );
+
 			edtfcrxxmh.on( 'close', function () {
 				edtfcrxxmh.enable();
 			} );
@@ -269,6 +288,16 @@
 					{ data: "fcrxxmh.kode" },
 					{ data: "fcrxxmh.nama" },
 					{ data: "fcrxxmh.simbol" },
+					{ 
+						data: "fcrxxmh.is_default",
+						render: function (data){
+							if (data == 1){
+								return '<i class="fa fa-check text-navy"></i>';
+							}else{
+								return '';
+							}
+						}
+					},
 					{ 
 						data: "fcrxxmh.transaction_state" ,
 						render: $.fn.dataTable.render.transactionStatus()
