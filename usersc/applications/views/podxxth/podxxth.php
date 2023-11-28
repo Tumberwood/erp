@@ -80,6 +80,8 @@
                                 <th>Kode</th>
                                 <th>Type</th>
                                 <th>Total</th>
+                                <th>TX</th>
+                                <th>Approval</th>
                             </tr>
                         </thead>
                     </table>
@@ -603,6 +605,14 @@
 					data: "podxxth.dpp",
 					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
 					class: "text-right" 
+				},
+				{ 
+					data: "podxxth.transaction_state" ,
+					render: $.fn.dataTable.render.transactionStatus()
+				},
+				{ 
+					data: "podxxth.approval_state" ,
+					render: $.fn.dataTable.render.approvalStatus()
 				}
 			],
 			buttons: [

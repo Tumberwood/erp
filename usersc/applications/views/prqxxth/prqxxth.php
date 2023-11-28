@@ -25,6 +25,8 @@
                                 <th>Tanggal</th>
                                 <th>Kode</th>
                                 <th>Department</th>
+                                <th>TX</th>
+                                <th>Approval</th>
                             </tr>
                         </thead>
                     </table>
@@ -300,11 +302,21 @@
 					targets: [0]
 				}
 			],
+			responsive: false,
+			scrollX: true,
 			columns: [
 				{ data: "prqxxth.id",visible:false },
 				{ data: "prqxxth.tanggal" },
 				{ data: "prqxxth.kode" },
-				{ data: "hodxxmh.nama" }
+				{ data: "hodxxmh.nama" },
+				{ 
+					data: "prqxxth.transaction_state" ,
+					render: $.fn.dataTable.render.transactionStatus()
+				},
+				{ 
+					data: "prqxxth.approval_state" ,
+					render: $.fn.dataTable.render.approvalStatus()
+				}
 			],
 			buttons: [
 
