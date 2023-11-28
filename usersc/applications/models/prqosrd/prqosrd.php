@@ -20,49 +20,47 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'podittd' )
+	$editor = Editor::inst( $db, 'prqittd' )
 		->debug(true)
 		->fields(
-			Field::inst( 'podittd.id' ),
-			Field::inst( 'podittd.id_iimxxmh' ),
-			Field::inst( 'podittd.id_iumxxmh' ),
-			Field::inst( 'podittd.kode' )
+			Field::inst( 'prqittd.id' ),
+			Field::inst( 'prqittd.id_iumxxmh' ),
+			Field::inst( 'prqittd.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'podittd.nama' )
+			Field::inst( 'prqittd.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'podittd.keterangan' ),
-			Field::inst( 'podittd.created_by' ),
-			Field::inst( 'podittd.transaction_state' ),
-			Field::inst( 'podittd.approval_state' ),
-			Field::inst( 'podittd.start_at' ),
-			Field::inst( 'podittd.finish_at' ),
-			Field::inst( 'podittd.is_defaultprogram' ),
-			Field::inst( 'podittd.jumlah_unit' ),
+			Field::inst( 'prqittd.keterangan' ),
+			Field::inst( 'prqittd.created_by' ),
+			Field::inst( 'prqittd.transaction_state' ),
+			Field::inst( 'prqittd.approval_state' ),
+			Field::inst( 'prqittd.start_at' ),
+			Field::inst( 'prqittd.finish_at' ),
+			Field::inst( 'prqittd.is_defaultprogram' ),
+			Field::inst( 'prqittd.jumlah_unit' ),
 			Field::inst( 'prqxxth.kode' ),
 			Field::inst( 'podxxth.kode' ),
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
-			Field::inst( 'prqittd.jumlah_unit' ),
+			Field::inst( 'podittd.jumlah_unit' ),
 			Field::inst( 'ium_po.nama' ),
 			Field::inst( 'ium_pr.nama' )
 		)
-		->leftJoin( 'prqittd','prqittd.id','=','podittd.id_prqittd' )
-		->leftJoin( 'prqxxth','prqxxth.id','=','prqittd.id_prqxxth' )
+		->leftJoin( 'podittd','podittd.id_prqittd','=','prqittd.id' ) //
+		->leftJoin( 'prqxxth','prqxxth.id','=','prqittd.id_prqxxth' ) //
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','podittd.id_iimxxmh' )
 		->leftJoin( 'podxxth','podxxth.id','=','podittd.id_podxxth' )
 		->leftJoin( 'iumxxmh as ium_po','ium_po.id','=','podittd.id_iumxxmh' )
-		->leftJoin( 'iumxxmh as ium_pr','ium_pr.id','=','prqittd.id_iumxxmh' )
-		->where( 'podxxth.transaction_state', 1)
+		->leftJoin( 'iumxxmh as ium_pr','ium_pr.id','=','prqittd.id_iumxxmh' ) //
 		;
 	
 	// do not erase
 
 	// BEGIN log
-	$nama_table = 'podittd';
+	$nama_table = 'prqittd';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	

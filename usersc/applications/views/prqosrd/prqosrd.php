@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'podittd';
+	$nama_tabel    = 'prqittd';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,14 +17,15 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblpodittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblprqittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Purchase Request</th>
                                 <th>Purchase Order</th>
+                                <th>Item PR</th>
                                 <th>Item Code</th>
-                                <th>Item Name</th>
+                                <th>Item PO</th>
                                 <th>PR Qty</th>
                                 <th>PR UoM</th>
                                 <th>PO Qty</th>
@@ -54,24 +55,24 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/posprrd/fn/posprrd_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/prqosrd/fn/prqosrd_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edtpodittd, tblpodittd, show_deleted_podittd = 0, id_podittd;
+		var edtprqittd, tblprqittd, show_deleted_prqittd = 0, id_prqittd;
 		// ------------- end of default variable
 		
 		$(document).ready(function() {
 			
 			//start datatables
-			tblpodittd = $('#tblpodittd').DataTable( {
+			tblprqittd = $('#tblprqittd').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/posprrd/posprrd.php",
+					url: "../../models/prqosrd/prqosrd.php",
 					type: 'POST',
 					data: function (d){
 						
@@ -83,7 +84,7 @@
 						searchPanes:{
 							show: true,
 						},
-						targets: [1,2,3,4]
+						targets: [1,2,3,4,5]
 					},
 					{
 						searchPanes:{
@@ -95,23 +96,32 @@
 				responsive: false,
 				scrollX: true,
 				columns: [
-					{ data: "podittd.id",visible:false },
+					{ data: "prqittd.id",visible:false },
 					{ data: "prqxxth.kode" },
 					{ data: "podxxth.kode" },
+					{ data: "prqittd.nama" },
 					{ data: "iimxxmh.kode" },
 					{ data: "iimxxmh.nama" },
-					{ data: "prqittd.jumlah_unit" },
+					{ 
+						data: "prqittd.jumlah_unit",
+						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
+						class: "text-right"
+					},
 					{ data: "ium_pr.nama" },
-					{ data: "podittd.jumlah_unit" },
+					{ 
+						data: "podittd.jumlah_unit" ,
+						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
+						class: "text-right"
+					},
 					{ data: "ium_po.nama" },
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_podittd';
-						$table       = 'tblpodittd';
-						$edt         = 'edtpodittd';
-						$show_status = '_podittd';
+						$id_table    = 'id_prqittd';
+						$table       = 'tblprqittd';
+						$edt         = 'edtprqittd';
+						$show_status = '_prqittd';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -127,34 +137,34 @@
 				}
 			} );
 
-			tblpodittd.searchPanes.container().appendTo('#sppodittd');
-			tblpodittd.searchBuilder.container().appendTo( '#sbpodittd' );
+			tblprqittd.searchPanes.container().appendTo('#spprqittd');
+			tblprqittd.searchBuilder.container().appendTo( '#sbprqittd' );
 			
-			tblpodittd.on( 'init', function () {
+			tblprqittd.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tblpodittd);
+				CekInitHeaderH(tblprqittd);
 			} );
 			
-			tblpodittd.on( 'select', function( e, dt, type, indexes ) {
-				podittd_data    		= tblpodittd.row( { selected: true } ).data().podittd;
-				id_podittd      		= podittd_data.id;
-				id_transaksi_h 		= id_podittd; // dipakai untuk general
-				id_transaksi_log	= id_podittd; // dipakai untuk general
-				transaction_state   = podittd_data.transaction_state;
-				approval_state   	= podittd_data.approval_state;
-				is_nextprocess 		= podittd_data.is_nextprocess;
-				is_jurnal      		= podittd_data.is_jurnal;
+			tblprqittd.on( 'select', function( e, dt, type, indexes ) {
+				prqittd_data    		= tblprqittd.row( { selected: true } ).data().prqittd;
+				id_prqittd      		= prqittd_data.id;
+				id_transaksi_h 		= id_prqittd; // dipakai untuk general
+				id_transaksi_log	= id_prqittd; // dipakai untuk general
+				transaction_state   = prqittd_data.transaction_state;
+				approval_state   	= prqittd_data.approval_state;
+				is_nextprocess 		= prqittd_data.is_nextprocess;
+				is_jurnal      		= prqittd_data.is_jurnal;
 
 				// atur hak akses
-				CekSelectHeaderH(tblpodittd);
+				CekSelectHeaderH(tblprqittd);
 			} );
 
-			tblpodittd.on( 'deselect', function () {
+			tblprqittd.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
-				id_podittd = 0;
+				id_prqittd = 0;
 
 				// atur hak akses
-				CekDeselectHeaderH(tblpodittd);
+				CekDeselectHeaderH(tblprqittd);
 			} );
 			
 		} );// end of document.ready
