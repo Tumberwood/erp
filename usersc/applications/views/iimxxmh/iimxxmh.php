@@ -189,7 +189,6 @@
 					}
 				},
 				{
-					label: "Item Category <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.id_iicctmh",
 					type: "select2",
 					opts: {
@@ -225,7 +224,6 @@
 					}
 				},
 				{
-					label: "Item Group <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.id_iiggrmh",
 					type: "select2",
 					opts: {
@@ -280,6 +278,17 @@
 		edtiimxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
+
+		edtiimxxmh.dependent( 'iimxxmh.id_iittpmh', function ( val, data, callback ) {
+			if (val == 1) {
+				edtiimxxmh.field('iimxxmh.id_iiggrmh').label("Item Group <sup class='text-danger'>*<sup>")
+				edtiimxxmh.field('iimxxmh.id_iicctmh').label("Item Category <sup class='text-danger'>*<sup>")
+			} else {
+				edtiimxxmh.field('iimxxmh.id_iiggrmh').label("Item Group")
+				edtiimxxmh.field('iimxxmh.id_iicctmh').label("Item Category")
+			}
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtiimxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -353,12 +362,21 @@
 				} 
 				// END of validasi iimxxmh.id_iittpmh
 
-				// BEGIN of validasi iimxxmh.id_iicctmh 
-				id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
-				if(!id_iicctmh || id_iicctmh == ''){
-					edtiimxxmh.field('iimxxmh.id_iicctmh').error( 'Wajib diisi!' );
-				} 
-				// END of validasi iimxxmh.id_iicctmh
+				if (id_iittpmh == 1) {
+					// BEGIN of validasi iimxxmh.id_iicctmh 
+					id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
+					if(!id_iicctmh || id_iicctmh == ''){
+						edtiimxxmh.field('iimxxmh.id_iicctmh').error( 'Wajib diisi!' );
+					} 
+					// END of validasi iimxxmh.id_iicctmh
+
+					// BEGIN of validasi iimxxmh.id_iiggrmh 
+					id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
+					if(!id_iiggrmh || id_iiggrmh == ''){
+						edtiimxxmh.field('iimxxmh.id_iiggrmh').error( 'Wajib diisi!' );
+					} 
+					// END of validasi iimxxmh.id_iiggrmh
+				}
 			}
 			
 			if ( edtiimxxmh.inError() ) {
