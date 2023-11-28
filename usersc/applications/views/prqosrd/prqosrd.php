@@ -96,24 +96,24 @@
 				responsive: false,
 				scrollX: true,
 				columns: [
-					{ data: "prqittd.id",visible:false },
-					{ data: "prqxxth.kode" },
-					{ data: "podxxth.kode" },
-					{ data: "prqittd.nama" },
-					{ data: "iimxxmh.kode" },
-					{ data: "iimxxmh.nama" },
+					{ data: "id",visible:false },
+					{ data: "kode_pr" },
+					{ data: "kode_po" },
+					{ data: "item_pr" },
+					{ data: "item_code" },
+					{ data: "item_po" },
 					{ 
-						data: "prqittd.jumlah_unit",
+						data: "qty_pr",
 						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
 						class: "text-right"
 					},
-					{ data: "ium_pr.nama" },
+					{ data: "uom_pr" },
 					{ 
-						data: "podittd.jumlah_unit" ,
+						data: "qty_po" ,
 						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
 						class: "text-right"
 					},
-					{ data: "ium_po.nama" },
+					{ data: "uom_po" },
 				],
 				buttons: [
 					// BEGIN breaking generate button
@@ -146,14 +146,9 @@
 			} );
 			
 			tblprqittd.on( 'select', function( e, dt, type, indexes ) {
-				prqittd_data    		= tblprqittd.row( { selected: true } ).data().prqittd;
+				prqittd_data    		= tblprqittd.row( { selected: true } ).data();
 				id_prqittd      		= prqittd_data.id;
-				id_transaksi_h 		= id_prqittd; // dipakai untuk general
-				id_transaksi_log	= id_prqittd; // dipakai untuk general
-				transaction_state   = prqittd_data.transaction_state;
-				approval_state   	= prqittd_data.approval_state;
-				is_nextprocess 		= prqittd_data.is_nextprocess;
-				is_jurnal      		= prqittd_data.is_jurnal;
+				console.log(id_prqittd);
 
 				// atur hak akses
 				CekSelectHeaderH(tblprqittd);
