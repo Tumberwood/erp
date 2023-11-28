@@ -550,7 +550,7 @@
 		tblpsuxxmh = $('#tblpsuxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-3',
 			},
 			ajax: {
 				url: "../../models/psuxxmh/psuxxmh.php",
@@ -848,7 +848,7 @@
 		tblpsubnmd = $('#tblpsubnmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-2',
 			},
 			ajax: {
 				url: "../../models/psuxxmh/psubnmd.php",
@@ -864,15 +864,17 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [2,3]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: [0,1,4,5]
 				}
 			],
+			// responsive: false,
+			// scrollX: true,
 			columns: [
 				{ data: "psubnmd.id",visible:false },
 				{ data: "psubnmd.id_psuxxmh",visible:false },
@@ -908,8 +910,6 @@
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
-			},
-			rowCallback: function( row, data, index ) {
 			}
 		} );
 
@@ -1086,7 +1086,7 @@
 		tblpsuctmd = $('#tblpsuctmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-2',
 			},
 			ajax: {
 				url: "../../models/psuxxmh/psuctmd.php",
@@ -1102,15 +1102,17 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [2,3]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: [0,1,4,5]
 				}
 			],
+			// responsive: false,
+			// scrollX: true,
 			columns: [
 				{ data: "psuctmd.id",visible:false },
 				{ data: "psuctmd.id_psuxxmh",visible:false },
@@ -1137,8 +1139,6 @@
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
-			},
-			rowCallback: function( row, data, index ) {
 			}
 		} );
 
