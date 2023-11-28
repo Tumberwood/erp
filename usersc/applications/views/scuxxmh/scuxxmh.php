@@ -23,19 +23,53 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<editor-field name="scuxxmh.nama"></editor-field>
-								<editor-field name="scuxxmh.id_gctxxmh"></editor-field>
-								<editor-field name="scuxxmh.id_gbuxxmh"></editor-field>
-								<editor-field name="scuxxmh.telepon"></editor-field>
-								<editor-field name="scuxxmh.whatsapp"></editor-field>
-								<editor-field name="scuxxmh.fax"></editor-field>
-								<editor-field name="scuxxmh.email"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="scuxxmh.alamat"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.id_gctxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
 								<editor-field name="scuxxmh.id_gpvxxmh"></editor-field>
-								<editor-field name="scuxxmh.nik"></editor-field>
-								<editor-field name="scuxxmh.npwp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.id_gbuxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
 								<editor-field name="scuxxmh.default_pembayaran"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.telepon"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.whatsapp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.npwp"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.nik"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.email"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="scuxxmh.fax"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
 								<editor-field name="scuxxmh.keterangan"></editor-field>
 							</div>
 						</div>
@@ -158,6 +192,7 @@
 				}
 			},
 			table: "#tblscuxxmh",
+			template: '#custom_scuxxmh',
 			fields: [ 
 				{
 					// untuk generate_kode
@@ -380,7 +415,7 @@
 		});
 
 		edtscuxxmh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 		
 		edtscuxxmh.on( 'preSubmit', function (e, data, action) {

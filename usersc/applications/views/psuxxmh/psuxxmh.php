@@ -24,19 +24,53 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<editor-field name="psuxxmh.nama"></editor-field>
-								<editor-field name="psuxxmh.id_gctxxmh"></editor-field>
-								<editor-field name="psuxxmh.id_gbuxxmh"></editor-field>
-								<editor-field name="psuxxmh.telepon"></editor-field>
-								<editor-field name="psuxxmh.whatsapp"></editor-field>
-								<editor-field name="psuxxmh.fax"></editor-field>
-								<editor-field name="psuxxmh.email"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="psuxxmh.alamat"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.id_gctxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
 								<editor-field name="psuxxmh.id_gpvxxmh"></editor-field>
-								<editor-field name="psuxxmh.nik"></editor-field>
-								<editor-field name="psuxxmh.npwp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.id_gbuxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
 								<editor-field name="psuxxmh.default_pembayaran"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.telepon"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.whatsapp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.npwp"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.nik"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.email"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="psuxxmh.fax"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
 								<editor-field name="psuxxmh.keterangan"></editor-field>
 							</div>
 						</div>
