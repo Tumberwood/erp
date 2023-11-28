@@ -40,6 +40,7 @@
 									<editor-field name="podxxth.id_fpytmmh"></editor-field>
 								</div>
 								<div class="col-lg-6">
+									<editor-field name="podxxth.id_psuxxmh"></editor-field>
 								</div>
 							</div>
 							<div class="row">
@@ -241,6 +242,7 @@
 	var edtpodittd, tblpodittd, show_deleted_podittd = 0, id_podittd;
 	// ------------- end of default variable
 	var id_iittpmh_old = 0;
+	var id_psuxxmh_old = 0;
 	var id_fcrxxmh_old = 0;
 	var id_fpytmmh_old = 0;
 	var id_iumxxmh_old = 0;
@@ -372,8 +374,45 @@
 					}
 				},		
 				{
+					label: "Supplier <sup class='text-danger'>*<sup>",
+					name: "podxxth.id_psuxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/psuxxmh/psuxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_psuxxmh_old: id_psuxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
+				{
 					label: "Currency <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_fcrxxmh",
+					id: "select_id_fcrxxmh", //tambahkan id di select2nya
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -383,6 +422,7 @@
 							url: "../../models/fcrxxmh/fcrxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+
 								var query = {
 									id_fcrxxmh_old: id_fcrxxmh_old,
 									search: params.term || '',
@@ -391,8 +431,25 @@
 									return query;
 							},
 							processResults: function (data, params) {
+								var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								defaultCurrency();
+								// console.log(id_def);
+								// console.log(nama_def);
+
+								if (params.page && params.page === 1) {
+									$('#select_id_fcrxxmh').empty().select2({ data: options });
+								} else {
+									$('#select_id_fcrxxmh').append(new Option(nama_def, id_def, false, false)).trigger('change');
+								}
+
 								return {
-									results: data.results,
+									results: options,
 									pagination: {
 										more: true
 									}
@@ -474,6 +531,12 @@
 
 		edtpodxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			
+			$('#select_id_fcrxxmh').select2('open');
+
+			setTimeout(function() {
+				$('#select_id_fcrxxmh').select2('close');
+			}, 5);
 		});
 		
 		edtpodxxth.dependent( 'podxxth.is_diskon_persen', function ( val, data, callback ) {
@@ -515,6 +578,13 @@
 		
 		edtpodxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
+				// BEGIN of validasi podxxth.id_psuxxmh 
+				id_psuxxmh = edtpodxxth.field('podxxth.id_psuxxmh').val();
+				if(!id_psuxxmh || id_psuxxmh == ''){
+					edtpodxxth.field('podxxth.id_psuxxmh').error( 'Wajib diisi!' );
+				}
+				// END of validasi podxxth.id_psuxxmh 
+
 				// BEGIN of validasi podxxth.id_fpytmmh 
 				id_fpytmmh = edtpodxxth.field('podxxth.id_fpytmmh').val();
 				if(!id_fpytmmh || id_fpytmmh == ''){
@@ -667,6 +737,7 @@
 			id_iittpmh			= podxxth_data.id_iittpmh;
 			id_fcrxxmh_old		= podxxth_data.id_fcrxxmh;
 			id_fpytmmh_old		= podxxth_data.id_fpytmmh;
+			id_psuxxmh_old		= podxxth_data.id_psuxxmh;
 			
 			// atur hak akses
 			tbl_details = [tblpodittd];
@@ -677,6 +748,7 @@
 		tblpodxxth.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
 			id_podxxth = 0;
+			id_psuxxmh_old = 0;
 			id_fpytmmh_old = 0;
 			id_fcrxxmh_old = 0;
 			id_iittpmh_old = 0;

@@ -26,4 +26,19 @@
             }
         }           
     }
+
+    function defaultCurrency() {
+        $.ajax( {
+            url: "../../models/podxxth/fn_defaultCurrency.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+            },
+            success: function ( json ) {
+                id_def = json.data.id_def;
+                nama_def = json.data.nama_def;
+            }
+        } );
+    }
 </script>
