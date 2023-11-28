@@ -14,7 +14,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd_1"> UoM</a></li>
