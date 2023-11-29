@@ -134,8 +134,8 @@
             edtfcrxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					// BEGIN of validasi fcrxxmh.kode
+					kode = edtfcrxxmh.field('fcrxxmh.kode').val();
 					if ( ! edtfcrxxmh.field('fcrxxmh.kode').isMultiValue() ) {
-						kode = edtfcrxxmh.field('fcrxxmh.kode').val();
 						if(!kode || kode == ''){
 							edtfcrxxmh.field('fcrxxmh.kode').error( 'Wajib diisi!' );
 						}
@@ -167,8 +167,8 @@
 					// END of validasi fcrxxmh.kode
 					
 					// BEGIN of validasi fcrxxmh.nama
+					nama = edtfcrxxmh.field('fcrxxmh.nama').val();
 					if ( ! edtfcrxxmh.field('fcrxxmh.nama').isMultiValue() ) {
-						nama = edtfcrxxmh.field('fcrxxmh.nama').val();
 						if(!nama || nama == ''){
 							edtfcrxxmh.field('fcrxxmh.nama').error( 'Wajib diisi!' );
 						}
@@ -231,6 +231,18 @@
 						// END of cek unik fcrxxmh.simbol
 					}
 					// END of validasi fcrxxmh.simbol
+
+					is_default = edtfcrxxmh.field('fcrxxmh.is_default').val();
+					if (nama != '') {
+						if (is_default == 1) {
+							if(confirm('Apakah Anda Ingin Membuat '+kode+' - '+nama+' Menjadi Default Currency?')){
+								console.log('Berhasil');
+							}else{
+								console.log('Cancel');
+								return false;
+							}
+						}
+					}
 				}
 				
 				if ( edtfcrxxmh.inError() ) {
