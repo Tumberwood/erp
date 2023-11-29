@@ -139,7 +139,8 @@
 					},
 					{
 						label: "Keterangan",
-						name: "wloxxmh.keterangan"
+						name: "wloxxmh.keterangan",
+						type: "textarea"
 					}
 				]
 			} );
