@@ -33,6 +33,8 @@
                     LEFT JOIN iimummd AS b ON b.id_iumxxmh = a.id_iumxxmh AND b.id_iimxxmh = a.id_iimxxmh
                     SET
                         a.jumlah_konversi = b.jumlah_konversi,
+                        a.jumlah_unit_os = ROUND(a.jumlah_unit, 2), 
+                        a.jumlah_terkecil_os = ROUND(b.jumlah_konversi * a.jumlah_unit, 2), 
                         a.jumlah_terkecil = ROUND(b.jumlah_konversi * a.jumlah_unit, 2), 
                         a.harga_terkecil = ROUND(a.harga_unit / (b.jumlah_konversi * a.jumlah_unit), 2)
                     WHERE a.id = '.$id_tabel.'
