@@ -137,6 +137,10 @@
 							},
 						}
 					},
+					{
+						label: "Keterangan",
+						name: "wloxxmh.keterangan"
+					}
 				]
 			} );
 
