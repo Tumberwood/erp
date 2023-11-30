@@ -69,6 +69,7 @@
         ->join('itoittd','itoittd.id_iimxxmh = iimxxmh.id','LEFT' )
         ->where('iimxxmh.transaction_state',1)
         ->where('itoittd.id_itoxxth', $ids_itoxxth)
+        ->where('itoittd.jumlah_terkecil_os', 0, '>')
         ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
         ->where('iimxxmh.id_iittpmh', $id_iittpmh, $w_iitp )
         ->where( function ( $r ) {
