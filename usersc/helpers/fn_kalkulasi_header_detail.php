@@ -81,11 +81,22 @@
                 id_tabel: id_tabel
             },
             success: function ( json ) {
-                // $.notify({
-                //     message: json.message
-                // },{
-                //     type: json.type_message
-                // });
+            }
+        } );
+    }    
+
+    function autofill(tabel, id_tabel){
+        $.ajax( {
+            url: "<?php echo $us_url_root; ?>usersc/helpers/fn_autofill_depend.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                tabel: tabel,
+                id_tabel: id_tabel
+            },
+            success: function ( json ) {
+                autofillData = json.data.rs_autofill;
             }
         } );
     }    
