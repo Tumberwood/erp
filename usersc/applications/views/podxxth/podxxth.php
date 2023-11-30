@@ -1105,17 +1105,21 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
-			id_last_insert = json.data[0].podittd.id;
-			console.log(id_last_insert);
+			
+			if (action != 'remove') {
+				id_last_insert = json.data[0].podittd.id;
+				console.log(id_last_insert);
 
+				// Memangging funtion Konversi Terkecil, isi paremeter last insert dan table detail/table yang dipilih
+				konversiTerkecil(id_last_insert, 'podittd');
+				tblpodittd.rows().deselect();
+				
+			}
 			//Memangging function totalHeader, isi parameter sesuai urutan:
 			// Urutan Parameter = id_header, nama tabel detail, nama tabel Header,
 			// Parameter Terakhir isi 1 jika ingin kalkulasi diskon, kosongkan jika tidak ingin kalkulasi diskon
 			totalHeader(id_transaksi_h, 'podittd', 'podxxth', 1);
 
-			// Memangging funtion Konversi Terkecil, isi paremeter last insert dan table detail/table yang dipilih
-			konversiTerkecil(id_last_insert, 'podittd');
-			tblpodittd.rows().deselect();
 
 			tblpodxxth.ajax.reload(null, false);
 			tblpodittd.ajax.reload(null, false);

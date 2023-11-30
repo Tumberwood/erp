@@ -636,8 +636,11 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
-			id_last_insert = json.data[0].itoittd.id;
-			konversiTerkecil(id_last_insert, 'itoittd');
+			
+			if (action != 'remove') {
+				id_last_insert = json.data[0].itoittd.id;
+				konversiTerkecil(id_last_insert, 'itoittd');
+			}
 		} );
 
 		edtitoittd.on( 'close', function () {
