@@ -302,8 +302,6 @@
 					targets: [0]
 				}
 			],
-			responsive: false,
-			scrollX: true,
 			columns: [
 				{ data: "prqxxth.id",visible:false },
 				{ data: "prqxxth.tanggal" },
