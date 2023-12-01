@@ -21,6 +21,7 @@
 	$id = $_POST['id_transaksi_h'];
 	$state = $_POST['state'];
 	
+	// Terima barang dari Transit (+)
 	$qi_tujuan = $db
 		->raw()
 		->bind(':id', $id)
@@ -69,7 +70,8 @@
 				'
 				);
 
-	$qi_tujuan = $db
+	// Transit mengirim ke Gudang TUjuan (-)
+	$qi_asal = $db
 		->raw()
 		->bind(':id', $id)
 		->exec('INSERT INTO iivxxrd (
@@ -94,7 +96,7 @@
 				SELECT
 					1 AS id_gbrxxmh,
 					1 AS is_fisik,
-					a.id_iwhxxmh_asal AS id_iwhxxmh,
+					transit.id AS id_iwhxxmh,
 					a.id_iwhxxmh_asal AS id_iwhxxmh_asal,
 					a.id_iwhxxmh_tujuan AS id_iwhxxmh_tujuan,
 					a.kode AS kode,
@@ -111,7 +113,9 @@
 					b.jumlah_terkecil AS jumlah_terkecil
 				FROM itixxth AS a
 				LEFT JOIN itiittd AS b ON b.id_itixxth = a.id
-				LEFT JOIN iwhxxmh AS gudang ON gudang.id = a.id_iwhxxmh_asal
+				LEFT JOIN iwhxxmh AS asal ON asal.id = a.id_iwhxxmh_asal
+				LEFT JOIN iwhxxmh AS tujuan ON tujuan.id = a.id_iwhxxmh_tujuan
+				LEFT JOIN iwhxxmh AS transit ON transit.kode = CONCAT("WHTR ", asal.kode, " - ", tujuan.kode) OR transit.kode = CONCAT("WHTR ", tujuan.kode, " - ", asal.kode)
 				WHERE a.id = :id;
 		
 				'
