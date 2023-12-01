@@ -26,7 +26,6 @@
                                 <th>Nama</th>
                                 <th>Tipe</th>
                                 <th>Kategori</th>
-                                <th>Keterangan</th>
                             </tr>
                         </thead>
                     </table>
@@ -424,7 +423,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,5]
+					targets: [0]
 				}
 			],
 			columns: [
@@ -432,8 +431,7 @@
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iittpmh.nama" },
-				{ data: "iicctmh.nama" },
-				{ data: "iimxxmh.keterangan" }
+				{ data: "iicctmh.nama" }
 			],
 			buttons: [
 
