@@ -48,7 +48,9 @@
 			Field::inst( 'iwhctmh.nama' ),
 		)
 		->leftJoin( 'gbrxxmh','gbrxxmh.id','=','iwhxxmh.id_gbrxxmh' )
-		->leftJoin( 'iwhctmh','iwhctmh.id','=','iwhxxmh.id_iwhctmh' );
+		->leftJoin( 'iwhctmh','iwhctmh.id','=','iwhxxmh.id_iwhctmh' )
+		->where( 'iwhxxmh.is_sistem', null)
+		;
 	
 	// do not erase
 	// function show / hide inactive document

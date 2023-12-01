@@ -293,6 +293,13 @@
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtiwhxxmh.field('iwhxxmh.finish_at').val(finish_at);
 			});
+			
+			edtiwhxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+				// event setelah Create atau Edit, dibedakan dari parameter action
+				// action : "create" | "edit"
+				// do something
+				tbliwhxxmh.ajax.reload(null, false);
+			} );
 
 			edtiwhxxmh.on( 'close', function () {
 				edtiwhxxmh.enable();
