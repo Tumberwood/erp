@@ -659,9 +659,9 @@
 
 				if (terkecil_in > terkecil_out) {
 					if (id_iumxxmh == id_iumxxmh_out) {
-						edtitiittd.field('itiittd.jumlah_unit').error( 'Jumlah Unit Tidak Boleh Melebihi '+text );
+						edtitiittd.field('itiittd.jumlah_unit').error( 'Quantity Tidak Boleh Melebihi '+text );
 					} else {
-						edtitiittd.field('itiittd.jumlah_unit').error( 'Jumlah Unit Tidak Boleh Melebihi '+terkecil_out+' '+satuan);
+						edtitiittd.field('itiittd.jumlah_unit').error( 'Quantity Tidak Boleh Melebihi '+terkecil_out+' '+satuan);
 					}
 				}
 
