@@ -52,16 +52,19 @@
             'itoxxth.id as id',
             'CONCAT(itoxxth.kode) as text'
         ])
-        ->join('itixxth','itixxth.id_itoxxth = itoxxth.id','LEFT' )
-        ->where('itixxth.id',null)
+        // ->join('itixxth','itixxth.id_itoxxth = itoxxth.id','LEFT' )
+        // ->where('itixxth.id',null)
+        ->join('itoittd','itoittd.id_itoxxth = itoxxth.id','LEFT' )
         ->where('itoxxth.transaction_state',1)
         ->where('itoxxth.id', $id_itoxxth_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('itoxxth.kode', '%' . $q . '%', 'LIKE' )
-                ;
+            ->where('itoxxth.kode', '%' . $q . '%', 'LIKE' )
+            ;
         } )
+        ->where('itoittd.jumlah_terkecil_os', 0, '>') // Diambil yang terkecil OS > 0
+        ->group_by('itoxxth.id') // grup by per id_header Transfer Out
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
