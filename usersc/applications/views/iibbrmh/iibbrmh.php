@@ -57,6 +57,8 @@
 		// ------------- default variable, do not erase
 		var edtiibbrmh, tbliibbrmh, show_deleted_iibbrmh = 0, id_iibbrmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -114,6 +116,13 @@
 				
 				if(action == 'create'){
 					tbliibbrmh.rows().deselect();
+
+					edtiibbrmh.field('iibbrmh.kode').enable();
+					edtiibbrmh.field('iibbrmh.nama').enable();
+				}else if(action == 'edit'){
+
+					edtiibbrmh.field('iibbrmh.kode').disable();
+					edtiibbrmh.field('iibbrmh.nama').disable();
 				}
 			});
 
