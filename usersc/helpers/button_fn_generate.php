@@ -366,7 +366,8 @@
 
                                     }
                                     
-                                    <!-- if(is_need_approval == 1){
+                                    /*
+                                    if(is_need_approval == 1){
 
                                         $.ajax( {
                                             url: '../../../helpers/tr_fn_transaction_state_approval.php',
@@ -386,31 +387,32 @@
                                             }
                                         } );
 
-                                    } -->
+                                    }
+                                    */
 
                                     <?php 
-                                            if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
-                                        ?>
-                                            $.ajax( {
-                                                url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
-                                                dataType: 'json',
-                                                type: 'POST',
-                                                data: {
-                                                    state           : 1,
-                                                    id_transaksi_h  : id_transaksi_h
-                                                },
-                                                success: function ( json ) {
-                                                    $('#notifToast').toast('show');
-                                                    $('#toastMessage').html(json.data.message);
-                                                    $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                                    setTimeout(function() { 
-                                                        $('#notifToast').toast('hide');
-                                                    }, 3000);
-                                                }
-                                            } );
-                                        <?php
+                                        if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
+                                    ?>
+                                        $.ajax( {
+                                            url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: {
+                                                state           : 1,
+                                                id_transaksi_h  : id_transaksi_h
+                                            },
+                                            success: function ( json ) {
+                                                $('#notifToast').toast('show');
+                                                $('#toastMessage').html(json.data.message);
+                                                $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
+                                                setTimeout(function() { 
+                                                    $('#notifToast').toast('hide');
+                                                }, 3000);
                                             }
-                                        ?>
+                                        } );
+                                    <?php
+                                        }
+                                    ?>
 
                                     <?php echo $table;?>.ajax.reload(null, false);
 
