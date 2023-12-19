@@ -96,6 +96,7 @@
 	var hak_d               = <?php echo json_encode($hak_d) ?>;
 	var hak_a               = <?php echo json_encode($hak_a) ?>;
 	
+	var is_master_table		= 0;	// jika master table, maka bisa edit meskipun sudah confirm
 	var id_transaksi_log	= 0;
 	var transaction_state	= 0;
 	var approval_state 		= 0;
