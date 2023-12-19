@@ -105,6 +105,7 @@
 	var edtiimxxmh, tbliimxxmh, show_deleted_iimxxmh = 0, id_iimxxmh;
 	var edtiimummd, tbliimummd, show_deleted_iimummd = 0, id_iimummd;
 	// ------------- end of default variable
+	is_master_table = 1;
 
 	var id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0;
 	var id_iumxxmh_old = 0;
@@ -230,7 +231,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iicctmh/iicctmh_fn_opt.php",
+							url: "../../models/iiggrmh/iiggrmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -271,6 +272,12 @@
 
 			if(action == 'create'){
 				tbliimxxmh.rows().deselect();
+
+				edtiimxxmh.field('iimxxmh.kode').enable();
+				edtiimxxmh.field('iimxxmh.nama').enable();
+			}else if(action == 'edit'){
+				edtiimxxmh.field('iimxxmh.kode').disable();
+				edtiimxxmh.field('iimxxmh.nama').disable();
 			}
 		});
 
