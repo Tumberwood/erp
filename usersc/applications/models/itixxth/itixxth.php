@@ -72,7 +72,6 @@
 	}
 	
 	include( "itixxth_extra.php" );
-	include( "../../../helpers/kode_fn_generate_confirm.php" );
 
 	// BEGIN log
 	$nama_table = 'itixxth';
