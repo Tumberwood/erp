@@ -366,7 +366,7 @@
 
                                     }
                                     
-                                    if(is_need_approval == 1){
+                                    <!-- if(is_need_approval == 1){
 
                                         $.ajax( {
                                             url: '../../../helpers/tr_fn_transaction_state_approval.php',
@@ -386,7 +386,7 @@
                                             }
                                         } );
 
-                                    }
+                                    } -->
 
                                     <?php 
                                             if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
