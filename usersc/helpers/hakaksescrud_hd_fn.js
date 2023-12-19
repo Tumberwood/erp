@@ -215,6 +215,7 @@ function CekSelectHeaderH(tbl_header){
     //  - transaction_state = 0 atau -1 
     //  - approval_state = 0  
     //  - hak_u = 1
+    
     if(is_master_table == 0){
         // bukan master table
         if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
@@ -672,16 +673,32 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     //  - transaction_state = 0 atau -1 
     //  - approval_state = 0  
     //  - hak_u = 1
-    if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
+    console.log(is_master_table);
+    if(is_master_table == 0){
+        if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
+            tbl_header.button( 'btnEdit:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }else{
+            tbl_header.button( 'btnEdit:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
+    }else if(is_master_table == 1){
+        // master table
         tbl_header.button( 'btnEdit:name' )
             .nodes()
             .css( 'display', 'block' );
         c_btnSetAction = c_btnSetAction + 1;
     }else{
+        // master table
         tbl_header.button( 'btnEdit:name' )
             .nodes()
             .css( 'display', 'none' );
     }
+
+    
     // END btnEdit
 
     // BEGIN btnRemoveHD
