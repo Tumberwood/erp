@@ -115,6 +115,15 @@
 				
 				if(action == 'create'){
 					tbliiggrmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtiiggrmh.field('iiggrmh.kode').enable();
+						edtiiggrmh.field('iiggrmh.nama').enable();
+					}else{
+						edtiiggrmh.field('iiggrmh.kode').disable();
+						edtiiggrmh.field('iiggrmh.nama').disable();
+					}
 				}
 			});
 

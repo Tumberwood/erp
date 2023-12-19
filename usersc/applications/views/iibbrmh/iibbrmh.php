@@ -120,9 +120,14 @@
 					edtiibbrmh.field('iibbrmh.kode').enable();
 					edtiibbrmh.field('iibbrmh.nama').enable();
 				}else if(action == 'edit'){
-
-					edtiibbrmh.field('iibbrmh.kode').disable();
-					edtiibbrmh.field('iibbrmh.nama').disable();
+					
+					if(transaction_state == 0){
+						edtiibbrmh.field('iibbrmh.kode').enable();
+						edtiibbrmh.field('iibbrmh.nama').enable();
+					}else{
+						edtiibbrmh.field('iibbrmh.kode').disable();
+						edtiibbrmh.field('iibbrmh.nama').disable();
+					}
 				}
 			});
 
