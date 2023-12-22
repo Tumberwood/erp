@@ -57,6 +57,8 @@
 		// ------------- default variable, do not erase
 		var edtiumxxmh, tbliumxxmh, show_deleted_iumxxmh = 0, id_iumxxmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -114,7 +116,17 @@
 				
 				if(action == 'create'){
 					tbliumxxmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtiumxxmh.field('iumxxmh.kode').enable();
+						edtiumxxmh.field('iumxxmh.nama').enable();
+					}else{
+						edtiumxxmh.field('iumxxmh.kode').disable();
+						edtiumxxmh.field('iumxxmh.nama').disable();
+					}
 				}
+				
 			});
 
 			edtiumxxmh.on("open", function (e, mode, action) {

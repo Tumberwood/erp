@@ -108,9 +108,18 @@
 			edtiittpmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtiittpmh.field('iittpmh.start_at').val(start_at);
-				
+
 				if(action == 'create'){
 					tbliittpmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtiittpmh.field('iittpmh.kode').enable();
+						edtiittpmh.field('iittpmh.nama').enable();
+					}else{
+						edtiittpmh.field('iittpmh.kode').disable();
+						edtiittpmh.field('iittpmh.nama').disable();
+					}
 				}
 			});
 

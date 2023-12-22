@@ -57,6 +57,8 @@
 		// ------------- default variable, do not erase
 		var edtiicctmh, tbliicctmh, show_deleted_iicctmh = 0, id_iicctmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -111,9 +113,18 @@
 			edtiicctmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtiicctmh.field('iicctmh.start_at').val(start_at);
-				
+
 				if(action == 'create'){
 					tbliicctmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtiicctmh.field('iicctmh.kode').enable();
+						edtiicctmh.field('iicctmh.nama').enable();
+					}else{
+						edtiicctmh.field('iicctmh.kode').disable();
+						edtiicctmh.field('iicctmh.nama').disable();
+					}
 				}
 			});
 
@@ -258,14 +269,11 @@
 			} );
 			
 			tbliicctmh.on( 'select', function( e, dt, type, indexes ) {
-				iicctmh_data    		= tbliicctmh.row( { selected: true } ).data().iicctmh;
-				id_iicctmh      		= iicctmh_data.id;
+				iicctmh_data    	= tbliicctmh.row( { selected: true } ).data().iicctmh;
+				id_iicctmh      	= iicctmh_data.id;
 				id_transaksi_h 		= id_iicctmh; // dipakai untuk general
 				id_transaksi_log	= id_iicctmh; // dipakai untuk general
 				transaction_state   = iicctmh_data.transaction_state;
-				approval_state   	= iicctmh_data.approval_state;
-				is_nextprocess 		= iicctmh_data.is_nextprocess;
-				is_jurnal      		= iicctmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliicctmh);
