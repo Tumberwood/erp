@@ -56,6 +56,8 @@
 		// ------------- default variable, do not erase
 		var edtiittpmh, tbliittpmh, show_deleted_iittpmh = 0, id_iittpmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -220,14 +222,12 @@
 			} );
 			
 			tbliittpmh.on( 'select', function( e, dt, type, indexes ) {
-				iittpmh_data    		= tbliittpmh.row( { selected: true } ).data().iittpmh;
-				id_iittpmh      		= iittpmh_data.id;
+				iittpmh_data    	= tbliittpmh.row( { selected: true } ).data().iittpmh;
+				id_iittpmh      	= iittpmh_data.id;
 				id_transaksi_h 		= id_iittpmh; // dipakai untuk general
 				id_transaksi_log	= id_iittpmh; // dipakai untuk general
 				transaction_state   = iittpmh_data.transaction_state;
-				approval_state   	= iittpmh_data.approval_state;
-				is_nextprocess 		= iittpmh_data.is_nextprocess;
-				is_jurnal      		= iittpmh_data.is_jurnal;
+				is_defaultprogram   = iittpmh_data.is_defaultprogram;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliittpmh);
