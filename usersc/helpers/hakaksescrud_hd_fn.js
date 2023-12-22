@@ -216,34 +216,43 @@ function CekSelectHeaderH(tbl_header){
     //  - approval_state = 0  
     //  - hak_u = 1
     
-    if(is_master_table == 0){
-        // bukan master table
-        if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
-        }else{
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'none' );
-        }
-    }else if (is_master_table == 1){
-        // master table
-        if(transaction_state == -9){
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'none' );
-        }else{
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
-        }
-    }else{
+    if(is_defaultprogram == 1){
         tbl_header.button( 'btnEdit:name' )
             .nodes()
             .css( 'display', 'none' );
+
+    }else{
+
+        if(is_master_table == 0){
+            // bukan master table
+            if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }else{
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
+            }
+        }else if (is_master_table == 1){
+            // master table
+            if(transaction_state == -9){
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
+            }else{
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
+        }else{
+            tbl_header.button( 'btnEdit:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
+
     }
     // END btnEdit
 
@@ -680,37 +689,42 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     //  - approval_state = 0  
     //  - hak_u = 1
     
-    if(is_master_table == 0){
-        if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
-        }else{
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'none' );
-        }
-    }else if(is_master_table == 1){
-        // master table
-        if(transaction_state == -9){
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'none' );
-        }else{
-            tbl_header.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
-        }
-    }else{
-        // master table
+    if(is_defaultprogram == 1){
         tbl_header.button( 'btnEdit:name' )
             .nodes()
             .css( 'display', 'none' );
-    }
 
-    
+    }else{
+        if(is_master_table == 0){
+            if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }else{
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
+            }
+        }else if(is_master_table == 1){
+            // master table
+            if(transaction_state == -9){
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
+            }else{
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
+        }else{
+            // master table
+            tbl_header.button( 'btnEdit:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
+    }
     // END btnEdit
 
     // BEGIN btnRemoveHD
