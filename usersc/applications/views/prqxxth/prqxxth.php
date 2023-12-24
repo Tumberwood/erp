@@ -38,11 +38,10 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd_1"> Detail</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabprqittd_2"> Tab 2</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd"> Detail</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabprqittd_1" class="tab-pane active">
+				<div role="tabpanel" id="tabprqittd" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table id="tblprqittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -60,23 +59,6 @@
 							</table>
 						</div> <!-- end of table -->
 
-					</div>
-				</div>
-				<div role="tabpanel" id="tabprqittd_2" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tblprqittd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_prqxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -127,17 +109,14 @@
 			table: "#tblprqxxth",
 			fields: [ 
 				{
-					// untuk generate_kode
 					label: "kategori_dokumen",
 					name: "kategori_dokumen",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "kategori_dokumen_value",
 					name: "kategori_dokumen_value",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "field_tanggal",
 					name: "field_tanggal",
 					type: "hidden"
@@ -239,6 +218,13 @@
 		
 		edtprqxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
+				// BEGIN of validasi prqxxth.tanggal 
+				tanggal = edtprqxxth.field('prqxxth.tanggal').val();
+				if(!tanggal || tanggal == ''){
+					edtprqxxth.field('prqxxth.tanggal').error( 'Wajib diisi!' );
+				}
+				// END of validasi prqxxth.tanggal
+
 				// BEGIN of validasi prqxxth.id_hodxxmh 
 				id_hodxxmh = edtprqxxth.field('prqxxth.id_hodxxmh').val();
 				if(!id_hodxxmh || id_hodxxmh == ''){
@@ -246,12 +232,6 @@
 				}
 				// END of validasi prqxxth.id_hodxxmh 
 
-				// BEGIN of validasi prqxxth.tanggal 
-				tanggal = edtprqxxth.field('prqxxth.tanggal').val();
-				if(!tanggal || tanggal == ''){
-					edtprqxxth.field('prqxxth.tanggal').error( 'Wajib diisi!' );
-				}
-				// END of validasi prqxxth.tanggal
 			}
 			
 			if ( edtprqxxth.inError() ) {
@@ -609,7 +589,7 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
 					$arr_buttons_approve 	= [];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
@@ -636,7 +616,7 @@
 			data_prqittd 		= tblprqittd.row( { selected: true } ).data().prqittd;
 			id_prqittd   		= data_prqittd.id;
 			id_transaksi_d 		= id_prqittd; // dipakai untuk general
-			id_transaksi_log 	= id_prqittd; // dipakai untuk log
+			id_transaksi_log_d 	= id_prqittd; // dipakai untuk log
 
 			transaction_state_d   = data_prqittd.transaction_state;
 			id_iumxxmh_old   = data_prqittd.id_iumxxmh;
