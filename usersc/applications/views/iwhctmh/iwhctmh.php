@@ -57,6 +57,8 @@
 		// ------------- default variable, do not erase
 		var edtiwhctmh, tbliwhctmh, show_deleted_iwhctmh = 0, id_iwhctmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -114,6 +116,15 @@
 				
 				if(action == 'create'){
 					tbliwhctmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtiwhctmh.field('iwhctmh.kode').enable();
+						edtiwhctmh.field('iwhctmh.nama').enable();
+					}else{
+						edtiwhctmh.field('iwhctmh.kode').disable();
+						edtiwhctmh.field('iwhctmh.nama').disable();
+					}
 				}
 			});
 
