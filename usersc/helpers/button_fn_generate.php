@@ -609,6 +609,83 @@
 ?>
 
 <?php
+                    // BEGIN button log detail
+                    if($value == 'log_d'){
+?>
+                        {
+                            extend: "selected",
+                            name: 'btnLog',
+                            text: '<i class="fa fa-history"></i>&nbsp;View Log',
+                            className: 'btn btn-sm',
+                            titleAttr: 'View Data Log',
+                            action: function(e, dt, node, config) {
+                                e.preventDefault();
+                                $("#mdlLog").modal("show");
+
+                                $.ajax({
+                                    url: '../../../helpers/fn_log_view.php',
+                                    dataType: 'json',
+                                    type: 'POST',
+                                    async: false,
+                                    data: {
+                                        table_name	 : '<?php echo $table_name;?>',
+                                        id_transaksi : id_transaksi_log_d,
+                                    },
+                                    success: function(json) {
+                                        str_log = '';
+                                        log_data = json.data.rs_activity_log_ml;
+                                        $.each(log_data, function(index, value) {
+                                            
+                                            switch(log_data[index].kode) {
+                                                case 'CREATE':
+                                                    badgeClass = 'warning';
+                                                    break;
+                                                case 'EDIT':
+                                                    badgeClass = 'info';
+                                                    break;
+                                                case 'DELETE':
+                                                    badgeClass = 'danger';
+                                                    break;
+                                                case 'CONFIRM':
+                                                    badgeClass = 'primary';
+                                                    break;
+                                                case 'CLOSE':
+                                                    badgeClass = 'danger';
+                                                    break;
+                                                case 'APPROVE':
+                                                    badgeClass = 'primary';
+                                                    break;
+                                                case 'VOID':
+                                                    badgeClass = 'danger';
+                                                    break;
+                                                case 'INVALID CODE':
+                                                    badgeClass = 'warning';
+                                                    break;
+                                                default:
+                                                    badgeClass = 'plain';
+                                            }
+
+                                            str_log =   str_log + 
+                                                        '<span class=\"badge badge-' + 
+                                                        badgeClass + '\">' + 
+                                                        log_data[index].kode + 
+                                                        '</span> by ' + 
+                                                        log_data[index].username + 
+                                                        ' at ' + 
+                                                        log_data[index].created_on + 
+                                                        '</br>';
+                                        });
+                                        $("#contentLog").html(str_log);
+                                    }
+                                });
+                            }
+                        },
+<?php
+                    }
+                    // END button log
+?>
+
+<?php
                     // BEGIN button nonaktif_h
                     if($value == 'nonaktif_h'){
 ?>
