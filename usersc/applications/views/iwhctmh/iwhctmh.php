@@ -116,6 +116,10 @@
 				
 				if(action == 'create'){
 					tbliwhctmh.rows().deselect();
+
+					edtiwhctmh.field('iwhctmh.kode').enable();
+					edtiwhctmh.field('iwhctmh.nama').enable();
+
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
