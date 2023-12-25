@@ -84,7 +84,7 @@
             ->query('select', 'gtbrlsh' )
             ->get([
                 'gtbrlsh.tblheader as tblheader',
-                'gtbrlsh.tbldetail as tbldetail'
+                'gtbrlsh.tbldetails as tbldetails'
             ] )
             ->where('gtbrlsh.tblheader', $table_name )
             ->exec();
@@ -92,35 +92,44 @@
 
         if( $_POST['transaction_state'] == -92 ){
             // jika soft delete header detail
-            // non aktif table header dan detail
+            // non aktif table header
             $qu_tblheader = $db
                 ->query('update', $rs_gtbrlsh['tblheader'])
                 ->set('transaction_state', $transaction_state)
                 ->where('id', $id_transaksi )
                 ->exec();
 
-            $qu_tblheader = $db
-                ->query('update', $rs_gtbrlsh['tbldetail'])
-                ->set('transaction_state', $transaction_state)
-                ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
-                ->exec();
+            // non aktif all table detail
+            $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+            foreach($tbldetails as $i => $tbldetail) {
+                $qu_tbldetail = $db
+                    ->query('update', $tbldetail )
+                    ->set('transaction_state', $transaction_state)
+                    ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                    ->exec();
+            }
+            
             
         }elseif( $_POST['transaction_state'] == -93 ){
             // jika hard delete header detail
             // ini seharusnya pakai datatables editor remove
             // tetapi karna harus remove header dan detail, maka dibuat custom disini
 
-            // delete table header dan detail
+            // delete table header
             $qd_tblheader = $db
                 ->query('delete', $rs_gtbrlsh['tblheader'])
                 ->where('id', $id_transaksi )
                 ->exec();
 
-            $qd_tblheader = $db
-                ->query('delete', $rs_gtbrlsh['tbldetail'])
-                ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
-                ->exec();
-            
+            // delete all table detail
+            $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+            foreach($tbldetails as $i => $tbldetail) {
+                $qd_tblheader = $db
+                    ->query('delete', $tbldetail)
+                    ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                    ->exec();
+            }
+
         }else{
             // selain hard delete header detail
 
