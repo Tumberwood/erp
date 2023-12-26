@@ -49,3 +49,18 @@ $.fn.dataTable.render.yaTidak = function () {
         
     }
 };
+
+function isDefaultUpdate(table_name,id_transaksi_default,tblname){
+    $.ajax( {
+        url: '../../../helpers/fn_is_default_update.php',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            table_name           : table_name,
+            id_transaksi_default : id_transaksi_default
+        },
+        success: function ( json ) {
+            tblname.ajax.reload(null, false);
+        }
+    } );
+}
