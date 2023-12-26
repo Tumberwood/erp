@@ -58,6 +58,11 @@
 		// ------------- default variable, do not erase
 		var edtfcrxxmh, tblfcrxxmh, show_deleted_fcrxxmh = 0, id_fcrxxmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
+		is_default_old = 0;
+		is_update_default = 0;
+		var id_transaksi_default;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -124,6 +129,18 @@
 				
 				if(action == 'create'){
 					tblfcrxxmh.rows().deselect();
+
+					edtfcrxxmh.field('fcrxxmh.kode').enable();
+					edtfcrxxmh.field('fcrxxmh.nama').enable();
+				}else if(action == 'edit'){
+
+					if(transaction_state == 0){
+						edtfcrxxmh.field('fcrxxmh.kode').enable();
+						edtfcrxxmh.field('fcrxxmh.nama').enable();
+					}else{
+						edtfcrxxmh.field('fcrxxmh.kode').disable();
+						edtfcrxxmh.field('fcrxxmh.nama').disable();
+					}
 				}
 			});
 
@@ -231,18 +248,6 @@
 						// END of cek unik fcrxxmh.simbol
 					}
 					// END of validasi fcrxxmh.simbol
-
-					is_default = edtfcrxxmh.field('fcrxxmh.is_default').val();
-					if (nama != '') {
-						if (is_default == 1) {
-							if(confirm('Apakah Anda Ingin Membuat '+kode+' - '+nama+' Menjadi Default Currency?')){
-								console.log('Berhasil');
-							}else{
-								console.log('Cancel');
-								return false;
-							}
-						}
-					}
 				}
 				
 				if ( edtfcrxxmh.inError() ) {
@@ -253,14 +258,37 @@
 			edtfcrxxmh.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtfcrxxmh.field('fcrxxmh.finish_at').val(finish_at);
+
+				// ambil is_default dari form input
+				is_default 		= edtfcrxxmh.field('fcrxxmh.is_default').val();
+				kode 			= edtfcrxxmh.field('fcrxxmh.kode').val();
+				nama 			= edtfcrxxmh.field('fcrxxmh.nama').val();
+				if(action == 'create'){
+					is_default_old = 0;
+				} // else nya sudah didapatkan saat select
+
+				if(is_default == 1 && is_default != is_default_old){
+					// jika inputan Default = Ya dan sebelumnya bukan Ya
+					// konfirmasi perubahan
+					if(confirm('Apakah Anda Ingin Membuat '+kode+' - '+nama+' Menjadi Default Currency?')){
+						is_update_default = 1;
+					}else{
+						is_update_default = 0;
+						return false;
+					}
+				}else{
+					// tidak ada perubahan
+
+				}
+				
 			});
 
 			edtfcrxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-				// event setelah Create atau Edit, dibedakan dari parameter action
-				// action : "create" | "edit"
-				// do something
-				id_last_insert = json.data[0].fcrxxmh.id;
-				cekDefault(id_last_insert);
+				if(is_update_default == 1){
+					id_transaksi_default = json.data[0].fcrxxmh.id;
+					cekDefault('fcrxxmh', id_transaksi_default);
+				}
+				
 			} );
 
 			edtfcrxxmh.on( 'close', function () {
@@ -360,7 +388,7 @@
 				transaction_state   = fcrxxmh_data.transaction_state;
 				approval_state   	= fcrxxmh_data.approval_state;
 				is_nextprocess 		= fcrxxmh_data.is_nextprocess;
-				is_jurnal      		= fcrxxmh_data.is_jurnal;
+				is_default_old      = fcrxxmh_data.is_default;
 
 				// atur hak akses
 				CekSelectHeaderH(tblfcrxxmh);
