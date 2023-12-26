@@ -23,6 +23,7 @@
                                 <th>ID</th>
                                 <th>Nama</th>
                                 <th>Keterangan</th>
+                                <th>Default</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -102,6 +103,16 @@
 						name: "fpymtmh.keterangan",
 						type: "textarea"
 					},
+					{
+						label: "Default",
+						name: "fpymtmh.is_default",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Ya", "value": 1 },
+							{ "label": "Tidak", "value": 0 }
+						]
+					}
 				]
 			} );
 
@@ -116,7 +127,6 @@
 					if(transaction_state == 0){						
 						edtfpymtmh.field('fpymtmh.nama').enable();
 					}else{
-					
 						edtfpymtmh.field('fpymtmh.nama').disable();
 					}
 				}
@@ -148,7 +158,40 @@
 			edtfpymtmh.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtfpymtmh.field('fpymtmh.finish_at').val(finish_at);
+
+				// BEGIN is_default
+				// ambil is_default dari form input
+				is_default 		= edtfpymtmh.field('fpymtmh.is_default').val();
+				nama 			= edtfpymtmh.field('fpymtmh.nama').val();
+				if(action == 'create'){
+					is_default_old = 0;
+				} // else nya sudah didapatkan saat select
+
+				if(is_default == 1 && is_default != is_default_old){
+					// jika inputan Default = Ya dan sebelumnya bukan Ya
+					// konfirmasi perubahan
+					if(confirm('Apakah Anda Ingin Membuat '+nama+' Menjadi Default Currency?')){
+						is_update_default = 1;
+					}else{
+						is_update_default = 0;
+						return false;
+					}
+				}else{
+					// tidak ada perubahan
+
+				}
+				// END is_default
 			});
+
+			edtfpymtmh.on( 'postSubmit', function (e, json, data, action, xhr) {	
+				// BEGIN is_default
+				if(is_update_default == 1){
+					id_transaksi_default = json.data[0].fpymtmh.id;
+					isDefaultUpdate('fpymtmh', id_transaksi_default, tblfpymtmh);
+				}
+				// END is_default
+				
+			} );
 
 			edtfpymtmh.on( 'close', function () {
 				edtfpymtmh.enable();
@@ -186,6 +229,16 @@
 					{ data: "fpymtmh.id",visible:false },
 					{ data: "fpymtmh.nama" },
 					{ data: "fpymtmh.keterangan" },
+					{ 
+						data: "fpymtmh.is_default",
+						render: function (data){
+							if (data == 1){
+								return '<i class="fa fa-check text-navy"></i>';
+							}else{
+								return '';
+							}
+						}
+					},
 					{ 
 						data: "fpymtmh.transaction_state" ,
 						render: $.fn.dataTable.render.transactionStatus()
