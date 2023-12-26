@@ -39,6 +39,7 @@
 			Field::inst( 'fpytmmh.start_at' ),
 			Field::inst( 'fpytmmh.finish_at' ),
 			Field::inst( 'fpytmmh.is_defaultprogram' ),
+			Field::inst( 'fpytmmh.is_default' ),
 			Field::inst( 'fpytmmh.jatuh_tempo' )
 		);
 	
