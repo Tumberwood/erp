@@ -127,13 +127,9 @@
 				
 				if(action == 'create'){
 					tblfpytmmh.rows().deselect();
-
-					
 					edtfpytmmh.field('fpytmmh.nama').enable();
 				}else if(action == 'edit'){
-
 					if(transaction_state == 0){
-						
 						edtfpytmmh.field('fpytmmh.nama').enable();
 					}else{
 					
