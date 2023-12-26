@@ -132,7 +132,6 @@
 					if(transaction_state == 0){
 						edtfpytmmh.field('fpytmmh.nama').enable();
 					}else{
-					
 						edtfpytmmh.field('fpytmmh.nama').disable();
 					}
 				}
@@ -159,7 +158,7 @@
 						}
 						
 					if(jatuh_tempo < 0 ){
-						edtfpytmmh.field('fpytmmh.jatuh_tempo').error( 'Inputan harus > 0' );
+						edtfpytmmh.field('fpytmmh.jatuh_tempo').error( 'Inputan minimal 0' );
 					}
 					
 					// validasi angka
@@ -201,8 +200,7 @@
 				// END is_default
 			});
 
-			edtfpytmmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-				
+			edtfpytmmh.on( 'postSubmit', function (e, json, data, action, xhr) {	
 				// BEGIN is_default
 				if(is_update_default == 1){
 					id_transaksi_default = json.data[0].fpytmmh.id;
