@@ -365,30 +365,21 @@
                                         } );
 
                                     }
-                                    
-                                    /*
-                                    if(is_need_approval == 1){
 
+                                    if(is_need_jurnal == 1){
                                         $.ajax( {
-                                            url: '../../../helpers/tr_fn_transaction_state_approval.php',
+                                            url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
                                             dataType: 'json',
                                             type: 'POST',
                                             data: {
-                                                table_name	 : '<?php echo $table_name;?>',
-                                                id_transaksi : id_transaksi_h,
+                                                state           : 1,
+                                                id_transaksi_h  : id_transaksi_h,
                                             },
                                             success: function ( json ) {
-                                                $('#notifToast').toast('show');
-                                                $('#toastMessage').html(json.data.message);
-                                                $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                                setTimeout(function() { 
-                                                    $('#notifToast').toast('hide');
-                                                }, 3000);
+                                                console.log('Jurnal');
                                             }
                                         } );
-
                                     }
-                                    */
 
                                     <?php 
                                         if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
