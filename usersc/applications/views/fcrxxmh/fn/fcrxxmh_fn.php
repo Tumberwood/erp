@@ -1,11 +1,12 @@
 <script>
-    function cekDefault(id_tabel){
+    function cekDefault(table_name,id_tabel){
         $.ajax( {
-            url: "../../models/fcrxxmh/fn_cekDefault.php",
+            url: '../../../helpers/fn_is_default_update.php',
             dataType: 'json',
             type: 'POST',
             data: {
-                id_tabel: id_tabel
+                table_name           : table_name,
+                id_transaksi_default : id_transaksi_default
             },
             success: function ( json ) {
 				tblfcrxxmh.ajax.reload(null, false);
