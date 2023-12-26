@@ -40,14 +40,9 @@
 			Field::inst( 'fpymtmh.approval_state' ),
 			Field::inst( 'fpymtmh.start_at' ),
 			Field::inst( 'fpymtmh.finish_at' ),
-			Field::inst( 'fpymtmh.is_defaultprogram' ),
-			Field::inst( 'fpymtmh.is_kartu' ),
-			Field::inst( 'fpymtmh.is_pos' ),
-			Field::inst( 'fpymtmh.biaya_tambahan' ),
-			Field::inst( 'aakxxmh.nama' )
-		)
-		->leftJoin( 'aakxxmh','aakxxmh.id','=','fpymtmh.id_aakxxmh' )
-		;
+			Field::inst( 'fpymtmh.is_default' ),
+			Field::inst( 'fpymtmh.is_defaultprogram' )
+		);
 	
 	// do not erase
 	// function show / hide inactive document

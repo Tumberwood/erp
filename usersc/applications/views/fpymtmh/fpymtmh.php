@@ -22,11 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nama</th>
-                                <th>Kartu</th>
-                                <th>POS</th>
-                                <th>Akun</th>
                                 <th>Keterangan</th>
-                                <th>Biaya Tambahan</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -61,7 +57,7 @@
 		var edtfpymtmh, tblfpymtmh, show_deleted_fpymtmh = 0, id_fpymtmh;
 		// ------------- end of default variable
 		
-		id_aakxxmh_old = 0;
+		is_master_table = 1;
 
 		$(document).ready(function() {
 			//start datatables editor
@@ -102,66 +98,6 @@
 						name: "fpymtmh.nama"
 					},
 					{
-						label: "Kartu",
-						name: "fpymtmh.is_kartu",
-						type: "select",
-						placeholder : "Select",
-						options: [
-							{ "label": "Ya", "value": 1 },
-							{ "label": "Tidak", "value": 0 },
-						]
-					},
-					{
-						label: "POS",
-						name: "fpymtmh.is_pos",
-						type: "select",
-						placeholder : "Select",
-						options: [
-							{ "label": "Ya", "value": 1 },
-							{ "label": "Tidak", "value": 0 },
-						]
-					},
-					{
-						label: "Biaya Tambahan (%)",
-						name: "fpymtmh.biaya_tambahan"
-					},
-					{
-						label: "Akun ",
-						name: "fpymtmh.id_aakxxmh",
-						type: "select2",
-						opts: {
-							placeholder : "Select",
-							allowClear: true,
-							multiple: false,
-							ajax: {
-								url: "../../models/aakxxmh/aakxxmh_fn_opt.php",
-								dataType: 'json',
-								data: function (params) {
-									var query = {
-										id_aakxxmh_old: id_aakxxmh_old,
-										search: params.term || '',
-										page: params.page || 1
-									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
-								},
-								cache: true,
-								minimumInputLength: 1,
-								maximum: 10,
-								delay: 500,
-								maximumSelectionLength: 5,
-								minimumResultsForSearch: -1,
-							},
-						}
-					},
-					{
 						label: "Keterangan ",
 						name: "fpymtmh.keterangan",
 						type: "textarea"
@@ -175,7 +111,16 @@
 				
 				if(action == 'create'){
 					tblfpymtmh.rows().deselect();
+					edtfpymtmh.field('fpymtmh.nama').enable();
+				}else if(action == 'edit'){
+					if(transaction_state == 0){						
+						edtfpymtmh.field('fpymtmh.nama').enable();
+					}else{
+					
+						edtfpymtmh.field('fpymtmh.nama').disable();
+					}
 				}
+
 			});
 
 			edtfpymtmh.on("open", function (e, mode, action) {
@@ -193,17 +138,6 @@
 					}
 					// END of validasi fpymtmh.nama
 
-					biaya_tambahan = edtfpymtmh.field('fpymtmh.biaya_tambahan').val();
-					if(biaya_tambahan != ''){
-						if(biaya_tambahan < 0 ){
-							edtfpymtmh.field('fpymtmh.biaya_tambahan').error( 'Inputan harus > 0' );
-						}
-						
-						// validasi angka
-						if(isNaN(biaya_tambahan) ){
-							edtfpymtmh.field('fpymtmh.biaya_tambahan').error( 'Inputan harus berupa Angka!' );
-						}
-					}
 				}
 				
 				if ( edtfpymtmh.inError() ) {
@@ -251,32 +185,7 @@
 				columns: [
 					{ data: "fpymtmh.id",visible:false },
 					{ data: "fpymtmh.nama" },
-					{ 
-						data: "fpymtmh.is_kartu",
-						render: function (data){
-							if (data == 1){
-								return 'Ya';
-							}else if(data == 0){
-								return 'Tidak';
-							}
-						}
-					},
-					{ 
-						data: "fpymtmh.is_pos",
-						render: function (data){
-							if (data == 1){
-								return 'Ya';
-							}else if(data == 0){
-								return 'Tidak';
-							}
-						}
-					},
-					{ data: "aakxxmh.nama" },
 					{ data: "fpymtmh.keterangan" },
-					{
-						data: "fpymtmh.biaya_tambahan",
-						class: "text-right" 
-					},
 					{ 
 						data: "fpymtmh.transaction_state" ,
 						render: $.fn.dataTable.render.transactionStatus()
@@ -327,9 +236,6 @@
 				transaction_state   = fpymtmh_data.transaction_state;
 				approval_state   	= fpymtmh_data.approval_state;
 				is_nextprocess 		= fpymtmh_data.is_nextprocess;
-				is_jurnal      		= fpymtmh_data.is_jurnal;
-				
-				id_aakxxmh_old = fpymtmh_data.id_aakxxmh;
 
 				// atur hak akses
 				CekSelectHeaderH(tblfpymtmh);
@@ -338,7 +244,6 @@
 			tblfpymtmh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_fpymtmh = 0;
-				id_aakxxmh_old = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblfpymtmh);
