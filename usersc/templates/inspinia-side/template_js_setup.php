@@ -121,6 +121,12 @@
 	var kategori_dokumen	= '';
 	var kategori_dokumen_value = '';
 
+	// variable terkait setting default data
+	// dipakai di helpers/fn_is_default_update.php
+	var is_default_old = 0;
+	var is_update_default = 0;
+	var id_transaksi_default = 0;
+
 	var act;	//pengganti action datatables editor, untuk dibawa ke dependent
 	var is_pkp, is_ppn, persen_ppn, ppn_in_ex, is_pph, persen_pph, pph_in_ex;
 
