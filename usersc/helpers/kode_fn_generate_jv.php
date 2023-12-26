@@ -3,7 +3,7 @@
     use Carbon\Carbon;
 
     // BEGIN generate kode JV
-    $tanggal  = Carbon::parse( $result_select_header['tanggal'] );
+    $tanggal  = Carbon::parse( $rs_header['tanggal'] );
     $tahun = $tanggal->format('y');
     $bulan = $tanggal->format('m');
     
