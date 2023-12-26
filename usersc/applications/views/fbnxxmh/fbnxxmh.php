@@ -57,6 +57,8 @@
 		var edtfbnxxmh, tblfbnxxmh, show_deleted_fbnxxmh = 0, id_fbnxxmh;
 		// ------------- end of default variable
 
+		is_master_table = 1;
+
 		$(document).ready(function() {
 			//start datatables editor
 			edtfbnxxmh = new $.fn.dataTable.Editor( {
@@ -105,9 +107,19 @@
 			edtfbnxxmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtfbnxxmh.field('fbnxxmh.start_at').val(start_at);
-				
+
 				if(action == 'create'){
 					tblfbnxxmh.rows().deselect();
+					edtfbnxxmh.field('fbnxxmh.kode').enable();
+					edtfbnxxmh.field('fbnxxmh.nama').enable();
+				}else if(action == 'edit'){
+					if(transaction_state == 0){
+						edtfbnxxmh.field('fbnxxmh.kode').enable();
+						edtfbnxxmh.field('fbnxxmh.nama').enable();
+					}else{
+						edtfbnxxmh.field('fbnxxmh.kode').disable();
+						edtfbnxxmh.field('fbnxxmh.nama').disable();
+					}
 				}
 			});
 
