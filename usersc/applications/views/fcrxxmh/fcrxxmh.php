@@ -60,9 +60,6 @@
 		// ------------- end of default variable
 
 		is_master_table = 1;
-		is_default_old = 0;
-		is_update_default = 0;
-		var id_transaksi_default;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -259,6 +256,7 @@
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtfcrxxmh.field('fcrxxmh.finish_at').val(finish_at);
 
+				// BEGIN is_default
 				// ambil is_default dari form input
 				is_default 		= edtfcrxxmh.field('fcrxxmh.is_default').val();
 				kode 			= edtfcrxxmh.field('fcrxxmh.kode').val();
@@ -280,15 +278,19 @@
 					// tidak ada perubahan
 
 				}
+				// END is_default
 				
 			});
 
 			edtfcrxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+				
+				// BEGIN is_default
 				if(is_update_default == 1){
 					id_transaksi_default = json.data[0].fcrxxmh.id;
-					cekDefault('fcrxxmh', id_transaksi_default);
+					isDefaultUpdate('fcrxxmh', id_transaksi_default, tblfcrxxmh);
 				}
-				
+				// END is_default
+
 			} );
 
 			edtfcrxxmh.on( 'close', function () {
