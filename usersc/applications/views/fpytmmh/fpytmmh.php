@@ -24,6 +24,7 @@
                                 <th>Nama</th>
                                 <th>Jatuh Tempo</th>
                                 <th>Keterangan</th>
+                                <th>Default</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -57,8 +58,8 @@
 		// ------------- default variable, do not erase
 		var edtfpytmmh, tblfpytmmh, show_deleted_fpytmmh = 0, id_fpytmmh;
 		// ------------- end of default variable
-		
-		id_fpytmmh_parent_old = 0;
+
+		is_master_table = 1;
 
 		$(document).ready(function() {
 			//start datatables editor
@@ -107,6 +108,16 @@
 						name: "fpytmmh.keterangan",
 						type: "textarea"
 					},
+					{
+						label: "Default",
+						name: "fpytmmh.is_default",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Ya", "value": 1 },
+							{ "label": "Tidak", "value": 0 }
+						]
+					}
 				]
 			} );
 
@@ -116,6 +127,18 @@
 				
 				if(action == 'create'){
 					tblfpytmmh.rows().deselect();
+
+					
+					edtfpytmmh.field('fpytmmh.nama').enable();
+				}else if(action == 'edit'){
+
+					if(transaction_state == 0){
+						
+						edtfpytmmh.field('fpytmmh.nama').enable();
+					}else{
+					
+						edtfpytmmh.field('fpytmmh.nama').disable();
+					}
 				}
 			});
 
@@ -157,7 +180,41 @@
 			edtfpytmmh.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtfpytmmh.field('fpytmmh.finish_at').val(finish_at);
+
+				// BEGIN is_default
+				// ambil is_default dari form input
+				is_default 		= edtfpytmmh.field('fpytmmh.is_default').val();
+				nama 			= edtfpytmmh.field('fpytmmh.nama').val();
+				if(action == 'create'){
+					is_default_old = 0;
+				} // else nya sudah didapatkan saat select
+
+				if(is_default == 1 && is_default != is_default_old){
+					// jika inputan Default = Ya dan sebelumnya bukan Ya
+					// konfirmasi perubahan
+					if(confirm('Apakah Anda Ingin Membuat '+nama+' Menjadi Default Currency?')){
+						is_update_default = 1;
+					}else{
+						is_update_default = 0;
+						return false;
+					}
+				}else{
+					// tidak ada perubahan
+
+				}
+				// END is_default
 			});
+
+			edtfpytmmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+				
+				// BEGIN is_default
+				if(is_update_default == 1){
+					id_transaksi_default = json.data[0].fpytmmh.id;
+					isDefaultUpdate('fpytmmh', id_transaksi_default, tblfpytmmh);
+				}
+				// END is_default
+				
+			} );
 
 			edtfpytmmh.on( 'close', function () {
 				edtfpytmmh.enable();
@@ -196,6 +253,16 @@
 					{ data: "fpytmmh.nama" },
 					{ data: "fpytmmh.jatuh_tempo" },
 					{ data: "fpytmmh.keterangan" },
+					{ 
+						data: "fpytmmh.is_default",
+						render: function (data){
+							if (data == 1){
+								return '<i class="fa fa-check text-navy"></i>';
+							}else{
+								return '';
+							}
+						}
+					},
 					{ 
 						data: "fpytmmh.transaction_state" ,
 						render: $.fn.dataTable.render.transactionStatus()
@@ -246,9 +313,8 @@
 				transaction_state   = fpytmmh_data.transaction_state;
 				approval_state   	= fpytmmh_data.approval_state;
 				is_nextprocess 		= fpytmmh_data.is_nextprocess;
-				is_jurnal      		= fpytmmh_data.is_jurnal;
-				
-				id_fpytmmh_parent_old = fpytmmh_data.id_fpytmmh_parent;
+
+				is_default_old      = fpytmmh_data.is_default;
 
 				// atur hak akses
 				CekSelectHeaderH(tblfpytmmh);
@@ -257,7 +323,6 @@
 			tblfpytmmh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_fpytmmh = 0;
-				id_fpytmmh_parent_old = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblfpytmmh);
