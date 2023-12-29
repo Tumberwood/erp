@@ -100,8 +100,7 @@
 	var edtforaktd, tblforaktd, show_deleted_foraktd = 0, id_foraktd;
 	// ------------- end of default variable
 
-	var is_need_generate_kode = 1, is_need_approval = 1;
-
+	is_need_generate_kode = 1, is_need_approval = 1, is_need_jurnal = 1;
 	var id_aakxxmh_kasbank_old = 0;
 	var id_aakxxmh_old = 0;
 
@@ -326,6 +325,17 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-print"></i>',
+					name: 'btnPrint',
+					className: 'btn btn-sm btn-outline',
+					titleAttr: 'Print Voucher',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						var url = $(this).attr('href'); 
+						window.open('forxxth_jv_print.php?id_forxxth='+id_forxxth, '_blank');
+					}
+				}
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
