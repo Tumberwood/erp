@@ -369,6 +369,17 @@
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
+					{
+						text: '<i class="fa fa-print"></i>',
+						name: 'btnPrint',
+						className: 'btn btn-sm btn-outline',
+						titleAttr: 'Print Voucher',
+						action: function ( e, dt, node, config ) {
+							e.preventDefault(); 
+							var url = $(this).attr('href'); 
+							window.open('fbtxxth_print.php?id_fbtxxth='+id_fbtxxth, '_blank');
+						}
+					}
 				],
 				initComplete: function() {
 					this.api().searchPanes.rebuildPane();
