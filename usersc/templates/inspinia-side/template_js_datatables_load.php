@@ -105,5 +105,23 @@ $('table').on( 'init.dt', function () {
 	for (i = 1; i < colCount; i++) { 
 		colvisCount += "," + i;
 	}
+
+	$('table').DataTable().button( 'btnPrint:name' )
+		.nodes()
+		.css( 'display', 'none' );
 } );
+
+$('table').on( 'select.dt deselect.dt', function () {
+	var cSelectedRow = $('table').DataTable().rows( { selected: true } ).count();
+	if(cSelectedRow == 1){
+		$('table').DataTable().button( 'btnPrint:name' )
+			.nodes()
+			.css( 'display', 'block' );
+	}else{
+		$('table').DataTable().button( 'btnPrint:name' )
+			.nodes()
+			.css( 'display', 'none' );
+	}
+} );
+
 </script>
