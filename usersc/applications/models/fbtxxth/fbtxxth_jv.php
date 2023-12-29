@@ -26,7 +26,7 @@
 	
 	$id_transaksi_h = $_POST['id_transaksi_h'];
 	$state          = $_POST['state'];
-	$transaksi_tipe = 'Transfer Bank';
+	$jenis_transaksi = 'Kas Bank Transfer';
 
 	try{
 		$db->transaction();
@@ -64,7 +64,7 @@
 			->set('created_by',$rs_header['created_by'])
 			->set('tanggal',$rs_header['tanggal'])
 			->set('keterangan',$rs_header['keterangan'])
-			->set('jenis_transaksi','Kas Bank Transfer')
+			->set('jenis_transaksi',$jenis_transaksi)
 			->set('kode_transaksi',$rs_header['kode'])
 			->set('total_debit', $rs_header['total_nilai'])
 			->set('total_kredit', $rs_header['total_nilai'])
