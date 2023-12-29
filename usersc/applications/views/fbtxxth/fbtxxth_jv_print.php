@@ -77,18 +77,18 @@
 						<td width="1%">:</td>
 						<td width="20%">'.$tanggal->format('d M Y').'</td>
 
-						<td width="10%">Deskripsi</td>
+						<td width="10%">Kode</td>
 						<td width="1%">:</td>
-						<td>'.$rs_aglxxth['keterangan'].'</td>
+						<td>'.$rs_aglxxth['kode'].'</td>
 					</tr>
 					<tr>
 						<td>Jenis Transaksi</td>
 						<td>:</td>
 						<td>'.$rs_aglxxth['jenis_transaksi'].'</td>
 
-						<td></td>
-						<td></td>
-						<td></td>
+						<td width="10%">Deskripsi</td>
+						<td width="1%">:</td>
+						<td>'.$rs_aglxxth['keterangan'].'</td>
 					</tr>
 				</table>
 			</htmlpageheader>
