@@ -377,7 +377,7 @@
 						action: function ( e, dt, node, config ) {
 							e.preventDefault(); 
 							var url = $(this).attr('href'); 
-							window.open('fbtxxth_print.php?id_fbtxxth='+id_fbtxxth, '_blank');
+							window.open('fbtxxth_jv_print.php?id_fbtxxth='+id_fbtxxth, '_blank');
 						}
 					}
 				],
