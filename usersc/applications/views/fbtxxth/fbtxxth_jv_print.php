@@ -18,6 +18,7 @@
 	$qs_aglxxth = $db
 		->query('select', 'aglxxth' )
 		->get([
+			'aglxxth.id as id_aglxxth',
 			'aglxxth.kode as kode',
 			'aglxxth.keterangan as keterangan',
 			'aglxxth.tanggal as tanggal',
@@ -42,7 +43,7 @@
 			'aakxxmh.nama as aakxxmh_nama'
 		] )
 		->join('aakxxmh','aakxxmh.id = aglaktd.id_aakxxmh','LEFT' )
-		->where('aglaktd.id_aglxxth', $id_fbtxxth )
+		->where('aglaktd.id_aglxxth', $rs_aglxxth['id_aglxxth'] )
 		->exec();
 	$rs_aglaktd = $qs_aglaktd->fetchAll();
 	$tanggal = new Carbon($rs_aglxxth['tanggal']);

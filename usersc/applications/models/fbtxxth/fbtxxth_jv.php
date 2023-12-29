@@ -124,13 +124,13 @@
 
 		// commit transaction
 		$db->commit();
-		$message = 'Transfer Bank Berhasil Dibukukan';
+		$message = $jenis_transaksi. ' Berhasil Dibukukan';
 		$type_message = 'success';
 		
 	}catch(PDOException $e){
 		// rollback on error
 		$db->rollback();
-		$message = 'Transfer Bank Gagal Dibukukan';
+		$message = $jenis_transaksi. ' Gagal Dibukukan';
 		$type_message = 'danger';
 		
 	}
