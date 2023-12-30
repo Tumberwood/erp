@@ -1,54 +1,87 @@
 <?php
-	/*
-        220827 - 2.0.0
-            Mengubah query dengan menggunakan class bawaan dari datatables.
+	/**
+     * Digunakan untuk menghitung konversi satuan
+     * Parameter:
+     *  table_name      : nama table database yang akan dihitung
+     *  id_transaksi    : id transaksi yang akan dihitung
+     */
+    require_once( "../../users/init.php" );
+	require_once( "../../usersc/lib/DataTables.php" );
+    require_once( "datatables_fn_debug.php" );
+    require_once( "hakakses_s_fn.php" );
 
-		Kegunaan:
-            - Mengubah is_active transaksi menjadi 0 (menandakan data tidak aktif)
-            - Insert log ke table activity_log_ml
-		
-        Parameter:
-            - $table_name
-		    - $id_transaksi
-	*/
-    include_once( "../../users/init.php" );
-	include_once( "../../usersc/lib/DataTables.php" );
-    include( "datatables_fn_debug.php" );   
-    use
+	use
 		DataTables\Editor,
 		DataTables\Editor\Query,
 		DataTables\Editor\Result;
 
-	$editor = Editor::inst( $db, '' );
-    
-    $tabel   = $_POST['tabel'];
-    $id_tabel = $_POST['id_tabel'];
+    // BEGIN definisi variable untuk fn_ajax_results.php
+    $data      = array();
+    $rs_opt    = array();
+    $c_rs_opt  = 0;
+    $morePages = 0;
+    // END definisi variable untuk fn_ajax_results.php
+
+    $table_name   = $_POST['table_name'];
+    $id_transaksi = $_POST['id_transaksi'];
 
     try{
         $db->transaction();
 
-        $sql_update = $editor->db()
+        $qs_iumxxmh = $db
             ->raw()
-            ->exec('UPDATE '.$tabel.' AS a
-                    LEFT JOIN iimummd AS b ON b.id_iumxxmh = a.id_iumxxmh AND b.id_iimxxmh = a.id_iimxxmh
-                    SET
-                        a.jumlah_konversi = b.jumlah_konversi,
-                        a.jumlah_unit_os = ROUND(a.jumlah_unit, 2), 
-                        a.jumlah_terkecil_os = ROUND(b.jumlah_konversi * a.jumlah_unit, 2), 
-                        a.jumlah_terkecil = ROUND(b.jumlah_konversi * a.jumlah_unit, 2), 
-                        a.harga_terkecil = ROUND(a.harga_unit / (b.jumlah_konversi * a.jumlah_unit), 2)
-                    WHERE a.id = '.$id_tabel.'
-                    ;
-                    '
-                    );
+            ->bind(':id_transaksi', $id_transaksi)
+            ->bind(':is_terkecil', 1)
+            ->exec('
+                SELECT
+                    id_iumxxmh as id_iumxxmh_terkecil
+                FROM iimummd
+                WHERE 
+                    id_iimxxmh = (
+                        SELECT
+                            id_iimxxmh
+                        FROM ' . $table_name .
+                        ' WHERE
+                            id= :id_transaksi
+                    ) AND
+                    is_terkecil = :is_terkecil
+            ');
+        $rs_iumxxmh = $qs_iumxxmh->fetch();
+        $id_iumxxmh_terkecil = $rs_iumxxmh['id_iumxxmh_terkecil'];
+
+        $qu_konversi = $db
+            ->raw()
+            ->exec('
+                UPDATE '.$table_name.' AS a
+                LEFT JOIN iimummd AS b ON b.id_iumxxmh = a.id_iumxxmh_unit AND b.id_iimxxmh = a.id_iimxxmh
+                SET
+                    a.id_iumxxmh_terkecil = ' . $id_iumxxmh_terkecil . ',
+                    a.jumlah_konversi = b.jumlah_konversi,
+                    a.jumlah_unit_os = a.jumlah_unit, 
+                    a.jumlah_terkecil_os = b.jumlah_konversi * a.jumlah_unit, 
+                    a.jumlah_terkecil = b.jumlah_konversi * a.jumlah_unit
+                WHERE a.id = ' .$id_transaksi
+            );
         // commit transaction
         $db->commit();
-        echo json_encode(array('message'=> 'Konversi Terkecil Berhasil Diperbaharui'  , 'type_message'=>'success' ));
+
+        $message = 'Konversi UoM Berhasil Diperbaharui';
+        $type_message = 'success';
+        
     }catch(PDOException $e){
         // rollback on error
         $db->rollback();
-        echo json_encode(array('message'=> 'Konversi Terkecil Gagal Diperbaharui', 'type_message'=>'danger' ));
+
+        $message = 'Konversi UoM Gagal Berhasil Diperbaharui';
+        $type_message = 'success';
+
     }
 
-    // print_r($debug);
+    $data = array(
+		'message'      => $message,
+		'type_message' => $type_message
+	);
+
+    // tampilkan results
+    require_once( "fn_ajax_results.php" );  
 ?>
