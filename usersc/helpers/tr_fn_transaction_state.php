@@ -124,7 +124,7 @@
             // delete all table detail
             $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
             foreach($tbldetails as $i => $tbldetail) {
-                $qd_tblheader = $db
+                $qu_tbldetail = $db
                     ->query('delete', $tbldetail)
                     ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
                     ->exec();
@@ -132,12 +132,20 @@
 
         }else{
             // selain hard delete header detail
-
-            $qu_table = $db
+            $qu_tblheader = $db
                 ->query('update', $table_name)
                 ->set('transaction_state', $transaction_state)
                 ->where('id', $id_transaksi )
                 ->exec();
+
+            $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+            foreach($tbldetails as $i => $tbldetail) {
+                $qu_tbldetail = $db
+                    ->query('update', $tbldetail)
+                    ->set('transaction_state', $transaction_state)
+                    ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                    ->exec();
+            }
         }
         
         // BEGIN insert ke activity_log_ml
