@@ -44,8 +44,26 @@
         
         if($s_id_users < 101){
 
-            $s_id_gbrxxmh = 0;
+            $qs_gbrxxmh = $db
+                ->raw()
+                ->bind(':transaction_state',1)
+                ->bind(':is_default', 1)
+                ->exec('
+                    SELECT
+                        id as id_gbrxxmh
+                    FROM gbrxxmh
+                    WHERE 
+                        transaction_state = :transaction_state AND
+                        is_default = :is_default
+                ');
 
+            $rs_gbrxxmh = $qs_gbrxxmh->fetch();
+
+            if(!empty($rs_gbrxxmh)){
+                if(!is_null($rs_gbrxxmh['id_gbrxxmh'])){
+                    $s_id_gbrxxmh = $rs_gbrxxmh['id_gbrxxmh'];
+                }
+            }
 
         }else{
             $qs_udpxxsh = $db
