@@ -50,7 +50,7 @@
         ->query('select', 'itoxxth')
         ->get([
             'id as id',
-            'CONCAT(kode) as text'
+            'kode as text'
         ])
         ->join('itixxth','itixxth.id = prqittd.id_itixxth','LEFT' )
         ->where('itixxth.id',null)
