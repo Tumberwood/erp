@@ -29,7 +29,9 @@
 				Field::inst( 'itoittd.id' ),
 				Field::inst( 'itoittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'itoittd.id_iumxxmh' )
+				Field::inst( 'itoittd.id_iumxxmh_unit' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'itoittd.id_iumxxmh_terkecil' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'itoittd.id_itoxxth' ),
 				Field::inst( 'itoittd.kode' ),
@@ -43,9 +45,9 @@
 				Field::inst( 'itoittd.is_defaultprogram' ),
 				Field::inst( 'itoittd.jumlah_unit' ),
 				Field::inst( 'iimxxmh.nama' ),
-				Field::inst( 'iumxxmh.nama' )
+				Field::inst( 'iumxxmh_unit.nama' )
 			)
-			->leftJoin( 'iumxxmh','iumxxmh.id','=','itoittd.id_iumxxmh' )
+			->leftJoin( 'iumxxmh as iumxxmh_unit','iumxxmh_unit.id','=','itoittd.id_iumxxmh_unit' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','itoittd.id_iimxxmh' )
 			->where('itoittd.id_itoxxth',$_POST['id_itoxxth'])
 			;

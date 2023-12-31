@@ -40,7 +40,6 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabitoittd_1"> Detail</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabitoittd_2"> Tab 2</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabitoittd_1" class="tab-pane active">
@@ -59,23 +58,6 @@
 							</table>
 						</div> <!-- end of table -->
 
-					</div>
-				</div>
-				<div role="tabpanel" id="tabitoittd_2" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tblitoittd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_itoxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -112,12 +94,11 @@
 	var edtitoxxth, tblitoxxth, show_deleted_itoxxth = 0, id_itoxxth;
 	var edtitoittd, tblitoittd, show_deleted_itoittd = 0, id_itoittd;
 	// ------------- end of default variable
-	var id_iwhxxmh_asal_old = 0;
-	var id_iwhxxmh_tujuan_old = 0;
-	var id_iumxxmh_old = 0;
-	var id_iimxxmh_old = 0;
-	var is_need_generate_kode = 1;
-	var is_need_approval = 1;
+
+	var is_need_generate_kode = 1, is_need_inventory = 1;
+	var id_iwhxxmh_asal_old = 0, id_iwhxxmh_tujuan_old = 0;
+	
+	var id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -132,17 +113,14 @@
 			table: "#tblitoxxth",
 			fields: [ 
 				{
-					// untuk generate_kode
 					label: "kategori_dokumen",
 					name: "kategori_dokumen",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "kategori_dokumen_value",
 					name: "kategori_dokumen_value",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "field_tanggal",
 					name: "field_tanggal",
 					type: "hidden"
@@ -284,17 +262,10 @@
 				id_iwhxxmh_asal = edtitoxxth.field('itoxxth.id_iwhxxmh_asal').val();
 				id_iwhxxmh_tujuan = edtitoxxth.field('itoxxth.id_iwhxxmh_tujuan').val();
 
-				function validasiWH() {
-					if (id_iwhxxmh_asal == id_iwhxxmh_tujuan) {
-						edtitoxxth.field('itoxxth.id_iwhxxmh_tujuan').error( 'Warehouse Tujuan Tidak Boleh Sama dengan Warehouse Asal!' );
-						edtitoxxth.field('itoxxth.id_iwhxxmh_asal').error( 'Warehouse Asal Tidak Boleh Sama dengan Warehouse Tujuan!' );
-					}
-				}
-
 				if(!id_iwhxxmh_asal || id_iwhxxmh_asal == ''){
 					edtitoxxth.field('itoxxth.id_iwhxxmh_asal').error( 'Wajib diisi!' );
 				} else {
-					validasiWH();
+					validasiSameWH();
 				}
 				// END of validasi itoxxth.id_iwhxxmh_asal 
 
@@ -302,7 +273,7 @@
 				if(!id_iwhxxmh_tujuan || id_iwhxxmh_tujuan == ''){
 					edtitoxxth.field('itoxxth.id_iwhxxmh_tujuan').error( 'Wajib diisi!' );
 				} else {
-					validasiWH();
+					validasiSameWH();
 				}
 				// END of validasi itoxxth.id_iwhxxmh_tujuan 
 
@@ -368,8 +339,8 @@
 				{ data: "itoxxth.id",visible:false },
 				{ data: "itoxxth.tanggal" },
 				{ data: "itoxxth.kode" },
-				{ data: "asal.nama" },
-				{ data: "tujuan.nama" },
+				{ data: "iwhxxmh_asal.nama" },
+				{ data: "iwhxxmh_tujuan.nama" },
 				{ 
 					data: "itoxxth.transaction_state" ,
 					render: $.fn.dataTable.render.transactionStatus()
@@ -533,18 +504,19 @@
 				},	
 				{
 					label: "UoM <sup class='text-danger'>*<sup>",
-					name: "itoittd.id_iumxxmh",
+					name: "itoittd.id_iumxxmh_unit",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+							url: "../../models/iumxxmh/iumxxmh_iimummd_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iumxxmh_old: id_iumxxmh_old,
+									id_iimxxmh: id_iimxxmh,
+									id_iumxxmh_unit_old: id_iumxxmh_unit_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -593,6 +565,11 @@
 		edtitoittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
+
+		edtitoittd.dependent( 'itoittd.id_iimxxmh', function ( val, data, callback ) {
+			id_iimxxmh = edtitoittd.field('itoittd.id_iimxxmh').val();
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtitoittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -601,9 +578,9 @@
 					edtitoittd.field('itoittd.id_iimxxmh').error( 'Wajib diisi!' );
 				}
 				
-				id_iumxxmh = edtitoittd.field('itoittd.id_iumxxmh').val();
+				id_iumxxmh = edtitoittd.field('itoittd.id_iumxxmh_unit').val();
 				if(!id_iumxxmh || id_iumxxmh == ''){
-					edtitoittd.field('itoittd.id_iumxxmh').error( 'Wajib diisi!' );
+					edtitoittd.field('itoittd.id_iumxxmh_unit').error( 'Wajib diisi!' );
 				}
 				
 				jumlah_unit = edtitoittd.field('itoittd.jumlah_unit').val();
@@ -633,13 +610,9 @@
 		});
 			
 		edtitoittd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
-			
 			if (action != 'remove') {
-				id_last_insert = json.data[0].itoittd.id;
-				konversiTerkecil(id_last_insert, 'itoittd');
+				id_transaksi = json.data[0].itoittd.id;
+				konversiTerkecil(id_transaksi, 'itoittd');
 			}
 		} );
 
@@ -680,7 +653,7 @@
 				{ data: "itoittd.id",visible:false },
 				{ data: "itoittd.id_itoxxth",visible:false },
 				{ data: "iimxxmh.nama" },
-				{ data: "iumxxmh.nama" },
+				{ data: "iumxxmh_unit.nama" },
 				{ 
 					data: "itoittd.jumlah_unit",
 					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
@@ -727,7 +700,7 @@
 			id_transaksi_log 	= id_itoittd; // dipakai untuk log
 
 			transaction_state_d   = data_itoittd.transaction_state;
-			id_iumxxmh_old   = data_itoittd.id_iumxxmh;
+			id_iumxxmh_unit_old   = data_itoittd.id_iumxxmh_unit;
 			id_iimxxmh_old   = data_itoittd.id_iimxxmh;
 			
 			// atur hak akses
@@ -738,7 +711,7 @@
 			id_itoittd = 0;
 			is_active_d = 0;
 			id_iimxxmh_old = 0;
-			id_iumxxmh_old = 0;
+			id_iumxxmh_unit_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblitoxxth, tblitoittd );
