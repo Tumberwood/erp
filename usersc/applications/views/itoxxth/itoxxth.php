@@ -39,7 +39,7 @@
 	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabitoittd_1"> Detail</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabitoittd_1"> Items</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabitoittd_1" class="tab-pane active">
