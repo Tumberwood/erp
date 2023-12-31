@@ -71,6 +71,7 @@
             ) as text'
         ])
         ->where('iwhxxmh.transaction_state',1)
+        ->where('iwhxxmh.id_iwhctmh',3,'<>')
         ->where('iwhxxmh.id', $id_iwhxxmh_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
