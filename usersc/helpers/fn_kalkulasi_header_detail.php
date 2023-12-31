@@ -71,19 +71,7 @@
         } );
     }    
 
-    function konversiTerkecil(id_tabel, tabel){
-        $.ajax( {
-            url: "<?php echo $us_url_root; ?>usersc/helpers/fn_konversi_terkecil.php",
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                tabel: tabel,
-                id_tabel: id_tabel
-            },
-            success: function ( json ) {
-            }
-        } );
-    }    
+        
 
     function autofill(tabel, id_tabel){
         $.ajax( {
