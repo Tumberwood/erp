@@ -138,14 +138,18 @@
                 ->where('id', $id_transaksi )
                 ->exec();
 
-            $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
-            foreach($tbldetails as $i => $tbldetail) {
-                $qu_tbldetail = $db
-                    ->query('update', $tbldetail)
-                    ->set('transaction_state', $transaction_state)
-                    ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
-                    ->exec();
+            if( $rs_gtbrlsh['tbldetails'] != "" || !is_null($rs_gtbrlsh['tbldetails'])){
+
+                $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+                foreach($tbldetails as $i => $tbldetail) {
+                    $qu_tbldetail = $db
+                        ->query('update', $tbldetail)
+                        ->set('transaction_state', $transaction_state)
+                        ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                        ->exec();
+                }
             }
+            
         }
         
         // BEGIN insert ke activity_log_ml
