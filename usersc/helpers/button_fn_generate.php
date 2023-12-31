@@ -366,6 +366,21 @@
 
                                     }
 
+                                    if(is_need_inventory == 1){
+                                        $.ajax( {
+                                            url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_iv.php',
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: {
+                                                state           : 1,
+                                                id_transaksi_h  : id_transaksi_h,
+                                            },
+                                            success: function ( json ) {
+                                                console.log('Inventory');
+                                            }
+                                        } );
+                                    }
+
                                     if(is_need_jurnal == 1){
                                         $.ajax( {
                                             url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
