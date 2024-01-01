@@ -85,9 +85,6 @@
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/itoxxth/fn/itoxxth_fn.php'; ?>
 
-<!-- Untuk Kalkulasi Subtotal dan Diskon -->
-<?php require_once $abs_us_root . $us_url_root . 'usersc/helpers/fn_kalkulasi_header_detail.php'; ?>
-
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
@@ -612,7 +609,7 @@
 		edtitoittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
 				id_transaksi = json.data[0].itoittd.id;
-				konversiTerkecil(id_transaksi, 'itoittd');
+				konversiTerkecil('itoittd', id_transaksi);
 			}
 		} );
 
