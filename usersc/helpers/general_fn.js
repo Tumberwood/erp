@@ -1,4 +1,5 @@
 /**
+ * Datatables Render transactionStatus
  * Digunakan untuk render field transaction_status
  * Cara menggunakan:
  * pada datatables columns render
@@ -25,6 +26,7 @@ $.fn.dataTable.render.transactionStatus = function () {
 };
 
 /**
+ * Datatables Render approvalStatus
  * Digunakan untuk render field approval_status
  * Cara menggunakan:
  * pada datatables columns render
@@ -49,6 +51,7 @@ $.fn.dataTable.render.approvalStatus = function () {
 };
 
 /**
+ * Datatables Render yaTidak
  * Digunakan untuk render field yang mempunyai opsi Ya | Tidak
  * Cara menggunakan:
  * pada datatables columns render
@@ -69,6 +72,7 @@ $.fn.dataTable.render.yaTidak = function () {
 };
 
 /**
+ * isDefaultUpdate
  * Digunakan untuk mengubah all data field is_default pada sebuah table
  * hanya boleh ada 1 baris data yang mempunyai nilai is_default = 1 
  * Parameter:
@@ -131,6 +135,7 @@ function isDefaultUpdate(table_name,id_transaksi_default,tblname){
 }
 
 /**
+ * konversiTerkecil
  * Digunakan untuk menghitung konversi satuan berdasarkan table iimummd
  * Parameter:
  *  table_name  : nama tabel pada database yang akan di update
@@ -144,7 +149,7 @@ function isDefaultUpdate(table_name,id_transaksi_default,tblname){
             konversiTerkecil(id_last_insert, 'itoittd');
         }
  */
-function konversiTerkecil(id_transaksi, table_name){
+function konversiTerkecil(table_name, id_transaksi ){
     $.ajax( {
         url: '../../../helpers/fn_konversi_terkecil.php',
         dataType: 'json',
@@ -157,3 +162,24 @@ function konversiTerkecil(id_transaksi, table_name){
         }
     } );
 }
+
+/**
+ * autofill
+ * Digunakan untuk membuat autofill dependent field
+ */
+function autofillField(table_name, id_transaksi, fields_name){
+    $.ajax( {
+        url: '../../../helpers/fn_autofill_depend.php',
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        data: {
+            table_name: table_name,
+            id_transaksi: id_transaksi,
+            fields_name: fields_name
+        },
+        success: function ( json ) {
+            autofillData = json.data.rs_autofill;
+        }
+    } );
+}    
