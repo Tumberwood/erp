@@ -169,7 +169,7 @@ function konversiTerkecil(table_name, id_transaksi ){
  */
 function autofillField(table_name, id_transaksi, fields_name){
     $.ajax( {
-        url: '../../../helpers/fn_autofill_depend.php',
+        url: '../../../helpers/fn_autofillField.php',
         dataType: 'json',
         type: 'POST',
         async: false,

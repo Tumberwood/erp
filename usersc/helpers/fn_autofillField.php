@@ -13,16 +13,19 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
     
-    $tabel   = $_POST['tabel'];
-    $id_tabel = $_POST['id_tabel'];
+    $table_name     = $_POST['table_name'];
+    $id_transaksi   = $_POST['id_transaksi'];
+    $fields_name    = $_POST['fields_name'];
 
     $qs_autofill = $db
         ->raw()
-        ->exec(' SELECT
-                    *
-                FROM '.$tabel.'
-                WHERE id = '.$id_tabel
-                );
+        ->bind(':id_transaksi', $id_transaksi)
+        ->exec('
+            SELECT
+                '.$fields_name.'
+            FROM '.$table_name.'
+            WHERE id = :id_transaksi
+        ');
     $rs_autofill = $qs_autofill->fetch();
     
     $data = array(
