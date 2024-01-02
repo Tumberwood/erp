@@ -54,6 +54,7 @@
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
+		cekNotification();
 		// ------------- default variable, do not erase
 		var edtiumxxmh, tbliumxxmh, show_deleted_iumxxmh = 0, id_iumxxmh;
 		// ------------- end of default variable
