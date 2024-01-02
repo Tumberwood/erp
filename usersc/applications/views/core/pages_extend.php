@@ -57,6 +57,8 @@
 		// ------------- default variable, do not erase
 		var edtpages, tblpages, id_pages;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
