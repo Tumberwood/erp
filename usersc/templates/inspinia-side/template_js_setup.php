@@ -96,6 +96,70 @@
 		}
 	});
 
+	// BEGIN Notifications
+	var notification_interval_ms;
+	$.ajax( {
+		url: '../../../helpers/fn_notification_setting.php',
+		dataType: 'json',
+		type: 'POST',
+		async: false,
+		data: {},
+		success: function ( json ) {
+			notification_interval_ms = json.data.rs_notification_interval_setting.notification_interval_ms;
+		}
+	} );
+
+	setInterval(cekNotification, notification_interval_ms);
+
+	function cekNotification(){
+		$('#notification_dropdown').empty();
+		// load notif
+		$.ajax( {
+			url: '../../../helpers/fn_notification_load.php',
+			dataType: 'json',
+			type: 'POST',
+			data: {
+				id_users: <?php echo $_SESSION['user']; ?>
+			},
+			success: function ( json ) {
+				
+				$('#c_notif_unread').html(json.data.c_rs_notifications_unread);
+				$.each( json.data.rs_notifications, function( key, value ) {
+					str='<li>'+
+							'<div id="notif_'+value.id_notifications+'">'+
+								value.message +
+								'<span class="float-right text-muted small">'+moment(value.date_created).fromNow()+'</span>'+
+							'</div>'+
+                        '</li>';
+					if(key+1 != json.data.c_rs_notifications_unread){
+						str=str+'<li class="dropdown-divider"></li>';
+					}
+					$("#notification_dropdown").append(str);
+				});
+					
+
+			}
+		} );
+	}
+
+	$("#notification_dropdown").on("click", "li", function(e){
+		id_notifications = e.target.id;
+
+		$.ajax( {
+			url: '../../../helpers/fn_notification_read.php',
+			dataType: 'json',
+			type: 'POST',
+			data: {
+				id_notifications: id_notifications
+			},
+			success: function ( json ) {
+				cekNotification();
+			}
+		} );
+
+	});
+	// END Notifications
+
 	// global variable
 	var hak_c               = <?php echo json_encode($hak_c) ?>;
 	var hak_u               = <?php echo json_encode($hak_u) ?>;
