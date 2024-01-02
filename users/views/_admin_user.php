@@ -9,14 +9,13 @@ $errors = [];
 $successes = [];
 $userId = (int) Input::get('id');
 
-//Check if selected user exists
-if (!userIdExists($userId)) {
+$userdetailsQ = $db->query("SELECT * FROM users WHERE id =  ?", [$userId]);
+$userdetailsC = $userdetailsQ->count();
+if ($userdetailsC < 1) {
   usError("That user does not exist");
   Redirect::to($us_url_root . 'users/admin.php?view=users');
-  die();
 }
-
-$userdetails = fetchUserDetails(null, null, $userId); //Fetch user details
+$userdetails = $userdetailsQ->first();
 
 //Forms posted
 if (!empty($_POST)) {
@@ -26,7 +25,7 @@ if (!empty($_POST)) {
     include $abs_us_root . $us_url_root . 'usersc/scripts/token_error.php';
   } else {
     includeHook($hooks, 'post');
-
+    $db->update('users', $userdetails->id, ['modified' => date("Y-m-d")]);
 
     if (!empty($_POST['delete'])) {
       if ($userdetails->id == $user->data()->id || in_array($userdetails->id, $master_account)) {
@@ -101,11 +100,11 @@ if (!empty($_POST)) {
     }
 
     //Update display name
-    $displayname = Input::get('unx');
+    $displayname = Input::get('username');
     if ($userdetails->username != $displayname) {
       $fields = ['username' => $displayname];
       $validation->check($_POST, [
-        'unx' => [
+        'username' => [
           'display' => 'Username',
           'required' => true,
           'unique_update' => 'users,' . $userId,
@@ -139,8 +138,8 @@ if (!empty($_POST)) {
         logger($user->data()->id, 'User Manager', "Updated first name for $userdetails->fname from $userdetails->fname to $fname.");
       } else {
 ?><?php if (!$validation->errors() == '') {
-                        display_errors($validation->errors());
-                      } ?>
+          display_errors($validation->errors());
+        } ?>
 <?php
       }
     }
@@ -164,7 +163,7 @@ if (!empty($_POST)) {
       } else {
 ?>
   <?php if (!$validation->errors() == '') {
-          display_errors($validation->errors());
+           display_errors($validation->errors());
         } ?>
 <?php
       }
@@ -234,11 +233,11 @@ if (!empty($_POST)) {
     }
 
     //Update email
-    $email = Input::get('emx');
+    $email = Input::get('email');
     if ($userdetails->email != $email) {
       $fields = ['email' => $email];
       $validation->check($_POST, [
-        'emx' => [
+        'email' => [
           'display' => 'Email',
           'required' => true,
           'valid_email' => true,
@@ -247,11 +246,13 @@ if (!empty($_POST)) {
           'max' => 75,
         ],
       ]);
+
       if ($validation->passed()) {
         $db->update('users', $userId, $fields);
         $successes[] = 'Email Updated';
         logger($user->data()->id, 'User Manager', "Updated email for $userdetails->fname from $userdetails->email to $email.");
       } else {
+       
 ?>
   <?php if (!$validation->errors() == '') {
           display_errors($validation->errors());
@@ -364,7 +365,29 @@ if (!empty($_POST)) {
       require_once $abs_us_root . $us_url_root . 'usersc/includes/admin_user_system_settings_post.php';
     }
 
-    $userdetails = fetchUserDetails(null, null, $userId);
+    $userdetailsQ = $db->query("SELECT * FROM users WHERE id =  ?", [$userId]);
+    $userdetailsC = $userdetailsQ->count();
+    if ($userdetailsC < 1) {
+      usError("That user does not exist");
+      Redirect::to($us_url_root . 'users/admin.php?view=users');
+    }
+    $userdetails = $userdetailsQ->first();
+  }
+  if(!$validation->errors() == ''){
+
+    foreach($validation->errors()  as $key=>$e){
+        $found = false;
+        foreach($errors as $k=>$v){
+          if($v == $e){
+            $found = true;
+          }
+        }
+        if(!$found){
+          $errors[] = $e;
+        }
+
+
+    }
   }
 
   if ($errors == [] && Input::get('return') != '') {
@@ -404,14 +427,16 @@ if (in_array($user->data()->id, $master_account) && !in_array($userId, $master_a
 if ($user->data()->cloak_allowed != 1) {
   $cloakId = $user->data()->id;
   $rsn = "Your account has cloaking disabled. Enable it <a href='?admin.php&view=user&id=$cloakId'>here</a>";
+} elseif ($userdetails->permissions == 0) {
+  $rsn = "This user is blocked from the site. Cloaking is disabled.";
+} elseif ($userdetails->email_verified == 0){
+  $rsn = "This user has not verified their email. Cloaking is disabled.";
 }
-?>
 
-<?= resultBlock($errors, $successes); ?>
-<?php if (!$validation->errors() == '') {
+if (!$validation->errors() == '') {
   display_errors($validation->errors());
-} ?>
-<?php includeHook($hooks, 'body'); ?>
+}
+includeHook($hooks, 'body'); ?>
 
 <div class="row">
   <div class="col-2 col-sm-1">
@@ -515,12 +540,12 @@ if ($user->data()->cloak_allowed != 1) {
     <div class="col-12 col-sm-6">
       <div class="form-group" id="username-group">
         <label>Username:</label>
-        <input class='form-control' type='search' name='unx' value='<?= $userdetails->username; ?>' autocomplete="off" />
+        <input class='form-control' type='search' name='username' value='<?= $userdetails->username; ?>' autocomplete="off" />
       </div>
 
       <div class="form-group" id="email-group">
         <label>Email:</label>
-        <input class='form-control' type='search' name='emx' value='<?= $userdetails->email; ?>' autocomplete="off" />
+        <input class='form-control' type='search' name='email' value='<?= $userdetails->email; ?>' autocomplete="off" />
       </div>
 
       <div class="form-group" id="fname-group">
@@ -594,12 +619,12 @@ if ($user->data()->cloak_allowed != 1) {
                               echo "selected='selected'";
                             } else {
                               if (!in_array($user->data()->id, $master_account)) {  ?>disabled<?php }
-                                                                                            } ?>>Yes</option>
+                                                                                          } ?>>Yes</option>
           <option value="0" <?php if ($userdetails->cloak_allowed == 0) {
                               echo "selected='selected'";
                             } else {
                               if (!in_array($user->data()->id, $master_account)) {  ?>disabled<?php }
-                                                                                            } ?>>No</option>
+                                                                                          } ?>>No</option>
         </select>
       </div>
 
@@ -646,11 +671,9 @@ if ($user->data()->cloak_allowed != 1) {
     </div>
   </div>
 </form>
-<?php includeHook($hooks, 'bottom'); ?>
-
-
-
-<?php if ($protectedprof == 1) { ?>
+<?php 
+includeHook($hooks, 'bottom'); 
+if ($protectedprof == 1) { ?>
   <script>
     $('#adminUser').find('input:enabled, select:enabled, textarea:enabled').attr('disabled', 'disabled');
   </script>

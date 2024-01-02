@@ -5,6 +5,7 @@ class Menu {
   public $items = [];
   public $tree = [];
   public $userPerms = [0];
+  public $userTags = [];
   public $show_branding = true;
   public $show_active = 0;
   public $disabled = 0;
@@ -39,6 +40,14 @@ class Menu {
       foreach($perms as $perm) {
         $this->userPerms[] = $perm->permission_id;
       }
+      if(pluginActive("usertags",true)){
+        $tags = $this->db->query("SELECT * FROM plg_tags_matches WHERE user_id = ?",[$user->data()->id])->results();
+
+        foreach($tags as $tag) {
+          $this->userTags[] = $tag->tag_id;
+        }
+ 
+      }
     }
   }
 
@@ -56,6 +65,10 @@ class Menu {
 
     if(isset($override["show_branding"]) && $override["show_branding"] == false){
       $this->show_branding = false;
+    }
+
+    if(isset($override["theme"]) && $override["theme"] == false){
+      $this->menu->theme = $override["theme"];
     }
 
     $html = $this->generate();
@@ -77,17 +90,27 @@ class Menu {
 
   private function hasPerms($item) {
     global $user;
-    $itemPerms = json_decode($item->permissions,true);
-    //once a user is logged in, the 0 permission on the item does not mean anything
-    //and should be removed
-    if($user->isLoggedIn()){
-      if (($key = array_search("0", $itemPerms)) !== false) {
-          unset($itemPerms[$key]);
-      }
+
+    $itemPerms = json_decode($item->permissions ?? "", true);
+    if($itemPerms == "") $itemPerms = [];
+    $itemTags = json_decode($item->tags ?? "", true);
+    if($itemTags == "") $itemTags = [];
+
+    // Once a user is logged in, the 0 permission on the item does not mean anything
+    // and should be removed
+    if ($user->isLoggedIn() && in_array("0", $itemPerms)) {
+        unset($itemPerms[array_search("0", $itemPerms)]);
     }
-    if(in_array(0, $itemPerms)) return true;
-    return sizeof(array_intersect($itemPerms, $this->userPerms)) > 0;
-  }
+
+    // Check if the user has any permissions in common with the item's permissions
+    $hasPermission = sizeof(array_intersect($itemPerms, $this->userPerms)) > 0;
+
+    // Check if the user has any tags in common with the item's permissions
+    $hasTag = sizeof(array_intersect($itemTags, $this->userTags)) > 0;
+
+    // Return true if either permission or tag is present
+    return $hasPermission || $hasTag;
+}
 
   private function _generateHtml($items, $isDropdown = false, $level = 0) {
     global $abs_us_root,$us_url_root,$lang;
@@ -125,15 +148,31 @@ class Menu {
         $brandHtml = "";
       }
 
-      $html .= "<div class='us_brand full_screen'>{$brandHtml}</div>";
+      $html .= "<div class='us_brand full_screen'>{$brandHtml}</a></div>";
 
       if($this->menu->justify == "right"){
           $html .= "<div class='flex-grow-1'></div>";
       }
 
-      $html .= "<div class='us_menu_mobile_wrapper'><div class='us_brand'>{$brandHtml}</div><div class='us_menu_mobile_control' data-target='{$this->menu->id}{$uniq}'><i class='fa fa-bars'></i></div></div>";
-    }
 
+      $html .= "<div class='us_menu_mobile_wrapper'><div class='us_brand'>{$brandHtml}</a></div>";
+
+
+      $html .= "<span class='additional-mobile-icons'>";
+            $mobile_menu_hooks = $abs_us_root . $us_url_root . "usersc/hooks/mobile_menu/";
+      $php_files = glob($mobile_menu_hooks . "*.php");
+      
+      foreach ($php_files as $php_file) {
+        ob_start();
+        include $php_file;
+        $data = ob_get_clean();
+        $html .=  $data;
+        @ob_end_flush();
+      }
+      $html .= "</span>";
+      $html .= "<div class='us_menu_mobile_control' data-target='{$this->menu->id}{$uniq}'><i class='fa fa-bars'></i></div></div>";
+ 
+    }
     foreach($items as $item) {
       // dump(parseMenuLabel($item->label));
       // dump($this->hasPerms($item));
@@ -145,6 +184,7 @@ class Menu {
       }
       $hasDropdown = sizeof($item->items) > 0;
       $liClass = $hasDropdown? "dropdown" : "";
+      $liClass .= $item->li_class ? " $item->li_class": "";
 
       // check if the li should be active (i.e. its URL matches the current page)
       $currentPage = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
@@ -162,7 +202,11 @@ class Menu {
       // build link
       $linkClass = $hasDropdown? "sub-toggle" : "";
       $linkClass .= $item->a_class? " $item->a_class": "";
-      $linkAttrs = "";
+   
+      $linkAttrs = " target='";
+      $linkAttrs .= $item->link_target ? $item->link_target : "_self";
+      $linkAttrs .= "' ";
+      
       if($hasDropdown) {
         $toggle = "menu_{$item->menu}{$uniq}_dropdown_{$item->id}";
         $linkAttrs = "id='{$toggle}' role='button' aria-haspopup='true' aria-expanded='false' data-toggle='dropdown' data-target='#{$toggle}'";
@@ -171,14 +215,14 @@ class Menu {
       if($item->type == "snippet" && file_exists($abs_us_root . $us_url_root . $item->link)){
         //check file exists
 
-        $html .= "<li class='{$liClass}'>";
+        $html .= "";
         //we're going to capture the OUTPUT of the php file as html and inject it into the menu
         ob_start();
         include $abs_us_root . $us_url_root . $item->link;
         $data = ob_get_clean();
         $html .=  $data;
         @ob_end_flush();
-        $html .= "</li>";
+        $html .= "";
       }else{
         $html .= "<li class='{$liClass}' data-menu='{$item->menu}'>";
         if(strtolower(substr($item->link,0,5) != "http:") && strtolower(substr($item->link,0,6) != "https:")){
@@ -190,8 +234,8 @@ class Menu {
         }
 
         $parsedLabel = parseMenuLabel($item->label);
-        if ($parsedLabel == "") {
-          $parsedLabel = "Menu"; // for accessibility, don't allow blank labels - they are meaningless to screen readers
+        if ($parsedLabel == ""  && isset($this->menu->screen_reader_mode) && $this->menu->screen_reader_mode == 1) {
+            $parsedLabel = lang("MENU_MENU");// for accessibility, don't allow blank labels - they are meaningless to screen readers
         }
         $html .= "<span class='labelText'>" . $parsedLabel . "</span>";
         // $html .= $item->label;

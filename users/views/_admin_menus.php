@@ -21,8 +21,12 @@ $codeUsage = '<?php
       "branding_html"=>"<h1>Foo</h1>",  //override branding (logo) HTML
       "show_branding"=>true, //show/hide branding html on menu
       "show_active"=>true, //highlight active menu item
+      "theme"=>"dark", //override the theme (light, dark)
   ];
   $menu->display($override);
+
+  //to force a specific menu on a page, just after init.php use 
+  $menu_override = 2; //where 2 is the menu ID
 ?>
 ';
 

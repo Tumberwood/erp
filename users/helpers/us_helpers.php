@@ -23,8 +23,7 @@ $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] :
 if (!function_exists('ipCheck')) {
   function ipCheck()
   {
-    $ip = $_SERVER['REMOTE_ADDR'];
-
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
     return $ip;
   }
 }
@@ -105,6 +104,7 @@ if (!function_exists('usernameExists')) {
 if (!function_exists('getPageFiles')) {
   function getPageFiles()
   {
+    global $us_url_root;
     $directory = '../';
     $pages = glob($directory.'*.php');
     foreach ($pages as $page) {
@@ -120,6 +120,7 @@ if (!function_exists('getPageFiles')) {
 if (!function_exists('getUSPageFiles')) {
   function getUSPageFiles()
   {
+    global $us_url_root;
     $directory = '../users/';
     $pages = glob($directory.'*.php');
     foreach ($pages as $page) {
@@ -379,34 +380,7 @@ if (!function_exists('updateFields2')) {
   }
 }
 
-if (!function_exists('mqtt')) {
-  function mqtt($id, $topic, $message)
-  {
-    //id is the server id in the mqtt_settings.php
-    $db = DB::getInstance();
-    $query = $db->query('SELECT * FROM mqtt WHERE id = ?', [$id]);
-    $count = $query->count();
-    if ($count > 0) {
-      $server = $query->first();
 
-      $host = $server->server;
-      $port = $server->port;
-      $username = $server->username;
-      $password = $server->password;
-
-      $mqtt = new phpMQTT($host, $port, 'ClientID'.rand());
-
-      if ($mqtt->connect(true, null, $username, $password)) {
-        $mqtt->publish($topic, $message, 0);
-        $mqtt->close();
-      } else {
-        echo 'Fail or time out';
-      }
-    } else {
-      echo 'Server not found. Please check your id.';
-    }
-  }
-}
 
 if (!function_exists('clean')) {
   //Cleaning function
@@ -626,6 +600,7 @@ if (!function_exists('returnError')) {
     $responseAr['success'] = true;
     $responseAr['error'] = true;
     $responseAr['errorMsg'] = $errorMsg;
+    header('Content-Type: application/json;');
     exit(json_encode($responseAr));
   }
 }
@@ -964,6 +939,7 @@ if (!function_exists('importSQL')) {
   {
     $db = DB::getInstance();
     $lines = file($file);
+    $templine = '';
     // Loop through each line
     foreach ($lines as $line) {
       // Skip it if it's a comment
@@ -1164,19 +1140,57 @@ if (!function_exists('shakerIsInstalled')) {
   function shakerIsInstalled($type, $reserved)
   {
     global $abs_us_root, $us_url_root;
+
+    $response = ["installed"=>false, "ver"=>"0.0.0"];
+
     if ($type == 'translation') {
-      return true;
+      $response = ["installed"=>true, "ver"=>"0.0.0"];
+      return $response;
+
     } elseif ($type == 'plugin' || $type == 'widget' || $type == 'template') {
       $type = $type.'s';
       if (file_exists($abs_us_root.$us_url_root.'usersc/'.$type.'/'.$reserved)) {
-        return true;
+        $response = ["installed"=>true, "ver"=>"0.0.0"];
+        if(file_exists($abs_us_root.$us_url_root.'usersc/'.$type.'/'.$reserved.'/info.xml')){
+          $xml = simplexml_load_file($abs_us_root.$us_url_root.'usersc/'.$type.'/'.$reserved.'/info.xml');
+          if(isset($xml->version)){
+            $response["ver"] = $xml->version;
+          }
+        }
+        return $response;
       } else {
-        return false;
+        return $response;
       }
     } else {
-      return false;
+      return $response;
     }
   }
+}
+
+function spiceShakerBadge($shaker, $installed) {
+  $result = array();
+
+  // Check if $shaker is newer than $installed
+  if (version_compare($shaker, $installed, '>')) {
+      $result['text'] = 'Update';
+  } else {
+      $result['text'] = 'Reload';
+  }
+
+  // Check if the version numbers match
+  if ($shaker == $installed) {
+      $result['badge'] = array(
+          'class' => 'badge bg-info',
+          'text' => 'Current'
+      );
+  } else {
+      $result['badge'] = array(
+          'class' => 'badge bg-danger',
+          'text' => 'Installed: ' . $installed
+      );
+  }
+
+  return $result;
 }
 
 
@@ -1472,16 +1486,16 @@ if(!function_exists("fetchFolderFiles")){
 
 //examples
 //30 days from today
-//echo dateOffset(30);
+//echo offsetDate(30);
 
 //7 days ago
-//echo dateOffset(-7);
+//echo offsetDate(-7);
 
 //can be hours, months, days, years, etc
 // Or what the day will be in 17 hours with
-// echo dateOffset(17,"","hours");
+// echo offsetDate(17,"","hours");
 // Or you can do it from another date so 20 days from Jan 1, 2023
-// echo dateOffset(20,"2023-01-01");
+// echo offsetDate(20,"2023-01-01");
 
 function offsetDate($number, $datestring = "", $unit = "days"){
      if($datestring == ""){
@@ -1494,4 +1508,11 @@ function offsetDate($number, $datestring = "", $unit = "days"){
        $symbol = "";
      }
      return date("Y-m-d",strtotime($symbol . $number . $unit,strtotime($datestring)));
+}
+
+if (!function_exists("hed")) {
+  function hed($string) 
+  {
+    return htmlspecialchars_decode(html_entity_decode($string ?? "", ENT_QUOTES, "UTF-8"));
+  }
 }
