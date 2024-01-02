@@ -112,6 +112,7 @@
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
+	cekNotification();
 	// ------------- default variable, do not erase
 	var edt_blankheader, tbl_blankheader, show_deleted__blankheader = 0, id__blankheader;
 	var edt_blankdetail, tbl_blankdetail, show_deleted__blankdetail = 0, id__blankdetail;

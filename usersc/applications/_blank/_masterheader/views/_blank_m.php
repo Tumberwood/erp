@@ -54,6 +54,7 @@
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
+		cekNotification();
 		// ------------- default variable, do not erase
 		var edt_blank, tbl_blank, show_deleted__blank = 0, id__blank;
 		// ------------- end of default variable
