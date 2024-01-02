@@ -39,6 +39,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'psuxxmh.id_gpvxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'psuxxmh.id_fpytmmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'psuxxmh.keterangan' ),
 			Field::inst( 'psuxxmh.created_by' ),
 			Field::inst( 'psuxxmh.transaction_state' ),
@@ -55,13 +57,15 @@
 			Field::inst( 'psuxxmh.npwp' ),
 			Field::inst( 'psuxxmh.kredit_limit' ),
 			Field::inst( 'psuxxmh.tag' ),
-			Field::inst( 'psuxxmh.default_pembayaran' ),
 			Field::inst( 'psuxxmh.is_pkp' ),
+
 			Field::inst( 'gctxxmh.nama' ),
-			Field::inst( 'gpvxxmh.nama' )
+			Field::inst( 'gpvxxmh.nama' ),
+			Field::inst( 'fpytmmh.nama' )
 		)
 		->leftJoin( 'gctxxmh','gctxxmh.id','=','psuxxmh.id_gctxxmh' )
 		->leftJoin( 'gpvxxmh','gpvxxmh.id','=','psuxxmh.id_gpvxxmh' )
+		->leftJoin( 'fpytmmh','fpytmmh.id','=','psuxxmh.id_fpytmmh' )
 		;
 	
 	// do not erase
