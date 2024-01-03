@@ -20,6 +20,21 @@
 	
 	$id = $_POST['id_transaksi_h'];
 	$state = $_POST['state'];
+
+	// BEGIN ambil data confirmed_at dari table activity_log_ml
+	$qs_activity_log_ml = $db
+		->query('select', 'activity_log_ml' )
+		->get([
+			'activity_log_ml.created_on as confirmed_at'
+		] )
+		->where('activity_log_ml.id_transaksi', $id )
+		->where('activity_log_ml.kode', 'CONFIRM' )
+		->where('activity_log_ml.nama', 'itoxxth' )
+		->exec();
+	$rs_activity_log_ml = $qs_activity_log_ml->fetch();
+	$confirmed_at = $rs_activity_log_ml['confirmed_at'];
+	// END ambil data confirmed_at dari table activity_log_ml
+
 	
 	// Dari gudang asal mengirim ke transit (-)
 	$qi_asal = $db
@@ -37,6 +52,7 @@
 				id_iumxxmh_terkecil,
 				kode,
 				keterangan,
+				confirmed_at,
 				created_by,
 				imtxxmh_kode,
 				tanggal,
@@ -56,6 +72,7 @@
 				b.id_iumxxmh_terkecil,
 				a.kode,
 				a.keterangan,
+				"'.$confirmed_at.'",
 				a.created_by,
 				301 as imtxxmh_kode,
 				a.tanggal,
@@ -85,6 +102,7 @@
 				id_iumxxmh_terkecil,
 				kode,
 				keterangan,
+				confirmed_at,
 				created_by,
 				imtxxmh_kode,
 				tanggal,
@@ -104,6 +122,7 @@
 				b.id_iumxxmh_terkecil,
 				a.kode,
 				a.keterangan,
+				"'.$confirmed_at.'",
 				a.created_by,
 				301 as imtxxmh_kode,
 				a.tanggal,
