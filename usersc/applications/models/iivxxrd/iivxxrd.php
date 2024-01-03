@@ -1,10 +1,6 @@
 <?php
 	/**
-	 * Kolom :
-	 * 	- dari htlgrmh, dan 
-	 * 	- HK		: Hari Kerja
-	 * 	- OFF		: Jadwal Off
-	 * 	- NJ		: Jadwal Belum Dibuat
+	 * 
 	 */
 
 	include( "../../../../users/init.php" );
@@ -19,46 +15,40 @@
 		DataTables\Editor\Result;
 
 		
-	$awal 			= new Carbon($_POST['start_date']);
-	$start_date = $awal->format('Y-m-d');
-
+	$end_date = new Carbon($_POST['end_date']);
 	$qs_iivxxrd = $db
 		->raw()
-		->bind(':start_date', $start_date)
-		->exec('SELECT
-					a.kode,
-					b.nama,
-					e.nama AS uom,
-					c.nama AS wh,
-					if(a.`sign`= "-" OR a.imtxxmh_kode = 201,  -SUM(a.jumlah_terkecil), SUM(a.jumlah_terkecil)) AS qty_terkecil
-				FROM iivxxrd AS a
-				LEFT JOIN iimxxmh AS b ON b.id = a.id_iimxxmh
-				LEFT JOIN iwhxxmh AS c ON c.id = a.id_iwhxxmh
-				LEFT JOIN iimummd AS d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_terkecil = 1
-				LEFT JOIN iumxxmh AS e ON e.id = d.id_iumxxmh
-				WHERE a.tanggal = :start_date
-				GROUP BY a.id_iwhxxmh, a.id_iimxxmh
-				'
-				);
+		->bind(':end_date', $end_date->format('Y-m-d') )
+		->exec('
+			SELECT
+				a.id_gbrxxmh, 
+				a.id_iwhxxmh, 
+				a.id_iimxxmh,
+				e.kode AS iwhxxmh_kode,
+				b.kode AS iimxxmh_kode,
+				b.nama AS iimxxmh_nama,
+				a.id_iumxxmh_unit,
+				a.id_iumxxmh_terkecil,
+				SUM(a.jumlah_unit) AS jumlah_unit,
+				c.kode AS iumxxmh_unit_kode,
+				SUM(a.jumlah_terkecil) AS jumlah_terkecil,
+				d.kode AS iumxxmh_terkecil_kode
+			FROM iivxxrd a
+			LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
+			LEFT JOIN iumxxmh c ON c.id = a.id_iumxxmh_unit
+			LEFT JOIN iumxxmh d ON d.id = a.id_iumxxmh_terkecil
+			LEFT JOIN iwhxxmh e ON e.id = a.id_iwhxxmh
+			WHERE a.tanggal <= :end_date
+			GROUP BY 
+				a.id_gbrxxmh, 
+				a.id_iwhxxmh,
+				a.id_iimxxmh
+		');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
-
-	$results = array();
-
 	if (!empty($rs_iivxxrd)) {
-		$results['data'] = $rs_iivxxrd;
-		
-		$results['columns'] = [
-			['data' => 'kode', 'name' => 'kode'],
-			['data' => 'nama', 'name' => 'nama'],
-			['data' => 'uom', 'name' => 'uom'],
-			['data' => 'wh', 'name' => 'wh'],
-			['data' => 'qty_terkecil', 'name' => 'qty_terkecil']
-		];
-		
-	} else {
-		$results['data'] = [];
-		$results['columns'] = [];
+		echo json_encode( ['data' => $rs_iivxxrd]);
+	}else{
+		echo json_encode( [ "data" => [] ] );
 	}
-
-	echo json_encode($results);
+	
 ?>
