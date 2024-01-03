@@ -27,6 +27,7 @@
             ->raw()    
             ->exec('
                 SELECT
+                    is_notification,
                     notification_interval_ms
                 FROM ggsxxsh
             ');
