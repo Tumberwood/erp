@@ -169,7 +169,6 @@
 			}
 		});
 	});
-
 	// END Notifications
 
 	// global variable
