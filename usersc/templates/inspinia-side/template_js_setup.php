@@ -97,7 +97,7 @@
 	});
 
 	// BEGIN Notifications
-	var notification_interval_ms;
+	var is_notification, notification_interval_ms;
 	$.ajax( {
 		url: '../../../helpers/fn_notification_setting.php',
 		dataType: 'json',
@@ -106,10 +106,13 @@
 		data: {},
 		success: function ( json ) {
 			notification_interval_ms = json.data.rs_notification_interval_setting.notification_interval_ms;
+			is_notification = json.data.rs_notification_interval_setting.is_notification;
 		}
 	} );
 
-	setInterval(cekNotification, notification_interval_ms);
+	if(is_notification == 1){
+		setInterval(cekNotification, notification_interval_ms);
+	}
 
 	function cekNotification(){
 		$('#notification_dropdown').empty();
@@ -122,22 +125,28 @@
 				id_users: <?php echo $_SESSION['user']; ?>
 			},
 			success: function ( json ) {
-				
-				$('#c_notif_unread').html(json.data.c_rs_notifications_unread);
-				$.each( json.data.rs_notifications, function( key, value ) {
-					str='<li>'+
-							'<div id="notif_'+value.id_notifications+'">'+
-								value.message +
-								'<span class="float-right text-muted small">'+moment(value.date_created).fromNow()+'</span>'+
-							'</div>'+
-                        '</li>';
-					if(key+1 != json.data.c_rs_notifications_unread){
-						str=str+'<li class="dropdown-divider"></li>';
-					}
+				str = '';
+				if( json.data.c_rs_notifications_unread > 0){
+					$('#c_notification_unread').show();
+					$('#c_notification_unread').html(json.data.c_rs_notifications_unread);
+					$.each( json.data.rs_notifications, function( key, value ) {
+						str='<li>'+
+								'<div id="notif_'+value.id_notifications+'">'+
+									value.message +
+									'<span class="float-right text-muted small">'+moment(value.date_created).fromNow()+'</span>'+
+								'</div>'+
+							'</li>';
+						if(key+1 != json.data.c_rs_notifications_unread){
+							str=str+'<li class="dropdown-divider"></li>';
+						}
+						$("#notification_dropdown").append(str);
+					});
+				}else{
+					$('#c_notification_unread').hide();
+					str='<li>No Unread Notification</li>';
 					$("#notification_dropdown").append(str);
-				});
-					
-
+				}
+			
 			}
 		} );
 	}
@@ -203,5 +212,17 @@
 	var akhir_bulan_ymd 	= moment().endOf('month').format('YYYY-MM-DD');
 
 	var imtxxmh_kode 		= 0; // untuk movement type
+
+	$(document).ready(function() {
+		// BEGIN notification
+		if(is_notification == 1){
+			$("#notification_parent").show();
+			cekNotification();
+		}else{
+			$("#notification_parent").hide();
+		}
+		// END notification
+
+	} );// end of document.ready global
 
 </script>
