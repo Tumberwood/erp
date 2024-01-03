@@ -130,8 +130,9 @@
 					$('#c_notification_unread').show();
 					$('#c_notification_unread').html(json.data.c_rs_notifications_unread);
 					$.each( json.data.rs_notifications, function( key, value ) {
-						str='<li>'+
-								'<div id="notif_'+value.id_notifications+'">'+
+						var id_notifications = value.id_notifications;
+						str = '<li data-id="' + id_notifications + '">'+
+								'<div id="notif_' + id_notifications + '">'+
 									value.message +
 									'<span class="float-right text-muted small">'+moment(value.date_created).fromNow()+'</span>'+
 								'</div>'+
@@ -148,25 +149,27 @@
 				}
 			
 			}
+
 		} );
 	}
 
-	$("#notification_dropdown").on("click", "li", function(e){
-		id_notifications = e.target.id;
-
-		$.ajax( {
+	$("#notification_dropdown").on("click", "li", function () {
+		//Ambil data id element li yang di click dengan this data id
+		var id_notifications = $(this).data("id");
+		$.ajax({
 			url: '../../../helpers/fn_notification_read.php',
 			dataType: 'json',
 			type: 'POST',
+			async: false,
 			data: {
 				id_notifications: id_notifications
 			},
-			success: function ( json ) {
+			success: function (json) {
 				cekNotification();
 			}
-		} );
-
+		});
 	});
+
 	// END Notifications
 
 	// global variable
