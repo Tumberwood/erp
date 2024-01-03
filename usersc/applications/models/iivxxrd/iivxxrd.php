@@ -29,9 +29,9 @@
 				b.nama AS iimxxmh_nama,
 				a.id_iumxxmh_unit,
 				a.id_iumxxmh_terkecil,
-				SUM(a.jumlah_unit) AS jumlah_unit,
+				SUM(a.jumlah_unit * a.is_fisik) AS jumlah_unit,
 				c.kode AS iumxxmh_unit_kode,
-				SUM(a.jumlah_terkecil) AS jumlah_terkecil,
+				SUM(a.jumlah_terkecil * a.is_fisik) AS jumlah_terkecil,
 				d.kode AS iumxxmh_terkecil_kode
 			FROM iivxxrd a
 			LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
