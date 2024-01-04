@@ -1,6 +1,6 @@
 <?php
 	/**
-     * Digunakan untuk menghitung konversi satuan
+     * Digunakan untuk menghitung konversi UoM
      * Parameter:
      *  table_name      : nama table database yang akan dihitung
      *  id_transaksi    : id transaksi yang akan dihitung
