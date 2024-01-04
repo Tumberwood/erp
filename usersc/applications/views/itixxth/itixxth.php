@@ -39,8 +39,7 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabitiittd_1"> Detail</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabitiittd_2"> Tab 2</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabitiittd_1"> Items</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabitiittd_1" class="tab-pane active">
@@ -59,23 +58,6 @@
 							</table>
 						</div> <!-- end of table -->
 
-					</div>
-				</div>
-				<div role="tabpanel" id="tabitiittd_2" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tblitiittd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_itixxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -103,23 +85,17 @@
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/itixxth/fn/itixxth_fn.php'; ?>
 
-<!-- Untuk Kalkulasi Subtotal dan Diskon -->
-<?php require_once $abs_us_root . $us_url_root . 'usersc/helpers/fn_kalkulasi_header_detail.php'; ?>
-
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
 	var edtitixxth, tblitixxth, show_deleted_itixxth = 0, id_itixxth;
 	var edtitiittd, tblitiittd, show_deleted_itiittd = 0, id_itiittd;
 	// ------------- end of default variable
-	var id_iwhxxmh_asal_old = 0;
-	var id_iwhxxmh_tujuan_old = 0;
-	var id_itoxxth_old = 0;
-	var id_iumxxmh_old = 0;
-	var jumlah_unit_old = 0;
-	var id_iimxxmh_old = 0;
+
 	var is_need_generate_kode = 1;
-	var is_need_approval = 1;
+
+	var id_iwhxxmh_asal_old = 0, id_iwhxxmh_tujuan_old = 0, id_itoxxth_old = 0;
+	var id_iimxxmh, id_iumxxmh_unit_old = 0, jumlah_unit_old = 0; id_iimxxmh_old = 0;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -134,17 +110,14 @@
 			table: "#tblitixxth",
 			fields: [ 
 				{
-					// untuk generate_kode
 					label: "kategori_dokumen",
 					name: "kategori_dokumen",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "kategori_dokumen_value",
 					name: "kategori_dokumen_value",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "field_tanggal",
 					name: "field_tanggal",
 					type: "hidden"
@@ -185,7 +158,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Goods Transfer Out <sup class='text-danger'>*<sup>",
+					label: "Goods Transfer <sup class='text-danger'>*<sup>",
 					name: "itixxth.id_itoxxth",
 					type: "select2",
 					opts: {
@@ -320,13 +293,11 @@
 
 		edtitixxth.dependent( 'itixxth.id_itoxxth', function ( val, data, callback ) {
 			if (val > 0) {
-				autofill('itoxxth', val); //nama fields id autofill
+				autofillField('itoxxth', val, 'id_iwhxxmh_asal,id_iwhxxmh_tujuan');
 				id_iwhxxmh_asal_old = autofillData.id_iwhxxmh_asal;
 				id_iwhxxmh_tujuan_old = autofillData.id_iwhxxmh_tujuan;
 				edtitixxth.field('itixxth.id_iwhxxmh_asal').val(id_iwhxxmh_asal_old);
 				edtitixxth.field('itixxth.id_iwhxxmh_tujuan').val(id_iwhxxmh_tujuan_old);
-				// console.log(id_iwhxxmh_asal_old);
-				// console.log(id_iwhxxmh_tujuan_old);
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -401,8 +372,8 @@
 				{ data: "itixxth.id",visible:false },
 				{ data: "itixxth.tanggal" },
 				{ data: "itixxth.kode" },
-				{ data: "asal.nama" },
-				{ data: "tujuan.nama" },
+				{ data: "iwhxxmh_asal.nama" },
+				{ data: "iwhxxmh_tujuan.nama" },
 				{ 
 					data: "itixxth.transaction_state" ,
 					render: $.fn.dataTable.render.transactionStatus()
@@ -459,7 +430,6 @@
 			transaction_state   = itixxth_data.transaction_state;
 			approval_state   	= itixxth_data.approval_state;
 			is_nextprocess 		= itixxth_data.is_nextprocess;
-			is_jurnal      		= itixxth_data.is_jurnal;
 			id_itoxxth_old		= itixxth_data.id_itoxxth;
 			ids_itoxxth		= itixxth_data.id_itoxxth;
 			
@@ -566,18 +536,19 @@
 				},	
 				{
 					label: "UoM <sup class='text-danger'>*<sup>",
-					name: "itiittd.id_iumxxmh",
+					name: "itiittd.id_iumxxmh_unit",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+							url: "../../models/iumxxmh/iumxxmh_iimummd_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iumxxmh_old: id_iumxxmh_old,
+									id_iimxxmh: id_iimxxmh,
+									id_iumxxmh_unit_old: id_iumxxmh_unit_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -603,12 +574,7 @@
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
 					name: "itiittd.jumlah_unit"
-				}, 	
-				// {
-				// 	label: "Keterangan",
-				// 	name: "itiittd.keterangan",
-				// 	type: "textarea"
-				// }
+				}
 			]
 		} );
 			
@@ -626,6 +592,11 @@
 		edtitiittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
+
+		edtitiittd.dependent( 'itiittd.id_iimxxmh', function ( val, data, callback ) {
+			id_iimxxmh = edtitiittd.field('itiittd.id_iimxxmh').val();
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtitiittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -634,9 +605,9 @@
 					edtitiittd.field('itiittd.id_iimxxmh').error( 'Wajib diisi!' );
 				}
 				
-				id_iumxxmh = edtitiittd.field('itiittd.id_iumxxmh').val();
+				id_iumxxmh = edtitiittd.field('itiittd.id_iumxxmh_unit').val();
 				if(!id_iumxxmh || id_iumxxmh == ''){
-					edtitiittd.field('itiittd.id_iumxxmh').error( 'Wajib diisi!' );
+					edtitiittd.field('itiittd.id_iumxxmh_unit').error( 'Wajib diisi!' );
 				}
 				
 				jumlah_unit = edtitiittd.field('itiittd.jumlah_unit').val();
@@ -683,7 +654,7 @@
 			// do something
 			if (action != 'remove') {
 				id_last_insert = json.data[0].itiittd.id;
-				konversiTerkecil(id_last_insert, 'itiittd');
+				konversiUom(id_last_insert, 'itiittd');
 			}
 		} );
 
@@ -771,8 +742,8 @@
 			id_transaksi_log 	= id_itiittd; // dipakai untuk log
 
 			transaction_state_d   = data_itiittd.transaction_state;
-			id_iumxxmh_old   = data_itiittd.id_iumxxmh;
 			id_iimxxmh_old   = data_itiittd.id_iimxxmh;
+			id_iumxxmh_unit_old   = data_itiittd.id_iumxxmh_unit;
 			jumlah_unit_old   = data_itiittd.jumlah_unit;
 			
 			// atur hak akses
@@ -784,7 +755,7 @@
 			is_active_d = 0;
 			id_iimxxmh_old = 0;
 			jumlah_unit_old = 0;
-			id_iumxxmh_old = 0;
+			id_iumxxmh_unit_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblitixxth, tblitiittd );

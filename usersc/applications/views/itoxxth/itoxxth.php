@@ -609,7 +609,7 @@
 		edtitoittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
 				id_transaksi = json.data[0].itoittd.id;
-				konversiTerkecil('itoittd', id_transaksi);
+				konversiUom('itoittd', id_transaksi);
 			}
 		} );
 

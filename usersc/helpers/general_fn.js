@@ -135,7 +135,7 @@ function isDefaultUpdate(table_name,id_transaksi_default,tblname){
 }
 
 /**
- * konversiTerkecil
+ * konversiUom
  * Digunakan untuk menghitung konversi satuan berdasarkan table iimummd
  * Parameter:
  *  table_name  : nama tabel pada database yang akan di update
@@ -146,12 +146,12 @@ function isDefaultUpdate(table_name,id_transaksi_default,tblname){
  * 
         if (action != 'remove') {
             id_last_insert = json.data[0].itoittd.id;
-            konversiTerkecil(id_last_insert, 'itoittd');
+            konversiUom(id_last_insert, 'itoittd');
         }
  */
-function konversiTerkecil(table_name, id_transaksi ){
+function konversiUom(table_name, id_transaksi ){
     $.ajax( {
-        url: '../../../helpers/fn_konversi_terkecil.php',
+        url: '../../../helpers/fn_konversi_uom.php',
         dataType: 'json',
         type: 'POST',
         data: {

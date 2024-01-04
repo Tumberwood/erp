@@ -1111,7 +1111,7 @@
 				console.log(id_last_insert);
 
 				// Memangging funtion Konversi Terkecil, isi paremeter last insert dan table detail/table yang dipilih
-				konversiTerkecil('podittd', id_last_insert);
+				konversiUom('podittd', id_last_insert);
 				tblpodittd.rows().deselect();
 				
 			}
