@@ -68,7 +68,7 @@
             $q = $_GET['search'];
             $r->where('iumxxmh.kode', '%' . $q . '%', 'LIKE' );
         } )
-        ->order('kode')
+        ->order('iumxxmh.kode')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
