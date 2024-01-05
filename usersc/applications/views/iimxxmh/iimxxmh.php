@@ -38,7 +38,6 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd_1"> UoM</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabiimummd_2"> Tab 2</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabiimummd_1" class="tab-pane active">
@@ -52,28 +51,14 @@
 										<th>UoM</th>
 										<th>Konversi</th>
 										<th>Terkecil</th>
+										<th>Default</th>
 									</tr>
 								</thead>
 							</table>
 						</div> <!-- end of table -->
+					</div>
+				</div>
 
-					</div>
-				</div>
-				<div role="tabpanel" id="tabiimummd_2" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tbliimummd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_iimxxmh</th>
-										<th>Kode</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
 			</div>
 
 		</div>
@@ -656,6 +641,16 @@
 					]
 				}, 	
 				{
+					label: "Default UoM <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_default",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 	
+				{
 					label: "Konversi <sup class='text-danger'>*<sup>",
 					name: "iimummd.jumlah_konversi"
 				},
@@ -737,12 +732,38 @@
 		edtiimummd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiimummd.field('iimummd.finish_at').val(finish_at);
+
+			// BEGIN is_default
+			// ambil is_default dari form input
+			is_default 		= edtiimummd.field('iimummd.is_default').val();
+			if(action == 'create'){
+				is_default_old = 0;
+			} // else nya sudah didapatkan saat select
+
+			if(is_default == 1 && is_default != is_default_old){
+				// jika inputan Default = Ya dan sebelumnya bukan Ya
+				// konfirmasi perubahan
+				if(confirm('Apakah Anda Ingin Mengubah Default UoM?')){
+					is_update_default = 1;
+				}else{
+					is_update_default = 0;
+					return false;
+				}
+			}else{
+				// tidak ada perubahan
+
+			}
+			// END is_default
 		});
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+
+			// BEGIN is_default
+			if(is_update_default == 1){
+					id_transaksi_default = json.data[0].iimummd.id;
+					isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+				}
+				// END is_default
 		} );
 
 		edtiimummd.on( 'close', function () {
@@ -771,6 +792,10 @@
 				},
 				{ 
 					data: "iimummd.is_terkecil" ,
+					render: $.fn.dataTable.render.yaTidak()
+				},
+				{ 
+					data: "iimummd.is_default" ,
 					render: $.fn.dataTable.render.yaTidak()
 				}
 			],
@@ -813,6 +838,7 @@
 			transaction_state_d   = data_iimummd.transaction_state;
 
 			id_iumxxmh_old = data_iimummd.id_iumxxmh;
+			is_default_old = data_iimummd.is_default;
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimxxmh, tbliimummd );
