@@ -52,6 +52,7 @@
             'id as id',
             'CONCAT(kode," - ",nama) as text'
         ])
+        ->order('kode')
         ->where('transaction_state',1)
         ->where('id', $id_iumxxmh_old, '<>' )
         ->where( function ( $r ) {

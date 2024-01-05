@@ -44,7 +44,7 @@
                 'iumxxmh.id as id',
                 'iumxxmh.kode as text'
             ])
-            ->where('iumxxmh.id', $id_iumxxmh_unit_old )
+            ->where('iumxxmh.id', $id_iumxxmh_unit_old )            
             ->exec();
         $rs_iimummd_self = $qs_iimummd_self->fetchAll();
     }else{
@@ -68,6 +68,7 @@
             $q = $_GET['search'];
             $r->where('iumxxmh.kode', '%' . $q . '%', 'LIKE' );
         } )
+        ->order('kode')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
