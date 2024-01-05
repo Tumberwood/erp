@@ -134,6 +134,22 @@ function isDefaultUpdate(table_name,id_transaksi_default,tblname){
     } );
 }
 
+function isDefaultUpdateD(table_name, id_transaksi_h, id_transaksi_default,tblname){
+    $.ajax( {
+        url: '../../../helpers/fn_is_default_update_d.php',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            table_name           : table_name,
+            id_transaksi_h       : id_transaksi_h,
+            id_transaksi_default : id_transaksi_default
+        },
+        success: function ( json ) {
+            tblname.ajax.reload(null, false);
+        }
+    } );
+}
+
 /**
  * konversiUom
  * Digunakan untuk menghitung konversi satuan berdasarkan table iimummd
