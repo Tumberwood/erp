@@ -31,8 +31,6 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'itoittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'itoittd.id_iumxxmh_terkecil' )
-					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'itoittd.id_itoxxth' ),
 				Field::inst( 'itoittd.kode' ),
 				Field::inst( 'itoittd.nama' ),
