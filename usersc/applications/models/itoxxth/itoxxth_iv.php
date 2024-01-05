@@ -35,7 +35,6 @@
 	$confirmed_at = $rs_activity_log_ml['confirmed_at'];
 	// END ambil data confirmed_at dari table activity_log_ml
 
-	
 	// Dari gudang asal mengirim ke transit (-)
 	$qi_asal = $db
 		->raw()
@@ -50,6 +49,7 @@
 				id_iimxxmh,
 				id_iumxxmh_unit,
 				id_iumxxmh_terkecil,
+				id_iumxxmh_default,
 				kode,
 				keterangan,
 				confirmed_at,
@@ -59,17 +59,19 @@
 				is_fisik,
 				jumlah_unit,
 				jumlah_konversi,
-				jumlah_terkecil
+				jumlah_terkecil,
+				jumlah_default
 			)
 			SELECT
 				a.id as id_transaksi_h,
 				b.id as id_transaksi_d,
 				a.id_gbrxxmh as id_gbrxxmh,
 				a.id_iwhxxmh_asal as id_iwhxxmh,
-				a.id_iwhxxmh_asal as id_relasi_m,
+				a.id_iwhxxmh_tujuan as id_relasi_m,
 				b.id_iimxxmh,
 				b.id_iumxxmh_unit,
 				b.id_iumxxmh_terkecil,
+				b.id_iumxxmh_default,
 				a.kode,
 				a.keterangan,
 				"'.$confirmed_at.'",
@@ -79,7 +81,8 @@
 				1 as is_fisik,
 				-b.jumlah_unit as jumlah_unit,
 				b.jumlah_konversi as jumlah_konversi,
-				-b.jumlah_terkecil as jumlah_terkecil
+				-b.jumlah_terkecil as jumlah_terkecil,
+				-b.jumlah_default as jumlah_default
 			FROM itoxxth a
 			LEFT JOIN itoittd b ON b.id_itoxxth = a.id
 			LEFT JOIN iwhxxmh c ON c.id = a.id_iwhxxmh_asal
@@ -100,6 +103,7 @@
 				id_iimxxmh,
 				id_iumxxmh_unit,
 				id_iumxxmh_terkecil,
+				id_iumxxmh_default,
 				kode,
 				keterangan,
 				confirmed_at,
@@ -109,17 +113,19 @@
 				is_fisik,
 				jumlah_unit,
 				jumlah_konversi,
-				jumlah_terkecil
+				jumlah_terkecil,
+				jumlah_default
 			)
 			SELECT
 				a.id as id_transaksi_h,
 				b.id as id_transaksi_d,
 				1 as id_gbrxxmh,
 				iwhxxmh_transit.id as id_iwhxxmh,
-				iwhxxmh_transit.id as id_relasi_m,
+				iwhxxmh_asal.id as id_relasi_m,
 				b.id_iimxxmh,
 				b.id_iumxxmh_unit,
 				b.id_iumxxmh_terkecil,
+				b.id_iumxxmh_default,
 				a.kode,
 				a.keterangan,
 				"'.$confirmed_at.'",
@@ -129,7 +135,8 @@
 				1 as is_fisik,
 				b.jumlah_unit as jumlah_unit,
 				b.jumlah_konversi as jumlah_konversi,
-				b.jumlah_terkecil as jumlah_terkecil
+				b.jumlah_terkecil as jumlah_terkecil,
+				b.jumlah_default as jumlah_default
 			FROM itoxxth a
 			LEFT JOIN itoittd b ON b.id_itoxxth = a.id
 			LEFT JOIN iwhxxmh AS iwhxxmh_asal ON iwhxxmh_asal.id = a.id_iwhxxmh_asal
