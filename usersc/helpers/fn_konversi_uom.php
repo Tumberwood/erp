@@ -28,6 +28,7 @@
     try{
         $db->transaction();
 
+        // BEGIN ambil UoM terkecil
         $qs_iumxxmh = $db
             ->raw()
             ->bind(':id_transaksi', $id_transaksi)
@@ -48,18 +49,45 @@
             ');
         $rs_iumxxmh = $qs_iumxxmh->fetch();
         $id_iumxxmh_terkecil = $rs_iumxxmh['id_iumxxmh_terkecil'];
+        // END ambil UoM terkecil
+
+        // BEGIN ambil UoM default
+        $qs_iumxxmh = $db
+            ->raw()
+            ->bind(':id_transaksi', $id_transaksi)
+            ->bind(':is_default', 1)
+            ->exec('
+                SELECT
+                    id_iumxxmh as id_iumxxmh_default
+                FROM iimummd
+                WHERE 
+                    id_iimxxmh = (
+                        SELECT
+                            id_iimxxmh
+                        FROM ' . $table_name .
+                        ' WHERE
+                            id= :id_transaksi
+                    ) AND
+                    is_default = :is_default
+            ');
+        $rs_iumxxmh = $qs_iumxxmh->fetch();
+        $id_iumxxmh_default = $rs_iumxxmh['id_iumxxmh_default'];
+        // END ambil UoM default
 
         $qu_konversi = $db
             ->raw()
             ->exec('
                 UPDATE '.$table_name.' AS a
-                LEFT JOIN iimummd AS b ON b.id_iumxxmh = a.id_iumxxmh_unit AND b.id_iimxxmh = a.id_iimxxmh
+                LEFT JOIN iimummd AS iimummd_terkecil ON iimummd_terkecil.id_iumxxmh = a.id_iumxxmh_unit AND iimummd_terkecil.id_iimxxmh = a.id_iimxxmh
+                LEFT JOIN iimummd AS iimummd_default ON iimummd_default.id_iumxxmh = a.id_iumxxmh_default AND iimummd_default.id_iimxxmh = a.id_iimxxmh
                 SET
                     a.id_iumxxmh_terkecil = ' . $id_iumxxmh_terkecil . ',
-                    a.jumlah_konversi = b.jumlah_konversi,
+                    a.id_iumxxmh_default = ' . $id_iumxxmh_default . ',
+                    a.jumlah_konversi = iimummd_terkecil.jumlah_konversi,
                     a.jumlah_unit_os = a.jumlah_unit, 
-                    a.jumlah_terkecil_os = b.jumlah_konversi * a.jumlah_unit, 
-                    a.jumlah_terkecil = b.jumlah_konversi * a.jumlah_unit
+                    a.jumlah_terkecil_os = iimummd_terkecil.jumlah_konversi * a.jumlah_unit, 
+                    a.jumlah_terkecil = iimummd_terkecil.jumlah_konversi * a.jumlah_unit,
+                    a.jumlah_default =  a.jumlah_konversi * a.jumlah_unit / iimummd_default.jumlah_konversi
                 WHERE a.id = ' .$id_transaksi
             );
         // commit transaction
