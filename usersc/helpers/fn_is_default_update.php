@@ -15,53 +15,78 @@
       * Last Modified   : 26 Dec 2023
       */
 
+    require_once( "../../users/init.php" );
     require_once( "../../usersc/lib/DataTables.php" );
     require_once( "datatables_fn_debug.php" );
-    require_once( "../../usersc/vendor/autoload.php" );
-    
-    use
-		DataTables\Editor,
-		DataTables\Editor\Query,
-		DataTables\Editor\Result;
+    require_once( "hakakses_s_fn.php" );
 
-	$editor = Editor::inst( $db, '' );
-    
+    use
+        DataTables\Editor,
+        DataTables\Editor\Query,
+        DataTables\Editor\Result;
+
+    // BEGIN definisi variable untuk fn_ajax_results.php
+    $data      = array();
+    $rs_opt    = array();
+    $c_rs_opt  = 0;
+    $morePages = 0;
+    // END definisi variable untuk fn_ajax_results.php
+
     $table_name             = $_POST['table_name'];
     $id_transaksi_default   = $_POST['id_transaksi_default'];
 
     try{
         $db->transaction();
         
-		$qs_def = $db
-            ->raw()
-            ->bind(':id_transaksi_default', $id_transaksi_default)
-            ->exec('
-                SELECT
-                    is_default
-                FROM '.$table_name.' 
-                WHERE id = :id_transaksi_default
-            ');
-        $rs_def = $qs_def->fetch();
+        // cari data is_default yang baru
+        // ini kayanya tidak diperlukan
+		// $qs_def = $db
+        //     ->raw()
+        //     ->bind(':id_transaksi_default', $id_transaksi_default)
+        //     ->exec('
+        //         SELECT
+        //             is_default
+        //         FROM '.$table_name.' 
+        //         WHERE 
+        //             id = :id_transaksi_default
+        //     ');
+        // $rs_def = $qs_def->fetch();
         
-        if ($rs_def['is_default'] == 1) {
-            $sql_update = $editor->db()
+        // jika 
+        // if ($rs_def['is_default'] == 1) {
+            
+            // mengubah baris data menjadi is_default = 1, selain baris data yang dijadikan is_default = 1
+            $sql_update = $db
                 ->raw()
                 ->bind(':id_transaksi_default', $id_transaksi_default)
                 ->exec('
-                    UPDATE '.$table_name.' AS a
+                    UPDATE '.$table_name.'
                     SET
-                        a.is_default = 0
-                    WHERE a.id <> :id_transaksi_default
+                        is_default = 0
+                    WHERE 
+                        id <> :id_transaksi_default
                 ');
-        }
+        // }
 
         // commit transaction
         $db->commit();
-        echo json_encode(array('message'=> 'Default Data Berhasil Diperbaharui'  , 'type_message'=>'success' ));
+        $message = 'Default Data Berhasil Diperbaharui';
+        $type_message = 'success';
+
     }catch(PDOException $e){
         // rollback on error
         $db->rollback();
-        echo json_encode(array('message'=> 'Default Data Gagal Diperbaharui', 'type_message'=>'danger' ));
+        $message = 'Default Data Gagal Diperbaharui';
+        $type_message = 'danger';
+
     }
+
+    $data = array(
+		'message'      => $message,
+		'type_message' => $type_message
+	);
+
+    // tampilkan results
+    require_once( "fn_ajax_results.php" );
 
 ?>
