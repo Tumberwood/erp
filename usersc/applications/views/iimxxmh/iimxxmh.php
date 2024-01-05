@@ -652,7 +652,8 @@
 				}, 	
 				{
 					label: "Konversi <sup class='text-danger'>*<sup>",
-					name: "iimummd.jumlah_konversi"
+					name: "iimummd.jumlah_konversi",
+					fieldInfo: "Konversi jumlah harus dihitung terhadap UoM terkecil"
 				},
 				{
 					label: "Keterangan",
