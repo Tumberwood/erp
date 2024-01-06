@@ -27,15 +27,15 @@
 				e.kode AS iwhxxmh_kode,
 				b.kode AS iimxxmh_kode,
 				b.nama AS iimxxmh_nama,
-				a.id_iumxxmh_unit,
+				a.id_iumxxmh_default,
 				a.id_iumxxmh_terkecil,
-				SUM(a.jumlah_unit * a.is_fisik) AS jumlah_unit,
-				c.kode AS iumxxmh_unit_kode,
+				SUM(a.jumlah_default * a.is_fisik) AS jumlah_default,
+				c.kode AS iumxxmh_default_kode,
 				SUM(a.jumlah_terkecil * a.is_fisik) AS jumlah_terkecil,
 				d.kode AS iumxxmh_terkecil_kode
 			FROM iivxxrd a
 			LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
-			LEFT JOIN iumxxmh c ON c.id = a.id_iumxxmh_unit
+			LEFT JOIN iumxxmh c ON c.id = a.id_iumxxmh_default
 			LEFT JOIN iumxxmh d ON d.id = a.id_iumxxmh_terkecil
 			LEFT JOIN iwhxxmh e ON e.id = a.id_iwhxxmh
 			WHERE a.tanggal <= :end_date

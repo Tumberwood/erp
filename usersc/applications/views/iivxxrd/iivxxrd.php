@@ -52,9 +52,15 @@
 				<table id="tbliivxxrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 					<thead>
 						<tr>
-							<th>Warehouse</th>
-							<th>Kode</th>
-							<th>Nama</th>
+							<th rowspan="2">Warehouse</th>
+							<th rowspan="2">Kode</th>
+							<th rowspan="2">Nama</th>
+							<th colspan="2">Terkecil</th>
+							<th colspan="2">Default</th>
+						</tr>
+						<tr>
+							<th>UoM</th>
+							<th>Jumlah</th>
 							<th>UoM</th>
 							<th>Jumlah</th>
 						</tr>
@@ -140,6 +146,12 @@
 						data: "jumlah_terkecil",
 						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
 						class: "text-right"
+					},
+					{ data: "iumxxmh_default_kode" },
+					{ 
+						data: "jumlah_default",
+						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
+						class: "text-right"
 					}
 				],
 				buttons: [
@@ -180,7 +192,6 @@
 				submitHandler: function(frmiivxxrd) {
 					start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
 					end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
-					var_selectField = $('#selectField').val();
 					
 					notifyprogress = $.notify({
 						message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
