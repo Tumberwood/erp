@@ -55,6 +55,8 @@
 				confirmed_at,
 				created_by,
 				imtxxmh_kode,
+				relasi_m_kode,
+				relasi_m_nama,
 				tanggal,
 				is_fisik,
 				jumlah_unit,
@@ -77,6 +79,8 @@
 				"'.$confirmed_at.'",
 				a.created_by,
 				301 as imtxxmh_kode,
+				iwhxxmh_tujuan.kode,
+				iwhxxmh_tujuan.nama,
 				a.tanggal,
 				1 as is_fisik,
 				-b.jumlah_unit as jumlah_unit,
@@ -85,7 +89,8 @@
 				-b.jumlah_default as jumlah_default
 			FROM itoxxth a
 			LEFT JOIN itoittd b ON b.id_itoxxth = a.id
-			LEFT JOIN iwhxxmh c ON c.id = a.id_iwhxxmh_asal
+			LEFT JOIN iwhxxmh as iwhxxmh_asal ON iwhxxmh_asal.id = a.id_iwhxxmh_asal
+			LEFT JOIN iwhxxmh AS iwhxxmh_tujuan ON iwhxxmh_tujuan.id = a.id_iwhxxmh_tujuan
 			WHERE a.id = :id
 		');
 	
@@ -109,6 +114,8 @@
 				confirmed_at,
 				created_by,
 				imtxxmh_kode,
+				relasi_m_kode,
+				relasi_m_nama,
 				tanggal,
 				is_fisik,
 				jumlah_unit,
@@ -131,6 +138,8 @@
 				"'.$confirmed_at.'",
 				a.created_by,
 				301 as imtxxmh_kode,
+				iwhxxmh_asal.kode,
+				iwhxxmh_asal.nama,
 				a.tanggal,
 				1 as is_fisik,
 				b.jumlah_unit as jumlah_unit,
