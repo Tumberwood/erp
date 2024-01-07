@@ -150,7 +150,10 @@
                             name: 'btnExcel', 
                             text: '<i class="fa fa-file-excel-o"></i>&nbsp;Excel',
                             className: 'btn btn-sm',
-                            titleAttr: 'Export to Excel'
+                            titleAttr: 'Export to Excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
                         },
 <?php
                     }
@@ -166,7 +169,10 @@
                             name: 'btnPdf',
                             text: '<i class="fa fa-file-pdf-o"></i>&nbsp;pdf',
                             className: 'btn btn-sm',
-                            titleAttr: 'Export to pdf'
+                            titleAttr: 'Export to pdf',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
                         },
 <?php
                     }
@@ -182,7 +188,10 @@
                             name: 'btnCopy',
                             text: '<i class="fa fa-copy"></i>&nbsp;Copy',
                             className: 'btn btn-sm',
-                            titleAttr: 'Copy'
+                            titleAttr: 'Copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
                         },
 <?php
                     }
@@ -331,96 +340,85 @@
                                             transaction_state : 1
                                         },
                                         success: function ( json ) {
+                                            full_message = '';
+                                            if(is_need_generate_kode == 1){
+                                                $.ajax( {
+                                                    url: '../../../helpers/kode_fn_generate_confirm.php',
+                                                    dataType: 'json',
+                                                    type: 'POST',
+                                                    data: {
+                                                        state                   : 1,
+                                                        nama_tabel              : '<?php echo $table_name;?>',
+                                                        kategori_dokumen        : kategori_dokumen,
+                                                        kategori_dokumen_value  : kategori_dokumen_value,
+                                                        id_transaksi            : id_transaksi_h
+                                                    },
+                                                    success: function ( json ) {
+                                                        full_message = full_message + json.data.message + '</br>';
+                                                    }
+                                                } );
+
+                                            }
+
+                                            if(is_need_inventory == 1){
+                                                $.ajax( {
+                                                    url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_iv.php',
+                                                    dataType: 'json',
+                                                    type: 'POST',
+                                                    data: {
+                                                        state           : 1,
+                                                        id_transaksi_h  : id_transaksi_h,
+                                                    },
+                                                    success: function ( json ) {
+                                                        full_message = full_message + json.data.message + '</br>';
+                                                    }
+                                                } );
+                                            }
+
+                                            if(is_need_jurnal == 1){
+                                                $.ajax( {
+                                                    url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
+                                                    dataType: 'json',
+                                                    type: 'POST',
+                                                    data: {
+                                                        state           : 1,
+                                                        id_transaksi_h  : id_transaksi_h,
+                                                    },
+                                                    success: function ( json ) {
+                                                        full_message = full_message + json.data.message + '</br>';
+                                                    }
+                                                } );
+                                            }
+
+                                            <?php 
+                                                if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
+                                            ?>
+                                                $.ajax( {
+                                                    url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
+                                                    dataType: 'json',
+                                                    type: 'POST',
+                                                    data: {
+                                                        state           : 1,
+                                                        id_transaksi_h  : id_transaksi_h
+                                                    },
+                                                    success: function ( json ) {
+                                                        full_message = full_message + json.data.message + '</br>';
+                                                    }
+                                                } );
+                                            <?php
+                                                }
+                                            ?>
                                             $('#notifToast').toast('show');
-                                            $('#toastMessage').html(json.data.message);
-                                            $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
+                                            $('#toastMessage').html(full_message);
+                                            $('#toastHeader' ).addClass( 'bg-success');
                                             setTimeout(function() { 
                                                 $('#notifToast').toast('hide');
                                             }, 3000);
+                                            <?php echo $table;?>.ajax.reload(null, false);
+
                                         }
 
-                                    } );
-
-                                    if(is_need_generate_kode == 1){
-
-                                        $.ajax( {
-                                            url: '../../../helpers/kode_fn_generate_confirm.php',
-                                            dataType: 'json',
-                                            type: 'POST',
-                                            data: {
-                                                state                   : 1,
-                                                nama_tabel              : '<?php echo $table_name;?>',
-                                                kategori_dokumen        : kategori_dokumen,
-                                                kategori_dokumen_value  : kategori_dokumen_value,
-                                                id_transaksi            : id_transaksi_h
-                                            },
-                                            success: function ( json ) {
-                                                $('#notifToast').toast('show');
-                                                $('#toastMessage').html(json.data.message);
-                                                $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                                setTimeout(function() { 
-                                                    $('#notifToast').toast('hide');
-                                                }, 3000);
-                                            }
-                                        } );
-
-                                    }
-
-                                    if(is_need_inventory == 1){
-                                        $.ajax( {
-                                            url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_iv.php',
-                                            dataType: 'json',
-                                            type: 'POST',
-                                            data: {
-                                                state           : 1,
-                                                id_transaksi_h  : id_transaksi_h,
-                                            },
-                                            success: function ( json ) {
-                                                console.log('Inventory');
-                                            }
-                                        } );
-                                    }
-
-                                    if(is_need_jurnal == 1){
-                                        $.ajax( {
-                                            url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
-                                            dataType: 'json',
-                                            type: 'POST',
-                                            data: {
-                                                state           : 1,
-                                                id_transaksi_h  : id_transaksi_h,
-                                            },
-                                            success: function ( json ) {
-                                                console.log('Jurnal');
-                                            }
-                                        } );
-                                    }
-
-                                    <?php 
-                                        if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
-                                    ?>
-                                        $.ajax( {
-                                            url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
-                                            dataType: 'json',
-                                            type: 'POST',
-                                            data: {
-                                                state           : 1,
-                                                id_transaksi_h  : id_transaksi_h
-                                            },
-                                            success: function ( json ) {
-                                                $('#notifToast').toast('show');
-                                                $('#toastMessage').html(json.data.message);
-                                                $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                                setTimeout(function() { 
-                                                    $('#notifToast').toast('hide');
-                                                }, 3000);
-                                            }
-                                        } );
-                                    <?php
-                                        }
-                                    ?>
-
-                                    <?php echo $table;?>.ajax.reload(null, false);
+                                    } );                                    
 
                                 }
 
