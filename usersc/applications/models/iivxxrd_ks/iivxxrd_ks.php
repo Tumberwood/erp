@@ -75,6 +75,12 @@
 	$satuan = $rs_iivxxrd_awal[0]['iumxxmh_terkecil_kode'];
 	// END saldo awal
 
+	// CASE
+	// 				WHEN a.imtxxmh_kode = "301" THEN iwhxxmh_asal.kode
+	// 				WHEN a.imtxxmh_kode = "303" THEN iwhxxmh_tujuan.kode
+	// 				ELSE "SUP CUST"
+	// 			END as relasi,
+
 	// BEGIN mutasi
 	$qs_iivxxrd_mutasi = $db
 		->raw()
@@ -86,11 +92,7 @@
 			SELECT
 				date_format(a.tanggal,"%d %b %Y") as tanggal,
 				a.kode as kode,
-				CASE
-					WHEN a.imtxxmh_kode = "301" THEN iwhxxmh_asal.kode
-					WHEN a.imtxxmh_kode = "303" THEN iwhxxmh_tujuan.kode
-					ELSE "SUP CUST"
-				END as relasi,
+				a.relasi_m_nama as relasi,
 				IF(a.jumlah_terkecil>0,a.jumlah_terkecil,0) AS jumlah_in,
 				IF(a.jumlah_terkecil<0,a.jumlah_terkecil,0) AS jumlah_out,
 				a.id_iumxxmh_unit,
@@ -106,7 +108,7 @@
 				a.id_iwhxxmh = :id_iwhxxmh AND
 				a.id_iimxxmh = :id_iimxxmh AND 
 				a.is_fisik > 0
-			ORDER BY a.tanggal ASC, a.confirmed_at;
+			ORDER BY a.tanggal, a.confirmed_at;
 		');
 		$rs_iivxxrd_mutasi = $qs_iivxxrd_mutasi->fetchAll();
 		$c_rs_iivxxrd_mutasi = count($rs_iivxxrd_mutasi);
