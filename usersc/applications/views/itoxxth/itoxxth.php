@@ -697,8 +697,8 @@
 			id_transaksi_log 	= id_itoittd; // dipakai untuk log
 
 			transaction_state_d   = data_itoittd.transaction_state;
-			id_iumxxmh_unit_old   = data_itoittd.id_iumxxmh_unit;
 			id_iimxxmh_old   = data_itoittd.id_iimxxmh;
+			id_iumxxmh_unit_old   = data_itoittd.id_iumxxmh_unit;
 			
 			// atur hak akses
 			CekSelectDetailHD(tblitoxxth, tblitoittd );
@@ -706,7 +706,6 @@
 
 		tblitoittd.on( 'deselect', function() {
 			id_itoittd = 0;
-			is_active_d = 0;
 			id_iimxxmh_old = 0;
 			id_iumxxmh_unit_old = 0;
 			
