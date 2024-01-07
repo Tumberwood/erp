@@ -7,8 +7,7 @@
      */
     require_once( "../../users/init.php" );
 	require_once( "../../usersc/lib/DataTables.php" );
-    require_once( "datatables_fn_debug.php" );
-    require_once( "hakakses_s_fn.php" );
+    require_once( "datatables_fn_debug.php" );    
 
 	use
 		DataTables\Editor,
@@ -28,68 +27,81 @@
     try{
         $db->transaction();
 
-        // BEGIN ambil UoM terkecil
-        $qs_iumxxmh = $db
-            ->raw()
-            ->bind(':id_transaksi', $id_transaksi)
-            ->bind(':is_terkecil', 1)
-            ->exec('
-                SELECT
-                    id_iumxxmh as id_iumxxmh_terkecil
-                FROM iimummd
-                WHERE 
-                    id_iimxxmh = (
-                        SELECT
-                            id_iimxxmh
-                        FROM ' . $table_name .
-                        ' WHERE
-                            id= :id_transaksi
-                    ) AND
-                    is_terkecil = :is_terkecil
-            ');
-        $rs_iumxxmh = $qs_iumxxmh->fetch();
-        $id_iumxxmh_terkecil = $rs_iumxxmh['id_iumxxmh_terkecil'];
-        // END ambil UoM terkecil
+        $qs_transaksi = $db
+            ->query('select', $table_name )
+            ->get([
+                'id_iimxxmh as id_iimxxmh',
+                'id_iumxxmh_unit as id_iumxxmh_unit',
+                'jumlah_unit as jumlah_unit'
+            ] )
+            // ->join('namatable2','namatable2.fieldjoin = _blank.id_namatable2','LEFT' )
+            ->where('id', $id_transaksi )
+            // ->group_by('_blank.fieldgroupby')
+            ->exec();
+        $rs_transaksi = $qs_transaksi->fetch();
 
-        // BEGIN ambil UoM default
-        $qs_iumxxmh = $db
-            ->raw()
-            ->bind(':id_transaksi', $id_transaksi)
-            ->bind(':is_default', 1)
-            ->exec('
-                SELECT
-                    id_iumxxmh as id_iumxxmh_default
-                FROM iimummd
-                WHERE 
-                    id_iimxxmh = (
-                        SELECT
-                            id_iimxxmh
-                        FROM ' . $table_name .
-                        ' WHERE
-                            id= :id_transaksi
-                    ) AND
-                    is_default = :is_default
-            ');
-        $rs_iumxxmh = $qs_iumxxmh->fetch();
-        $id_iumxxmh_default = $rs_iumxxmh['id_iumxxmh_default'];
-        // END ambil UoM default
+        $id_iimxxmh         = $rs_transaksi['id_iimxxmh'];
+        $id_iumxxmh_unit    = $rs_transaksi['id_iumxxmh_unit'];
+        $jumlah_unit        = $rs_transaksi['jumlah_unit'];
 
-        $qu_konversi = $db
-            ->raw()
-            ->exec('
-                UPDATE '.$table_name.' AS a
-                LEFT JOIN iimummd AS iimummd_terkecil ON iimummd_terkecil.id_iumxxmh = a.id_iumxxmh_unit AND iimummd_terkecil.id_iimxxmh = a.id_iimxxmh
-                LEFT JOIN iimummd AS iimummd_default ON iimummd_default.id_iumxxmh = a.id_iumxxmh_default AND iimummd_default.id_iimxxmh = a.id_iimxxmh
-                SET
-                    a.id_iumxxmh_terkecil = ' . $id_iumxxmh_terkecil . ',
-                    a.id_iumxxmh_default = ' . $id_iumxxmh_default . ',
-                    a.jumlah_konversi = iimummd_terkecil.jumlah_konversi,
-                    a.jumlah_unit_os = a.jumlah_unit, 
-                    a.jumlah_terkecil_os = iimummd_terkecil.jumlah_konversi * a.jumlah_unit, 
-                    a.jumlah_terkecil = iimummd_terkecil.jumlah_konversi * a.jumlah_unit,
-                    a.jumlah_default =  a.jumlah_konversi * a.jumlah_unit / iimummd_default.jumlah_konversi
-                WHERE a.id = ' .$id_transaksi
-            );
+        // BEGIN get jumlah_konversi
+        $qs_jumlah_konversi = $db
+            ->query('select', 'iimummd')
+            ->get('jumlah_konversi')
+            ->where('id_iimxxmh',$id_iimxxmh)
+            ->where('id_iumxxmh',$id_iumxxmh_unit)
+            ->exec();
+        $rs_jumlah_konversi = $qs_jumlah_konversi->fetch();
+
+        $jumlah_konversi    = $rs_jumlah_konversi['jumlah_konversi'];
+        $jumlah_terkecil    = $jumlah_konversi * $jumlah_unit; 
+        // END get jumlah_konversi
+
+        // BEGIN get UoM terkecil
+        $qs_iumxxmh_terkecil = $db
+            ->query('select', 'iimummd' )
+            ->get([
+                'id_iumxxmh as id_iumxxmh_terkecil'
+            ] )
+            ->where('iimummd.id_iimxxmh', $id_iimxxmh )
+            ->where('iimummd.is_terkecil', 1 )
+            ->exec();
+        $rs_iumxxmh_terkecil = $qs_iumxxmh_terkecil->fetch();
+
+        $id_iumxxmh_terkecil = $rs_iumxxmh_terkecil['id_iumxxmh_terkecil'];
+        // END get UoM terkecil
+
+        // BEGIN get UoM default
+        $qs_iumxxmh_default = $db
+            ->query('select', 'iimummd' )
+            ->get([
+                'id_iumxxmh as id_iumxxmh_default',
+                'jumlah_konversi as jumlah_konversi_default'
+            ] )
+            ->where('iimummd.id_iimxxmh', $id_iimxxmh )
+            ->where('iimummd.is_default', 1 )
+            ->exec();
+        $rs_iumxxmh_default = $qs_iumxxmh_default->fetch();
+
+        $id_iumxxmh_default         = $rs_iumxxmh_default['id_iumxxmh_default'];
+        $jumlah_konversi_default    = $rs_iumxxmh_default['jumlah_konversi_default'];
+
+        $jumlah_default = $jumlah_konversi * $jumlah_unit / $jumlah_konversi_default;
+        // END get UoM default
+
+        // update
+        $qu_transaksi = $db
+            ->query('update', $table_name)
+            ->set('id_iumxxmh_terkecil',$id_iumxxmh_terkecil)
+            ->set('id_iumxxmh_default',$id_iumxxmh_default)
+            ->set('jumlah_konversi',$jumlah_konversi)
+            ->set('jumlah_terkecil',$jumlah_terkecil) 
+            ->set('jumlah_default',$jumlah_default) 
+            ->set('jumlah_unit_os',$jumlah_unit) 
+            ->set('jumlah_terkecil_os',$jumlah_terkecil) 
+            ->where('id',$id_transaksi)
+            ->exec();
+
         // commit transaction
         $db->commit();
 
