@@ -14,7 +14,7 @@
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
-		<div class="ibox ">
+		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
                     <table id="tbl_blank" class="table table-striped table-bordered table-hover nowrap" width="100%">
