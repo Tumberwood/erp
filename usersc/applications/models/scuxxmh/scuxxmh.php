@@ -30,6 +30,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'scuxxmh.id_gpvxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'scuxxmh.id_fpytmmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'scuxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -57,10 +59,12 @@
 			Field::inst( 'scuxxmh.default_pembayaran' ),
 			Field::inst( 'scuxxmh.is_pkp' ),
 			Field::inst( 'gctxxmh.nama' ),
-			Field::inst( 'gpvxxmh.nama' )
+			Field::inst( 'gpvxxmh.nama' ),
+			Field::inst( 'fpytmmh.nama' )
 		)
 		->leftJoin( 'gctxxmh','gctxxmh.id','=','scuxxmh.id_gctxxmh' )
 		->leftJoin( 'gpvxxmh','gpvxxmh.id','=','scuxxmh.id_gpvxxmh' )
+		->leftJoin( 'fpytmmh','fpytmmh.id','=','scuxxmh.id_fpytmmh' )
 		;
 	
 	// do not erase

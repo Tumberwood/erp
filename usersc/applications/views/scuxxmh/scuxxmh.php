@@ -41,7 +41,7 @@
 								<editor-field name="scuxxmh.id_gbuxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="scuxxmh.default_pembayaran"></editor-field>
+								<editor-field name="scuxxmh.id_fpytmmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -83,15 +83,7 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
-								<th>Alamat</th>
                                 <th>Kota</th>
-                                <th>Provinsi</th>
-                                <th>Telepon</th>
-                                <th>Whatsapp</th>
-                                <th>Fax</th>
-                                <th>Email</th>
-                                <th>PKP</th>
-                                <th>Keterangan</th>
                             </tr>
                         </thead>
                     </table>
@@ -104,7 +96,6 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabsculomd_1"> Lokasi Kirim</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabsculomd_2"> Tab 2</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabsculomd_1" class="tab-pane active">
@@ -124,23 +115,6 @@
 							</table>
 						</div> <!-- end of table -->
 
-					</div>
-				</div>
-				<div role="tabpanel" id="tabsculomd_2" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tblsculomd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_scuxxmh</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -174,12 +148,13 @@
 	var edtscuxxmh, tblscuxxmh, show_deleted_scuxxmh = 0, id_scuxxmh;
 	var edtsculomd, tblsculomd, show_deleted_sculomd = 0, id_sculomd;
 	// ------------- end of default variable
-	var id_gctxxmh_old = 0;
-	var id_gbuxxmh_old = 0;
-	var id_gpvxxmh_old = 0;
+	is_master_table = 1;
+	var is_need_generate_kode = 1;
+
+	var id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0;
 	var id_fbnxxmh_old = 0;
 	
-	var is_need_generate_kode = 1;
+	
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -195,17 +170,14 @@
 			template: '#custom_scuxxmh',
 			fields: [ 
 				{
-					// untuk generate_kode
 					label: "kategori_dokumen",
 					name: "kategori_dokumen",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "kategori_dokumen_value",
 					name: "kategori_dokumen_value",
 					type: "hidden"
 				},	{
-					// untuk generate_kode
 					label: "field_tanggal",
 					name: "field_tanggal",
 					type: "hidden"
@@ -278,6 +250,42 @@
 					}
 				},
 				{
+					label: "Provinsi <sup class='text-danger'>*<sup>",
+					name: "scuxxmh.id_gpvxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gpvxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gpvxxmh_old: id_gpvxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
 					label: "Badan Usaha <sup class='text-danger'>*<sup>",
 					name: "scuxxmh.id_gbuxxmh",
 					type: "select2",
@@ -314,19 +322,19 @@
 					}
 				},
 				{
-					label: "Provinsi <sup class='text-danger'>*<sup>",
-					name: "scuxxmh.id_gpvxxmh",
+					label: "Syarat Bayar <sup class='text-danger'>*<sup>",
+					name: "scuxxmh.id_fpytmmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gpvxxmh_fn_opt.php",
+							url: "../../models/fpytmmh/fpytmmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_gpvxxmh_old: id_gpvxxmh_old,
+									id_fpytmmh_old: id_fpytmmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -384,20 +392,6 @@
 					name: "scuxxmh.npwp"
 				},
 				{
-					label: "Default Pembayaran",
-					name: "scuxxmh.default_pembayaran",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "COD", "value": "COD" },
-						{ "label": "DP", "value": "DP" },
-						{ "label": "N14", "value": "N14" },
-						{ "label": "Net21", "value": "Net21" },
-						{ "label": "Net30", "value": "Net30" },
-						{ "label": "Net45", "value": "Net45" }
-					]
-				},
-				{
 					label: "Keterangan",
 					name: "scuxxmh.keterangan",
 					type: "textarea"
@@ -420,7 +414,37 @@
 		
 		edtscuxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
+
+				nama = edtscuxxmh.field('scuxxmh.nama').val();
+				if(!nama || nama == ''){
+					edtscuxxmh.field('scuxxmh.nama').error( 'Wajib diisi!' );
+				}
+
+				alamat = edtscuxxmh.field('scuxxmh.alamat').val();
+				if(!alamat || alamat == ''){
+					edtscuxxmh.field('scuxxmh.alamat').error( 'Wajib diisi!' );
+				}
+
+				id_gctxxmh = edtscuxxmh.field('scuxxmh.id_gctxxmh').val();
+				if(!id_gctxxmh || id_gctxxmh == ''){
+					edtscuxxmh.field('scuxxmh.id_gctxxmh').error( 'Wajib diisi!' );
+				}
+
+				id_gpvxxmh = edtscuxxmh.field('scuxxmh.id_gpvxxmh').val();
+				if(!id_gpvxxmh || id_gpvxxmh == ''){
+					edtscuxxmh.field('scuxxmh.id_gpvxxmh').error( 'Wajib diisi!' );
+				}
+
+				id_gbuxxmh = edtscuxxmh.field('scuxxmh.id_gbuxxmh').val();
+				if(!id_gbuxxmh || id_gbuxxmh == ''){
+					edtscuxxmh.field('scuxxmh.id_gbuxxmh').error( 'Wajib diisi!' );
+				}
 				
+				id_fpytmmh = edtscuxxmh.field('scuxxmh.id_fpytmmh').val();
+				if(!id_fpytmmh || id_fpytmmh == ''){
+					edtscuxxmh.field('scuxxmh.id_fpytmmh').error( 'Wajib diisi!' );
+				}
+
 				telepon = edtscuxxmh.field('scuxxmh.telepon').val();
 				if (telepon != '') {
 					if(telepon <= 0 ){
@@ -457,15 +481,13 @@
 					}
 				}
 
-				npwp = edtscuxxmh.field('scuxxmh.npwp').val();
-				if (npwp != '') {
-					if(npwp <= 0 ){
-						edtscuxxmh.field('scuxxmh.npwp').error( 'Inputan harus > 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(npwp) ){
-						edtscuxxmh.field('scuxxmh.npwp').error( 'Inputan harus berupa Angka!' );
+				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				email = edtscuxxmh.field('scuxxmh.email').val();
+				if(email != ''){
+					if (emailRegex.test(email)) {
+						
+					} else {
+						edtscuxxmh.field('scuxxmh.email').error( 'Format Email Salah!' );
 					}
 				}
 
@@ -492,41 +514,7 @@
 						edtscuxxmh.field('scuxxmh.npwp').error( 'Inputan harus berupa Angka!' );
 					}
 				}
-
-				id_gpvxxmh = edtscuxxmh.field('scuxxmh.id_gpvxxmh').val();
-				if(!id_gpvxxmh || id_gpvxxmh == ''){
-					edtscuxxmh.field('scuxxmh.id_gpvxxmh').error( 'Wajib diisi!' );
-				}
-
-				id_gbuxxmh = edtscuxxmh.field('scuxxmh.id_gbuxxmh').val();
-				if(!id_gbuxxmh || id_gbuxxmh == ''){
-					edtscuxxmh.field('scuxxmh.id_gbuxxmh').error( 'Wajib diisi!' );
-				}
-
-				id_gctxxmh = edtscuxxmh.field('scuxxmh.id_gctxxmh').val();
-				if(!id_gctxxmh || id_gctxxmh == ''){
-					edtscuxxmh.field('scuxxmh.id_gctxxmh').error( 'Wajib diisi!' );
-				}
-
-				alamat = edtscuxxmh.field('scuxxmh.alamat').val();
-				if(!alamat || alamat == ''){
-					edtscuxxmh.field('scuxxmh.alamat').error( 'Wajib diisi!' );
-				}
-
-				nama = edtscuxxmh.field('scuxxmh.nama').val();
-				if(!nama || nama == ''){
-					edtscuxxmh.field('scuxxmh.nama').error( 'Wajib diisi!' );
-				}
 				
-				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				email = edtscuxxmh.field('scuxxmh.email').val();
-				if(email != ''){
-					if (emailRegex.test(email)) {
-						
-					} else {
-						edtscuxxmh.field('scuxxmh.email').error( 'Format Email Salah!' );
-					}
-				}
 			}
 			
 			if ( edtscuxxmh.inError() ) {
@@ -583,26 +571,7 @@
 				{ data: "scuxxmh.id",visible:false },
 				{ data: "scuxxmh.kode" },
 				{ data: "scuxxmh.nama" },
-				{ data: "scuxxmh.alamat" },
-				{ data: "gctxxmh.nama" },
-				{ data: "gpvxxmh.nama" },
-				{ data: "scuxxmh.telepon" },
-				{ data: "scuxxmh.whatsapp" },
-				{ data: "scuxxmh.fax" },
-				{ data: "scuxxmh.email" },
-				{ 
-					data: "scuxxmh.is_pkp",
-					render: function (data){ 	// render model tulisan
-						if (data == 1){
-							return 'Ya';
-						}else if(data == 0){
-							return 'Tidak';
-						}else{
-							return '';
-						}
-					}
-				},
-				{ data: "scuxxmh.keterangan" }
+				{ data: "gctxxmh.nama" }
 			],
 			buttons: [
 
@@ -655,6 +624,7 @@
 			id_gpvxxmh_old      		= scuxxmh_data.id_gpvxxmh;
 			id_gbuxxmh_old      		= scuxxmh_data.id_gbuxxmh;
 			id_gctxxmh_old      		= scuxxmh_data.id_gctxxmh;
+			id_fpytmmh_old      = scuxxmh_data.id_fpytmmh;
 			
 			// atur hak akses
 			tbl_details = [tblsculomd];
@@ -664,10 +634,7 @@
 		
 		tblscuxxmh.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
-			id_scuxxmh = 0;
-			id_gctxxmh_old = 0;
-			id_gbuxxmh_old = 0;
-			id_gpvxxmh_old = 0;
+			id_scuxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
 
 			// atur hak akses
 			tbl_details = [tblsculomd];
