@@ -57,6 +57,8 @@
 		// ------------- default variable, do not erase
 		var edtwloxxmh, tblwloxxmh, show_deleted_wloxxmh = 0, id_wloxxmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		var id_iwhxxmh_old = 0;
 		
 		$(document).ready(function() {
@@ -151,6 +153,23 @@
 				
 				if(action == 'create'){
 					tblwloxxmh.rows().deselect();
+
+					edtwloxxmh.field('wloxxmh.kode').enable();
+					edtwloxxmh.field('wloxxmh.nama').enable();
+					edtwloxxmh.field('wloxxmh.id_iwhxxmh').enable();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtwloxxmh.field('wloxxmh.kode').enable();
+						edtwloxxmh.field('wloxxmh.nama').enable();
+						edtwloxxmh.field('wloxxmh.id_iwhxxmh').enable();
+					}else{
+						edtwloxxmh.field('wloxxmh.kode').disable();
+						edtwloxxmh.field('wloxxmh.nama').disable();
+						edtwloxxmh.field('wloxxmh.id_iwhxxmh').disable();
+					}
+
+					
 				}
 			});
 
