@@ -60,9 +60,12 @@
                 ->where('kode', '%' . $q . '%', 'LIKE' )
                 ->or_where('nama', '%' . $q . '%', 'LIKE' );
         } )
+        ->order('nama')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
+
+        
     $rs_iibbrmh_all = $qs_iibbrmh_all->fetchAll();
     // END query options all except self
     
