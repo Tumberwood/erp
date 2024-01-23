@@ -244,6 +244,11 @@
 			tblpages.searchPanes.container().appendTo('#sppages_extend');
 			tblpages.searchBuilder.container().appendTo( '#sbpages_extend' );
 
+			// Activate the bubble editor on click of a table cell
+			$('#tblpages').on('click', 'tbody td:not(:first-child)', function (e) {
+				edtpages.bubble(this);
+			});
+
 			tblpages.on( 'init', function () {
 				// atur hak akses
 				CekInitHeaderH(tblpages);
