@@ -15,7 +15,7 @@
 
 <div class="row">
 	<div class="col">
-		<div class="ibox ">
+		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
                     <table id="tblgbuxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -53,6 +53,8 @@
 		// ------------- default variable, do not erase
 		var edtgbuxxmh, tblgbuxxmh, show_deleted_gbuxxmh = 0, id_gbuxxmh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -81,7 +83,7 @@
 						name: "nama_tabel",
 						def: "gbuxxmh",
 						type: "hidden"
-					},	
+					},
 					{
 						label: "gbuxxmh.transaction_state",
 						name: "gbuxxmh.transaction_state",
@@ -101,6 +103,14 @@
 				
 				if(action == 'create'){
 					tblgbuxxmh.rows().deselect();
+				}else if(action == 'edit'){
+
+					if(transaction_state == 0){
+						edtgbuxxmh.field('gbuxxmh.kode').enable();
+					}else{
+						edtgbuxxmh.field('gbuxxmh.kode').disable();
+					}
+
 				}
 			});
 
@@ -151,8 +161,8 @@
 			});
 
 			edtgbuxxmh.on('initSubmit', function(e, action) {
-				finish_on = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtgbuxxmh.field('finish_on').val(finish_on);
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtgbuxxmh.field('gbuxxmh.finish_at').val(finish_at);
 			});
 
 			edtgbuxxmh.on( 'close', function () {
