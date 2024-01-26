@@ -131,10 +131,11 @@
 			$field_tanggal 		= date('Y-m-d');
 
 		}else{
-			$nama_field_tanggal 	 = $nama_tabel.".".$nama_field_tanggal;
+			
 			$field_tanggal_transaksi = $rs_transaksi[$nama_field_tanggal];
 			$field_tanggal 			 = date_create($field_tanggal_transaksi);
 			$field_tanggal 			 = date_format($field_tanggal,"Y-m-d");
+			$nama_field_tanggal 	 = $nama_tabel.".".$nama_field_tanggal;
 		}
 		$field_tanggal_dt	= strtotime($field_tanggal);
 		// END check field tanggal yang digunakan
