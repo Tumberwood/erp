@@ -14,7 +14,7 @@
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
-		<div class="ibox ">
+		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
                     <table id="tblgdnxxsh" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -59,6 +59,8 @@
 		// ------------- default variable, do not erase
 		var edtgdnxxsh, tblgdnxxsh, show_deleted_gdnxxsh = 0, id_gdnxxsh;
 		// ------------- end of default variable
+
+		is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -175,7 +177,7 @@
 					{
 						label: "Field Tanggal <sup class='text-danger'>*<sup>",
 						name: "gdnxxsh.field_tanggal",
-						def: "start_at"
+						def: "created_on"
 					}					
 				]
 
@@ -187,6 +189,14 @@
 				
 				if(action == 'create'){
 					tblgdnxxsh.rows().deselect();
+				}else if(action == 'edit'){
+
+					if(transaction_state == 0){
+						edtgdnxxsh.field('gdnxxsh.nama').enable();
+					}else{
+						edtgdnxxsh.field('gdnxxsh.nama').disable();
+					}
+
 				}
 			});
 
