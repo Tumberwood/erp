@@ -329,7 +329,7 @@
                                 
                                 is_confirmed = confirm(message_transaction_state);
                                 if(is_confirmed == true){
-
+                                    full_message = '';
                                     $.ajax( {
                                         url: '../../../helpers/tr_fn_transaction_state.php',
                                         dataType: 'json',
@@ -340,12 +340,15 @@
                                             transaction_state : 1
                                         },
                                         success: function ( json ) {
-                                            full_message = '';
+                                            
+                                            full_message = full_message + json.data.message + '</br>';
+
                                             if(is_need_generate_kode == 1){
                                                 $.ajax( {
                                                     url: '../../../helpers/kode_fn_generate_confirm.php',
                                                     dataType: 'json',
                                                     type: 'POST',
+                                                    async: false,
                                                     data: {
                                                         state                   : 1,
                                                         nama_tabel              : '<?php echo $table_name;?>',
@@ -365,6 +368,7 @@
                                                     url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_iv.php',
                                                     dataType: 'json',
                                                     type: 'POST',
+                                                    async: false,
                                                     data: {
                                                         state           : 1,
                                                         id_transaksi_h  : id_transaksi_h,
@@ -380,6 +384,7 @@
                                                     url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
                                                     dataType: 'json',
                                                     type: 'POST',
+                                                    async: false,
                                                     data: {
                                                         state           : 1,
                                                         id_transaksi_h  : id_transaksi_h,
@@ -397,6 +402,7 @@
                                                     url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
                                                     dataType: 'json',
                                                     type: 'POST',
+                                                    async: false,
                                                     data: {
                                                         state           : 1,
                                                         id_transaksi_h  : id_transaksi_h
@@ -408,6 +414,7 @@
                                             <?php
                                                 }
                                             ?>
+                                            
                                             $('#notifToast').toast('show');
                                             $('#toastMessage').html(full_message);
                                             $('#toastHeader' ).addClass( 'bg-success');
