@@ -127,9 +127,11 @@
 		// BEGIN check field tanggal yang digunakan
 		// Jika created_on, maka harus query dulu dari table activity_log_ml untuk kode = CONFIRM
 		if ( is_null($nama_field_tanggal) || $nama_field_tanggal == '' ){
-			$nama_field_tanggal = 'created_on';
+			$nama_field_tanggal = 'activity_log_ml.created_on';
 			$field_tanggal 		= date('Y-m-d');
+
 		}else{
+			$nama_field_tanggal 	 = $nama_tabel.".".$nama_field_tanggal;
 			$field_tanggal_transaksi = $rs_transaksi[$nama_field_tanggal];
 			$field_tanggal 			 = date_create($field_tanggal_transaksi);
 			$field_tanggal 			 = date_format($field_tanggal,"Y-m-d");
@@ -156,9 +158,11 @@
 		$bulan = substr($field_tanggal,5,2);
 
 		// BEGIN generate WHERE
-		$where = " WHERE transaction_state = 1 ";
+		
 		$tanggal = $field_tanggal;
 	
+		$where = " WHERE activity_log_ml.kode = 'CONFIRM' AND activity_log_ml.nama = '" . $nama_tabel . "' ";
+
 		// BEGIN check nomor dokumen direset per Tahun, Bulan atau tanpa reset
 		if ($reset_by == "Tahun"){
 			$where = $where . " AND YEAR(".$nama_field_tanggal.") = YEAR('" . $tanggal . "') ";
@@ -179,10 +183,16 @@
 		$qs_c_id_new = $db
 			->raw()
 			->exec('
-				SELECT 
-					count(id) as c_id_new
-				FROM ' . $nama_tabel .
-				$where
+				SELECT
+					count(activity_log_ml.id) as c_id_new
+				FROM '.$nama_tabel.'
+				LEFT JOIN activity_log_ml ON
+					activity_log_ml.id_transaksi = '.$nama_tabel.'.id 
+					AND  activity_log_ml.kode = "CONFIRM" 
+					AND activity_log_ml.nama = "'.$nama_tabel.'" 
+				' 
+				. $where 
+
 			);
 		$rs_c_id_new 	= $qs_c_id_new->fetch();
 		$new_number  	= $rs_c_id_new['c_id_new'];
@@ -255,7 +265,8 @@
 		'message'      	=> $message,
 		'type_message' 	=> $type_message,
 		'tr_kode' => $tr_kode,
-		'new_number' => $new_number
+		'new_number' => $new_number,
+		'nama_field_tanggal' => $nama_field_tanggal
 	);
 
 	// tampilkan results
