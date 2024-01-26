@@ -25,10 +25,7 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'gdnxxsh.id' ),
-			Field::inst( 'gdnxxsh.nama' )
-				->validator( Validate::notEmpty( ValidateOptions::inst()
-					->message( 'Wajib Diisi!' )
-				)),
+			Field::inst( 'gdnxxsh.nama' ),
 			Field::inst( 'gdnxxsh.keterangan' ),
 			Field::inst( 'gdnxxsh.created_by' ),
 			Field::inst( 'gdnxxsh.transaction_state' ),
@@ -36,43 +33,26 @@
 			Field::inst( 'gdnxxsh.start_at' ),
 			Field::inst( 'gdnxxsh.finish_at' ),
 			Field::inst( 'gdnxxsh.is_defaultprogram' ),
-
 			Field::inst( 'gdnxxsh.mode' )
-				->validator( Validate::notEmpty( ValidateOptions::inst()
-					->message( 'Wajib Diisi!' )
-				))
 				->searchPaneOptions( SearchPaneOptions::inst()),
-			
 			Field::inst( 'gdnxxsh.nama_tabel' )
 				->setFormatter( Format::ifEmpty( 0 ) )
 				->options( Options::inst()
 					->table( 'v_tablelist' )
 					->value( 'id' )
 					->label( 'nama' )
-				)
-				->validator( Validate::unique( ValidateOptions::inst()
-					->message( 'Data tidak boleh kembar!' )
-				)),
+				),
 			Field::inst( 'gdnxxsh.kategori_dokumen' ),
 			Field::inst( 'gdnxxsh.kategori_dokumen_value' ),
 			Field::inst( 'gdnxxsh.prefix' ),
 			Field::inst( 'gdnxxsh.suffix' ),
-			Field::inst( 'gdnxxsh.total_digit' )
-				->validator( Validate::notEmpty( ValidateOptions::inst()
-					->message( 'Wajib Diisi!' )
-				)),
+			Field::inst( 'gdnxxsh.total_digit' ),
 			Field::inst( 'gdnxxsh.reset_by' )
 				->searchPaneOptions( SearchPaneOptions::inst()),
 			Field::inst( 'gdnxxsh.separator' ),
 			Field::inst( 'gdnxxsh.by_company' ),
 			Field::inst( 'gdnxxsh.by_cabang' ),
-			
-			
-			Field::inst( 'gdnxxsh.field_tanggal' )
-				->validator( Validate::notEmpty( ValidateOptions::inst()
-					->message( 'Wajib Diisi!' )
-				)),
-
+			Field::inst( 'gdnxxsh.field_tanggal' ),
 			Field::inst( 'v_tablelist.nama' )
 			
 		)

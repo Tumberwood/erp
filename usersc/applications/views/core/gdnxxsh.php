@@ -16,6 +16,58 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				
+				<div id="frmgdnxxsh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.mode"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.nama_tabel"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.kategori_dokumen"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.kategori_dokumen_value"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.prefix"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.suffix"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.total_digit"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.reset_by"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.field_tanggal"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="gdnxxsh.separator"></editor-field>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblgdnxxsh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -73,6 +125,7 @@
 					}
 				},
 				table: "#tblgdnxxsh",
+				template: "#frmgdnxxsh",
 				fields: [ 
 					{
 						label: "gdnxxsh.start_at",
@@ -150,6 +203,11 @@
 						]
 					}, 	
 					{
+						label: "Field Tanggal",
+						name: "gdnxxsh.field_tanggal",
+						fieldInfo: "Kosongkan jika ingin menggunakan tanggal konfirmasi "
+					},
+					{
 						label: "Karakter Pembagi",
 						name: "gdnxxsh.separator",
 						def: "/",
@@ -173,12 +231,7 @@
 							{ "label": "Ya", "value": 1 },
 							{ "label": "Tidak", "value": 0 }
 						]
-					}, 	
-					{
-						label: "Field Tanggal <sup class='text-danger'>*<sup>",
-						name: "gdnxxsh.field_tanggal",
-						def: "created_on"
-					}					
+					}
 				]
 
 			} );
@@ -201,7 +254,7 @@
 			});
 
 			edtgdnxxsh.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
+				$(".modal-dialog").addClass("modal-xl");
 			});
 
             edtgdnxxsh.on( 'preSubmit', function (e, data, action) {
@@ -215,6 +268,15 @@
 						}
 					}
 					// END of validasi gdnxxsh.nama
+
+					// BEGIN of validasi gdnxxsh.mode
+					if ( ! edtgdnxxsh.field('gdnxxsh.mode').isMultiValue() ) {
+						mode = edtgdnxxsh.field('gdnxxsh.mode').val();
+						if(!mode || mode == ''){
+							edtgdnxxsh.field('gdnxxsh.mode').error( 'Wajib diisi!' );
+						}
+					}
+					// END of validasi gdnxxsh.mode
 
 					// BEGIN of validasi gdnxxsh.nama_tabel
 					if ( ! edtgdnxxsh.field('gdnxxsh.nama_tabel').isMultiValue() ) {
@@ -233,16 +295,6 @@
 						}
 					}
 					// END of validasi gdnxxsh.total_digit
-
-					// BEGIN of validasi gdnxxsh.field_tanggal
-					if ( ! edtgdnxxsh.field('gdnxxsh.field_tanggal').isMultiValue() ) {
-						field_tanggal = edtgdnxxsh.field('gdnxxsh.field_tanggal').val();
-						if(!field_tanggal || field_tanggal == ''){
-							edtgdnxxsh.field('gdnxxsh.field_tanggal').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gdnxxsh.field_tanggal
-
 						
 					// BEGIN of cek unik gdnxxsh
 					nama_tabel = edtgdnxxsh.field('gdnxxsh.nama_tabel').val();
