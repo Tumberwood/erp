@@ -125,8 +125,7 @@
 		// END ambil data dari table transaksi
 
 		// BEGIN check field tanggal yang digunakan
-		// jika null	: gunakan today *** FRONT END HARUS STRING ***
-		// jika tidak	: gunakan field tanggal
+		// Jika created_on, maka harus query dulu dari table activity_log_ml untuk kode = CONFIRM
 		if ( is_null($nama_field_tanggal) || $nama_field_tanggal == '' ){
 			$nama_field_tanggal = 'created_on';
 			$field_tanggal 		= date('Y-m-d');
@@ -187,15 +186,7 @@
 			);
 		$rs_c_id_new 	= $qs_c_id_new->fetch();
 		$new_number  	= $rs_c_id_new['c_id_new'];
-		$len_new_number = strlen($new_number);	// cek length digit new_number
-		
-		/* BEGIN looping generate angka 0 sesuai setting digit */
-		$zero = "";
-		for ($x = 0; $x < ($total_digit - $len_new_number); $x++) {
-			$zero = $zero . "0";
-		}
-		$new_number =  $zero . $new_number;
-		/* END looping generate angka 0 sesuai setting digit */
+		$tr_kode 		= str_pad($new_number,$total_digit,"0",STR_PAD_LEFT);
 
 		/* generate document number by mode */
 		if ($mode == 1){
@@ -210,10 +201,10 @@
 			// - $tahun
 			if ($reset_by == "Tahun"){
 				// prefix/tahun + nomorurut
-				$formatted_kode = $prefix . $separator . $tahun . $new_number;
+				$formatted_kode = $prefix . $separator . $tahun . $tr_kode;
 			}else if ($reset_by == "Bulan"){
 				// prefix/tahunbulan/nomorurut
-				$formatted_kode = $prefix . $separator . $tahun . $bulan . $separator . $new_number;
+				$formatted_kode = $prefix . $separator . $tahun . $bulan . $separator . $tr_kode;
 			}
 		}else if ($mode == 2){
 			// mode 2: 
@@ -221,7 +212,7 @@
 
 			// parameter:
 			// - $prefix
-			$formatted_kode = $prefix . $new_number;
+			$formatted_kode = $prefix . $tr_kode;
 		}else if ($mode == 3){
 			// mode 3: 
 			// 	contoh: 391/SPL/PNW/VIII/2019
@@ -233,13 +224,13 @@
 			// - $bulan
 			// - $separator
 			// - $tahun
-			$formatted_kode = $new_number . $separator . $prefix . $separator . $suffix . $separator . $bulan . $separator. $tahun ;
+			$formatted_kode = $tr_kode . $separator . $prefix . $separator . $suffix . $separator . $bulan . $separator. $tahun ;
 		}else if ($mode == 4){
 			/*
 				mode 4: 
 				Kode Cabang/Prefix/Tahun/Bulan/nomorurut
 			*/
-			$formatted_kode = $_SESSION['kodemhcabang'] . $separator . $prefix . $separator . $tahun . $separator . $bulan . $separator . $new_number;
+			$formatted_kode = $_SESSION['kodemhcabang'] . $separator . $prefix . $separator . $tahun . $separator . $bulan . $separator . $tr_kode;
 		}
 
 		// BEGIN update field kode
@@ -262,7 +253,9 @@
 	
 	$data = array(
 		'message'      	=> $message,
-		'type_message' 	=> $type_message
+		'type_message' 	=> $type_message,
+		'tr_kode' => $tr_kode,
+		'new_number' => $new_number
 	);
 
 	// tampilkan results
