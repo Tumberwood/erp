@@ -58,7 +58,7 @@
 		var edtiibbrmh, tbliibbrmh, show_deleted_iibbrmh = 0, id_iibbrmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
+		is_need_generate_kode = 1, is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -71,7 +71,22 @@
 					}
 				},
 				table: "#tbliibbrmh",
+				formOptions: {
+					main: {
+						focus: 6,
+					}
+				},
 				fields: [ 
+					{
+						label: "kategori_dokumen",
+						name: "kategori_dokumen",
+						type: "hidden"
+					},
+					{
+						label: "kategori_dokumen_value",
+						name: "kategori_dokumen_value",
+						type: "hidden"
+					},
 					{
 						label: "iibbrmh.start_at",
 						name: "iibbrmh.start_at",
@@ -93,11 +108,7 @@
 						name: "iibbrmh.transaction_state",
                         type: "hidden",
 						def: 0
-					},	
-					{
-						label: "Kode <sup class='text-danger'>*<sup>",
-						name: "iibbrmh.kode"
-					}, 	
+					},
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "iibbrmh.nama"
@@ -117,15 +128,16 @@
 				if(action == 'create'){
 					tbliibbrmh.rows().deselect();
 
-					edtiibbrmh.field('iibbrmh.kode').enable();
 					edtiibbrmh.field('iibbrmh.nama').enable();
+
+					edtiibbrmh.field('kategori_dokumen').val('');
+					edtiibbrmh.field('kategori_dokumen_value').val('');
+
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
-						edtiibbrmh.field('iibbrmh.kode').enable();
 						edtiibbrmh.field('iibbrmh.nama').enable();
 					}else{
-						edtiibbrmh.field('iibbrmh.kode').disable();
 						edtiibbrmh.field('iibbrmh.nama').disable();
 					}
 				}
@@ -137,38 +149,6 @@
 
             edtiibbrmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi iibbrmh.kode
-					if ( ! edtiibbrmh.field('iibbrmh.kode').isMultiValue() ) {
-						kode = edtiibbrmh.field('iibbrmh.kode').val();
-						if(!kode || kode == ''){
-							edtiibbrmh.field('iibbrmh.kode').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik iibbrmh.kode
-						if(action == 'create'){
-							id_iibbrmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iibbrmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_iibbrmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiibbrmh.field('iibbrmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iibbrmh.kode
-					}
-					// END of validasi iibbrmh.kode
 					
 					// BEGIN of validasi iibbrmh.nama
 					if ( ! edtiibbrmh.field('iibbrmh.nama').isMultiValue() ) {

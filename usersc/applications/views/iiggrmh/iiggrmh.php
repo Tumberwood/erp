@@ -57,7 +57,7 @@
 		// ------------- default variable, do not erase
 		var edtiiggrmh, tbliiggrmh, show_deleted_iiggrmh = 0, id_iiggrmh;
 		// ------------- end of default variable
-		is_master_table = 1;
+		is_need_generate_kode = 1, is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -70,7 +70,22 @@
 					}
 				},
 				table: "#tbliiggrmh",
+				formOptions: {
+					main: {
+						focus: 6,
+					}
+				},
 				fields: [ 
+					{
+						label: "kategori_dokumen",
+						name: "kategori_dokumen",
+						type: "hidden"
+					},
+					{
+						label: "kategori_dokumen_value",
+						name: "kategori_dokumen_value",
+						type: "hidden"
+					},
 					{
 						label: "iiggrmh.start_at",
 						name: "iiggrmh.start_at",
@@ -94,10 +109,6 @@
 						def: 0
 					},	
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
-						name: "iiggrmh.kode"
-					}, 	
-					{
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "iiggrmh.nama"
 					}, 	
@@ -118,10 +129,11 @@
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
-						edtiiggrmh.field('iiggrmh.kode').enable();
 						edtiiggrmh.field('iiggrmh.nama').enable();
+
+						edtiiggrmh.field('kategori_dokumen').val('');
+						edtiiggrmh.field('kategori_dokumen_value').val('');
 					}else{
-						edtiiggrmh.field('iiggrmh.kode').disable();
 						edtiiggrmh.field('iiggrmh.nama').disable();
 					}
 				}
@@ -133,38 +145,6 @@
 
             edtiiggrmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi iiggrmh.kode
-					if ( ! edtiiggrmh.field('iiggrmh.kode').isMultiValue() ) {
-						kode = edtiiggrmh.field('iiggrmh.kode').val();
-						if(!kode || kode == ''){
-							edtiiggrmh.field('iiggrmh.kode').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik iiggrmh.kode
-						if(action == 'create'){
-							id_iiggrmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iiggrmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_iiggrmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiiggrmh.field('iiggrmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iiggrmh.kode
-					}
-					// END of validasi iiggrmh.kode
 					
 					// BEGIN of validasi iiggrmh.nama
 					if ( ! edtiiggrmh.field('iiggrmh.nama').isMultiValue() ) {
