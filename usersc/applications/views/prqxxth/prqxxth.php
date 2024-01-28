@@ -56,6 +56,17 @@
 										<th>Keterangan</th>
 									</tr>
 								</thead>
+								<tfoot>
+									<tr>
+										<th></th>
+										<th></th>
+										<th id="c_items"></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</tfoot>
 							</table>
 						</div> <!-- end of table -->
 
@@ -112,13 +123,10 @@
 					label: "kategori_dokumen",
 					name: "kategori_dokumen",
 					type: "hidden"
-				},	{
+				},	
+				{
 					label: "kategori_dokumen_value",
 					name: "kategori_dokumen_value",
-					type: "hidden"
-				},	{
-					label: "field_tanggal",
-					name: "field_tanggal",
 					type: "hidden"
 				},
 				{
@@ -208,7 +216,6 @@
 				tblprqxxth.rows().deselect();
 				edtprqxxth.field('kategori_dokumen').val('');
 				edtprqxxth.field('kategori_dokumen_value').val('');
-				edtprqxxth.field('field_tanggal').val('start_at');
 			}
 		});
 
@@ -597,6 +604,12 @@
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
+			},
+			footerCallback: function ( row, data, start, end, display ) {
+				var api       = this.api(), data;
+				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display;
+				var c_items = api.column(0).data().count();
+				$( '#c_items' ).html( numFormat("Total Item(s): " + c_items) );
 			},
 			rowCallback: function( row, data, index ) {
 			}
