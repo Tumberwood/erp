@@ -42,7 +42,7 @@
 				Field::inst( 'podittd.approval_state' ),
 				Field::inst( 'podittd.start_at' ),
 				Field::inst( 'podittd.finish_at' ),
-				Field::inst( 'podittd.tanggal' )
+				Field::inst( 'podittd.tanggal_dibutuhkan' )
 					->getFormatter( function ( $val, $data, $opts ) {
 						if ($val === '0000-00-00' || $val === null){
 							echo '';
@@ -58,7 +58,7 @@
 				Field::inst( 'podittd.jumlah_unit' ),
 				Field::inst( 'podittd.harga_unit' ),
 				Field::inst( 'podittd.subtotal' ),
-				Field::inst( 'podittd.is_diskon_persen' ),
+				Field::inst( 'podittd.diskon_jenis' ),
 				Field::inst( 'podittd.diskon_value' ),
 				Field::inst( 'podittd.diskon_persen' ),
 				Field::inst( 'podittd.diskon_final' ),

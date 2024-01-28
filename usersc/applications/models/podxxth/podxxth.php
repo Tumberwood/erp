@@ -66,7 +66,7 @@
 				) ),
 			Field::inst( 'podxxth.is_defaultprogram' ),
 			Field::inst( 'podxxth.subtotal' ),
-			Field::inst( 'podxxth.is_diskon_persen' ),
+			Field::inst( 'podxxth.diskon_jenis' ),
 			Field::inst( 'podxxth.diskon_value' ),
 			Field::inst( 'podxxth.diskon_persen' ),
 			Field::inst( 'podxxth.diskon_final' ),
