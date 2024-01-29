@@ -52,6 +52,8 @@
 										<th>Konversi</th>
 										<th>Terkecil</th>
 										<th>Default</th>
+										<th>Default Beli</th>
+										<th>Default Jual</th>
 									</tr>
 								</thead>
 							</table>
@@ -94,6 +96,9 @@
 
 	var id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0, id_iibbrmh_old = 0;
 	var id_iumxxmh_old = 0;
+	var is_def_beli = 0;
+	var is_def_jual = 0;
+	var is_berubah_def = 0;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -649,7 +654,27 @@
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
 					]
-				}, 	
+				},  	
+				{
+					label: "Default Penjualan <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_def_jual",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 		
+				{
+					label: "Default Pembelian <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_def_beli",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 		
 				{
 					label: "Konversi <sup class='text-danger'>*<sup>",
 					name: "iimummd.jumlah_konversi",
@@ -659,7 +684,27 @@
 					label: "Keterangan",
 					name: "iimummd.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "Net Weight",
+					name: "iimummd.nw"
+				},
+				{
+					label: "Gross Weight",
+					name: "iimummd.gw"
+				},
+				{
+					label: "Panjang",
+					name: "iimummd.panjang"
+				},
+				{
+					label: "Lebar",
+					name: "iimummd.lebar"
+				},
+				{
+					label: "Tinggi",
+					name: "iimummd.tinggi"
+				},
 			]
 		} );
 			
@@ -723,6 +768,56 @@
 					edtiimummd.field('iimummd.jumlah_konversi').error( 'Inputan harus berupa Angka!' );
 				}
 				// END of validasi iimummd.jumlah_konversi 
+
+				// BEGIN of validasi iimummd.panjang 
+				panjang = edtiimummd.field('iimummd.panjang').val();
+				if(panjang < 0 ){
+					edtiimummd.field('iimummd.panjang').error( 'Inputan harus > 0' );
+				}
+				if(isNaN(panjang) ){
+					edtiimummd.field('iimummd.panjang').error( 'Inputan harus berupa Angka!' );
+				}
+				// END of validasi iimummd.panjang 
+
+				// BEGIN of validasi iimummd.lebar 
+				lebar = edtiimummd.field('iimummd.lebar').val();
+				if(lebar < 0 ){
+					edtiimummd.field('iimummd.lebar').error( 'Inputan harus > 0' );
+				}
+				if(isNaN(lebar) ){
+					edtiimummd.field('iimummd.lebar').error( 'Inputan harus berupa Angka!' );
+				}
+				// END of validasi iimummd.lebar 
+
+				// BEGIN of validasi iimummd.tinggi 
+				tinggi = edtiimummd.field('iimummd.tinggi').val();
+				if(tinggi < 0 ){
+					edtiimummd.field('iimummd.tinggi').error( 'Inputan harus > 0' );
+				}
+				if(isNaN(tinggi) ){
+					edtiimummd.field('iimummd.tinggi').error( 'Inputan harus berupa Angka!' );
+				}
+				// END of validasi iimummd.tinggi 
+
+				// BEGIN of validasi iimummd.nw 
+				nw = edtiimummd.field('iimummd.nw').val();
+				if(nw < 0 ){
+					edtiimummd.field('iimummd.nw').error( 'Inputan harus > 0' );
+				}
+				if(isNaN(nw) ){
+					edtiimummd.field('iimummd.nw').error( 'Inputan harus berupa Angka!' );
+				}
+				// END of validasi iimummd.nw 
+
+				// BEGIN of validasi iimummd.gw 
+				gw = edtiimummd.field('iimummd.gw').val();
+				if(gw < 0 ){
+					edtiimummd.field('iimummd.gw').error( 'Inputan harus > 0' );
+				}
+				if(isNaN(gw) ){
+					edtiimummd.field('iimummd.gw').error( 'Inputan harus berupa Angka!' );
+				}
+				// END of validasi iimummd.gw 
 			}
 			
 			if ( edtiimummd.inError() ) {
@@ -737,6 +832,8 @@
 			// BEGIN is_default
 			// ambil is_default dari form input
 			is_default 		= edtiimummd.field('iimummd.is_default').val();
+			is_def_beli 		= edtiimummd.field('iimummd.is_def_beli').val();
+			is_def_jual 		= edtiimummd.field('iimummd.is_def_jual').val();
 			if(action == 'create'){
 				is_default_old = 0;
 			} // else nya sudah didapatkan saat select
@@ -755,16 +852,33 @@
 
 			}
 			// END is_default
+
+			//DEFAULT BELI
+			if(is_def_beli == 1 && is_def_beli != is_def_beli_old){
+				is_berubah_def = 1;
+				nama_field_def = 'is_def_beli';
+			}
+
+			if(is_def_jual == 1 && is_def_jual != is_def_jual_old){
+				is_berubah_def = 1;
+				nama_field_def = 'is_def_jual';
+			}
 		});
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
 
+			id_transaksi_default = json.data[0].iimummd.id;
 			// BEGIN is_default
 			if(is_update_default == 1){
-					id_transaksi_default = json.data[0].iimummd.id;
-					isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-				}
-				// END is_default
+				isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+			}
+			// END is_default
+
+			// BEGIN def beli jual
+			if(is_berubah_def == 1){
+				defBeliJual(nama_field_def);
+			}
+			// END def beli jual
 		} );
 
 		edtiimummd.on( 'close', function () {
@@ -797,6 +911,14 @@
 				},
 				{ 
 					data: "iimummd.is_default" ,
+					render: $.fn.dataTable.render.yaTidak()
+				},
+				{ 
+					data: "iimummd.is_def_beli" ,
+					render: $.fn.dataTable.render.yaTidak()
+				},
+				{ 
+					data: "iimummd.is_def_jual" ,
 					render: $.fn.dataTable.render.yaTidak()
 				}
 			],
@@ -840,6 +962,8 @@
 
 			id_iumxxmh_old = data_iimummd.id_iumxxmh;
 			is_default_old = data_iimummd.is_default;
+			is_def_beli_old = data_iimummd.is_def_beli;
+			is_def_jual_old = data_iimummd.is_def_jual;
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimxxmh, tbliimummd );
