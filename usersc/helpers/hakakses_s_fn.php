@@ -23,6 +23,7 @@
 
     $s_arr_ha_gbrxxmh = [0];
     $s_str_arr_ha_gbrxxmh = (0);
+    $s_id_gbrxxmh = 0;
 
     try{
         $s_id_users = $user->data()->id;

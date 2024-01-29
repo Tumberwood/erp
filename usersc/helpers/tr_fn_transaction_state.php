@@ -84,7 +84,7 @@
             ->query('select', 'gtbrlsh' )
             ->get([
                 'gtbrlsh.tblheader as tblheader',
-                'gtbrlsh.tbldetails as tbldetails'
+                'gtbrlsh.tbldetail as tbldetails'
             ] )
             ->where('gtbrlsh.tblheader', $table_name )
             ->exec();
@@ -145,7 +145,7 @@
 
             // delete all table detail (jika tidak null)
             // jika null artinya table tersebut tidak mempunya detail
-            if(!is_null($rs_gtbrlsh['tbldetails'])){
+            if(!empty($rs_gtbrlsh['tbldetails'])){
                 $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
                 foreach($tbldetails as $i => $tbldetail) {
                     $qu_tbldetail = $db
