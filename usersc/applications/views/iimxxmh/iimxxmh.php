@@ -340,27 +340,15 @@
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
 
 				// BEGIN of cek unik iimxxmh.kode 
-				if(action == 'create'){
-					id_iimxxmh = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'iimxxmh',
-						nama_field: 'kode',
-						nama_field_value: '"'+kode+'"',
-						id_transaksi: id_iimxxmh
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtiimxxmh.field('iimxxmh.kode').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
+				isCekUnikValid(
+					action,
+					edtiimxxmh, 
+					"iimxxmh", 
+					"kode", 
+					'kode',
+					'"'+kode+'"',
+					id_iimxxmh
+				);
 				// END of cek unik iimxxmh.kode 
 				// END of validasi iimxxmh.kode
 
@@ -368,27 +356,15 @@
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
 				
 				// BEGIN of cek unik iimxxmh.nama 
-				if(action == 'create'){
-					id_iimxxmh = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'iimxxmh',
-						nama_field: 'nama',
-						nama_field_value: '"'+nama+'"',
-						id_transaksi: id_iimxxmh
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtiimxxmh.field('iimxxmh.nama').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
+				isCekUnikValid(
+					action,
+					edtiimxxmh, 
+					"iimxxmh", 
+					"nama", 
+					'nama',
+					'"'+nama+'"',
+					id_iimxxmh
+				);
 				// END of cek unik iimxxmh.nama 
 				// END of validasi iimxxmh.nama
 
@@ -724,29 +700,15 @@
 				// BEGIN of validasi iimummd.id_iumxxmh 
 				id_iumxxmh = edtiimummd.field('iimummd.id_iumxxmh').val();
 				
-				// BEGIN of cek unik iimummd.id_iumxxmh 
-				if(action == 'create'){
-					id_iimummd = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'iimummd',
-						nama_field: 'id_iimxxmh,id_iumxxmh',
-						nama_field_value: id_iimxxmh+','+id_iumxxmh,
-						id_transaksi: id_iimummd
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtiimummd.field('iimummd.id_iumxxmh').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
-				// END of cek unik iimummd.id_iumxxmh 
+				isCekUnikValid(
+					action,							//Butuh Action untuk Create dsb
+					edtiimummd, 					//variable editor
+					"iimummd", 						//Nama tabel
+					"id_iumxxmh", 					//Nama Field Editor yang akan di validasi
+					'id_iimxxmh,id_iumxxmh',		//nama_field
+					id_iimxxmh+','+id_iumxxmh, 		//nama_field_value
+					id_iimummd 						//id_transaksi
+				);
 				// END of validasi iimummd.id_iumxxmh 
 
 				// BEGIN of validasi iimummd.jumlah_konversi 

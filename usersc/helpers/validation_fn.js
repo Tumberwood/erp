@@ -70,3 +70,65 @@ function isNumberValid(edt, tabel, fields, number){
         }
     });
 }
+
+/**
+ * VALIDASI OLD
+ * // BEGIN of cek unik iimummd.id_iumxxmh 
+    if(action == 'create'){
+        id_iimummd = 0;
+    }
+    
+    $.ajax( {
+        url: '../../../helpers/validate_fn_unique.php',
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        data: {
+            table_name: 'iimummd',
+            nama_field: 'id_iimxxmh,id_iumxxmh',
+            nama_field_value: id_iimxxmh+','+id_iumxxmh,
+            id_transaksi: id_iimummd
+        },
+        success: function ( json ) {
+            if(json.data.count == 1){
+                edtiimummd.field('iimummd.id_iumxxmh').error( 'Data tidak boleh kembar!' );
+            }
+        }
+    } );
+    // END of cek unik iimummd.id_iumxxmh 
+
+    MENJADI ->
+
+ * isCekUnikValid(
+        edtiimummd, 					//variable editor
+        "iimummd", 						//Nama tabel
+        "id_iumxxmh", 					//Nama Field Editor yang akan di validasi
+        'id_iimxxmh,id_iumxxmh',		//nama_field
+        id_iimxxmh+','+id_iumxxmh, 		//nama_field_value
+        id_iimummd 						//id_transaksi
+    );
+ */
+function isCekUnikValid(action, edt, tabel, field_edt, nama_field, nama_field_value, id_transaksi) {
+
+    if(action == 'create'){
+        id_transaksi = 0;
+    }
+    
+    $.ajax( {
+        url: '../../../helpers/validate_fn_unique.php',
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        data: {
+            table_name: tabel,
+            nama_field: nama_field,
+            nama_field_value: nama_field_value,
+            id_transaksi: id_transaksi
+        },
+        success: function ( json ) {
+            if(json.data.count == 1){
+                edt.field(tabel + '.' + field_edt).error( 'Data tidak boleh kembar!' );
+            }
+        }
+    } );
+}
