@@ -132,3 +132,19 @@ function isCekUnikValid(action, edt, tabel, field_edt, nama_field, nama_field_va
         }
     } );
 }
+
+//VALIDASI EMAIL, HARUS ADA SIMBOL @ DAN . 
+// SIMBOL @ TIDAK BOLEH LEBIH DARI 1
+function isEmailValid(edt, tabel, fields) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    Object.keys(fields).forEach(nama_fields => {
+        if (fields[nama_fields]) {
+            if (emailRegex.test(fields[nama_fields])) {
+                // Valid email format
+            } else {
+                edt.field(tabel + '.' + nama_fields).error('Email Tidak Valid!');
+            }
+        }
+    });
+}
