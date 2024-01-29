@@ -27,6 +27,32 @@ function isRequiredValid(edt, tabel, fields){
     });
 }
 
+/**
+ * 
+// Validasi default akan muncul saat kurang atau sama dengan 0
+isNumberValid(
+    edtiimummd, 
+    "iimummd", 
+    {
+        "jumlah_konversi": jumlah_konversi
+    }
+);
+
+// VALIDASI NUMBER dengan def_number validation
+isNumberValid(
+    edtiimummd, 
+    "iimummd", 
+    {
+        "panjang": panjang, 
+        "lebar": lebar, 
+        "tinggi": tinggi, 
+        "nw": nw, 
+        "gw": gw
+    },
+    -1 //Ini adalah nilai yang menjadi validasi. Jika nilai kurang dari -1 maka akan dapat validasi
+);
+ */
+
 function isNumberValid(edt, tabel, fields, number){
     if (number == null) {
         number = 0;
