@@ -145,7 +145,7 @@
 
             // delete all table detail (jika tidak null)
             // jika null artinya table tersebut tidak mempunya detail
-            if(!empty($rs_gtbrlsh['tbldetails'])){
+            if(!is_null($rs_gtbrlsh['tbldetails'])){
                 $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
                 foreach($tbldetails as $i => $tbldetail) {
                     $qu_tbldetail = $db
