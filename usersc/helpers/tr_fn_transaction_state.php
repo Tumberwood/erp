@@ -84,7 +84,7 @@
             ->query('select', 'gtbrlsh' )
             ->get([
                 'gtbrlsh.tblheader as tblheader',
-                'gtbrlsh.tbldetail as tbldetails'
+                'gtbrlsh.tbldetails as tbldetails'
             ] )
             ->where('gtbrlsh.tblheader', $table_name )
             ->exec();
