@@ -82,6 +82,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iimxxmh/fn/iimxxmh_fn.php'; ?>
@@ -337,10 +338,7 @@
 				
 				// BEGIN of validasi iimxxmh.kode 
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
-				if(!kode || kode == ''){
-					edtiimxxmh.field('iimxxmh.kode').error( 'Wajib diisi!' );
-				}
-				
+
 				// BEGIN of cek unik iimxxmh.kode 
 				if(action == 'create'){
 					id_iimxxmh = 0;
@@ -368,9 +366,6 @@
 
 				// BEGIN of validasi iimxxmh.nama 
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
-				if(!nama || nama == ''){
-					edtiimxxmh.field('iimxxmh.nama').error( 'Wajib diisi!' );
-				}
 				
 				// BEGIN of cek unik iimxxmh.nama 
 				if(action == 'create'){
@@ -399,32 +394,33 @@
 
 				// BEGIN of validasi iimxxmh.id_iittpmh 
 				id_iittpmh = edtiimxxmh.field('iimxxmh.id_iittpmh').val();
-				if(!id_iittpmh || id_iittpmh == ''){
-					edtiimxxmh.field('iimxxmh.id_iittpmh').error( 'Wajib diisi!' );
-				} 
 				// END of validasi iimxxmh.id_iittpmh
 
+				isRequiredValid(
+					edtiimxxmh, 
+					"iimxxmh", 
+					{
+						"nama": nama, 
+						"kode": kode, 
+						"id_iittpmh": id_iittpmh
+					}
+				);
+
+
 				if (id_iittpmh == 1) {
-					// BEGIN of validasi iimxxmh.id_iicctmh 
 					id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
-					if(!id_iicctmh || id_iicctmh == ''){
-						edtiimxxmh.field('iimxxmh.id_iicctmh').error( 'Wajib diisi!' );
-					} 
-					// END of validasi iimxxmh.id_iicctmh
-
-					// BEGIN of validasi iimxxmh.id_iiggrmh 
 					id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
-					if(!id_iiggrmh || id_iiggrmh == ''){
-						edtiimxxmh.field('iimxxmh.id_iiggrmh').error( 'Wajib diisi!' );
-					} 
-					// END of validasi iimxxmh.id_iiggrmh
-
-					// BEGIN of validasi iimxxmh.id_iibbrmh 
 					id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
-					if(!id_iibbrmh || id_iibbrmh == ''){
-						edtiimxxmh.field('iimxxmh.id_iibbrmh').error( 'Wajib diisi!' );
-					} 
-					// END of validasi iimxxmh.id_iibbrmh
+					
+					isRequiredValid(
+						edtiimxxmh, 
+						"iimxxmh", 
+						{
+							"id_iicctmh": id_iicctmh, 
+							"id_iiggrmh": id_iiggrmh, 
+							"id_iibbrmh": id_iibbrmh
+						}
+					);
 				}
 			}
 			
@@ -727,9 +723,6 @@
 			if(action != 'remove'){
 				// BEGIN of validasi iimummd.id_iumxxmh 
 				id_iumxxmh = edtiimummd.field('iimummd.id_iumxxmh').val();
-				if(!id_iumxxmh || id_iumxxmh == ''){
-					edtiimummd.field('iimummd.id_iumxxmh').error( 'Wajib diisi!' );
-				}
 				
 				// BEGIN of cek unik iimummd.id_iumxxmh 
 				if(action == 'create'){
@@ -758,66 +751,46 @@
 
 				// BEGIN of validasi iimummd.jumlah_konversi 
 				jumlah_konversi = edtiimummd.field('iimummd.jumlah_konversi').val();
-				if(!jumlah_konversi || jumlah_konversi == ''){
-					edtiimummd.field('iimummd.jumlah_konversi').error( 'Wajib diisi!' );
-				}
-				if(jumlah_konversi <= 0 ){
-					edtiimummd.field('iimummd.jumlah_konversi').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(jumlah_konversi) ){
-					edtiimummd.field('iimummd.jumlah_konversi').error( 'Inputan harus berupa Angka!' );
-				}
 				// END of validasi iimummd.jumlah_konversi 
+				
+				isRequiredValid(
+					edtiimummd, 
+					"iimummd", 
+					{
+						"id_iumxxmh": id_iumxxmh, 
+						"jumlah_konversi": jumlah_konversi
+					}
+				);
 
 				// BEGIN of validasi iimummd.panjang 
 				panjang = edtiimummd.field('iimummd.panjang').val();
-				if(panjang < 0 ){
-					edtiimummd.field('iimummd.panjang').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(panjang) ){
-					edtiimummd.field('iimummd.panjang').error( 'Inputan harus berupa Angka!' );
-				}
-				// END of validasi iimummd.panjang 
-
-				// BEGIN of validasi iimummd.lebar 
 				lebar = edtiimummd.field('iimummd.lebar').val();
-				if(lebar < 0 ){
-					edtiimummd.field('iimummd.lebar').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(lebar) ){
-					edtiimummd.field('iimummd.lebar').error( 'Inputan harus berupa Angka!' );
-				}
-				// END of validasi iimummd.lebar 
-
-				// BEGIN of validasi iimummd.tinggi 
 				tinggi = edtiimummd.field('iimummd.tinggi').val();
-				if(tinggi < 0 ){
-					edtiimummd.field('iimummd.tinggi').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(tinggi) ){
-					edtiimummd.field('iimummd.tinggi').error( 'Inputan harus berupa Angka!' );
-				}
-				// END of validasi iimummd.tinggi 
-
-				// BEGIN of validasi iimummd.nw 
 				nw = edtiimummd.field('iimummd.nw').val();
-				if(nw < 0 ){
-					edtiimummd.field('iimummd.nw').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(nw) ){
-					edtiimummd.field('iimummd.nw').error( 'Inputan harus berupa Angka!' );
-				}
-				// END of validasi iimummd.nw 
-
-				// BEGIN of validasi iimummd.gw 
 				gw = edtiimummd.field('iimummd.gw').val();
-				if(gw < 0 ){
-					edtiimummd.field('iimummd.gw').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(gw) ){
-					edtiimummd.field('iimummd.gw').error( 'Inputan harus berupa Angka!' );
-				}
-				// END of validasi iimummd.gw 
+
+				// Validasi default akan muncul saat kurang atau sama dengan 0
+				isNumberValid(
+					edtiimummd, 
+					"iimummd", 
+					{
+						"jumlah_konversi": jumlah_konversi
+					}
+				);
+
+				// VALIDASI NUMBER dengan def_number validation
+				isNumberValid(
+					edtiimummd, 
+					"iimummd", 
+					{
+						"panjang": panjang, 
+						"lebar": lebar, 
+						"tinggi": tinggi, 
+						"nw": nw, 
+						"gw": gw
+					},
+					-1 //Jika nilai kurang dari -1 maka akan dapat validasi
+				);
 			}
 			
 			if ( edtiimummd.inError() ) {
