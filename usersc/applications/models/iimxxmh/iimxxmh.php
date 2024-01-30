@@ -61,6 +61,30 @@
 		->leftJoin( 'iittpmh','iittpmh.id','=','iimxxmh.id_iittpmh' )
 		->leftJoin( 'iicctmh','iicctmh.id','=','iimxxmh.id_iicctmh' )
 		->leftJoin( 'iiggrmh','iiggrmh.id','=','iimxxmh.id_iiggrmh' )
+		
+		// BEGIN upload multi file
+		// table files dan lk_transaksi_files adalah bawaan framework, jangan diganti. cukup ganti iimxxmh nya saja dan folder 
+		->join(
+			Mjoin::inst( 'files' )
+				->link( 'iimxxmh.id', 'lk_transaksi_files.idtransaksi' )
+				->link( 'files.id', 'lk_transaksi_files.idfiles' )
+				->fields(
+					Field::inst( 'id' )
+						->upload( Upload::inst( $abs_us_root.$us_url_root. '/usersc/uploads/__ID__.__EXTN__' )
+							->db( 'files', 'id', array(
+								'filename'    => Upload::DB_FILE_NAME,
+								'filesize'    => Upload::DB_FILE_SIZE,
+								'web_path'    => Upload::DB_WEB_PATH,
+								'system_path' => Upload::DB_SYSTEM_PATH,
+								'extn' 		  => Upload::DB_EXTN
+							) )
+							->validator( Validate::fileSize( 1000000, 'Ukuran file lampiran maksimal 1mb' ) )
+							->validator( Validate::fileExtensions( array( 'pdf', 'png', 'jpg', 'jpeg' ), "Hanya diperbolehkan jenis pdf, png, jpg, atau jpeg" ) )
+						),
+					Field::inst( 'web_path' )
+				)
+		)
+	// END upload multi file
 		;
 	
 	// do not erase

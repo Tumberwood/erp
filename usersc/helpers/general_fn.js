@@ -11,25 +11,54 @@
  * pada datatables columns render
  * render: $.fn.dataTable.render.transactionStatus()
  */
-$.fn.dataTable.render.transactionStatus = function () {
-    return function ( data, type, row ) {
+// $.fn.dataTable.render.transactionStatus = function () {
+//     return function ( data, type, row ) {
 
-        if (data == -9){
-            return '<span class="badge badge-danger">DELETE</span>';
-        }else if (data == 0){
-            return '<span class="badge badge-plain">DRAFT</span>';
-        }else if(data == 1){
-            return '<span class="badge badge-primary">CONFIRM</span>';
-        }else if(data == 8){
-            return '<span class="badge badge-primary">COMPLETE</span>';
-        }else if(data == 9){
-            return '<span class="badge badge-danger">CLOSED</span>';
-        }else{
-            return '<span class="badge badge-warning">INVALID</span>';
-        }
+//         if (data == -9){
+//             return '<span class="badge badge-danger">DELETE</span>';
+//         }else if (data == 0){
+//             return '<span class="badge badge-plain">DRAFT</span>';
+//         }else if(data == 1){
+//             return '<span class="badge badge-primary">CONFIRM</span>';
+//         }else if(data == 8){
+//             return '<span class="badge badge-primary">COMPLETE</span>';
+//         }else if(data == 9){
+//             return '<span class="badge badge-danger">CLOSED</span>';
+//         }else{
+//             return '<span class="badge badge-warning">INVALID</span>';
+//         }
 
+//     }
+// };
+
+
+/**
+ * 
+ * CARA KERJA
+ * { 
+        data: "iumxxmh.transaction_state" ,
+        ...renderTransactionStatus()
     }
-};
+ */
+function renderTransactionStatus() {
+    return {
+        render: function (data) {
+            if (data == -9){
+                return '<span class="badge badge-danger">DELETE</span>';
+            }else if (data == 0){
+                return '<span class="badge badge-plain">DRAFT</span>';
+            }else if(data == 1){
+                return '<span class="badge badge-primary">CONFIRM</span>';
+            }else if(data == 8){
+                return '<span class="badge badge-primary">COMPLETE</span>';
+            }else if(data == 9){
+                return '<span class="badge badge-danger">CLOSED</span>';
+            }else{
+                return '<span class="badge badge-warning">INVALID</span>';
+            }
+        }
+    };
+}
 
 /**
  * Datatables Render approvalStatus
@@ -38,23 +67,50 @@ $.fn.dataTable.render.transactionStatus = function () {
  * pada datatables columns render
  * render: $.fn.dataTable.render.approvalStatus()
  */
-$.fn.dataTable.render.approvalStatus = function () {
-    return function ( data, type, row ) {
+// $.fn.dataTable.render.approvalStatus = function () {
+//     return function ( data, type, row ) {
 
-        if (data == -9){
-            return '<span class="badge badge-danger">VOID</span>';
-        }else if(data == -1){
-            return '<span class="badge badge-primary">CANCEL APPROVE</span>';
-        }else if (data == 0){
-            return '<span class="badge badge-plain">OPEN</span>';
-        }else if(data == 1){
-            return '<span class="badge badge-primary">APPROVE</span>';
-        }else{
-            return '<span class="badge badge-warning">INVALID</span>';
-        }
+//         if (data == -9){
+//             return '<span class="badge badge-danger">VOID</span>';
+//         }else if(data == -1){
+//             return '<span class="badge badge-primary">CANCEL APPROVE</span>';
+//         }else if (data == 0){
+//             return '<span class="badge badge-plain">OPEN</span>';
+//         }else if(data == 1){
+//             return '<span class="badge badge-primary">APPROVE</span>';
+//         }else{
+//             return '<span class="badge badge-warning">INVALID</span>';
+//         }
         
+//     }
+// };
+
+
+/**
+ * 
+ * CARA KERJA
+ * { 
+        data: "iumxxmh.transaction_state" ,
+        ...renderApprovalStatus()
     }
-};
+ */
+function renderApprovalStatus() {
+    return {
+        render: function (data) {
+            if (data == -9){
+                return '<span class="badge badge-danger">VOID</span>';
+            }else if(data == -1){
+                return '<span class="badge badge-primary">CANCEL APPROVE</span>';
+            }else if (data == 0){
+                return '<span class="badge badge-plain">OPEN</span>';
+            }else if(data == 1){
+                return '<span class="badge badge-primary">APPROVE</span>';
+            }else{
+                return '<span class="badge badge-warning">INVALID</span>';
+            }
+        }
+    };
+}
 
 /**
  * Datatables Render yaTidak
@@ -63,19 +119,42 @@ $.fn.dataTable.render.approvalStatus = function () {
  * pada datatables columns render
  * render: $.fn.dataTable.render.yaTidak()
  */
-$.fn.dataTable.render.yaTidak = function () {
-    return function ( data, type, row ) {
+// $.fn.dataTable.render.yaTidak = function () {
+//     return function ( data, type, row ) {
 
-        if (data == 0){
-            return '<span class="badge badge-plain">Tidak</span>';
-        }else if(data == 1){
-            return '<span class="badge badge-primary">Ya</span>';
-        }else{
-            return '<span class="badge badge-warning">INVALID</span>';
-        }
+//         if (data == 0){
+//             return '<span class="badge badge-plain">Tidak</span>';
+//         }else if(data == 1){
+//             return '<span class="badge badge-primary">Ya</span>';
+//         }else{
+//             return '<span class="badge badge-warning">INVALID</span>';
+//         }
         
+//     }
+// };
+
+
+/**
+ * 
+ * CARA KERJA
+ * { 
+        data: "iumxxmh.transaction_state" ,
+        ...renderYaTidak()
     }
-};
+ */
+function renderYaTidak() {
+    return {
+        render: function (data) {
+            if (data == 0) {
+                return '<span class="badge badge-plain">Tidak</span>';
+            } else if (data == 1) {
+                return '<span class="badge badge-primary">Ya</span>';
+            } else {
+                return '<span class="badge badge-warning">INVALID</span>';
+            }
+        }
+    };
+}
 
 /**
  * isDefaultUpdate
@@ -317,3 +396,22 @@ function hitungDiskon(edt, tabel){
         class: "text-right"
     };
 }
+
+/**
+ * 
+ * Masih belum Finish, masih push
+ */
+
+// function multiFilesT(id_h) {
+//     $.ajax( {
+//         url: '../../../helpers/fn_konversi_uom.php',
+//         dataType: 'json',
+//         type: 'POST',
+//         data: {
+//             table_name: table_name,
+//             id_transaksi: id_transaksi
+//         },
+//         success: function ( json ) {
+//         }
+//     } );
+// }

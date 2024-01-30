@@ -300,7 +300,7 @@
 					{ data: "iwhxxmh.nama" },
 					{ 
 						data: "wloxxmh.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [

@@ -372,15 +372,15 @@
 				{ data: "itixxth.id",visible:false },
 				{ data: "itixxth.tanggal" },
 				{ data: "itixxth.kode" },
-				{ data: "iwhxxmh_asal.nama" },
-				{ data: "iwhxxmh_tujuan.nama" },
+				{ data: "asal.nama" },
+				{ data: "tujuan.nama" },
 				{ 
 					data: "itixxth.transaction_state" ,
-					render: $.fn.dataTable.render.transactionStatus()
+					...renderTransactionStatus()
 				},
 				{ 
 					data: "itixxth.approval_state" ,
-					render: $.fn.dataTable.render.approvalStatus()
+					...renderApprovalStatus()
 				}
 			],
 			buttons: [

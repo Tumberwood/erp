@@ -282,7 +282,7 @@
 					{ data: "aakxxmh_parent.nama" },
 					{ 
 						data: "aakxxmh.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [

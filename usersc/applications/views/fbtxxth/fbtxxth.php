@@ -350,7 +350,7 @@
 					{ data: "fbtxxth.keterangan" },
 					{ 
 						data: "fbtxxth.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [

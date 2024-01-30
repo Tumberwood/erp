@@ -340,11 +340,11 @@
 				{ data: "iwhxxmh_tujuan.nama" },
 				{ 
 					data: "itoxxth.transaction_state" ,
-					render: $.fn.dataTable.render.transactionStatus()
+					...renderTransactionStatus()
 				},
 				{ 
 					data: "itoxxth.approval_state" ,
-					render: $.fn.dataTable.render.approvalStatus()
+					...renderApprovalStatus()
 				}
 			],
 			buttons: [

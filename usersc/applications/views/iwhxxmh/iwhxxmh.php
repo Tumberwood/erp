@@ -353,7 +353,7 @@
 					{ data: "iwhxxmh.keterangan" },
 					{ 
 						data: "iwhxxmh.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [

@@ -296,11 +296,11 @@
 				{ data: "hodxxmh.nama" },
 				{ 
 					data: "prqxxth.transaction_state" ,
-					render: $.fn.dataTable.render.transactionStatus()
+					...renderTransactionStatus()
 				},
 				{ 
 					data: "prqxxth.approval_state" ,
-					render: $.fn.dataTable.render.approvalStatus()
+					...renderApprovalStatus()
 				}
 			],
 			buttons: [

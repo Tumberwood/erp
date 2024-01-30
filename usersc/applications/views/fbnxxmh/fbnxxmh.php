@@ -244,7 +244,7 @@
 					{ data: "fbnxxmh.nama" },
 					{ 
 						data: "fbnxxmh.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [

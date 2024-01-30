@@ -240,7 +240,7 @@
 					{ data: "_blank.keterangan" },
 					{ 
 						data: "_blank.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [

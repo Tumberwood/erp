@@ -136,6 +136,19 @@
 					def: 0
 				},
 				{
+					label: "Lampiran Multi:",
+					name: "files[].id",
+					type: "uploadMany",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtiimxxmh.file( 'files', fileId ).web_path+'" target="_blank">'+ edtiimxxmh.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				},	
+				{
 					label: "Kode <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.kode"
 				},
@@ -414,6 +427,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			// id_transaksi_header = json.data[0].iimxxmh.id;
 		} );
 
 		edtiimxxmh.on( 'close', function () {
@@ -570,7 +584,7 @@
 					label: "id_iimxxmh",
 					name: "iimummd.id_iimxxmh",
 					type: "hidden"
-				},	
+				},
 				{
 					label: "UoM",
 					name: "iimummd.id_iumxxmh",
@@ -841,19 +855,19 @@
 				},
 				{ 
 					data: "iimummd.is_terkecil" ,
-					render: $.fn.dataTable.render.yaTidak()
+					...renderYaTidak()
 				},
 				{ 
 					data: "iimummd.is_default" ,
-					render: $.fn.dataTable.render.yaTidak()
+					...renderYaTidak()
 				},
 				{ 
 					data: "iimummd.is_def_beli" ,
-					render: $.fn.dataTable.render.yaTidak()
+					...renderYaTidak()
 				},
 				{ 
 					data: "iimummd.is_def_jual" ,
-					render: $.fn.dataTable.render.yaTidak()
+					...renderYaTidak()
 				}
 			],
 			buttons: [

@@ -677,11 +677,11 @@
 				},
 				{ 
 					data: "podxxth.transaction_state" ,
-					render: $.fn.dataTable.render.transactionStatus()
+					...renderTransactionStatus()
 				},
 				{ 
 					data: "podxxth.approval_state" ,
-					render: $.fn.dataTable.render.approvalStatus()
+					...renderApprovalStatus()
 				}
 			],
 			buttons: [

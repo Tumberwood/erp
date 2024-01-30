@@ -259,7 +259,7 @@
 					},
 					{ 
 						data: "fpytmmh.transaction_state" ,
-						render: $.fn.dataTable.render.transactionStatus()
+						...renderTransactionStatus()
 					}
 				],
 				buttons: [
