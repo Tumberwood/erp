@@ -3,7 +3,6 @@
  * format number menggunakan function dari datatables
  * biasanya dipanggil di footerCallback
  */
-dtNumberFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
 
 /**
  * Datatables Render transactionStatus
@@ -263,4 +262,58 @@ function hitungDiskon(edt, tabel){
     
     edt.field(tabel+'.diskon_final').val(diskon_final);
     edt.field(tabel+'.dpp').val(dpp);
+}
+
+/**
+ * RENDER NUMBER CUSTOM, ATUR DIGIT BELAKANG KOMA
+ * AUTO TEXT RIGHT
+ * Digit = Integer
+ * Prefix dan Suffix = String
+ * 
+ * CARA MEMAKAI DI VIEW TABLE COLUMNS
+    * { 
+            data: "iimummd.jumlah_konversi" ,
+            ...renderNumber(2, "Rp. ", " br") //render number text-right dan pemecah ribuan
+        },
+        
+        Hasilnya = "Rp. 24,000.00 br"
+
+    Jika parameter dikosongkan semua
+        ...renderNumber()
+
+        Hasilnya = "24,000" (tanpa digit belakang koma, tanpa prefix dan suffix)
+
+    Jika hanya mengisi prefix digit
+        ...renderNumber(2)
+
+        Hasilnya = "24,000.00" (ada 2 digit dibelakang koma, tanpa prefix dan suffix)
+
+    Jika ingin memakai prefix, maka digit wajib diisi
+        ...renderNumber( 2, "Rp. ")
+
+        Hasilnya = Rp. 24,000.00
+
+        ATAU
+
+        ...renderNumber( 0, "Rp. ")
+
+        Hasilnya = Rp. 24,000
+ */
+ function renderNumber(digit, prefix, suffix) {
+    if (digit == null) {
+        digit = 0;
+    }
+
+    if (prefix == null) {
+        prefix = '';
+    }
+
+    if (suffix == null) {
+        suffix = '';
+    }
+
+    return {
+        render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
+        class: "text-right"
+    };
 }
