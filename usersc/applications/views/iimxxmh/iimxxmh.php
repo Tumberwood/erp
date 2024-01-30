@@ -340,7 +340,7 @@
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
 
 				// BEGIN of cek unik iimxxmh.kode 
-				isCekUnikValid(
+				validasiCekUnik(
 					action,
 					edtiimxxmh, 
 					"iimxxmh", 
@@ -356,7 +356,7 @@
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
 				
 				// BEGIN of cek unik iimxxmh.nama 
-				isCekUnikValid(
+				validasiCekUnik(
 					action,
 					edtiimxxmh, 
 					"iimxxmh", 
@@ -372,7 +372,7 @@
 				id_iittpmh = edtiimxxmh.field('iimxxmh.id_iittpmh').val();
 				// END of validasi iimxxmh.id_iittpmh
 
-				isRequiredValid(
+				validasiRequired(
 					edtiimxxmh, 
 					"iimxxmh", 
 					{
@@ -388,7 +388,7 @@
 					id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
 					id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
 					
-					isRequiredValid(
+					validasiRequired(
 						edtiimxxmh, 
 						"iimxxmh", 
 						{
@@ -700,7 +700,7 @@
 				// BEGIN of validasi iimummd.id_iumxxmh 
 				id_iumxxmh = edtiimummd.field('iimummd.id_iumxxmh').val();
 				
-				isCekUnikValid(
+				validasiCekUnik(
 					action,							//Butuh Action untuk Create dsb
 					edtiimummd, 					//variable editor
 					"iimummd", 						//Nama tabel
@@ -715,7 +715,7 @@
 				jumlah_konversi = edtiimummd.field('iimummd.jumlah_konversi').val();
 				// END of validasi iimummd.jumlah_konversi 
 				
-				isRequiredValid(
+				validasiRequired(
 					edtiimummd, 
 					"iimummd", 
 					{
@@ -732,7 +732,7 @@
 				gw = edtiimummd.field('iimummd.gw').val();
 
 				// Validasi default akan muncul saat kurang atau sama dengan 0
-				isNumberValid(
+				validasiNumber(
 					edtiimummd, 
 					"iimummd", 
 					{
@@ -741,7 +741,7 @@
 				);
 
 				// VALIDASI NUMBER dengan def_number validation
-				isNumberValid(
+				validasiNumber(
 					edtiimummd, 
 					"iimummd", 
 					{

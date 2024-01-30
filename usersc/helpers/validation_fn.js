@@ -5,7 +5,7 @@ id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
 id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
 id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
 
-isRequiredValid(
+isRequired(
     edtiimxxmh, 
     "iimxxmh", 
     {
@@ -16,7 +16,7 @@ isRequiredValid(
 );
 */
 
-function isRequiredValid(edt, tabel, fields){
+function validasiRequired(edt, tabel, fields){
 
     Object.keys(fields).forEach(nama_fields => {
         
@@ -30,7 +30,7 @@ function isRequiredValid(edt, tabel, fields){
 /**
  * 
 // Validasi default akan muncul saat kurang atau sama dengan 0
-isNumberValid(
+isNumber(
     edtiimummd, 
     "iimummd", 
     {
@@ -39,7 +39,7 @@ isNumberValid(
 );
 
 // VALIDASI NUMBER dengan def_number validation
-isNumberValid(
+isNumber(
     edtiimummd, 
     "iimummd", 
     {
@@ -53,7 +53,7 @@ isNumberValid(
 );
  */
 
-function isNumberValid(edt, tabel, fields, number){
+function validasiNumber(edt, tabel, fields, number){
     if (number == null) {
         number = 0;
     }
@@ -99,7 +99,7 @@ function isNumberValid(edt, tabel, fields, number){
 
     MENJADI ->
 
- * isCekUnikValid(
+ * isCekUnik(
         edtiimummd, 					//variable editor
         "iimummd", 						//Nama tabel
         "id_iumxxmh", 					//Nama Field Editor yang akan di validasi
@@ -108,7 +108,7 @@ function isNumberValid(edt, tabel, fields, number){
         id_iimummd 						//id_transaksi
     );
  */
-function isCekUnikValid(action, edt, tabel, field_edt, nama_field, nama_field_value, id_transaksi) {
+function validasiCekUnik(action, edt, tabel, field_edt, nama_field, nama_field_value, id_transaksi) {
 
     if(action == 'create'){
         id_transaksi = 0;
@@ -135,7 +135,7 @@ function isCekUnikValid(action, edt, tabel, field_edt, nama_field, nama_field_va
 
 //VALIDASI EMAIL, HARUS ADA SIMBOL @ DAN . 
 // SIMBOL @ TIDAK BOLEH LEBIH DARI 1
-function isEmailValid(edt, tabel, fields) {
+function validasiEmail(edt, tabel, fields) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     Object.keys(fields).forEach(nama_fields => {
