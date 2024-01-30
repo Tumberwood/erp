@@ -1,4 +1,11 @@
 /**
+ * dtNumberFormat
+ * format number menggunakan function dari datatables
+ * biasanya dipanggil di footerCallback
+ */
+dtNumberFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
+
+/**
  * Datatables Render transactionStatus
  * Digunakan untuk render field transaction_status
  * Cara menggunakan:
@@ -181,7 +188,13 @@ function konversiUom(table_name, id_transaksi ){
 
 /**
  * autofill
- * Digunakan untuk membuat autofill dependent field
+ * Digunakan untuk membuat autofill dependent field. Mendapatkan data dari tabel lain, berdasarkan parameter tertentu
+ * table_name   : string    | nama tabel yang akan diambil datanya
+ * id_transaksi : integer   | id table tujuan yang akan diambil datanya. biasanya didapatkan dari variable
+ * fields_name  : string    | nama field yang akan diambil datanya, bisa multiple, pisahkan menggunakan koma. 
+ * contoh:
+ *  autofillField('tabel_asal', 1, 'fieldA,fieldB')
+ *  akan mengambil data fieldA,fieldB dari tabel_asal, id tabel_asal = 1
  */
 function autofillField(table_name, id_transaksi, fields_name){
     $.ajax( {
@@ -198,4 +211,56 @@ function autofillField(table_name, id_transaksi, fields_name){
             autofillData = json.data.rs_autofill;
         }
     } );
-}    
+}
+
+/**
+ * hitungSubtotal
+ * Digunakan untuk menghitung field subtotal
+ * subtotal = jumlah_unit * harga_unit
+ */
+
+function hitungSubtotal(edt, tabel){
+    var harga_unit, jumlah_unit, subtotal;
+    harga_unit = parseFloat(edt.field(tabel+'.harga_unit').val());
+    jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
+
+    subtotal = (jumlah_unit * harga_unit);
+    edt.field(tabel+'.subtotal').val(subtotal);
+
+}
+
+/**
+ * hitungDiskon
+ * Digunakan untuk menghitung diskon
+ * Ada 2 macam diskon, dalam persen dan dalam value
+ * jenis_diskon:
+ *  0: tidak ada diskon
+ *  1: persen
+ *  2: value
+ */
+function hitungDiskon(edt, tabel){
+    var diskon_jenis, diskon_persen, diskon_value, diskon_final, dpp ;
+
+    diskon_jenis = parseFloat(edt.field(tabel+'.diskon_jenis').val());
+    diskon_persen = parseFloat(edt.field(tabel+'.diskon_persen').val());
+    diskon_value = parseFloat(edt.field(tabel+'.diskon_value').val());
+    subtotal = parseFloat(edt.field(tabel+'.subtotal').val());
+
+    if (diskon_jenis == 0) {
+        diskon_final = 0;
+    }else if (diskon_jenis == 1) {
+        edt.field(tabel+'.diskon_value').val(0)
+        diskon_final = (diskon_persen / 100 * subtotal);
+    }else if (diskon_jenis == 2) {
+        edt.field(tabel+'.diskon_persen').val(0)
+        diskon_final = diskon_value;
+    }else{
+        // harusnya tidak masuk ke sini karena pilihan di form hanya 0|1|2
+    }
+
+    // hitung dpp
+    dpp = (subtotal - diskon_final);
+    
+    edt.field(tabel+'.diskon_final').val(diskon_final);
+    edt.field(tabel+'.dpp').val(dpp);
+}

@@ -38,7 +38,7 @@
 				Field::inst( 'prqittd.approval_state' ),
 				Field::inst( 'prqittd.start_at' ),
 				Field::inst( 'prqittd.finish_at' ),
-				Field::inst( 'prqittd.tanggal' )
+				Field::inst( 'prqittd.tanggal_dibutuhkan' )
 					->getFormatter( function ( $val, $data, $opts ) {
 						if ($val === '0000-00-00' || $val === null){
 							echo '';

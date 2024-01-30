@@ -462,7 +462,7 @@
 				},		
 				{
 					label: "Tanggal Dibutuhkan",
-					name: "prqittd.tanggal",
+					name: "prqittd.tanggal_dibutuhkan",
 					type: "datetime",
 					def: function () { 
 						return new Date(); 
