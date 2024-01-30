@@ -837,8 +837,7 @@
 				{ data: "iumxxmh.kode" },
 				{ 
 					data: "iimummd.jumlah_konversi" ,
-					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-					class: "text-right"
+					...renderNumber(2) //render number text-right dan pemecah ribuan
 				},
 				{ 
 					data: "iimummd.is_terkecil" ,

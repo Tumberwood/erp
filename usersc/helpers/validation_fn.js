@@ -168,3 +168,17 @@ function validasiTanggal(edt, tabel, fields){
         }
     });
 }
+
+////////////// TESTING RENDER /////////////////
+
+
+/**
+ * RENDER NUMBER CUSTOM, ATUR DIGIT BELAKANG KOMA
+ * AUTO TEXT RIGHT
+ */
+    function renderNumber(digit) {
+    return {
+        render: $.fn.dataTable.render.number(',', '.', digit, '', ''),
+        class: "text-right"
+    };
+}
