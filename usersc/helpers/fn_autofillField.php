@@ -1,4 +1,9 @@
 <?php 
+    /**
+     * Digunakan untuk membuat autofill dependent field
+     * Contoh: Field Kota dan Provinsi
+     * Jika field Kota dipilih Surabaya, maka field Provinsi otomatis akan terisi Jawa Timur
+     */
     include_once( "../../users/init.php" );
 	include_once( "../../usersc/lib/DataTables.php" );
     include( "datatables_fn_debug.php" );
