@@ -24,6 +24,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'ggsxxsh.id' ),
+			Field::inst( 'ggsxxsh.id_iumxxmh_panjang' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+
+			Field::inst( 'ggsxxsh.id_iumxxmh_berat' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+
 			Field::inst( 'ggsxxsh.keterangan' ),
 			Field::inst( 'ggsxxsh.created_by' ),
 			Field::inst( 'ggsxxsh.transaction_state' ),
@@ -47,8 +53,12 @@
                 ),
 			
 			Field::inst( 'ggsxxsh.posisi_logo_login' ),
-			Field::inst( 'files.web_path' )
+			Field::inst( 'files.web_path' ),
+			Field::inst( 'berat.nama' ),
+			Field::inst( 'panjang.nama' )
 		)
+		->leftJoin( 'iumxxmh AS panjang','panjang.id','=','ggsxxsh.id_iumxxmh_panjang' )
+		->leftJoin( 'iumxxmh AS berat','berat.id','=','ggsxxsh.id_iumxxmh_berat' )
         ->leftJoin( 'files','files.id','=','ggsxxsh.id_files_company_logo' );
 	
 	// do not erase

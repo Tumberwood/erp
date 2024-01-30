@@ -41,6 +41,8 @@
 				Field::inst( 'iimummd.finish_at' ),
 				Field::inst( 'iimummd.is_defaultprogram' ),
 				Field::inst( 'iimummd.is_default' ),
+				Field::inst( 'iimummd.is_def_jual' ),
+				Field::inst( 'iimummd.is_def_beli' ),
 
 				Field::inst( 'iimummd.is_terkecil' ),
 				Field::inst( 'iimummd.jumlah_konversi' ),

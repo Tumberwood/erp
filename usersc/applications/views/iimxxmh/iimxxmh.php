@@ -52,6 +52,8 @@
 										<th>Konversi</th>
 										<th>Terkecil</th>
 										<th>Default</th>
+										<th>Default Beli</th>
+										<th>Default Jual</th>
 									</tr>
 								</thead>
 							</table>
@@ -80,6 +82,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iimxxmh/fn/iimxxmh_fn.php'; ?>
@@ -94,6 +97,9 @@
 
 	var id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0, id_iibbrmh_old = 0;
 	var id_iumxxmh_old = 0;
+	var is_def_beli = 0;
+	var is_def_jual = 0;
+	var is_berubah_def = 0;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -332,94 +338,65 @@
 				
 				// BEGIN of validasi iimxxmh.kode 
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
-				if(!kode || kode == ''){
-					edtiimxxmh.field('iimxxmh.kode').error( 'Wajib diisi!' );
-				}
-				
+
 				// BEGIN of cek unik iimxxmh.kode 
-				if(action == 'create'){
-					id_iimxxmh = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'iimxxmh',
-						nama_field: 'kode',
-						nama_field_value: '"'+kode+'"',
-						id_transaksi: id_iimxxmh
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtiimxxmh.field('iimxxmh.kode').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
+				isCekUnikValid(
+					action,
+					edtiimxxmh, 
+					"iimxxmh", 
+					"kode", 
+					'kode',
+					'"'+kode+'"',
+					id_iimxxmh
+				);
 				// END of cek unik iimxxmh.kode 
 				// END of validasi iimxxmh.kode
 
 				// BEGIN of validasi iimxxmh.nama 
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
-				if(!nama || nama == ''){
-					edtiimxxmh.field('iimxxmh.nama').error( 'Wajib diisi!' );
-				}
 				
 				// BEGIN of cek unik iimxxmh.nama 
-				if(action == 'create'){
-					id_iimxxmh = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'iimxxmh',
-						nama_field: 'nama',
-						nama_field_value: '"'+nama+'"',
-						id_transaksi: id_iimxxmh
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtiimxxmh.field('iimxxmh.nama').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
+				isCekUnikValid(
+					action,
+					edtiimxxmh, 
+					"iimxxmh", 
+					"nama", 
+					'nama',
+					'"'+nama+'"',
+					id_iimxxmh
+				);
 				// END of cek unik iimxxmh.nama 
 				// END of validasi iimxxmh.nama
 
 				// BEGIN of validasi iimxxmh.id_iittpmh 
 				id_iittpmh = edtiimxxmh.field('iimxxmh.id_iittpmh').val();
-				if(!id_iittpmh || id_iittpmh == ''){
-					edtiimxxmh.field('iimxxmh.id_iittpmh').error( 'Wajib diisi!' );
-				} 
 				// END of validasi iimxxmh.id_iittpmh
 
+				isRequiredValid(
+					edtiimxxmh, 
+					"iimxxmh", 
+					{
+						"nama": nama, 
+						"kode": kode, 
+						"id_iittpmh": id_iittpmh
+					}
+				);
+
+
 				if (id_iittpmh == 1) {
-					// BEGIN of validasi iimxxmh.id_iicctmh 
 					id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
-					if(!id_iicctmh || id_iicctmh == ''){
-						edtiimxxmh.field('iimxxmh.id_iicctmh').error( 'Wajib diisi!' );
-					} 
-					// END of validasi iimxxmh.id_iicctmh
-
-					// BEGIN of validasi iimxxmh.id_iiggrmh 
 					id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
-					if(!id_iiggrmh || id_iiggrmh == ''){
-						edtiimxxmh.field('iimxxmh.id_iiggrmh').error( 'Wajib diisi!' );
-					} 
-					// END of validasi iimxxmh.id_iiggrmh
-
-					// BEGIN of validasi iimxxmh.id_iibbrmh 
 					id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
-					if(!id_iibbrmh || id_iibbrmh == ''){
-						edtiimxxmh.field('iimxxmh.id_iibbrmh').error( 'Wajib diisi!' );
-					} 
-					// END of validasi iimxxmh.id_iibbrmh
+					
+					isRequiredValid(
+						edtiimxxmh, 
+						"iimxxmh", 
+						{
+							"id_iicctmh": id_iicctmh, 
+							"id_iiggrmh": id_iiggrmh, 
+							"id_iibbrmh": id_iibbrmh
+						}
+					);
 				}
 			}
 			
@@ -649,7 +626,27 @@
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
 					]
-				}, 	
+				},  	
+				{
+					label: "Default Penjualan <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_def_jual",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 		
+				{
+					label: "Default Pembelian <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_def_beli",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 		
 				{
 					label: "Konversi <sup class='text-danger'>*<sup>",
 					name: "iimummd.jumlah_konversi",
@@ -659,7 +656,27 @@
 					label: "Keterangan",
 					name: "iimummd.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "Net Weight",
+					name: "iimummd.nw"
+				},
+				{
+					label: "Gross Weight",
+					name: "iimummd.gw"
+				},
+				{
+					label: "Panjang",
+					name: "iimummd.panjang"
+				},
+				{
+					label: "Lebar",
+					name: "iimummd.lebar"
+				},
+				{
+					label: "Tinggi",
+					name: "iimummd.tinggi"
+				},
 			]
 		} );
 			
@@ -682,47 +699,60 @@
 			if(action != 'remove'){
 				// BEGIN of validasi iimummd.id_iumxxmh 
 				id_iumxxmh = edtiimummd.field('iimummd.id_iumxxmh').val();
-				if(!id_iumxxmh || id_iumxxmh == ''){
-					edtiimummd.field('iimummd.id_iumxxmh').error( 'Wajib diisi!' );
-				}
 				
-				// BEGIN of cek unik iimummd.id_iumxxmh 
-				if(action == 'create'){
-					id_iimummd = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'iimummd',
-						nama_field: 'id_iimxxmh,id_iumxxmh',
-						nama_field_value: id_iimxxmh+','+id_iumxxmh,
-						id_transaksi: id_iimummd
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtiimummd.field('iimummd.id_iumxxmh').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
-				// END of cek unik iimummd.id_iumxxmh 
+				isCekUnikValid(
+					action,							//Butuh Action untuk Create dsb
+					edtiimummd, 					//variable editor
+					"iimummd", 						//Nama tabel
+					"id_iumxxmh", 					//Nama Field Editor yang akan di validasi
+					'id_iimxxmh,id_iumxxmh',		//nama_field
+					id_iimxxmh+','+id_iumxxmh, 		//nama_field_value
+					id_iimummd 						//id_transaksi
+				);
 				// END of validasi iimummd.id_iumxxmh 
 
 				// BEGIN of validasi iimummd.jumlah_konversi 
 				jumlah_konversi = edtiimummd.field('iimummd.jumlah_konversi').val();
-				if(!jumlah_konversi || jumlah_konversi == ''){
-					edtiimummd.field('iimummd.jumlah_konversi').error( 'Wajib diisi!' );
-				}
-				if(jumlah_konversi <= 0 ){
-					edtiimummd.field('iimummd.jumlah_konversi').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(jumlah_konversi) ){
-					edtiimummd.field('iimummd.jumlah_konversi').error( 'Inputan harus berupa Angka!' );
-				}
 				// END of validasi iimummd.jumlah_konversi 
+				
+				isRequiredValid(
+					edtiimummd, 
+					"iimummd", 
+					{
+						"id_iumxxmh": id_iumxxmh, 
+						"jumlah_konversi": jumlah_konversi
+					}
+				);
+
+				// BEGIN of validasi iimummd.panjang 
+				panjang = edtiimummd.field('iimummd.panjang').val();
+				lebar = edtiimummd.field('iimummd.lebar').val();
+				tinggi = edtiimummd.field('iimummd.tinggi').val();
+				nw = edtiimummd.field('iimummd.nw').val();
+				gw = edtiimummd.field('iimummd.gw').val();
+
+				// Validasi default akan muncul saat kurang atau sama dengan 0
+				isNumberValid(
+					edtiimummd, 
+					"iimummd", 
+					{
+						"jumlah_konversi": jumlah_konversi
+					}
+				);
+
+				// VALIDASI NUMBER dengan def_number validation
+				isNumberValid(
+					edtiimummd, 
+					"iimummd", 
+					{
+						"panjang": panjang, 
+						"lebar": lebar, 
+						"tinggi": tinggi, 
+						"nw": nw, 
+						"gw": gw
+					},
+					-1 //Jika nilai kurang dari -1 maka akan dapat validasi
+				);
 			}
 			
 			if ( edtiimummd.inError() ) {
@@ -737,6 +767,8 @@
 			// BEGIN is_default
 			// ambil is_default dari form input
 			is_default 		= edtiimummd.field('iimummd.is_default').val();
+			is_def_beli 		= edtiimummd.field('iimummd.is_def_beli').val();
+			is_def_jual 		= edtiimummd.field('iimummd.is_def_jual').val();
 			if(action == 'create'){
 				is_default_old = 0;
 			} // else nya sudah didapatkan saat select
@@ -755,16 +787,33 @@
 
 			}
 			// END is_default
+
+			//DEFAULT BELI
+			if(is_def_beli == 1 && is_def_beli != is_def_beli_old){
+				is_berubah_def = 1;
+				nama_field_def = 'is_def_beli';
+			}
+
+			if(is_def_jual == 1 && is_def_jual != is_def_jual_old){
+				is_berubah_def = 1;
+				nama_field_def = 'is_def_jual';
+			}
 		});
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
 
+			id_transaksi_default = json.data[0].iimummd.id;
 			// BEGIN is_default
 			if(is_update_default == 1){
-					id_transaksi_default = json.data[0].iimummd.id;
-					isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-				}
-				// END is_default
+				isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+			}
+			// END is_default
+
+			// BEGIN def beli jual
+			if(is_berubah_def == 1){
+				defBeliJual(nama_field_def);
+			}
+			// END def beli jual
 		} );
 
 		edtiimummd.on( 'close', function () {
@@ -797,6 +846,14 @@
 				},
 				{ 
 					data: "iimummd.is_default" ,
+					render: $.fn.dataTable.render.yaTidak()
+				},
+				{ 
+					data: "iimummd.is_def_beli" ,
+					render: $.fn.dataTable.render.yaTidak()
+				},
+				{ 
+					data: "iimummd.is_def_jual" ,
 					render: $.fn.dataTable.render.yaTidak()
 				}
 			],
@@ -840,6 +897,8 @@
 
 			id_iumxxmh_old = data_iimummd.id_iumxxmh;
 			is_default_old = data_iimummd.is_default;
+			is_def_beli_old = data_iimummd.is_def_beli;
+			is_def_jual_old = data_iimummd.is_def_jual;
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimxxmh, tbliimummd );
