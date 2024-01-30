@@ -20,7 +20,7 @@ function validasiRequired(edt, tabel, fields){
 
     Object.keys(fields).forEach(nama_fields => {
         
-        if(!fields[nama_fields] || fields[nama_fields] === '') {
+        if(!fields[nama_fields] || fields[nama_fields] === '' || fields[nama_fields] == '<p><br></p>') {
 
             edt.field(tabel + '.' + nama_fields).error('Wajib diisi!');
         }
@@ -133,8 +133,12 @@ function validasiCekUnik(action, edt, tabel, field_edt, nama_field, nama_field_v
     } );
 }
 
-//VALIDASI EMAIL, HARUS ADA SIMBOL @ DAN . 
-// SIMBOL @ TIDAK BOLEH LEBIH DARI 1
+/**
+ *  VALIDASI EMAIL, HARUS ADA SIMBOL @ DAN . 
+    SIMBOL @ TIDAK BOLEH LEBIH DARI 1
+
+    CARANYA SAMA SEPERTI VALIDASI REQUIRED
+ */
 function validasiEmail(edt, tabel, fields) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -145,6 +149,22 @@ function validasiEmail(edt, tabel, fields) {
             } else {
                 edt.field(tabel + '.' + nama_fields).error('Email Tidak Valid!');
             }
+        }
+    });
+}
+
+/**
+ *  VALIDASI TANGGAL lebih besar atau kecil
+
+    CARANYA SAMA SEPERTI VALIDASI REQUIRED
+ */
+function validasiTanggal(edt, tabel, fields){
+
+    tanggalsekarang    	= moment().format('YYYY-MM-DD');
+    Object.keys(fields).forEach(nama_fields => {
+
+        if( fields[nama_fields] < tanggalsekarang ){
+            edt.field(tabel + '.' + nama_fields).error( 'Tanggal harus lebih besar dari sekarang!' );
         }
     });
 }
