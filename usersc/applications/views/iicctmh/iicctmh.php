@@ -48,6 +48,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iicctmh/fn/iicctmh_fn.php'; ?>
@@ -134,71 +135,37 @@
 
             edtiicctmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi iicctmh.kode
-					if ( ! edtiicctmh.field('iicctmh.kode').isMultiValue() ) {
-						kode = edtiicctmh.field('iicctmh.kode').val();
-						if(!kode || kode == ''){
-							edtiicctmh.field('iicctmh.kode').error( 'Wajib diisi!' );
+
+					kode = edtiicctmh.field('iicctmh.kode').val();
+					nama = edtiicctmh.field('iicctmh.nama').val();
+					validasiRequired(
+						edtiicctmh,
+						'iicctmh',
+						{
+							'kode': kode,
+							'nama': nama
 						}
-						
-						// BEGIN of cek unik iicctmh.kode
-						if(action == 'create'){
-							id_iicctmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iicctmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_iicctmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiicctmh.field('iicctmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iicctmh.kode
-					}
-					// END of validasi iicctmh.kode
-					
-					// BEGIN of validasi iicctmh.nama
-					if ( ! edtiicctmh.field('iicctmh.nama').isMultiValue() ) {
-						nama = edtiicctmh.field('iicctmh.nama').val();
-						if(!nama || nama == ''){
-							edtiicctmh.field('iicctmh.nama').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik iicctmh.nama
-						if(action == 'create'){
-							id_iicctmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iicctmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_iicctmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiicctmh.field('iicctmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iicctmh.nama
-					}
-					// END of validasi iicctmh.nama
+					);
+
+					validasiCekUnik(
+						action,
+						edtiicctmh,
+						'iicctmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_iicctmh,
+					);
+
+					validasiCekUnik(
+						action,
+						edtiicctmh,
+						'iicctmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_iicctmh,
+					);
 				}
 				
 				if ( edtiicctmh.inError() ) {
