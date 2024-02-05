@@ -86,3 +86,8 @@ table.dataTable td {
 .dt-button.buttons-columnVisibility.active {
   background-color: #1ab394;
 }
+
+/* untuk field info */
+.text-secondary {
+  color: #009a4f !important;
+}
