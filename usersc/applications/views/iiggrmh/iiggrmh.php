@@ -48,6 +48,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iiggrmh/fn/iiggrmh_fn.php'; ?>
@@ -145,39 +146,26 @@
 
             edtiiggrmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					
-					// BEGIN of validasi iiggrmh.nama
-					if ( ! edtiiggrmh.field('iiggrmh.nama').isMultiValue() ) {
-						nama = edtiiggrmh.field('iiggrmh.nama').val();
-						if(!nama || nama == ''){
-							edtiiggrmh.field('iiggrmh.nama').error( 'Wajib diisi!' );
+
+					nama = edtiiggrmh.field('iiggrmh.nama').val();
+					validasiRequired(
+						edtiiggrmh,
+						'iiggrmh',
+						{
+							'nama': nama
 						}
-						
-						// BEGIN of cek unik iiggrmh.nama
-						if(action == 'create'){
-							id_iiggrmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iiggrmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_iiggrmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiiggrmh.field('iiggrmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iiggrmh.nama
-					}
-					// END of validasi iiggrmh.nama
+					);
+
+					validasiCekUnik(
+						action,
+						edtiiggrmh,
+						'iiggrmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_iiggrmh,
+					);
+				
 				}
 				
 				if ( edtiiggrmh.inError() ) {
