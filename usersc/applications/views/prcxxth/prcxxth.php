@@ -79,6 +79,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/prcxxth/fn/prcxxth_fn.php'; ?>
@@ -257,26 +258,21 @@
 		
 		edtprcxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi prcxxth.tanggal 
+
 				tanggal = edtprcxxth.field('prcxxth.tanggal').val();
-				if(!tanggal || tanggal == ''){
-					edtprcxxth.field('prcxxth.tanggal').error( 'Wajib diisi!' );
-				}
-				// END of validasi prcxxth.tanggal
-
-				// BEGIN of validasi prcxxth.id_iwhxxmh 
 				id_iwhxxmh = edtprcxxth.field('prcxxth.id_iwhxxmh').val();
-				if(!id_iwhxxmh || id_iwhxxmh == ''){
-					edtprcxxth.field('prcxxth.id_iwhxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi prcxxth.id_iwhxxmh
-
-				// BEGIN of validasi prcxxth.id_psuxxmh 
 				id_psuxxmh = edtprcxxth.field('prcxxth.id_psuxxmh').val();
-				if(!id_psuxxmh || id_psuxxmh == ''){
-					edtprcxxth.field('prcxxth.id_psuxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi prcxxth.id_psuxxmh
+
+				validasiRequired(
+					edtprcxxth, 
+					"prcxxth", 
+					{
+						"tanggal": tanggal, 
+						"id_iwhxxmh": id_iwhxxmh, 
+						"id_psuxxmh": id_psuxxmh
+					}
+				);
+
 			}
 			
 			if ( edtprcxxth.inError() ) {
