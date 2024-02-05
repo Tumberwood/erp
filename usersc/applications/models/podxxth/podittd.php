@@ -27,7 +27,7 @@
 			->debug(true)
 			->fields(
 				Field::inst( 'podittd.id' ),
-				Field::inst( 'podittd.id_iumxxmh' )
+				Field::inst( 'podittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'podittd.id_prqittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
@@ -65,9 +65,9 @@
 				Field::inst( 'podittd.dpp' ),
 				Field::inst( 'iumxxmh.nama' ),
 				Field::inst( 'iimxxmh.nama' ),
-				Field::inst( 'concat(prqxxth.kode, " - ", prqittd.nama) as pr' )
+				Field::inst( 'prqxxth.kode' )
 			)
-			->leftJoin( 'iumxxmh','iumxxmh.id','=','podittd.id_iumxxmh' )
+			->leftJoin( 'iumxxmh','iumxxmh.id','=','podittd.id_iumxxmh_unit' )
 			->leftJoin( 'prqittd','prqittd.id','=','podittd.id_prqittd' )
 			->leftJoin( 'prqxxth','prqxxth.id','=','prqittd.id_prqxxth' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','podittd.id_iimxxmh' )
