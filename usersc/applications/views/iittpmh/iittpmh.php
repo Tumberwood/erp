@@ -47,6 +47,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iittpmh/fn/iittpmh_fn.php'; ?>
@@ -129,39 +130,25 @@
 
             edtiittpmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					
-					// BEGIN of validasi iittpmh.nama
-					if ( ! edtiittpmh.field('iittpmh.nama').isMultiValue() ) {
-						nama = edtiittpmh.field('iittpmh.nama').val();
-						if(!nama || nama == ''){
-							edtiittpmh.field('iittpmh.nama').error( 'Wajib diisi!' );
+
+					nama = edtiittpmh.field('iittpmh.nama').val();
+					validasiRequired(
+						edtiittpmh, 
+						"iittpmh", 
+						{
+							"nama": nama
 						}
-						
-						// BEGIN of cek unik iittpmh.nama
-						if(action == 'create'){
-							id_iittpmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iittpmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_iittpmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiittpmh.field('iittpmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iittpmh.nama
-					}
-					// END of validasi iittpmh.nama
+					)
+
+					validasiCekUnik(
+						action,
+						edtiittpmh, 
+						'iittpmh', 
+						'nama', 
+						'nama',
+						'"'+nama+'"',
+						id_iittpmh
+					);
 				}
 				
 				if ( edtiittpmh.inError() ) {
