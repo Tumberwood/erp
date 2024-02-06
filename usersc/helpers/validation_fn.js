@@ -128,58 +128,56 @@ function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_va
  *  );
 */
 function validasiNumber(edt, tabel, fields, number, operator){
-    
-    if (number == null ) {
-        number = 0;
-    }
 
-    if (operator == null) {
-        operator = '==';
-    }
 
     Object.keys(fields).forEach(field_name => {
-    
-        if(fields[field_name] == ''){
-            a = 0;
-        }else{
-            a = parseFloat(fields[field_name]);
-        }
-        b = parseFloat(number);
 
-        switch (operator) {
-            case '==':
-            case '=':
-              ifStatement = a == b;
-              break;
-            case '<>':
-              ifStatement = a != b;
-              break;
-            case '<=':
-              ifStatement = a <= b;
-              break;
-            case '>=':
-              ifStatement = a >= b;
-              break;
-            case '<':
-              ifStatement = a < b;
-              break;
-            case '>':
-              ifStatement = a > b;
-              break;
-            default:
-              console.log('Operator tidak valid');
-        }
-        
-        if( ifStatement ){
-            // kondisi terpenuhi, do nothing
-        }else{
-            edt.field(tabel + '.' + field_name).error( 'Inputan harus ' + operator + ' ' + number );
-        }
-        
-        // validasi angka
+        // validasi angka atau bukan
         if(isNaN(fields[field_name]) ){
             edt.field(tabel + '.' + field_name).error( 'Inputan harus berupa Angka!' );
         }
+        
+        if (number == null || operator == null) {
+            // validasi angka atau bukan
+            // jika null, maka artinya hanya validasi angka atau bukan saja
+            
+        }else{
+            
+            a = parseFloat(fields[field_name]);
+            b = parseFloat(number);
+
+            switch (operator) {
+                case '==':
+                case '=':
+                  ifStatement = a == b;
+                  break;
+                case '<>':
+                  ifStatement = a != b;
+                  break;
+                case '<=':
+                  ifStatement = a <= b;
+                  break;
+                case '>=':
+                  ifStatement = a >= b;
+                  break;
+                case '<':
+                  ifStatement = a < b;
+                  break;
+                case '>':
+                  ifStatement = a > b;
+                  break;
+                default:
+                  console.log('Operator tidak valid');
+            }
+
+            // validasi by operator
+            if( ifStatement ){
+                // kondisi terpenuhi, do nothing
+            }else{
+                edt.field(tabel + '.' + field_name).error( 'Inputan harus ' + operator + ' ' + number );
+            }
+        }
+        
     });
 }
 
