@@ -115,8 +115,7 @@
 									</tr>
 								</thead>
 							</table>
-						</div> <!-- end of table -->
-
+						</div>
 					</div>
 				</div>
 				<div role="tabpanel" id="tabpsuctmd" class="tab-pane">
@@ -158,6 +157,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/psuxxmh/fn/psuxxmh_fn.php'; ?>
@@ -451,132 +451,65 @@
 		edtpsuxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				nama = edtpsuxxmh.field('psuxxmh.nama').val();
-				if(!nama || nama == ''){
-					edtpsuxxmh.field('psuxxmh.nama').error( 'Wajib diisi!' );
-				}
-				// BEGIN of cek unik psuxxmh.nama 
-				if(action == 'create'){
-					id_psuxxmh = 0;
-				}
-				
-				$.ajax( {
-					url: '../../../helpers/validate_fn_unique.php',
-					dataType: 'json',
-					type: 'POST',
-					async: false,
-					data: {
-						table_name: 'psuxxmh',
-						nama_field: 'nama',
-						nama_field_value: '"'+nama+'"',
-						id_transaksi: id_psuxxmh
-					},
-					success: function ( json ) {
-						if(json.data.count == 1){
-							edtpsuxxmh.field('psuxxmh.nama').error( 'Data tidak boleh kembar!' );
-						}
-					}
-				} );
-				// END of cek unik psuxxmh.nama 
-				// END of validasi psuxxmh.nama
-
-				alamat = edtpsuxxmh.field('psuxxmh.alamat').val();
-				if(!alamat || alamat == ''){
-					edtpsuxxmh.field('psuxxmh.alamat').error( 'Wajib diisi!' );
-				}
-
+				nama       = edtpsuxxmh.field('psuxxmh.nama').val();
+				alamat     = edtpsuxxmh.field('psuxxmh.alamat').val();
 				id_gctxxmh = edtpsuxxmh.field('psuxxmh.id_gctxxmh').val();
-				if(!id_gctxxmh || id_gctxxmh == ''){
-					edtpsuxxmh.field('psuxxmh.id_gctxxmh').error( 'Wajib diisi!' );
-				}
-
 				id_gpvxxmh = edtpsuxxmh.field('psuxxmh.id_gpvxxmh').val();
-				if(!id_gpvxxmh || id_gpvxxmh == ''){
-					edtpsuxxmh.field('psuxxmh.id_gpvxxmh').error( 'Wajib diisi!' );
-				}
-
 				id_gbuxxmh = edtpsuxxmh.field('psuxxmh.id_gbuxxmh').val();
-				if(!id_gbuxxmh || id_gbuxxmh == ''){
-					edtpsuxxmh.field('psuxxmh.id_gbuxxmh').error( 'Wajib diisi!' );
-				}
-
 				id_fpytmmh = edtpsuxxmh.field('psuxxmh.id_fpytmmh').val();
-				if(!id_fpytmmh || id_fpytmmh == ''){
-					edtpsuxxmh.field('psuxxmh.id_fpytmmh').error( 'Wajib diisi!' );
-				}
+				telepon    = edtpsuxxmh.field('psuxxmh.telepon').val();
+				whatsapp   = edtpsuxxmh.field('psuxxmh.whatsapp').val();
+				fax        = edtpsuxxmh.field('psuxxmh.fax').val();
+				email      = edtpsuxxmh.field('psuxxmh.email').val();
+				npwp       = edtpsuxxmh.field('psuxxmh.npwp').val();
+				nik        = edtpsuxxmh.field('psuxxmh.nik').val();
+
+				validasiRequired(
+					edtpsuxxmh,
+					'psuxxmh',
+					{
+						'nama': nama,
+						'alamat': alamat,
+						'id_gctxxmh': id_gctxxmh,
+						'id_gpvxxmh': id_gpvxxmh,
+						'id_gbuxxmh': id_gbuxxmh,
+						'id_fpytmmh': id_fpytmmh,
+					}
+				);
+
+				validasiUnique(
+					action,
+					edtpsuxxmh,
+					'psuxxmh',
+					'nama',
+					'nama',
+					'"'+nama+'"',
+					id_psuxxmh
+				);
+
+				validasiEmail(
+					edtpsuxxmh,
+					'psuxxmh',
+					{
+						'email': email
+					}
+				);
+								
 				
-				telepon = edtpsuxxmh.field('psuxxmh.telepon').val();
-				if (telepon != '') {
-					if(telepon <= 0 ){
-						edtpsuxxmh.field('psuxxmh.telepon').error( 'Inputan salah!' );
-					}
-					
-					// validasi angka
-					if(isNaN(telepon) ){
-						edtpsuxxmh.field('psuxxmh.telepon').error( 'Inputan salah!' );
-					}
-				}
-
-				whatsapp = edtpsuxxmh.field('psuxxmh.whatsapp').val();
-				if (whatsapp != '') {
-					if(whatsapp <= 0 ){
-						edtpsuxxmh.field('psuxxmh.whatsapp').error( 'Inputan salah!' );
-					}
-					
-					// validasi angka
-					if(isNaN(whatsapp) ){
-						edtpsuxxmh.field('psuxxmh.whatsapp').error( 'Inputan salah!' );
-					}
-				}
-
-				fax = edtpsuxxmh.field('psuxxmh.fax').val();
-				if (fax != '') {
-					if(fax <= 0 ){
-						edtpsuxxmh.field('psuxxmh.fax').error( 'Inputan salah!' );
-					}
-					
-					// validasi angka
-					if(isNaN(fax) ){
-						edtpsuxxmh.field('psuxxmh.fax').error( 'Inputan salah!' );
-					}
-				}
-
-				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				email = edtpsuxxmh.field('psuxxmh.email').val();
-				if(email != ''){
-					if (emailRegex.test(email)) {
-						
-					} else {
-						edtpsuxxmh.field('psuxxmh.email').error( 'Format Email Salah!' );
-					}
-				}
-
-				npwp = edtpsuxxmh.field('psuxxmh.npwp').val();
+				// if (npwp != '') {
+				// 	npwp_clean = npwp.replace(/[.-]/g,"");
+				// 	if(npwp <= 0 ){
+				// 		edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
+				// 	}
+				// 	if(isNaN(npwp_clean) ){
+				// 		edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
+				// 	}
+				// 	npwp_length   = npwp_clean.length;
+				// 	if(npwp_length != 15){
+				// 		edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
+				// 	}
+				// }
 				
-				if (npwp != '') {
-					npwp_clean = npwp.replace(/[.-]/g,"");
-					if(npwp <= 0 ){
-						edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
-					}
-					if(isNaN(npwp_clean) ){
-						edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
-					}
-					npwp_length   = npwp_clean.length;
-					if(npwp_length != 15){
-						edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
-					}
-				}
-				
-				nik = edtpsuxxmh.field('psuxxmh.nik').val();
-				if (nik != '') {
-					if(nik <= 0 ){
-						edtpsuxxmh.field('psuxxmh.nik').error( 'Inputan salah!' );
-					}
-					// validasi angka
-					if(isNaN(nik) ){
-						edtpsuxxmh.field('psuxxmh.nik').error( 'Inputan salah!' );
-					}
-				}
 				
 			}
 			
@@ -591,9 +524,6 @@
 		});
 		
 		edtpsuxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
 			tblpsuxxmh.ajax.reload(null,false);
 		} );
 
@@ -828,33 +758,28 @@
 		
 		edtpsubnmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi psubnmd.id_fbnxxmh 
 				id_fbnxxmh = edtpsubnmd.field('psubnmd.id_fbnxxmh').val();
-				if(!id_fbnxxmh || id_fbnxxmh == ''){
-					edtpsubnmd.field('psubnmd.id_fbnxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi psubnmd.id_fbnxxmh 
+				nama       = edtpsubnmd.field('psubnmd.nama').val();
+				no_rek     = edtpsubnmd.field('psubnmd.no_rek').val();
 
-				// BEGIN of validasi psubnmd.nama 
-				nama = edtpsubnmd.field('psubnmd.nama').val();
-				if(!nama || nama == ''){
-					edtpsubnmd.field('psubnmd.nama').error( 'Wajib diisi!' );
-				}
-				// END of validasi psubnmd.nama 
+				validasiRequired(
+					edtpsubnmd,
+					'psubnmd',
+					{
+						'id_fbnxxmh': id_fbnxxmh,
+						'nama'      : nama,
+						'no_rek'    : no_rek
+					}
+				);
 				
-				no_rek = edtpsubnmd.field('psubnmd.no_rek').val();
-				if(!no_rek || no_rek == ''){
-					edtpsubnmd.field('psubnmd.no_rek').error( 'Wajib diisi!' );
-				}
 				if (no_rek != '') {
-					if(no_rek <= 0 ){
-						edtpsubnmd.field('psubnmd.no_rek').error( 'Inputan harus > 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(no_rek) ){
-						edtpsubnmd.field('psubnmd.no_rek').error( 'Inputan harus berupa Angka!' );
-					}
+					validasiNumber(
+						edtpsubnmd,
+						'psubnmd',
+						{
+							'no_rek': no_rek
+						}
+					);
 				}
 			}
 			
@@ -869,9 +794,8 @@
 		});
 			
 		edtpsubnmd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblpsubnmd.rows().deselect();
+			tblpsubnmd.ajax.reload(null, false);
 		} );
 
 		edtpsubnmd.on( 'close', function () {
@@ -907,7 +831,7 @@
 					targets: [0,1,4,5]
 				}
 			],
-			// responsive: false,
+			responsive: false,
 			// scrollX: true,
 			columns: [
 				{ data: "psubnmd.id",visible:false },
@@ -965,7 +889,6 @@
 
 			transaction_state_d   = data_psubnmd.transaction_state;
 			id_fbnxxmh_old   = data_psubnmd.id_fbnxxmh;
-			
 			// atur hak akses
 			CekSelectDetailHD(tblpsuxxmh, tblpsubnmd );
 		} );
@@ -1062,38 +985,29 @@
 		
 		edtpsuctmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				nama = edtpsuctmd.field('psuctmd.nama').val();
-				if(!nama || nama == ''){
-					edtpsuctmd.field('psuctmd.nama').error( 'Wajib diisi!' );
-				}
 
-				posisi = edtpsuctmd.field('psuctmd.posisi').val();
-				if(!posisi || posisi == ''){
-					edtpsuctmd.field('psuctmd.posisi').error( 'Wajib diisi!' );
-				}
+				// nama = edtpsuctmd.field('psuctmd.nama').val();
+				// posisi = edtpsuctmd.field('psuctmd.posisi').val();
+				// email = edtpsuctmd.field('psuctmd.email').val();
+				// handphone = edtpsuctmd.field('psuctmd.handphone').val();
 
-				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				email = edtpsuctmd.field('psuctmd.email').val();
-				if(email != ''){
-					if (emailRegex.test(email)) {
-						
-					} else {
-						edtpsuctmd.field('psuctmd.email').error( 'Format Email Salah!' );
-					}
-				}
+				// validasiRequired(
+				// 	edtpsuctmd,
+				// 	'psuctmd',
+				// 	{
+				// 		'nama': nama,
+				// 		'posisi': posisi
+				// 	}
+				// );
 
-				handphone = edtpsuctmd.field('psuctmd.handphone').val();
-				if(handphone != ''){
-					// validasi min atau max angka
-					if(handphone <= 0 ){
-						edtpsuctmd.field('psuctmd.handphone').error( 'Inputan harus > 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(handphone) ){
-						edtpsuctmd.field('psuctmd.handphone').error( 'Inputan harus berupa Angka!' );
-					}
-				}
+				// validasiEmail(
+				// 	edtpsuctmd,
+				// 	'psuctmd',
+				// 	{
+				// 		'email': email
+				// 	}
+				// );
+
 			}
 			
 			if ( edtpsuctmd.inError() ) {
@@ -1107,9 +1021,8 @@
 		});
 			
 		edtpsuctmd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblpsuctmd.rows().deselect();
+			tblpsuctmd.ajax.reload(null, false);
 		} );
 
 		edtpsuctmd.on( 'close', function () {
@@ -1145,7 +1058,7 @@
 					targets: [0,1,4,5]
 				}
 			],
-			// responsive: false,
+			responsive: false,
 			// scrollX: true,
 			columns: [
 				{ data: "psuctmd.id",visible:false },
@@ -1194,7 +1107,6 @@
 
 			transaction_state_d  = data_psuctmd.transaction_state;
 			id_fbnxxmh_old   = data_psuctmd.id_fbnxxmh;
-			
 			// atur hak akses
 			CekSelectDetailHD(tblpsuxxmh, tblpsuctmd );
 		} );
