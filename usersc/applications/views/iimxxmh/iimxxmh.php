@@ -774,8 +774,7 @@
 					},
 					0,
 					'>'
-					);
-				}
+				);
 
 				validasiNumber(
 					edtiimummd, 
