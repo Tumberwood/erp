@@ -48,6 +48,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iumxxmh/fn/iumxxmh_fn.php'; ?>
@@ -135,71 +136,39 @@
 
             edtiumxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi iumxxmh.kode
-					if ( ! edtiumxxmh.field('iumxxmh.kode').isMultiValue() ) {
-						kode = edtiumxxmh.field('iumxxmh.kode').val();
-						if(!kode || kode == ''){
-							edtiumxxmh.field('iumxxmh.kode').error( 'Wajib diisi!' );
+					kode = edtiumxxmh.field('iumxxmh.kode').val();
+					nama = edtiumxxmh.field('iumxxmh.nama').val();
+
+					validasiRequired(
+						edtiumxxmh,
+						'iumxxmh',
+						{
+							'kode': kode,
+							'nama': nama
+
 						}
-						
-						// BEGIN of cek unik iumxxmh.kode
-						if(action == 'create'){
-							id_iumxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iumxxmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_iumxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiumxxmh.field('iumxxmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iumxxmh.kode
-					}
-					// END of validasi iumxxmh.kode
-					
-					// BEGIN of validasi iumxxmh.nama
-					if ( ! edtiumxxmh.field('iumxxmh.nama').isMultiValue() ) {
-						nama = edtiumxxmh.field('iumxxmh.nama').val();
-						if(!nama || nama == ''){
-							edtiumxxmh.field('iumxxmh.nama').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik iumxxmh.nama
-						if(action == 'create'){
-							id_iumxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iumxxmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_iumxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiumxxmh.field('iumxxmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iumxxmh.nama
-					}
-					// END of validasi iumxxmh.nama
+					);
+
+					validasiCekUnik(
+						action,
+						edtiumxxmh,
+						'iumxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_iumxxmh
+					);
+
+					validasiCekUnik(
+						action,
+						edtiumxxmh,
+						'iumxxmh',
+						'name',
+						'name',
+						'"'+name+'"',
+						id_iumxxmh
+					);
+
 				}
 				
 				if ( edtiumxxmh.inError() ) {
