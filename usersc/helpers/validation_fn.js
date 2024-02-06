@@ -1,6 +1,9 @@
 /**
+ * ------------------------------------------------------
  * Validasi Client Side 
  * Dipanggil pada event datatables editor preSubmit
+ * Contributor: vincmeister, ferry ibnu
+ * ------------------------------------------------------
  */
 
 /**
@@ -13,7 +16,7 @@
  * Parameter
  *  edt     : object    | nama variable datatables editor
  *  tabel   : string    | nama tabel database terkait
- *  field   : array     | nama field dan value yang akan dicek
+ *  fields  : array     | nama field dan value yang akan dicek
  * Contoh
  *  // set variable
  *  id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
@@ -30,7 +33,6 @@
  *      }
  *  );
 */
-
 function validasiRequired(edt, tabel, fields){
 
     Object.keys(fields).forEach(field_name => {
@@ -96,7 +98,6 @@ function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_va
     } );
 }
 
-
 /**
  * Validasi
  *  Number
@@ -126,7 +127,6 @@ function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_va
  *      '>='
  *  );
 */
-
 function validasiNumber(edt, tabel, fields, number, operator){
     
     if (number == null ) {
@@ -184,14 +184,30 @@ function validasiNumber(edt, tabel, fields, number, operator){
 }
 
 /**
- *  VALIDASI EMAIL, HARUS ADA SIMBOL @ DAN . 
-    SIMBOL @ TIDAK BOLEH LEBIH DARI 1
-
-    CARANYA SAMA SEPERTI VALIDASI REQUIRED
- */
+ * Validasi
+ *  Email
+ * Kegunaan
+ *  untuk validasi sebuah field harus berupa email address, ditandai dengan adanya @ dan . untuk domain
+ * Cara Penggunaan:
+ *  validasiEmail(edt, tabel, fields)
+ * Parameter
+ *  edt     : object    | nama variable datatables editor
+ *  tabel   : string    | nama tabel database terkait
+ *  fields  : array     | nama field dan value yang akan dicek
+ * Contoh
+ *  // set variable
+ *  email       = edtpsuxxmh.field('psuxxmh.email').val();
+ *  // panggil validasi 
+ *  validasiEmail(
+ *      edtpsuxxmh,
+ *      "psuxxmh",
+ *      {
+ *          "email": email
+ *      }
+ *  );
+*/
 function validasiEmail(edt, tabel, fields) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     Object.keys(fields).forEach(field_name => {
         if (fields[field_name]) {
             if (emailRegex.test(fields[field_name])) {
