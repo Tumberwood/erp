@@ -48,6 +48,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fpymtmh/fn/fpymtmh_fn.php'; ?>
@@ -139,14 +140,25 @@
 
             edtfpymtmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi fpymtmh.nama
-					if ( ! edtfpymtmh.field('fpymtmh.nama').isMultiValue() ) {
-						nama = edtfpymtmh.field('fpymtmh.nama').val();
-						if(!nama || nama == ''){
-							edtfpymtmh.field('fpymtmh.nama').error( 'Wajib diisi!' );
+					nama = edtfpymtmh.field('fpymtmh.nama').val();
+
+					validasiRequired(
+						edtfpymtmh,
+						'fpymtmh',
+						{
+							'nama': nama
 						}
-					}
-					// END of validasi fpymtmh.nama
+					);
+
+					validasiUnique(
+						action,
+						edtfpymtmh,
+						'fpymtmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_fpymtmh
+					);
 
 				}
 				
