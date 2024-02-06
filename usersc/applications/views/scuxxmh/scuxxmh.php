@@ -138,6 +138,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/scuxxmh/fn/scuxxmh_fn.php'; ?>
@@ -415,105 +416,34 @@
 		edtscuxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				nama = edtscuxxmh.field('scuxxmh.nama').val();
-				if(!nama || nama == ''){
-					edtscuxxmh.field('scuxxmh.nama').error( 'Wajib diisi!' );
-				}
-
-				alamat = edtscuxxmh.field('scuxxmh.alamat').val();
-				if(!alamat || alamat == ''){
-					edtscuxxmh.field('scuxxmh.alamat').error( 'Wajib diisi!' );
-				}
-
+				nama       = edtscuxxmh.field('scuxxmh.nama').val();
+				alamat     = edtscuxxmh.field('scuxxmh.alamat').val();
 				id_gctxxmh = edtscuxxmh.field('scuxxmh.id_gctxxmh').val();
-				if(!id_gctxxmh || id_gctxxmh == ''){
-					edtscuxxmh.field('scuxxmh.id_gctxxmh').error( 'Wajib diisi!' );
-				}
-
 				id_gpvxxmh = edtscuxxmh.field('scuxxmh.id_gpvxxmh').val();
-				if(!id_gpvxxmh || id_gpvxxmh == ''){
-					edtscuxxmh.field('scuxxmh.id_gpvxxmh').error( 'Wajib diisi!' );
-				}
-
 				id_gbuxxmh = edtscuxxmh.field('scuxxmh.id_gbuxxmh').val();
-				if(!id_gbuxxmh || id_gbuxxmh == ''){
-					edtscuxxmh.field('scuxxmh.id_gbuxxmh').error( 'Wajib diisi!' );
-				}
-				
 				id_fpytmmh = edtscuxxmh.field('scuxxmh.id_fpytmmh').val();
-				if(!id_fpytmmh || id_fpytmmh == ''){
-					edtscuxxmh.field('scuxxmh.id_fpytmmh').error( 'Wajib diisi!' );
-				}
+				email      = edtscuxxmh.field('scuxxmh.email').val();
 
-				telepon = edtscuxxmh.field('scuxxmh.telepon').val();
-				if (telepon != '') {
-					if(telepon <= 0 ){
-						edtscuxxmh.field('scuxxmh.telepon').error( 'Inputan harus > 0' );
+				validasiRequired(
+					edtscuxxmh,
+					'scuxxmh',
+					{
+						'nama'      : nama,
+						'alamat'    : alamat,
+						'id_gctxxmh': id_gctxxmh,
+						'id_gpvxxmh': id_gpvxxmh,
+						'id_gbuxxmh': id_gbuxxmh,
+						'id_fpytmmh': id_fpytmmh
 					}
-					
-					// validasi angka
-					if(isNaN(telepon) ){
-						edtscuxxmh.field('scuxxmh.telepon').error( 'Inputan harus berupa Angka!' );
-					}
-				}
+				);
 
-				whatsapp = edtscuxxmh.field('scuxxmh.whatsapp').val();
-				if (whatsapp != '') {
-					if(whatsapp <= 0 ){
-						edtscuxxmh.field('scuxxmh.whatsapp').error( 'Inputan harus > 0' );
+				validasiEmail(
+					edtscuxxmh,
+					'scuxxmh',
+					{
+						'email': email
 					}
-					
-					// validasi angka
-					if(isNaN(whatsapp) ){
-						edtscuxxmh.field('scuxxmh.whatsapp').error( 'Inputan harus berupa Angka!' );
-					}
-				}
-
-				fax = edtscuxxmh.field('scuxxmh.fax').val();
-				if (fax != '') {
-					if(fax <= 0 ){
-						edtscuxxmh.field('scuxxmh.fax').error( 'Inputan harus > 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(fax) ){
-						edtscuxxmh.field('scuxxmh.fax').error( 'Inputan harus berupa Angka!' );
-					}
-				}
-
-				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				email = edtscuxxmh.field('scuxxmh.email').val();
-				if(email != ''){
-					if (emailRegex.test(email)) {
-						
-					} else {
-						edtscuxxmh.field('scuxxmh.email').error( 'Format Email Salah!' );
-					}
-				}
-
-				nik = edtscuxxmh.field('scuxxmh.nik').val();
-				if (nik != '') {
-					if(nik <= 0 ){
-						edtscuxxmh.field('scuxxmh.nik').error( 'Inputan harus > 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(nik) ){
-						edtscuxxmh.field('scuxxmh.nik').error( 'Inputan harus berupa Angka!' );
-					}
-				}
-
-				npwp = edtscuxxmh.field('scuxxmh.npwp').val();
-				if (npwp != '') {
-					if(npwp <= 0 ){
-						edtscuxxmh.field('scuxxmh.npwp').error( 'Inputan harus > 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(npwp) ){
-						edtscuxxmh.field('scuxxmh.npwp').error( 'Inputan harus berupa Angka!' );
-					}
-				}
+				);
 				
 			}
 			
@@ -788,33 +718,22 @@
 		
 		edtsculomd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi sculomd.nama 
-				nama = edtsculomd.field('sculomd.nama').val();
-				if(!nama || nama == ''){
-					edtsculomd.field('sculomd.nama').error( 'Wajib diisi!' );
-				}
-				// END of validasi sculomd.nama 
-
-				// BEGIN of validasi sculomd.alamat 
-				alamat = edtsculomd.field('sculomd.alamat').val();
-				if(!alamat || alamat == ''){
-					edtsculomd.field('sculomd.alamat').error( 'Wajib diisi!' );
-				}
-				// END of validasi sculomd.alamat 
-
-				// BEGIN of validasi sculomd.id_gctxxmh 
+				
+				nama       = edtsculomd.field('sculomd.nama').val();
+				alamat     = edtsculomd.field('sculomd.alamat').val();
 				id_gctxxmh = edtsculomd.field('sculomd.id_gctxxmh').val();
-				if(!id_gctxxmh || id_gctxxmh == ''){
-					edtsculomd.field('sculomd.id_gctxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi sculomd.id_gctxxmh 
-
-				// BEGIN of validasi sculomd.id_gpvxxmh 
 				id_gpvxxmh = edtsculomd.field('sculomd.id_gpvxxmh').val();
-				if(!id_gpvxxmh || id_gpvxxmh == ''){
-					edtsculomd.field('sculomd.id_gpvxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi sculomd.id_gpvxxmh 
+				
+				validasiRequired(
+					edtsculomd,
+					'sculomd',
+					{
+						'nama'      : nama,
+						'alamat'    : alamat,
+						'id_gctxxmh': id_gctxxmh,
+						'id_gpvxxmh': id_gpvxxmh
+					}
+				);
 			}
 			
 			if ( edtsculomd.inError() ) {
