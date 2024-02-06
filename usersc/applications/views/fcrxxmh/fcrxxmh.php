@@ -49,6 +49,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fcrxxmh/fn/fcrxxmh_fn.php'; ?>
@@ -104,7 +105,7 @@
 						name: "fcrxxmh.nama"
 					}, 	
 					{
-						label: "Simbol",
+						label: "Simbol <sup class='text-danger'>*<sup>",
 						name: "fcrxxmh.simbol"
 					},
 					{
@@ -147,104 +148,50 @@
 
             edtfcrxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi fcrxxmh.kode
-					kode = edtfcrxxmh.field('fcrxxmh.kode').val();
-					if ( ! edtfcrxxmh.field('fcrxxmh.kode').isMultiValue() ) {
-						if(!kode || kode == ''){
-							edtfcrxxmh.field('fcrxxmh.kode').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik fcrxxmh.kode
-						if(action == 'create'){
-							id_fcrxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'fcrxxmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_fcrxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtfcrxxmh.field('fcrxxmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik fcrxxmh.kode
-					}
-					// END of validasi fcrxxmh.kode
-					
-					// BEGIN of validasi fcrxxmh.nama
-					nama = edtfcrxxmh.field('fcrxxmh.nama').val();
-					if ( ! edtfcrxxmh.field('fcrxxmh.nama').isMultiValue() ) {
-						if(!nama || nama == ''){
-							edtfcrxxmh.field('fcrxxmh.nama').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik fcrxxmh.nama
-						if(action == 'create'){
-							id_fcrxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'fcrxxmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_fcrxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtfcrxxmh.field('fcrxxmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik fcrxxmh.nama
-					}
-					// END of validasi fcrxxmh.nama
+					kode   = edtfcrxxmh.field('fcrxxmh.kode').val();
+					nama   = edtfcrxxmh.field('fcrxxmh.nama').val();
+					simbol = edtfcrxxmh.field('fcrxxmh.simbol').val();
 
-					// BEGIN of validasi fcrxxmh.simbol
-					if ( ! edtfcrxxmh.field('fcrxxmh.simbol').isMultiValue() ) {
-						simbol = edtfcrxxmh.field('fcrxxmh.simbol').val();
-						if(!simbol || simbol == ''){
-							edtfcrxxmh.field('fcrxxmh.simbol').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtfcrxxmh,
+						'fcrxxmh',
+						{
+							'kode'  : kode,
+							'nama'  : nama,
+							'simbol': simbol
 						}
-						
-						// BEGIN of cek unik fcrxxmh.simbol
-						if(action == 'create'){
-							id_fcrxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'fcrxxmh',
-								simbol_field: 'simbol',
-								simbol_field_value: '"'+simbol+'"',
-								id_transaksi: id_fcrxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtfcrxxmh.field('fcrxxmh.simbol').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik fcrxxmh.simbol
-					}
-					// END of validasi fcrxxmh.simbol
+					);
+
+					validasiUnique(
+						action,
+						edtfcrxxmh,
+						'fcrxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_fcrxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtfcrxxmh,
+						'fcrxxmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_fcrxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtfcrxxmh,
+						'fcrxxmh',
+						'simbol',
+						'simbol',
+						'"'+simbol+'"',
+						id_fcrxxmh
+					);
+
 				}
 				
 				if ( edtfcrxxmh.inError() ) {
