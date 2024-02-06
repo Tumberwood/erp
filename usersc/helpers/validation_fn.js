@@ -1,114 +1,77 @@
 /**
-// Validasi Required
+ * Validasi Client Side 
+ * Dipanggil pada event datatables editor preSubmit
+ */
 
-id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
-id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
-id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
-
-isRequired(
-    edtiimxxmh, 
-    "iimxxmh", 
-    {
-        "id_iicctmh": id_iicctmh, 
-        "id_iiggrmh": id_iiggrmh, 
-        "id_iibbrmh": id_iibbrmh
-    }
-);
+/**
+ * Validasi
+ *  Required
+ * Kegunaan
+ *  untuk validasi sebuah field wajib diisi
+ * Cara Penggunaan:
+ *  validasiRequired(edt, tabel, fields)
+ * Parameter
+ *  edt     : object    | nama variable datatables editor
+ *  tabel   : string    | nama tabel database terkait
+ *  field   : array     | nama field dan value yang akan dicek
+ * Contoh
+ *  // set variable
+ *  id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
+ *  id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
+ *  id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
+ *  // panggil validasi 
+ *  validasiRequired(
+ *      edtiimxxmh,
+ *      "iimxxmh",
+ *      {
+ *          "id_iicctmh": id_iicctmh, 
+ *          "id_iiggrmh": id_iiggrmh, 
+ *          "id_iibbrmh": id_iibbrmh
+ *      }
+ *  );
 */
 
 function validasiRequired(edt, tabel, fields){
 
-    Object.keys(fields).forEach(nama_fields => {
+    Object.keys(fields).forEach(field_name => {
         
-        if(!fields[nama_fields] || fields[nama_fields] === '' || fields[nama_fields] == '<p><br></p>') {
+        if(!fields[field_name] || fields[field_name] === '' || fields[field_name] == '<p><br></p>') {
 
-            edt.field(tabel + '.' + nama_fields).error('Wajib diisi!');
+            edt.field(tabel + '.' + field_name).error('Wajib diisi!');
         }
     });
 }
 
 /**
- * 
-// Validasi default akan muncul saat kurang atau sama dengan 0
-isNumber(
-    edtiimummd, 
-    "iimummd", 
-    {
-        "jumlah_konversi": jumlah_konversi
-    }
-);
-
-// VALIDASI NUMBER dengan def_number validation
-isNumber(
-    edtiimummd, 
-    "iimummd", 
-    {
-        "panjang": panjang, 
-        "lebar": lebar, 
-        "tinggi": tinggi, 
-        "nw": nw, 
-        "gw": gw
-    },
-    -1 //Ini adalah nilai yang menjadi validasi. Jika nilai kurang dari -1 maka akan dapat validasi
-);
+ * Validasi
+ *  Unique Value
+ * Kegunaan
+ *  untuk validasi sebuah field harus mempunyai data yang unik dalam satu tabel database
+ * Cara Penggunaan
+ *  validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_name, id_transaksi)
+ * Parameter
+ *  action              : action    | trigger action datatables editor
+ *  edt                 : object    | nama variable datatables editor
+ *  tabel               : string    | nama tabel database terkait
+ *  field_edt           : string    | nama field pada datatables editor (tanpa nama table)
+ *  nama_field          : string    | nama field pada tabel database yang akan di cek. Biasanya sama seperti field_edt
+ *  nama_field_name    : any       | sesuai tipe data dari value yang akan dicek. Jika string harus diapit quote atau double quotes
+ *  id_transaksi        : int       | id dari transaksi yang akan dicek. Diambilkan dari variable id__blank
+ * Contoh
+ *  // set variable
+ *  nama = edtiimxxmh.field('iimxxmh.nama').val();
+ *  // panggil validasi
+ *  validasiUnique(
+ *      action,
+ *      edtiimxxmh,
+ *      'iimxxmh',
+ *      'nama',
+ *      'nama',
+ *      nama,
+ *      id_iimxxmh
+ *  );
  */
-
-function validasiNumber(edt, tabel, fields, number){
-    if (number == null) {
-        number = 0;
-    }
-
-    Object.keys(fields).forEach(nama_fields => {
-        
-        if(fields[nama_fields] <= number ){
-            edt.field(tabel + '.' + nama_fields).error( 'Inputan harus > 0' );
-        }
-        
-        // validasi angka
-        if(isNaN(fields[nama_fields]) ){
-            edt.field(tabel + '.' + nama_fields).error( 'Inputan harus berupa Angka!' );
-        }
-    });
-}
-
-/**
- * VALIDASI OLD
- * // BEGIN of cek unik iimummd.id_iumxxmh 
-    if(action == 'create'){
-        id_iimummd = 0;
-    }
-    
-    $.ajax( {
-        url: '../../../helpers/validate_fn_unique.php',
-        dataType: 'json',
-        type: 'POST',
-        async: false,
-        data: {
-            table_name: 'iimummd',
-            nama_field: 'id_iimxxmh,id_iumxxmh',
-            nama_field_value: id_iimxxmh+','+id_iumxxmh,
-            id_transaksi: id_iimummd
-        },
-        success: function ( json ) {
-            if(json.data.count == 1){
-                edtiimummd.field('iimummd.id_iumxxmh').error( 'Data tidak boleh kembar!' );
-            }
-        }
-    } );
-    // END of cek unik iimummd.id_iumxxmh 
-
-    MENJADI ->
-
- * isCekUnik(
-        edtiimummd, 					//variable editor
-        "iimummd", 						//Nama tabel
-        "id_iumxxmh", 					//Nama Field Editor yang akan di validasi
-        'id_iimxxmh,id_iumxxmh',		//nama_field
-        id_iimxxmh+','+id_iumxxmh, 		//nama_field_value
-        id_iimummd 						//id_transaksi
-    );
- */
-function validasiCekUnik(action, edt, tabel, field_edt, nama_field, nama_field_value, id_transaksi) {
+function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_value, id_transaksi) {
 
     if(action == 'create'){
         id_transaksi = 0;
@@ -133,6 +96,93 @@ function validasiCekUnik(action, edt, tabel, field_edt, nama_field, nama_field_v
     } );
 }
 
+
+/**
+ * Validasi
+ *  Number
+ * Kegunaan
+ *  untuk validasi sebuah nulai apakah berupa angka atau bukan
+ * Cara Penggunaan:
+ *  validasiNumber(edt, tabel, fields, number, operator)
+ * Parameter
+ *  edt     : object    | nama variable datatables editor
+ *  tabel   : string    | nama tabel database terkait
+ *  fields  : array     | nama field yang akan divalidasi
+ *  number  : numeric   | nilai batas validasi (opsional. def: 0)
+ *  operator: string    | operator pembanding (opsional. def: =)
+ * Contoh
+ *  // set variable
+ *  panjang = edtiimummd.field('iimummd.panjang').val();
+ *  lebar = edtiimummd.field('iimummd.lebar').val();
+ *  // panggil validasi 
+ *  validasiNumber(
+ *      edtiimummd, 
+ *      "iimummd", 
+ *      {
+ *          "panjang": panjang, 
+ *          "lebar": lebar
+ *      },
+ *      0,
+ *      '>='
+ *  );
+*/
+
+function validasiNumber(edt, tabel, fields, number, operator){
+    
+    if (number == null ) {
+        number = 0;
+    }
+
+    if (operator == null) {
+        operator = '==';
+    }
+
+    Object.keys(fields).forEach(field_name => {
+    
+        if(fields[field_name] == ''){
+            a = 0;
+        }else{
+            a = parseFloat(fields[field_name]);
+        }
+        b = parseFloat(number);
+
+        switch (operator) {
+            case '==':
+            case '=':
+              ifStatement = a == b;
+              break;
+            case '<>':
+              ifStatement = a != b;
+              break;
+            case '<=':
+              ifStatement = a <= b;
+              break;
+            case '>=':
+              ifStatement = a >= b;
+              break;
+            case '<':
+              ifStatement = a < b;
+              break;
+            case '>':
+              ifStatement = a > b;
+              break;
+            default:
+              console.log('Operator tidak valid');
+        }
+        
+        if( ifStatement ){
+            // kondisi terpenuhi, do nothing
+        }else{
+            edt.field(tabel + '.' + field_name).error( 'Inputan harus ' + operator + ' ' + number );
+        }
+        
+        // validasi angka
+        if(isNaN(fields[field_name]) ){
+            edt.field(tabel + '.' + field_name).error( 'Inputan harus berupa Angka!' );
+        }
+    });
+}
+
 /**
  *  VALIDASI EMAIL, HARUS ADA SIMBOL @ DAN . 
     SIMBOL @ TIDAK BOLEH LEBIH DARI 1
@@ -142,12 +192,12 @@ function validasiCekUnik(action, edt, tabel, field_edt, nama_field, nama_field_v
 function validasiEmail(edt, tabel, fields) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    Object.keys(fields).forEach(nama_fields => {
-        if (fields[nama_fields]) {
-            if (emailRegex.test(fields[nama_fields])) {
+    Object.keys(fields).forEach(field_name => {
+        if (fields[field_name]) {
+            if (emailRegex.test(fields[field_name])) {
                 // Valid email format
             } else {
-                edt.field(tabel + '.' + nama_fields).error('Email Tidak Valid!');
+                edt.field(tabel + '.' + field_name).error('Email Tidak Valid!');
             }
         }
     });
@@ -161,10 +211,10 @@ function validasiEmail(edt, tabel, fields) {
 function validasiTanggal(edt, tabel, fields){
 
     tanggalsekarang    	= moment().format('YYYY-MM-DD');
-    Object.keys(fields).forEach(nama_fields => {
+    Object.keys(fields).forEach(field_name => {
 
-        if( fields[nama_fields] < tanggalsekarang ){
-            edt.field(tabel + '.' + nama_fields).error( 'Tanggal harus lebih besar dari sekarang!' );
+        if( fields[field_name] < tanggalsekarang ){
+            edt.field(tabel + '.' + field_name).error( 'Tanggal harus lebih besar dari sekarang!' );
         }
     });
 }
