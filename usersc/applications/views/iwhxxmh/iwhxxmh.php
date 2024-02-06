@@ -16,21 +16,19 @@
 	<div class="col">
 		<div class="ibox ">
 			<div class="ibox-content">
-				<div class="table-responsive">
-                    <table id="tbliwhxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Kategori</th>
-                                <th>Cabang</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
-                            </tr>
-                        </thead>
-                    </table>
-				</div>
+				<table id="tbliwhxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Kode</th>
+							<th>Nama</th>
+							<th>Kategori</th>
+							<th>Cabang</th>
+							<th>Keterangan</th>
+							<th>TX</th>
+						</tr>
+					</thead>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -50,6 +48,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iwhxxmh/fn/iwhxxmh_fn.php'; ?>
@@ -61,7 +60,6 @@
 		// ------------- end of default variable
 
 		is_master_table = 1;
-
 		id_iwhctmh_old = 0, id_gbrxxmh_old = 0;
 		
 		$(document).ready(function() {
@@ -210,89 +208,43 @@
 
             edtiwhxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi iwhxxmh.kode
-					if ( ! edtiwhxxmh.field('iwhxxmh.kode').isMultiValue() ) {
-						kode = edtiwhxxmh.field('iwhxxmh.kode').val();
-						if(!kode || kode == ''){
-							edtiwhxxmh.field('iwhxxmh.kode').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik iwhxxmh.kode
-						if(action == 'create'){
-							id_iwhxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iwhxxmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_iwhxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiwhxxmh.field('iwhxxmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iwhxxmh.kode
-					}
-					// END of validasi iwhxxmh.kode
-					
-					// BEGIN of validasi iwhxxmh.nama
-					if ( ! edtiwhxxmh.field('iwhxxmh.nama').isMultiValue() ) {
-						nama = edtiwhxxmh.field('iwhxxmh.nama').val();
-						if(!nama || nama == ''){
-							edtiwhxxmh.field('iwhxxmh.nama').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik iwhxxmh.nama
-						if(action == 'create'){
-							id_iwhxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'iwhxxmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_iwhxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtiwhxxmh.field('iwhxxmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik iwhxxmh.nama
-					}
-					// END of validasi iwhxxmh.nama
 
-					// BEGIN of validasi iwhxxmh.id_iwhctmh
-					if ( ! edtiwhxxmh.field('iwhxxmh.id_iwhctmh').isMultiValue() ) {
-						id_iwhctmh = edtiwhxxmh.field('iwhxxmh.id_iwhctmh').val();
-						if(!id_iwhctmh || id_iwhctmh == ''){
-							edtiwhxxmh.field('iwhxxmh.id_iwhctmh').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi iwhxxmh.id_iwhctmh
+					kode = edtiwhxxmh.field('iwhxxmh.kode').val();
+					nama = edtiwhxxmh.field('iwhxxmh.nama').val();
+					id_iwhctmh = edtiwhxxmh.field('iwhxxmh.id_iwhctmh').val();
+					id_gbrxxmh = edtiwhxxmh.field('iwhxxmh.id_gbrxxmh').val();
 
-					// BEGIN of validasi iwhxxmh.id_gbrxxmh
-					if ( ! edtiwhxxmh.field('iwhxxmh.id_gbrxxmh').isMultiValue() ) {
-						id_gbrxxmh = edtiwhxxmh.field('iwhxxmh.id_gbrxxmh').val();
-						if(!id_gbrxxmh || id_gbrxxmh == ''){
-							edtiwhxxmh.field('iwhxxmh.id_gbrxxmh').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtiwhxxmh,
+						'iwhxxmh',
+						{
+							'kode': kode,
+							'nama': nama,
+							'id_iwhctmh': id_iwhctmh,
+							'id_gbrxxmh': id_gbrxxmh
 						}
-					}
-					// END of validasi iwhxxmh.id_gbrxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtiwhxxmh,
+						'iwhxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_iwhxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtiwhxxmh,
+						'iwhxxmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_iwhxxmh
+					);
+
 				}
 				
 				if ( edtiwhxxmh.inError() ) {
@@ -306,9 +258,6 @@
 			});
 			
 			edtiwhxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-				// event setelah Create atau Edit, dibedakan dari parameter action
-				// action : "create" | "edit"
-				// do something
 				tbliwhxxmh.ajax.reload(null, false);
 			} );
 
