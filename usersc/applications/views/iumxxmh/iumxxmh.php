@@ -149,7 +149,7 @@
 						}
 					);
 
-					validasiCekUnik(
+					validasiUnique(
 						action,
 						edtiumxxmh,
 						'iumxxmh',
@@ -159,7 +159,7 @@
 						id_iumxxmh
 					);
 
-					validasiCekUnik(
+					validasiUnique(
 						action,
 						edtiumxxmh,
 						'iumxxmh',

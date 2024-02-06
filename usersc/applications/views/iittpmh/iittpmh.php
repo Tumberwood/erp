@@ -140,7 +140,7 @@
 						}
 					)
 
-					validasiCekUnik(
+					validasiUnique(
 						action,
 						edtiittpmh, 
 						'iittpmh', 

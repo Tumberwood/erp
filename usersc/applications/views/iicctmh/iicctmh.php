@@ -147,7 +147,7 @@
 						}
 					);
 
-					validasiCekUnik(
+					validasiUnique(
 						action,
 						edtiicctmh,
 						'iicctmh',
@@ -157,7 +157,7 @@
 						id_iicctmh,
 					);
 
-					validasiCekUnik(
+					validasiUnique(
 						action,
 						edtiicctmh,
 						'iicctmh',

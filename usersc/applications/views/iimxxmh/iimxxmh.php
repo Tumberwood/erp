@@ -417,7 +417,7 @@
 					);
 				}
 
-				validasiCekUnik(
+				validasiUnique(
 					action,
 					edtiimxxmh, 
 					"iimxxmh", 
@@ -427,7 +427,7 @@
 					id_iimxxmh
 				);
 				
-				validasiCekUnik(
+				validasiUnique(
 					action,
 					edtiimxxmh, 
 					"iimxxmh", 
@@ -756,7 +756,7 @@
 					}
 				);
 				
-				validasiCekUnik(
+				validasiUnique(
 					action,
 					edtiimummd,
 					'iimummd',

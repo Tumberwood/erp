@@ -156,7 +156,7 @@
 						}
 					);
 
-					validasiCekUnik(
+					validasiUnique(
 						action,
 						edtiiggrmh,
 						'iiggrmh',
