@@ -49,6 +49,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fpytmmh/fn/fpytmmh_fn.php'; ?>
@@ -143,28 +144,28 @@
 
             edtfpytmmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi fpytmmh.nama
-					if ( ! edtfpytmmh.field('fpytmmh.nama').isMultiValue() ) {
-						nama = edtfpytmmh.field('fpytmmh.nama').val();
-						if(!nama || nama == ''){
-							edtfpytmmh.field('fpytmmh.nama').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi fpytmmh.nama
-
+					nama        = edtfpytmmh.field('fpytmmh.nama').val();
 					jatuh_tempo = edtfpytmmh.field('fpytmmh.jatuh_tempo').val();
-					if(!jatuh_tempo || jatuh_tempo == ''){
-							edtfpytmmh.field('fpytmmh.jatuh_tempo').error( 'Wajib diisi!' );
+
+					validasiRequired(
+						edtfpytmmh,
+						'fpytmmh',
+						{
+							'nama'       : nama,
+							'jatuh_tempo': jatuh_tempo
 						}
-						
-					if(jatuh_tempo < 0 ){
-						edtfpytmmh.field('fpytmmh.jatuh_tempo').error( 'Inputan minimal 0' );
-					}
-					
-					// validasi angka
-					if(isNaN(jatuh_tempo) ){
-						edtfpytmmh.field('fpytmmh.jatuh_tempo').error( 'Inputan harus berupa Angka!' );
-					}
+					);
+
+					validasiNumber(
+						edtfpytmmh,
+						'fpytmmh',
+						{
+							'jatuh_tempo': jatuh_tempo
+						},
+						0,
+						'>='
+					);
+
 				}
 				
 				if ( edtfpytmmh.inError() ) {
