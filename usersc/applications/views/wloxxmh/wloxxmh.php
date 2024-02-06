@@ -48,6 +48,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wloxxmh/fn/wloxxmh_fn.php'; ?>
@@ -180,75 +181,39 @@
             edtwloxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					id_iwhxxmh = edtwloxxmh.field('wloxxmh.id_iwhxxmh').val();
-					if(!id_iwhxxmh || id_iwhxxmh == ''){
-						edtwloxxmh.field('wloxxmh.id_iwhxxmh').error( 'Wajib diisi!' );
-					}
+					kode       = edtwloxxmh.field('wloxxmh.kode').val();
+					nama       = edtwloxxmh.field('wloxxmh.nama').val();
 
-					// BEGIN of validasi wloxxmh.kode
-					if ( ! edtwloxxmh.field('wloxxmh.kode').isMultiValue() ) {
-						kode = edtwloxxmh.field('wloxxmh.kode').val();
-						if(!kode || kode == ''){
-							edtwloxxmh.field('wloxxmh.kode').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtwloxxmh,
+						'wloxxmh',
+						{
+							'id_iwhxxmh': id_iwhxxmh,
+							'kode': kode,
+							'nama': nama
 						}
-						
-						// BEGIN of cek unik wloxxmh.kode
-						if(action == 'create'){
-							id_wloxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'wloxxmh',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id_wloxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtwloxxmh.field('wloxxmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik wloxxmh.kode
-					}
-					// END of validasi wloxxmh.kode
-					
-					// BEGIN of validasi wloxxmh.nama
-					if ( ! edtwloxxmh.field('wloxxmh.nama').isMultiValue() ) {
-						nama = edtwloxxmh.field('wloxxmh.nama').val();
-						if(!nama || nama == ''){
-							edtwloxxmh.field('wloxxmh.nama').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik wloxxmh.nama
-						if(action == 'create'){
-							id_wloxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: 'wloxxmh',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id_wloxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtwloxxmh.field('wloxxmh.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik wloxxmh.nama
-					}
-					// END of validasi wloxxmh.nama
+					);
+
+					validasiUnique(
+						action,
+						edtwloxxmh,
+						'wloxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_wloxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtwloxxmh,
+						'wloxxmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_wloxxmh
+					);
+
 				}
 				
 				if ( edtwloxxmh.inError() ) {
