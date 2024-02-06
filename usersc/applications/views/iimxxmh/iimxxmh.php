@@ -14,27 +14,62 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-				<div class="table-responsive">
-                    <table id="tbliimxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Tipe</th>
-                                <th>Kategori</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+				<div id="frmiimxxmh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.kode"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.id_iittpmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.id_iicctmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.id_iiggrmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.id_iibbrmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="files[].id"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<table id="tbliimxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Kode</th>
+							<th>Nama</th>
+							<th>Tipe</th>
+							<th>Kategori</th>
+						</tr>
+					</thead>
+				</table>
             </div>
         </div>
     </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd_1"> UoM</a></li>
@@ -42,22 +77,25 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabiimummd_1" class="tab-pane active">
 					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tbliimummd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_iimxxmh</th>
-										<th>UoM</th>
-										<th>Konversi</th>
-										<th>Terkecil</th>
-										<th>Default</th>
-										<th>Default Beli</th>
-										<th>Default Jual</th>
-									</tr>
-								</thead>
-							</table>
-						</div> <!-- end of table -->
+						<table id="tbliimummd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<thead>
+								<tr>
+									<th rowspan=2>ID</th>
+									<th rowspan=2>id_iimxxmh</th>
+									<th rowspan=2>UoM</th>
+									<th rowspan=2>Konversi</th>
+									<th colspan=4>UoM Purpose</th>
+									<!-- <th>Beli</th>
+									<th>Jual</th> -->
+								</tr>
+								<tr>
+									<th>Inventory</th>
+									<th>Base</th>
+									<th>Buy</th>
+									<th>Sell</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 
@@ -112,6 +150,7 @@
 				}
 			},
 			table: "#tbliimxxmh",
+			template: "#frmiimxxmh",
 			fields: [ 
 				{
 					label: "iimxxmh.start_at",
@@ -135,19 +174,6 @@
 					type: "hidden",
 					def: 0
 				},
-				{
-					label: "Lampiran Multi:",
-					name: "files[].id",
-					type: "uploadMany",
-					display: function ( fileId, counter ) {
-						if (fileId == 0){
-							return 'Belum ada lampiran';
-						}else{
-							return '<a href="'+edtiimxxmh.file( 'files', fileId ).web_path+'" target="_blank">'+ edtiimxxmh.file( 'files', fileId ).filename + '</a>'; 
-						}
-					},
-					noFileText: 'Belum ada gambar'
-				},	
 				{
 					label: "Kode <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.kode"
@@ -301,6 +327,18 @@
 					}
 				},
 				{
+					label: "Images",
+					name: "files[].id",
+					type: "uploadMany",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtiimxxmh.file( 'files', fileId ).web_path+'" target="_blank">'+ edtiimxxmh.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+				},	
+				{
 					label: "Keterangan",
 					name: "iimxxmh.keterangan",
 					type: "textarea"
@@ -330,7 +368,7 @@
 		});
 
 		edtiimxxmh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 
 		edtiimxxmh.dependent( 'iimxxmh.id_iittpmh', function ( val, data, callback ) {
@@ -348,53 +386,20 @@
 		
 		edtiimxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				
-				// BEGIN of validasi iimxxmh.kode 
+
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
-
-				// BEGIN of cek unik iimxxmh.kode 
-				validasiCekUnik(
-					action,
-					edtiimxxmh, 
-					"iimxxmh", 
-					"kode", 
-					'kode',
-					'"'+kode+'"',
-					id_iimxxmh
-				);
-				// END of cek unik iimxxmh.kode 
-				// END of validasi iimxxmh.kode
-
-				// BEGIN of validasi iimxxmh.nama 
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
-				
-				// BEGIN of cek unik iimxxmh.nama 
-				validasiCekUnik(
-					action,
-					edtiimxxmh, 
-					"iimxxmh", 
-					"nama", 
-					'nama',
-					'"'+nama+'"',
-					id_iimxxmh
-				);
-				// END of cek unik iimxxmh.nama 
-				// END of validasi iimxxmh.nama
-
-				// BEGIN of validasi iimxxmh.id_iittpmh 
 				id_iittpmh = edtiimxxmh.field('iimxxmh.id_iittpmh').val();
-				// END of validasi iimxxmh.id_iittpmh
 
 				validasiRequired(
-					edtiimxxmh, 
-					"iimxxmh", 
+					edtiimxxmh,
+					'iimxxmh',
 					{
-						"nama": nama, 
-						"kode": kode, 
-						"id_iittpmh": id_iittpmh
+						'kode': kode,
+						'nama': nama,
+						'id_iittpmh': id_iittpmh
 					}
 				);
-
 
 				if (id_iittpmh == 1) {
 					id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
@@ -411,6 +416,27 @@
 						}
 					);
 				}
+
+				validasiCekUnik(
+					action,
+					edtiimxxmh, 
+					"iimxxmh", 
+					"kode", 
+					'kode',
+					'"'+kode+'"',
+					id_iimxxmh
+				);
+				
+				validasiCekUnik(
+					action,
+					edtiimxxmh, 
+					"iimxxmh", 
+					"nama", 
+					'nama',
+					'"'+nama+'"',
+					id_iimxxmh
+				);
+				
 			}
 			
 			if ( edtiimxxmh.inError() ) {
@@ -554,7 +580,7 @@
 			table: "#tbliimummd",
 			formOptions: {
 				main: {
-					focus: 3
+					focus: 5
 				}
 			},
 			fields: [ 
@@ -711,61 +737,58 @@
 		
 		edtiimummd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi iimummd.id_iumxxmh 
-				id_iumxxmh = edtiimummd.field('iimummd.id_iumxxmh').val();
+
+				// set variable
+				id_iumxxmh      = edtiimummd.field('iimummd.id_iumxxmh').val();
+				jumlah_konversi = edtiimummd.field('iimummd.jumlah_konversi').val();
+				panjang         = edtiimummd.field('iimummd.panjang').val();
+				lebar           = edtiimummd.field('iimummd.lebar').val();
+				tinggi          = edtiimummd.field('iimummd.tinggi').val();
+				nw              = edtiimummd.field('iimummd.nw').val();
+				gw              = edtiimummd.field('iimummd.gw').val();
+
+				validasiRequired(
+					edtiimummd,
+					'iimummd',
+					{
+						'id_iumxxmh': id_iumxxmh,
+						'jumlah_konversi': jumlah_konversi
+					}
+				);
 				
 				validasiCekUnik(
-					action,							//Butuh Action untuk Create dsb
-					edtiimummd, 					//variable editor
-					"iimummd", 						//Nama tabel
-					"id_iumxxmh", 					//Nama Field Editor yang akan di validasi
-					'id_iimxxmh,id_iumxxmh',		//nama_field
-					id_iimxxmh+','+id_iumxxmh, 		//nama_field_value
-					id_iimummd 						//id_transaksi
-				);
-				// END of validasi iimummd.id_iumxxmh 
-
-				// BEGIN of validasi iimummd.jumlah_konversi 
-				jumlah_konversi = edtiimummd.field('iimummd.jumlah_konversi').val();
-				// END of validasi iimummd.jumlah_konversi 
-				
-				validasiRequired(
-					edtiimummd, 
-					"iimummd", 
-					{
-						"id_iumxxmh": id_iumxxmh, 
-						"jumlah_konversi": jumlah_konversi
-					}
+					action,
+					edtiimummd,
+					'iimummd',
+					'id_iumxxmh',
+					'id_iumxxmh,id_iimxxmh',
+					id_iumxxmh+','+id_iimxxmh,
+					id_iimummd,
 				);
 
-				// BEGIN of validasi iimummd.panjang 
-				panjang = edtiimummd.field('iimummd.panjang').val();
-				lebar = edtiimummd.field('iimummd.lebar').val();
-				tinggi = edtiimummd.field('iimummd.tinggi').val();
-				nw = edtiimummd.field('iimummd.nw').val();
-				gw = edtiimummd.field('iimummd.gw').val();
-
-				// Validasi default akan muncul saat kurang atau sama dengan 0
 				validasiNumber(
-					edtiimummd, 
-					"iimummd", 
+					edtiimummd,
+					'iimummd',
 					{
-						"jumlah_konversi": jumlah_konversi
-					}
-				);
-
-				// VALIDASI NUMBER dengan def_number validation
-				validasiNumber(
-					edtiimummd, 
-					"iimummd", 
-					{
-						"panjang": panjang, 
-						"lebar": lebar, 
-						"tinggi": tinggi, 
-						"nw": nw, 
-						"gw": gw
+						'jumlah_konversi': jumlah_konversi
 					},
-					-1 //Jika nilai kurang dari -1 maka akan dapat validasi
+					0,
+					'>'
+					);
+				}
+
+				validasiNumber(
+					edtiimummd, 
+					'iimummd', 
+					{
+						'panjang': panjang, 
+						'lebar': lebar, 
+						'tinggi': tinggi, 
+						'nw': nw, 
+						'gw': gw
+					},
+					0,
+					'>='
 				);
 			}
 			
@@ -851,7 +874,7 @@
 				{ data: "iumxxmh.kode" },
 				{ 
 					data: "iimummd.jumlah_konversi" ,
-					...renderNumber(2) //render number text-right dan pemecah ribuan
+					...renderNumber(2)
 				},
 				{ 
 					data: "iimummd.is_terkecil" ,
@@ -938,3 +961,4 @@
 
 <!-- do not erase -->
 <?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
+<!--  -->
