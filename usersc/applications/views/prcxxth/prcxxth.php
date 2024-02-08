@@ -631,8 +631,7 @@
 				{ data: "iumxxmh_unit.nama" },
 				{ 
 					data: "prcittd.jumlah_unit",
-					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-					class: "text-right"
+					...renderNumber(0)
 				}
 			],
 			buttons: [

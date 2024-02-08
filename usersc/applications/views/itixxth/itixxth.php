@@ -698,8 +698,7 @@
 				{ data: "iumxxmh.nama" },
 				{ 
 					data: "itiittd.jumlah_unit",
-					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-					class: "text-right"
+					...renderNumber(0)
 				}
 			],
 			buttons: [

@@ -144,8 +144,7 @@
 					{ data: "iumxxmh_terkecil_kode" },
 					{ 
 						data: "jumlah_terkecil",
-						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-						class: "text-right"
+						...renderNumber(2)
 					},
 					{ data: "iumxxmh_default_kode" },
 					{ 

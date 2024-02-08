@@ -104,14 +104,12 @@
 					{ data: "item_po" },
 					{ 
 						data: "qty_pr",
-						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-						class: "text-right"
+						...renderNumber(0)
 					},
 					{ data: "uom_pr" },
 					{ 
 						data: "qty_po" ,
-						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-						class: "text-right"
+						...renderNumber(0)
 					},
 					{ data: "uom_po" },
 				],

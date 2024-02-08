@@ -577,8 +577,7 @@
 				{ data: "prqittd.nama" },
 				{ 
 					data: "prqittd.jumlah_unit",
-					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-					class: "text-right"
+					...renderNumber(0)
 				},
 				{ data: "iumxxmh.nama" },
 				{ data: "prqittd.tanggal_dibutuhkan" },

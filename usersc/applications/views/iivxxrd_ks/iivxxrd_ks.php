@@ -226,18 +226,15 @@
 					{ data: "keterangan" },
 					{ 
 						data: "jumlah_in",
-						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-						class: "text-right"
+						...renderNumber(0)
 					},
 					{ 
 						data: "jumlah_out",
-						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-						class: "text-right"
+						...renderNumber(0)
 					},
 					{ 
 						data: "saldo",
-						render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
-						class: "text-right"
+						...renderNumber(0)
 					}
 				],
 				buttons: [
