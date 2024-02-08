@@ -583,7 +583,7 @@
 					class: "text-right"
 				},
 				{ data: "iumxxmh.nama" },
-				{ data: "prqittd.tanggal" },
+				{ data: "prqittd.tanggal_dibutuhkan" },
 				{ data: "prqittd.keterangan" }
 			],
 			buttons: [
