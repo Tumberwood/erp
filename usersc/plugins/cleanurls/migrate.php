@@ -9,6 +9,11 @@ if (in_array($user->data()->id, $master_account) && pluginActive($plugin_name,tr
 $count = 0;
 $db = DB::getInstance();
 
+if(!file_exists($abs_us_root.$us_url_root.".htaccess")){
+  $fp = fopen($abs_us_root.$us_url_root.'.htaccess', 'w');
+  fwrite($fp," ");
+  fclose($fp);
+}
 //Make sure the plugin is installed and get the existing updates
 $checkQ = $db->query("SELECT id,updates FROM us_plugins WHERE plugin = ?",array($plugin_name));
 $checkC = $checkQ->count();
@@ -44,7 +49,7 @@ if($checkC > 0){
   $new = json_encode($existing);
   $db->update('us_plugins',$check->id,['updates'=>$new,'last_check'=>date("Y-m-d H:i:s")]);
   if(!$db->error()) {
-    logger($user->data()->id,"Migrations","$count migration(s) susccessfully triggered for $plugin_name");
+    logger($user->data()->id,"Migrations","$count migration(s) successfully triggered for $plugin_name");
   } else {
    	logger($user->data()->id,"USPlugins","Failed to save updates, Error: ".$db->errorString());
   }
