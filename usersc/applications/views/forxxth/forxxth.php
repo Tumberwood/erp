@@ -17,7 +17,7 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-				<div class="table-responsive">
+				<!-- <div class="table-responsive"> -->
                     <table id="tblforxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                     </table>
-                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabforaktd_1" class="tab-pane active">
 					<div class="panel-body">
-						<div class="table-responsive">
+						<!-- <div class="table-responsive"> -->
 							<table id="tblforaktd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
@@ -64,7 +64,7 @@
 									</tr>
 								</tfoot>
 							</table>
-						</div> <!-- end of table -->
+						<!-- </div> -->
 
 					</div>
 				</div>
@@ -89,6 +89,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/forxxth/fn/forxxth_fn.php'; ?>
@@ -233,19 +234,19 @@
 		
 		edtforxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi forxxth.tanggal 
-				tanggal = edtforxxth.field('forxxth.tanggal').val();
-				if(!tanggal || tanggal == ''){
-					edtforxxth.field('forxxth.tanggal').error( 'Wajib diisi!' );
-				}
-				// END of validasi forxxth.tanggal
 
-				// BEGIN of validasi forxxth.id_aakxxmh 
+				tanggal = edtforxxth.field('forxxth.tanggal').val();
 				id_aakxxmh = edtforxxth.field('forxxth.id_aakxxmh').val();
-				if(!id_aakxxmh || id_aakxxmh == ''){
-					edtforxxth.field('forxxth.id_aakxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi forxxth.id_aakxxmh
+
+				validasiRequired(
+					edtforxxth,
+					'forxxth',
+					{
+						'tanggal': tanggal,
+						'id_aakxxmh': id_aakxxmh
+					}
+				);
+
 			}
 			
 			if ( edtforxxth.inError() ) {
@@ -498,25 +499,28 @@
 		
 		edtforaktd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi foraktd.id_aakxxmh 
+
 				id_aakxxmh = edtforaktd.field('foraktd.id_aakxxmh').val();
-				if(!id_aakxxmh || id_aakxxmh == ''){
-					edtforaktd.field('foraktd.id_aakxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi foraktd.id_aakxxmh
-				
-				// BEGIN of validasi foraktd.amount 
 				amount = edtforaktd.field('foraktd.amount').val();
-				if(!amount || amount == ''){
-					edtforaktd.field('foraktd.amount').error( 'Wajib diisi!' );
-				}
-				if(amount <= 0 ){
-					edtforaktd.field('foraktd.amount').error( 'Inputan harus > 0' );
-				}
-				if(isNaN(amount) ){
-					edtforaktd.field('foraktd.amount').error( 'Inputan harus berupa Angka!' );
-				}
-				// END of validasi foraktd.amount
+
+				validasiRequired(
+					edtforaktd,
+					'foraktd',
+					{
+						'id_aakxxmh': id_aakxxmh,
+						'amount': amount
+					}
+				);
+
+				validasiNumber(
+					edtforaktd,
+					'foraktd',
+					{
+						'amount': amount
+					},
+					0,
+					'>'
+				);
 			}
 			
 			if ( edtforaktd.inError() ) {
