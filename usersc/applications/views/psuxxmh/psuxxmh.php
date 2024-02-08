@@ -77,7 +77,7 @@
 					</div>
 				</div>
 				<!-- end Custom Form Datatables Editor -->
-				<div class="table-responsive">
+				<!-- <div class="table-responsive"> -->
                     <table id="tblpsuxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -88,7 +88,7 @@
                             </tr>
                         </thead>
                     </table>
-                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -102,7 +102,7 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabpsubnmd_1" class="tab-pane active">
 					<div class="panel-body">
-						<div class="table-responsive">
+						<!-- <div class="table-responsive"> -->
 							<table id="tblpsubnmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
@@ -115,12 +115,12 @@
 									</tr>
 								</thead>
 							</table>
-						</div>
+						<!-- </div> -->
 					</div>
 				</div>
 				<div role="tabpanel" id="tabpsuctmd" class="tab-pane">
 					<div class="panel-body">
-						<div class="table-responsive">
+						<!-- <div class="table-responsive"> -->
 							<table id="tblpsuctmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
@@ -133,7 +133,7 @@
 									</tr>
 								</thead>
 							</table>
-						</div>
+						<!-- </div> -->
 					</div>
 				</div>
 			</div>
