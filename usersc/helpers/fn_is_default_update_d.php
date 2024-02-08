@@ -61,12 +61,12 @@
             ->bind(':id_transaksi_h', $id_transaksi_h)
             ->bind(':id_transaksi_default', $id_transaksi_default)
             ->exec('
-                UPDATE '.$table_name.' AS a
+                UPDATE '.$table_name.'
                 SET
-                    a.is_default = 0
+                    is_default = 0
                 WHERE 
                     '.$field_id_transaksi_h.' = :id_transaksi_h AND
-                    a.id <> :id_transaksi_default
+                    id <> :id_transaksi_default
             ');
 
         // commit transaction
