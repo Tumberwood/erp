@@ -1,9 +1,9 @@
 <script>
 	// bug fix datatables tidak aligned antara header dan body saat dipasang di multitab
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-		$($.fn.dataTable.tables(true)).DataTable()
-		.columns.adjust();
-	});
+	// $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+	// 	$($.fn.dataTable.tables(true)).DataTable()
+	// 	.columns.adjust();
+	// });
 
 	// bug fix select2 di buka di firefox tidak mau di klik
 	$.fn.modal.Constructor.prototype.enforceFocus = function() {};

@@ -58,7 +58,7 @@ var domPQ =
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'P>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'Q>>" +
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
-	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>" +
+	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'trS>>" +
 	"<'row'<'col-lg-5 col-md-5 col-sm-12 col-xs-12'i><'col-lg-7 col-md-7 col-sm-12 col-xs-12'p>>";
 
 $.extend( true, $.fn.dataTable.defaults, {
@@ -76,22 +76,23 @@ $.extend( true, $.fn.dataTable.defaults, {
 	mark: true,
 	select: true,
 	processing: true,
-	deferRender: true,
 	responsive: true,
 	
 	// searchpanes disetting di masing-masing halaman
 	// searchPanes: {},	
 	
 	// scroller
-	scrollCollapse: true,
-    scroller: {
-        displayBuffer: 2,
-		loadingIndicator: true
-    },
-    scrollY: 300,
-
+	// scrollCollapse: true,
+	// scrollY: 300,
+    // scroller: {
+    //     displayBuffer: 2,
+	// 	loadingIndicator: true
+    // },
+	// scroller: true,
+	// deferRender: true,
+	
 	colReorder: true,
-	// fixedColumns: true,
+	fixedColumns: true,
 	fixedHeader: {
 		header: true
 	},
