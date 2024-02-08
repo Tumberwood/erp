@@ -7,8 +7,7 @@
     // ditambahkan thousand separator dan decimal digit untuk mempermudah pembacaan
     { 
         data: "_blank.harga_unit",  
-        render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),  // thousand sep, decimal mark, decimal digit, prefix, suffix
-        class: "text-right"
+        ...renderNumber(2)
     },
     { 
         data: "files.web_path" ,
