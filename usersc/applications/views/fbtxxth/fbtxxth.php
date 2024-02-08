@@ -270,14 +270,6 @@
 							'id_aakxxmh_tujuan': id_aakxxmh_tujuan
 						}
 					)
-
-					// BEGIN balidasi id_aakxxmh_asal <> id_aakxxmh_tujuan
-					// if(id_aakxxmh_asal > 0 && id_aakxxmh_tujuan > 0){
-					// 	if(id_aakxxmh_asal == id_aakxxmh_tujuan){
-					// 		edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').error( 'Asal dan Tujuan Tidak Boleh Sama!' );
-					// 		edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').error( 'Asal dan Tujuan Tidak Boleh Sama!' );
-					// 	}
-					// }
 				
 				}
 				
