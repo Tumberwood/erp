@@ -40,6 +40,11 @@ table.dataTable tbody th, table.dataTable tbody td {
   padding: 4px 6px; /* e.g. change 8x to 4px here */
 }
 
+/* override transparant background fixed header*/
+table.dataTable thead {
+  background: #F5F5F6 !important;
+}
+
 /*
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
