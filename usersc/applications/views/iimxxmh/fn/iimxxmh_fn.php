@@ -1,16 +1,34 @@
 <script>
-    function defBeliJual (field_name){
+
+    function isIumxxmhBeliUpdate(table_name, id_transaksi_h, id_transaksi_default,tblname){
         $.ajax( {
-            url: '../../../helpers/fn_is_def_beli_jual.php',
+            url: "../../models/iimxxmh/iimummd_fn_is_iumxxmh_beli.php",
             dataType: 'json',
             type: 'POST',
             data: {
-                field_name           : field_name,
+                table_name           : table_name,
+                id_transaksi_h       : id_transaksi_h,
                 id_transaksi_default : id_transaksi_default
             },
             success: function ( json ) {
-                edtiimummd.ajax.reload(null, false);
+                tblname.ajax.reload(null, false);
             }
         } );
-    };
+    }
+
+    function isIumxxmhJualUpdate(table_name, id_transaksi_h, id_transaksi_default,tblname){
+        $.ajax( {
+            url: "../../models/iimxxmh/iimummd_fn_is_iumxxmh_jual.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                table_name           : table_name,
+                id_transaksi_h       : id_transaksi_h,
+                id_transaksi_default : id_transaksi_default
+            },
+            success: function ( json ) {
+                tblname.ajax.reload(null, false);
+            }
+        } );
+    }
 </script>

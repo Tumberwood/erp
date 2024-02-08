@@ -72,11 +72,68 @@
 	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd_1"> UoM</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd"> UoM</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabiimummd_1" class="tab-pane active">
+				<div role="tabpanel" id="tabiimummd" class="tab-pane active">
 					<div class="panel-body">
+						
+						<div id="frmiimummd">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.id_iumxxmh"></editor-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.is_terkecil"></editor-field>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.jumlah_konversi"></editor-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.is_default"></editor-field>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.is_iumxxmh_jual"></editor-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.is_iumxxmh_beli"></editor-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.keterangan"></editor-field>
+									</div>
+								</div>
+								<h5 class="text-secondary">UoM Weight & Dimension mengikuti General Setting</h5>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.nw"></editor-field>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.gw"></editor-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+										<editor-field name="iimummd.panjang"></editor-field>
+									</div>
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+										<editor-field name="iimummd.lebar"></editor-field>
+									</div>
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+										<editor-field name="iimummd.tinggi"></editor-field>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<table id="tbliimummd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 							<thead>
 								<tr>
@@ -85,8 +142,6 @@
 									<th rowspan=2>UoM</th>
 									<th rowspan=2>Konversi</th>
 									<th colspan=4>UoM Purpose</th>
-									<!-- <th>Beli</th>
-									<th>Jual</th> -->
 								</tr>
 								<tr>
 									<th>Inventory</th>
@@ -135,9 +190,10 @@
 
 	var id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0, id_iibbrmh_old = 0;
 	var id_iumxxmh_old = 0;
-	var is_def_beli = 0;
-	var is_def_jual = 0;
-	var is_berubah_def = 0;
+	var is_default_old = 0;
+	var is_iumxxmh_beli_old = 0, is_iumxxmh_jual_old = 0;
+	var is_iumxxmh_beli = 0, is_iumxxmh_jual = 0;
+	var is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -578,6 +634,7 @@
 				}
 			},
 			table: "#tbliimummd",
+			template: "#frmiimummd",
 			formOptions: {
 				main: {
 					focus: 5
@@ -658,6 +715,11 @@
 					]
 				}, 	
 				{
+					label: "Konversi <sup class='text-danger'>*<sup>",
+					name: "iimummd.jumlah_konversi",
+					fieldInfo: "Konversi jumlah harus dihitung terhadap UoM terkecil. Isi 1 jika merupakan UoM terkecil"
+				},
+				{
 					label: "Default UoM <sup class='text-danger'>*<sup>",
 					name: "iimummd.is_default",
 					type: "select",
@@ -668,8 +730,8 @@
 					]
 				},  	
 				{
-					label: "Default Penjualan <sup class='text-danger'>*<sup>",
-					name: "iimummd.is_def_jual",
+					label: "Selling UoM <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_iumxxmh_jual",
 					type: "select",
 					placeholder : "Pilih",
 					options: [
@@ -678,8 +740,8 @@
 					]
 				}, 		
 				{
-					label: "Default Pembelian <sup class='text-danger'>*<sup>",
-					name: "iimummd.is_def_beli",
+					label: "Buying UoM <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_iumxxmh_beli",
 					type: "select",
 					placeholder : "Pilih",
 					options: [
@@ -687,11 +749,6 @@
 						{ "label": "Tidak", "value": 0 }
 					]
 				}, 		
-				{
-					label: "Konversi <sup class='text-danger'>*<sup>",
-					name: "iimummd.jumlah_konversi",
-					fieldInfo: "Konversi jumlah harus dihitung terhadap UoM terkecil. Isi 1 jika merupakan UoM terkecil"
-				},
 				{
 					label: "Keterangan",
 					name: "iimummd.keterangan",
@@ -706,15 +763,15 @@
 					name: "iimummd.gw"
 				},
 				{
-					label: "Panjang",
+					label: "Length",
 					name: "iimummd.panjang"
 				},
 				{
-					label: "Lebar",
+					label: "Width",
 					name: "iimummd.lebar"
 				},
 				{
-					label: "Tinggi",
+					label: "Height",
 					name: "iimummd.tinggi"
 				},
 			]
@@ -732,7 +789,7 @@
 		});
 
 		edtiimummd.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 		
 		edtiimummd.on( 'preSubmit', function (e, data, action) {
@@ -803,10 +860,13 @@
 			// BEGIN is_default
 			// ambil is_default dari form input
 			is_default 		= edtiimummd.field('iimummd.is_default').val();
-			is_def_beli 		= edtiimummd.field('iimummd.is_def_beli').val();
-			is_def_jual 		= edtiimummd.field('iimummd.is_def_jual').val();
+			is_iumxxmh_beli	= edtiimummd.field('iimummd.is_iumxxmh_beli').val();
+			is_iumxxmh_jual = edtiimummd.field('iimummd.is_iumxxmh_jual').val();
+
 			if(action == 'create'){
 				is_default_old = 0;
+				is_iumxxmh_beli_old = 0
+				is_iumxxmh_jual_old = 0
 			} // else nya sudah didapatkan saat select
 
 			if(is_default == 1 && is_default != is_default_old){
@@ -825,15 +885,25 @@
 			// END is_default
 
 			//DEFAULT BELI
-			if(is_def_beli == 1 && is_def_beli != is_def_beli_old){
-				is_berubah_def = 1;
-				nama_field_def = 'is_def_beli';
+			if(is_iumxxmh_beli == 1 && is_iumxxmh_beli != is_iumxxmh_beli_old){
+				if(confirm('Apakah Anda Ingin Mengubah Default Buying UoM?')){
+					is_update_iumxxmh_beli = 1;
+				}else{
+					is_update_iumxxmh_beli = 0;
+					return false;
+				}
 			}
 
-			if(is_def_jual == 1 && is_def_jual != is_def_jual_old){
-				is_berubah_def = 1;
-				nama_field_def = 'is_def_jual';
+			//DEFAULT JUAL
+			if(is_iumxxmh_jual == 1 && is_iumxxmh_jual != is_iumxxmh_jual_old){
+				if(confirm('Apakah Anda Ingin Mengubah Default Selling UoM?')){
+					is_update_iumxxmh_jual = 1;
+				}else{
+					is_update_iumxxmh_jual = 0;
+					return false;
+				}
 			}
+
 		});
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
@@ -845,11 +915,18 @@
 			}
 			// END is_default
 
-			// BEGIN def beli jual
-			if(is_berubah_def == 1){
-				defBeliJual(nama_field_def);
+			// BEGIN is_update_iumxxmh_beli
+			if(is_update_iumxxmh_beli == 1){
+				isIumxxmhBeliUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
 			}
-			// END def beli jual
+			// END is_update_iumxxmh_beli
+
+			// BEGIN is_update_iumxxmh_jual
+			if(is_update_iumxxmh_jual == 1){
+				isIumxxmhJualUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+			}
+			// END is_update_iumxxmh_jual
+
 		} );
 
 		edtiimummd.on( 'close', function () {
@@ -884,11 +961,11 @@
 					...renderYaTidak()
 				},
 				{ 
-					data: "iimummd.is_def_beli" ,
+					data: "iimummd.is_iumxxmh_beli" ,
 					...renderYaTidak()
 				},
 				{ 
-					data: "iimummd.is_def_jual" ,
+					data: "iimummd.is_iumxxmh_jual" ,
 					...renderYaTidak()
 				}
 			],
@@ -932,8 +1009,8 @@
 
 			id_iumxxmh_old = data_iimummd.id_iumxxmh;
 			is_default_old = data_iimummd.is_default;
-			is_def_beli_old = data_iimummd.is_def_beli;
-			is_def_jual_old = data_iimummd.is_def_jual;
+			is_iumxxmh_beli_old = data_iimummd.is_iumxxmh_beli;
+			is_iumxxmh_jual_old = data_iimummd.is_iumxxmh_jual;
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimxxmh, tbliimummd );
