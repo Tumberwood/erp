@@ -206,15 +206,67 @@ function validasiNumber(edt, tabel, fields, number, operator){
 */
 function validasiEmail(edt, tabel, fields) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    Object.keys(fields).forEach(field_name => {
-        if (fields[field_name]) {
-            if (emailRegex.test(fields[field_name])) {
+    Object.keys(fields).forEach(function(key) {
+        var value = fields[key];
+        if(value){
+            if (emailRegex.test(value)) {
                 // Valid email format
             } else {
                 edt.field(tabel + '.' + field_name).error('Email Tidak Valid!');
             }
         }
+        
     });
+
+}
+
+/**
+ * Validasi
+ *  Different
+ * Kegunaan
+ *  untuk validasi fields tidak boleh mempunyai data yang sama
+ * Cara Penggunaan:
+ *  validasiDifferent(edt, tabel, fields)
+ * Parameter
+ *  edt     : object    | nama variable datatables editor
+ *  tabel   : string    | nama tabel database terkait
+ *  fields  : array     | nama field dan value yang akan dicek
+ * Contoh
+ *  // set variable
+ *  id_aakxxmh_asal   = edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').val();
+ *  id_aakxxmh_tujuan = edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').val();
+ *  // panggil validasi 
+ *  validasiDifferent(
+ *      edtfbtxxth,
+ *      "fbtxxth",
+ *      {
+ *          'id_aakxxmh_asal': id_aakxxmh_asal,
+ *          'id_aakxxmh_tujuan': id_aakxxmh_tujuan
+ *      }
+ *  );
+*/
+function validasiDifferent(edt, tabel, fields){
+    var checkedValues = {};
+    var different = 0;
+    Object.keys(fields).forEach(function(key) {
+        var value = fields[key];
+        
+        // Periksa apakah nilai sudah pernah diperiksa sebelumnya
+        if (checkedValues[value]) {
+    		different = 1;
+        } else {
+            checkedValues[value] = true;
+        }
+
+    });
+
+    // loop tampilkan error message di all related fields
+    if(different == 1){
+        Object.keys(fields).forEach(function(key) {
+            edt.field(tabel + '.' + key).error( 'Data tidak boleh sama!' );
+        });
+    }
+    
 }
 
 /**
