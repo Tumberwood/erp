@@ -51,6 +51,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fbtxxth/fn/fbtxxth_fn.php'; ?>
@@ -233,64 +234,50 @@
             edtfbtxxth.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					
-					// BEGIN of validasi fbtxxth.tanggal
-					if ( ! edtfbtxxth.field('fbtxxth.tanggal').isMultiValue() ) {
-						tanggal = edtfbtxxth.field('fbtxxth.tanggal').val();
-						if(!tanggal || tanggal == ''){
-							edtfbtxxth.field('fbtxxth.tanggal').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi fbtxxth.tanggal
+					tanggal           = edtfbtxxth.field('fbtxxth.tanggal').val();
+					id_aakxxmh_asal   = edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').val();
+					id_aakxxmh_tujuan = edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').val();
+					amount            = edtfbtxxth.field('fbtxxth.amount').val();
+					keterangan        = edtfbtxxth.field('fbtxxth.keterangan').val();
 
-					// BEGIN of validasi fbtxxth.id_aakxxmh_asal
-					if ( ! edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').isMultiValue() ) {
-						id_aakxxmh_asal = edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').val();
-						if(!id_aakxxmh_asal || id_aakxxmh_asal == ''){
-							edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtfbtxxth,
+						'fbtxxth',
+						{
+							'tanggal'          : tanggal,
+							'id_aakxxmh_asal'  : id_aakxxmh_asal,
+							'id_aakxxmh_tujuan': id_aakxxmh_tujuan,
+							'amount'           : amount,
+							'keterangan'       : keterangan
 						}
-					}
-					// END of validasi fbtxxth.id_aakxxmh_asal
+					);
 
-					// BEGIN of validasi fbtxxth.id_aakxxmh_tujuan
-					if ( ! edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').isMultiValue() ) {
-						id_aakxxmh_tujuan = edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').val();
-						if(!id_aakxxmh_tujuan || id_aakxxmh_tujuan == ''){
-							edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi fbtxxth.id_aakxxmh_tujuan
+					validasiNumber(
+						edtfbtxxth,
+						'fbtxxth',
+						{
+							'amount': amount
+						},
+						0,
+						'>'
+					);
 
-					// BEGIN of validasi fbtxxth.amount
-					if ( ! edtfbtxxth.field('fbtxxth.amount').isMultiValue() ) {
-						amount = edtfbtxxth.field('fbtxxth.amount').val();
-						if(!amount || amount == ''){
-							edtfbtxxth.field('fbtxxth.amount').error( 'Wajib diisi!' );
+					validasiDifferent(
+						edtfbtxxth,
+						'fbtxxth',
+						{
+							'id_aakxxmh_asal': id_aakxxmh_asal,
+							'id_aakxxmh_tujuan': id_aakxxmh_tujuan
 						}
-						if(amount <= 0 ){
-							edtfbtxxth.field('fbtxxth.amount').error( 'Inputan harus > 0' );
-						}
-						if(isNaN(amount) ){
-							edtfbtxxth.field('fbtxxth.amount').error( 'Inputan harus berupa Angka!' );
-						}
-					}
-					// END of validasi fbtxxth.amount
-
-					// BEGIN of validasi fbtxxth.keterangan
-					if ( ! edtfbtxxth.field('fbtxxth.keterangan').isMultiValue() ) {
-						keterangan = edtfbtxxth.field('fbtxxth.keterangan').val();
-						if(!keterangan || keterangan == ''){
-							edtfbtxxth.field('fbtxxth.keterangan').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi fbtxxth.keterangan
+					)
 
 					// BEGIN balidasi id_aakxxmh_asal <> id_aakxxmh_tujuan
-					if(id_aakxxmh_asal > 0 && id_aakxxmh_tujuan > 0){
-						if(id_aakxxmh_asal == id_aakxxmh_tujuan){
-							edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').error( 'Asal dan Tujuan Tidak Boleh Sama!' );
-							edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').error( 'Asal dan Tujuan Tidak Boleh Sama!' );
-						}
-					}
+					// if(id_aakxxmh_asal > 0 && id_aakxxmh_tujuan > 0){
+					// 	if(id_aakxxmh_asal == id_aakxxmh_tujuan){
+					// 		edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').error( 'Asal dan Tujuan Tidak Boleh Sama!' );
+					// 		edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').error( 'Asal dan Tujuan Tidak Boleh Sama!' );
+					// 	}
+					// }
 				
 				}
 				
