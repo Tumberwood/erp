@@ -93,6 +93,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/prqxxth/fn/prqxxth_fn.php'; ?>
@@ -225,20 +226,18 @@
 		
 		edtprqxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi prqxxth.tanggal 
 				tanggal = edtprqxxth.field('prqxxth.tanggal').val();
-				if(!tanggal || tanggal == ''){
-					edtprqxxth.field('prqxxth.tanggal').error( 'Wajib diisi!' );
-				}
-				// END of validasi prqxxth.tanggal
-
-				// BEGIN of validasi prqxxth.id_hodxxmh 
 				id_hodxxmh = edtprqxxth.field('prqxxth.id_hodxxmh').val();
-				if(!id_hodxxmh || id_hodxxmh == ''){
-					edtprqxxth.field('prqxxth.id_hodxxmh').error( 'Wajib diisi!' );
-				}
-				// END of validasi prqxxth.id_hodxxmh 
 
+				validasiRequired(
+					edtprqxxth,
+					'prqxxth',
+					{
+						'tanggal': tanggal,
+						'id_hodxxmh': id_hodxxmh
+					}
+				);
+				
 			}
 			
 			if ( edtprqxxth.inError() ) {
@@ -499,29 +498,28 @@
 		edtprqittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				nama = edtprqittd.field('prqittd.nama').val();
-				if(!nama || nama == ''){
-					edtprqittd.field('prqittd.nama').error( 'Wajib diisi!' );
-				}
-				
 				id_iumxxmh = edtprqittd.field('prqittd.id_iumxxmh').val();
-				if(!id_iumxxmh || id_iumxxmh == ''){
-					edtprqittd.field('prqittd.id_iumxxmh').error( 'Wajib diisi!' );
-				}
-				
 				jumlah_unit = edtprqittd.field('prqittd.jumlah_unit').val();
-				if(!jumlah_unit || jumlah_unit == ''){
-					edtprqittd.field('prqittd.jumlah_unit').error( 'Wajib diisi!' );
-				}
 
-				// validasi min atau max angka
-				if(jumlah_unit <= 0 ){
-					edtprqittd.field('prqittd.jumlah_unit').error( 'Inputan harus > 0' );
-				}
+				validasiRequired(
+					edtprqittd,
+					'prqittd',
+					{
+						'nama': nama,
+						'id_iumxxmh': id_iumxxmh
+					}
+				);
+
+				validasiNumber(
+					edtprqittd,
+					'prqittd',
+					{
+						'jumlah_unit': jumlah_unit,
+					},
+					0,
+					'>'
+				);
 				
-				// validasi angka
-				if(isNaN(jumlah_unit) ){
-					edtprqittd.field('prqittd.jumlah_unit').error( 'Inputan harus berupa Angka!' );
-				}
 			}
 			
 			if ( edtprqittd.inError() ) {
