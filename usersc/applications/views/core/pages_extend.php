@@ -195,27 +195,11 @@
 					{ data: "pages_extend.info"},
 					{ 
 						data: "pages_extend.is_crud", 
-						render: function (data){
-							if (data == 0){
-								return 'Tidak';
-							}else if(data == 1){
-								return 'Ya';
-							}else{
-								return '';
-							}
-						}
+						...renderYaTidak()
 					},
 					{ 
 						data: "pages_extend.is_setting", 
-						render: function (data){
-							if (data == 0){
-								return 'Tidak';
-							}else if(data == 1){
-								return 'Ya';
-							}else{
-								return '';
-							}
-						}
+						...renderYaTidak()
 					}
 				],
 				buttons: [

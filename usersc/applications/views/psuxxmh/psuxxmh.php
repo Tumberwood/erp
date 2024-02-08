@@ -841,13 +841,7 @@
 				{ data: "psubnmd.nama" },
 				{ 
 					data: "psubnmd.is_default",
-					render: function (data){ 	// render model tulisan
-						if (data == 1){
-							return 'Ya';
-						}else if(data == 0){
-							return 'Tidak';
-						}
-					}
+					...renderYaTidak()
 				}
 			],
 			buttons: [

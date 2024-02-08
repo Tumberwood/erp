@@ -401,13 +401,7 @@
 					{ data: "gdnxxsh.separator" },
 					{ 
 						data: "gdnxxsh.by_cabang" ,
-						render: function (data){
-							if (data == 0){
-								return 'Tidak';
-							}else if(data == 1){
-								return 'Ya';
-							}
-						}
+						...renderYaTidak()
 					}
 				],
 				buttons: [
