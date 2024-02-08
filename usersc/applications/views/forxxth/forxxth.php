@@ -304,8 +304,7 @@
 				{ data: "aakxxmh.nama" },
 				{ 
 					data: "forxxth.amount" ,
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
+					...renderNumber(2)
 				},
 				{ data: "forxxth.keterangan" }
 			],
@@ -578,8 +577,7 @@
 				{ data: "foraktd.aakxxmh" },
 				{ 
 					data: "foraktd.amount" ,
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
+					...renderNumber(2)
 				},
 				{ data: "foraktd.keterangan" }
 			],

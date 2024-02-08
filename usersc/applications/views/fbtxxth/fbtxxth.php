@@ -323,8 +323,7 @@
 					{ data: "aakxxmh_tujuan.nama" },
 					{ 
 						data: "fbtxxth.amount" ,
-						render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-						class: "text-right"
+						...renderNumber(2)
 					},
 					{ data: "fbtxxth.keterangan" },
 					{ 

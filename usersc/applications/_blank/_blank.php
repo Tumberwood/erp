@@ -658,8 +658,7 @@
 					{ data: "_blank.nama" },
 					{ 
 						data: "_blank.harga",
-						render: $.fn.dataTable.render.number( ',', '.', 0,'Rp. ','' ),
-						class: "text-right"
+						...renderNumber()
 					},
 					{ 
 						data: "files.web_path" ,

@@ -149,8 +149,7 @@
 					{ data: "iumxxmh_default_kode" },
 					{ 
 						data: "jumlah_default",
-						render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-						class: "text-right"
+						...renderNumber(2)
 					}
 				],
 				buttons: [
