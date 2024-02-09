@@ -53,6 +53,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -199,40 +200,28 @@
 
             edtmenus.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
+					label         = edtmenus.field('menus.label').val();
+					link          = edtmenus.field('menus.link').val();
+					display_order = edtmenus.field('menus.display_order').val();
 
-                    // BEGIN of validasi menus.display_order
-					if ( ! edtmenus.field('menus.display_order').isMultiValue() ) {
-						display_order = edtmenus.field('menus.display_order').val();
-						if(!display_order || display_order == ''){
-							edtmenus.field('menus.display_order').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtmenus,
+						'menus',
+						{
+							'label': label,
+							'link': link
 						}
-						if(display_order <= 0 ){
-							edtmenus.field('menus.display_order').error( 'Inputan harus > 0' );
-						}
-						if(isNaN(display_order) ){
-							edtmenus.field('menus.display_order').error( 'Inputan harus berupa Angka!' );
-						}
-					}
-					// END of validasi menus.display_order
+					);
 
-					// BEGIN of validasi menus.label
-					if ( ! edtmenus.field('menus.label').isMultiValue() ) {
-						label = edtmenus.field('menus.label').val();
-						if(!label || label == ''){
-							edtmenus.field('menus.label').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi menus.label
-
-					// BEGIN of validasi menus.link
-					if ( ! edtmenus.field('menus.link').isMultiValue() ) {
-						link = edtmenus.field('menus.link').val();
-						if(!link || link == ''){
-							edtmenus.field('menus.link').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi menus.link
-
+					validasiNumber(
+						edtmenus,
+						'menus',
+						{
+							'display_order': display_order,
+						},
+						0,
+						'>'
+					);
                     
 				}
 				
