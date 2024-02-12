@@ -232,9 +232,8 @@ function autofillField(table_name, id_transaksi, fields_name){
 function hitungSubtotal(edt, tabel){
     var jumlah_unit,harga_unit, subtotal;
     jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
-    harga_unit = parseFloat(edt.field(tabel+'.harga_unit').val());
-    console.log(harga_unit);
-    console.log(jumlah_unit);
+    harga_unit  = parseFloat(edt.field(tabel+'.harga_unit').val());
+    
     if(isNaN(harga_unit) || isNaN(jumlah_unit)){
         subtotal = 0;
     }else{
@@ -256,10 +255,10 @@ function hitungSubtotal(edt, tabel){
 function hitungDiskon(edt, tabel){
     var diskon_jenis, diskon_persen, diskon_value, diskon_final, dpp ;
 
-    diskon_jenis = parseFloat(edt.field(tabel+'.diskon_jenis').val());
+    diskon_jenis  = parseFloat(edt.field(tabel+'.diskon_jenis').val());
     diskon_persen = parseFloat(edt.field(tabel+'.diskon_persen').val());
-    diskon_value = parseFloat(edt.field(tabel+'.diskon_value').val());
-    subtotal = parseFloat(edt.field(tabel+'.subtotal').val());
+    diskon_value  = parseFloat(edt.field(tabel+'.diskon_value').val());
+    subtotal      = parseFloat(edt.field(tabel+'.subtotal').val());
 
     if (diskon_jenis == 0) {
         diskon_final = 0;
