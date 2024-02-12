@@ -22,6 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nama</th>
+                                <th>Tax Type</th>
                                 <th>Keterangan</th>
                                 <th>TX</th>
                             </tr>
@@ -59,6 +60,8 @@
 		// ------------- end of default variable
 
 		is_master_table = 1;
+
+		var id_ftxxxmh_old = 0;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -98,6 +101,42 @@
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "iittpmh.nama"
 					}, 	
+					{
+						label: "Tax Type",
+						name: "iittpmh.id_ftxxxmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/ftxxxmh/ftxxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_ftxxxmh_old: id_ftxxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
 					{
 						label: "Keterangan",
 						name: "iittpmh.keterangan",
@@ -178,6 +217,7 @@
 				columns: [
 					{ data: "iittpmh.id",visible:false },
 					{ data: "iittpmh.nama" },
+					{ data: "ftxxxmh.kode" },
 					{ data: "iittpmh.keterangan" },
 					{ 
 						data: "iittpmh.transaction_state" ,
@@ -224,6 +264,7 @@
 				id_transaksi_log	= id_iittpmh; // dipakai untuk general
 				transaction_state   = iittpmh_data.transaction_state;
 				is_defaultprogram   = iittpmh_data.is_defaultprogram;
+				id_ftxxxmh_old   	= iittpmh_data.id_ftxxxmh;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliittpmh);

@@ -24,6 +24,8 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'iittpmh.id' ),
+			Field::inst( 'iittpmh.id_ftxxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'iittpmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -38,8 +40,11 @@
 			Field::inst( 'iittpmh.approval_state' ),
 			Field::inst( 'iittpmh.start_at' ),
 			Field::inst( 'iittpmh.finish_at' ),
-			Field::inst( 'iittpmh.is_defaultprogram' )
-		);
+			Field::inst( 'iittpmh.is_defaultprogram' ),
+			Field::inst( 'ftxxxmh.kode' )
+		)
+		->leftJoin( 'ftxxxmh','ftxxxmh.id','=','iittpmh.id_ftxxxmh' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document
