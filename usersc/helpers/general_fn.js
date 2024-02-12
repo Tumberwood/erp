@@ -1,42 +1,12 @@
 /**
- * dtNumberFormat
- * format number menggunakan function dari datatables
- * biasanya dipanggil di footerCallback
- */
-
-/**
  * Datatables Render transactionStatus
  * Digunakan untuk render field transaction_status
  * Cara menggunakan:
- * pada datatables columns render
- * render: $.fn.dataTable.render.transactionStatus()
- */
-// $.fn.dataTable.render.transactionStatus = function () {
-//     return function ( data, type, row ) {
-
-//         if (data == -9){
-//             return '<span class="badge badge-danger">DELETE</span>';
-//         }else if (data == 0){
-//             return '<span class="badge badge-plain">DRAFT</span>';
-//         }else if(data == 1){
-//             return '<span class="badge badge-primary">CONFIRM</span>';
-//         }else if(data == 8){
-//             return '<span class="badge badge-primary">COMPLETE</span>';
-//         }else if(data == 9){
-//             return '<span class="badge badge-danger">CLOSED</span>';
-//         }else{
-//             return '<span class="badge badge-warning">INVALID</span>';
-//         }
-
-//     }
-// };
-
-
-/**
- * 
- * CARA KERJA
+ *  pada datatables columns, setelah data
+ *  ...renderTransactionStatus()
+ * Contoh
  * { 
-        data: "iumxxmh.transaction_state" ,
+        data: "_blank.namaField" ,
         ...renderTransactionStatus()
     }
  */
@@ -64,33 +34,11 @@ function renderTransactionStatus() {
  * Datatables Render approvalStatus
  * Digunakan untuk render field approval_status
  * Cara menggunakan:
- * pada datatables columns render
- * render: $.fn.dataTable.render.approvalStatus()
- */
-// $.fn.dataTable.render.approvalStatus = function () {
-//     return function ( data, type, row ) {
-
-//         if (data == -9){
-//             return '<span class="badge badge-danger">VOID</span>';
-//         }else if(data == -1){
-//             return '<span class="badge badge-primary">CANCEL APPROVE</span>';
-//         }else if (data == 0){
-//             return '<span class="badge badge-plain">OPEN</span>';
-//         }else if(data == 1){
-//             return '<span class="badge badge-primary">APPROVE</span>';
-//         }else{
-//             return '<span class="badge badge-warning">INVALID</span>';
-//         }
-        
-//     }
-// };
-
-
-/**
- * 
- * CARA KERJA
+ *  pada datatables columns, setelah data
+ *  ...renderApprovalStatus()
+ * Contoh
  * { 
-        data: "iumxxmh.transaction_state" ,
+        data: "_blank.namaField" ,
         ...renderApprovalStatus()
     }
  */
@@ -114,34 +62,18 @@ function renderApprovalStatus() {
 
 /**
  * Datatables Render yaTidak
- * Digunakan untuk render field yang mempunyai opsi Ya | Tidak
+ * Kegunaan
+ *  untuk render field yang mempunyai opsi Ya | Tidak
  * Cara menggunakan:
- * pada datatables columns render
- * render: $.fn.dataTable.render.yaTidak()
- */
-// $.fn.dataTable.render.yaTidak = function () {
-//     return function ( data, type, row ) {
-
-//         if (data == 0){
-//             return '<span class="badge badge-plain">Tidak</span>';
-//         }else if(data == 1){
-//             return '<span class="badge badge-primary">Ya</span>';
-//         }else{
-//             return '<span class="badge badge-warning">INVALID</span>';
-//         }
-        
-//     }
-// };
-
-
-/**
- * 
- * CARA KERJA
+ *  pada datatables columns, setelah data
+ *  ...renderYaTidak()
+ * Contoh
  * { 
-        data: "iumxxmh.transaction_state" ,
+        data: "_blank.namaField" ,
         ...renderYaTidak()
     }
  */
+
 function renderYaTidak() {
     return {
         render: function (data) {
@@ -298,13 +230,18 @@ function autofillField(table_name, id_transaksi, fields_name){
  */
 
 function hitungSubtotal(edt, tabel){
-    var harga_unit, jumlah_unit, subtotal;
-    harga_unit = parseFloat(edt.field(tabel+'.harga_unit').val());
+    var jumlah_unit,harga_unit, subtotal;
     jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
-
-    subtotal = (jumlah_unit * harga_unit);
+    harga_unit = parseFloat(edt.field(tabel+'.harga_unit').val());
+    console.log(harga_unit);
+    console.log(jumlah_unit);
+    if(isNaN(harga_unit) || isNaN(jumlah_unit)){
+        subtotal = 0;
+    }else{
+        subtotal = (jumlah_unit * harga_unit);
+    }
     edt.field(tabel+'.subtotal').val(subtotal);
-
+    
 }
 
 /**
@@ -337,7 +274,11 @@ function hitungDiskon(edt, tabel){
     }
 
     // hitung dpp
-    dpp = (subtotal - diskon_final);
+    if(isNaN(subtotal)){
+        dpp = 0;
+    }else{
+        dpp = (subtotal - diskon_final);
+    }
     
     edt.field(tabel+'.diskon_final').val(diskon_final);
     edt.field(tabel+'.dpp').val(dpp);
@@ -415,3 +356,10 @@ function hitungDiskon(edt, tabel){
 //         }
 //     } );
 // }
+
+/**
+ * dtNumberFormat
+ * format number menggunakan function dari datatables
+ * biasanya dipanggil di footerCallback
+ */
+dtNumberFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
