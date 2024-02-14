@@ -89,6 +89,39 @@ function renderYaTidak() {
 }
 
 /**
+ * Datatables Render Number
+ * Kegunaan
+ *  untuk render field berupa angka dengan menambahkan thousand separator, decimal, prefix atau suffix, rata kanan
+ * Cara menggunakan:
+ *  pada datatables columns, setelah data
+ *  ...renderNumber(decimal_digit, prefix, suffix")
+ * Contoh
+ * { 
+        data: "iimummd.jumlah_konversi" ,
+        ...renderNumber(2, "Rp. ", "")
+    }
+ */
+
+function renderNumber(digit, prefix, suffix) {
+    if (digit == null) {
+        digit = 0;
+    }
+
+    if (prefix == null) {
+        prefix = '';
+    }
+
+    if (suffix == null) {
+        suffix = '';
+    }
+
+    return {
+        render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
+        class: "text-right"
+    };
+}
+
+/**
  * isDefaultUpdate
  * Digunakan untuk mengubah all data field is_default pada sebuah table
  * hanya boleh ada 1 baris data yang mempunyai nilai is_default = 1 
@@ -284,57 +317,80 @@ function hitungDiskon(edt, tabel){
 }
 
 /**
- * RENDER NUMBER CUSTOM, ATUR DIGIT BELAKANG KOMA
- * AUTO TEXT RIGHT
- * Digit = Integer
- * Prefix dan Suffix = String
- * 
- * CARA MEMAKAI DI VIEW TABLE COLUMNS
-    * { 
-            data: "iimummd.jumlah_konversi" ,
-            ...renderNumber(2, "Rp. ", " br") //render number text-right dan pemecah ribuan
-        },
-        
-        Hasilnya = "Rp. 24,000.00 br"
-
-    Jika parameter dikosongkan semua
-        ...renderNumber()
-
-        Hasilnya = "24,000" (tanpa digit belakang koma, tanpa prefix dan suffix)
-
-    Jika hanya mengisi prefix digit
-        ...renderNumber(2)
-
-        Hasilnya = "24,000.00" (ada 2 digit dibelakang koma, tanpa prefix dan suffix)
-
-    Jika ingin memakai prefix, maka digit wajib diisi
-        ...renderNumber( 2, "Rp. ")
-
-        Hasilnya = Rp. 24,000.00
-
-        ATAU
-
-        ...renderNumber( 0, "Rp. ")
-
-        Hasilnya = Rp. 24,000
+ * hitungPajak
+ * Digunakan untuk menghitung pajak
+ * @param {*} edt 
+ * @param {*} tabel 
+ * @param {*} id_iittpmh 
  */
- function renderNumber(digit, prefix, suffix) {
-    if (digit == null) {
-        digit = 0;
-    }
+function hitungPajak(edt, tabel, id_iittpmh) {
+    is_pajak = edt.field(tabel+'.is_pajak').val();
+    dpp      = parseFloat(edt.field(tabel+'.dpp').val());
 
-    if (prefix == null) {
-        prefix = '';
-    }
+    if(is_pajak == 1 && dpp > 0){
 
-    if (suffix == null) {
-        suffix = '';
-    }
+        $.ajax( {
+            url: "../../models/ftxxxmh/ftxxxmh_fn_hitungtarif_iittpmh.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_iittpmh: id_iittpmh
+            },
+            success: function ( json ) {
+                pajak_jenis = parseFloat(json.data.rs_autofill.id);
+                tarif       = parseFloat(json.data.rs_autofill.tarif);
+            
+                edt.field(tabel+'.pajak_jenis').val(pajak_jenis);
+                edt.field(tabel+'.pajak_persen').val(tarif);
+                edt.field(tabel+'.pajak_in_ex').show();
 
-    return {
-        render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
-        class: "text-right"
-    };
+                
+                pajak_in_ex = parseFloat(edt.field(tabel+'.pajak_in_ex').val());
+
+                if(dpp > 0){
+                    if(pajak_in_ex == 1){
+                        //include
+                        pajak_final = 100 / (tarif + 100) * dpp;
+                        pajak_final = Math.round(pajak_final * 100) / 100;
+                        
+                        dpp_final   = dpp - pajak_final;
+                        dpp_final   =Math.round(dpp_final * 100) / 100
+                        
+                        grand_total = dpp;
+                        grand_total = Math.round(grand_total * 100) / 100
+                    }else{
+                        //exclude
+                        pajak_final = tarif / 100 * dpp;
+                        pajak_final = Math.round(pajak_final * 100) / 100
+
+                        dpp_final   = dpp;
+                        dpp_final   =Math.round(dpp_final * 100) / 100
+
+                        grand_total = dpp_final + pajak_final;
+                        grand_total = Math.round(grand_total * 100) / 100
+                    }
+                    
+                }else{
+                    dpp_final   = 0;
+                    pajak_final = 0;
+                    grand_total = 0;
+                }
+
+                edt.field(tabel+'.dpp_final').val(dpp_final);
+                edt.field(tabel+'.pajak_final').val(pajak_final);
+                edt.field(tabel+'.grand_total').val(grand_total);
+            }
+        } );
+
+    }else{
+        edt.field(tabel+'.pajak_jenis').val(null);
+        edt.field(tabel+'.pajak_persen').val(null);
+        edt.field(tabel+'.pajak_final').val(null);
+        edt.field(tabel+'.dpp_final').val(dpp);
+        edt.field(tabel+'.grand_total').val(dpp);
+        edt.field(tabel+'.pajak_in_ex').hide();
+    }
 }
 
 /**
