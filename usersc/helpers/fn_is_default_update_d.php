@@ -84,10 +84,8 @@
     }
 
     $data = array(
-		'id_transaksi_h'      => $id_transaksi_h,
-		'id_transaksi_default'      => $id_transaksi_default,
-		'message'      => $message,
-		'type_message' => $type_message
+		'message'              => $message,
+		'type_message'         => $type_message
 	);
 
     // tampilkan results
