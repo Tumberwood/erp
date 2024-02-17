@@ -309,38 +309,7 @@
 				{
 					label: "Provinsi <sup class='text-danger'>*<sup>",
 					name: "psuxxmh.id_gpvxxmh",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/core/gpvxxmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_gpvxxmh_old: id_gpvxxmh_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
+					type: "readonly"
 				},
 				{
 					label: "Telepon",
@@ -447,6 +416,19 @@
 		edtpsuxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		});
+
+		edtpsuxxmh.dependent( 'psuxxmh.id_gctxxmh', function ( val, data, callback ) {
+			// BEGIN load nama provinsi
+			id_gctxxmh = edtpsuxxmh.field('psuxxmh.id_gctxxmh').val();
+			autofillField('gctxxmh', id_gctxxmh, 'id_gpvxxmh');
+			id_gpvxxmh = autofillData.id_gpvxxmh;
+			autofillField('gpvxxmh', id_gpvxxmh, 'nama');
+			gpvxxmh_nama = autofillData.nama;
+			edtpsuxxmh.field('psuxxmh.id_gpvxxmh').val(gpvxxmh_nama);
+			// END load nama provinsi
+
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtpsuxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
