@@ -21,6 +21,7 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
+    
     $table_name   = $_POST['table_name'];
     $id_transaksi = $_POST['id_transaksi'];
 
@@ -102,18 +103,27 @@
             ->where('id',$id_transaksi)
             ->exec();
 
+        if($qu_transaksi){
+            $message = 'Konversi UoM Berhasil Diperbaharui';
+            $type_message = 'success';
+        }else{
+            $message = 'Konversi UoM Gagal Diperbaharui';
+            $type_message = 'danger';
+        }
         // commit transaction
         $db->commit();
 
-        $message = 'Konversi UoM Berhasil Diperbaharui';
-        $type_message = 'success';
         
-    }catch(PDOException $e){
+        
+    }catch(Exception $e){
         // rollback on error
         $db->rollback();
 
+        // Set status code to 500
+        // http_response_code(500);
+
         $message = 'Konversi UoM Gagal Berhasil Diperbaharui';
-        $type_message = 'success';
+        $type_message = 'danger';
 
     }
 
