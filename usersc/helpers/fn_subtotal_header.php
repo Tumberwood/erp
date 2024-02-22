@@ -1,75 +1,76 @@
 <?php
-	/*
-        220827 - 2.0.0
-            Mengubah query dengan menggunakan class bawaan dari datatables.
-
-		Kegunaan:
-            - Mengubah is_active transaksi menjadi 0 (menandakan data tidak aktif)
-            - Insert log ke table activity_log_ml
-		
-        Parameter:
-            - $table_name
-		    - $id_transaksi
-	*/
-    include_once( "../../users/init.php" );
-	include_once( "../../usersc/lib/DataTables.php" );
-    include( "datatables_fn_debug.php" );   
+	/**
+     * Digunakan untuk menghitung header transaksi
+     * - Subtotal   : SUM dpp detail (Dasar Pengenaan Pajak, nilai setelah dikurangi diskon)
+     */
+    require_once( "../../users/init.php" );
+	require_once( "../../usersc/lib/DataTables.php" );
+    require_once( "datatables_fn_debug.php" );
+    
     use
 		DataTables\Editor,
 		DataTables\Editor\Query,
 		DataTables\Editor\Result;
 
+    // BEGIN definisi variable untuk fn_ajax_results.php
+    $data      = array();
+    $rs_opt    = array();
+    $c_rs_opt  = 0;
+    $morePages = 0;
+    // END definisi variable untuk fn_ajax_results.php
+
 	$editor = Editor::inst( $db, '' );
-    
-    $id_transaksi_h   = $_POST['id_transaksi_h'];
-    $is_dpp   = 0;
-    if (isset($_POST['is_dpp']) && !empty($_POST['is_dpp'])) {
-        $is_dpp   = $_POST['is_dpp'];
-    }
-    $detail = $_POST['detail'];
-    $header = $_POST['header'];
-    $id_header = 'id_'. $header;
+
+    $id_transaksi_h = $_POST['id_transaksi_h'];
+    $tabel_detail   = $_POST['tabel_detail'];
+    $tabel_header   = $_POST['tabel_header'];
+    $id_header      = 'id_'. $tabel_header;
 
     try{
         $db->transaction();
 
-        $sql_update = $editor->db()
+        $qs_detail = $db
             ->raw()
-            ->exec('UPDATE '.$header.' AS a
-                    LEFT JOIN (
-                        SELECT '.$id_header.', SUM(dpp) AS total_dpp
-                        FROM '.$detail.'
-                        GROUP BY '.$id_header.'
-                    ) AS b ON b.'.$id_header.' = a.id
-                    SET a.subtotal = COALESCE(b.total_dpp, 0)
-                    WHERE a.id = '.$id_transaksi_h.'
-                    ;
-                    '
-                    );
+            ->bind(':id_transaksi_h', $id_transaksi_h)
+            ->exec('
+                SELECT
+                    SUM(dpp) as s_dpp
+                FROM '.$tabel_detail.'
+                WHERE
+                    id_' . $tabel_header . ' = :id_transaksi_h
+            ');
+        $rs_detail = $qs_detail->fetch();
+        $subtotal_header = $rs_detail['s_dpp'];
 
-        if ($is_dpp > 0) {
-            $sql_update = $editor->db()
-                ->raw()
-                ->exec('UPDATE '.$header.' AS a
-                        LEFT JOIN (
-                            SELECT '.$id_header.', SUM(dpp) AS total_dpp
-                            FROM '.$detail.'
-                            GROUP BY '.$id_header.'
-                        ) AS b ON b.'.$id_header.' = a.id
-                        SET a.dpp = COALESCE(b.total_dpp, 0) - a.diskon_final
-                        WHERE a.id = '.$id_transaksi_h.'
-                        ;
-                        '
-                        );
-        }
+        $qu_header = $db
+            ->raw()
+            ->bind(':subtotal_header', $subtotal_header)
+            ->bind(':id', $id_transaksi_h)
+            ->exec('
+                UPDATE '.$tabel_header.' 
+                SET subtotal = :subtotal_header
+                WHERE 
+                    id = :id
+            ');
+
         // commit transaction
         $db->commit();
-        echo json_encode(array('message'=> 'Subtotal Header Berhasil Diperbaharui'  , 'type_message'=>'success' ));
+        $message      = 'Subtotal Header Berhasil Diperbaharui' ;
+        $type_message = 'success';
+
     }catch(PDOException $e){
         // rollback on error
         $db->rollback();
-        echo json_encode(array('message'=> 'Subtotal Header Gagal Diperbaharui', 'type_message'=>'danger' ));
+        $message      = 'Subtotal Header Gagal Diperbaharui' ;
+        $type_message = 'danger';
     }
 
-    // print_r($debug);
+    $data = array(
+		'subtotal_header' => $subtotal_header,
+		'message'      => $message,
+		'type_message' => $type_message
+	);
+
+    // tampilkan results
+    require_once( "fn_ajax_results.php" );
 ?>
