@@ -38,7 +38,7 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd"> Detail</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd"> Item</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabprqittd" class="tab-pane active">
