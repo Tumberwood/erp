@@ -1,35 +1,8 @@
 <script>
-    function validasiDiskon(edt, tabel) {
-        diskon_value = edt.field(tabel+'.diskon_value').val();
-        if(diskon_value > 0){
-            // validasi min atau max angka
-            if(diskon_value <= 0 ){
-                edt.field(tabel+'.diskon_value').error( 'Inputan harus > 0' );
-            }
-            
-            // validasi angka
-            if(isNaN(diskon_value) ){
-                edt.field(tabel+'.diskon_value').error( 'Inputan harus berupa Angka!' );
-            }
-        }
-
-        diskon_persen = edt.field(tabel+'.diskon_persen').val();
-        if(diskon_persen > 0){
-            // validasi min atau max angka
-            if(diskon_persen <= 0 ){
-                edt.field(tabel+'.diskon_persen').error( 'Inputan harus > 0' );
-            }
-            
-            // validasi angka
-            if(isNaN(diskon_persen) ){
-                edt.field(tabel+'.diskon_persen').error( 'Inputan harus berupa Angka!' );
-            }
-        }           
-    }
 
     function defaultCurrency() {
         $.ajax( {
-            url: "../../models/podxxth/fn_defaultCurrency.php",
+            url: "../../models/fcrxxmh/fcrxxmh_fn_default.php",
             dataType: 'json',
             type: 'POST',
             async: false,
@@ -41,4 +14,12 @@
             }
         } );
     }
+
+    function podxxthUpdateFooter() {
+        $( '#diskon_final_h' ).html( dtNumberFormat(diskon_final_h)).addClass('text-right text-danger');
+        $( '#dpp_final_h' ).html( dtNumberFormat(dpp_final_h)).addClass('text-right');
+        $( '#pajak_final_h' ).html( dtNumberFormat(pajak_final_h)).addClass('text-right');
+        $( '#grand_total_h' ).html( dtNumberFormat(grand_total_h)).addClass('text-right');
+    }
+
 </script>
