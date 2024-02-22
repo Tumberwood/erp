@@ -18,7 +18,7 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
     
-    $table_name     = $_POST['table_name'];
+    $tbl_name     = $_POST['tbl_name'];
     $id_transaksi   = $_POST['id_transaksi'];
     $fields_name    = $_POST['fields_name'];
 
@@ -28,7 +28,7 @@
         ->exec('
             SELECT
                 '.$fields_name.'
-            FROM '.$table_name.'
+            FROM '.$tbl_name.'
             WHERE id = :id_transaksi
         ');
     $rs_autofill = $qs_autofill->fetch();
