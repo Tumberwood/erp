@@ -45,6 +45,11 @@ table.dataTable thead {
   background: #F5F5F6 !important;
 }
 
+table.dataTable tfoot tr th{
+  padding: 5px !important;
+  border: none;
+}
+
 /*
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
