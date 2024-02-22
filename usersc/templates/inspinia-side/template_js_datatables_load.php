@@ -24,6 +24,7 @@ var colCount;
 var colvisCount;
 
 $.fn.dataTable.moment('DD MMM YYYY');
+$.fn.dataTable.moment('DD MMM YYYY HH:mm:ss');
 
 $.extend( true, $.fn.dataTable.Editor.defaults, {
 	formOptions: {
