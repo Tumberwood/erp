@@ -894,7 +894,7 @@
 			table: "#tblpsuctmd",
 			formOptions: {
 				main: {
-					focus: 3
+					focus: 5
 				}
 			},
 			fields: [ 
