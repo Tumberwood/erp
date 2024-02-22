@@ -4,7 +4,7 @@
      * Syarat: 
      *  dalam 1 table hanya ada 1 baris data yang is_default = 1
      * Parameter:
-     *  table_name          : nama table yang akan diubah value data is_default nya
+     *  tbl_name          : nama table yang akan diubah value data is_default nya
      *  id_transaksi_default: id baris data yang akan menjadi default baru
      */
 
@@ -32,41 +32,24 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
-    $table_name             = $_POST['table_name'];
+    $tbl_name             = $_POST['tbl_name'];
     $id_transaksi_default   = $_POST['id_transaksi_default'];
 
     try{
         $db->transaction();
         
-        // cari data is_default yang baru
-        // ini kayanya tidak diperlukan
-		// $qs_def = $db
-        //     ->raw()
-        //     ->bind(':id_transaksi_default', $id_transaksi_default)
-        //     ->exec('
-        //         SELECT
-        //             is_default
-        //         FROM '.$table_name.' 
-        //         WHERE 
-        //             id = :id_transaksi_default
-        //     ');
-        // $rs_def = $qs_def->fetch();
         
-        // jika 
-        // if ($rs_def['is_default'] == 1) {
-            
-            // mengubah baris data menjadi is_default = 1, selain baris data yang dijadikan is_default = 1
-            $sql_update = $db
-                ->raw()
-                ->bind(':id_transaksi_default', $id_transaksi_default)
-                ->exec('
-                    UPDATE '.$table_name.'
-                    SET
-                        is_default = 0
-                    WHERE 
-                        id <> :id_transaksi_default
-                ');
-        // }
+        // mengubah baris data menjadi is_default = 1, selain baris data yang dijadikan is_default = 1
+        $sql_update = $db
+            ->raw()
+            ->bind(':id_transaksi_default', $id_transaksi_default)
+            ->exec('
+                UPDATE '.$tbl_name.'
+                SET
+                    is_default = 0
+                WHERE 
+                    id <> :id_transaksi_default
+            ');
 
         // commit transaction
         $db->commit();
