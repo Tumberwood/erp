@@ -188,7 +188,7 @@
 	// ------------- end of default variable
 	is_master_table = 1;
 
-	var id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0, id_iibbrmh_old = 0;
+	var id_iittpmh = 0, id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0, id_iibbrmh_old = 0;
 	var id_iumxxmh_old = 0;
 	var is_default_old = 0;
 	var is_iumxxmh_beli_old = 0, is_iumxxmh_jual_old = 0;
@@ -833,19 +833,21 @@
 					'>'
 				);
 
-				validasiNumber(
-					edtiimummd, 
-					'iimummd', 
-					{
-						'panjang': panjang, 
-						'lebar': lebar, 
-						'tinggi': tinggi, 
-						'nw': nw, 
-						'gw': gw
-					},
-					0,
-					'>='
-				);
+				if (id_iittpmh == 1) {
+					validasiNumber(
+						edtiimummd, 
+						'iimummd', 
+						{
+							'panjang': panjang, 
+							'lebar': lebar, 
+							'tinggi': tinggi, 
+							'nw': nw, 
+							'gw': gw
+						},
+						0,
+						'>='
+					);
+				}
 			}
 			
 			if ( edtiimummd.inError() ) {

@@ -63,6 +63,11 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="psuxxmh.is_pkp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
 								<editor-field name="psuxxmh.npwp"></editor-field>
 							</div>
 							<div class="col-lg-6">
@@ -333,8 +338,8 @@
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "Yes", "value": 1 },
-						{ "label": "No", "value": 0 }
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
 					]
 				},
 				{
