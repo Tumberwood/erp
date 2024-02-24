@@ -12,10 +12,6 @@
 
     // $s_where_data_permission
 
-	// require_once( "../../users/init.php" );
-	// require_once( "../../usersc/lib/DataTables.php" );
-    // require_once( "datatables_fn_debug.php" );
-
 	// use
 	// 	DataTables\Editor,
 	// 	DataTables\Editor\Query,
@@ -23,6 +19,7 @@
 
     $s_arr_ha_gbrxxmh = [0];
     $s_str_arr_ha_gbrxxmh = (0);
+    $s_id_gcpxxmh = 0;
     $s_id_gbrxxmh = 0;
 
     try{
@@ -45,6 +42,30 @@
         
         if($s_id_users < 101){
 
+            // BEGIN gcpxxmh
+            $qs_gcpxxmh = $db
+                ->raw()
+                ->bind(':transaction_state',1)
+                ->bind(':is_default', 1)
+                ->exec('
+                    SELECT
+                        id as id_gcpxxmh
+                    FROM gcpxxmh
+                    WHERE 
+                        transaction_state = :transaction_state AND
+                        is_default = :is_default
+                ');
+
+            $rs_gcpxxmh = $qs_gcpxxmh->fetch();
+
+            if(!empty($rs_gcpxxmh)){
+                if(!is_null($rs_gcpxxmh['id_gcpxxmh'])){
+                    $s_id_gcpxxmh = $rs_gcpxxmh['id_gcpxxmh'];
+                }
+            }
+            // END gcpxxmh
+
+            // BEGIN gbrxxmh
             $qs_gbrxxmh = $db
                 ->raw()
                 ->bind(':transaction_state',1)
@@ -65,6 +86,7 @@
                     $s_id_gbrxxmh = $rs_gbrxxmh['id_gbrxxmh'];
                 }
             }
+            // END gbrxxmh
 
         }else{
             $qs_udpxxsh = $db
@@ -153,8 +175,9 @@
         's_username' => $s_username,
 
         // BEGIN optional
-        's_id_gbrxxmh' => $s_id_gbrxxmh,
-        's_arr_ha_gbrxxmh' => $s_arr_ha_gbrxxmh,
+        's_id_gcpxxmh'         => $s_id_gcpxxmh,
+        's_id_gbrxxmh'         => $s_id_gbrxxmh,
+        's_arr_ha_gbrxxmh'     => $s_arr_ha_gbrxxmh,
         's_str_arr_ha_gbrxxmh' => $s_str_arr_ha_gbrxxmh
         // END optional
     );
