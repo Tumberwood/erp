@@ -105,6 +105,7 @@
                 ->bind(':dpp_final', $dpp_final)
                 ->bind(':pajak_final', $pajak_final)
                 ->bind(':grand_total', $grand_total)
+                ->bind(':id_transaksi_h', $id_transaksi_h)
                 ->exec('
                     UPDATE ' .$tbl_name_h. '
                     SET
@@ -112,6 +113,8 @@
                         dpp_final   = :dpp_final,
                         pajak_final = :pajak_final,
                         grand_total = :grand_total
+                    WHERE 1
+                        AND id =:id_transaksi_h
                 ');
             
         }else{
@@ -120,8 +123,8 @@
             // saat detail transaksi di submit, sudah divalidasi harus ada subtotalnya
         }
 
-
-        $message = 'Kalkulasi Header Berhasil Dilakukan!';
+        $status_code  = 500;
+        $message      = 'Kalkulasi Header Berhasil Dilakukan!';
         $type_message = 'success';
 
         // commit transaction
@@ -133,10 +136,8 @@
         // rollback on error
         $db->rollback();
 
-        // Set status code to 500
-        // http_response_code(500);
-
-        $message = 'Kalkulasi Header Gagal Dilakukan!';
+        $status_code  = 500;
+        $message      = 'Kalkulasi Header Gagal Dilakukan!' . $e->getMessage();
         $type_message = 'danger';
 
     }
