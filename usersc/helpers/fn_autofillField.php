@@ -19,21 +19,41 @@
     // END definisi variable untuk fn_ajax_results.php
     
     $tbl_name     = $_POST['tbl_name'];
-    $id_transaksi   = $_POST['id_transaksi'];
-    $fields_name    = $_POST['fields_name'];
+    $id_transaksi = $_POST['id_transaksi'];
+    $fields_name  = $_POST['fields_name'];
 
-    $qs_autofill = $db
-        ->raw()
-        ->bind(':id_transaksi', $id_transaksi)
-        ->exec('
-            SELECT
-                '.$fields_name.'
-            FROM '.$tbl_name.'
-            WHERE id = :id_transaksi
-        ');
-    $rs_autofill = $qs_autofill->fetch();
+    try{
+
+        $qs_autofill = $db
+            ->raw()
+            ->bind(':id_transaksi', $id_transaksi)
+            ->exec('
+                SELECT
+                    '.$fields_name.'
+                FROM '.$tbl_name.'
+                WHERE id = :id_transaksi
+            ');
+        $rs_autofill = $qs_autofill->fetch();
+        
+        if($rs_autofill){
+            $status_code  = 200;
+            $message      = 'Autofill Data Berhasil';
+            $type_message = 'success';
+        }else{
+            $status_code  = 500;
+            $message      = 'Autofill Data Gagal';
+            $type_message = 'error';
+        }
+
+    }catch(PDOException $e){
+        // rollback on error
+        $status_code  = 500;
+        $message      = 'Autofill Data Gagal!' . $e->getMessage();
+        $type_message = 'error';
+    }
     
     $data = array(
+        'status_code' => $status_code,
         'rs_autofill' => $rs_autofill
     );
     // tampilkan results

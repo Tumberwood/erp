@@ -288,7 +288,9 @@ function autofillField(tbl_name, id_transaksi, fields_name){
             fields_name: fields_name
         },
         success: function ( json ) {
-            autofillData = json.data.rs_autofill;
+            if(json.data.status_code = 500){
+                autofillData = json.data.rs_autofill;
+            }
         }
     } );
 }
