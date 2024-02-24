@@ -2,7 +2,7 @@
 	/**
      * Digunakan untuk menghitung konversi UoM
      * Parameter:
-     *  table_name      : nama table database yang akan dihitung
+     *  tbl_name      : nama table database yang akan dihitung
      *  id_transaksi    : id transaksi yang akan dihitung
      */
     require_once( "../../users/init.php" );
@@ -22,22 +22,20 @@
     // END definisi variable untuk fn_ajax_results.php
 
     
-    $table_name   = $_POST['table_name'];
+    $tbl_name   = $_POST['tbl_name'];
     $id_transaksi = $_POST['id_transaksi'];
 
     try{
         $db->transaction();
 
         $qs_transaksi = $db
-            ->query('select', $table_name )
+            ->query('select', $tbl_name )
             ->get([
                 'id_iimxxmh as id_iimxxmh',
                 'id_iumxxmh_unit as id_iumxxmh_unit',
                 'jumlah_unit as jumlah_unit'
             ] )
-            // ->join('namatable2','namatable2.fieldjoin = _blank.id_namatable2','LEFT' )
             ->where('id', $id_transaksi )
-            // ->group_by('_blank.fieldgroupby')
             ->exec();
         $rs_transaksi = $qs_transaksi->fetch();
 
@@ -92,7 +90,7 @@
 
         // update
         $qu_transaksi = $db
-            ->query('update', $table_name)
+            ->query('update', $tbl_name)
             ->set('id_iumxxmh_terkecil',$id_iumxxmh_terkecil)
             ->set('id_iumxxmh_default',$id_iumxxmh_default)
             ->set('jumlah_konversi',$jumlah_konversi)
@@ -104,11 +102,13 @@
             ->exec();
 
         if($qu_transaksi){
-            $message = 'Konversi UoM Berhasil Diperbaharui';
+            $status_code  = 200;
+            $message      = 'Konversi UoM Berhasil Diperbaharui';
             $type_message = 'success';
         }else{
-            $message = 'Konversi UoM Gagal Diperbaharui';
-            $type_message = 'danger';
+            $status_code  = 500;
+            $message      = 'Konversi UoM Gagal Diperbaharui';
+            $type_message = 'error';
         }
         // commit transaction
         $db->commit();
@@ -119,17 +119,23 @@
         // rollback on error
         $db->rollback();
 
-        // Set status code to 500
-        // http_response_code(500);
-
-        $message = 'Konversi UoM Gagal Berhasil Diperbaharui';
-        $type_message = 'danger';
+        $status_code  = 500;
+        $message      = 'Konversi UoM Gagal Diperbaharui.<br>' . $e->getMessage() . "<br>Error pada baris: " .$e->getLine();
+        $type_message = 'error';
 
     }
 
     $data = array(
-		'message'      => $message,
-		'type_message' => $type_message
+		// 'id_iumxxmh_terkecil' => $id_iumxxmh_terkecil,
+		// 'id_iumxxmh_default'  => $id_iumxxmh_default,
+		// 'jumlah_konversi'     => $jumlah_konversi,
+		// 'jumlah_terkecil'     => $jumlah_terkecil,
+		// 'jumlah_default'      => $jumlah_default,
+		// 'jumlah_unit'         => $jumlah_unit,
+		// 'jumlah_terkecil'     => $jumlah_terkecil,
+		'status_code'         => $status_code,
+		'message'             => $message,
+		'type_message'        => $type_message
 	);
 
     // tampilkan results
