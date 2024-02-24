@@ -71,8 +71,7 @@
 			->leftJoin( 'prqittd','prqittd.id','=','podittd.id_prqittd' )
 			->leftJoin( 'prqxxth','prqxxth.id','=','prqittd.id_prqxxth' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','podittd.id_iimxxmh' )
-			->where('podittd.id_podxxth',$_POST['id_podxxth'])
-			;
+			->where('podittd.id_podxxth',$_POST['id_podxxth']);
 		
 		// do not erase
 		// function show / hide inactive document
