@@ -15,8 +15,20 @@
  *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
  *  contoh: id_transaksi_h, id_transaksi_d 
  */
+
 function stripEdt(nilai) {
     return nilai.replace(/,/g, '');
+}
+
+/**
+ * Digunakan untuk meng-copy error message yang tampil pada toastr (notifikasi)
+ */
+function copyError() {
+    navigator.clipboard.writeText(full_message.replace(/<br>/g, " ")).then(function () {
+        alert('Silakan hubungi tim Solusi Indonesia dan paste pesan error yang sudah di copy tadi.')
+    }, function () {
+        alert('Failure to copy. Check permissions for clipboard')
+    });
 }
 
 /**
@@ -225,7 +237,7 @@ function isDefaultUpdateD(table_name, id_transaksi_h, id_transaksi_default,tblna
  * konversiUom
  * Digunakan untuk menghitung konversi satuan berdasarkan table iimummd
  * Parameter:
- *  table_name  : nama tabel pada database yang akan di update
+ *  tbl_name  : nama tabel pada database yang akan di update
  *  id_transaksi: id_transaksi yang akan dihitung konversi nya
  * Cara menggunakan:
  * function ini dipanggil saat editor postSubmit
@@ -236,16 +248,20 @@ function isDefaultUpdateD(table_name, id_transaksi_h, id_transaksi_default,tblna
             konversiUom(id_last_insert, 'itoittd');
         }
  */
-function konversiUom(table_name, id_transaksi ){
+function konversiUom(tbl_name, id_transaksi ){
     $.ajax( {
         url: '../../../helpers/fn_konversi_uom.php',
         dataType: 'json',
         type: 'POST',
         data: {
-            table_name: table_name,
+            tbl_name: tbl_name,
             id_transaksi: id_transaksi
         },
         success: function ( json ) {
+            if(json.data.status_code == 500){
+                full_message = json.data.message + '<br>Page: ' + $(location).attr("href") + '<br>';
+                toastr[json.data.type_message](full_message + '<button onclick="copyError()" type="button" class="btn btn-success btn-xs">Copy ke Clipboard</button>', 'Error', {progressBar: false, timeOut:0});
+            }
         }
     } );
 }
