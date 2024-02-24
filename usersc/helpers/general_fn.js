@@ -1,4 +1,25 @@
 /**
+ * -----------------------------------
+ * General Rules
+ * -----------------------------------
+ * Penamaan Variable
+ *  @param {Object} edt variable datatables editor
+ *  @param {Object} tbl variable datatables table
+ *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
+ *  contoh: tbl_h, tbl_d
+ *  @param {String} tbl_name nama tabel database
+ *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
+ *  contoh: tbl_name_h, tbl_name_d
+ *  @param {String} fields_name nama field database
+ *  @param {Number} id_transaksi nilai id dari transaksi yang dipilih
+ *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
+ *  contoh: id_transaksi_h, id_transaksi_d 
+ */
+function stripEdt(nilai) {
+    return nilai.replace(/,/g, '');
+}
+
+/**
  * Datatables Render transactionStatus
  * Digunakan untuk render field transaction_status
  * Cara menggunakan:
@@ -169,17 +190,17 @@ function renderNumber(digit, prefix, suffix) {
     // END is_default
  *   
  */
-function isDefaultUpdate(table_name,id_transaksi_default,tblname){
+function isDefaultUpdate(tbl_name,id_transaksi_default,tbl){
     $.ajax( {
         url: '../../../helpers/fn_is_default_update.php',
         dataType: 'json',
         type: 'POST',
         data: {
-            table_name           : table_name,
+            tbl_name           : tbl_name,
             id_transaksi_default : id_transaksi_default
         },
         success: function ( json ) {
-            tblname.ajax.reload(null, false);
+            tbl.ajax.reload(null, false);
         }
     } );
 }
@@ -232,21 +253,21 @@ function konversiUom(table_name, id_transaksi ){
 /**
  * autofill
  * Digunakan untuk membuat autofill dependent field. Mendapatkan data dari tabel lain, berdasarkan parameter tertentu
- * table_name   : string    | nama tabel yang akan diambil datanya
- * id_transaksi : integer   | id table tujuan yang akan diambil datanya. biasanya didapatkan dari variable
- * fields_name  : string    | nama field yang akan diambil datanya, bisa multiple, pisahkan menggunakan koma. 
+ * @param {String} tbl_name nama tabel yang akan diambil datanya
+ * @param {Number} id_transaksi id table tujuan yang akan diambil datanya. biasanya didapatkan dari variable
+ * @param {String} fields_name nama field yang akan diambil datanya, bisa multiple, pisahkan menggunakan koma.
  * contoh:
  *  autofillField('tabel_asal', 1, 'fieldA,fieldB')
  *  akan mengambil data fieldA,fieldB dari tabel_asal, id tabel_asal = 1
  */
-function autofillField(table_name, id_transaksi, fields_name){
+function autofillField(tbl_name, id_transaksi, fields_name){
     $.ajax( {
         url: '../../../helpers/fn_autofillField.php',
         dataType: 'json',
         type: 'POST',
         async: false,
         data: {
-            table_name: table_name,
+            tbl_name: tbl_name,
             id_transaksi: id_transaksi,
             fields_name: fields_name
         },
@@ -257,13 +278,13 @@ function autofillField(table_name, id_transaksi, fields_name){
 }
 
 /**
- * hitungSubtotal
- * Digunakan untuk menghitung field subtotal
+ * Digunakan untuk menghitung nilai subtotal
  * subtotal = jumlah_unit * harga_unit
+ * @param {*} edt 
+ * @param {*} tabel 
  */
-
-function hitungSubtotal(edt, tabel){
-    var jumlah_unit,harga_unit, subtotal;
+function hitungSubtotalDetail(edt, tabel){
+    var jumlah_unit, harga_unit, subtotal;
     jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
     harga_unit  = parseFloat(edt.field(tabel+'.harga_unit').val());
     
@@ -277,16 +298,43 @@ function hitungSubtotal(edt, tabel){
 }
 
 /**
- * hitungDiskon
- * Digunakan untuk menghitung diskon
+ * Digunakan untuk menghitung nilai subtotal pada header
+ * Subtotal header dihitung dari SUM subtotal pada detail
+ * Subtotal header akan diolah lagi dengan data-data header:
+ *  - diskon
+ *  - pajak
+ * @param {Number} id_transaksi_h 
+ * @param {String} tabel_detail 
+ * @param {Object} tabel_header 
+ */
+function hitungSubtotalHeader(id_transaksi_h, tabel_detail, tabel_header){
+    $.ajax( {
+        url: '../../../helpers/fn_subtotal_header.php',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            tabel_header  : tabel_header,
+            tabel_detail  : tabel_detail,
+            id_transaksi_h: id_transaksi_h
+        },
+        success: function ( json ) {
+            // do nothing
+        }
+    } );
+}  
+
+/**
+ * Digunakan untuk menghitung diskon di detail atau di header
  * Ada 2 macam diskon, dalam persen dan dalam value
  * jenis_diskon:
  *  0: tidak ada diskon
  *  1: persen
  *  2: value
+ * @param {*} edt 
+ * @param {*} tabel 
  */
 function hitungDiskon(edt, tabel){
-    var diskon_jenis, diskon_persen, diskon_value, diskon_final, dpp ;
+    var diskon_jenis, diskon_persen, diskon_value, diskon_final ;
 
     diskon_jenis  = parseFloat(edt.field(tabel+'.diskon_jenis').val());
     diskon_persen = parseFloat(edt.field(tabel+'.diskon_persen').val());
@@ -304,15 +352,135 @@ function hitungDiskon(edt, tabel){
     }else{
         // harusnya tidak masuk ke sini karena pilihan di form hanya 0|1|2
     }
+    
+    edt.field(tabel+'.diskon_final').val(diskon_final);
+}
 
-    // hitung dpp
+/**
+ * Digunakan untuk menghitung nilai-nilai di header, saat transaksi detail di submit
+ * Dipanggil saat postSubmit editor detail
+ * @param {*} id_transaksi_h
+ */
+function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
+    // ambil data detail
+    // ambil data header
+    $.ajax( {
+        url: '../../../helpers/tr_fn_header_hitung_total.php',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            tbl_name_h: tbl_name_h,
+            tbl_name_d: tbl_name_d,
+            id_transaksi_h: id_transaksi_h
+        },
+        success: function ( json ) {
+            console.log(json);
+        }
+    } );
+}
+
+/**
+ * 
+ * @param {*} edt 
+ * @param {*} tabel_nama 
+ * @param {*} id_iittpmh 
+ */
+function hitungHeader(edt, tabel_nama, id_iittpmh) {
+    console.log('hitungHeader');
+    subtotal     = parseFloat(edt.field(tabel_nama+'.subtotal').val());
+    diskon_final = parseFloat(edt.field(tabel_nama+'.diskon_final').val());
+    is_pajak     = edt.field(tabel_nama+'.is_pajak').val();
+    dpp          = parseFloat(edt.field(tabel_nama+'.dpp').val());
+    console.log(is_pajak);
+    // BEGIN ambil tarif pajak
+    if(is_pajak == 1){
+        // jika menggunakan pajak
+        $.ajax( {
+            url: "../../models/ftxxxmh/ftxxxmh_fn_hitungtarif_iittpmh.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_iittpmh: id_iittpmh
+            },
+            success: function ( json ) {
+                pajak_jenis = parseFloat(json.data.rs_autofill.id);
+                tarif       = parseFloat(json.data.rs_autofill.tarif);
+                
+                edt.field(tabel_nama+'.pajak_in_ex').show();
+
+            }
+        } );
+
+    }else{
+        pajak_jenis = 0;
+        tarif       = 0;
+    }
+    // END ambil tarif pajak
+
+    edt.field(tabel_nama+'.pajak_jenis').val(pajak_jenis);
+    edt.field(tabel_nama+'.pajak_persen').val(tarif);    
+
+    // BEGIN hitung dpp_final, pajak_final, grand_total
+    if(subtotal > 0){
+        // jika subtotal sudah ada nilainya
+        pajak_in_ex = parseFloat(edt.field(tabel_nama+'.pajak_in_ex').val());
+
+        if(pajak_in_ex == 1){
+            //include
+            dpp_final = 100 / (tarif + 100) * dpp;
+            dpp_final = Math.round(dpp_final * 100) / 100;
+            
+            pajak_final = dpp - dpp_final;
+            pajak_final = Math.round(pajak_final * 100) / 100;
+            
+            grand_total = dpp;
+            grand_total = Math.round(grand_total * 100) / 100;
+        }else{
+            //exclude
+            pajak_final = tarif / 100 * dpp;
+            pajak_final = Math.round(pajak_final * 100) / 100;
+
+            dpp_final   = dpp;
+            dpp_final   = Math.round(dpp_final * 100) / 100;
+
+            grand_total = dpp_final + pajak_final;
+            grand_total = Math.round(grand_total * 100) / 100;
+        }
+
+    }else{
+        // jika subtotal masih 0
+        // harusnya masuk sini saat pertama header di create
+        dpp_final   = 0;
+        pajak_final = 0;
+        grand_total = 0;
+    }
+    // END hitung dpp_final, pajak_final, grand_total
+    
+    edt.field(tabel_nama+'.pajak_final').val(pajak_final);
+    edt.field(tabel_nama+'.dpp_final').val(dpp_final);
+    edt.field(tabel_nama+'.grand_total').val(grand_total);
+}
+
+/**
+ * Digunakan untuk menghitung nilai dpp pada tabel detail
+ * dpp = subtotal - diskon_final
+ * @param {*} edt 
+ * @param {*} tabel 
+ */
+function hitungDpp(edt, tabel) {
+
+    var subtotal, diskon_final, dpp;
+    
+    subtotal     = parseFloat(edt.field(tabel+'.subtotal').val());
+    diskon_final = parseFloat(edt.field(tabel+'.diskon_final').val());
+
     if(isNaN(subtotal)){
         dpp = 0;
     }else{
-        dpp = (subtotal - diskon_final);
+        dpp = subtotal - diskon_final;
     }
-    
-    edt.field(tabel+'.diskon_final').val(diskon_final);
+
     edt.field(tabel+'.dpp').val(dpp);
 }
 
@@ -324,8 +492,10 @@ function hitungDiskon(edt, tabel){
  * @param {*} id_iittpmh 
  */
 function hitungPajak(edt, tabel, id_iittpmh) {
-    is_pajak = edt.field(tabel+'.is_pajak').val();
-    dpp      = parseFloat(edt.field(tabel+'.dpp').val());
+    subtotal     = parseFloat(edt.field(tabel+'.subtotal').val());
+    diskon_final = parseFloat(edt.field(tabel+'.diskon_final').val());
+    is_pajak     = edt.field(tabel+'.is_pajak').val();
+    dpp          = parseFloat(edt.field(tabel+'.dpp').val());
 
     if(is_pajak == 1 && dpp > 0){
 
