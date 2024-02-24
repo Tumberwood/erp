@@ -35,7 +35,7 @@
             ->bind(':id_transaksi_h', $id_transaksi_h)
             ->exec('
                 SELECT
-                    SUM(subtotal) as s_subtotal
+                    SUM(dpp) as s_subtotal
                 FROM '.$tbl_name_d.'
                 WHERE 1
                     AND id_' . $tbl_name_h . '=:id_transaksi_h
@@ -140,8 +140,13 @@
         $type_message = 'danger';
 
     }
-
+    
     $data = array(
+		'diskon_final_h'      => $diskon_final_h,
+		'is_pajak'      => $is_pajak,
+		'pajak_in_ex'      => $pajak_in_ex,
+		'tarif'      => $tarif,
+		's_subtotal'      => $s_subtotal,
 		'dpp_h'      => $dpp_h,
 		'pajak_final'      => $pajak_final,
 		'dpp_final'      => $dpp_final,
