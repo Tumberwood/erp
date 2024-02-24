@@ -39,40 +39,40 @@
     
     switch ($_POST['transaction_state']) {
         case 1:
-            $kode = 'CONFIRM';
-            $message = 'Konfirmasi berhasil dilakukan';
+            $kode         = 'CONFIRM';
+            $message      = 'Konfirmasi berhasil dilakukan';
             $type_message = 'success';
             break;
         case 8:
-            $kode = 'COMPLETE';
-            $message = 'Data berhasil dipenuhi';
+            $kode         = 'COMPLETE';
+            $message      = 'Data berhasil dipenuhi';
             $type_message = 'success';
             break;
         case 9:
-            $kode = 'CLOSE';
-            $message = 'Data ditutup, dokumen sudah tidak dapat digunakan lagi';
+            $kode         = 'CLOSE';
+            $message      = 'Data ditutup, dokumen sudah tidak dapat digunakan lagi';
             $type_message = 'success';
             break;
         case -92:        // non aktif HD
             $transaction_state = -9;
-            $kode = 'DELETE';
-            $message = 'Data berhasil dihapus';
-            $type_message = 'danger';
+            $kode              = 'DELETE';
+            $message           = 'Data berhasil dihapus';
+            $type_message      = 'danger';
             break;
         case -93:        // remove HD
             $transaction_state = -9;
-            $kode = 'DELETE';
-            $message = 'Data berhasil dihapus';
-            $type_message = 'danger';
+            $kode              = 'DELETE';
+            $message           = 'Data berhasil dihapus';
+            $type_message      = 'danger';
             break;
         case -9:
-            $kode = 'DELETE';
-            $message = 'Data berhasil dihapus';
+            $kode         = 'DELETE';
+            $message      = 'Data berhasil dihapus';
             $type_message = 'danger';
             break;
         default: 
-            $kode = 'INVALID CODE';
-            $message = "[" . $kode . "] Terjadi kesalahan, harap hubungi Administrator.";
+            $kode         = 'INVALID CODE';
+            $message      = "[" . $kode . "] Terjadi kesalahan, harap hubungi Administrator.";
             $type_message = 'error';
     }
     $notes          = $kode . ' ' . $table_name . ' , id = '. $id_transaksi;
@@ -90,78 +90,81 @@
             ->exec();
         $rs_gtbrlsh = $qs_gtbrlsh->fetch();
 
-        if( $_POST['transaction_state'] == -92 ){
-            // jika soft delete header detail
-            // non aktif table header
-            $qu_tblheader = $db
-                ->query('update', $rs_gtbrlsh['tblheader'])
-                ->set('transaction_state', $transaction_state)
-                ->where('id', $id_transaksi )
-                ->exec();
-
-            // non aktif all table detail (jika tidak null)
-            // jika null artinya table tersebut tidak mempunya detail
-            if(!is_null($rs_gtbrlsh['tbldetails'])){
-                $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
-                foreach($tbldetails as $i => $tbldetail) {
-                    $qu_tbldetail = $db
-                        ->query('update', $tbldetail )
-                        ->set('transaction_state', $transaction_state)
-                        ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
-                        ->exec();
-                }
-            }
+        if(!empty($rs_gtbrlsh)){
+            // jika gtbrlsh sudah di set
             
-        }elseif( $_POST['transaction_state'] == -93 ){
-            // jika hard delete header detail
-            // ini seharusnya pakai datatables editor remove
-            // tetapi karna harus remove header dan detail, maka dibuat custom disini
-
-            // delete table header
-            $qd_tblheader = $db
-                ->query('delete', $rs_gtbrlsh['tblheader'])
-                ->where('id', $id_transaksi )
-                ->exec();
-
-            // delete all table detail (jika tidak null)
-            // jika null artinya table tersebut tidak mempunya detail
-            if(!is_null($rs_gtbrlsh['tbldetails'])){
-                $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
-                foreach($tbldetails as $i => $tbldetail) {
-                    $qu_tbldetail = $db
-                        ->query('delete', $tbldetail)
-                        ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
-                        ->exec();
+            if( $_POST['transaction_state'] == -92 ){
+                // jika soft delete header detail
+                // non aktif table header
+                $qu_tblheader = $db
+                    ->query('update', $rs_gtbrlsh['tblheader'])
+                    ->set('transaction_state', $transaction_state)
+                    ->where('id', $id_transaksi )
+                    ->exec();
+    
+                // non aktif all table detail (jika tidak null)
+                // jika null artinya table tersebut tidak mempunya detail
+                if(!is_null($rs_gtbrlsh['tbldetails'])){
+                    $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+                    foreach($tbldetails as $i => $tbldetail) {
+                        $qu_tbldetail = $db
+                            ->query('update', $tbldetail )
+                            ->set('transaction_state', $transaction_state)
+                            ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                            ->exec();
+                    }
                 }
+                
+            }elseif( $_POST['transaction_state'] == -93 ){
+                // jika hard delete header detail
+                // ini seharusnya pakai datatables editor remove
+                // tetapi karna harus remove header dan detail, maka dibuat custom disini
+    
+                // delete table header
+                $qd_tblheader = $db
+                    ->query('delete', $rs_gtbrlsh['tblheader'])
+                    ->where('id', $id_transaksi )
+                    ->exec();
+    
+                // delete all table detail (jika tidak null)
+                // jika null artinya table tersebut tidak mempunya detail
+                if(!is_null($rs_gtbrlsh['tbldetails'])){
+                    $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+                    foreach($tbldetails as $i => $tbldetail) {
+                        $qu_tbldetail = $db
+                            ->query('delete', $tbldetail)
+                            ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                            ->exec();
+                    }
+                }
+    
+            }else{
+                // selain hard delete header detail
+                $qu_tblheader = $db
+                    ->query('update', $table_name)
+                    ->set('transaction_state', $transaction_state)
+                    ->where('id', $id_transaksi )
+                    ->exec();
+    
+                // delete all table detail (jika tidak null)
+                // jika null artinya table tersebut tidak mempunya detail
+                if(!is_null($rs_gtbrlsh['tbldetails'])){
+                    $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
+                    foreach($tbldetails as $i => $tbldetail) {
+                        $qu_tbldetail = $db
+                            ->query('update', $tbldetail)
+                            ->set('transaction_state', $transaction_state)
+                            ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
+                            ->exec();
+                    }
+                }
+                            
             }
 
-        }else{
-            // selain hard delete header detail
-            $qu_tblheader = $db
-                ->query('update', $table_name)
-                ->set('transaction_state', $transaction_state)
-                ->where('id', $id_transaksi )
-                ->exec();
-
-            // delete all table detail (jika tidak null)
-            // jika null artinya table tersebut tidak mempunya detail
-            if(!is_null($rs_gtbrlsh['tbldetails'])){
-                $tbldetails = explode(",", $rs_gtbrlsh['tbldetails']);
-                foreach($tbldetails as $i => $tbldetail) {
-                    $qu_tbldetail = $db
-                        ->query('update', $tbldetail)
-                        ->set('transaction_state', $transaction_state)
-                        ->where('id_'. $rs_gtbrlsh['tblheader'] , $id_transaksi )
-                        ->exec();
-                }
-            }
-                        
-        }
-        
-        // BEGIN insert ke activity_log_ml
-        // berlaku untuk semua transaction_state
-        // jadi tidak perlu masuk ke if else diatas
-        $qi_log = $db
+            // BEGIN insert ke activity_log_ml
+            // berlaku untuk semua transaction_state
+            // jadi tidak perlu masuk ke if else diatas
+            $qi_log = $db
             ->query('insert', 'activity_log_ml')
             ->set('id_transaksi',$id_transaksi)
             ->set('kode',$kode)
@@ -173,17 +176,30 @@
             ->set('finish_on', date("Y-m-d H:i:s"))
             ->set('durasi_detik', 0)
             ->exec();
-        // END insert ke activity_log_ml
-        
+            // END insert ke activity_log_ml
+
+            $status_code  = 200;
+        }else{
+            // jika gtbrlsh belum di set
+            $status_code  = 500;
+            $message      = "Harap hubungi Administrator. Data `gtbrlsh` belum ada!";
+            $type_message = "error";
+        }
+
         $db->commit();
 
     }catch(PDOException $e){
 		// rollback on error
 		$db->rollback();
 
+        $status_code  = 500;
+        $message      = "Harap hubungi Administrator! " . $e->getMessage();
+        $type_message = "error";
+
 	}
 
     $data = array(
+		'status_code'  => $status_code,
 		'message'      => $message,
 		'type_message' => $type_message
 	);
