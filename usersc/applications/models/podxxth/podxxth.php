@@ -71,9 +71,20 @@
 			Field::inst( 'podxxth.diskon_persen' ),
 			Field::inst( 'podxxth.diskon_final' ),
 			Field::inst( 'podxxth.dpp' ),
-			Field::inst( 'iittpmh.nama' )
+			Field::inst( 'podxxth.dpp_final' ),
+
+			Field::inst( 'podxxth.is_pajak' ),
+			Field::inst( 'podxxth.pajak_in_ex' ),
+			Field::inst( 'podxxth.pajak_jenis' ),
+			Field::inst( 'podxxth.pajak_persen' ),
+			Field::inst( 'podxxth.pajak_final' ),
+			Field::inst( 'podxxth.grand_total' ),
+
+			Field::inst( 'iittpmh.nama' ),
+			Field::inst( 'psuxxmh.nama' )
 		)
 		->leftJoin( 'iittpmh','iittpmh.id','=','podxxth.id_iittpmh' )
+		->leftJoin( 'psuxxmh','psuxxmh.id','=','podxxth.id_psuxxmh' )
 		;
 	
 	// do not erase
