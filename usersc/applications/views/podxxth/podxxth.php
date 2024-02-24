@@ -732,7 +732,6 @@
 			 * nantinya bisa diambilkan dari master supplier. 
 			 * tergantung bisnis prosesnya
 			 */
-			console.log('is_pajak');
 			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
 			return {}
 		}, {event: 'change'});
