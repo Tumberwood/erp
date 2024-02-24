@@ -59,6 +59,8 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'prcxxth.referensi_nomor' ),
+			Field::inst( 'prcxxth.mobil_nomor' ),
+			Field::inst( 'prcxxth.supir_nama' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
 			Field::inst( 'psuxxmh.nama' )
