@@ -335,92 +335,98 @@
                                         dataType: 'json',
                                         type: 'POST',
                                         data: {
-                                            table_name	 : '<?php echo $table_name;?>',
-                                            id_transaksi : id_transaksi_h,
-                                            transaction_state : 1
+                                            table_name       : '<?php echo $table_name;?>',
+                                            id_transaksi     : id_transaksi_h,
+                                            transaction_state: 1
                                         },
                                         success: function ( json ) {
-                                            
+                                            status_code  = json.data.status_code;
                                             full_message = full_message + json.data.message + '</br>';
+                                            toast_type   = json.data.type_message;
 
-                                            if(is_need_generate_kode == 1){
-                                                $.ajax( {
-                                                    url: '../../../helpers/kode_fn_generate_confirm.php',
-                                                    dataType: 'json',
-                                                    type: 'POST',
-                                                    async: false,
-                                                    data: {
-                                                        state                   : 1,
-                                                        nama_tabel              : '<?php echo $table_name;?>',
-                                                        kategori_dokumen        : kategori_dokumen,
-                                                        kategori_dokumen_value  : kategori_dokumen_value,
-                                                        id_transaksi            : id_transaksi_h
-                                                    },
-                                                    success: function ( json ) {
-                                                        full_message = full_message + json.data.message + '</br>';
-                                                    }
-                                                } );
+                                            if(status_code == 200){
+                                                console.log('200');
+                                                if(is_need_generate_kode == 1){
+                                                    $.ajax( {
+                                                        url: '../../../helpers/kode_fn_generate_confirm.php',
+                                                        dataType: 'json',
+                                                        type: 'POST',
+                                                        async: false,
+                                                        data: {
+                                                            state                   : 1,
+                                                            nama_tabel              : '<?php echo $table_name;?>',
+                                                            kategori_dokumen        : kategori_dokumen,
+                                                            kategori_dokumen_value  : kategori_dokumen_value,
+                                                            id_transaksi            : id_transaksi_h
+                                                        },
+                                                        success: function ( json ) {
+                                                            toast_type   = json.data.type_message;
+                                                            full_message = full_message + json.data.message + '</br>';
+                                                        }
+                                                    } );
 
-                                            }
-
-                                            if(is_need_inventory == 1){
-                                                $.ajax( {
-                                                    url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_iv.php',
-                                                    dataType: 'json',
-                                                    type: 'POST',
-                                                    async: false,
-                                                    data: {
-                                                        state           : 1,
-                                                        id_transaksi_h  : id_transaksi_h,
-                                                    },
-                                                    success: function ( json ) {
-                                                        full_message = full_message + json.data.message + '</br>';
-                                                    }
-                                                } );
-                                            }
-
-                                            if(is_need_jurnal == 1){
-                                                $.ajax( {
-                                                    url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
-                                                    dataType: 'json',
-                                                    type: 'POST',
-                                                    async: false,
-                                                    data: {
-                                                        state           : 1,
-                                                        id_transaksi_h  : id_transaksi_h,
-                                                    },
-                                                    success: function ( json ) {
-                                                        full_message = full_message + json.data.message + '</br>';
-                                                    }
-                                                } );
-                                            }
-
-                                            <?php 
-                                                if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
-                                            ?>
-                                                $.ajax( {
-                                                    url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
-                                                    dataType: 'json',
-                                                    type: 'POST',
-                                                    async: false,
-                                                    data: {
-                                                        state           : 1,
-                                                        id_transaksi_h  : id_transaksi_h
-                                                    },
-                                                    success: function ( json ) {
-                                                        full_message = full_message + json.data.message + '</br>';
-                                                    }
-                                                } );
-                                            <?php
                                                 }
-                                            ?>
+
+                                                if(is_need_inventory == 1){
+                                                    $.ajax( {
+                                                        url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_iv.php',
+                                                        dataType: 'json',
+                                                        type: 'POST',
+                                                        //async: false,
+                                                        data: {
+                                                            state           : 1,
+                                                            id_transaksi_h  : id_transaksi_h,
+                                                        },
+                                                        success: function ( json ) {
+                                                            toast_type = json.data.type_message;
+                                                            full_message = full_message + json.data.message + '</br>';
+                                                        }
+                                                    } );
+                                                }
+
+                                                if(is_need_jurnal == 1){
+                                                    $.ajax( {
+                                                        url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_jv.php',
+                                                        dataType: 'json',
+                                                        type: 'POST',
+                                                        async: false,
+                                                        data: {
+                                                            state           : 1,
+                                                            id_transaksi_h  : id_transaksi_h,
+                                                        },
+                                                        success: function ( json ) {
+                                                            toast_type = json.data.type_message;
+                                                            full_message = full_message + json.data.message + '</br>';
+                                                        }
+                                                    } );
+                                                }
+
+                                                <?php 
+                                                    if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_confirm.php")) {
+                                                ?>
+                                                    $.ajax( {
+                                                        url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_confirm.php',
+                                                        dataType: 'json',
+                                                        type: 'POST',
+                                                        async: false,
+                                                        data: {
+                                                            state           : 1,
+                                                            id_transaksi_h  : id_transaksi_h
+                                                        },
+                                                        success: function ( json ) {
+                                                            toast_type = json.data.type_message;
+                                                            full_message = full_message + json.data.message + '</br>';
+                                                        }
+                                                    } );
+                                                <?php
+                                                    }
+                                                ?>
+                                            }else{
+                                                console.log('no');
+                                            }
                                             
-                                            $('#notifToast').toast('show');
-                                            $('#toastMessage').html(full_message);
-                                            $('#toastHeader' ).addClass( 'bg-success');
-                                            setTimeout(function() { 
-                                                $('#notifToast').toast('hide');
-                                            }, 3000);
+                                            toastr[toast_type](full_message, 'INFO');
+                                            
                                             <?php echo $table;?>.ajax.reload(null, false);
 
                                         }
