@@ -24,6 +24,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'podxxth.id' ),
+			Field::inst( 'podxxth.id_gcpxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gcpxxmh),
+			Field::inst( 'podxxth.id_gbrxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gbrxxmh),
 			Field::inst( 'podxxth.id_iittpmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'podxxth.id_psuxxmh' )
@@ -32,12 +38,6 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'podxxth.id_fcrxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'podxxth.id_gcpxxmh' )
-				->set( Field::SET_CREATE )
-				->setValue(1),
-			Field::inst( 'podxxth.id_gbrxxmh' )
-				->set( Field::SET_CREATE )
-				->setValue(1),
 			Field::inst( 'podxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
