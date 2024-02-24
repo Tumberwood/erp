@@ -146,7 +146,7 @@
 										<editor-field name="podittd.id_prqittd"></editor-field>
 									</div>
 									<div class="col-lg-6">
-										<editor-field name="pr_detail"></editor-field>
+										<editor-field name="prqittd_info"></editor-field>
 									</div>
 									
 								</div>
@@ -1043,8 +1043,8 @@
 					}
 				},
 				{
-					label: "PR Detail",
-					name: "pr_detail",
+					label: "Request Info",
+					name: "prqittd_info",
 					type: "textarea"
 				},
 				{
@@ -1196,7 +1196,7 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtpodittd.field('podittd.start_at').val(start_at);
 			
-			edtpodittd.field('pr_detail').disable();
+			edtpodittd.field('prqittd_info').disable();
 			
 			if(action == 'create'){
 				tblpodittd.rows().deselect();
@@ -1210,7 +1210,21 @@
 		edtpodittd.dependent( 'podittd.id_prqittd', function ( val, data, callback ) {
 			id_prqittd = edtpodittd.field('podittd.id_prqittd').val();
 			autofillField('prqittd', id_prqittd, 'jumlah_unit,tanggal_dibutuhkan,keterangan')
-			edtpodittd.field('pr_detail').val('Permintaan: ' + autofillData.jumlah_unit + '; Dibutuhkan: ' + moment(autofillData.tanggal_dibutuhkan).format("DD MMM YYYY") + '; Notes: ' + autofillData.keterangan);
+
+			// BEGIN generate prqittd_info
+			if (autofillData.tanggal_dibutuhkan == null){
+				prqittd_info_dibutuhkan = '';
+			}else{
+				prqittd_info_dibutuhkan = '; Dibutuhkan: ' + moment(autofillData.tanggal_dibutuhkan).format("DD MMM YYYY");
+			}
+			if (autofillData.keterangan != ''){
+				prqittd_info_notes = '; Notes: ' + autofillData.keterangan;
+			}else{
+				prqittd_info_notes = '';
+			}
+			// END generate prqittd_info
+			edtpodittd.field('prqittd_info').val('Permintaan: ' + autofillData.jumlah_unit + prqittd_info_dibutuhkan + prqittd_info_notes);
+
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -1222,15 +1236,12 @@
 		edtpodittd.dependent( 'podittd.harga_unit', function ( val, data, callback ) {
 			hitungSubtotalDetail(edtpodittd, 'podittd');
 			hitungDpp(edtpodittd, 'podittd');
-			// hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
-
 			return {}
 		}, {event: 'keyup change'});
 		
 		edtpodittd.dependent( 'podittd.jumlah_unit', function ( val, data, callback ) {
 			hitungSubtotalDetail(edtpodittd, 'podittd');
 			hitungDpp(edtpodittd, 'podittd');
-			// hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -1257,8 +1268,6 @@
 
 			hitungDiskon(edtpodittd, 'podittd');
 			hitungDpp(edtpodittd, 'podittd');
-			// hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
-
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -1266,7 +1275,6 @@
 			if (val != null) {
 				hitungDiskon(edtpodittd, 'podittd');
 				hitungDpp(edtpodittd, 'podittd');
-				// hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
 			}
 			return {}
 		}, {event: 'keyup'});
@@ -1275,7 +1283,6 @@
 			if (val != null) {
 				hitungDiskon(edtpodittd, 'podittd');
 				hitungDpp(edtpodittd, 'podittd');
-				// hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
 			}
 			return {}
 		}, {event: 'keyup'});
