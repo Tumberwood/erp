@@ -1,9 +1,9 @@
 <?php 
     /**
      * Digunakan untuk populate options data item category
-     * Table terkait    : iiggrmh
+     * Table terkait    : iigxxmh
      * Parameter        : 
-     *  - id_iiggrmh_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_iigxxmh_old       : data existing (untuk keperluan edit), dipakai di query self
      */        
     require_once( "../../../../users/init.php" );
     require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,38 +22,38 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id_iiggrmh_old'] > 0){
-        $id_iiggrmh_old = $_GET['id_iiggrmh_old'];
+    if($_GET['id_iigxxmh_old'] > 0){
+        $id_iigxxmh_old = $_GET['id_iigxxmh_old'];
     }else{
-        $id_iiggrmh_old = 0;
+        $id_iigxxmh_old = 0;
     }
 
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id_iiggrmh_old > 0){
-        $qs_iiggrmh_self = $db
-            ->query('select', 'iiggrmh')
+    if($id_iigxxmh_old > 0){
+        $qs_iigxxmh_self = $db
+            ->query('select', 'iigxxmh')
             ->get([
                 'id as id',
                 'nama as text'
             ])
-            ->where('id', $id_iiggrmh_old )
+            ->where('id', $id_iigxxmh_old )
             ->exec();
-        $rs_iiggrmh_self = $qs_iiggrmh_self->fetchAll();
+        $rs_iigxxmh_self = $qs_iigxxmh_self->fetchAll();
     }else{
-        $rs_iiggrmh_self = [];
+        $rs_iigxxmh_self = [];
     }
     // END query self
 
     // BEGIN query options all except self
-    $qs_iiggrmh_all = $db
-        ->query('select', 'iiggrmh')
+    $qs_iigxxmh_all = $db
+        ->query('select', 'iigxxmh')
         ->get([
             'id as id',
             'nama as text'
         ])
         ->where('transaction_state',1)
-        ->where('id', $id_iiggrmh_old, '<>' )
+        ->where('id', $id_iigxxmh_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
@@ -63,14 +63,14 @@
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
-    $rs_iiggrmh_all = $qs_iiggrmh_all->fetchAll();
+    $rs_iigxxmh_all = $qs_iigxxmh_all->fetchAll();
     // END query options all except self
     
     // BEGIN menggabungkan options
-    if(count($rs_iiggrmh_self) > 0){
-        $rs_opt = array_merge($rs_iiggrmh_self, $rs_iiggrmh_all);
+    if(count($rs_iigxxmh_self) > 0){
+        $rs_opt = array_merge($rs_iigxxmh_self, $rs_iigxxmh_all);
     }else{
-        $rs_opt = $rs_iiggrmh_all;
+        $rs_opt = $rs_iigxxmh_all;
     }
     $c_rs_opt = count($rs_opt);
     // END menggabungkan options

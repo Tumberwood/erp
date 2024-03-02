@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'iiggrmh';
+	$nama_tabel    = 'iigxxmh';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,7 +17,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tbliiggrmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tbliigxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -51,26 +51,26 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iiggrmh/fn/iiggrmh_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iigxxmh/fn/iigxxmh_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edtiiggrmh, tbliiggrmh, show_deleted_iiggrmh = 0, id_iiggrmh;
+		var edtiigxxmh, tbliigxxmh, show_deleted_iigxxmh = 0, id_iigxxmh;
 		// ------------- end of default variable
 		is_need_generate_kode = 1, is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
-			edtiiggrmh = new $.fn.dataTable.Editor( {
+			edtiigxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/iiggrmh/iiggrmh.php",
+					url: "../../models/iigxxmh/iigxxmh.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_iiggrmh = show_deleted_iiggrmh;
+						d.show_deleted_iigxxmh = show_deleted_iigxxmh;
 					}
 				},
-				table: "#tbliiggrmh",
+				table: "#tbliigxxmh",
 				formOptions: {
 					main: {
 						focus: 6,
@@ -88,69 +88,69 @@
 						type: "hidden"
 					},
 					{
-						label: "iiggrmh.start_at",
-						name: "iiggrmh.start_at",
+						label: "iigxxmh.start_at",
+						name: "iigxxmh.start_at",
 						type: "hidden"
 					},	
 					{
-						label: "iiggrmh.finish_at",
-						name: "iiggrmh.finish_at",
+						label: "iigxxmh.finish_at",
+						name: "iigxxmh.finish_at",
 						type: "hidden"
 					},	
 					{
 						label: "nama_tabel",
 						name: "nama_tabel",
-						def: "iiggrmh",
+						def: "iigxxmh",
 						type: "hidden"
 					},	
 					{
-						label: "iiggrmh.transaction_state",
-						name: "iiggrmh.transaction_state",
+						label: "iigxxmh.transaction_state",
+						name: "iigxxmh.transaction_state",
                         type: "hidden",
 						def: 0
 					},	
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
-						name: "iiggrmh.nama"
+						name: "iigxxmh.nama"
 					}, 	
 					{
 						label: "Keterangan",
-						name: "iiggrmh.keterangan",
+						name: "iigxxmh.keterangan",
 						type: "textarea"
 					}
 				]
 			} );
 
-			edtiiggrmh.on( 'preOpen', function( e, mode, action ) {
+			edtiigxxmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiiggrmh.field('iiggrmh.start_at').val(start_at);
+				edtiigxxmh.field('iigxxmh.start_at').val(start_at);
 				
 				if(action == 'create'){
-					tbliiggrmh.rows().deselect();
+					tbliigxxmh.rows().deselect();
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
-						edtiiggrmh.field('iiggrmh.nama').enable();
+						edtiigxxmh.field('iigxxmh.nama').enable();
 
-						edtiiggrmh.field('kategori_dokumen').val('');
-						edtiiggrmh.field('kategori_dokumen_value').val('');
+						edtiigxxmh.field('kategori_dokumen').val('');
+						edtiigxxmh.field('kategori_dokumen_value').val('');
 					}else{
-						edtiiggrmh.field('iiggrmh.nama').disable();
+						edtiigxxmh.field('iigxxmh.nama').disable();
 					}
 				}
 			});
 
-			edtiiggrmh.on("open", function (e, mode, action) {
+			edtiigxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
-            edtiiggrmh.on( 'preSubmit', function (e, data, action) {
+            edtiigxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					nama = edtiiggrmh.field('iiggrmh.nama').val();
+					nama = edtiigxxmh.field('iigxxmh.nama').val();
 					validasiRequired(
-						edtiiggrmh,
-						'iiggrmh',
+						edtiigxxmh,
+						'iigxxmh',
 						{
 							'nama': nama
 						}
@@ -158,41 +158,41 @@
 
 					validasiUnique(
 						action,
-						edtiiggrmh,
-						'iiggrmh',
+						edtiigxxmh,
+						'iigxxmh',
 						'nama',
 						'nama',
 						'"'+nama+'"',
-						id_iiggrmh,
+						id_iigxxmh,
 					);
 				
 				}
 				
-				if ( edtiiggrmh.inError() ) {
+				if ( edtiigxxmh.inError() ) {
 					return false;
 				}
 			});
 			
-			edtiiggrmh.on('initSubmit', function(e, action) {
+			edtiigxxmh.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiiggrmh.field('iiggrmh.finish_at').val(finish_at);
+				edtiigxxmh.field('iigxxmh.finish_at').val(finish_at);
 			});
 
-			edtiiggrmh.on( 'close', function () {
-				edtiiggrmh.enable();
+			edtiigxxmh.on( 'close', function () {
+				edtiigxxmh.enable();
 			} );
 
 			//start datatables
-			tbliiggrmh = $('#tbliiggrmh').DataTable( {
+			tbliigxxmh = $('#tbliigxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/iiggrmh/iiggrmh.php",
+					url: "../../models/iigxxmh/iigxxmh.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_iiggrmh = show_deleted_iiggrmh;
+						d.show_deleted_iigxxmh = show_deleted_iigxxmh;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -211,22 +211,22 @@
 					}
 				],
 				columns: [
-					{ data: "iiggrmh.id",visible:false },
-					{ data: "iiggrmh.kode" },
-					{ data: "iiggrmh.nama" },
-					{ data: "iiggrmh.keterangan" },
+					{ data: "iigxxmh.id",visible:false },
+					{ data: "iigxxmh.kode" },
+					{ data: "iigxxmh.nama" },
+					{ data: "iigxxmh.keterangan" },
 					{ 
-						data: "iiggrmh.transaction_state" ,
+						data: "iigxxmh.transaction_state" ,
 						...renderTransactionStatus()
 					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_iiggrmh';
-						$table       = 'tbliiggrmh';
-						$edt         = 'edtiiggrmh';
-						$show_status = '_iiggrmh';
+						$id_table    = 'id_iigxxmh';
+						$table       = 'tbliigxxmh';
+						$edt         = 'edtiigxxmh';
+						$show_status = '_iigxxmh';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -241,42 +241,42 @@
 					this.api().searchPanes.rebuildPane();
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.iiggrmh.transaction_state == -9 ) {
+					if ( data.iigxxmh.transaction_state == -9 ) {
 						$('td', row).addClass('text-danger');
-					}else if ( data.iiggrmh.transaction_state == 0 ) {
+					}else if ( data.iigxxmh.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
 				}
 			} );
 
-			tbliiggrmh.searchPanes.container().appendTo('#spiiggrmh');
-			tbliiggrmh.searchBuilder.container().appendTo( '#sbiiggrmh' );
+			tbliigxxmh.searchPanes.container().appendTo('#spiigxxmh');
+			tbliigxxmh.searchBuilder.container().appendTo( '#sbiigxxmh' );
 			
-			tbliiggrmh.on( 'init', function () {
+			tbliigxxmh.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tbliiggrmh);
+				CekInitHeaderH(tbliigxxmh);
 			} );
 			
-			tbliiggrmh.on( 'select', function( e, dt, type, indexes ) {
-				iiggrmh_data    		= tbliiggrmh.row( { selected: true } ).data().iiggrmh;
-				id_iiggrmh      		= iiggrmh_data.id;
-				id_transaksi_h 		= id_iiggrmh; // dipakai untuk general
-				id_transaksi_log	= id_iiggrmh; // dipakai untuk general
-				transaction_state   = iiggrmh_data.transaction_state;
-				approval_state   	= iiggrmh_data.approval_state;
-				is_nextprocess 		= iiggrmh_data.is_nextprocess;
-				is_jurnal      		= iiggrmh_data.is_jurnal;
+			tbliigxxmh.on( 'select', function( e, dt, type, indexes ) {
+				iigxxmh_data    		= tbliigxxmh.row( { selected: true } ).data().iigxxmh;
+				id_iigxxmh      		= iigxxmh_data.id;
+				id_transaksi_h 		= id_iigxxmh; // dipakai untuk general
+				id_transaksi_log	= id_iigxxmh; // dipakai untuk general
+				transaction_state   = iigxxmh_data.transaction_state;
+				approval_state   	= iigxxmh_data.approval_state;
+				is_nextprocess 		= iigxxmh_data.is_nextprocess;
+				is_jurnal      		= iigxxmh_data.is_jurnal;
 
 				// atur hak akses
-				CekSelectHeaderH(tbliiggrmh);
+				CekSelectHeaderH(tbliigxxmh);
 			} );
 
-			tbliiggrmh.on( 'deselect', function () {
+			tbliigxxmh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
-				id_iiggrmh = 0;
+				id_iigxxmh = 0;
 
 				// atur hak akses
-				CekDeselectHeaderH(tbliiggrmh);
+				CekDeselectHeaderH(tbliigxxmh);
 			} );
 			
 		} );// end of document.ready
