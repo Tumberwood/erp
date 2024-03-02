@@ -47,6 +47,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/_blank/fn/_blank_fn.php'; ?>
@@ -123,71 +124,38 @@
 
             edt_blank.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi _blank.kode
-					if ( ! edt_blank.field('_blank.kode').isMultiValue() ) {
-						kode = edt_blank.field('_blank.kode').val();
-						if(!kode || kode == ''){
-							edt_blank.field('_blank.kode').error( 'Wajib diisi!' );
+
+					kode = edt_blank.field('_blank.kode').val();
+					nama = edt_blank.field('_blank.nama').val();
+
+					validasiRequired(
+						edt_blank,
+						'_blank',
+						{
+							'kode': kode,
+							'nama': nama
 						}
-						
-						// BEGIN of cek unik _blank.kode
-						if(action == 'create'){
-							id__blank = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: '_blank',
-								nama_field: 'kode',
-								nama_field_value: '"'+kode+'"',
-								id_transaksi: id__blank
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edt_blank.field('_blank.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik _blank.kode
-					}
-					// END of validasi _blank.kode
-					
-					// BEGIN of validasi _blank.nama
-					if ( ! edt_blank.field('_blank.nama').isMultiValue() ) {
-						nama = edt_blank.field('_blank.nama').val();
-						if(!nama || nama == ''){
-							edt_blank.field('_blank.nama').error( 'Wajib diisi!' );
-						}
-						
-						// BEGIN of cek unik _blank.nama
-						if(action == 'create'){
-							id__blank = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name: '_blank',
-								nama_field: 'nama',
-								nama_field_value: '"'+nama+'"',
-								id_transaksi: id__blank
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edt_blank.field('_blank.nama').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik _blank.nama
-					}
-					// END of validasi _blank.nama
+					);
+
+					validasiUnique(
+						action,
+						edt_blank,
+						'_blank',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id__blank
+					);
+
+					validasiUnique(
+						action,
+						edt_blank,
+						'_blank',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id__blank
+					);
 				}
 				
 				if ( edt_blank.inError() ) {
