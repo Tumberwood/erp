@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'iittpmh';
+	$nama_tabel    = 'iitxxmh';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,7 +17,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tbliittpmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tbliitxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -51,12 +51,12 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iittpmh/fn/iittpmh_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iitxxmh/fn/iitxxmh_fn.php'; ?>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edtiittpmh, tbliittpmh, show_deleted_iittpmh = 0, id_iittpmh;
+		var edtiitxxmh, tbliitxxmh, show_deleted_iitxxmh = 0, id_iitxxmh;
 		// ------------- end of default variable
 
 		is_master_table = 1;
@@ -65,45 +65,45 @@
 		
 		$(document).ready(function() {
 			//start datatables editor
-			edtiittpmh = new $.fn.dataTable.Editor( {
+			edtiitxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/iittpmh/iittpmh.php",
+					url: "../../models/iitxxmh/iitxxmh.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_iittpmh = show_deleted_iittpmh;
+						d.show_deleted_iitxxmh = show_deleted_iitxxmh;
 					}
 				},
-				table: "#tbliittpmh",
+				table: "#tbliitxxmh",
 				fields: [ 
 					{
-						label: "iittpmh.start_at",
-						name: "iittpmh.start_at",
+						label: "iitxxmh.start_at",
+						name: "iitxxmh.start_at",
 						type: "hidden"
 					},	
 					{
-						label: "iittpmh.finish_at",
-						name: "iittpmh.finish_at",
+						label: "iitxxmh.finish_at",
+						name: "iitxxmh.finish_at",
 						type: "hidden"
 					},	
 					{
 						label: "nama_tabel",
 						name: "nama_tabel",
-						def: "iittpmh",
+						def: "iitxxmh",
 						type: "hidden"
 					},	
 					{
-						label: "iittpmh.transaction_state",
-						name: "iittpmh.transaction_state",
+						label: "iitxxmh.transaction_state",
+						name: "iitxxmh.transaction_state",
                         type: "hidden",
 						def: 0
 					},	
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
-						name: "iittpmh.nama"
+						name: "iitxxmh.nama"
 					}, 	
 					{
 						label: "Tax Type",
-						name: "iittpmh.id_ftxxxmh",
+						name: "iitxxmh.id_ftxxxmh",
 						type: "select2",
 						opts: {
 							placeholder : "Select",
@@ -139,41 +139,41 @@
 					},
 					{
 						label: "Keterangan",
-						name: "iittpmh.keterangan",
+						name: "iitxxmh.keterangan",
 						type: "textarea"
 					}
 				]
 			} );
 
-			edtiittpmh.on( 'preOpen', function( e, mode, action ) {
+			edtiitxxmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiittpmh.field('iittpmh.start_at').val(start_at);
+				edtiitxxmh.field('iitxxmh.start_at').val(start_at);
 
 				if(action == 'create'){
-					tbliittpmh.rows().deselect();
+					tbliitxxmh.rows().deselect();
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
-						edtiittpmh.field('iittpmh.kode').enable();
-						edtiittpmh.field('iittpmh.nama').enable();
+						edtiitxxmh.field('iitxxmh.kode').enable();
+						edtiitxxmh.field('iitxxmh.nama').enable();
 					}else{
-						edtiittpmh.field('iittpmh.kode').disable();
-						edtiittpmh.field('iittpmh.nama').disable();
+						edtiitxxmh.field('iitxxmh.kode').disable();
+						edtiitxxmh.field('iitxxmh.nama').disable();
 					}
 				}
 			});
 
-			edtiittpmh.on("open", function (e, mode, action) {
+			edtiitxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
-            edtiittpmh.on( 'preSubmit', function (e, data, action) {
+            edtiitxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					nama = edtiittpmh.field('iittpmh.nama').val();
+					nama = edtiitxxmh.field('iitxxmh.nama').val();
 					validasiRequired(
-						edtiittpmh, 
-						"iittpmh", 
+						edtiitxxmh, 
+						"iitxxmh", 
 						{
 							"nama": nama
 						}
@@ -181,56 +181,56 @@
 
 					validasiUnique(
 						action,
-						edtiittpmh, 
-						'iittpmh', 
+						edtiitxxmh, 
+						'iitxxmh', 
 						'nama', 
 						'nama',
 						'"'+nama+'"',
-						id_iittpmh
+						id_iitxxmh
 					);
 				}
 				
-				if ( edtiittpmh.inError() ) {
+				if ( edtiitxxmh.inError() ) {
 					return false;
 				}
 			});
 			
-			edtiittpmh.on('initSubmit', function(e, action) {
+			edtiitxxmh.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiittpmh.field('iittpmh.finish_at').val(finish_at);
+				edtiitxxmh.field('iitxxmh.finish_at').val(finish_at);
 			});
 
-			edtiittpmh.on( 'close', function () {
-				edtiittpmh.enable();
+			edtiitxxmh.on( 'close', function () {
+				edtiitxxmh.enable();
 			} );
 
 			//start datatables
-			tbliittpmh = $('#tbliittpmh').DataTable( {
+			tbliitxxmh = $('#tbliitxxmh').DataTable( {
 				ajax: {
-					url: "../../models/iittpmh/iittpmh.php",
+					url: "../../models/iitxxmh/iitxxmh.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_iittpmh = show_deleted_iittpmh;
+						d.show_deleted_iitxxmh = show_deleted_iitxxmh;
 					}
 				},
 				order: [[ 1, "asc" ]],
 				columns: [
-					{ data: "iittpmh.id",visible:false },
-					{ data: "iittpmh.nama" },
+					{ data: "iitxxmh.id",visible:false },
+					{ data: "iitxxmh.nama" },
 					{ data: "ftxxxmh.kode" },
-					{ data: "iittpmh.keterangan" },
+					{ data: "iitxxmh.keterangan" },
 					{ 
-						data: "iittpmh.transaction_state" ,
+						data: "iitxxmh.transaction_state" ,
 						...renderTransactionStatus()
 					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_iittpmh';
-						$table       = 'tbliittpmh';
-						$edt         = 'edtiittpmh';
-						$show_status = '_iittpmh';
+						$id_table    = 'id_iitxxmh';
+						$table       = 'tbliitxxmh';
+						$edt         = 'edtiitxxmh';
+						$show_status = '_iitxxmh';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -244,38 +244,38 @@
 				initComplete: function() {
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.iittpmh.transaction_state == -9 ) {
+					if ( data.iitxxmh.transaction_state == -9 ) {
 						$('td', row).addClass('text-danger');
-					}else if ( data.iittpmh.transaction_state == 0 ) {
+					}else if ( data.iitxxmh.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
 				}
 			} );
 
-			tbliittpmh.on( 'init', function () {
+			tbliitxxmh.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tbliittpmh);
+				CekInitHeaderH(tbliitxxmh);
 			} );
 			
-			tbliittpmh.on( 'select', function( e, dt, type, indexes ) {
-				iittpmh_data    	= tbliittpmh.row( { selected: true } ).data().iittpmh;
-				id_iittpmh      	= iittpmh_data.id;
-				id_transaksi_h 		= id_iittpmh; // dipakai untuk general
-				id_transaksi_log	= id_iittpmh; // dipakai untuk general
-				transaction_state   = iittpmh_data.transaction_state;
-				is_defaultprogram   = iittpmh_data.is_defaultprogram;
-				id_ftxxxmh_old   	= iittpmh_data.id_ftxxxmh;
+			tbliitxxmh.on( 'select', function( e, dt, type, indexes ) {
+				iitxxmh_data    	= tbliitxxmh.row( { selected: true } ).data().iitxxmh;
+				id_iitxxmh      	= iitxxmh_data.id;
+				id_transaksi_h 		= id_iitxxmh; // dipakai untuk general
+				id_transaksi_log	= id_iitxxmh; // dipakai untuk general
+				transaction_state   = iitxxmh_data.transaction_state;
+				is_defaultprogram   = iitxxmh_data.is_defaultprogram;
+				id_ftxxxmh_old   	= iitxxmh_data.id_ftxxxmh;
 
 				// atur hak akses
-				CekSelectHeaderH(tbliittpmh);
+				CekSelectHeaderH(tbliitxxmh);
 			} );
 
-			tbliittpmh.on( 'deselect', function () {
+			tbliitxxmh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
-				id_iittpmh = '';
+				id_iitxxmh = '';
 
 				// atur hak akses
-				CekDeselectHeaderH(tbliittpmh);
+				CekDeselectHeaderH(tbliitxxmh);
 			} );
 			
 		} );// end of document.ready

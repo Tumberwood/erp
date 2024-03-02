@@ -20,43 +20,43 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'iittpmh' )
+	$editor = Editor::inst( $db, 'iitxxmh' )
 		->debug(true)
 		->fields(
-			Field::inst( 'iittpmh.id' ),
-			Field::inst( 'iittpmh.id_ftxxxmh' )
+			Field::inst( 'iitxxmh.id' ),
+			Field::inst( 'iitxxmh.id_ftxxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'iittpmh.kode' )
+			Field::inst( 'iitxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'iittpmh.nama' )
+			Field::inst( 'iitxxmh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'iittpmh.keterangan' ),
-			Field::inst( 'iittpmh.created_by' ),
-			Field::inst( 'iittpmh.transaction_state' ),
-			Field::inst( 'iittpmh.approval_state' ),
-			Field::inst( 'iittpmh.start_at' ),
-			Field::inst( 'iittpmh.finish_at' ),
-			Field::inst( 'iittpmh.is_defaultprogram' ),
+			Field::inst( 'iitxxmh.keterangan' ),
+			Field::inst( 'iitxxmh.created_by' ),
+			Field::inst( 'iitxxmh.transaction_state' ),
+			Field::inst( 'iitxxmh.approval_state' ),
+			Field::inst( 'iitxxmh.start_at' ),
+			Field::inst( 'iitxxmh.finish_at' ),
+			Field::inst( 'iitxxmh.is_defaultprogram' ),
 			Field::inst( 'ftxxxmh.kode' )
 		)
-		->leftJoin( 'ftxxxmh','ftxxxmh.id','=','iittpmh.id_ftxxxmh' )
+		->leftJoin( 'ftxxxmh','ftxxxmh.id','=','iitxxmh.id_ftxxxmh' )
 		;
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_iittpmh'] == 0){
+	if ( $_POST['show_deleted_iitxxmh'] == 0){
 		$editor
-			->where( 'iittpmh.transaction_state', -9, '<>');
+			->where( 'iitxxmh.transaction_state', -9, '<>');
 	}
 	
-	include( "iittpmh_extra.php" );
+	include( "iitxxmh_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'iittpmh';
+	$nama_table = 'iitxxmh';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	
