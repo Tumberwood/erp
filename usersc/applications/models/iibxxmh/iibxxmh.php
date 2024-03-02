@@ -20,38 +20,38 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'iibbrmh' )
+	$editor = Editor::inst( $db, 'iibxxmh' )
 		->debug(true)
 		->fields(
-			Field::inst( 'iibbrmh.id' ),
-			Field::inst( 'iibbrmh.kode' )
+			Field::inst( 'iibxxmh.id' ),
+			Field::inst( 'iibxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'iibbrmh.nama' )
+			Field::inst( 'iibxxmh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'iibbrmh.keterangan' ),
-			Field::inst( 'iibbrmh.created_by' ),
-			Field::inst( 'iibbrmh.transaction_state' ),
-			Field::inst( 'iibbrmh.approval_state' ),
-			Field::inst( 'iibbrmh.start_at' ),
-			Field::inst( 'iibbrmh.finish_at' ),
-			Field::inst( 'iibbrmh.is_defaultprogram' )
+			Field::inst( 'iibxxmh.keterangan' ),
+			Field::inst( 'iibxxmh.created_by' ),
+			Field::inst( 'iibxxmh.transaction_state' ),
+			Field::inst( 'iibxxmh.approval_state' ),
+			Field::inst( 'iibxxmh.start_at' ),
+			Field::inst( 'iibxxmh.finish_at' ),
+			Field::inst( 'iibxxmh.is_defaultprogram' )
 		);
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_iibbrmh'] == 0){
+	if ( $_POST['show_deleted_iibxxmh'] == 0){
 		$editor
-			->where( 'iibbrmh.transaction_state', -9, '<>');
+			->where( 'iibxxmh.transaction_state', -9, '<>');
 	}
 	
-	include( "iibbrmh_extra.php" );
+	include( "iibxxmh_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'iibbrmh';
+	$nama_table = 'iibxxmh';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	
