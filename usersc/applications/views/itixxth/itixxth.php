@@ -751,7 +751,6 @@
 
 		tblitiittd.on( 'deselect', function() {
 			id_itiittd = 0;
-			is_active_d = 0;
 			id_iimxxmh_old = 0;
 			jumlah_unit_old = 0;
 			id_iumxxmh_unit_old = 0;

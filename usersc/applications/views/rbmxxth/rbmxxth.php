@@ -638,7 +638,6 @@
 
 		tblrbmittd.on( 'deselect', function() {
 			id_rbmittd = 0;
-			is_active_d = 0;
 			id_iimxxmh_rm_old = 0;
 			
 			// atur hak akses
@@ -843,7 +842,7 @@
 					$table       = 'tblrbmwptd';
 					$edt         = 'edtrbmwptd';
 					$show_status = '_rbmwptd';
-					$table_name  = $nama_tabels_d[0];
+					$table_name  = $nama_tabels_d[1];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
@@ -884,7 +883,6 @@
 
 		tblrbmwptd.on( 'deselect', function() {
 			id_rbmwptd = 0;
-			is_active_d = 0;
 			id_rwpxxmh_old = 0;
 			
 			// atur hak akses

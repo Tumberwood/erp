@@ -197,7 +197,8 @@
 	var is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
 
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN iimxxmh
+
 		edtiimxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/iimxxmh/iimxxmh.php",
@@ -517,7 +518,6 @@
 			edtiimxxmh.enable();
 		} );
 		
-		//start datatables
 		tbliimxxmh = $('#tbliimxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -565,7 +565,7 @@
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
-					$arr_buttons_approve 	= [];
+					$arr_buttons_approve 	= ['noapprove'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -629,9 +629,11 @@
 			tbliimummd.button( 'btnCopyFrom:name' ).disable();
 		} );
 		
-// --------- start _detail --------------- //
+		// END iimxxmh
 
-		//start datatables editor
+		
+		// BEGIN iimummd
+
 		edtiimummd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/iimxxmh/iimummd.php",
@@ -943,7 +945,7 @@
 		edtiimummd.on( 'close', function () {
 			edtiimummd.enable();
 		} );
-
+/*
 		edtiimummd_copyfrom = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/iimxxmh/iimummd_fn_copyfrom.php",
@@ -956,12 +958,12 @@
 			fields: [ 
 				{
 					label: "id_iimxxmh",
-					name: "id_iimxxmh",
+					name: "iimummd.id_iimxxmh",
 					// type: "hidden"
 				},
 				{
 					label: "UoM",
-					name: "iimummd.id_iimxxmh",
+					name: "id_iimxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -972,7 +974,7 @@
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iimxxmh_old: id_iimxxmh_old,
+									id_iimxxmh_old: 0,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -999,7 +1001,7 @@
 		} );
 			
 		edtiimummd_copyfrom.on( 'preOpen', function( e, mode, action ) {
-			// edtiimummd_copyfrom.field('iimummd.id_iimxxmh').val(id_iimxxmh);
+			edtiimummd_copyfrom.field('iimummd.id_iimxxmh').val(id_iimxxmh);
 			
 			if(action == 'create'){
 				tbliimummd.rows().deselect();
@@ -1023,8 +1025,7 @@
 				return false;
 			}
 		});
-		
-		//start datatables
+*/		
 		tbliimummd = $('#tbliimummd').DataTable( {
 			ajax: {
 				url: "../../models/iimxxmh/iimummd.php",
@@ -1071,18 +1072,18 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
-					$arr_buttons_approve 	= [];
+					$arr_buttons_approve 	= ['noapprove'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
-				{ 
-					extend: 'create',
-					name: 'btnCopyFrom', 
-					editor: edtiimummd_copyfrom, 
-					text: '<i class="fa fa-google"></i>', 
-					className: 'btn btn-outline', 
-					titleAttr: 'Copy From'
-				}
+				// { 
+				// 	extend: 'create',
+				// 	name: 'btnCopyFrom', 
+				// 	editor: edtiimummd_copyfrom, 
+				// 	text: '<i class="fa fa-google"></i>', 
+				// 	className: 'btn btn-outline', 
+				// 	titleAttr: 'Copy From'
+				// }
 			],
 			initComplete: function() {
 				// this.api().searchPanes.rebuildPane();
@@ -1119,7 +1120,6 @@
 
 		tbliimummd.on( 'deselect', function() {
 			id_iimummd = 0;
-			is_active_d = 0;
 			id_iumxxmh_old = 0;
 			
 			// atur hak akses
@@ -1127,7 +1127,7 @@
 
 		} );
 
-// --------- end _detail --------------- //		
+		// END iimummd
 
 	} );// end of document.ready
 	

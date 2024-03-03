@@ -824,7 +824,6 @@
 
 		tblsculomd.on( 'deselect', function() {
 			id_sculomd = 0;
-			is_active_d = 0;
 			id_gctxxmh_old = 0;
 			id_gpvxxmh_old = 0;
 			

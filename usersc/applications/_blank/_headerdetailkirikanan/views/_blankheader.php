@@ -529,7 +529,6 @@
 
 		tbl_blankdetail.on( 'deselect', function() {
 			id__blankdetail = 0;
-			is_active_d = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );

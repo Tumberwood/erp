@@ -28,7 +28,7 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="podxxth.id_iittpmh"></editor-field>
+								<editor-field name="podxxth.id_iitxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="podxxth.id_psuxxmh"></editor-field>
@@ -340,7 +340,7 @@
 	// ------------- end of default variable
 	var is_need_generate_kode = 1;
 
-	var id_iittpmh_old = 0, id_psuxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iittpmh;
+	var id_iitxxmh_old = 0, id_psuxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
 
 	$(document).ready(function() {
@@ -390,18 +390,18 @@
 				},
 				{
 					label: "Type <sup class='text-danger'>*<sup>",
-					name: "podxxth.id_iittpmh",
+					name: "podxxth.id_iitxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iittpmh/iittpmh_fn_opt.php",
+							url: "../../models/iitxxmh/iitxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iittpmh_old: id_iittpmh_old,
+									id_iitxxmh_old: id_iitxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -679,9 +679,9 @@
 			}, 5);
 		});
 
-		edtpodxxth.dependent( 'podxxth.id_iittpmh', function ( val, data, callback ) {
-			id_iittpmh = edtpodxxth.field('podxxth.id_iittpmh').val();
-			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
+		edtpodxxth.dependent( 'podxxth.id_iitxxmh', function ( val, data, callback ) {
+			id_iitxxmh = edtpodxxth.field('podxxth.id_iitxxmh').val();
+			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -708,21 +708,21 @@
 			}
 			hitungDiskon(edtpodxxth, 'podxxth');
 			hitungDpp(edtpodxxth, 'podxxth');
-			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
+			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
 		
 		edtpodxxth.dependent( 'podxxth.diskon_persen', function ( val, data, callback ) {
 			hitungDiskon(edtpodxxth, 'podxxth');
 			hitungDpp(edtpodxxth, 'podxxth');
-			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
+			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup'});
 		
 		edtpodxxth.dependent( 'podxxth.diskon_value', function ( val, data, callback ) {
 			hitungDiskon(edtpodxxth, 'podxxth');
 			hitungDpp(edtpodxxth, 'podxxth');
-			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
+			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup'});
 
@@ -732,12 +732,12 @@
 			 * nantinya bisa diambilkan dari master supplier. 
 			 * tergantung bisnis prosesnya
 			 */
-			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
+			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'change'});
 
 		edtpodxxth.dependent( 'podxxth.pajak_in_ex', function ( val, data, callback ) {
-			hitungHeader(edtpodxxth,'podxxth', id_iittpmh);
+			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
 
@@ -749,7 +749,7 @@
 				id_psuxxmh    = edtpodxxth.field('podxxth.id_psuxxmh').val();
 				id_fpytmmh    = edtpodxxth.field('podxxth.id_fpytmmh').val();
 				id_fcrxxmh    = edtpodxxth.field('podxxth.id_fcrxxmh').val();
-				id_iittpmh    = edtpodxxth.field('podxxth.id_iittpmh').val();
+				id_iitxxmh    = edtpodxxth.field('podxxth.id_iitxxmh').val();
 				tanggal       = edtpodxxth.field('podxxth.tanggal').val();
 				diskon_jenis  = edtpodxxth.field('podxxth.diskon_jenis').val();
 				diskon_persen = edtpodxxth.field('podxxth.diskon_persen').val();
@@ -762,7 +762,7 @@
 						'id_psuxxmh': id_psuxxmh,
 						'id_fpytmmh': id_fpytmmh,
 						'id_fcrxxmh': id_fcrxxmh,
-						'id_iittpmh': id_iittpmh,
+						'id_iitxxmh': id_iitxxmh,
 						'tanggal'   : tanggal
 					}
 				);
@@ -854,7 +854,7 @@
 				{ data: "podxxth.tanggal" },
 				{ data: "podxxth.kode" },
 				{ data: "psuxxmh.nama" },
-				{ data: "iittpmh.nama" },
+				{ data: "iitxxmh.nama" },
 				{ 
 					data: "podxxth.transaction_state" ,
 					...renderTransactionStatus()
@@ -919,8 +919,8 @@
 			approval_state    = podxxth_data.approval_state;
 			is_nextprocess    = podxxth_data.is_nextprocess;
 			is_jurnal         = podxxth_data.is_jurnal;
-			id_iittpmh_old    = podxxth_data.id_iittpmh;
-			id_iittpmh        = podxxth_data.id_iittpmh;
+			id_iitxxmh_old    = podxxth_data.id_iitxxmh;
+			id_iitxxmh        = podxxth_data.id_iitxxmh;
 			id_fcrxxmh_old    = podxxth_data.id_fcrxxmh;
 			id_fpytmmh_old    = podxxth_data.id_fpytmmh;
 			id_psuxxmh_old    = podxxth_data.id_psuxxmh;
@@ -944,7 +944,7 @@
 			id_psuxxmh_old = 0;
 			id_fpytmmh_old = 0;
 			id_fcrxxmh_old = 0;
-			id_iittpmh_old = 0;
+			id_iitxxmh_old = 0;
 
 			// terkait footer
 			diskon_final_h = 0;
@@ -1056,12 +1056,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_iitxxmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
-									ids_iittpmh: id_iittpmh,
+									ids_iitxxmh: id_iitxxmh,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1491,7 +1491,6 @@
 
 		tblpodittd.on( 'deselect', function() {
 			id_podittd = 0;
-			is_active_d = 0;
 			id_iimxxmh_old = 0;
 			id_prqittd_old = 0;
 			id_iumxxmh_unit_old= 0;

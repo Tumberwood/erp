@@ -546,7 +546,6 @@
 
 		tblftxrtmd.on( 'deselect', function() {
 			id_ftxrtmd = 0;
-			is_active_d = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblftxxxmh, tblftxrtmd );

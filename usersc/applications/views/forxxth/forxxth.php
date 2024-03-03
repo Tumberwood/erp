@@ -637,7 +637,6 @@
 
 		tblforaktd.on( 'deselect', function() {
 			id_foraktd = 0;
-			is_active_d = 0;
 			id_aakxxmh_old = 0;
 			
 			// atur hak akses

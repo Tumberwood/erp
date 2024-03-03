@@ -876,7 +876,6 @@
 
 		tblpsubnmd.on( 'deselect', function() {
 			id_psubnmd = 0;
-			is_active_d = 0;
 			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
@@ -1094,7 +1093,6 @@
 
 		tblpsuctmd.on( 'deselect', function() {
 			id_psuctmd = 0;
-			is_active_d = 0;
 			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
