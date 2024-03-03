@@ -24,6 +24,8 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'rbmxxth.id' ),
+			Field::inst( 'rbmxxth.id_rbmxxth_asal' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'rbmxxth.id_iimxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'rbmxxth.id_iumxxmh_unit' )

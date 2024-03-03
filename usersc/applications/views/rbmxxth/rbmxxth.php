@@ -58,7 +58,7 @@
 									</tr>
 								</thead>
 							</table>
-						</div> <!-- end of table -->
+						</div>
 
 					</div>
 				</div>
@@ -116,7 +116,7 @@
 
 	is_need_generate_kode = 1;
 
-	id_iimxxmh_old = 0;
+	id_iimxxmh_old = 0, revisi_ke = 0;
 	id_iimxxmh_rm = 0, id_iimxxmh_rm_old = 0, id_iumxxmh_unit_old = 0;
 	id_rwpxxmh_old = 0;
 
@@ -171,7 +171,19 @@
 					def: 0
 				},
 				{
-					label: "Item",
+					label: "is_revisi",
+					name: "is_revisi"
+				},
+				{
+					label: "Revision#",
+					name: "rbmxxth.revisi_ke"
+				},
+				{
+					label: "BOM Asal",
+					name: "rbmxxth.id_rbmxxth_asal"
+				},
+				{
+					label: "Item <sup class='text-danger'>*<sup>",
 					name: "rbmxxth.id_iimxxmh",
 					type: "select2",
 					opts: {
@@ -316,6 +328,27 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{ 
+					extend: 'selected',
+					name: 'btnCreateRevision', 
+					text: '<i class="fa fa-google"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Create Revision',
+					action: function (e, dt, node, config) {
+						var revisi_ke_new = parseInt(revisi_ke) + 1;
+                        // Start in edit mode, and then change to create
+                        edtrbmxxth
+                            .edit(tblrbmxxth.rows({ selected: true }).indexes(), {
+                                title: 'Create Revision',
+                                buttons: 'Create Revision'
+                            })
+							.disable('rbmxxth.revisi_ke')
+							.set( 'rbmxxth.id_rbmxxth_asal', id_rbmxxth )
+							.set( 'is_revisi', 1 )
+							.set( 'rbmxxth.revisi_ke', revisi_ke_new )
+                            .mode('create');
+                    }
+				}
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -347,6 +380,7 @@
 			approval_state    = rbmxxth_data.approval_state;
 			is_nextprocess    = rbmxxth_data.is_nextprocess;
 			id_iimxxmh_old    = rbmxxth_data.id_iimxxmh;
+			revisi_ke    = rbmxxth_data.revisi_ke;
 			// atur hak akses
 			tbl_details = [tblrbmittd, tblrbmwptd];
 			CekSelectHeaderHD(tblrbmxxth, tbl_details);
