@@ -195,6 +195,7 @@
 	var is_iumxxmh_beli_old = 0, is_iumxxmh_jual_old = 0;
 	var is_iumxxmh_beli = 0, is_iumxxmh_jual = 0;
 	var is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
+	is_update_iumxxmh_default = 0;
 
 	$(document).ready(function() {
 		// BEGIN iimxxmh
@@ -920,32 +921,35 @@
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			
-			id_transaksi_default = json.data[0].iimummd.id;
-			console.log(id_transaksi_default);
-			// BEGIN is_default
-			if(is_update_iumxxmh_default == 1){
-				isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-			}
-			// END is_default
+			if(action != 'remove'){
+				id_transaksi_default = json.data[0].iimummd.id;
 
-			// BEGIN is_update_iumxxmh_beli
-			if(is_update_iumxxmh_beli == 1){
-				isIumxxmhBeliUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-			}
-			// END is_update_iumxxmh_beli
+				// BEGIN is_default
+				if(is_update_iumxxmh_default == 1){
+					isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+				}
+				// END is_default
 
-			// BEGIN is_update_iumxxmh_jual
-			if(is_update_iumxxmh_jual == 1){
-				isIumxxmhJualUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+				// BEGIN is_update_iumxxmh_beli
+				if(is_update_iumxxmh_beli == 1){
+					isIumxxmhBeliUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+				}
+				// END is_update_iumxxmh_beli
+
+				// BEGIN is_update_iumxxmh_jual
+				if(is_update_iumxxmh_jual == 1){
+					isIumxxmhJualUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
+				}
+				// END is_update_iumxxmh_jual
 			}
-			// END is_update_iumxxmh_jual
+			
 
 		} );
 
 		edtiimummd.on( 'close', function () {
 			edtiimummd.enable();
 		} );
-/*
+
 		edtiimummd_copyfrom = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/iimxxmh/iimummd_fn_copyfrom.php",
@@ -959,11 +963,11 @@
 				{
 					label: "id_iimxxmh",
 					name: "iimummd.id_iimxxmh",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
-					label: "UoM",
-					name: "id_iimxxmh",
+					label: "Copy From Item",
+					name: "id_iimxxmh_source",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -1010,22 +1014,23 @@
 
 		edtiimummd_copyfrom.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				aaa      = edtiimummd_copyfrom.field('id_iimxxmh').val();
-				console.log(aaa);
-				if(!aaa || aaa == ''){
-					console.log('blank');
-					edtiimummd_copyfrom.field('iimummd.id_iimxxmh').error( 'Wajib diisi!' );
-				}else{
-					console.log('not blank');
+
+				id_iimxxmh_source = edtiimummd_copyfrom.field('id_iimxxmh_source').val();
+				if(id_iimxxmh_source == null || id_iimxxmh_source == ''){
+					edtiimummd_copyfrom.field('id_iimxxmh_source').error( 'Wajib diisi!' );
 				}
 				
 			}
 			
-			if ( edtiimummd.inError() ) {
+			if ( edtiimummd_copyfrom.inError() ) {
 				return false;
 			}
 		});
-*/		
+
+		edtiimummd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbliimummd.ajax.reload(null, false);
+		} );
+
 		tbliimummd = $('#tbliimummd').DataTable( {
 			ajax: {
 				url: "../../models/iimxxmh/iimummd.php",
@@ -1072,18 +1077,18 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
-					$arr_buttons_approve 	= ['noapprove'];
+					$arr_buttons_approve 	= [];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
-				// { 
-				// 	extend: 'create',
-				// 	name: 'btnCopyFrom', 
-				// 	editor: edtiimummd_copyfrom, 
-				// 	text: '<i class="fa fa-google"></i>', 
-				// 	className: 'btn btn-outline', 
-				// 	titleAttr: 'Copy From'
-				// }
+				{ 
+					extend: 'create',
+					name: 'btnCopyFrom', 
+					editor: edtiimummd_copyfrom, 
+					text: '<i class="fa fa-google"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				}
 			],
 			initComplete: function() {
 				// this.api().searchPanes.rebuildPane();
