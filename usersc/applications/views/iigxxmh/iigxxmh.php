@@ -184,10 +184,6 @@
 
 			//start datatables
 			tbliigxxmh = $('#tbliigxxmh').DataTable( {
-				dom: domPQ,
-				searchPanes:{
-					layout: 'columns-4',
-				},
 				ajax: {
 					url: "../../models/iigxxmh/iigxxmh.php",
 					type: 'POST',
@@ -196,20 +192,6 @@
 					}
 				},
 				order: [[ 1, "asc" ]],
-				columnDefs:[
-					{
-						searchPanes:{
-							show: true,
-						},
-						targets: [1,2,3]
-					},
-					{
-						searchPanes:{
-							show: false,
-						},
-						targets: [0]
-					}
-				],
 				columns: [
 					{ data: "iigxxmh.id",visible:false },
 					{ data: "iigxxmh.kode" },
@@ -230,9 +212,9 @@
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_tools2 	= [];
 						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
-						$arr_buttons_approve 	= ['approve', 'cancel_approve', 'void','noapprove'];
+						$arr_buttons_approve 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
@@ -248,9 +230,6 @@
 					}
 				}
 			} );
-
-			tbliigxxmh.searchPanes.container().appendTo('#spiigxxmh');
-			tbliigxxmh.searchBuilder.container().appendTo( '#sbiigxxmh' );
 			
 			tbliigxxmh.on( 'init', function () {
 				// atur hak akses
