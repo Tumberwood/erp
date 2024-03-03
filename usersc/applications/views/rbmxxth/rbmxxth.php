@@ -25,6 +25,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Kode</th>
+                                <th>R</th>
                                 <th>Nama</th>
                                 <th>Keterangan</th>
                             </tr>
@@ -294,6 +295,7 @@
 			columns: [
 				{ data: "rbmxxth.id",visible:false },
 				{ data: "rbmxxth.kode" },
+				{ data: "rbmxxth.revisi_ke" },
 				{ data: "iimxxmh.nama" },
 				{ data: "rbmxxth.keterangan" }
 			],
