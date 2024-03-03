@@ -28,11 +28,11 @@
         $id_iimxxmh_old = 0;
     }
     
-    if(isset($_GET['ids_iccttmh']) && !empty($_GET['ids_iccttmh']) ){
-        $id_iicxxmh = $_GET['ids_iccttmh'];
+    if(isset($_GET['ids_iitxxmh']) && !empty($_GET['ids_iitxxmh']) ){
+        $id_iitxxmh = $_GET['ids_iitxxmh'];
         $w_iitp = '=';
     }else{
-        $id_iicxxmh = -9;
+        $id_iitxxmh = -9;
         $w_iitp = '<>';
     }
 
@@ -62,7 +62,7 @@
         ])
         ->where('transaction_state',1)
         ->where('id', $id_iimxxmh_old, '<>' )
-        ->where('id_iicxxmh', $id_iicxxmh, $w_iitp )
+        ->where('id_iitxxmh', $id_iitxxmh, $w_iitp )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
