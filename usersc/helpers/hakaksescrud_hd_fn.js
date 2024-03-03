@@ -41,17 +41,36 @@ var status_select;
 var arr_is_valid_cek_detail = [];
 var c_is_valid_cek_detail = 0;
 
+// ubah ini menjadi 1 untuk menampilkan all console log terkait file ini
+var is_debug_hakakses_hd = 0;
+
 function ReloadTableDetail(){
-    // reload table detail
+    /**
+     * Digunakan untuk reload semua table detail
+     */
+
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('ReloadTableDetail');
+    }
+
     for (let i = 0; i < tbl_details.length; i++) {
         tbl_details[i].ajax.reload(null,false);
     }
 };
 
 function CekBtnNoAction(tbl){
-    // untuk show hide No Action Needed
-    // jika ada tombol yang bisa show / enable, maka c_btnSetAction == 1
-    // btnNoAction akan di hide
+    /**
+     * Digunakan untuk show hide No Action Needed pada tabel header
+     * jika ada tombol yang bisa show / enable, maka c_btnSetAction == 1
+     * dan btnNoAction akan di hide
+     */
+
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('CekBtnNoAction: ' + c_btnSetAction);
+    }
+    
     if(c_btnSetAction == 0 ){
         tbl.button( 'btnNoAction:name' )
             .nodes()
@@ -65,6 +84,11 @@ function CekBtnNoAction(tbl){
 }
 
 function CekBtnNoActionD(tbl_header){
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('CekBtnNoActionD ' + c_btnSetActionD);
+    }
+    
     // untuk show hide No Action Needed
     // jika ada tombol yang bisa show / enable, maka c_btnSetActionD == 1
     // btnNoActionD akan di hide
@@ -112,21 +136,16 @@ function CekApproval(nama_tabel, id_transaksi){
     } );
 }
 
-// BEGIN Header Only
+/**
+ * CekInitHeaderH
+ * Digunakan untuk inisiasi button table di halaman yang hanya berisi table header saja
+ * btnSetAction : btnCreate | btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose | btnView | btnLog
+ * btnSetApprove: btnApprove | btnVoid
+ * @param {object} tbl_header 
+ */
 function CekInitHeaderH(tbl_header){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
-    // digunakan untuk inisiasi table di halaman yang hanya berisi table header saja
-
-    // BEGIN Set Action
-    // btnCreate
-    // btnEdit
-    // btnRemove
-    // btnConfirm
-    // btnNonAktif
-    // btnClose
-    // btnView
-    // btnLog
 
     // BEGIN btnCreate
     if(hak_c == 1){
@@ -163,25 +182,25 @@ function CekInitHeaderH(tbl_header){
     tbl_header.button( 'btnNonAktif:name' )
         .nodes()
         .css( 'display', 'none' );
-    // BEGIN btnNonAktif
+    // END btnNonAktif
 
     // BEGIN btnClose
     tbl_header.button( 'btnClose:name' )
         .nodes()
         .css( 'display', 'none' );
-    // BEGIN btnClose
+    // END btnClose
     
     // BEGIN btnView
     tbl_header.button( 'btnView:name' )    
         .nodes()
         .css( 'display', 'none' );
-    // BEGIN btnView
+    // END btnView
 
     // BEGIN btnLog
     tbl_header.button( 'btnLog:name' )
         .nodes()
         .css( 'display', 'none' );
-    // BEGIN btnLog
+    // END btnLog
 
     // END Set Action
 
@@ -203,6 +222,33 @@ function CekInitHeaderH(tbl_header){
 
 };
 
+/**
+ * CekSelectHeaderH
+ * Digunakan untuk enable atau disable btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose , di halaman yang hanya berisi table header saja
+ * Parameter tambahan yang digunakan:
+ *  is_defaultprogram:
+ *      Digunakan untuk memberikan flag, bahwa data tersebut adalah data yang dipakai oleh core program, dan tidak boleh diubah.
+ *      Nilai default is_defaultprogram = 0, silakan diubah langsung di database. Dari web tidak disediakan field untuk mengubah
+ *      Field ini sudah ada di template file model.
+ *  is_master_table:
+ *      Digunakan untuk membedakan sebuah table merupakan master atau tidak. 
+ *      Master table tidak dapat di edit, karena data-data sebagian besar akan dipakai untuk join.
+ *      Disarankan yang dapat di edit di master table adalah data-data yang tidak akan di join, misal keterangan
+ *      Nilai default is_master_table = 0, silakan diubah di masing-masing halaman, diletakkan pada bagian deklarasi variable javascript
+ *  transaction_state:
+ *      Digunakan untuk membedakan status transaksi.
+ *      Nilai transaction_state dapat dilihat di file usersc\helpers\tr_fn_transaction_state.php
+ *  approval_state:
+ *      Digunakan untuk membedakan status approval.
+ *      Nilai approval_state dapat dilihat di file usersc\helpers\tr_fn_transaction_state.php
+ *  hak akses dari tabel ucudasd
+ *      Dipanggil dari file usersc\templates\inspinia-side\template_js_setup.php
+ *      hak_c: hak create (create dan confirm)
+ *      hak_u: hak update (edit)
+ *      hak_d: hak delete (remove dan non aktif)
+ *      hak_a: hak approve (approve dan void)
+ * @param {object} tbl_header 
+ */
 function CekSelectHeaderH(tbl_header){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
@@ -210,21 +256,24 @@ function CekSelectHeaderH(tbl_header){
     // BEGIN Set Action
 
     // BEGIN btnEdit
-    // Boleh Edit jika
-    //  - is_master_table = 1 atau
-    //  - transaction_state = 0 atau -1 
-    //  - approval_state = 0  
-    //  - hak_u = 1
-    
+    /**
+     * Aturan Edit:
+     *  is_master_table = 1 atau
+     *  transaction_state = 0 atau -1
+     *  approval_state = 0
+     *  hak_u = 1
+     */
     if(is_defaultprogram == 1){
+        // data default program, tidak boleh di edit dengan alasan apapun
         tbl_header.button( 'btnEdit:name' )
             .nodes()
             .css( 'display', 'none' );
 
     }else{
-
+        // cek apakah master tabel atau bukan
         if(is_master_table == 0){
             // bukan master table
+            // cek status transaksi
             if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
@@ -237,6 +286,7 @@ function CekSelectHeaderH(tbl_header){
             }
         }else if (is_master_table == 1){
             // master table
+            // cek status transaksi
             if(transaction_state == -9){
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
@@ -248,6 +298,8 @@ function CekSelectHeaderH(tbl_header){
                 c_btnSetAction = c_btnSetAction + 1;
             }
         }else{
+            // seharusnya tidak masuk sini karena default is_master_table = 0
+            // ada di file usersc\templates\inspinia-side\template_js_setup.php
             tbl_header.button( 'btnEdit:name' )
                 .nodes()
                 .css( 'display', 'none' );
@@ -257,10 +309,18 @@ function CekSelectHeaderH(tbl_header){
     // END btnEdit
 
     // BEGIN btnRemove
-    // Boleh Remove jika
-    //  - transaction_state = 0 atau -1 
-    //  - approval_state = 0  
-    //  - hak_d = 1
+    /**
+     * ------------------------------------------------------------------------------
+     * Ini masih ada kurang pengecekan, 
+     * seharusnya ditambahkan jika data sudah pernah dipakai, maka tidak bisa di edit
+     * ------------------------------------------------------------------------------
+     * 
+     * Aturan Remove
+     *  transaction_state = 0 atau -1
+     *  approval_state = 0
+     *  hak_d = 1
+     */
+    
     if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
         tbl_header.button( 'btnRemove:name' )
             .nodes()
@@ -274,10 +334,12 @@ function CekSelectHeaderH(tbl_header){
     // END btnRemove
 
     // BEGIN btnConfirm
-    // Boleh Confirm jika
-    //  - transaction_state = 0 atau -1
-    //  - approval_state = 0  
-    //  - hak_c = 1
+    /**
+     * Aturan Confirm
+     *  transaction_state = 0 atau -1
+     *  approval_state = 0
+     *  hak_c = 1
+     */
     if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0){
         tbl_header.button( 'btnConfirm:name' )
             .nodes()
@@ -291,10 +353,17 @@ function CekSelectHeaderH(tbl_header){
     // END btnConfirm
 
     // BEGIN btnNonAktif
-    // Boleh NonAktif jika
-    //  - transaction_state = 1
-    //  - approval_state = 0  
-    //  - hak_d = 1
+    /**
+     * ------------------------------------------------------------------------------
+     * Ini masih ada kurang pengecekan, 
+     * seharusnya ditambahkan jika data sudah pernah dipakai, maka tidak bisa di edit
+     * ------------------------------------------------------------------------------
+     * 
+     * Aturan NonAktif
+     *  transaction_state = 1
+     *  approval_state = 0
+     *  hak_d = 1
+     */
     if( transaction_state == 1 && hak_d == 1 && approval_state == 0 ){
         tbl_header.button( 'btnNonAktif:name' )
             .nodes()
@@ -308,12 +377,18 @@ function CekSelectHeaderH(tbl_header){
     // END btnNonAktif
 
     // BEGIN btnClose
-    // Boleh Close jika
-    //  - transaction_state = 1
-    //  - approval_state = 0  
-    //  - hak_d = 1
+    /**
+     * Aturan Close
+     *  transaction_state = 1
+     *  approval_state = 0
+     *  hak_d = 1
+     */
     if( transaction_state == 1 && hak_a == 1 && approval_state == 1){
-        console.log('btnClose = Aktif');
+        // debug purpose
+        if (is_debug_hakakses_hd == 1) {
+            console.log('btnClose = Aktif');
+        }
+        
         tbl_header.button( 'btnClose:name' )
             .nodes()
             .css( 'display', 'block' );
@@ -421,6 +496,14 @@ function CekSelectHeaderH(tbl_header){
     
 };
 
+/**
+ * CekDeselectHeaderH
+ * Digunakan pada halaman dengan tabel header saja
+ * Dipanggil saat event tabel on deselect
+ * Digunakan untuk
+ *  - disable btnCreate | btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose | btnView | btnLog , di halaman yang hanya berisi table header saja
+ * @param {object} tbl_header 
+ */
 function CekDeselectHeaderH(tbl_header){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
@@ -897,20 +980,25 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     // END detail
 };
 
+/**
+ * CekDeselectHeaderHD
+ * Digunakan pada halaman dengan tabel header dan detail.
+ * Dipanggil saat event tabel header on deselect
+ * Digunakan untuk 
+ *  - enable atau disable btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose pada tabel header
+ *  - enable atau disable btnEdit | btnRemove | btnNonAktif pada tabel detail
+ * @param {object} tbl_header 
+ * @param {object} tbl_details 
+ */
 function CekDeselectHeaderHD(tbl_header, tbl_details){
-    c_btnSetAction = 0;
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('CekDeselectHeaderHD');
+    }
+    
+    c_btnSetAction  = 0;
     c_btnSetApprove = 0;
     ReloadTableDetail();
-
-    // Set Action
-    // btnCreate
-    // btnEdit
-    // btnRemove
-    // btnConfirm
-    // btnNonAktif
-    // btnClose
-    // btnView
-    // btnLog
 
    // BEGIN btnCreate
    if(hak_c == 1){
@@ -990,8 +1078,8 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
         tbl_details[i].button( 'btnCreate:name' )
             .nodes()
             .css( 'display', 'none' );
-
-        CekBtnNoAction(tbl_details[i]);
+        c_btnSetActionD = 0;
+        CekBtnNoActionD(tbl_details[i]);
     }
     // END looping semua table detail
 };
@@ -1072,6 +1160,7 @@ function CekDrawDetailHDFinal(tbl_header){
 };
 
 function CekSelectDetailHD(tbl_header, tbl_detail ){
+// function CekSelectDetailHD( tbl_detail ){
     c_btnSetActionD = 0;
     // BEGIN btnEdit
     // Boleh Edit jika
@@ -1133,15 +1222,20 @@ function CekSelectDetailHD(tbl_header, tbl_detail ){
         .nodes()
         .css( 'display', 'block' );
     c_btnSetActionD = c_btnSetActionD + 1;
-    // BEGIN btnView
+    // END btnView
 
     // BEGIN btnLog
     tbl_detail.button( 'btnLog:name' )
         .nodes()
         .css( 'display', 'block' );
     c_btnSetActionD = c_btnSetActionD + 1;
-    // BEGIN btnLog
+    // END btnLog
 
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log(c_btnSetActionD);
+    }
+    
     CekBtnNoActionD(tbl_detail);
 };
 
