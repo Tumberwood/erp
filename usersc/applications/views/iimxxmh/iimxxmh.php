@@ -29,18 +29,18 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="iimxxmh.id_iittpmh"></editor-field>
+								<editor-field name="iimxxmh.id_iitxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="iimxxmh.id_iicctmh"></editor-field>
+								<editor-field name="iimxxmh.id_iicxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="iimxxmh.id_iiggrmh"></editor-field>
+								<editor-field name="iimxxmh.id_iigxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="iimxxmh.id_iibbrmh"></editor-field>
+								<editor-field name="iimxxmh.id_iibxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -185,10 +185,11 @@
 	// ------------- default variable, do not erase
 	var edtiimxxmh, tbliimxxmh, show_deleted_iimxxmh = 0, id_iimxxmh;
 	var edtiimummd, tbliimummd, show_deleted_iimummd = 0, id_iimummd;
+	var edtiimummd_copyfrom;
 	// ------------- end of default variable
 	is_master_table = 1;
 
-	var id_iittpmh = 0, id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0, id_iibbrmh_old = 0;
+	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
 	var id_iumxxmh_old = 0;
 	var is_default_old = 0;
 	var is_iumxxmh_beli_old = 0, is_iumxxmh_jual_old = 0;
@@ -240,18 +241,18 @@
 				},
 				{
 					label: "Item Type <sup class='text-danger'>*<sup>",
-					name: "iimxxmh.id_iittpmh",
+					name: "iimxxmh.id_iitxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iittpmh/iittpmh_fn_opt.php",
+							url: "../../models/iitxxmh/iitxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iittpmh_old: id_iittpmh_old,
+									id_iitxxmh_old: id_iitxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -276,18 +277,18 @@
 				},
 				{
 					label: "Item Category <sup class='text-danger'>*<sup>",
-					name: "iimxxmh.id_iicctmh",
+					name: "iimxxmh.id_iicxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iicctmh/iicctmh_fn_opt.php",
+							url: "../../models/iicxxmh/iicxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iicctmh_old: id_iicctmh_old,
+									id_iicxxmh_old: id_iicxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -312,18 +313,18 @@
 				},
 				{
 					label: "Item Group <sup class='text-danger'>*<sup>",
-					name: "iimxxmh.id_iiggrmh",
+					name: "iimxxmh.id_iigxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iiggrmh/iiggrmh_fn_opt.php",
+							url: "../../models/iigxxmh/iigxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iiggrmh_old: id_iiggrmh_old,
+									id_iigxxmh_old: id_iigxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -348,18 +349,18 @@
 				},
 				{
 					label: "Item Brand",
-					name: "iimxxmh.id_iibbrmh",
+					name: "iimxxmh.id_iibxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iibbrmh/iibbrmh_fn_opt.php",
+							url: "../../models/iibxxmh/iibxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iibbrmh_old: id_iibbrmh_old,
+									id_iibxxmh_old: id_iibxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -427,15 +428,15 @@
 			$(".modal-dialog").addClass("modal-xl");
 		});
 
-		edtiimxxmh.dependent( 'iimxxmh.id_iittpmh', function ( val, data, callback ) {
+		edtiimxxmh.dependent( 'iimxxmh.id_iitxxmh', function ( val, data, callback ) {
 			if (val == 1) {
-				edtiimxxmh.field('iimxxmh.id_iicctmh').label("Item Category <sup class='text-danger'>*<sup>");
-				edtiimxxmh.field('iimxxmh.id_iiggrmh').label("Item Group <sup class='text-danger'>*<sup>");
-				edtiimxxmh.field('iimxxmh.id_iibbrmh').label("Item Brand <sup class='text-danger'>*<sup>");
+				edtiimxxmh.field('iimxxmh.id_iicxxmh').label("Item Category <sup class='text-danger'>*<sup>");
+				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
+				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
 			} else {
-				edtiimxxmh.field('iimxxmh.id_iicctmh').label("Item Category");
-				edtiimxxmh.field('iimxxmh.id_iiggrmh').label("Item Group");
-				edtiimxxmh.field('iimxxmh.id_iibbrmh').label("Item Brand");
+				edtiimxxmh.field('iimxxmh.id_iicxxmh').label("Item Category");
+				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
+				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -445,7 +446,7 @@
 
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
-				id_iittpmh = edtiimxxmh.field('iimxxmh.id_iittpmh').val();
+				id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
 
 				validasiRequired(
 					edtiimxxmh,
@@ -453,22 +454,22 @@
 					{
 						'kode': kode,
 						'nama': nama,
-						'id_iittpmh': id_iittpmh
+						'id_iitxxmh': id_iitxxmh
 					}
 				);
 
-				if (id_iittpmh == 1) {
-					id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
-					id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
-					id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
+				if (id_iitxxmh == 1) {
+					id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
+					id_iigxxmh = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
+					id_iibxxmh = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
 					
 					validasiRequired(
 						edtiimxxmh, 
 						"iimxxmh", 
 						{
-							"id_iicctmh": id_iicctmh, 
-							"id_iiggrmh": id_iiggrmh, 
-							"id_iibbrmh": id_iibbrmh
+							"id_iicxxmh": id_iicxxmh, 
+							"id_iigxxmh": id_iigxxmh, 
+							"id_iibxxmh": id_iibxxmh
 						}
 					);
 				}
@@ -548,8 +549,8 @@
 				{ data: "iimxxmh.id",visible:false },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
-				{ data: "iittpmh.nama" },
-				{ data: "iicctmh.nama" }
+				{ data: "iitxxmh.nama" },
+				{ data: "iicxxmh.nama" }
 			],
 			buttons: [
 
@@ -588,6 +589,8 @@
 			// atur hak akses
 			tbl_details = [tbliimummd];
 			CekInitHeaderHD(tbliimxxmh, tbl_details);
+
+			tbliimummd.button( 'btnCopyFrom:name' ).disable();
 		} );
 		
 		tbliimxxmh.on( 'select', function( e, dt, type, indexes ) {
@@ -600,13 +603,16 @@
 			is_nextprocess 		= iimxxmh_data.is_nextprocess;
 			is_jurnal      		= iimxxmh_data.is_jurnal;
 
-			id_iittpmh_old = iimxxmh_data.id_iittpmh;
-			id_iicctmh_old = iimxxmh_data.id_iicctmh;
-			id_iiggrmh_old = iimxxmh_data.id_iiggrmh;
+			id_iitxxmh_old = iimxxmh_data.id_iitxxmh;
+			id_iicxxmh_old = iimxxmh_data.id_iicxxmh;
+			id_iigxxmh_old = iimxxmh_data.id_iigxxmh;
+			id_iimxxmh_old = iimxxmh_data.id;
 			
 			// atur hak akses
 			tbl_details = [tbliimummd];
 			CekSelectHeaderHD(tbliimxxmh, tbl_details);
+
+			tbliimummd.button( 'btnCopyFrom:name' ).enable();
 
 		} );
 		
@@ -614,11 +620,13 @@
 			// reload dipanggil di function CekDeselectHeader
 			id_iimxxmh = 0;
 
-			id_iittpmh_old = 0, id_iicctmh_old = 0, id_iiggrmh_old = 0;
+			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh_old = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tbliimummd];
 			CekDeselectHeaderHD(tbliimxxmh, tbl_details);
+
+			tbliimummd.button( 'btnCopyFrom:name' ).disable();
 		} );
 		
 // --------- start _detail --------------- //
@@ -833,7 +841,7 @@
 					'>'
 				);
 
-				if (id_iittpmh == 1) {
+				if (id_iitxxmh == 1) {
 					validasiNumber(
 						edtiimummd, 
 						'iimummd', 
@@ -875,9 +883,9 @@
 				// jika inputan Default = Ya dan sebelumnya bukan Ya
 				// konfirmasi perubahan
 				if(confirm('Apakah Anda Ingin Mengubah Default UoM?')){
-					is_update_default = 1;
+					is_update_iumxxmh_default = 1;
 				}else{
-					is_update_default = 0;
+					is_update_iumxxmh_default = 0;
 					return false;
 				}
 			}else{
@@ -909,10 +917,11 @@
 		});
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
-
+			
 			id_transaksi_default = json.data[0].iimummd.id;
+			console.log(id_transaksi_default);
 			// BEGIN is_default
-			if(is_update_default == 1){
+			if(is_update_iumxxmh_default == 1){
 				isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
 			}
 			// END is_default
@@ -934,6 +943,86 @@
 		edtiimummd.on( 'close', function () {
 			edtiimummd.enable();
 		} );
+
+		edtiimummd_copyfrom = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/iimummd_fn_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tbliimummd",
+			fields: [ 
+				{
+					label: "id_iimxxmh",
+					name: "id_iimxxmh",
+					// type: "hidden"
+				},
+				{
+					label: "UoM",
+					name: "iimummd.id_iimxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: id_iimxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtiimummd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			// edtiimummd_copyfrom.field('iimummd.id_iimxxmh').val(id_iimxxmh);
+			
+			if(action == 'create'){
+				tbliimummd.rows().deselect();
+			}
+		});
+
+		edtiimummd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				aaa      = edtiimummd_copyfrom.field('id_iimxxmh').val();
+				console.log(aaa);
+				if(!aaa || aaa == ''){
+					console.log('blank');
+					edtiimummd_copyfrom.field('iimummd.id_iimxxmh').error( 'Wajib diisi!' );
+				}else{
+					console.log('not blank');
+				}
+				
+			}
+			
+			if ( edtiimummd.inError() ) {
+				return false;
+			}
+		});
 		
 		//start datatables
 		tbliimummd = $('#tbliimummd').DataTable( {
@@ -986,6 +1075,14 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
+				{ 
+					extend: 'create',
+					name: 'btnCopyFrom', 
+					editor: edtiimummd_copyfrom, 
+					text: '<i class="fa fa-google"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				}
 			],
 			initComplete: function() {
 				// this.api().searchPanes.rebuildPane();
@@ -999,6 +1096,7 @@
 			cek_c_detail= 1;
 			CekDrawDetailHD(tbliimxxmh, tbliimummd, 'iimummd' );
 			CekDrawDetailHDFinal(tbliimxxmh);
+
 		} );
 
 		tbliimummd.on( 'select', function( e, dt, type, indexes ) {
@@ -1016,6 +1114,7 @@
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimxxmh, tbliimummd );
+
 		} );
 
 		tbliimummd.on( 'deselect', function() {
@@ -1025,6 +1124,7 @@
 			
 			// atur hak akses
 			CekDeselectDetailHD(tbliimxxmh, tbliimummd );
+
 		} );
 
 // --------- end _detail --------------- //		
