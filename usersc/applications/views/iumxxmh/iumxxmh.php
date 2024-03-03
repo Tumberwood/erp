@@ -62,7 +62,8 @@
 		is_master_table = 1;
 		
 		$(document).ready(function() {
-			//start datatables editor
+
+			// BEGIN iumxxmh
 			edtiumxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iumxxmh/iumxxmh.php",
@@ -185,7 +186,6 @@
 				edtiumxxmh.enable();
 			} );
 
-			//start datatables
 			tbliumxxmh = $('#tbliumxxmh').DataTable( {
 				ajax: {
 					url: "../../models/iumxxmh/iumxxmh.php",
@@ -259,6 +259,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tbliumxxmh);
 			} );
+
+			// END iumxxmh
 			
 		} );// end of document.ready
 	
