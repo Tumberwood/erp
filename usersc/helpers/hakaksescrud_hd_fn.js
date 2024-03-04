@@ -250,6 +250,18 @@ function CekInitHeaderH(tbl_header){
  * @param {object} tbl_header 
  */
 function CekSelectHeaderH(tbl_header){
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('is_defaultprogram ' + is_defaultprogram);
+        console.log('is_master_table ' + is_master_table);
+        console.log('is_nextprocess ' + is_nextprocess);
+        console.log('transaction_state ' + transaction_state);
+        console.log('approval_state ' + approval_state);
+        console.log('hak_u ' + hak_u);
+        console.log('hak_d ' + hak_d);
+        console.log('hak_a ' + hak_a);
+    }
+
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
 
@@ -321,16 +333,23 @@ function CekSelectHeaderH(tbl_header){
      *  hak_d = 1
      */
     
-    if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
-        tbl_header.button( 'btnRemove:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
-    }else{
+    if( is_nextprocess == 1 ){
         tbl_header.button( 'btnRemove:name' )
             .nodes()
             .css( 'display', 'none' );
+    }else{
+        if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
+            tbl_header.button( 'btnRemove:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }else{
+            tbl_header.button( 'btnRemove:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
     }
+    
     // END btnRemove
 
     // BEGIN btnConfirm
@@ -364,15 +383,21 @@ function CekSelectHeaderH(tbl_header){
      *  approval_state = 0
      *  hak_d = 1
      */
-    if( transaction_state == 1 && hak_d == 1 && approval_state == 0 ){
-        tbl_header.button( 'btnNonAktif:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
-    }else{
-        tbl_header.button( 'btnNonAktif:name' )
+    if( is_nextprocess == 1 ){
+        tbl_header.button( 'btnRemove:name' )
             .nodes()
             .css( 'display', 'none' );
+    }else{
+        if( transaction_state == 1 && hak_d == 1 && approval_state == 0 ){
+            tbl_header.button( 'btnNonAktif:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }else{
+            tbl_header.button( 'btnNonAktif:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
     }
     // END btnNonAktif
 
@@ -836,16 +861,24 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     //  - transaction_state = 1
     //  - approval_state = 0  
     //  - hak_d = 1
-    if( transaction_state == 1 && hak_d == 1 && approval_state == 0){
-        tbl_header.button( 'btnNonAktifHD:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
-    }else{
+    
+    if( is_nextprocess == 1){
         tbl_header.button( 'btnNonAktifHD:name' )
             .nodes()
             .css( 'display', 'none' );
+    }else{
+        if( transaction_state == 1 && hak_d == 1 && approval_state == 0 ){
+            tbl_header.button( 'btnNonAktifHD:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }else{
+            tbl_header.button( 'btnNonAktifHD:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
     }
+    
     // END btnNonAktifHD
 
     // BEGIN btnView
