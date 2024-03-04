@@ -1,6 +1,6 @@
 <?php 
     /**
-     * Digunakan untuk menghitung tarif pajak berdasarkan iittpmh
+     * Digunakan untuk menghitung tarif pajak berdasarkan iitxxmh
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -16,11 +16,11 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
     
-    $id_iittpmh   = $_POST['id_iittpmh'];
+    $id_iitxxmh   = $_POST['id_iitxxmh'];
 
     $qs_autofill = $db
         ->raw()
-        ->bind(':id_iittpmh', $id_iittpmh)
+        ->bind(':id_iitxxmh', $id_iitxxmh)
         ->exec('
             SELECT
                 ftxxxmh.id,
@@ -28,11 +28,11 @@
                 ftxrtmd.batas_bawah,
                 ftxrtmd.batas_atas,
                 ftxrtmd.tarif
-            FROM iittpmh
-            LEFT JOIN ftxxxmh ON ftxxxmh.id = iittpmh.id_ftxxxmh
+            FROM iitxxmh
+            LEFT JOIN ftxxxmh ON ftxxxmh.id = iitxxmh.id_ftxxxmh
             LEFT JOIN ftxrtmd ON ftxrtmd.id_ftxxxmh = ftxxxmh.id
             WHERE 
-                iittpmh.id = :id_iittpmh
+                iitxxmh.id = :id_iitxxmh
         ');
     $rs_autofill = $qs_autofill->fetch();
     
