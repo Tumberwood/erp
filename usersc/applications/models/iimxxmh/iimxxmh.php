@@ -24,13 +24,13 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'iimxxmh.id' ),
-			Field::inst( 'iimxxmh.id_iittpmh' )
+			Field::inst( 'iimxxmh.id_iitxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'iimxxmh.id_iicctmh' )
+			Field::inst( 'iimxxmh.id_iicxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'iimxxmh.id_iiggrmh' )
+			Field::inst( 'iimxxmh.id_iigxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'iimxxmh.id_iibbrmh' )
+			Field::inst( 'iimxxmh.id_iibxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'iimxxmh.id_iumxxmh_content' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -54,13 +54,13 @@
 
 			Field::inst( 'iimxxmh.content' ),
 
-			Field::inst( 'iittpmh.nama' ),
-			Field::inst( 'iicctmh.nama' ),
-			Field::inst( 'iiggrmh.nama' )
+			Field::inst( 'iitxxmh.nama' ),
+			Field::inst( 'iicxxmh.nama' ),
+			Field::inst( 'iigxxmh.nama' )
 		)
-		->leftJoin( 'iittpmh','iittpmh.id','=','iimxxmh.id_iittpmh' )
-		->leftJoin( 'iicctmh','iicctmh.id','=','iimxxmh.id_iicctmh' )
-		->leftJoin( 'iiggrmh','iiggrmh.id','=','iimxxmh.id_iiggrmh' )
+		->leftJoin( 'iitxxmh','iitxxmh.id','=','iimxxmh.id_iitxxmh' )
+		->leftJoin( 'iicxxmh','iicxxmh.id','=','iimxxmh.id_iicxxmh' )
+		->leftJoin( 'iigxxmh','iigxxmh.id','=','iimxxmh.id_iigxxmh' )
 		
 		// BEGIN upload multi file
 		// table files dan lk_transaksi_files adalah bawaan framework, jangan diganti. cukup ganti iimxxmh nya saja dan folder 
