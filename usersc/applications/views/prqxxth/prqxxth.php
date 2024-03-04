@@ -333,7 +333,7 @@
 		} );
 
 		tblprqxxth.searchPanes.container().appendTo('#spprqxxth');
-			tblprqxxth.searchBuilder.container().appendTo( '#sbprqxxth' );
+		tblprqxxth.searchBuilder.container().appendTo( '#sbprqxxth' );
 		
 		tblprqxxth.on( 'init', function () {
 			// atur hak akses
@@ -342,15 +342,15 @@
 		} );
 		
 		tblprqxxth.on( 'select', function( e, dt, type, indexes ) {
-			prqxxth_data    		= tblprqxxth.row( { selected: true } ).data().prqxxth;
-			id_prqxxth      		= prqxxth_data.id;
-			id_transaksi_h 		= id_prqxxth; // dipakai untuk general
-			id_transaksi_log	= id_prqxxth; // dipakai untuk general
-			transaction_state   = prqxxth_data.transaction_state;
-			approval_state   	= prqxxth_data.approval_state;
-			is_nextprocess 		= prqxxth_data.is_nextprocess;
-			is_jurnal      		= prqxxth_data.is_jurnal;
-			id_hodxxmh_old		= prqxxth_data.id_hodxxmh;
+			prqxxth_data      = tblprqxxth.row( { selected: true } ).data().prqxxth;
+			id_prqxxth        = prqxxth_data.id;
+			id_transaksi_h    = id_prqxxth;                                           // dipakai untuk general
+			id_transaksi_log  = id_prqxxth;                                           // dipakai untuk general
+			transaction_state = prqxxth_data.transaction_state;
+			approval_state    = prqxxth_data.approval_state;
+			is_nextprocess    = prqxxth_data.is_nextprocess;
+			
+			id_hodxxmh_old = prqxxth_data.id_hodxxmh;
 			
 			// atur hak akses
 			tbl_details = [tblprqittd];

@@ -51,6 +51,7 @@
 						'to' =>   'Y-m-d'
 					) ),
 				Field::inst( 'prqittd.is_defaultprogram' ),
+				Field::inst( 'prqittd.is_nextprocess' ),
 				Field::inst( 'prqittd.jumlah_unit' ),
 				Field::inst( 'iumxxmh.nama' )
 			)

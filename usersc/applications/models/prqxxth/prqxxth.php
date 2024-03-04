@@ -46,6 +46,8 @@
 			Field::inst( 'prqxxth.approval_state' ),
 			Field::inst( 'prqxxth.start_at' ),
 			Field::inst( 'prqxxth.finish_at' ),
+			Field::inst( 'prqxxth.is_defaultprogram' ),
+			Field::inst( 'prqxxth.is_nextprocess' ),
 			Field::inst( 'prqxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
@@ -58,7 +60,7 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
-			Field::inst( 'prqxxth.is_defaultprogram' ),
+			
 			Field::inst( 'hodxxmh.nama' )
 		)
 		->leftJoin( 'hodxxmh','hodxxmh.id','=','prqxxth.id_hodxxmh' )
