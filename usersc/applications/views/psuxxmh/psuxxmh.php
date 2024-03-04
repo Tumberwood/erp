@@ -15,7 +15,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<!-- start Custom Form Datatables Editor -->
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<!-- end Custom Form Datatables Editor -->
-				<!-- <div class="table-responsive"> -->
+				<div class="table-responsive">
                     <table id="tblpsuxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -93,12 +93,12 @@
                             </tr>
                         </thead>
                     </table>
-                <!-- </div> -->
+                </div>
             </div>
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabpsubnmd_1"> Bank</a></li>
@@ -107,7 +107,7 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabpsubnmd_1" class="tab-pane active">
 					<div class="panel-body">
-						<!-- <div class="table-responsive"> -->
+						<div class="table-responsive">
 							<table id="tblpsubnmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
@@ -120,12 +120,12 @@
 									</tr>
 								</thead>
 							</table>
-						<!-- </div> -->
+						</div>
 					</div>
 				</div>
 				<div role="tabpanel" id="tabpsuctmd" class="tab-pane">
 					<div class="panel-body">
-						<!-- <div class="table-responsive"> -->
+						<div class="table-responsive">
 							<table id="tblpsuctmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
@@ -138,7 +138,7 @@
 									</tr>
 								</thead>
 							</table>
-						<!-- </div> -->
+						</div>
 					</div>
 				</div>
 			</div>
@@ -531,7 +531,7 @@
 					d.show_deleted_psuxxmh = show_deleted_psuxxmh;
 				}
 			},
-			order: [[ 1, "desc" ]],
+			order: [[ 1, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
