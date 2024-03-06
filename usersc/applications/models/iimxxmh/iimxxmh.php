@@ -63,11 +63,11 @@
 		->leftJoin( 'iigxxmh','iigxxmh.id','=','iimxxmh.id_iigxxmh' )
 		
 		// BEGIN upload multi file
-		// table files dan lk_transaksi_files adalah bawaan framework, jangan diganti. cukup ganti iimxxmh nya saja dan folder 
+		// table files dan filestr adalah bawaan framework, jangan diganti. cukup ganti iimxxmh nya saja dan folder 
 		->join(
 			Mjoin::inst( 'files' )
-				->link( 'iimxxmh.id', 'lk_transaksi_files.idtransaksi' )
-				->link( 'files.id', 'lk_transaksi_files.idfiles' )
+				->link( 'iimxxmh.id', 'filestr.id_transaksi' )
+				->link( 'files.id', 'filestr.id_files' )
 				->fields(
 					Field::inst( 'id' )
 						->upload( Upload::inst( $abs_us_root.$us_url_root. '/usersc/uploads/__ID__.__EXTN__' )
