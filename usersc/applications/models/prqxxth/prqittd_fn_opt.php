@@ -46,7 +46,7 @@
                 ) as text'
             ])
             ->join('prqxxth','prqxxth.id = prqittd.id_prqxxth','LEFT' )
-            ->where('prqittd.id', $id_prqittd_old )
+            ->where('prqittd.id', $id_prqittd_old )            
             ->limit(1)
             ->offset($offset)
             ->exec();
@@ -74,6 +74,7 @@
         ->join('prqxxth','prqxxth.id = prqittd.id_prqxxth','LEFT' )
         ->where('prqxxth.transaction_state',1)
         ->where('prqittd.id', $id_prqittd_old, '<>' )
+        ->where('prqittd.is_nextprocess', null)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
