@@ -25,6 +25,7 @@ var colvisCount;
 
 $.fn.dataTable.moment('DD MMM YYYY');
 $.fn.dataTable.moment('DD MMM YYYY HH:mm:ss');
+$.fn.dataTable.moment('DD MMM YYYY HH:mm');
 
 $.extend( true, $.fn.dataTable.Editor.defaults, {
 	formOptions: {
@@ -39,18 +40,21 @@ $.extend( true, $.fn.dataTable.Editor.defaults, {
 // P: SearchPanes 
 // Q: SearchBuilder 
 var dom0 = 
+	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'l>>" +
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>" +
 	"<'row'<'col-lg-5 col-md-5 col-sm-12 col-xs-12'i><'col-lg-7 col-md-7 col-sm-12 col-xs-12'p>>";
 
 var domP = 
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'P>>" +
+	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'l>>" +
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>" +
 	"<'row'<'col-lg-5 col-md-5 col-sm-12 col-xs-12'i><'col-lg-7 col-md-7 col-sm-12 col-xs-12'p>>";
 
 var domQ = 
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'Q>>" +
+	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'l>>" +
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>" +
 	"<'row'<'col-lg-5 col-md-5 col-sm-12 col-xs-12'i><'col-lg-7 col-md-7 col-sm-12 col-xs-12'p>>";
@@ -58,6 +62,7 @@ var domQ =
 var domPQ = 
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'P>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'Q>>" +
+	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'l>>" +
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>" +
 	"<'row'<'col-lg-5 col-md-5 col-sm-12 col-xs-12'i><'col-lg-7 col-md-7 col-sm-12 col-xs-12'p>>";
