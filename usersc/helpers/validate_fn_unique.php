@@ -66,13 +66,13 @@
 		}else{
 			$c_result = -1;
 			$message 	= 'Error #101. Harap hubungi administrator!';
-			$type_message 	= 'danger';
+			$type_message 	= 'error';
 		}
 
 	}catch(PDOException $e){
 		$c_result = -1;
 		$message 	= 'Cek Gagal. ' . $e->getMessage();
-		$type_message 	= 'danger';
+		$type_message 	= 'error';
 	}
 
 	$data = array(
