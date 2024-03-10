@@ -24,6 +24,9 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Warehouse</th>
+                                <th>Category</th>
+                                <th>Type</th>
+                                <th>Zone</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -60,7 +63,7 @@
 		// ------------- end of default variable
 
 		is_master_table = 1;
-		var id_iwhxxmh_old = 0;
+		var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -141,6 +144,114 @@
 						}
 					},
 					{
+						label: "Location Category",
+						name: "wloxxmh.id_wloctmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/wloctmh/wloctmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_wloctmh_old: id_wloctmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Location Type",
+						name: "wloxxmh.id_wlotpmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/wlotpmh/wlotpmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_wlotpmh_old: id_wlotpmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Location Zone",
+						name: "wloxxmh.id_wloznmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/wloznmh/wloznmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_wloznmh_old: id_wloznmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
 						label: "Keterangan",
 						name: "wloxxmh.keterangan",
 						type: "textarea"
@@ -194,23 +305,20 @@
 						}
 					);
 
+					/**
+					 * ini harusnya ada kondisi OR
+					 * perlu bikin custom validation unique, tidak bisa menggunakan validasiUnique
+					 * yang tidak boleh kembar adalah kombinasi :
+					 * 	kode, nama, warehouse
+					 * 	kode dan warehouse, atau nama dan warehouse
+					 */
 					validasiUnique(
 						action,
 						edtwloxxmh,
 						'wloxxmh',
 						'kode',
-						'kode',
-						'"'+kode+'"',
-						id_wloxxmh
-					);
-
-					validasiUnique(
-						action,
-						edtwloxxmh,
-						'wloxxmh',
-						'nama',
-						'nama',
-						'"'+nama+'"',
+						'kode,nama,id_iwhxxmh',
+						'"'+kode+'","'+nama+'",'+id_iwhxxmh,
 						id_wloxxmh
 					);
 
@@ -263,6 +371,9 @@
 					{ data: "wloxxmh.kode" },
 					{ data: "wloxxmh.nama" },
 					{ data: "iwhxxmh.nama" },
+					{ data: "wloctmh.nama" },
+					{ data: "wlotpmh.nama" },
+					{ data: "wloznmh.nama" },
 					{ 
 						data: "wloxxmh.transaction_state" ,
 						...renderTransactionStatus()
@@ -280,7 +391,7 @@
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 						$arr_buttons_tools2 	= ['sp', 'sb'];
 						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
-						$arr_buttons_approve 	= ['approve', 'cancel_approve', 'void','noapprove'];
+						$arr_buttons_approve 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
@@ -306,15 +417,17 @@
 			} );
 			
 			tblwloxxmh.on( 'select', function( e, dt, type, indexes ) {
-				wloxxmh_data    		= tblwloxxmh.row( { selected: true } ).data().wloxxmh;
-				id_wloxxmh      		= wloxxmh_data.id;
-				id_transaksi_h 		= id_wloxxmh; // dipakai untuk general
-				id_transaksi_log	= id_wloxxmh; // dipakai untuk general
-				transaction_state   = wloxxmh_data.transaction_state;
-				approval_state   	= wloxxmh_data.approval_state;
-				is_nextprocess 		= wloxxmh_data.is_nextprocess;
-				is_jurnal      		= wloxxmh_data.is_jurnal;
-				id_iwhxxmh_old		= wloxxmh_data.id_iwhxxmh;
+				wloxxmh_data      = tblwloxxmh.row( { selected: true } ).data().wloxxmh;
+				id_wloxxmh        = wloxxmh_data.id;
+				id_transaksi_h    = id_wloxxmh;                                           // dipakai untuk general
+				id_transaksi_log  = id_wloxxmh;                                           // dipakai untuk general
+				transaction_state = wloxxmh_data.transaction_state;
+				approval_state    = wloxxmh_data.approval_state;
+				is_nextprocess    = wloxxmh_data.is_nextprocess;
+				id_iwhxxmh_old    = wloxxmh_data.id_iwhxxmh;
+				id_wloctmh_old    = wloxxmh_data.id_wloctmh;
+				id_wlotpmh_old    = wloxxmh_data.id_wlotpmh;
+				id_wloznmh_old    = wloxxmh_data.id_wloznmh;
 
 				// atur hak akses
 				CekSelectHeaderH(tblwloxxmh);
@@ -323,7 +436,7 @@
 			tblwloxxmh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_wloxxmh = 0;
-				id_iwhxxmh_old = 0;
+				id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblwloxxmh);

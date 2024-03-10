@@ -26,6 +26,12 @@
 			Field::inst( 'wloxxmh.id' ),
 			Field::inst( 'wloxxmh.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wloxxmh.id_wloctmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wloxxmh.id_wlotpmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wloxxmh.id_wloznmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wloxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -41,10 +47,16 @@
 			Field::inst( 'wloxxmh.start_at' ),
 			Field::inst( 'wloxxmh.finish_at' ),
 			Field::inst( 'wloxxmh.is_defaultprogram' ),
-			Field::inst( 'iwhxxmh.nama' )
+			
+			Field::inst( 'iwhxxmh.nama' ),
+			Field::inst( 'wloctmh.nama' ),
+			Field::inst( 'wlotpmh.nama' ),
+			Field::inst( 'wloznmh.nama' )
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','wloxxmh.id_iwhxxmh' )
-		;
+		->leftJoin( 'wloctmh','wloctmh.id','=','wloxxmh.id_wloctmh' )
+		->leftJoin( 'wlotpmh','wlotpmh.id','=','wloxxmh.id_wlotpmh' )
+		->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' );
 	
 	// do not erase
 	// function show / hide inactive document
