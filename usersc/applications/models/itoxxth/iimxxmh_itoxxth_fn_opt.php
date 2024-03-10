@@ -34,11 +34,11 @@
         $ids_itoxxth = 0;
     }
     
-    if(isset($_GET['ids_iittpmh']) && !empty($_GET['ids_iittpmh']) ){
-        $id_iittpmh = $_GET['ids_iittpmh'];
+    if(isset($_GET['ids_iitxxmh']) && !empty($_GET['ids_iitxxmh']) ){
+        $id_iitxxmh = $_GET['ids_iitxxmh'];
         $w_iitp = '=';
     }else{
-        $id_iittpmh = -9;
+        $id_iitxxmh = -9;
         $w_iitp = '<>';
     }
 
@@ -71,7 +71,7 @@
         ->where('itoittd.id_itoxxth', $ids_itoxxth)
         ->where('itoittd.jumlah_terkecil_os', 0, '>')
         ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
-        ->where('iimxxmh.id_iittpmh', $id_iittpmh, $w_iitp )
+        ->where('iimxxmh.id_iitxxmh', $id_iitxxmh, $w_iitp )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
