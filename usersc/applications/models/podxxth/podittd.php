@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/fn_is_nextprocess.php" );
 	
 	use
 		DataTables\Editor,
@@ -27,13 +28,13 @@
 			->debug(true)
 			->fields(
 				Field::inst( 'podittd.id' ),
+				Field::inst( 'podittd.id_podxxth' ),
 				Field::inst( 'podittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'podittd.id_prqittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'podittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'podittd.id_podxxth' ),
 				Field::inst( 'podittd.kode' ),
 				Field::inst( 'podittd.nama' ),
 				Field::inst( 'podittd.keterangan' ),

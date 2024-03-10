@@ -30,7 +30,7 @@
 			Field::inst( 'podxxth.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue($s_id_gbrxxmh),
-			Field::inst( 'podxxth.id_iittpmh' )
+			Field::inst( 'podxxth.id_iitxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'podxxth.id_psuxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -80,10 +80,10 @@
 			Field::inst( 'podxxth.pajak_final' ),
 			Field::inst( 'podxxth.grand_total' ),
 
-			Field::inst( 'iittpmh.nama' ),
+			Field::inst( 'iitxxmh.nama' ),
 			Field::inst( 'psuxxmh.nama' )
 		)
-		->leftJoin( 'iittpmh','iittpmh.id','=','podxxth.id_iittpmh' )
+		->leftJoin( 'iitxxmh','iitxxmh.id','=','podxxth.id_iitxxmh' )
 		->leftJoin( 'psuxxmh','psuxxmh.id','=','podxxth.id_psuxxmh' )
 		;
 	

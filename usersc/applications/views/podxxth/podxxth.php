@@ -344,7 +344,7 @@
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
 
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN podxxth
 		edtpodxxth = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/podxxth/podxxth.php",
@@ -741,8 +741,6 @@
 			return {}
 		}, {event: 'keyup change'});
 
-		
-		
 		edtpodxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
@@ -819,7 +817,6 @@
 			edtpodxxth.enable();
 		} );
 		
-		//start datatables
 		tblpodxxth = $('#tblpodxxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -895,7 +892,7 @@
 		} );
 
 		tblpodxxth.searchPanes.container().appendTo('#sppodxxth');
-			tblpodxxth.searchBuilder.container().appendTo( '#sbpodxxth' );
+		tblpodxxth.searchBuilder.container().appendTo( '#sbpodxxth' );
 		
 		tblpodxxth.on( 'init', function () {
 			// terkait footer
@@ -958,9 +955,11 @@
 			CekDeselectHeaderHD(tblpodxxth, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
+		// END podxxth
 
-		//start datatables editor
+
+		// BEGIN podittd
+
 		edtpodittd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/podxxth/podittd.php",
@@ -1356,13 +1355,16 @@
 			
 		edtpodittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
-				id_last_insert = json.data[0].podittd.id;
-				konversiUom('podittd', id_last_insert);
+				// id_last_insert = json.data[0].podittd.id;
+				// id_transaksi_d = json.data[0].podittd.id;
+				// konversiUom('podittd', id_last_insert);
 				tblpodittd.rows().deselect();
 			}
 			
 			hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
 			hitungHeaderDetail('podxxth', 'podittd', id_transaksi_h);
+
+			// isNextProcess(id_transaksi_d,'prqxxth', 'prqittd');
 			
 			tblpodxxth.ajax.reload(null, false);
 			tblpodittd.ajax.reload(null, false);
@@ -1372,7 +1374,6 @@
 			edtpodittd.enable();
 		} );
 		
-		//start datatables
 		tblpodittd = $('#tblpodittd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -1499,7 +1500,8 @@
 			CekDeselectDetailHD(tblpodxxth, tblpodittd );
 		} );
 
-// --------- end _detail --------------- //		
+		// END podittd
+
 	} );// end of document.ready
 	
 </script>
