@@ -198,10 +198,8 @@
 	
 	var id_iumxxmh_old = 0;
 	var is_default_old = 0;
-	var is_iumxxmh_beli_old = 0, is_iumxxmh_jual_old = 0;
-	var is_iumxxmh_beli = 0, is_iumxxmh_jual = 0;
-	var is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
-	is_update_iumxxmh_default = 0;
+	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0;
+	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
 
 	$(document).ready(function() {
 		// BEGIN iimxxmh
@@ -836,6 +834,22 @@
 					label: "Height",
 					name: "iimummd.tinggi"
 				},
+				{
+					label: "is_update_iumxxmh_default",
+					name: "is_update_iumxxmh_default",
+					type: "hidden"
+				},
+				{
+					label: "is_update_iumxxmh_beli",
+					name: "is_update_iumxxmh_beli",
+					type: "hidden"
+				},
+				{
+					label: "is_update_iumxxmh_jual",
+					name: "is_update_iumxxmh_jual",
+					type: "hidden"
+				}
+				
 			]
 		} );
 			
@@ -848,6 +862,8 @@
 			if(action == 'create'){
 				tbliimummd.rows().deselect();
 			}
+
+			edtiimummd.field('is_update_iumxxmh_default').val(0);
 		});
 
 		edtiimummd.on("open", function (e, mode, action) {
@@ -937,9 +953,9 @@
 				// jika inputan Default = Ya dan sebelumnya bukan Ya
 				// konfirmasi perubahan
 				if(confirm('Apakah Anda Ingin Mengubah Default UoM?')){
-					is_update_iumxxmh_default = 1;
+					edtiimummd.field('is_update_iumxxmh_default').val(1);
 				}else{
-					is_update_iumxxmh_default = 0;
+					edtiimummd.field('is_update_iumxxmh_default').val(0);
 					return false;
 				}
 			}else{
@@ -948,52 +964,32 @@
 			}
 			// END is_default
 
-			//DEFAULT BELI
+			// BEGIN konfirmasi Default UoM Beli
 			if(is_iumxxmh_beli == 1 && is_iumxxmh_beli != is_iumxxmh_beli_old){
 				if(confirm('Apakah Anda Ingin Mengubah Default Buying UoM?')){
-					is_update_iumxxmh_beli = 1;
+					edtiimummd.field('is_update_iumxxmh_beli').val(1);
 				}else{
-					is_update_iumxxmh_beli = 0;
+					edtiimummd.field('is_update_iumxxmh_beli').val(0);
 					return false;
 				}
 			}
-
-			//DEFAULT JUAL
+			// END konfirmasi Default UoM Beli
+			
+			// BEGIN konfirmasi Default UoM Jual
 			if(is_iumxxmh_jual == 1 && is_iumxxmh_jual != is_iumxxmh_jual_old){
 				if(confirm('Apakah Anda Ingin Mengubah Default Selling UoM?')){
-					is_update_iumxxmh_jual = 1;
+					edtiimummd.field('is_update_iumxxmh_jual').val(1);
 				}else{
-					is_update_iumxxmh_jual = 0;
+					edtiimummd.field('is_update_iumxxmh_jual').val(0);
 					return false;
 				}
 			}
+			// END konfirmasi Default UoM Jual
 
 		});
 			
 		edtiimummd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			
-			if(action != 'remove'){
-				id_transaksi_default = json.data[0].iimummd.id;
-
-				// BEGIN is_default
-				if(is_update_iumxxmh_default == 1){
-					isDefaultUpdateD('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-				}
-				// END is_default
-
-				// BEGIN is_update_iumxxmh_beli
-				if(is_update_iumxxmh_beli == 1){
-					isIumxxmhBeliUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-				}
-				// END is_update_iumxxmh_beli
-
-				// BEGIN is_update_iumxxmh_jual
-				if(is_update_iumxxmh_jual == 1){
-					isIumxxmhJualUpdate('iimummd', id_transaksi_h, id_transaksi_default, tbliimummd);			
-				}
-				// END is_update_iumxxmh_jual
-			}
-			
+			tbliimummd.ajax.reload(null, false);			
 
 		} );
 
