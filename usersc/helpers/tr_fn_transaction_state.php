@@ -57,18 +57,18 @@
             $transaction_state = -9;
             $kode              = 'DELETE';
             $message           = 'Data berhasil dihapus';
-            $type_message      = 'danger';
+            $type_message      = 'error';
             break;
         case -93:        // remove HD
             $transaction_state = -9;
             $kode              = 'DELETE';
             $message           = 'Data berhasil dihapus';
-            $type_message      = 'danger';
+            $type_message      = 'error';
             break;
         case -9:
             $kode         = 'DELETE';
             $message      = 'Data berhasil dihapus';
-            $type_message = 'danger';
+            $type_message = 'error';
             break;
         default: 
             $kode         = 'INVALID CODE';
