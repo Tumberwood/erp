@@ -43,7 +43,7 @@
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			// BEGIN isNextProcess
 			if( $values['iimummd']['id_iumxxmh'] > 0 ){
-				isNextProcess( $editor->db(), '', 'iumxxmh', 'iimummd', $id, 'CREATE' );
+				isNextProcess( $editor->db(), '', 'iumxxmh', 'iimummd', $id, 'CREATE', $values );
 			}
 			// END isNextProcess
 
@@ -55,14 +55,13 @@
 			// END is_update_iumxxmh_default
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
-			// script diletakkan disini
-		})
-		->on('postEdit',function( $editor, $id, $values, $row ) {
 			// BEGIN isNextProcess
 			if( $values['iimummd']['id_iumxxmh'] > 0 ){
-				isNextProcess( $editor->db(), '', 'iumxxmh', 'iimummd', $id, 'EDIT' );
+				isNextProcess( $editor->db(), '', 'iumxxmh', 'iimummd', $id, 'EDIT', $values );
 			}
 			// END isNextProcess
+		})
+		->on('postEdit',function( $editor, $id, $values, $row ) {
 
 			// BEGIN is_update_iumxxmh_default
 			if( $values['is_update_iumxxmh_default'] == 1 ){
@@ -89,7 +88,7 @@
 		->on('preRemove',function( $editor, $id, $values ) {
 			// BEGIN isNextProcess
 			if( $values['iimummd']['id_iumxxmh'] > 0 ){
-				isNextProcess( $editor->db(), '', 'iumxxmh', 'iimummd', $id, 'REMOVE' );
+				isNextProcess( $editor->db(), '', 'iumxxmh', 'iimummd', $id, 'REMOVE', $values );
 			}
 			// END isNextProcess
 		})
