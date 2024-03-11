@@ -1363,8 +1363,6 @@
 			
 			hitungSubtotalHeader(id_transaksi_h, 'podittd', 'podxxth');
 			hitungHeaderDetail('podxxth', 'podittd', id_transaksi_h);
-
-			// isNextProcess(id_transaksi_d,'prqxxth', 'prqittd');
 			
 			tblpodxxth.ajax.reload(null, false);
 			tblpodittd.ajax.reload(null, false);
