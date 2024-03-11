@@ -17,79 +17,9 @@
      * 
      */
 
-    function isNextProcess( $db, $tbl_name_asal_h, $tbl_name_asal_d, $tbl_name_tujuan_d, $id_transaksi_tujuan_d, $action ){
+    function isNextProcess( $db, $tbl_name_asal_h, $tbl_name_asal_d, $tbl_name_tujuan_d, $id_transaksi_tujuan_d, $action, $dt_values ) {
 
-        if($action == 'REMOVE'){
-
-            // dapatkan id transaksi asal
-            $qs_id_asal = $db
-                ->raw()
-                ->bind(':id_transaksi_tujuan_d', $id_transaksi_tujuan_d)
-                ->exec('
-                    SELECT
-                        id_'.$tbl_name_asal_d.' as id_transaksi_asal_d
-                    FROM '.$tbl_name_tujuan_d.'
-                    WHERE
-                        id =:id_transaksi_tujuan_d
-                ');
-            $rs_id_asal          = $qs_id_asal->fetch();
-            $id_transaksi_asal_d = $rs_id_asal['id_transaksi_asal_d'];
-
-            // update is_nextprocess = null
-            $qu_detail_asal = $db
-                ->raw()
-                ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d)
-                ->exec('
-                    UPDATE '.$tbl_name_asal_d.'
-                    SET is_nextprocess = null
-                    WHERE  1
-                        AND id = :id_transaksi_asal_d
-                ');
-
-            if($tbl_name_asal_h != ''){
-                // ambil id_transaksi_asal_h
-                $qs_detail_asal = $db
-                    ->raw()
-                    ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d)
-                    ->exec('
-                        SELECT
-                            id_'.$tbl_name_asal_h.' as id_transaksi_asal_h
-                        FROM '.$tbl_name_asal_d.'
-                        WHERE 1
-                            AND id = :id_transaksi_asal_d
-                    ');
-                $rs_detail_asal = $qs_detail_asal->fetch();
-                $id_transaksi_asal_h = $rs_detail_asal['id_transaksi_asal_h'];
-
-                // cek apakah masih ada is_nextprocess = 1 pada semua baris data tabel detail terkait
-                $qs_s_is_nextprocess = $db
-                    ->raw()
-                    ->bind(':id_transaksi_asal_h', $id_transaksi_asal_h)
-                    ->exec('
-                        SELECT
-                            id_'.$tbl_name_asal_h.' as id_transaksi_asal_h,
-                            SUM(is_nextprocess) as s_is_nextprocess
-                        FROM '.$tbl_name_asal_d.'
-                        WHERE 1
-                            AND id_'.$tbl_name_asal_h.' = :id_transaksi_asal_h
-                        GROUP BY id_'.$tbl_name_asal_h
-                    );
-                $rs_s_is_nextprocess = $qs_s_is_nextprocess->fetch();
-
-                if( empty($rs_s_is_nextprocess['s_is_nextprocess']) || $rs_s_is_nextprocess['s_is_nextprocess'] == 0){
-                    $qu_header_asal = $db
-                        ->raw()
-                        ->bind(':id_transaksi_asal_h', $id_transaksi_asal_h)
-                        ->exec('
-                            UPDATE '.$tbl_name_asal_h.'
-                            SET is_nextprocess = null
-                            WHERE  1
-                                AND id = :id_transaksi_asal_h
-                        ');
-                }
-            }
-
-        }else{
+        if($action == 'CREATE'){
             // dapatkan id transaksi asal
             $qs_id_asal = $db
                 ->raw()
@@ -202,6 +132,119 @@
                 }
 
             }
+        }elseif($action == 'EDIT'){
+            // ambil id_transaksi_asal_d sebelum edit
+            $qs_id_asal = $db
+                ->raw()
+                ->bind(':id_transaksi_tujuan_d', $id_transaksi_tujuan_d)
+                ->exec('
+                    SELECT
+                        id_'.$tbl_name_asal_d.' as id_transaksi_asal_d_before
+                    FROM '.$tbl_name_tujuan_d.'
+                    WHERE
+                        id =:id_transaksi_tujuan_d
+                ');
+            $rs_id_asal                 = $qs_id_asal->fetch();
+            $id_transaksi_asal_d_before = $rs_id_asal['id_transaksi_asal_d_before'];
+
+            $id_transaksi_asal_d_after = $dt_values[$tbl_name_tujuan_d]['id_'.$tbl_name_asal_d];
+            
+            if($id_transaksi_asal_d_before != $id_transaksi_asal_d_after){
+                // jika ada perubahan, maka dikembalikan ke null
+                $qu_detail_asal_before = $db
+                    ->raw()
+                    ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d_before)
+                    ->exec('
+                        UPDATE '.$tbl_name_asal_d.'
+                        SET is_nextprocess = null
+                        WHERE  1
+                            AND id = :id_transaksi_asal_d
+                    ');
+            }
+
+            $qu_detail_asal = $db
+                ->raw()
+                ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d_after)
+                ->exec('
+                    UPDATE '.$tbl_name_asal_d.'
+                    SET is_nextprocess = 1
+                    WHERE  1
+                        AND id = :id_transaksi_asal_d
+                ');
+            
+
+        }elseif($action == 'REMOVE'){
+
+            // dapatkan id transaksi asal
+            $qs_id_asal = $db
+                ->raw()
+                ->bind(':id_transaksi_tujuan_d', $id_transaksi_tujuan_d)
+                ->exec('
+                    SELECT
+                        id_'.$tbl_name_asal_d.' as id_transaksi_asal_d
+                    FROM '.$tbl_name_tujuan_d.'
+                    WHERE
+                        id =:id_transaksi_tujuan_d
+                ');
+            $rs_id_asal          = $qs_id_asal->fetch();
+            $id_transaksi_asal_d = $rs_id_asal['id_transaksi_asal_d'];
+
+            // update is_nextprocess = null
+            $qu_detail_asal = $db
+                ->raw()
+                ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d)
+                ->exec('
+                    UPDATE '.$tbl_name_asal_d.'
+                    SET is_nextprocess = null
+                    WHERE  1
+                        AND id = :id_transaksi_asal_d
+                ');
+
+            if($tbl_name_asal_h != ''){
+                // ambil id_transaksi_asal_h
+                $qs_detail_asal = $db
+                    ->raw()
+                    ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d)
+                    ->exec('
+                        SELECT
+                            id_'.$tbl_name_asal_h.' as id_transaksi_asal_h
+                        FROM '.$tbl_name_asal_d.'
+                        WHERE 1
+                            AND id = :id_transaksi_asal_d
+                    ');
+                $rs_detail_asal = $qs_detail_asal->fetch();
+                $id_transaksi_asal_h = $rs_detail_asal['id_transaksi_asal_h'];
+
+                // cek apakah masih ada is_nextprocess = 1 pada semua baris data tabel detail terkait
+                $qs_s_is_nextprocess = $db
+                    ->raw()
+                    ->bind(':id_transaksi_asal_h', $id_transaksi_asal_h)
+                    ->exec('
+                        SELECT
+                            id_'.$tbl_name_asal_h.' as id_transaksi_asal_h,
+                            SUM(is_nextprocess) as s_is_nextprocess
+                        FROM '.$tbl_name_asal_d.'
+                        WHERE 1
+                            AND id_'.$tbl_name_asal_h.' = :id_transaksi_asal_h
+                        GROUP BY id_'.$tbl_name_asal_h
+                    );
+                $rs_s_is_nextprocess = $qs_s_is_nextprocess->fetch();
+
+                if( empty($rs_s_is_nextprocess['s_is_nextprocess']) || $rs_s_is_nextprocess['s_is_nextprocess'] == 0){
+                    $qu_header_asal = $db
+                        ->raw()
+                        ->bind(':id_transaksi_asal_h', $id_transaksi_asal_h)
+                        ->exec('
+                            UPDATE '.$tbl_name_asal_h.'
+                            SET is_nextprocess = null
+                            WHERE  1
+                                AND id = :id_transaksi_asal_h
+                        ');
+                }
+            }
+
+        }else{
+            
         }
     }
     
