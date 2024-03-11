@@ -60,8 +60,11 @@
 		// ------------- end of default variable
 		is_need_generate_kode = 1, is_master_table = 1;
 		
+		var id_iigxxmh_old = 0;
+
 		$(document).ready(function() {
-			//start datatables editor
+			
+			// BEGIN iigx2mh
 			edtiigx2mh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iigx2mh/iigx2mh.php",
@@ -113,6 +116,42 @@
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "iigx2mh.nama"
 					}, 	
+					{
+						label: "item Group 1",
+						name: "iigx2mh.id_iigxxmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/iigxxmh/iigxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_iigxxmh_old: id_iigxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
 					{
 						label: "Keterangan",
 						name: "iigx2mh.keterangan",
@@ -182,7 +221,6 @@
 				edtiigx2mh.enable();
 			} );
 
-			//start datatables
 			tbliigx2mh = $('#tbliigx2mh').DataTable( {
 				ajax: {
 					url: "../../models/iigx2mh/iigx2mh.php",
@@ -237,14 +275,14 @@
 			} );
 			
 			tbliigx2mh.on( 'select', function( e, dt, type, indexes ) {
-				iigx2mh_data    		= tbliigx2mh.row( { selected: true } ).data().iigx2mh;
-				id_iigx2mh      		= iigx2mh_data.id;
-				id_transaksi_h 		= id_iigx2mh; // dipakai untuk general
-				id_transaksi_log	= id_iigx2mh; // dipakai untuk general
-				transaction_state   = iigx2mh_data.transaction_state;
-				approval_state   	= iigx2mh_data.approval_state;
-				is_nextprocess 		= iigx2mh_data.is_nextprocess;
-				is_jurnal      		= iigx2mh_data.is_jurnal;
+				iigx2mh_data      = tbliigx2mh.row( { selected: true } ).data().iigx2mh;
+				id_iigx2mh        = iigx2mh_data.id;
+				id_transaksi_h    = id_iigx2mh;	// dipakai untuk general
+				id_transaksi_log  = id_iigx2mh;	// dipakai untuk general
+				transaction_state = iigx2mh_data.transaction_state;
+				approval_state    = iigx2mh_data.approval_state;
+				is_nextprocess    = iigx2mh_data.is_nextprocess;
+				id_iigxxmh_old    = iigx2mh_data.id_iigxxmh;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliigx2mh);
@@ -253,7 +291,7 @@
 			tbliigx2mh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_iigx2mh = 0;
-
+				id_iigxxmh_old = 0;
 				// atur hak akses
 				CekDeselectHeaderH(tbliigx2mh);
 			} );
