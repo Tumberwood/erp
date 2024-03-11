@@ -33,8 +33,9 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 	
-	$table_name     = $_POST['table_name'];
-	$id_transaksi   = $_POST['id_transaksi'];
+	$table_name   = $_POST['table_name'];
+	$id_transaksi = $_POST['id_transaksi'];
+	$id_gaplgtd   = $_POST['id_gaplgtd'];
 
     if($_POST['approval_state'] == 1){
         $status_approval = 'Approve ';
@@ -51,7 +52,13 @@
     try{
         $db->transaction();
 
-        $qu_table = $db
+        $qu_gaplgtd = $db
+            ->query('update', 'gaplgtd')
+            ->set('approval_state', 1)
+            ->where('id', $id_gaplgtd)
+            ->exec();
+
+        $qu_transaksi = $db
             ->query('update', $table_name)
             ->set('approval_state', $_POST['approval_state'])
             ->where('id', $id_transaksi )
