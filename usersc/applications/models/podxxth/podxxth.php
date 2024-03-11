@@ -65,6 +65,7 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'podxxth.is_defaultprogram' ),
+			Field::inst( 'podxxth.is_nextprocess' ),
 			Field::inst( 'podxxth.subtotal' ),
 			Field::inst( 'podxxth.diskon_jenis' ),
 			Field::inst( 'podxxth.diskon_value' ),
