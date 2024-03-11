@@ -10,7 +10,7 @@
 			// script diletakkan disini
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
-			// script diletakkan disini
+			isNextProcess( $editor->db(), '', 'iigxxmh', 'iimxxmh', $id, 'EDIT' );
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
