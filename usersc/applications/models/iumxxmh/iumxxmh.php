@@ -38,7 +38,8 @@
 			Field::inst( 'iumxxmh.approval_state' ),
 			Field::inst( 'iumxxmh.start_at' ),
 			Field::inst( 'iumxxmh.finish_at' ),
-			Field::inst( 'iumxxmh.is_defaultprogram' )
+			Field::inst( 'iumxxmh.is_defaultprogram' ),
+			Field::inst( 'iumxxmh.is_nextprocess' )
 		);
 	
 	// do not erase
