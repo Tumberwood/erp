@@ -30,6 +30,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'iimxxmh.id_iigxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'iimxxmh.id_iigx2mh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'iimxxmh.id_iibxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'iimxxmh.id_iumxxmh_content' )

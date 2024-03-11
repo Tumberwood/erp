@@ -40,6 +40,11 @@
 								<editor-field name="iimxxmh.id_iigxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
+								<editor-field name="iimxxmh.id_iigx2mh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
 								<editor-field name="iimxxmh.id_iibxxmh"></editor-field>
 							</div>
 						</div>
@@ -189,7 +194,8 @@
 	// ------------- end of default variable
 	is_master_table = 1;
 
-	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
+	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
+	
 	var id_iumxxmh_old = 0;
 	var is_default_old = 0;
 	var is_iumxxmh_beli_old = 0, is_iumxxmh_jual_old = 0;
@@ -314,7 +320,7 @@
 					}
 				},
 				{
-					label: "Item Group <sup class='text-danger'>*<sup>",
+					label: "Item Group 1 <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.id_iigxxmh",
 					type: "select2",
 					opts: {
@@ -327,6 +333,43 @@
 							data: function (params) {
 								var query = {
 									id_iigxxmh_old: id_iigxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Item Group 2 <sup class='text-danger'>*<sup>",
+					name: "iimxxmh.id_iigx2mh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iigx2mh/iigx2mh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iigxxmh: id_iigxxmh,
+									id_iigx2mh_old: id_iigx2mh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -443,6 +486,12 @@
 			return {}
 		}, {event: 'keyup change'});
 		
+		edtiimxxmh.dependent( 'iimxxmh.id_iigxxmh', function ( val, data, callback ) {
+			id_iigxxmh = val;
+			// code here
+			return {}
+		}, {event: 'keyup change'});
+
 		edtiimxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
@@ -606,7 +655,9 @@
 
 			id_iitxxmh_old = iimxxmh_data.id_iitxxmh;
 			id_iicxxmh_old = iimxxmh_data.id_iicxxmh;
+			id_iigxxmh     = iimxxmh_data.id_iigxxmh;
 			id_iigxxmh_old = iimxxmh_data.id_iigxxmh;
+			id_iigx2mh_old = iimxxmh_data.id_iigx2mh;
 			id_iimxxmh_old = iimxxmh_data.id;
 			
 			// atur hak akses
@@ -621,7 +672,7 @@
 			// reload dipanggil di function CekDeselectHeader
 			id_iimxxmh = 0;
 
-			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh_old = 0, id_iimxxmh_old = 0;
+			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tbliimummd];
