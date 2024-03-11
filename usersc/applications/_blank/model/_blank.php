@@ -227,11 +227,11 @@
 		->leftJoin( 'users as b', 'b.id', '=', '_blank.field_y' )
 		
 		// BEGIN upload multi file
-		// table files dan lk_transaksi_files adalah bawaan framework, jangan diganti. cukup ganti _blank nya saja dan folder 
+		// table files dan filestr adalah bawaan framework, jangan diganti. cukup ganti _blank nya saja dan folder 
 		->join(
 				Mjoin::inst( 'files' )
-					->link( '_blank.id', 'lk_transaksi_files.idtransaksi' )
-					->link( 'files.id', 'lk_transaksi_files.idfiles' )
+					->link( '_blank.id', 'filestr.id_transaksi' )
+					->link( 'files.id', 'filestr.id_files' )
 					->fields(
 						Field::inst( 'id' )
 							->upload( Upload::inst( $abs_us_root.$us_url_root. '/usersc/uploads/__ID__.__EXTN__' )
