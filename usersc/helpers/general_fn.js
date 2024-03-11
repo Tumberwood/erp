@@ -217,22 +217,6 @@ function isDefaultUpdate(tbl_name,id_transaksi_default,tbl){
     } );
 }
 
-function isDefaultUpdateD(table_name, id_transaksi_h, id_transaksi_default,tblname){
-    $.ajax( {
-        url: '../../../helpers/fn_is_default_update_d.php',
-        dataType: 'json',
-        type: 'POST',
-        data: {
-            table_name           : table_name,
-            id_transaksi_h       : id_transaksi_h,
-            id_transaksi_default : id_transaksi_default
-        },
-        success: function ( json ) {
-            tblname.ajax.reload(null, false);
-        }
-    } );
-}
-
 /**
  * konversiUom
  * Digunakan untuk menghitung konversi satuan berdasarkan table iimummd
@@ -250,7 +234,7 @@ function isDefaultUpdateD(table_name, id_transaksi_h, id_transaksi_default,tblna
  */
 function konversiUom(tbl_name, id_transaksi ){
     $.ajax( {
-        url: '../../../helpers/fn_konversi_uom.php',
+        url: '../../../helpers/fn_uom_konversi_update.php',
         dataType: 'json',
         type: 'POST',
         data: {
@@ -392,7 +376,7 @@ function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
             id_transaksi_h: id_transaksi_h
         },
         success: function ( json ) {
-            console.log(json);
+            
         }
     } );
 }
@@ -401,9 +385,9 @@ function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
  * 
  * @param {*} edt 
  * @param {*} tabel_nama 
- * @param {*} id_iittpmh 
+ * @param {*} id_iitxxmh 
  */
-function hitungHeader(edt, tabel_nama, id_iittpmh) {
+function hitungHeader(edt, tabel_nama, id_iitxxmh) {
     console.log('hitungHeader');
     subtotal     = parseFloat(edt.field(tabel_nama+'.subtotal').val());
     diskon_final = parseFloat(edt.field(tabel_nama+'.diskon_final').val());
@@ -414,12 +398,12 @@ function hitungHeader(edt, tabel_nama, id_iittpmh) {
     if(is_pajak == 1){
         // jika menggunakan pajak
         $.ajax( {
-            url: "../../models/ftxxxmh/ftxxxmh_fn_hitungtarif_iittpmh.php",
+            url: "../../models/ftxxxmh/ftxxxmh_fn_hitungtarif_iitxxmh.php",
             dataType: 'json',
             type: 'POST',
             async: false,
             data: {
-                id_iittpmh: id_iittpmh
+                id_iitxxmh: id_iitxxmh
             },
             success: function ( json ) {
                 pajak_jenis = parseFloat(json.data.rs_autofill.id);
@@ -507,9 +491,9 @@ function hitungDpp(edt, tabel) {
  * Digunakan untuk menghitung pajak
  * @param {*} edt 
  * @param {*} tabel 
- * @param {*} id_iittpmh 
+ * @param {*} id_iitxxmh 
  */
-function hitungPajak(edt, tabel, id_iittpmh) {
+function hitungPajak(edt, tabel, id_iitxxmh) {
     subtotal     = parseFloat(edt.field(tabel+'.subtotal').val());
     diskon_final = parseFloat(edt.field(tabel+'.diskon_final').val());
     is_pajak     = edt.field(tabel+'.is_pajak').val();
@@ -518,12 +502,12 @@ function hitungPajak(edt, tabel, id_iittpmh) {
     if(is_pajak == 1 && dpp > 0){
 
         $.ajax( {
-            url: "../../models/ftxxxmh/ftxxxmh_fn_hitungtarif_iittpmh.php",
+            url: "../../models/ftxxxmh/ftxxxmh_fn_hitungtarif_iitxxmh.php",
             dataType: 'json',
             type: 'POST',
             async: false,
             data: {
-                id_iittpmh: id_iittpmh
+                id_iitxxmh: id_iitxxmh
             },
             success: function ( json ) {
                 pajak_jenis = parseFloat(json.data.rs_autofill.id);
@@ -579,6 +563,16 @@ function hitungPajak(edt, tabel, id_iittpmh) {
         edt.field(tabel+'.grand_total').val(dpp);
         edt.field(tabel+'.pajak_in_ex').hide();
     }
+}
+
+/**
+ * 
+ * @param {Object} edt 
+ * @param {Object} tbl 
+ * @param {Number} id_transaksi 
+ */
+function hitungOutstanding(edt, tabel, id_transaksi) {
+    
 }
 
 /**
