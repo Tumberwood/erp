@@ -52,18 +52,35 @@
     try{
         $db->transaction();
 
+        // BEGIN update approval_state gaplgtd
         $qu_gaplgtd = $db
             ->query('update', 'gaplgtd')
             ->set('approval_state', 1)
             ->where('id', $id_gaplgtd)
             ->exec();
+        // END update approval_state gaplgtd
 
+        // BEGIN get gaplgtd.start_at
+        $qs_gaplgtd = $db
+            ->query('select', 'gaplgtd' )
+            ->get([
+                'gaplgtd.start_at as start_at'
+            ] )
+            ->where('gaplgtd.id', $id_gaplgtd )
+            ->exec();
+        $rs_gaplgtd = $qs_gaplgtd->fetch();
+        $start_at   = $rs_gaplgtd['start_at'];
+        // END get gaplgtd.start_at
+
+        // BEGIN update transaksi approval_state
         $qu_transaksi = $db
             ->query('update', $table_name)
             ->set('approval_state', $_POST['approval_state'])
             ->where('id', $id_transaksi )
             ->exec();
+        // END update transaksi approval_state
 
+        // BEGIN insert activity_log_ml
         $qi_log = $db
             ->query('insert', 'activity_log_ml')
             ->set('id_transaksi',$id_transaksi)
@@ -72,10 +89,11 @@
             ->set('keterangan', $notes )
             ->set('created_by', $s_id_users)
             ->set('username', $s_username)
-            ->set('start_on', date("Y-m-d H:i:s"))
+            ->set('start_on', $start_at)
             ->set('finish_on', date("Y-m-d H:i:s"))
-            ->set('durasi_detik', 0)
+            ->set('durasi_detik', strtotime(date("Y-m-d H:i:s")) - strtotime($start_at))
             ->exec();
+        // END insert activity_log_ml
 
         // jika Void, maka transaction_state diubah menjadi closed 9
         // BEGIN close 
