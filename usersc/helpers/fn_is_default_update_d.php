@@ -1,18 +1,12 @@
 <?php
     /**
-     * isNextProcess
-     * Digunakan untuk melakukan pengecekan apakah sebuah data atau transaksi sudah ditarik ke proses selanjutnya.
-     * Ini hanya memberikan flag is_nexprocess = 1 pada table database. Default: null
-     * Term:
-     *  asal    : table yang akan dicek apakah sudah ditarik atau belum ke proses selanjutnya
-     *  tujuan  : table next proses yang menggunakan data atau transaksi tersebut
-     * Function ini dipanggil pada file model _extra, pada event postCreate, postEdit, dan preRemove
+     * isDefaultUpdateD
+     * Digunakan untuk update field is_default
      * Parameter:
      *  @param object   $db database connection, biasanya diisi $editor->db()
-     *  @param string   $tbl_name_asal_h nama tabel asal pada database
-     *  @param string   $tbl_name_asal_d nama tabel asal pada database
-     *  @param string   $tbl_name_tujuan_d nama tabel tujuan pada database
-     *  @param string   $id_transaksi_tujuan_d, biasanya diisi $id
+     *  @param string   $tbl_name
+     *  @param string   $id_transaksi_h
+     *  @param string   $id_transaksi_default
      *  @param string   $action : CREATE | EDIT | REMOVE
      * 
      */
