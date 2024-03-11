@@ -38,7 +38,8 @@
 			Field::inst( 'iibprmh.approval_state' ),
 			Field::inst( 'iibprmh.start_at' ),
 			Field::inst( 'iibprmh.finish_at' ),
-			Field::inst( 'iibprmh.is_defaultprogram' )
+			Field::inst( 'iibprmh.is_defaultprogram' ),
+			Field::inst( 'iibprmh.is_nextprocess' )
 		);
 	
 	// do not erase
