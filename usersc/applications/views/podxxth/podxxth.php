@@ -338,7 +338,7 @@
 	var edtpodxxth, tblpodxxth, show_deleted_podxxth = 0, id_podxxth;
 	var edtpodittd, tblpodittd, show_deleted_podittd = 0, id_podittd;
 	// ------------- end of default variable
-	var is_need_generate_kode = 1;
+	var is_need_generate_kode = 1, is_need_approval = 1;
 
 	var id_iitxxmh_old = 0, id_psuxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
