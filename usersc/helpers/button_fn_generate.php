@@ -503,12 +503,9 @@
                                             transaction_state : 9
                                         },
                                         success: function ( json ) {
-                                            $('#notifToast').toast('show');
-                                            $('#toastMessage').html(json.data.message);
-                                            $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                            setTimeout(function() { 
-                                                $('#notifToast').toast('hide');
-                                            }, 3000);
+                                            toast_type   = json.data.type_message;
+                                            full_message = json.data.message;
+                                            toastr[toast_type](full_message, 'INFO');
                                         }
                                     } );
 
@@ -727,12 +724,9 @@
                                             transaction_state : -9
                                         },
                                         success: function ( json ) {
-                                            $('#notifToast').toast('show');
-                                            $('#toastMessage').html(json.data.message);
-                                            $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                            setTimeout(function() { 
-                                                $('#notifToast').toast('hide');
-                                            }, 3000);
+                                            full_message = json.data.message;
+                                            toast_type   = json.data.type_message;
+                                            toastr[toast_type](full_message, 'INFO');
                                             
                                             <?php echo $table;?>.ajax.reload(null, false);
                                             <?php echo $table;?>.rows().deselect();
@@ -773,12 +767,9 @@
                                         },
                                         success: function ( json ) {
                                             
-                                            $('#notifToast').toast('show');
-                                            $('#toastMessage').html(json.data.message);
-                                            $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                            setTimeout(function() { 
-                                                $('#notifToast').toast('hide');
-                                            }, 3000);
+                                            toast_type   = json.data.type_message;
+                                            full_message = json.data.message;
+                                            toastr[toast_type](full_message, 'INFO');
                                             
                                             <?php echo $table;?>.ajax.reload(null, false);
                                             <?php echo $table;?>.rows().deselect();
@@ -820,12 +811,9 @@
                                         },
                                         success: function ( json ) {
                     
-                                            $('#notifToast').toast('show');
-                                            $('#toastMessage').html(json.data.message);
-                                            $('#toastHeader' ).addClass( 'bg-' + json.data.type_message);
-                                            setTimeout(function() { 
-                                                $('#notifToast').toast('hide');
-                                            }, 3000);
+                                            toast_type   = json.data.type_message;
+                                            full_message = json.data.message;
+                                            toastr[toast_type](full_message, 'INFO');
                                             
                                             <?php echo $table;?>.ajax.reload(null, false);
                                             <?php echo $table;?>.rows().deselect();
