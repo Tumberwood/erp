@@ -38,7 +38,8 @@
 			Field::inst( 'iigxxmh.approval_state' ),
 			Field::inst( 'iigxxmh.start_at' ),
 			Field::inst( 'iigxxmh.finish_at' ),
-			Field::inst( 'iigxxmh.is_defaultprogram' )
+			Field::inst( 'iigxxmh.is_defaultprogram' ),
+			Field::inst( 'iigxxmh.is_nextprocess' )
 		);
 	
 	// do not erase
