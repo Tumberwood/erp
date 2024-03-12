@@ -105,7 +105,6 @@
 						$arr_buttons_tools 		= ['copy','excel','colvis'];
 						$arr_buttons_tools2 	= ['sp','sb'];
 						$arr_buttons_action 	= [];
-						$arr_buttons_approve 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
