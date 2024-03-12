@@ -39,48 +39,114 @@
     try{
         $db->transaction();
         
-        $qs = $db
-            ->query('select', $table_name )
-            ->get([
-                $table_name.'.kode as kode'
-            ] )
-            ->where( $table_name.'.id', $id_transaksi )
-            ->exec();
-        $rs = $qs->fetch();
+        // BEGIN ambil nama transaksi
+        $qs_gtbrlsh = $db
+            ->raw()
+            ->bind(':table_name', $table_name)
+            ->exec('
+                SELECT
+                    nama
+                FROM gtbrlsh
+                WHERE 
+                    tblheader = :table_name
+            ');
+        $rs_gtbrlsh = $qs_gtbrlsh->fetch();
+        $nama = $rs_gtbrlsh['nama'];
+        // END ambil nama transaksi
+        
+        // BEGIN ambil aturan approval
+        $qs_gapxxsh = $db
+            ->raw()
+            ->bind(':table_name', $table_name)
+            ->exec('
+                SELECT 
+                    gapxxsh.id as id_gapxxsh,
+                    gapxxsh.jumlah_level as jumlah_level,
+                    gaptpmh.nama as gaptpmh_nama
+                FROM gapxxsh
+                LEFT JOIN gaptpmh ON gaptpmh.id = gapxxsh.id_gaptpmh
+                WHERE 
+                    gapxxsh.nama = :table_name
+            ');
+        $rs_gapxxsh   = $qs_gapxxsh->fetch();
+        $id_gapxxsh   = $rs_gapxxsh['id_gapxxsh'];
+        $jumlah_level = $rs_gapxxsh['jumlah_level'];
+        $gaptpmh_nama = $rs_gapxxsh['gaptpmh_nama'];
+        // END ambil aturan approval
 
-        $sql = '
-            INSERT INTO
-                gaplgtd (
+        if($gaptpmh_nama == 'Amount'){
+            $field_amount = ',grand_total ';
+        }else{
+            $field_amount = '';
+        }
+   
+        $qs_transaksi = $db
+            ->raw()
+            ->bind(':id_transaksi', $id_transaksi)
+            ->exec('
+                SELECT
+                    kode '
+                    .$field_amount.
+                'FROM '.$table_name.'
+                WHERE 
+                    id = :id_transaksi
+            ');
+        $rs_transaksi = $qs_transaksi->fetch();
+        
+        $kode = $rs_transaksi['kode'];
+        if($gaptpmh_nama == 'Amount'){
+            $tr_amount = $rs_transaksi['grand_total'];
+        }
+        
+        $qs_gapdusd = $db
+            ->raw()
+            ->bind(':id_gapxxsh', $id_gapxxsh)
+            ->bind(':tr_amount', $tr_amount)
+            ->exec('
+                SELECT 
                     id_users,
-                    kode,
-                    level
-                )
-            SELECT
-                gapdusd.id_users,
-                "'.$rs['kode'].'",
-                gapdusd.level
-            FROM gapdusd
-            LEFT JOIN gapxxsh ON gapxxsh.id = gapdusd.id_gapxxsh
-            WHERE
-                gapxxsh.nama = :table_name
-        ';
+                    level_ke
+                FROM gapdusd
+                WHERE 1
+                    AND id_gapxxsh = :id_gapxxsh
+                    AND :tr_amount BETWEEN gaptpmh_value_fr AND IFNULL(gaptpmh_value_to,999999999999999999.99)
+            ');
+        $rs_gapdusd = $qs_gapdusd->fetch();
         
         $qi_gaplgtd = $db
-            ->raw()
-            // ->bind(':transaction_state', 1)
-            // ->bind(':approval_state', 1)
-            ->bind(':table_name', $table_name)
-            ->exec($sql);
-        
+            ->query('insert', 'gaplgtd')
+            ->set('id_users', $rs_gapdusd['id_users'] )
+            ->set('id_transaksi', $id_transaksi )
+            ->set('kode', $kode)
+            ->set('nama', $nama)
+            ->set('start_at', date('Y-m-d H:i:s'))
+            ->set('tbl_name', $table_name)
+            ->set('level_ke', $rs_gapdusd['level_ke'] )
+            ->set('transaction_state', 1 )
+            ->exec();
+                
         $db->commit();
 
-        $data = array(
-            'message'      => 'Approval Setting Berhasil',
-            'type_message' => 'success'
-        );
-
+        if($qi_gaplgtd){
+            $data = array(
+                'status_code'  => 200,
+                'message'      => 'Setting Approval Berhasil Dilakukan',
+                'type_message' => 'success'
+            );
+        }else{
+            $data = array(
+                'status_code'  => 500,
+                'message'      => 'Setting Approval Gagal Dilakukan!',
+                'type_message' => 'error'
+            );
+        }
+        
     }catch(PDOException $e){
-		// rollback on error
+        $data = array(
+		    'status_code'  => 500,
+            'message'      => 'Setting Approval Gagal Dilakukan! ' . $e->getMessage(),
+            'type_message' => 'error'
+        );
 		$db->rollback();
 
 	}
