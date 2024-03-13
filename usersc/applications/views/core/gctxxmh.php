@@ -47,6 +47,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -150,23 +151,17 @@
             edtgctxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-                    // BEGIN of validasi gctxxmh.nama
-					if ( ! edtgctxxmh.field('gctxxmh.nama').isMultiValue() ) {
-						gctxxmh_nama = edtgctxxmh.field('gctxxmh.nama').val();
-						if(!gctxxmh_nama || gctxxmh_nama == ''){
-							edtgctxxmh.field('gctxxmh.nama').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gctxxmh.nama
+					nama       = edtgctxxmh.field('gctxxmh.nama').val();
+					id_gpvxxmh = edtgctxxmh.field('gctxxmh.id_gpvxxmh').val();
 
-                    // BEGIN of validasi gctxxmh.id_gpvxxmh
-					if ( ! edtgctxxmh.field('gctxxmh.id_gpvxxmh').isMultiValue() ) {
-						id_gpvxxmh = edtgctxxmh.field('gctxxmh.id_gpvxxmh').val();
-						if(!id_gpvxxmh || id_gpvxxmh == ''){
-							edtgctxxmh.field('gctxxmh.id_gpvxxmh').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtgctxxmh,
+						'gctxxmh',
+						{
+							'nama'      : nama,
+							'id_gpvxxmh': id_gpvxxmh
 						}
-					}
-					// END of validasi gctxxmh.id_gpvxxmh
+					);
 
 				}
 				

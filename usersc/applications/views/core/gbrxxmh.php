@@ -49,6 +49,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -207,32 +208,22 @@
             edtgbrxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-                    // BEGIN of validasi gbrxxmh.nama
-					if ( ! edtgbrxxmh.field('gbrxxmh.nama').isMultiValue() ) {
-						gbrxxmh_nama = edtgbrxxmh.field('gbrxxmh.nama').val();
-						if(!gbrxxmh_nama || gbrxxmh_nama == ''){
-							edtgbrxxmh.field('gbrxxmh.nama').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gbrxxmh.nama
+					nama       = edtgbrxxmh.field('gbrxxmh.nama').val();
+					alamat     = edtgbrxxmh.field('gbrxxmh.alamat').val();
+					id_gctxxmh = edtgbrxxmh.field('gbrxxmh.id_gctxxmh').val();
+					id_gcpxxmh = edtgbrxxmh.field('gbrxxmh.id_gcpxxmh').val();
 
-                    // BEGIN of validasi gbrxxmh.alamat
-					if ( ! edtgbrxxmh.field('gbrxxmh.alamat').isMultiValue() ) {
-						alamat = edtgbrxxmh.field('gbrxxmh.alamat').val();
-						if(!alamat || alamat == ''){
-							edtgbrxxmh.field('gbrxxmh.alamat').error( 'Wajib diisi!' );
+					validasiRequired(
+						edtgbrxxmh,
+						'gbrxxmh',
+						{
+							'nama'      : nama,
+							'alamat'    : alamat,
+							'id_gctxxmh': id_gctxxmh,
+							'id_gcpxxmh': id_gcpxxmh
 						}
-					}
-					// END of validasi gbrxxmh.alamat
-					
-					// BEGIN of validasi gbrxxmh.id_gctxxmh
-					if ( ! edtgbrxxmh.field('gbrxxmh.id_gctxxmh').isMultiValue() ) {
-						id_gctxxmh = edtgbrxxmh.field('gbrxxmh.id_gctxxmh').val();
-						if(!id_gctxxmh || id_gctxxmh == ''){
-							edtgbrxxmh.field('gbrxxmh.id_gctxxmh').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gbrxxmh.id_gctxxmh
+					);
+
 				}
 				
 				if ( edtgbrxxmh.inError() ) {

@@ -46,6 +46,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -120,38 +121,26 @@
 
             edtgbuxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi gbuxxmh.kode
-					if ( ! edtgbuxxmh.field('gbuxxmh.kode').isMultiValue() ) {
-						gbuxxmh_kode = edtgbuxxmh.field('gbuxxmh.kode').val();
-						if(!gbuxxmh_kode || gbuxxmh_kode == ''){
-							edtgbuxxmh.field('gbuxxmh.kode').error( 'Wajib diisi!' );
+
+					kode = edtgbuxxmh.field('gbuxxmh.kode').val();
+
+					validasiRequired(
+						edtgbuxxmh,
+						'gbuxxmh',
+						{
+							'kode': kode
 						}
-						
-						// BEGIN of cek unik gbuxxmh.kode
-						if(action == 'create'){
-							id_gbuxxmh = 0;
-						}
-						
-						$.ajax( {
-							url: '../../../helpers/validate_fn_unique.php',
-							dataType: 'json',
-							type: 'POST',
-							async: false,
-							data: {
-								table_name       : 'gbuxxmh',
-								nama_field       : 'kode',
-								nama_field_value : '"' + gbuxxmh_kode + '"',
-								id_transaksi     : id_gbuxxmh
-							},
-							success: function ( json ) {
-								if(json.data.count == 1){
-									edtgbuxxmh.field('gbuxxmh.kode').error( 'Data tidak boleh kembar!' );
-								}
-							}
-						} );
-						// END of cek unik gbuxxmh.kode
-					}
-					// END of validasi gbuxxmh.kode
+					);
+
+					validasiUnique(
+						action,
+						edtgbuxxmh,
+						'gbuxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_gbuxxmh
+					);
 					
 				}
 				

@@ -51,6 +51,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -202,34 +203,22 @@
             edtgcpxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-                    // BEGIN of validasi gcpxxmh.nama
-					if ( ! edtgcpxxmh.field('gcpxxmh.nama').isMultiValue() ) {
-						gcpxxmh_nama = edtgcpxxmh.field('gcpxxmh.nama').val();
-						if(!gcpxxmh_nama || gcpxxmh_nama == ''){
-							edtgcpxxmh.field('gcpxxmh.nama').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gcpxxmh.nama
-
-                    // BEGIN of validasi gcpxxmh.alamat
-					if ( ! edtgcpxxmh.field('gcpxxmh.alamat').isMultiValue() ) {
-						alamat = edtgcpxxmh.field('gcpxxmh.alamat').val();
-						if(!alamat || alamat == ''){
-							edtgcpxxmh.field('gcpxxmh.alamat').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gcpxxmh.alamat
-					
-					// BEGIN of validasi gcpxxmh.id_gctxxmh
-					if ( ! edtgcpxxmh.field('gcpxxmh.id_gctxxmh').isMultiValue() ) {
-						id_gctxxmh = edtgcpxxmh.field('gcpxxmh.id_gctxxmh').val();
-						if(!id_gctxxmh || id_gctxxmh == ''){
-							edtgcpxxmh.field('gcpxxmh.id_gctxxmh').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gcpxxmh.id_gctxxmh
-
+					nama = edtgcpxxmh.field('gcpxxmh.nama').val();
+					alamat = edtgcpxxmh.field('gcpxxmh.alamat').val();
+					id_gctxxmh = edtgcpxxmh.field('gcpxxmh.id_gctxxmh').val();
 					npwp = edtgcpxxmh.field('gcpxxmh.npwp').val();
+
+					validasiRequired(
+						edtgcpxxmh,
+						'gcpxxmh',
+						{
+							'nama': nama,
+							'alamat': alamat,
+							'id_gctxxmh': id_gctxxmh,
+							'npwp': npwp
+						}
+					);
+					
 					if (npwp != '') {
 						if(npwp <= 0 ){
 							edtgcpxxmh.field('gcpxxmh.npwp').error( 'Inputan harus > 0' );

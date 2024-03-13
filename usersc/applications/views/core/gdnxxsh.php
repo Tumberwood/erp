@@ -100,10 +100,14 @@
 ?>
 
 <!-- BEGIN JS -->
-<?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php'; ?>
-<?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php'; ?>
-<?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; ?>
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -260,73 +264,33 @@
             edtgdnxxsh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					
-					// BEGIN of validasi gdnxxsh.nama
-					if ( ! edtgdnxxsh.field('gdnxxsh.nama').isMultiValue() ) {
-						nama = edtgdnxxsh.field('gdnxxsh.nama').val();
-						if(!nama || nama == ''){
-							edtgdnxxsh.field('gdnxxsh.nama').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gdnxxsh.nama
-
-					// BEGIN of validasi gdnxxsh.mode
-					if ( ! edtgdnxxsh.field('gdnxxsh.mode').isMultiValue() ) {
-						mode = edtgdnxxsh.field('gdnxxsh.mode').val();
-						if(!mode || mode == ''){
-							edtgdnxxsh.field('gdnxxsh.mode').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gdnxxsh.mode
-
-					// BEGIN of validasi gdnxxsh.nama_tabel
-					if ( ! edtgdnxxsh.field('gdnxxsh.nama_tabel').isMultiValue() ) {
-						nama_tabel = edtgdnxxsh.field('gdnxxsh.nama_tabel').val();
-						if(!nama_tabel || nama_tabel == ''){
-							edtgdnxxsh.field('gdnxxsh.nama_tabel').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gdnxxsh.nama_tabel
-
-					// BEGIN of validasi gdnxxsh.total_digit
-					if ( ! edtgdnxxsh.field('gdnxxsh.total_digit').isMultiValue() ) {
-						total_digit = edtgdnxxsh.field('gdnxxsh.total_digit').val();
-						if(!total_digit || total_digit == ''){
-							edtgdnxxsh.field('gdnxxsh.total_digit').error( 'Wajib diisi!' );
-						}
-					}
-					// END of validasi gdnxxsh.total_digit
-						
-					// BEGIN of cek unik gdnxxsh
-					nama_tabel = edtgdnxxsh.field('gdnxxsh.nama_tabel').val();
-					kategori_dokumen = edtgdnxxsh.field('gdnxxsh.kategori_dokumen').val();
+					nama                   = edtgdnxxsh.field('gdnxxsh.nama').val();
+					mode                   = edtgdnxxsh.field('gdnxxsh.mode').val();
+					nama_tabel             = edtgdnxxsh.field('gdnxxsh.nama_tabel').val();
+					total_digit            = edtgdnxxsh.field('gdnxxsh.total_digit').val();
+					kategori_dokumen       = edtgdnxxsh.field('gdnxxsh.kategori_dokumen').val();
 					kategori_dokumen_value = edtgdnxxsh.field('gdnxxsh.kategori_dokumen_value').val();
-					if(action == 'create'){
-						id_gdnxxsh = 0;
-					}
-					
-					$.ajax( {
-						url: '../../../helpers/validate_fn_unique.php',
-						dataType: 'json',
-						type: 'POST',
-						async: false,
-						data: {
-							table_name       : 'gdnxxsh',
-							nama_field       : 'nama_tabel,kategori_dokumen,kategori_dokumen_value',
-							nama_field_value : '"'+ nama_tabel + '","' + kategori_dokumen + '","' + kategori_dokumen_value + '"',
-							id_transaksi     : id_gdnxxsh
-						},
-						success: function ( json ) {
-							if(json.data.count == 1){
-								edtgdnxxsh.field('gdnxxsh.nama_tabel').error( 'Kombinasi Nama Tabel dan Kategori Dokumen sudah ada!' );
-								edtgdnxxsh.field('gdnxxsh.kategori_dokumen').error( 'Kombinasi Nama Tabel dan Kategori Dokumen sudah ada!' );
-								edtgdnxxsh.field('gdnxxsh.kategori_dokumen_value').error( 'Kombinasi Nama Tabel dan Kategori Dokumen sudah ada!' );
-							}else if (json.data.count == -1){
-								edtgdnxxsh.error( json.data.message );
-							}
 
+					validasiRequired(
+						edtgdnxxsh,
+						'gdnxxsh',
+						{
+							'nama'       : nama,
+							'mode'       : mode,
+							'nama_tabel' : nama_tabel,
+							'total_digit': total_digit,
 						}
-					} );
-					// END of cek unik gdnxxsh
+					);
+
+					validasiUnique(
+						action,
+						edtgdnxxsh,
+						'gdnxxsh',
+						'nama_tabel,kategori_dokumen,kategori_dokumen_value',
+						'nama_tabel,kategori_dokumen,kategori_dokumen_value',
+						'"'+ nama_tabel + '","' + kategori_dokumen + '","' + kategori_dokumen_value + '"',
+						id_gdnxxsh
+					);
 
 				}
 				

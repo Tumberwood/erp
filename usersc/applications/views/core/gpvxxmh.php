@@ -46,6 +46,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <!-- BEGIN datatables here -->
@@ -111,14 +112,15 @@
             edtgpvxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-                    // BEGIN of validasi gpvxxmh.nama
-					if ( ! edtgpvxxmh.field('gpvxxmh.nama').isMultiValue() ) {
-						gpvxxmh_nama = edtgpvxxmh.field('gpvxxmh.nama').val();
-						if(!gpvxxmh_nama || gpvxxmh_nama == ''){
-							edtgpvxxmh.field('gpvxxmh.nama').error( 'Wajib diisi!' );
+					nama = edtgpvxxmh.field('gpvxxmh.nama').val();
+
+					validasiRequired(
+						edtgpvxxmh,
+						'gpvxxmh',
+						{
+							'nama': nama
 						}
-					}
-					// END of validasi gpvxxmh.nama
+					);
 
 				}
 				
