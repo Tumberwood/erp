@@ -1,45 +1,58 @@
 /**
- * ------------------------------------------------------
  * Validasi Client Side 
  * Dipanggil pada event datatables editor preSubmit
  * Contributor: vincmeister, ferry ibnu
- * ------------------------------------------------------
+ * 
+ * General Rules
+ * Penamaan Variable
+ *  @param {Object} edt variable datatables editor
+ *  @param {Object} tbl variable datatables table
+ *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
+ *  contoh: tbl_h, tbl_d
+ *  @param {String} tbl_name nama tabel database
+ *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
+ *  contoh: tbl_name_h, tbl_name_d
+ *  @param {String} fields_name nama field database
+ *  @param {Number} id_transaksi nilai id dari transaksi yang dipilih
+ *  Jika pakai header dan detail, maka ditambahkan suffix _h atau _d
+ *  contoh: id_transaksi_h, id_transaksi_d 
+ * 
+ * Available function:
+ *  validasiRequired
  */
 
+
+
 /**
- * Validasi
- *  Required
- * Kegunaan
- *  untuk validasi sebuah field wajib diisi
+ * validasiRequired
+ * Digunakan untuk validasi field wajib diisi
  * Cara Penggunaan:
- *  validasiRequired(edt, tabel, fields)
- * Parameter
- *  edt     : object    | nama variable datatables editor
- *  tabel   : string    | nama tabel database terkait
- *  fields  : array     | nama field dan value yang akan dicek
- * Contoh
+ *  validasiRequired(edt, tbl_name, fields)
+ * @param {Object} edt variable datatables editor
+ * @param {String} tbl_name nama tabel database
+ * @param {String} fields nama fields database, bisa multiple, dipisahkan dengan koma
+ * Contoh:
  *  // set variable
- *  id_iicctmh = edtiimxxmh.field('iimxxmh.id_iicctmh').val();
- *  id_iiggrmh = edtiimxxmh.field('iimxxmh.id_iiggrmh').val();
- *  id_iibbrmh = edtiimxxmh.field('iimxxmh.id_iibbrmh').val();
+ *  id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
+ *  id_iigxxmh = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
+ *  id_iibxxmh = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
  *  // panggil validasi 
  *  validasiRequired(
  *      edtiimxxmh,
  *      "iimxxmh",
  *      {
- *          "id_iicctmh": id_iicctmh, 
- *          "id_iiggrmh": id_iiggrmh, 
- *          "id_iibbrmh": id_iibbrmh
+ *          "id_iicxxmh": id_iicxxmh, 
+ *          "id_iigxxmh": id_iigxxmh, 
+ *          "id_iibxxmh": id_iibxxmh
  *      }
  *  );
-*/
-function validasiRequired(edt, tabel, fields){
-
+ */
+function validasiRequired(edt, tbl_name, fields){
     Object.keys(fields).forEach(field_name => {
         
         if(!fields[field_name] || fields[field_name] === '' || fields[field_name] == '<p><br></p>') {
 
-            edt.field(tabel + '.' + field_name).error('Wajib diisi!');
+            edt.field(tbl_name + '.' + field_name).error('Wajib diisi!');
         }
     });
 }
@@ -57,7 +70,7 @@ function validasiRequired(edt, tabel, fields){
  *  tabel               : string    | nama tabel database terkait
  *  field_edt           : string    | nama field pada datatables editor (tanpa nama table)
  *  nama_field          : string    | nama field pada tabel database yang akan di cek. Biasanya sama seperti field_edt
- *  nama_field_name    : any       | sesuai tipe data dari value yang akan dicek. Jika string harus diapit quote atau double quotes
+ *  nama_field_value    : any       | sesuai tipe data dari value yang akan dicek. Jika string harus diapit quote atau double quotes
  *  id_transaksi        : int       | id dari transaksi yang akan dicek. Diambilkan dari variable id__blank
  * Contoh
  *  // set variable
@@ -85,14 +98,17 @@ function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_va
         type: 'POST',
         async: false,
         data: {
-            table_name: tabel,
-            nama_field: nama_field,
+            table_name      : tabel,
+            nama_field      : nama_field,
             nama_field_value: nama_field_value,
-            id_transaksi: id_transaksi
+            id_transaksi    : id_transaksi
         },
         success: function ( json ) {
             if(json.data.count == 1){
-                edt.field(tabel + '.' + field_edt).error( 'Data tidak boleh kembar!' );
+                var arr_field = field_edt.split(",");
+                $.each(arr_field,function(i){
+                    edt.field(tabel + '.' + arr_field[i]).error( 'Data tidak boleh kembar!' );
+                 });
             }
         }
     } );
@@ -128,7 +144,6 @@ function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_va
  *  );
 */
 function validasiNumber(edt, tabel, fields, number, operator){
-
 
     Object.keys(fields).forEach(field_name => {
 
@@ -245,7 +260,7 @@ function validasiEmail(edt, tabel, fields) {
  *      }
  *  );
 */
-function validasiDifferent(edt, tabel, fields){
+function validasiDifferent(edt, tbl_name, fields){
     var checkedValues = {};
     var different = 0;
     Object.keys(fields).forEach(function(key) {
@@ -263,7 +278,7 @@ function validasiDifferent(edt, tabel, fields){
     // loop tampilkan error message di all related fields
     if(different == 1){
         Object.keys(fields).forEach(function(key) {
-            edt.field(tabel + '.' + key).error( 'Data tidak boleh sama!' );
+            edt.field(tbl_name + '.' + key).error( 'Data tidak boleh sama!' );
         });
     }
     
@@ -274,13 +289,47 @@ function validasiDifferent(edt, tabel, fields){
 
     CARANYA SAMA SEPERTI VALIDASI REQUIRED
  */
-function validasiTanggal(edt, tabel, fields){
+function validasiTanggal(edt, tbl_name, fields){
 
     tanggalsekarang    	= moment().format('YYYY-MM-DD');
     Object.keys(fields).forEach(field_name => {
 
         if( fields[field_name] < tanggalsekarang ){
-            edt.field(tabel + '.' + field_name).error( 'Tanggal harus lebih besar dari sekarang!' );
+            edt.field(tbl_name + '.' + field_name).error( 'Tanggal harus lebih besar dari sekarang!' );
         }
     });
+}
+
+/**
+ * Digunakan untuk mendapatkan data transaksi terkait jumlah dari tabel transaksi asal, dan digunakan untuk meelakukan pengecekan outstanding. 
+ * - id_iumxxmh_terkecil
+ * - id_iumxxmh_default
+ * - jumlah_konversi
+ * - jumlah_terkecil
+ * - jumlah_default
+ * - jumlah_unit
+ * 
+ * @param {Object} edt 
+ * @param {String} tbl_name 
+ * @param {Number} id_transaksi 
+ * 
+ */
+function validasiOutstanding(edt, tbl_name, id_transaksi) {
+    jumlah_unit_new = edt.field(tbl_name + '.jumlah_unit').val();
+    $.ajax( {
+        url: '../../../helpers/fn_uom_konversi_get.php',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            tbl_name: tbl_name,
+            id_transaksi: id_transaksi
+        },
+        success: function ( json ) {
+            console.log(json);
+            jumlah_terkecil_old = json.data.jumlah_terkecil;
+            jumlah_terkecil_new = jumlah_unit_new * json.data.jumlah_konversi;
+            
+        }
+    } );
+
 }
