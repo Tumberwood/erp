@@ -215,7 +215,7 @@
 					'"'+nama+'"',
 					id__blank
 				);
-				}
+			}
 			
 			if ( edt_blankheader.inError() ) {
 				return false;
