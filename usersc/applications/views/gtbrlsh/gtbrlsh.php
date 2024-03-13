@@ -58,6 +58,8 @@
 		// ------------- default variable, do not erase
 		var edtgtbrlsh, tblgtbrlsh, show_deleted_gtbrlsh = 0, id_gtbrlsh;
 		// ------------- end of default variable
+
+		var is_master_table = 1;
 		
 		$(document).ready(function() {
 			//start datatables editor
@@ -119,6 +121,13 @@
 				
 				if(action == 'create'){
 					tblgtbrlsh.rows().deselect();
+					edtgtbrlsh.field('gtbrlsh.nama').enable();
+					edtgtbrlsh.field('gtbrlsh.tblheader').enable();
+
+				}else if(action == 'edit'){
+					edtgtbrlsh.field('gtbrlsh.nama').disable();
+					edtgtbrlsh.field('gtbrlsh.tblheader').disable();
+					
 				}
 			});
 
