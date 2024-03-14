@@ -23,6 +23,8 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
+                                <th>Diajukan Oleh</th>
+                                <th>Diajukan Pada</th>
                                 <th>TX</th>
                                 <th>Approval</th>
                             </tr>
@@ -155,13 +157,13 @@
 						searchPanes:{
 							show: true,
 						},
-						targets: [1,2,4]
+						targets: [1,2,3]
 					},
 					{
 						searchPanes:{
 							show: false,
 						},
-						targets: [0,3]
+						targets: [0,4,5,6]
 					},
 					{
 						searchPanes: {
@@ -174,6 +176,8 @@
 					{ data: "gaplgtd.id",visible:false },
 					{ data: "gaplgtd.kode" },
 					{ data: "gaplgtd.nama" },
+					{ data: "users_pengaju.username" },
+					{ data: "gaplgtd.dt_pengajuan" },
 					{ 
 						data: "gaplgtd.transaction_state" ,
 						...renderTransactionStatus()

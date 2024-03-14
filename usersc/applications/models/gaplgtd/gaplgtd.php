@@ -25,6 +25,7 @@
 		->fields(
 			Field::inst( 'gaplgtd.id' ),
 			Field::inst( 'gaplgtd.id_users' ),
+			Field::inst( 'gaplgtd.id_users_pengaju' ),
 			Field::inst( 'gaplgtd.id_transaksi' ),
 			Field::inst( 'gaplgtd.kode' )
 				->setFormatter( function ( $val ) {
@@ -41,8 +42,16 @@
 			Field::inst( 'gaplgtd.start_at' ),
 			Field::inst( 'gaplgtd.finish_at' ),
 			Field::inst( 'gaplgtd.is_defaultprogram' ),
-			Field::inst( 'gaplgtd.tbl_name' )
-		);
+			Field::inst( 'gaplgtd.tbl_name' ),
+			Field::inst( 'gaplgtd.dt_pengajuan' )
+				->getFormatter( 'Format::datetime', array(
+					'from' => 'Y-m-d H:i:s',
+					'to' =>   'd M Y H:i:s'
+				) ),
+
+			Field::inst( 'users_pengaju.username' )
+		)
+		->leftJoin( 'users as users_pengaju','users_pengaju.id','=','gaplgtd.id_users_pengaju' );
 	
 	// do not erase
 	// function show / hide inactive document
