@@ -164,12 +164,6 @@
 							show: false,
 						},
 						targets: [0,4,5,6]
-					},
-					{
-						searchPanes: {
-							preSelect: ["0"]
-						},
-						targets: [4]
 					}
 				],
 				columns: [
