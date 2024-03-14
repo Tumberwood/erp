@@ -85,6 +85,8 @@ function renderApprovalStatus() {
             }else if (data == 0){
                 return '<span class="badge badge-plain">OPEN</span>';
             }else if(data == 1){
+                return '<span class="badge badge-warning">APPROVE</span>';
+            }else if(data == 9){
                 return '<span class="badge badge-primary">APPROVE</span>';
             }else{
                 return '<span class="badge badge-warning">INVALID</span>';
