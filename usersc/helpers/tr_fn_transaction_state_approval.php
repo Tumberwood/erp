@@ -1,21 +1,12 @@
 <?php
-	/*
-        Digunakan untuk meng-update transaction_state
-        Sumber 2 digit berarti dari data header detail
-
-        * +--------+------+----------------+--------+------+---------+----------+----------------------------+
-        * | Sumber |Kode  | Status         | Cancel | Edit | Next    | Approval | Notes                      |
-        * |        |      |                |        |      | Process |          |                            |
-        * +--------+------+----------------+--------+------+---------+----------+----------------------------+
-        * | -92    |-9    | Deleted        | No     | No   | No      | No       | Soft Delete                |
-        * | -93    |-9    | Deleted        | No     | No   | No      | No       | Hard Delete                |
-        * |        | 0    | Draft          | No     | Yes  | No      | No       | Doc belum siap dilanjutkan |
-        * |        | 1    | Confirmed      | Yes    | No   | Yes     | Yes      | Doc siap dilanjutkan       |
-        * |        | 8    | Completed      | No     | No   | No      | Already  | Doc Selesai                |
-        * |        | 9    | Closed         | No     | No   | No      | Already  | Doc Selesai                |
-        * +--------+------+----------------+--------+------+---------+---------------------------------------+
-	*/
-	
+	/**
+     * Digunakan untuk meng-update approval_state
+     * 1    : Approve
+     * -1   : Cancel Approve
+     * -9   : Void
+     * 9    : Final Approve
+     */
+    
 	require_once( "../../users/init.php" );
 	require_once( "../../usersc/lib/DataTables.php" );
     require_once( "datatables_fn_debug.php" );
