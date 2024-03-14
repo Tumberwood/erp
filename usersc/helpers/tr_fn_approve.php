@@ -12,7 +12,7 @@
             - Insert log ke table activity_log_ml
 
         Parameter:
-            - $table_name
+            - $tbl_name
 		    - $id_transaksi
 	*/
 	
@@ -33,7 +33,7 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 	
-	$table_name   = $_POST['table_name'];
+	$tbl_name   = $_POST['table_name'];
 	$id_transaksi = $_POST['id_transaksi'];
 	$id_gaplgtd   = $_POST['id_gaplgtd'];
 
@@ -47,7 +47,7 @@
         $status_approval = 'Invalid ';
     }
 
-    $notes          = $status_approval . $table_name . ' , id = '. $id_transaksi;
+    $notes          = $status_approval . $tbl_name . ' , id = '. $id_transaksi;
 
     try{
         $db->transaction();
@@ -59,6 +59,28 @@
             ->where('id', $id_gaplgtd)
             ->exec();
         // END update approval_state gaplgtd
+
+        // cek apakah setelah update approval_state gaplgtd, sudah merupakan yang final
+        // ditandai dengan approval_state sudah tidak ada yang 0
+        $qs_gaplgtd = $db
+            ->raw()
+            ->bind(':tbl_name', $tbl_name)
+            ->bind(':id_transaksi', $id_transaksi)
+            ->exec('
+                SELECT
+                    approval_state
+                FROM gaplgtd
+                WHERE 1
+                    AND tbl_name = :tbl_name 
+                    AND id_transaksi = :id_transaksi
+                    AND approval_state = 0
+            ');
+        $rs_gaplgtd = $qs_gaplgtd->fetchAll();
+        if(empty($rs_gaplgtd)){
+            $approval_state_final = 9;
+        }else{
+            $approval_state_final = 1;
+        }
 
         // BEGIN get gaplgtd.start_at
         $qs_gaplgtd = $db
@@ -74,8 +96,8 @@
 
         // BEGIN update transaksi approval_state
         $qu_transaksi = $db
-            ->query('update', $table_name)
-            ->set('approval_state', $_POST['approval_state'])
+            ->query('update', $tbl_name)
+            ->set('approval_state', $approval_state_final )
             ->where('id', $id_transaksi )
             ->exec();
         // END update transaksi approval_state
@@ -85,7 +107,7 @@
             ->query('insert', 'activity_log_ml')
             ->set('id_transaksi',$id_transaksi)
             ->set('kode', strtoupper($status_approval))
-            ->set('nama', $table_name )
+            ->set('nama', $tbl_name )
             ->set('keterangan', $notes )
             ->set('created_by', $s_id_users)
             ->set('username', $s_username)
@@ -99,7 +121,7 @@
         // BEGIN close 
         if( $_POST['approval_state'] == -9 ){
             $qu = $db
-                ->query('update', $table_name )
+                ->query('update', $tbl_name )
                 ->set('transaction_state', 9 )
                 ->where('id',$id_transaksi)
                 ->exec();
