@@ -39,39 +39,27 @@
     try{
         $db->transaction();
         
-        // BEGIN ambil nama transaksi
+        // BEGIN ambil aturan approval
         $qs_gtbrlsh = $db
             ->raw()
             ->bind(':table_name', $table_name)
             ->exec('
                 SELECT
-                    nama
-                FROM gtbrlsh
-                WHERE 
-                    tblheader = :table_name
-            ');
-        $rs_gtbrlsh = $qs_gtbrlsh->fetch();
-        $nama = $rs_gtbrlsh['nama'];
-        // END ambil nama transaksi
-        
-        // BEGIN ambil aturan approval
-        $qs_gapxxsh = $db
-            ->raw()
-            ->bind(':table_name', $table_name)
-            ->exec('
-                SELECT 
+                    gtbrlsh.nama as gtbrlsh_nama,
                     gapxxsh.id as id_gapxxsh,
                     gapxxsh.jumlah_level as jumlah_level,
                     gaptpmh.nama as gaptpmh_nama
-                FROM gapxxsh
-                LEFT JOIN gaptpmh ON gaptpmh.id = gapxxsh.id_gaptpmh
+                FROM gtbrlsh
+                JOIN gapxxsh ON gapxxsh.id_gtbrlsh = gtbrlsh.id
+                JOIN gaptpmh ON gaptpmh.id = gapxxsh.id_gaptpmh
                 WHERE 
-                    gapxxsh.nama = :table_name
+                    tblheader = :table_name
             ');
-        $rs_gapxxsh   = $qs_gapxxsh->fetch();
-        $id_gapxxsh   = $rs_gapxxsh['id_gapxxsh'];
-        $jumlah_level = $rs_gapxxsh['jumlah_level'];
-        $gaptpmh_nama = $rs_gapxxsh['gaptpmh_nama'];
+        $rs_gtbrlsh   = $qs_gtbrlsh->fetch();
+        $gtbrlsh_nama = $rs_gtbrlsh['gtbrlsh_nama'];
+        $id_gapxxsh   = $rs_gtbrlsh['id_gapxxsh'];
+        $jumlah_level = $rs_gtbrlsh['jumlah_level'];
+        $gaptpmh_nama = $rs_gtbrlsh['gaptpmh_nama'];
         // END ambil aturan approval
 
         if($gaptpmh_nama == 'Amount'){
@@ -80,12 +68,30 @@
             $field_amount = '';
         }
    
+        $qs_log = $db
+            ->raw()
+            ->bind(':id_transaksi', $id_transaksi)
+            ->bind(':kode', 'CONFIRM')
+            ->bind(':table_name', $table_name)
+            ->exec('
+                SELECT
+                    created_by as id_users_pengaju,
+                    created_on
+                FROM activity_log_ml
+                WHERE 1
+                    AND id_transaksi = :id_transaksi
+                    AND kode = :kode
+                    AND nama = :table_name
+            ');
+        $rs_log     = $qs_log->fetch();
+
         $qs_transaksi = $db
             ->raw()
             ->bind(':id_transaksi', $id_transaksi)
             ->exec('
                 SELECT
-                    kode '
+                    kode 
+                '
                     .$field_amount.
                 'FROM '.$table_name.'
                 WHERE 
@@ -94,8 +100,12 @@
         $rs_transaksi = $qs_transaksi->fetch();
         
         $kode = $rs_transaksi['kode'];
+
+        // bagian ini mungkin bisa diubah masuk ke table gapxxsh atau gapdusd
         if($gaptpmh_nama == 'Amount'){
             $tr_amount = $rs_transaksi['grand_total'];
+        }else{
+            $tr_amount = 0;
         }
         
         $qs_gapdusd = $db
@@ -116,12 +126,14 @@
         $qi_gaplgtd = $db
             ->query('insert', 'gaplgtd')
             ->set('id_users', $rs_gapdusd['id_users'] )
+            ->set('id_users_pengaju', $rs_log['id_users_pengaju'])
             ->set('id_transaksi', $id_transaksi )
             ->set('kode', $kode)
-            ->set('nama', $nama)
+            ->set('nama', $gtbrlsh_nama)
             ->set('start_at', date('Y-m-d H:i:s'))
             ->set('tbl_name', $table_name)
             ->set('level_ke', $rs_gapdusd['level_ke'] )
+            ->set('dt_pengajuan', $rs_log['created_on'] )
             ->set('transaction_state', 1 )
             ->exec();
                 
