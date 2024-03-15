@@ -593,7 +593,8 @@ function tableRelation(tbl_name){
             full_message = '';
             if(json.data.status_code == 200){
                 is_need_generate_kode = json.data.is_need_generate_kode;
-                is_need_approval = json.data.is_need_approval;
+                is_need_approval      = json.data.is_need_approval;
+                is_master_table       = json.data.is_master_table;
             }else{
                 full_message = json.data.message + '<br>Page: ' + $(location).attr("href") + '<br>';
                 toastr[json.data.type_message](full_message + '<button onclick="copyError()" type="button" class="btn btn-success btn-xs">Copy ke Clipboard</button>', 'Error', {progressBar: false, timeOut:0});
