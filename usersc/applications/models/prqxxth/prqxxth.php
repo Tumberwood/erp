@@ -19,7 +19,7 @@
 
 	use 
 		Carbon\Carbon;
-	
+
 	$editor = Editor::inst( $db, 'prqxxth' )
 		->debug(true)
 		->fields(

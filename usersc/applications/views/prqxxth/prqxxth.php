@@ -106,10 +106,13 @@
 	// ------------- end of default variable
 	var id_hodxxmh_old = 0;
 	var id_iumxxmh_old = 0;
-	var is_need_generate_kode = 1;
+
+	// get tableRelation
+	tableRelation('prqxxth');
 
 	$(document).ready(function() {
-		//start datatables editor
+		
+		// BEGIN prqxxth
 		edtprqxxth = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/prqxxth/prqxxth.php",
@@ -260,7 +263,6 @@
 			edtprqxxth.enable();
 		} );
 		
-		//start datatables
 		tblprqxxth = $('#tblprqxxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -367,9 +369,9 @@
 			CekDeselectHeaderHD(tblprqxxth, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
+		// END prqxxth
 
-		//start datatables editor
+		// BEGIN prqittd
 		edtprqittd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/prqxxth/prqittd.php",
@@ -540,8 +542,7 @@
 		edtprqittd.on( 'close', function () {
 			edtprqittd.enable();
 		} );
-		
-		//start datatables
+			
 		tblprqittd = $('#tblprqittd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -641,7 +642,8 @@
 			CekDeselectDetailHD(tblprqxxth, tblprqittd );
 		} );
 
-// --------- end _detail --------------- //		
+		//start datatables
+		
 	} );// end of document.ready
 	
 </script>
