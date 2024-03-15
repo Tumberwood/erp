@@ -42,24 +42,28 @@
         if(!empty($rs_gtbrlsh)){
             $status_code           = '200';
             $message               = 'Get Table Relation Berhasil';
+            $type_message          = 'success';
             $is_master_table       = $rs_gtbrlsh['is_master_table'];
             $is_need_approval      = $rs_gtbrlsh['is_need_approval'] ;
             $is_need_generate_kode = $rs_gtbrlsh['is_need_generate_kode'];
         }else{
             $status_code           = '500';
             $message               = 'Get Table Relation Gagal! Tabel belum didefinisikan di table `gtbrlsh`';
+            $type_message          = 'error';
         }
 
     }catch(PDOException $e){
         $status_code = '500';
         $message = 'Get Table Relation Gagal! ' . $e->getMessage();
+        $type_message          = 'error';
     }
 
     $data = array(
-        'status_code' => $status_code,
-        'message'=> $message,
-        'is_master_table' => $is_master_table,
-        'is_need_approval' => $is_need_approval,
+        'status_code'           => $status_code,
+        'message'               => $message,
+        'type_message'          => $type_message,
+        'is_master_table'       => $is_master_table,
+        'is_need_approval'      => $is_need_approval,
         'is_need_generate_kode' => $is_need_generate_kode
     );
 

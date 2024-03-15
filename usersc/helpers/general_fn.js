@@ -590,9 +590,15 @@ function tableRelation(tbl_name){
             tbl_name: tbl_name
         },
         success: function ( json ) {
-            console.log(json);
-            is_need_generate_kode = json.data.is_need_generate_kode;
-            is_need_approval = json.data.is_need_approval;
+            full_message = '';
+            if(json.data.status_code == 200){
+                is_need_generate_kode = json.data.is_need_generate_kode;
+                is_need_approval = json.data.is_need_approval;
+            }else{
+                full_message = json.data.message + '<br>Page: ' + $(location).attr("href") + '<br>';
+                toastr[json.data.type_message](full_message + '<button onclick="copyError()" type="button" class="btn btn-success btn-xs">Copy ke Clipboard</button>', 'Error', {progressBar: false, timeOut:0});
+            }
+            
         }
     } );
 }
