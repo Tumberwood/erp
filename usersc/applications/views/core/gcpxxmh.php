@@ -62,8 +62,12 @@
 
 		var id_gbuxxmh_old = 0, id_gctxxmh_old = 0;
 		
+		// get tableRelation
+		tableRelation('gcpxxmh');
+
 		$(document).ready(function() {
-			//start datatables editor
+			
+			// BEGIN gcpxxmh
 			edtgcpxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/core/gcpxxmh.php",
@@ -265,7 +269,6 @@
 				edtgcpxxmh.enable();
 			} );
 			
-			//start datatables
 			tblgcpxxmh = $('#tblgcpxxmh').DataTable( {
 				ajax: {
 					url: "../../models/core/gcpxxmh.php",
@@ -321,7 +324,6 @@
 				transaction_state   = gcpxxmh_data.transaction_state;
 				approval_state   	= gcpxxmh_data.approval_state;
 				is_nextprocess 		= gcpxxmh_data.is_nextprocess;
-				is_jurnal      		= gcpxxmh_data.is_jurnal;
 
 				id_gbuxxmh_old = gcpxxmh_data.id_gbuxxmh;
 				id_gctxxmh_old = gcpxxmh_data.id_gctxxmh;
@@ -340,6 +342,7 @@
 				CekDeselectHeaderH(tblgcpxxmh);
 			} );
 			
+			// END gcpxxmh
 		} );// end of document.ready
 	
 	</script>
