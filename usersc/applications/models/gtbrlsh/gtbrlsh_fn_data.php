@@ -22,6 +22,7 @@
     $is_master_table       = null;
     $is_need_approval      = null;
     $is_need_generate_kode = null;
+    $is_need_jurnal        = null;
     $tbl_name              = $_POST['tbl_name'];
 
     try{
@@ -32,7 +33,8 @@
                 SELECT
                     is_master_table,
                     is_need_approval,
-                    is_need_generate_kode
+                    is_need_generate_kode,
+                    is_need_jurnal
                 FROM gtbrlsh
                 WHERE 1
                     AND tblheader = :tbl_name
@@ -46,6 +48,7 @@
             $is_master_table       = $rs_gtbrlsh['is_master_table'];
             $is_need_approval      = $rs_gtbrlsh['is_need_approval'] ;
             $is_need_generate_kode = $rs_gtbrlsh['is_need_generate_kode'];
+            $is_need_jurnal        = $rs_gtbrlsh['is_need_jurnal'];
         }else{
             $status_code           = '500';
             $message               = 'Get Table Relation Gagal! Tabel belum didefinisikan di table `gtbrlsh`';
@@ -65,7 +68,8 @@
         'tbl_name'              => $tbl_name,
         'is_master_table'       => $is_master_table,
         'is_need_approval'      => $is_need_approval,
-        'is_need_generate_kode' => $is_need_generate_kode
+        'is_need_generate_kode' => $is_need_generate_kode,
+        'is_need_jurnal'        => $is_need_jurnal
     );
 
     // tampilkan results
