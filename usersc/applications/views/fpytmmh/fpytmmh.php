@@ -60,10 +60,11 @@
 		var edtfpytmmh, tblfpytmmh, show_deleted_fpytmmh = 0, id_fpytmmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
+		// get tableRelation
+		tableRelation('fpytmmh');
 
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN fpytmmh
 			edtfpytmmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/fpytmmh/fpytmmh.php",
@@ -215,7 +216,6 @@
 				edtfpytmmh.enable();
 			} );
 
-			//start datatables
 			tblfpytmmh = $('#tblfpytmmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -321,6 +321,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblfpytmmh);
 			} );
+			
+			// END fpytmmh
 			
 		} );// end of document.ready
 	

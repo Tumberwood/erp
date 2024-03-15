@@ -59,10 +59,11 @@
 		var edtfpymtmh, tblfpymtmh, show_deleted_fpymtmh = 0, id_fpymtmh;
 		// ------------- end of default variable
 		
-		is_master_table = 1;
+		// get tableRelation
+		tableRelation('fpymtmh');
 
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN fpymtmh
 			edtfpymtmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/fpymtmh/fpymtmh.php",
@@ -209,7 +210,6 @@
 				edtfpymtmh.enable();
 			} );
 
-			//start datatables
 			tblfpymtmh = $('#tblfpymtmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{

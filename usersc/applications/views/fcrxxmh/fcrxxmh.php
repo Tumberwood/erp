@@ -60,10 +60,11 @@
 		var edtfcrxxmh, tblfcrxxmh, show_deleted_fcrxxmh = 0, id_fcrxxmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
+		// get tableRelation
+		tableRelation('fcrxxmh');
 		
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN fcrxxmh
 			edtfcrxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/fcrxxmh/fcrxxmh.php",
@@ -244,7 +245,6 @@
 				edtfcrxxmh.enable();
 			} );
 
-			//start datatables
 			tblfcrxxmh = $('#tblfcrxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -329,14 +329,14 @@
 			} );
 			
 			tblfcrxxmh.on( 'select', function( e, dt, type, indexes ) {
-				fcrxxmh_data    		= tblfcrxxmh.row( { selected: true } ).data().fcrxxmh;
-				id_fcrxxmh      		= fcrxxmh_data.id;
-				id_transaksi_h 		= id_fcrxxmh; // dipakai untuk general
-				id_transaksi_log	= id_fcrxxmh; // dipakai untuk general
-				transaction_state   = fcrxxmh_data.transaction_state;
-				approval_state   	= fcrxxmh_data.approval_state;
-				is_nextprocess 		= fcrxxmh_data.is_nextprocess;
-				is_default_old      = fcrxxmh_data.is_default;
+				fcrxxmh_data      = tblfcrxxmh.row( { selected: true } ).data().fcrxxmh;
+				id_fcrxxmh        = fcrxxmh_data.id;
+				id_transaksi_h    = id_fcrxxmh;                                           // dipakai untuk general
+				id_transaksi_log  = id_fcrxxmh;                                           // dipakai untuk general
+				transaction_state = fcrxxmh_data.transaction_state;
+				approval_state    = fcrxxmh_data.approval_state;
+				is_nextprocess    = fcrxxmh_data.is_nextprocess;
+				is_default_old    = fcrxxmh_data.is_default;
 
 				// atur hak akses
 				CekSelectHeaderH(tblfcrxxmh);
@@ -350,6 +350,8 @@
 				CekDeselectHeaderH(tblfcrxxmh);
 			} );
 			
+			// END fcrxxmh
+
 		} );// end of document.ready
 	
 	</script>

@@ -93,12 +93,13 @@
 	var edtftxrtmd, tblftxrtmd, show_deleted_ftxrtmd = 0, id_ftxrtmd;
 	// ------------- end of default variable
 
-	is_master_table = 1;
+	// get tableRelation
+	tableRelation('ftxxxmh');
 
 	var is_progressif = 0;
 
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN ftxxxmh
 		edtftxxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/ftxxxmh/ftxxxmh.php",
@@ -210,7 +211,6 @@
 			edtftxxxmh.enable();
 		} );
 		
-		//start datatables
 		tblftxxxmh = $('#tblftxxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -281,7 +281,7 @@
 		} );
 
 		tblftxxxmh.searchPanes.container().appendTo('#spftxxxmh');
-			tblftxxxmh.searchBuilder.container().appendTo( '#sbftxxxmh' );
+		tblftxxxmh.searchBuilder.container().appendTo( '#sbftxxxmh' );
 		
 		tblftxxxmh.on( 'init', function () {
 			// atur hak akses
@@ -315,9 +315,8 @@
 			CekDeselectHeaderHD(tblftxxxmh, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
 
-		//start datatables editor
+		// BEGIN ftxrtmd
 		edtftxrtmd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/ftxxxmh/ftxrtmd.php",
@@ -452,7 +451,6 @@
 			edtftxrtmd.enable();
 		} );
 		
-		//start datatables
 		tblftxrtmd = $('#tblftxrtmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -549,7 +547,7 @@
 			CekDeselectDetailHD(tblftxxxmh, tblftxrtmd );
 		} );
 
-// --------- end _detail --------------- //		
+		// END ftxrtmd
 	} );// end of document.ready
 	
 </script>
