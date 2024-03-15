@@ -60,6 +60,9 @@
 		var edtgaplgtd, tblgaplgtd, show_deleted_gaplgtd = 0, id_gaplgtd;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('gaplgtd');
+
 		$(document).ready(function() {
 			//start datatables editor
 			edtgaplgtd = new $.fn.dataTable.Editor( {
