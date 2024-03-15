@@ -579,6 +579,27 @@ function hitungOutstanding(edt, tabel, id_transaksi) {
 
 /**
  * 
+ * @param {String} tbl_name nama tabel database yang akan dicek
+ */
+function tableRelation(tbl_name){
+    $.ajax( {
+        url: "../../models/gtbrlsh/gtbrlsh_fn_data.php",
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            tbl_name: tbl_name
+        },
+        success: function ( json ) {
+            console.log(json);
+            is_need_generate_kode = json.data.is_need_generate_kode;
+            is_need_approval = json.data.is_need_approval;
+        }
+    } );
+}
+
+
+/**
+ * 
  * Masih belum Finish, masih push
  */
 

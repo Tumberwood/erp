@@ -1,0 +1,70 @@
+<?php
+	/**
+     * Digunakan untuk mengambil data dari table gtbrlsh
+     * Data yang diambil:
+     *  $is_master_table
+     *  $is_need_approval
+     *  $is_need_generate_kode
+     */
+
+     include_once( "../../../../users/init.php" );
+     include_once( "../../../../usersc/lib/DataTables.php" );
+     include_once( "../../../../usersc/vendor/autoload.php");
+     require_once( "../../../../usersc/helpers/datatables_fn_debug.php" );
+
+     // BEGIN definisi variable untuk fn_ajax_results.php
+    $data      = array();
+    $rs_opt    = array();
+    $c_rs_opt  = 0;
+    $morePages = 0;
+    // END definisi variable untuk fn_ajax_results.php
+
+    $is_master_table       = null;
+    $is_need_approval      = null;
+    $is_need_generate_kode = null;
+    $tbl_name              = $_POST['tbl_name'];
+
+    try{
+        $qs_gtbrlsh = $db
+            ->raw()
+            ->bind(':tbl_name', $tbl_name)
+            ->exec('
+                SELECT
+                    is_master_table,
+                    is_need_approval,
+                    is_need_generate_kode
+                FROM gtbrlsh
+                WHERE 1
+                    AND tblheader = :tbl_name
+            ');
+        $rs_gtbrlsh = $qs_gtbrlsh->fetch();
+        
+        if(!empty($rs_gtbrlsh)){
+            $status_code           = '200';
+            $message               = 'Get Table Relation Berhasil';
+            $is_master_table       = $rs_gtbrlsh['is_master_table'];
+            $is_need_approval      = $rs_gtbrlsh['is_need_approval'] ;
+            $is_need_generate_kode = $rs_gtbrlsh['is_need_generate_kode'];
+        }else{
+            $status_code           = '500';
+            $message               = 'Get Table Relation Gagal! Tabel belum didefinisikan di table `gtbrlsh`';
+        }
+
+    }catch(PDOException $e){
+        $status_code = '500';
+        $message = 'Get Table Relation Gagal! ' . $e->getMessage();
+    }
+
+    $data = array(
+        'status_code' => $status_code,
+        'message'=> $message,
+        'is_master_table' => $is_master_table,
+        'is_need_approval' => $is_need_approval,
+        'is_need_generate_kode' => $is_need_generate_kode
+    );
+
+    // tampilkan results
+    require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
+    
+	
+?>
