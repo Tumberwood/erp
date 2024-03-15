@@ -59,10 +59,11 @@
 		var edtiicxxmh, tbliicxxmh, show_deleted_iicxxmh = 0, id_iicxxmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
+		// get tableRelation
+		tableRelation('iicxxmh');
 		
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN iicxxmh
 			edtiicxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iicxxmh/iicxxmh.php",
@@ -182,7 +183,6 @@
 				edtiicxxmh.enable();
 			} );
 
-			//start datatables
 			tbliicxxmh = $('#tbliicxxmh').DataTable( {
 				ajax: {
 					url: "../../models/iicxxmh/iicxxmh.php",
@@ -253,6 +253,8 @@
 				CekDeselectHeaderH(tbliicxxmh);
 			} );
 			
+			// END iicxxmh
+
 		} );// end of document.ready
 	
 	</script>

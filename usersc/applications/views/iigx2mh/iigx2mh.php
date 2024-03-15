@@ -58,9 +58,11 @@
 		// ------------- default variable, do not erase
 		var edtiigx2mh, tbliigx2mh, show_deleted_iigx2mh = 0, id_iigx2mh;
 		// ------------- end of default variable
-		is_need_generate_kode = 1, is_master_table = 1;
 		
 		var id_iigxxmh_old = 0;
+
+		// get tableRelation
+		tableRelation('iigx2mh');
 
 		$(document).ready(function() {
 			

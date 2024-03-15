@@ -192,7 +192,6 @@
 	var edtiimummd, tbliimummd, show_deleted_iimummd = 0, id_iimummd;
 	var edtiimummd_copyfrom;
 	// ------------- end of default variable
-	is_master_table = 1;
 
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
 	
@@ -201,9 +200,12 @@
 	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0;
 	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
 
+	// get tableRelation
+	tableRelation('iimxxmh');
+
 	$(document).ready(function() {
 		// BEGIN iimxxmh
-
+		
 		edtiimxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/iimxxmh/iimxxmh.php",
@@ -648,7 +650,6 @@
 			transaction_state   = iimxxmh_data.transaction_state;
 			approval_state   	= iimxxmh_data.approval_state;
 			is_nextprocess 		= iimxxmh_data.is_nextprocess;
-			is_jurnal      		= iimxxmh_data.is_jurnal;
 
 			id_iitxxmh_old = iimxxmh_data.id_iitxxmh;
 			id_iicxxmh_old = iimxxmh_data.id_iicxxmh;

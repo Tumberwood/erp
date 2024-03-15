@@ -59,7 +59,8 @@
 		var edtiumxxmh, tbliumxxmh, show_deleted_iumxxmh = 0, id_iumxxmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
+		// get tableRelation
+		tableRelation('iumxxmh');
 		
 		$(document).ready(function() {
 
@@ -245,7 +246,6 @@
 				transaction_state   = iumxxmh_data.transaction_state;
 				approval_state   	= iumxxmh_data.approval_state;
 				is_nextprocess 		= iumxxmh_data.is_nextprocess;
-				is_jurnal      		= iumxxmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliumxxmh);

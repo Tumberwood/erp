@@ -57,8 +57,11 @@
 		var edtiibprmh, tbliibprmh, show_deleted_iibprmh = 0, id_iibprmh;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('iibprmh');
+
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN iibprmh
 			edtiibprmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iibprmh/iibprmh.php",
@@ -153,8 +156,7 @@
 			edtiibprmh.on( 'close', function () {
 				edtiibprmh.enable();
 			} );
-
-			//start datatables
+			
 			tbliibprmh = $('#tbliibprmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -235,7 +237,6 @@
 				transaction_state   = iibprmh_data.transaction_state;
 				approval_state   	= iibprmh_data.approval_state;
 				is_nextprocess 		= iibprmh_data.is_nextprocess;
-				is_jurnal      		= iibprmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliibprmh);
@@ -249,6 +250,7 @@
 				CekDeselectHeaderH(tbliibprmh);
 			} );
 			
+			// END iibprmh
 		} );// end of document.ready
 	
 	</script>

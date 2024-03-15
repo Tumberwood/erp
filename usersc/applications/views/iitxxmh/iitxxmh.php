@@ -59,12 +59,13 @@
 		var edtiitxxmh, tbliitxxmh, show_deleted_iitxxmh = 0, id_iitxxmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
-
 		var id_ftxxxmh_old = 0;
 		
+		// get tableRelation
+		tableRelation('iitxxmh');
+
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN iitxxmh
 			edtiitxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iitxxmh/iitxxmh.php",
@@ -204,7 +205,6 @@
 				edtiitxxmh.enable();
 			} );
 
-			//start datatables
 			tbliitxxmh = $('#tbliitxxmh').DataTable( {
 				ajax: {
 					url: "../../models/iitxxmh/iitxxmh.php",
@@ -276,6 +276,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tbliitxxmh);
 			} );
+
+			// END iitxxmh
 			
 		} );// end of document.ready
 	

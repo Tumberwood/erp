@@ -59,10 +59,11 @@
 		var edtiibxxmh, tbliibxxmh, show_deleted_iibxxmh = 0, id_iibxxmh;
 		// ------------- end of default variable
 
-		is_need_generate_kode = 1, is_master_table = 1;
+		// get tableRelation
+		tableRelation('iibxxmh');
 		
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN iibxxmh
 			edtiibxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iibxxmh/iibxxmh.php",
@@ -185,7 +186,6 @@
 				edtiibxxmh.enable();
 			} );
 
-			//start datatables
 			tbliibxxmh = $('#tbliibxxmh').DataTable( {
 				ajax: {
 					url: "../../models/iibxxmh/iibxxmh.php",
@@ -245,7 +245,6 @@
 				transaction_state   = iibxxmh_data.transaction_state;
 				approval_state   	= iibxxmh_data.approval_state;
 				is_nextprocess 		= iibxxmh_data.is_nextprocess;
-				is_jurnal      		= iibxxmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tbliibxxmh);
@@ -258,6 +257,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tbliibxxmh);
 			} );
+
+			// END iibxxmh
 			
 		} );// end of document.ready
 	
