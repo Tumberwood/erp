@@ -59,11 +59,13 @@
 		var edtiwhxxmh, tbliwhxxmh, show_deleted_iwhxxmh = 0, id_iwhxxmh;
 		// ------------- end of default variable
 
-		is_master_table = 1;
 		id_iwhctmh_old = 0, id_gbrxxmh_old = 0;
+
+		// get tableRelation
+		tableRelation('iwhxxmh');
 		
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN iwhxxmh
 			edtiwhxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/iwhxxmh/iwhxxmh.php",
@@ -265,7 +267,6 @@
 				edtiwhxxmh.enable();
 			} );
 
-			//start datatables
 			tbliwhxxmh = $('#tbliwhxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -349,7 +350,6 @@
 				transaction_state   = iwhxxmh_data.transaction_state;
 				approval_state   	= iwhxxmh_data.approval_state;
 				is_nextprocess 		= iwhxxmh_data.is_nextprocess;
-				is_jurnal      		= iwhxxmh_data.is_jurnal;
 
 				id_iwhctmh_old = iwhxxmh_data.id_iwhctmh;
 				id_gbrxxmh_old = iwhxxmh_data.id_gbrxxmh;
@@ -366,6 +366,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tbliwhxxmh);
 			} );
+			
+			// END iwhxxmh
 			
 		} );// end of document.ready
 	
