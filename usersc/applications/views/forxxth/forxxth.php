@@ -101,12 +101,14 @@
 	var edtforaktd, tblforaktd, show_deleted_foraktd = 0, id_foraktd;
 	// ------------- end of default variable
 
-	is_need_generate_kode = 1, is_need_approval = 1, is_need_jurnal = 1;
 	var id_aakxxmh_kasbank_old = 0;
 	var id_aakxxmh_old = 0;
 
+	// get tableRelation
+	tableRelation('forxxth');
+
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN forxxth
 		edtforxxth = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/forxxth/forxxth.php",
@@ -269,7 +271,6 @@
 			edtforxxth.enable();
 		} );
 		
-		//start datatables
 		tblforxxth = $('#tblforxxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -349,7 +350,7 @@
 		} );
 
 		tblforxxth.searchPanes.container().appendTo('#spforxxth');
-			tblforxxth.searchBuilder.container().appendTo( '#sbforxxth' );
+		tblforxxth.searchBuilder.container().appendTo( '#sbforxxth' );
 		
 		tblforxxth.on( 'init', function () {
 			// atur hak akses
@@ -365,7 +366,6 @@
 			transaction_state   = forxxth_data.transaction_state;
 			approval_state   	= forxxth_data.approval_state;
 			is_nextprocess 		= forxxth_data.is_nextprocess;
-			is_jurnal      		= forxxth_data.is_jurnal;
 
 			id_aakxxmh_kasbank_old = forxxth_data.id_aakxxmh;
 			
@@ -385,9 +385,9 @@
 			CekDeselectHeaderHD(tblforxxth, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
+		// END forxxth
 
-		//start datatables editor
+		// BEGIN foraktd
 		edtforaktd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/forxxth/foraktd.php",
@@ -541,7 +541,6 @@
 			edtforaktd.enable();
 		} );
 		
-		//start datatables
 		tblforaktd = $('#tblforaktd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -641,7 +640,8 @@
 			CekDeselectDetailHD(tblforxxth, tblforaktd );
 		} );
 
-// --------- end _detail --------------- //		
+		// END foraktd
+
 	} );// end of document.ready
 	
 </script>

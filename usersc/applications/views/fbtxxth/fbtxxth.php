@@ -61,11 +61,13 @@
 		// ------------- default variable, do not erase
 		var edtfbtxxth, tblfbtxxth, show_deleted_fbtxxth = 0, id_fbtxxth;
 		// ------------- end of default variable
-		is_need_generate_kode = 1, is_need_approval = 1, is_need_jurnal = 1;
 		id_aakxxmh_asal_old = 0, id_aakxxmh_tujuan_old = 0;
+
+		// get tableRelation
+		tableRelation('fbtxxth');
 		
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN fbtxxth
 			edtfbtxxth = new $.fn.dataTable.Editor( {
 				formOptions: {
 					main: {
@@ -287,7 +289,6 @@
 				edtfbtxxth.enable();
 			} );
 
-			//start datatables
 			tblfbtxxth = $('#tblfbtxxth').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -386,7 +387,6 @@
 				transaction_state   = fbtxxth_data.transaction_state;
 				approval_state   	= fbtxxth_data.approval_state;
 				is_nextprocess 		= fbtxxth_data.is_nextprocess;
-				is_jurnal      		= fbtxxth_data.is_jurnal;
 
 				id_aakxxmh_asal_old = fbtxxth_data.id_aakxxmh_asal;
 				id_aakxxmh_tujuan_old = fbtxxth_data.id_aakxxmh_tujuan;
@@ -404,6 +404,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblfbtxxth);
 			} );
+			
+			// END fbtxxth
 			
 		} );// end of document.ready
 	
