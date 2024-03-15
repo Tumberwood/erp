@@ -62,6 +62,7 @@
         'status_code'           => $status_code,
         'message'               => $message,
         'type_message'          => $type_message,
+        'tbl_name'              => $tbl_name,
         'is_master_table'       => $is_master_table,
         'is_need_approval'      => $is_need_approval,
         'is_need_generate_kode' => $is_need_generate_kode
