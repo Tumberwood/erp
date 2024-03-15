@@ -58,11 +58,15 @@
 		// ------------- default variable, do not erase
 		var edtaakxxmh, tblaakxxmh, show_deleted_aakxxmh = 0, id_aakxxmh;
 		// ------------- end of default variable
-		is_master_table = 1;
+		
 		id_aakxxmh_parent_old = 0;
 
+		// get tableRelation
+		tableRelation('aakxxmh');
+
 		$(document).ready(function() {
-			//start datatables editor
+			
+			// BEGIN aakxxmh
 			edtaakxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/aakxxmh/aakxxmh.php",
@@ -215,7 +219,6 @@
 				edtaakxxmh.enable();
 			} );
 
-			//start datatables
 			tblaakxxmh = $('#tblaakxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -297,7 +300,6 @@
 				transaction_state   = aakxxmh_data.transaction_state;
 				approval_state   	= aakxxmh_data.approval_state;
 				is_nextprocess 		= aakxxmh_data.is_nextprocess;
-				is_jurnal      		= aakxxmh_data.is_jurnal;
 				
 				id_aakxxmh_parent_old = aakxxmh_data.id_aakxxmh_parent;
 
@@ -313,6 +315,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblaakxxmh);
 			} );
+			
+			// END aakxxmh
 			
 		} );// end of document.ready
 	
