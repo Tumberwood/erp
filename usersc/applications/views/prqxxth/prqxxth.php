@@ -642,7 +642,7 @@
 			CekDeselectDetailHD(tblprqxxth, tblprqittd );
 		} );
 
-		//start datatables
+		// END prqittd
 		
 	} );// end of document.ready
 	

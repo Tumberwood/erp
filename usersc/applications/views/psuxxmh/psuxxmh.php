@@ -174,16 +174,16 @@
 	var edtpsubnmd, tblpsubnmd, show_deleted_psubnmd = 0, id_psubnmd;
 	var edtpsuctmd, tblpsuctmd, show_deleted_psuctmd = 0, id_psuctmd;
 	// ------------- end of default variable
-
-	is_master_table = 1;
-	is_need_generate_kode = 1;
 	
 	var id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0;
 	var id_fbnxxmh_old = 0;
 
+	// get tableRelation
+	tableRelation('psuxxmh');
+
 	$(document).ready(function() {
 
-		//start datatables editor
+		// BEGIN psuxxmh
 		edtpsuxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/psuxxmh/psuxxmh.php",
@@ -518,7 +518,6 @@
 			edtpsuxxmh.enable();
 		} );
 		
-		//start datatables
 		tblpsuxxmh = $('#tblpsuxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -582,7 +581,7 @@
 		} );
 
 		tblpsuxxmh.searchPanes.container().appendTo('#sppsuxxmh');
-			tblpsuxxmh.searchBuilder.container().appendTo( '#sbpsuxxmh' );
+		tblpsuxxmh.searchBuilder.container().appendTo( '#sbpsuxxmh' );
 		
 		tblpsuxxmh.on( 'init', function () {
 			// atur hak akses
@@ -619,9 +618,9 @@
 			CekDeselectHeaderHD(tblpsuxxmh, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
+		// END psuxxmh
 
-		//start datatables editor
+		// BEGIN psubnmd
 		edtpsubnmd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/psuxxmh/psubnmd.php",
@@ -788,7 +787,6 @@
 			edtpsubnmd.enable();
 		} );
 		
-		//start datatables
 		tblpsubnmd = $('#tblpsubnmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -880,10 +878,9 @@
 			CekDeselectDetailHD(tblpsuxxmh, tblpsubnmd );
 		} );
 
-// --------- end _detail --------------- //		
-// --------- start _detail --------------- //
+		// END psubnmd
 
-		//start datatables editor
+		// BEGIN psuctmd
 		edtpsuctmd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/psuxxmh/psuctmd.php",
@@ -1007,7 +1004,6 @@
 			edtpsuctmd.enable();
 		} );
 		
-		//start datatables
 		tblpsuctmd = $('#tblpsuctmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -1096,7 +1092,8 @@
 			CekDeselectDetailHD(tblpsuxxmh, tblpsuctmd );
 		} );
 
-// --------- end _detail --------------- //		
+		// END psuctmd
+		
 	} );// end of document.ready
 	
 </script>

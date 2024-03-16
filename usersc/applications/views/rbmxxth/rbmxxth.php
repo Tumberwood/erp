@@ -114,11 +114,12 @@
 	var edtrbmwptd, tblrbmwptd, show_deleted_rbmwptd = 0, id_rbmwptd;
 	// ------------- end of default variable
 
-	is_need_generate_kode = 1;
-
 	id_iimxxmh_old = 0, revisi_ke = 0;
 	id_iimxxmh_rm = 0, id_iimxxmh_rm_old = 0, id_iumxxmh_unit_old = 0;
 	id_rwpxxmh_old = 0;
+
+	// get tableRelation
+	tableRelation('rbmxxth');
 
 	$(document).ready(function() {
 		// BEGIN rbmxxth
