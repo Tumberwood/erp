@@ -57,6 +57,9 @@
 		var edtgaptpmh, tblgaptpmh, show_deleted_gaptpmh = 0, id_gaptpmh;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('gaptpmh');
+
 		$(document).ready(function() {
 			//start datatables editor
 			edtgaptpmh = new $.fn.dataTable.Editor( {
@@ -156,7 +159,6 @@
 				edtgaptpmh.enable();
 			} );
 
-			//start datatables
 			tblgaptpmh = $('#tblgaptpmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -237,7 +239,6 @@
 				transaction_state = gaptpmh_data.transaction_state;
 				approval_state    = gaptpmh_data.approval_state;
 				is_nextprocess    = gaptpmh_data.is_nextprocess;
-				is_jurnal         = gaptpmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tblgaptpmh);
@@ -250,6 +251,7 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblgaptpmh);
 			} );
+			// END gaptpmh
 			
 		} );// end of document.ready
 	

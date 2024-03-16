@@ -58,8 +58,12 @@
 		var id_iumxxmh_berat_old = 0;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('ggsxxsh');
+
 		$(document).ready(function() {
-			//start datatables editor
+			
+			// BEGIN ggsxxsh
 			edtggsxxsh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/core/ggsxxsh.php",
@@ -222,7 +226,6 @@
 				edtggsxxsh.field('ggsxxsh.finish_at').val(finish_at);
 			});
 			
-			//start datatables
 			tblggsxxsh = $('#tblggsxxsh').DataTable( {
 				ajax: {
 					url: "../../models/core/ggsxxsh.php",
@@ -273,16 +276,15 @@
 			} );
 			
 			tblggsxxsh.on( 'select', function( e, dt, type, indexes ) {
-				ggsxxsh_data    		= tblggsxxsh.row( { selected: true } ).data().ggsxxsh;
-				id_ggsxxsh      		= ggsxxsh_data.id;
-				id_transaksi_h 		= id_ggsxxsh; // dipakai untuk general
-				id_transaksi_log	= id_ggsxxsh; // dipakai untuk general
-				transaction_state   = ggsxxsh_data.transaction_state;
-				approval_state   	= ggsxxsh_data.approval_state;
-				is_nextprocess 		= ggsxxsh_data.is_nextprocess;
-				is_jurnal      		= ggsxxsh_data.is_jurnal;
-				id_iumxxmh_berat_old      		= ggsxxsh_data.id_iumxxmh_berat;
-				id_iumxxmh_panjang_old   		= ggsxxsh_data.id_iumxxmh_panjang;
+				ggsxxsh_data           = tblggsxxsh.row( { selected: true } ).data().ggsxxsh;
+				id_ggsxxsh             = ggsxxsh_data.id;
+				id_transaksi_h         = id_ggsxxsh;                                           // dipakai untuk general
+				id_transaksi_log       = id_ggsxxsh;                                           // dipakai untuk general
+				transaction_state      = ggsxxsh_data.transaction_state;
+				approval_state         = ggsxxsh_data.approval_state;
+				is_nextprocess         = ggsxxsh_data.is_nextprocess;
+				id_iumxxmh_berat_old   = ggsxxsh_data.id_iumxxmh_berat;
+				id_iumxxmh_panjang_old = ggsxxsh_data.id_iumxxmh_panjang;
 
 				// atur hak akses
 				CekSelectHeaderH(tblggsxxsh);
@@ -297,6 +299,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblggsxxsh);
 			} );
+			
+			// END ggsxxsh
 			
 		} );// end of document.ready
 	

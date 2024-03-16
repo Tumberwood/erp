@@ -103,7 +103,7 @@
 
 
 <!-- BEGIN datatables here -->
-<script type="text/javascript">
+	<script type="text/javascript">
 		// ------------- default variable, do not erase
 		var edtudpxxsh, tbludpxxsh, show_deleted_udpxxsh = 0, id_udpxxsh;
 		var edtudpbrsd, tbludpbrsd, show_deleted_udpbrsd = 0, udpbrsd;
@@ -113,10 +113,13 @@
         var id_gbrxxmh_old = 0;
         var id_users_old = 0;
         var id_users;
+
+		// get tableRelation
+		tableRelation('udpxxsh');
 		
 		$(document).ready(function() {
         
-            // start header
+            // BEGIN udpxxsh
 			edtudpxxsh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/core/udpxxsh.php",
@@ -328,7 +331,6 @@
 				transaction_state   = udpxxsh_data.transaction_state;
 				approval_state   	= udpxxsh_data.approval_state;
 				is_nextprocess 		= udpxxsh_data.is_nextprocess;
-				is_jurnal      		= udpxxsh_data.is_jurnal;
 
                 id_users       = udpxxsh_data.id_users;
                 id_users_old   = udpxxsh_data.id_users;
@@ -354,10 +356,9 @@
                 tblucudasd.button( 'btnRefreshPages:name' ).disable();
 			} );
 
+			// END udpxxsh
 			
-            // end header
-			
-            // start detail cabang
+            // BEGIN udpbrsd
             edtudpbrsd = new $.fn.dataTable.Editor( {
                 ajax: {
                     url: "../../models/core/udpbrsd.php",
@@ -526,10 +527,9 @@
 				CekDeselectDetailHD(tbludpxxsh, tbludpbrsd );
 			} );
 
-            
-            // end detail cabang
+			// END udpbrsd
 
-            // start detail crud
+            // BEGIN ucudasd
             edtucudasd = new $.fn.dataTable.Editor( {
                 ajax: {
                     url: "../../models/core/ucudasd.php",
@@ -779,7 +779,7 @@
 				// atur hak akses
 				CekDeselectDetailHD(tbludpxxsh, tblucudasd );
 			} );
-            // end detail crud
+            // END ucudasd
 			
 		} );// end of document.ready
 	

@@ -96,8 +96,11 @@
 	var id_gtbrlsh_old = 0, id_gaptpmh_old = 0;
 	var id_users_old = 0;
 
+	// get tableRelation
+	tableRelation('gapxxsh');
+
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN gapxxsh
 		edtgapxxsh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/gapxxsh/gapxxsh.php",
@@ -272,7 +275,6 @@
 			edtgapxxsh.enable();
 		} );
 		
-		//start datatables
 		tblgapxxsh = $('#tblgapxxsh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -374,9 +376,9 @@
 			CekDeselectHeaderHD(tblgapxxsh, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
+		// END gapxxsh
 
-		//start datatables editor
+		// BEGIN gapdusd
 		edtgapdusd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/gapxxsh/gapdusd.php",
@@ -516,7 +518,6 @@
 			edtgapdusd.enable();
 		} );
 		
-		//start datatables
 		tblgapdusd = $('#tblgapdusd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -612,6 +613,8 @@
 			// atur hak akses
 			CekDeselectDetailHD(tblgapxxsh, tblgapdusd );
 		} );
+
+		// END gapdusd
 
 // --------- end _detail --------------- //		
 	} );// end of document.ready
