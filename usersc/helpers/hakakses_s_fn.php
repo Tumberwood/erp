@@ -19,8 +19,9 @@
 
     $s_arr_ha_gbrxxmh = [0];
     $s_str_arr_ha_gbrxxmh = (0);
-    $s_id_gcpxxmh = 0;
-    $s_id_gbrxxmh = 0;
+    $s_id_gcpxxmh = 0;  // Company
+    $s_id_gbrxxmh = 0;  // Branch
+    $s_id_hodxxmh = 0;  // Department
 
     try{
         $s_id_users = $user->data()->id;
@@ -41,8 +42,10 @@
         $s_username = $rs_users['username'];
         
         if($s_id_users < 101){
+            // Jika Tim Solusi Indonesia
+            $s_where_data_permission = 0;
 
-            // BEGIN gcpxxmh
+            // BEGIN gcpxxmh default
             $qs_gcpxxmh = $db
                 ->raw()
                 ->bind(':transaction_state',1)
@@ -63,9 +66,9 @@
                     $s_id_gcpxxmh = $rs_gcpxxmh['id_gcpxxmh'];
                 }
             }
-            // END gcpxxmh
+            // END gcpxxmh default
 
-            // BEGIN gbrxxmh
+            // BEGIN gbrxxmh default
             $qs_gbrxxmh = $db
                 ->raw()
                 ->bind(':transaction_state',1)
@@ -86,9 +89,11 @@
                     $s_id_gbrxxmh = $rs_gbrxxmh['id_gbrxxmh'];
                 }
             }
-            // END gbrxxmh
+            // END gbrxxmh default
 
         }else{
+            // Jika selain Tim Solusi Indonesia
+
             $qs_udpxxsh = $db
                 ->raw()
                 ->bind(':s_id_users', $s_id_users)
@@ -104,7 +109,7 @@
                 ');
             $rs_udpxxsh     = $qs_udpxxsh->fetch();
 
-            $s_username = $rs_udpxxsh['username'];
+            // $s_username = $rs_udpxxsh['username'];
         
             if ( empty($rs_udpxxsh) ) {
                 // belum dibuatkan hak akses
@@ -175,6 +180,8 @@
     $hakakses = array(
         's_id_users' => $s_id_users,
         's_username' => $s_username,
+        
+        's_where_data_permission' => $s_where_data_permission,
 
         // BEGIN optional
         's_id_gcpxxmh'         => $s_id_gcpxxmh,
