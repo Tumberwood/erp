@@ -1,5 +1,13 @@
-/************ README **********
- * Status Transaksi transaction_state
+/**
+ * Hak Akses CRUD
+ * Halaman ini digunakan untuk mengatur button enable disable berdasarkan aturan tertentu
+ * Aturan yang digunakan
+ *  - Status Transaksi transaction_state
+ *  - Status Approval approval_state
+ *  - Hak akses CUDA Create Update Delete Approve
+ * 
+ * Status Transaksi
+ * Status Transaksi didapatkan dari nilai transaction_state yang terdapat pada masing-masing table
  * +------+----------------+--------+------+---------+----------+----------------------------+
  * | Kode | Status         | Cancel | Edit | Next    | Approval | Notes                      |
  * |      |                |        |      | Process |          |                            |
@@ -11,24 +19,27 @@
  * | 9    | Closed         | No     | No   | No      | Already  | Doc Selesai                |
  * +------+----------------+--------+------+---------+---------------------------------------+
  * 
- * Status Approval approval_state
- * Approval ditandai dengan variable is_need_approval
- * Jika is_need_approval == 1, maka data tersebut harus di approve
- * Default = 0
- * +------+----------------+--------+------+------------------------------+
- * | Kode | Status         | Cancel | Edit |                              |
- * +------+----------------+--------+------+------------------------------+
- * |- 9   | Void           | No     | No   |                              |
- * | -1   | Cancel Approve | Yes    | Yes  |                              |
- * | 0    | Open           | No     | Yes  |                              |
- * | 1    | Approved       | Yes    | No   | Approval ini bisa multilevel |
- * +------+----------------+--------+------+------------------------------+
+ * Status Approval
+ * Status Transaksi didapatkan dari nilai approval_state yang terdapat pada masing-masing table
+ * Aturan perlu menggunakan approval atau tidak, didefinisikan di table gtbrlsh.is_need_approval
+ * +------+----------------+--------+------+--------------------------------+
+ * | Kode | Status         | Cancel | Edit |                                |
+ * +------+----------------+--------+------+--------------------------------+
+ * |- 9   | Void           | No     | No   |                                |
+ * | -1   | Cancel Approve | Yes    | Yes  |                                |
+ * | 0    | Open           | No     | Yes  |                                |
+ * | 1    | Approved       | Yes    | No   | Approval ini bisa multilevel   |
+ * | 9    | Final Approval | Yes    | No   | Penanda sudah approval terakhir|
+ * +------+----------------+--------+------+--------------------------------+
  * 
- * Variable Terkait
+ * Hak akses CUDA
+ * Diatur per id_users, pada table ucudasd
  * hak_c        : hak akses Create dan Confirm data
  * hak_u        : hak akses Update data
  * hak_d        : hak akses Remove, Non Aktif, Reactivate data
  * hak_a        : hak akses Approve, Cancel Approve, Void data
+ * 
+ * Variable lain yang berpengaruh
  * cek_c_detail : digunakan untuk menentukan apakah table detail wajib diisi minimal 1 baris. 
  *                variable ini dipasang di tbl_detail on draw
  *                0: tidak wajib ada baris datanya
@@ -41,17 +52,30 @@ var status_select;
 var arr_is_valid_cek_detail = [];
 var c_is_valid_cek_detail = 0;
 
-// ubah ini menjadi 1 untuk menampilkan all console log terkait file ini
-var is_debug_hakakses_hd = 0;
+/**
+ * Digunakan untuk membantu menampilkan console.log untuk event-event di file ini
+ * Setting on off nya pada ggsxxsh.is_debug_hakakses_hd
+ */
+var is_debug_hakakses_hd;
+$.ajax( {
+    url: '../../../helpers/fn_debug_hakakses.php',
+    dataType: 'json',
+    type: 'POST',
+    data: {},
+    success: function ( json ) {
+        is_debug_hakakses_hd = json.data.is_debug_hakakses_hd
+    }
+} );
 
+
+/**
+ * ReloadTableDetail
+ * Digunakan untuk reload semua table detail
+ */
 function ReloadTableDetail(){
-    /**
-     * Digunakan untuk reload semua table detail
-     */
-
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
-        console.log('ReloadTableDetail');
+        console.log('-- ReloadTableDetail --');
     }
 
     for (let i = 0; i < tbl_details.length; i++) {
@@ -59,13 +83,14 @@ function ReloadTableDetail(){
     }
 };
 
+/**
+ * CekBtnNoAction
+ * Digunakan untuk show hide No Action Needed pada tabel header
+ * jika ada tombol yang bisa show / enable, maka c_btnSetAction == 1
+ * dan btnNoAction akan di hide
+ * @param {Object} tbl variable tbl datatables
+ */
 function CekBtnNoAction(tbl){
-    /**
-     * Digunakan untuk show hide No Action Needed pada tabel header
-     * jika ada tombol yang bisa show / enable, maka c_btnSetAction == 1
-     * dan btnNoAction akan di hide
-     */
-
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
         console.log('CekBtnNoAction: ' + c_btnSetAction);
@@ -83,15 +108,20 @@ function CekBtnNoAction(tbl){
     }
 }
 
+/**
+ * CekBtnNoActionD
+ * Digunakan untuk show hide No Action Needed
+ * jika ada tombol yang bisa show / enable, maka c_btnSetActionD == 1
+ * btnNoActionD akan di hide
+ * @param {Object} tbl_header variable tbl header datatables
+ */
 function CekBtnNoActionD(tbl_header){
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
-        console.log('CekBtnNoActionD ' + c_btnSetActionD);
+        console.log('-- CekBtnNoActionD --');
+        console.log('c_btnSetActionD: ' + c_btnSetActionD);
     }
     
-    // untuk show hide No Action Needed
-    // jika ada tombol yang bisa show / enable, maka c_btnSetActionD == 1
-    // btnNoActionD akan di hide
     if(c_btnSetActionD == 0 ){
         tbl_header.button( 'btnNoActionD:name' )
             .nodes()
@@ -104,10 +134,24 @@ function CekBtnNoActionD(tbl_header){
     }
 }
 
+/**
+ * CekBtnNoApprove
+ * Digunakan untuk show hide No Approve Needed
+ * jika ada tombol yang bisa show / enable, maka c_btnSetApprove == 1
+ * btnNoApprove akan di hide
+ * @param {*} tbl_header variable tbl header datatables
+ * 
+ * IMPORTANT NOTES
+ * Update 15 Maret 2024
+ * Tombol Approval dipindahkan hanya di menu approval list saja
+ * Seharusnya function ini sudah tidak diperlukan lagi
+ */
 function CekBtnNoApprove(tbl_header){
-    // untuk show hide No Approve Needed
-    // jika ada tombol yang bisa show / enable, maka c_btnSetApprove == 1
-    // btnNoApprove akan di hide
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('-- CekBtnNoApprove --');
+        console.log('c_btnSetApprove: ' + c_btnSetApprove);
+    }
     if(c_btnSetApprove == 0 ){
         tbl_header.button( 'btnNoApprove:name' )
             .nodes()
@@ -121,21 +165,6 @@ function CekBtnNoApprove(tbl_header){
     
 }
 
-function CekApproval(nama_tabel, id_transaksi){
-    $.ajax( {
-        url: '../../../helpers/tr_fn_approve_cek.php',
-        dataType: 'json',
-        type: 'POST',
-        data: {
-            nama_tabel: nama_tabel,
-            id_transaksi: id_transaksi
-        },
-        success: function ( json ) {
-            console.log(json);
-        }
-    } );
-}
-
 /**
  * CekInitHeaderH
  * Digunakan untuk inisiasi button table di halaman yang hanya berisi table header saja
@@ -146,6 +175,14 @@ function CekApproval(nama_tabel, id_transaksi){
 function CekInitHeaderH(tbl_header){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
+
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('-- CekInitHeaderH --');
+        console.log('c_btnSetAction ' + c_btnSetAction);
+        console.log('c_btnSetApprove ' + c_btnSetApprove);
+        console.log('hak_c ' + hak_c);
+    }
 
     // BEGIN btnCreate
     if(hak_c == 1){
@@ -218,8 +255,6 @@ function CekInitHeaderH(tbl_header){
         .css( 'display', 'none' );
     // END Set Approve
 
-    CekBtnNoApprove(tbl_header);
-
 };
 
 /**
@@ -252,6 +287,7 @@ function CekInitHeaderH(tbl_header){
 function CekSelectHeaderH(tbl_header){
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
+        console.log('-- CekSelectHeaderH --');
         console.log('is_defaultprogram ' + is_defaultprogram);
         console.log('is_master_table ' + is_master_table);
         console.log('is_nextprocess ' + is_nextprocess);
@@ -517,7 +553,6 @@ function CekSelectHeaderH(tbl_header){
         // END btnVoid
 
     }
-    CekBtnNoApprove(tbl_header);
     
 };
 
@@ -527,11 +562,17 @@ function CekSelectHeaderH(tbl_header){
  * Dipanggil saat event tabel on deselect
  * Digunakan untuk
  *  - disable btnCreate | btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose | btnView | btnLog , di halaman yang hanya berisi table header saja
- * @param {object} tbl_header 
+ * @param {object} tbl_header variable tabel header datatables
  */
 function CekDeselectHeaderH(tbl_header){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
+
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('-- CekDeselectHeaderH --');
+        console.log('hak_c ' + hak_c);
+    }
 
     // BEGIN Set Action
     // BEGIN btnCreate
@@ -604,16 +645,30 @@ function CekDeselectHeaderH(tbl_header){
         .nodes()
         .css( 'display', 'none' );
 
-    CekBtnNoApprove(tbl_header);
     // END Set Approve
 
 };
 // END Header Only
 
 // BEGIN Header Detail
+
+/**
+ * CekInitHeaderHD
+ * Digunakan untuk melakukan pengecekan saat inisiasi tabel header detail
+ * @param {Object} tbl_header variable tabel header datatables
+ * @param {Object} tbl_details variable tabel detail datatables
+ */
 function CekInitHeaderHD(tbl_header, tbl_details){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
+
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('-- CekInitHeaderHD --');
+        console.log('hak_c: ' + hak_c);
+        console.log('c_btnSetAction: ' + c_btnSetAction);
+        console.log('c_btnSetApprove: ' + c_btnSetApprove);
+    }
 
     arr_is_valid_cek_detail = [];
     is_valid_cek_detail_final = 0;
@@ -744,7 +799,7 @@ function CekInitHeaderHD(tbl_header, tbl_details){
                 .nodes()
                 .css( 'display', 'none' );
         }
-        CekBtnNoApprove(tbl_header);
+        
         // END Set Approve
 
     // BEGIN looping semua table detail
@@ -785,10 +840,26 @@ function CekInitHeaderHD(tbl_header, tbl_details){
 
 };
 
+/**
+ * CekSelectHeaderHD
+ * Digunakan untuk melakukan pengecekan saat table header pada transaksi header detail di select
+ * @param {Object} tbl_header 
+ * @param {Object} tbl_details 
+ */
 function CekSelectHeaderHD(tbl_header, tbl_details){
     c_btnSetAction = 0;
     c_btnSetApprove = 0;
     c_btnSetActionD = 0;
+
+    // debug purpose
+    if (is_debug_hakakses_hd == 1) {
+        console.log('CekSelectHeaderHD');
+        console.log('is_defaultprogram: ' + is_defaultprogram);
+        console.log('is_master_table: ' + is_master_table);
+        console.log('transaction_state: ' + transaction_state);
+        console.log('approval_state: ' + approval_state);
+        console.log('hak_u: ' + hak_u);
+    }
     
     // BEGIN Set Action
     // BEGIN btnEdit
@@ -965,7 +1036,7 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
             .nodes()
             .css( 'display', 'none' );
     }
-    CekBtnNoApprove(tbl_header);
+    
     // END Set Approve
 
     // BEGIN detail
@@ -1104,8 +1175,6 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
         .css( 'display', 'none' );
     // END Set Approve
 
-    CekBtnNoApprove(tbl_header);
-
     // BEGIN looping semua table detail
     for (let i = 0; i < tbl_details.length; i++) {
         tbl_details[i].button( 'btnCreate:name' )
@@ -1117,6 +1186,12 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
     // END looping semua table detail
 };
 
+/**
+ * CekDrawDetailHD
+ * @param {*} tbl_header 
+ * @param {*} tbl_detail 
+ * @param {*} nama_tabel 
+ */
 function CekDrawDetailHD(tbl_header, tbl_detail, nama_tabel ){
     c_btnSetAction = 0;
 
@@ -1171,6 +1246,10 @@ function CekDrawDetailHD(tbl_header, tbl_detail, nama_tabel ){
     }
 };
 
+/**
+ * CekDrawDetailHDFinal
+ * @param {*} tbl_header 
+ */
 function CekDrawDetailHDFinal(tbl_header){
 
     // BEGIN btnConfirm
@@ -1192,6 +1271,11 @@ function CekDrawDetailHDFinal(tbl_header){
     
 };
 
+/**
+ * CekSelectDetailHD
+ * @param {*} tbl_header 
+ * @param {*} tbl_detail 
+ */
 function CekSelectDetailHD(tbl_header, tbl_detail ){
 // function CekSelectDetailHD( tbl_detail ){
     c_btnSetActionD = 0;
@@ -1272,6 +1356,11 @@ function CekSelectDetailHD(tbl_header, tbl_detail ){
     CekBtnNoActionD(tbl_detail);
 };
 
+/**
+ * CekDeselectDetailHD
+ * @param {*} tbl_header 
+ * @param {*} tbl_detail 
+ */
 function CekDeselectDetailHD(tbl_header, tbl_detail ){
     // BEGIN btnEdit
     tbl_detail.button( 'btnEdit:name' )
