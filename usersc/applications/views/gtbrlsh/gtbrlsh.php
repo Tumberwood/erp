@@ -108,6 +108,46 @@
 						name: "gtbrlsh.tbldetails",
 					},
 					{
+						label: "Master Table",
+						name: "gtbrlsh.is_master_table",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Yes", "value": 1 },
+							{ "label": "No", "value": 0 }
+						]
+					},
+					{
+						label: "Perlu Approval",
+						name: "gtbrlsh.is_need_approval",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Yes", "value": 1 },
+							{ "label": "No", "value": 0 }
+						]
+					},
+					{
+						label: "Auto Generate Kode",
+						name: "gtbrlsh.is_need_generate_kode",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Yes", "value": 1 },
+							{ "label": "No", "value": 0 }
+						]
+					},
+					{
+						label: "Menggunakan Jurnal",
+						name: "gtbrlsh.is_need_jurnal",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Yes", "value": 1 },
+							{ "label": "No", "value": 0 }
+						]
+					},
+					{
 						label: "Keterangan",
 						name: "gtbrlsh.keterangan",
 						type: "textarea"

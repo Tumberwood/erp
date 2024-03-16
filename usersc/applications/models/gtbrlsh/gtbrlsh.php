@@ -41,7 +41,10 @@
 			Field::inst( 'gtbrlsh.is_defaultprogram' ),
 			Field::inst( 'gtbrlsh.tblheader' ),
 			Field::inst( 'gtbrlsh.tbldetails' ),
-			Field::inst( 'gtbrlsh.is_master' )
+			Field::inst( 'gtbrlsh.is_master_table' ),
+			Field::inst( 'gtbrlsh.is_need_approval' ),
+			Field::inst( 'gtbrlsh.is_need_generate_kode' ),
+			Field::inst( 'gtbrlsh.is_need_jurnal' )
 		);
 	
 	// do not erase
