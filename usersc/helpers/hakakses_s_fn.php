@@ -95,8 +95,10 @@
                 ->exec('
                     SELECT 
                         a.id as id,
-                        a.data_permission as data_permission
+                        a.data_permission as data_permission,
+                        b.username as username
                     FROM udpxxsh a
+                    LEFT JOIN users b ON b.id = a.id_users
                     WHERE 
                         a.id_users = :s_id_users
                 ');
