@@ -112,6 +112,12 @@
 				
 				if(action == 'create'){
 					tblhodxxmh.rows().deselect();
+					edthodxxmh.field('hodxxmh.kode').enable();
+					edthodxxmh.field('hodxxmh.nama').enable();
+				}else if(action == 'edit'){
+					edthodxxmh.field('hodxxmh.kode').disable();
+					edthodxxmh.field('hodxxmh.nama').disable();
+
 				}
 			});
 
