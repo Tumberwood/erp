@@ -58,8 +58,12 @@
 		var edtwloctmh, tblwloctmh, show_deleted_wloctmh = 0, id_wloctmh;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('wloctmh');
+
 		$(document).ready(function() {
-			//start datatables editor
+			
+			// BEGIN wloctmh
 			edtwloctmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/wloctmh/wloctmh.php",
@@ -171,7 +175,6 @@
 				edtwloctmh.enable();
 			} );
 
-			//start datatables
 			tblwloctmh = $('#tblwloctmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -266,6 +269,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblwloctmh);
 			} );
+
+			// END wloctmh
 			
 		} );// end of document.ready
 	

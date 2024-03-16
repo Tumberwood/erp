@@ -55,9 +55,12 @@
 		// ------------- default variable, do not erase
 		var edtwlpxxmh, tblwlpxxmh, show_deleted_wlpxxmh = 0, id_wlpxxmh;
 		// ------------- end of default variable
+
+		// get tableRelation
+		tableRelation('wlpxxmh');
 		
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN wlpxxmh
 			edtwlpxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/wlpxxmh/wlpxxmh.php",
@@ -150,7 +153,6 @@
 				edtwlpxxmh.enable();
 			} );
 
-			//start datatables
 			tblwlpxxmh = $('#tblwlpxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -242,6 +244,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblwlpxxmh);
 			} );
+			
+			// END wlpxxmh
 			
 		} );// end of document.ready
 	

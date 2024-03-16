@@ -58,6 +58,9 @@
 		var edtwpmxxmh, tblwpmxxmh, show_deleted_wpmxxmh = 0, id_wpmxxmh;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('wpmxxmh');
+
 		$(document).ready(function() {
 			//start datatables editor
 			edtwpmxxmh = new $.fn.dataTable.Editor( {
@@ -171,7 +174,6 @@
 				edtwpmxxmh.enable();
 			} );
 
-			//start datatables
 			tblwpmxxmh = $('#tblwpmxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -253,7 +255,6 @@
 				transaction_state   = wpmxxmh_data.transaction_state;
 				approval_state   	= wpmxxmh_data.approval_state;
 				is_nextprocess 		= wpmxxmh_data.is_nextprocess;
-				is_jurnal      		= wpmxxmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tblwpmxxmh);
