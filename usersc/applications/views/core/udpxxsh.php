@@ -9,8 +9,9 @@
 <?php
 	$nama_tabel       = 'udpxxsh';
     $nama_tabels_d    = [];
-    $nama_tabels_d[0] = 'udpbrsd';
-    $nama_tabels_d[1] = 'ucudasd';
+    $nama_tabels_d[0] = 'ucudasd';
+    $nama_tabels_d[1] = 'udpbrsd';
+	$nama_tabels_d[2] = 'udpodsd';
 ?>
 
 <!-- begin content here -->
@@ -25,6 +26,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Username</th>
+                                <th>Nama</th>
                                 <th>Akses Data</th>
                                 <th>Keterangan</th>
                             </tr>
@@ -40,11 +42,32 @@
 			<div class="ibox-content">
 				<div class="tabs-container">
 					<ul class="nav nav-tabs" role="tablist">
-						<li><a class="nav-link active" data-toggle="tab" href="#tabudpbrsd">Cabang</a></li>
-						<li><a class="nav-link" data-toggle="tab" href="#tabucudasd"> CRUD</a></li>
+						<li><a class="nav-link active" data-toggle="tab" href="#tabucudasd"> CRUD</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabudpbrsd">Cabang</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabudpodsd">Department</a></li>
 					</ul>
 					<div class="tab-content">
-						<div role="tabpanel" id="tabudpbrsd" class="tab-pane active">
+						<div role="tabpanel" id="tabucudasd" class="tab-pane active">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblucudasd" class="table table-striped table-bordered table-hover" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_udpxxsh</th>
+												<th>Pages</th>
+												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Create dan Confirm">C</th>
+												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Edit / Update">U</th>
+												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Delete">D</th>
+												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Approve, Cancel Approve dan Void">A</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div role="tabpanel" id="tabudpbrsd" class="tab-pane">
 							<div class="panel-body">
 								<table id="tbludpbrsd" class="table table-striped table-bordered table-hover" width="100%">
 									<thead>
@@ -58,25 +81,22 @@
 								</table>
 							</div>
 						</div>
-						<div role="tabpanel" id="tabucudasd" class="tab-pane">
+
+						<div role="tabpanel" id="tabudpodsd" class="tab-pane">
 							<div class="panel-body">
-								<div class="table-responsive">
-									<table id="tblucudasd" class="table table-striped table-bordered table-hover" width="100%">
-										<thead>
-											<tr>
-												<th>ID</th>
-												<th>id_udpxxsh</th>
-												<th>Pages</th>
-												<th>C</th>
-												<th>U</th>
-												<th>D</th>
-												<th>A</th>
-											</tr>
-										</thead>
-									</table>
-								</div>
+								<table id="tbludpodsd" class="table table-striped table-bordered table-hover" width="100%">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>id_udpxxsh</th>
+											<th>Department</th>
+											<th>Keterangan</th>
+										</tr>
+									</thead>
+								</table>
 							</div>
 						</div>
+
 					</div> <!-- END of tab-content -->
 				</div> <!-- END of tabs-container -->
 			</div>
@@ -108,11 +128,12 @@
 		var edtudpxxsh, tbludpxxsh, show_deleted_udpxxsh = 0, id_udpxxsh;
 		var edtudpbrsd, tbludpbrsd, show_deleted_udpbrsd = 0, udpbrsd;
         var edtucudasd, tblucudasd, show_deleted_ucudasd = 0, ucudasd;
+        var edtudpodsd, tbludpodsd, show_deleted_udpodsd = 0, udpodsd;
 		// ------------- end of default variable
 
-        var id_gbrxxmh_old = 0;
-        var id_users_old = 0;
-        var id_users;
+        var id_users_old = 0, id_users;
+        var id_gbrxxmh_old = 0; 
+        var id_hodxxmh_old = 0; 
 
 		// get tableRelation
 		tableRelation('udpxxsh');
@@ -161,7 +182,7 @@
                             allowClear: true,
                             multiple: false,
                             ajax: {
-                                url: "../../models/core/users_fn_opt.php",
+                                url: "../../models/core/users_fn_opt_udpxxsh.php",
                                 dataType: 'json',
                                 data: function (params) {
                                     var query = {
@@ -263,18 +284,19 @@
 						searchPanes:{
 							show: true,
 						},
-						targets: [1,2]
+						targets: [1,2, 3]
 					},
 					{
 						searchPanes:{
 							show: false,
 						},
-						targets: [0,3]
+						targets: [0,4]
 					}
 				],
 				columns: [
 					{ data: "udpxxsh.id",visible:false },
 					{ data: "users.username" },
+					{ data: "users_nama" },
 					{ 
 						data: "udpxxsh.data_permission",
 						render: function (data){
@@ -317,7 +339,7 @@
 
             tbludpxxsh.on( 'init', function () {
 				// atur hak akses
-				tbl_details = [tbludpbrsd, tblucudasd];
+				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd];
 				CekInitHeaderHD(tbludpxxsh, tbl_details);
 
                 tblucudasd.button( 'btnRefreshPages:name' ).disable();
@@ -336,7 +358,7 @@
                 id_users_old   = udpxxsh_data.id_users;
 				
 				// atur hak akses
-				tbl_details = [tbludpbrsd, tblucudasd];
+				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd];
 				CekSelectHeaderHD(tbludpxxsh, tbl_details);
 
                 tblucudasd.button( 'btnRefreshPages:name' ).enable();
@@ -350,186 +372,15 @@
                 id_users_old = 0;
 
 				// atur hak akses
-				tbl_details = [tbludpbrsd, tblucudasd];
+				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd];
 				CekDeselectHeaderHD(tbludpxxsh, tbl_details);
 
                 tblucudasd.button( 'btnRefreshPages:name' ).disable();
 			} );
 
 			// END udpxxsh
-			
-            // BEGIN udpbrsd
-            edtudpbrsd = new $.fn.dataTable.Editor( {
-                ajax: {
-                    url: "../../models/core/udpbrsd.php",
-                    type: 'POST',
-                    data: function (d){
-                        d.show_deleted_udpbrsd = show_deleted_udpbrsd;
-                        d.id_udpxxsh = id_udpxxsh;
-                    }
-                },
-                table: "#tbludpbrsd",
-                fields: [ 
-					{
-						label: "udpbrsd.start_at",
-						name: "udpbrsd.start_at",
-						type: "hidden"
-					},	
-					{
-						label: "udpbrsd.finish_at",
-						name: "udpbrsd.finish_at",
-						type: "hidden"
-					},	
-					{
-						label: "nama_tabel",
-						name: "nama_tabel",
-						def: "udpbrsd",
-						type: "hidden"
-					},	
-					{
-						label: "udpbrsd.id_udpxxsh",
-						name: "udpbrsd.id_udpxxsh",
-                        type: "hidden"
-					},
-					{
-						label: "udpbrsd.transaction_state",
-						name: "udpbrsd.transaction_state",
-                        type: "hidden",
-						def: 0
-					},
 
-                    {
-                        label: "Cabang",
-                        name: "udpbrsd.id_gbrxxmh",
-                        type: "select2",
-                        opts: {
-                            placeholder : "Select",
-                            allowClear: true,
-                            multiple: false,
-                            ajax: {
-                                url: "../../models/core/gbrxxmh_fn_opt.php",
-                                dataType: 'json',
-                                data: function (params) {
-                                    var query = {
-                                        id_gbrxxmh_old: id_gbrxxmh_old,
-                                        search: params.term || '',
-                                        page: params.page || 1
-                                    }
-                                        return query;
-                                },
-                                processResults: function (data, params) {
-                                    return {
-                                        results: data.results,
-                                        pagination: {
-                                            more: true
-                                        }
-                                    };
-                                },
-                                cache: true,
-                                minimumInputLength: 1,
-                                maximum: 10,
-                                delay: 500,
-                                maximumSelectionLength: 5,
-                                minimumResultsForSearch: -1,
-                            },
-                        }
-                    }, 	
-					{
-                        label: "Keterangan",
-                        name: "udpbrsd.keterangan",
-                        type: "textarea"
-                    }
-                ]
-            } );
-            
-            edtudpbrsd.on( 'preOpen', function( e, mode, action ) {
-                edtudpbrsd.field('udpbrsd.id_udpxxsh').val(id_udpxxsh);
-                
-                start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-                edtudpbrsd.field('udpbrsd.start_at').val(start_at);
-                
-                if (action == 'create'){
-                    tbludpbrsd.rows().deselect();
-                }
-            });
-
-            edtudpbrsd.on('initSubmit', function(e, action) {
-				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtudpbrsd.field('udpbrsd.finish_at').val(finish_at);
-			});
-
-			edtudpbrsd.on( 'close', function () {
-				edtudpbrsd.enable();
-			} );
-            
-            tbludpbrsd = $('#tbludpbrsd').DataTable( {
-                ajax: {
-                    url: "../../models/core/udpbrsd.php",
-                    type: 'POST',
-                    data: function (d){
-                        d.show_deleted_udpbrsd = show_deleted_udpbrsd;
-                        d.id_udpxxsh = id_udpxxsh;
-                    }
-                },
-                order: [[ 1, "asc" ]],
-                columns: [
-                    { data: "udpbrsd.id",visible:false },
-                    { data: "udpbrsd.id_udpxxsh",visible:false },
-                    { data: "gbrxxmh.nama" },
-                    { data: "udpbrsd.keterangan" }
-                ],
-                buttons: [
-                    // BEGIN breaking generate button
-					<?php
-						$id_table    = 'id_udpbrsd';
-						$table       = 'tbludpbrsd';
-						$edt         = 'edtudpbrsd';
-						$show_status = '_udpbrsd';
-						$table_name  = $nama_tabels_d[0];
-
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= [];
-						$arr_buttons_action 	= ['create', 'edit', 'remove', 'view', 'log','noactionD'];
-						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-
-					?>
-					// END breaking generate button
-                ],
-                rowCallback: function( row, data, index ) {
-                }
-            } );
-
-            tbludpbrsd.on( 'draw', function( e, settings ) { 
-				// atur hak akses
-				cek_c_detail= 1;
-				CekDrawDetailHD(tbludpxxsh, tbludpbrsd, 'udpbrsd' );
-				CekDrawDetailHDFinal(tbludpxxsh);
-			} );
-
-			tbludpbrsd.on( 'select', function( e, dt, type, indexes ) {
-
-				udpbrsd_data    	= tbludpbrsd.row( { selected: true } ).data().udpbrsd;
-				id_udpbrsd      	= udpbrsd_data.id;
-				id_gbrxxmh_old 		= udpbrsd_data.id_gbrxxmh;
-				id_transaksi_d 		= id_udpbrsd; // dipakai untuk general
-				id_transaksi_log	= id_udpbrsd; // dipakai untuk general
-
-				// atur hak akses
-				CekSelectDetailHD(tbludpxxsh, tbludpbrsd );
-			} );
-
-			tbludpbrsd.on( 'deselect', function() {
-				// set variable on deselect
-				id_udpbrsd  = '';
-				id_gbrxxmh_old = 0;
-				
-				// atur hak akses
-				CekDeselectDetailHD(tbludpxxsh, tbludpbrsd );
-			} );
-
-			// END udpbrsd
-
-            // BEGIN ucudasd
+			// BEGIN ucudasd
             edtucudasd = new $.fn.dataTable.Editor( {
                 ajax: {
                     url: "../../models/core/ucudasd.php",
@@ -780,6 +631,349 @@
 				CekDeselectDetailHD(tbludpxxsh, tblucudasd );
 			} );
             // END ucudasd
+			
+            // BEGIN udpbrsd
+            edtudpbrsd = new $.fn.dataTable.Editor( {
+                ajax: {
+                    url: "../../models/core/udpbrsd.php",
+                    type: 'POST',
+                    data: function (d){
+                        d.show_deleted_udpbrsd = show_deleted_udpbrsd;
+                        d.id_udpxxsh = id_udpxxsh;
+                    }
+                },
+                table: "#tbludpbrsd",
+                fields: [ 
+					{
+						label: "udpbrsd.start_at",
+						name: "udpbrsd.start_at",
+						type: "hidden"
+					},	
+					{
+						label: "udpbrsd.finish_at",
+						name: "udpbrsd.finish_at",
+						type: "hidden"
+					},	
+					{
+						label: "nama_tabel",
+						name: "nama_tabel",
+						def: "udpbrsd",
+						type: "hidden"
+					},	
+					{
+						label: "udpbrsd.id_udpxxsh",
+						name: "udpbrsd.id_udpxxsh",
+                        type: "hidden"
+					},
+					{
+						label: "udpbrsd.transaction_state",
+						name: "udpbrsd.transaction_state",
+                        type: "hidden",
+						def: 0
+					},
+
+                    {
+                        label: "Cabang",
+                        name: "udpbrsd.id_gbrxxmh",
+                        type: "select2",
+                        opts: {
+                            placeholder : "Select",
+                            allowClear: true,
+                            multiple: false,
+                            ajax: {
+                                url: "../../models/core/gbrxxmh_fn_opt.php",
+                                dataType: 'json',
+                                data: function (params) {
+                                    var query = {
+                                        id_gbrxxmh_old: id_gbrxxmh_old,
+                                        search: params.term || '',
+                                        page: params.page || 1
+                                    }
+                                        return query;
+                                },
+                                processResults: function (data, params) {
+                                    return {
+                                        results: data.results,
+                                        pagination: {
+                                            more: true
+                                        }
+                                    };
+                                },
+                                cache: true,
+                                minimumInputLength: 1,
+                                maximum: 10,
+                                delay: 500,
+                                maximumSelectionLength: 5,
+                                minimumResultsForSearch: -1,
+                            },
+                        }
+                    }, 	
+					{
+                        label: "Keterangan",
+                        name: "udpbrsd.keterangan",
+                        type: "textarea"
+                    }
+                ]
+            } );
+            
+            edtudpbrsd.on( 'preOpen', function( e, mode, action ) {
+                edtudpbrsd.field('udpbrsd.id_udpxxsh').val(id_udpxxsh);
+                
+                start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+                edtudpbrsd.field('udpbrsd.start_at').val(start_at);
+                
+                if (action == 'create'){
+                    tbludpbrsd.rows().deselect();
+                }
+            });
+
+            edtudpbrsd.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtudpbrsd.field('udpbrsd.finish_at').val(finish_at);
+			});
+
+			edtudpbrsd.on( 'close', function () {
+				edtudpbrsd.enable();
+			} );
+            
+            tbludpbrsd = $('#tbludpbrsd').DataTable( {
+                ajax: {
+                    url: "../../models/core/udpbrsd.php",
+                    type: 'POST',
+                    data: function (d){
+                        d.show_deleted_udpbrsd = show_deleted_udpbrsd;
+                        d.id_udpxxsh = id_udpxxsh;
+                    }
+                },
+                order: [[ 1, "asc" ]],
+                columns: [
+                    { data: "udpbrsd.id",visible:false },
+                    { data: "udpbrsd.id_udpxxsh",visible:false },
+                    { data: "gbrxxmh.nama" },
+                    { data: "udpbrsd.keterangan" }
+                ],
+                buttons: [
+                    // BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_udpbrsd';
+						$table       = 'tbludpbrsd';
+						$edt         = 'edtudpbrsd';
+						$show_status = '_udpbrsd';
+						$table_name  = $nama_tabels_d[0];
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= ['create', 'edit', 'remove', 'view', 'log','noactionD'];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+
+					?>
+					// END breaking generate button
+                ],
+                rowCallback: function( row, data, index ) {
+                }
+            } );
+
+            tbludpbrsd.on( 'draw', function( e, settings ) { 
+				// atur hak akses
+				cek_c_detail= 1;
+				CekDrawDetailHD(tbludpxxsh, tbludpbrsd, 'udpbrsd' );
+				CekDrawDetailHDFinal(tbludpxxsh);
+			} );
+
+			tbludpbrsd.on( 'select', function( e, dt, type, indexes ) {
+
+				udpbrsd_data    	= tbludpbrsd.row( { selected: true } ).data().udpbrsd;
+				id_udpbrsd      	= udpbrsd_data.id;
+				id_gbrxxmh_old 		= udpbrsd_data.id_gbrxxmh;
+				id_transaksi_d 		= id_udpbrsd; // dipakai untuk general
+				id_transaksi_log	= id_udpbrsd; // dipakai untuk general
+
+				// atur hak akses
+				CekSelectDetailHD(tbludpxxsh, tbludpbrsd );
+			} );
+
+			tbludpbrsd.on( 'deselect', function() {
+				// set variable on deselect
+				id_udpbrsd  = '';
+				id_gbrxxmh_old = 0;
+				
+				// atur hak akses
+				CekDeselectDetailHD(tbludpxxsh, tbludpbrsd );
+			} );
+
+			// END udpbrsd
+
+			// BEGIN udpodsd
+			edtudpodsd = new $.fn.dataTable.Editor( {
+				ajax: {
+					url: "../../models/core/udpodsd.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_udpodsd = show_deleted_udpodsd;
+						d.id_udpxxsh = id_udpxxsh;
+					}
+				},
+				table: "#tbludpodsd",
+				fields: [ 
+					{
+						label: "udpodsd.start_at",
+						name: "udpodsd.start_at",
+						type: "hidden"
+					},	
+					{
+						label: "udpodsd.finish_at",
+						name: "udpodsd.finish_at",
+						type: "hidden"
+					},	
+					{
+						label: "nama_tabel",
+						name: "nama_tabel",
+						def: "udpodsd",
+						type: "hidden"
+					},	
+					{
+						label: "udpodsd.id_udpxxsh",
+						name: "udpodsd.id_udpxxsh",
+						type: "hidden"
+					},
+					{
+						label: "udpodsd.transaction_state",
+						name: "udpodsd.transaction_state",
+						type: "hidden",
+						def: 0
+					},
+
+					{
+						label: "Department",
+						name: "udpodsd.id_hodxxmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/hodxxmh/hodxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_hodxxmh_old: id_hodxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (json, params) {
+									return {
+										results: json.data.opt_data,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					}, 	
+					{
+						label: "Keterangan",
+						name: "udpodsd.keterangan",
+						type: "textarea"
+					}
+				]
+			} );
+
+			edtudpodsd.on( 'preOpen', function( e, mode, action ) {
+				edtudpodsd.field('udpodsd.id_udpxxsh').val(id_udpxxsh);
+				
+				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtudpodsd.field('udpodsd.start_at').val(start_at);
+				
+				if (action == 'create'){
+					tbludpodsd.rows().deselect();
+				}
+			});
+
+			edtudpodsd.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtudpodsd.field('udpodsd.finish_at').val(finish_at);
+			});
+
+			edtudpodsd.on( 'close', function () {
+				edtudpodsd.enable();
+			} );
+
+			tbludpodsd = $('#tbludpodsd').DataTable( {
+				ajax: {
+					url: "../../models/core/udpodsd.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_udpodsd = show_deleted_udpodsd;
+						d.id_udpxxsh = id_udpxxsh;
+					}
+				},
+				order: [[ 1, "asc" ]],
+				columns: [
+					{ data: "udpodsd.id",visible:false },
+					{ data: "udpodsd.id_udpxxsh",visible:false },
+					{ data: "hodxxmh.nama" },
+					{ data: "udpodsd.keterangan" }
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_udpodsd';
+						$table       = 'tbludpodsd';
+						$edt         = 'edtudpodsd';
+						$show_status = '_udpodsd';
+						$table_name  = $nama_tabels_d[0];
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= ['create', 'edit', 'remove', 'view', 'log','noactionD'];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+
+					?>
+					// END breaking generate button
+				],
+				rowCallback: function( row, data, index ) {
+				}
+			} );
+
+			tbludpodsd.on( 'draw', function( e, settings ) { 
+				// atur hak akses
+				cek_c_detail= 1;
+				CekDrawDetailHD(tbludpxxsh, tbludpodsd, 'udpodsd' );
+				CekDrawDetailHDFinal(tbludpxxsh);
+			} );
+
+			tbludpodsd.on( 'select', function( e, dt, type, indexes ) {
+
+				udpodsd_data    	= tbludpodsd.row( { selected: true } ).data().udpodsd;
+				id_udpodsd      	= udpodsd_data.id;
+				id_hodxxmh_old 		= udpodsd_data.id_hodxxmh;
+				id_transaksi_d 		= id_udpodsd; // dipakai untuk general
+				id_transaksi_log	= id_udpodsd; // dipakai untuk general
+
+				// atur hak akses
+				CekSelectDetailHD(tbludpxxsh, tbludpodsd );
+			} );
+
+			tbludpodsd.on( 'deselect', function() {
+				// set variable on deselect
+				id_udpodsd  = 0;
+				id_hodxxmh_old = 0;
+				
+				// atur hak akses
+				CekDeselectDetailHD(tbludpxxsh, tbludpodsd );
+			} );
+
+			// END udpodsd
+
 			
 		} );// end of document.ready
 	

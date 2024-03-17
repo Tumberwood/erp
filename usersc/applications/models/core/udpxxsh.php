@@ -28,23 +28,22 @@
 			Field::inst( 'udpxxsh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
-				} )
-				->searchPaneOptions( SearchPaneOptions::inst()),
+				} ),
 			Field::inst( 'udpxxsh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
-				} )
-				->searchPaneOptions( SearchPaneOptions::inst()),
+				} ),
 			Field::inst( 'udpxxsh.keterangan' ),
 			Field::inst( 'udpxxsh.transaction_state' ),
-			Field::inst( 'udpxxsh.approval_state' )
-				->searchPaneOptions( SearchPaneOptions::inst()),
+			Field::inst( 'udpxxsh.approval_state' ),
 			Field::inst( 'udpxxsh.start_at' ),
 			Field::inst( 'udpxxsh.finish_at' ),
 			Field::inst( 'udpxxsh.is_defaultprogram' ),
 			Field::inst( 'udpxxsh.data_permission' ),
 			
 			Field::inst( 'users.username' )
+				->set( Field::SET_NONE ),
+			Field::inst( 'CONCAT(users.fname," ",users.lname) as users_nama' )
 				->set( Field::SET_NONE )
 		)
 		->leftJoin( 'users','users.id','=','udpxxsh.id_users' )
