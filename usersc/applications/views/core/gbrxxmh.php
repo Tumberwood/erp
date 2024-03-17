@@ -26,6 +26,7 @@
                                 <th>Alamat</th>
                                 <th>Kota</th>
                                 <th>Perusahaan</th>
+								<th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -125,14 +126,6 @@
 									}
 										return query;
 								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
-								},
 								cache: true,
 								minimumInputLength: 1,
 								maximum: 10,
@@ -160,14 +153,6 @@
 										page: params.page || 1
 									}
 										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
 								},
 								cache: true,
 								minimumInputLength: 1,
@@ -275,7 +260,11 @@
 					{ data: "gbrxxmh.nama" },
 					{ data: "gbrxxmh.alamat" },
 					{ data: "gctxxmh.nama" },
-					{ data: "gcpxxmh.nama" }
+					{ data: "gcpxxmh.nama" },
+					{ 
+						data: "gbrxxmh.transaction_state" ,
+						...renderTransactionStatus()
+					}
 				],
 				buttons: [
 					// BEGIN breaking generate button

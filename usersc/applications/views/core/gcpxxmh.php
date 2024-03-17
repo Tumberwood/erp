@@ -28,6 +28,7 @@
                                 <th>Kota</th>
                                 <th>NPWP</th>
                                 <th>KLU</th>
+                                <th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -112,20 +113,12 @@
 								url: "../../models/core/gbuxxmh_fn_opt.php",
 								dataType: 'json',
 								data: function (params) {
-									var query = {
+									var query = {										
 										id_gbuxxmh_old: id_gbuxxmh_old,
 										search: params.term || '',
 										page: params.page || 1
 									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
+									return query;
 								},
 								cache: true,
 								minimumInputLength: 1,
@@ -161,15 +154,7 @@
 										search: params.term || '',
 										page: params.page || 1
 									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
+									return query;
 								},
 								cache: true,
 								minimumInputLength: 1,
@@ -285,7 +270,11 @@
 					{ data: "gcpxxmh.alamat" },
 					{ data: "gctxxmh.nama" },
 					{ data: "gcpxxmh.npwp" },
-					{ data: "gcpxxmh.klu" }
+					{ data: "gcpxxmh.klu" },
+					{ 
+						data: "gcpxxmh.transaction_state" ,
+						...renderTransactionStatus()
+					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
