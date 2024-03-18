@@ -126,6 +126,14 @@
 									}
 										return query;
 								},
+								processResults: function (data, params) {
+                                    return {
+                                        results: data.results,
+                                        pagination: {
+                                            more: true
+                                        }
+                                    };
+                                },
 								cache: true,
 								minimumInputLength: 1,
 								maximum: 10,
@@ -154,6 +162,14 @@
 									}
 										return query;
 								},
+								processResults: function (data, params) {
+                                    return {
+                                        results: data.results,
+                                        pagination: {
+                                            more: true
+                                        }
+                                    };
+                                },
 								cache: true,
 								minimumInputLength: 1,
 								maximum: 10,

@@ -472,8 +472,8 @@
             });
 
             edtucudasd.on('initSubmit', function(e, action) {
-				ucudasd = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtucudasd.field('ucudasd.ucudasd').val(ucudasd);
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtucudasd.field('ucudasd.finish_at').val(finish_at);
 			});
 
 			edtucudasd.on( 'close', function () {
