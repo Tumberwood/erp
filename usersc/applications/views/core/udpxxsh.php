@@ -45,6 +45,7 @@
 						<li><a class="nav-link active" data-toggle="tab" href="#tabucudasd"> CRUD</a></li>
 						<li><a class="nav-link" data-toggle="tab" href="#tabudpbrsd">Cabang</a></li>
 						<li><a class="nav-link" data-toggle="tab" href="#tabudpodsd">Department</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabudpwhsd">Warehouse</a></li>
 					</ul>
 					<div class="tab-content">
 						<div role="tabpanel" id="tabucudasd" class="tab-pane active">
@@ -97,6 +98,21 @@
 							</div>
 						</div>
 
+						<div role="tabpanel" id="tabudpwhsd" class="tab-pane">
+							<div class="panel-body">
+								<table id="tbludpwhsd" class="table table-striped table-bordered table-hover" width="100%">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>id_udpxxsh</th>
+											<th>Warehouse</th>
+											<th>Keterangan</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+
 					</div> <!-- END of tab-content -->
 				</div> <!-- END of tabs-container -->
 			</div>
@@ -129,11 +145,13 @@
 		var edtudpbrsd, tbludpbrsd, show_deleted_udpbrsd = 0, udpbrsd;
         var edtucudasd, tblucudasd, show_deleted_ucudasd = 0, ucudasd;
         var edtudpodsd, tbludpodsd, show_deleted_udpodsd = 0, udpodsd;
+        var edtudpwhsd, tbludpwhsd, show_deleted_udpwhsd = 0, udpwhsd;
 		// ------------- end of default variable
 
         var id_users_old = 0, id_users;
         var id_gbrxxmh_old = 0; 
         var id_hodxxmh_old = 0; 
+        var id_iwhxxmh_old = 0; 
 
 		// get tableRelation
 		tableRelation('udpxxsh');
@@ -339,7 +357,7 @@
 
             tbludpxxsh.on( 'init', function () {
 				// atur hak akses
-				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd];
+				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd, tbludpwhsd];
 				CekInitHeaderHD(tbludpxxsh, tbl_details);
 
                 tblucudasd.button( 'btnRefreshPages:name' ).disable();
@@ -358,7 +376,7 @@
                 id_users_old   = udpxxsh_data.id_users;
 				
 				// atur hak akses
-				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd];
+				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd, tbludpwhsd];
 				CekSelectHeaderHD(tbludpxxsh, tbl_details);
 
                 tblucudasd.button( 'btnRefreshPages:name' ).enable();
@@ -372,7 +390,7 @@
                 id_users_old = 0;
 
 				// atur hak akses
-				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd];
+				tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd, tbludpwhsd];
 				CekDeselectHeaderHD(tbludpxxsh, tbl_details);
 
                 tblucudasd.button( 'btnRefreshPages:name' ).disable();
@@ -474,6 +492,11 @@
             edtucudasd.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtucudasd.field('ucudasd.finish_at').val(finish_at);
+			});
+
+			edtucudasd.on( 'postSubmit', function (e, json, data, action, xhr) {
+				tblucudasd.rows().deselect();
+				tblucudasd.ajax.reload(null, false);
 			});
 
 			edtucudasd.on( 'close', function () {
@@ -862,14 +885,14 @@
 									}
 										return query;
 								},
-								processResults: function (json, params) {
-									return {
-										results: json.data.opt_data,
-										pagination: {
-											more: true
-										}
-									};
-								},
+								processResults: function (data, params) {
+                                    return {
+                                        results: data.results,
+                                        pagination: {
+                                            more: true
+                                        }
+                                    };
+                                },
 								cache: true,
 								minimumInputLength: 1,
 								maximum: 10,
@@ -901,6 +924,11 @@
 			edtudpodsd.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtudpodsd.field('udpodsd.finish_at').val(finish_at);
+			});
+
+			edtudpodsd.on( 'postSubmit', function (e, json, data, action, xhr) {
+				tbludpodsd.rows().deselect();
+				tbludpodsd.ajax.reload(null, false);
 			});
 
 			edtudpodsd.on( 'close', function () {
@@ -973,6 +1001,182 @@
 			} );
 
 			// END udpodsd
+
+			// BEGIN udpwhsd
+			edtudpwhsd = new $.fn.dataTable.Editor( {
+				ajax: {
+					url: "../../models/core/udpwhsd.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_udpwhsd = show_deleted_udpwhsd;
+						d.id_udpxxsh = id_udpxxsh;
+					}
+				},
+				table: "#tbludpwhsd",
+				fields: [ 
+					{
+						label: "udpwhsd.start_at",
+						name: "udpwhsd.start_at",
+						type: "hidden"
+					},	
+					{
+						label: "udpwhsd.finish_at",
+						name: "udpwhsd.finish_at",
+						type: "hidden"
+					},	
+					{
+						label: "nama_tabel",
+						name: "nama_tabel",
+						def: "udpwhsd",
+						type: "hidden"
+					},	
+					{
+						label: "udpwhsd.id_udpxxsh",
+						name: "udpwhsd.id_udpxxsh",
+						type: "hidden"
+					},
+					{
+						label: "udpwhsd.transaction_state",
+						name: "udpwhsd.transaction_state",
+						type: "hidden",
+						def: 0
+					},
+
+					{
+						label: "Warehouse",
+						name: "udpwhsd.id_iwhxxmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_iwhxxmh_old: id_iwhxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+                                    return {
+                                        results: data.results,
+                                        pagination: {
+                                            more: true
+                                        }
+                                    };
+                                },
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					}, 	
+					{
+						label: "Keterangan",
+						name: "udpwhsd.keterangan",
+						type: "textarea"
+					}
+				]
+			} );
+
+			edtudpwhsd.on( 'preOpen', function( e, mode, action ) {
+				edtudpwhsd.field('udpwhsd.id_udpxxsh').val(id_udpxxsh);
+				
+				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtudpwhsd.field('udpwhsd.start_at').val(start_at);
+				
+				if (action == 'create'){
+					tbludpwhsd.rows().deselect();
+				}
+			});
+
+			edtudpwhsd.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtudpwhsd.field('udpwhsd.finish_at').val(finish_at);
+			});
+
+			edtudpwhsd.on( 'postSubmit', function (e, json, data, action, xhr) {
+				tbludpwhsd.rows().deselect();
+				tbludpwhsd.ajax.reload(null, false);
+			});
+
+			edtudpwhsd.on( 'close', function () {
+				edtudpwhsd.enable();
+			} );
+
+			tbludpwhsd = $('#tbludpwhsd').DataTable( {
+				ajax: {
+					url: "../../models/core/udpwhsd.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_udpwhsd = show_deleted_udpwhsd;
+						d.id_udpxxsh = id_udpxxsh;
+					}
+				},
+				order: [[ 1, "asc" ]],
+				columns: [
+					{ data: "udpwhsd.id",visible:false },
+					{ data: "udpwhsd.id_udpxxsh",visible:false },
+					{ data: "iwhxxmh.nama" },
+					{ data: "udpwhsd.keterangan" }
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_udpwhsd';
+						$table       = 'tbludpwhsd';
+						$edt         = 'edtudpwhsd';
+						$show_status = '_udpwhsd';
+						$table_name  = $nama_tabels_d[0];
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= ['create', 'edit', 'remove', 'view', 'log','noactionD'];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+
+					?>
+					// END breaking generate button
+				],
+				rowCallback: function( row, data, index ) {
+				}
+			} );
+
+			tbludpwhsd.on( 'draw', function( e, settings ) { 
+				// atur hak akses
+				cek_c_detail= 1;
+				CekDrawDetailHD(tbludpxxsh, tbludpwhsd, 'udpwhsd' );
+				CekDrawDetailHDFinal(tbludpxxsh);
+			} );
+
+			tbludpwhsd.on( 'select', function( e, dt, type, indexes ) {
+
+				udpwhsd_data    	= tbludpwhsd.row( { selected: true } ).data().udpwhsd;
+				id_udpwhsd      	= udpwhsd_data.id;
+				id_iwhxxmh_old 		= udpwhsd_data.id_iwhxxmh;
+				id_transaksi_d 		= id_udpwhsd; // dipakai untuk general
+				id_transaksi_log	= id_udpwhsd; // dipakai untuk general
+
+				// atur hak akses
+				CekSelectDetailHD(tbludpxxsh, tbludpwhsd );
+			} );
+
+			tbludpwhsd.on( 'deselect', function() {
+				// set variable on deselect
+				id_udpwhsd  = 0;
+				id_iwhxxmh_old = 0;
+				
+				// atur hak akses
+				CekDeselectDetailHD(tbludpxxsh, tbludpwhsd );
+			} );
+
+			// END udpwhsd
 
 			
 		} );// end of document.ready
