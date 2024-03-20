@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel   = '';
+	$nama_tabel       = 'isoittd_upload';
 	$nama_tabels_d = [];
 	// tes webhook
 ?>
@@ -191,7 +191,7 @@
 								<h3 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h3>
 								<h4 class="no-margins text-center">
 									Sesuai
-								</h3>
+									</h3>
 							</div>
 						</div>
 					</div>
@@ -220,14 +220,30 @@
 				</div>
 			</div>
 		</div>
+		<div class="ibox ">
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-md-6">
+						<h3>Result By Row Data</h3>
+						<div id="tabel_atas"></div>
+					</div>
+					<div class="col-md-6">
+						
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+
+
 
 <!-- BEGIN JS -->
 <?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php'; ?>
 <?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php'; ?>
 <?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; ?>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -364,109 +380,80 @@
 						
 						//Result By Items
 
-						// if(json.data.length > 0 && json.data[0].id_hemxxmh != null){
-						// 	var str1 = '<table id="tblhtsprrd1" class="table table-striped table-bordered">';
+						if(json.data3.length > 0){
+							var str1 = '<table id="tblselisih" class="table table-striped table-bordered">';
 							
-						// 	if ($.fn.dataTable.isDataTable('#tblhtsprrd1')) {
-						// 		$('#tblhtsprrd1').DataTable().clear();
-						// 		$('#tblhtsprrd1').DataTable().destroy();
-						// 		$('#tblhtsprrd1 tbody').empty();
-						// 		$('#tblhtsprrd1 thead').empty();
-						// 	}
-						// 	str1 += '<thead>';
-						// 		// BEGIN header baris 1
-						// 		str1 += '<tr>';
-						// 		if (json.data[0].cek == 0) {
-						// 			str1 += '<th class="text-center" style="color: blue; vertical-align: middle;" colspan="2" rowspan="2" >Clock Finger</th>';
-						// 		} else {
-						// 			str1 += '<th class="text-center text-danger" colspan="2" rowspan="2" style="vertical-align: middle;">Clock Finger</th>';
-						// 		}
+							if ($.fn.dataTable.isDataTable('#tblselisih')) {
+								$('#tblselisih').DataTable().clear();
+								$('#tblselisih').DataTable().destroy();
+								$('#tblselisih tbody').empty();
+								$('#tblselisih thead').empty();
+							}
+							str1 += '<thead>';
 								
-						// 		var id_hemxxmh = json.data[0].id_hemxxmh;
-						// 		var tanggal = json.data[0].tanggal;
-						// 		var kondite = json.data[0].kondite;
-						// 		var kode_spkl = json.data[0].kode_spkl;
+								str1 += '<tr>';
+								$.each(json.columns, function (k, colObj) {
+									// BEGIN render column name
+									if (colObj.name == 'kode') {
+										str1 += '<th class="text-center">Item Code</th>';
+									} else if (colObj.name == 'nama') {
+										str1 += '<th class="text-center">Item Name</th>';
+									} else if (colObj.name == 's_jumlah_terkecil') {
+										str1 += '<th class="text-center">Sistem</th>';
+									} else if (colObj.name == 's_fisik') {
+										str1 += '<th class="text-center">Fisik</th>';
+									} else if (colObj.name == 's_selisih') {
+										str1 += '<th class="text-center">Selisih</th>';
+									}
+								});
+								str1 += '</tr>';
+								// END header baris 1
+							str1 = str1 + '</thead>';
 
-						// 		str1 += '<th class="text-center" rowspan="3" style="vertical-align: middle;">Status IN</th>';
-						// 		str1 += '<th class="text-center" rowspan="3" style="vertical-align: middle;" >Status OUT</th>';
+							$('#tabel_atas').html(str1);
 
-						// 		var linkUrl = "../htlxxrh/htlxxrh.php?id_hemxxmh=" + id_hemxxmh + "&start_date=" + tanggal;
-								
-						// 		str1 += '<th class="text-center" rowspan="3" style="vertical-align: middle;">Kondite</th>';
+							$('#tblselisih').DataTable({
+								paging: false,          // Disable pagination
+								searching: false,       // Disable search
+								info: false,            // Disable "Showing X of Y entries" information
+								lengthChange: false,    // Disable "Show X entries" dropdown
+								responsive: false,
+								fixedHeader: {
+									header: false,
+									// footer: true
+								},
+								data: json.data3,
+								columns: json.columns,
+								buttons: [
 
-						// 		str1 += '<th class="text-center" colspan="2" rowspan="1">SPKL</th>';
-						// 		str1 += '</tr>';
+								// BEGIN breaking generate button
+								<?php
+									$id_table    = 'id_isoittd_upload';
+									$table       = 'tblisoittd_upload';
+									$edt         = 'edtisoittd_upload';
+									$show_status = '_isoittd_upload';
+									$table_name  = $nama_tabel;
 
-						// 		var url = "../htoxxth/htoxxth.php?kode_hto=" + json.data[0].kode_spkl + "&start_date=" + tanggal;
-								
-						// 		if (kode_spkl == '-') {
-						// 			str1 += '<tr>';
-						// 			str1 += '<th class="text-center" colspan="2" rowspan="1">' + json.data[0].kode_spkl + '</th>';
-						// 			str1 += '</tr>';
-						// 		} else {
-						// 			str1 += '<tr>';
-						// 			str1 += '<th class="text-center" colspan="2" rowspan="1">';
-						// 			str1 += '<a href="' + url + '" targetRows="_blank">' + json.data[0].kode_spkl + '</a>';
-						// 			str1 += '</th>';
-						// 			str1 += '</tr>';
-						// 		}
+									$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+									$arr_buttons_tools2 	= [];
+									$arr_buttons_action 	= [];
+									include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+								?>
+								// END breaking generate button
+								],
+								columnDefs: [
+									{
+										targets: [2,3,4],
+										...renderNumber()
+									},
+								],
+								rowCallback: function (row, data, index) {
 
-						// 		str1 += '<tr>';
-						// 		$.each(json.columns, function (k, colObj) {
-						// 			// BEGIN render column name
-						// 			if (colObj.name == 'clock_in') {
-						// 				str1 += '<th class="text-center">IN</th>';
-						// 			} else if (colObj.name == 'clock_out') {
-						// 				str1 += '<th class="text-center">OUT</th>';
-						// 			} else if (colObj.name == 'jam_awal') {
-						// 				str1 += '<th class="text-center">Jam Awal</th>';
-						// 			} else if (colObj.name == 'jam_akhir') {
-						// 				str1 += '<th class="text-center">Jam Akhir</th>';
-						// 			}
-						// 		});
-						// 		str1 += '</tr>';
-						// 		// END header baris 1
-						// 	str1 = str1 + '</thead>';
-
-						// 	$('#tabel_atas').html(str1);
-
-						// 	$('#tblhtsprrd1').DataTable({
-						// 		paging: false,          // Disable pagination
-						// 		searching: false,       // Disable search
-						// 		info: false,            // Disable "Showing X of Y entries" information
-						// 		lengthChange: false,    // Disable "Show X entries" dropdown
-						// 		responsive: false,
-						// 		fixedHeader: {
-						// 			header: false,
-						// 			// footer: true
-						// 		},
-						// 		data: json.data,
-						// 		columns: json.columns,
-						// 		buttons: buttons,
-						// 		columnDefs: [
-						// 			{
-						// 				targets: [4],
-						// 				render: function (data, type, row, meta) {
-						// 					var id_hemxxmh = row.id_hemxxmh;
-						// 					var tanggal = row.tanggal;
-						// 					var kondite = row.kondite;
-
-						// 					if (kondite !== '') {
-						// 						var linkUrlKondite = "../htlxxrh/htlxxrh.php?id_hemxxmh=" + id_hemxxmh + "&start_date=" + tanggal;
-						// 						return '<a href="' + linkUrlKondite + '" targetRows="_blank">' + kondite + '</a>';
-						// 					} else {
-						// 						return data;
-						// 					}
-						// 				},
-						// 			},
-						// 		],
-						// 		rowCallback: function (row, data, index) {
-
-						// 		}
-						// 	});
-						// } else {
-						// 	$('#tabel_atas').html('<h1 style="color: red; text-align: center;"><b>REPORT PRESENSI BELUM DI GENERATE!!!<b></h1><br><br><br>');
-						// }
+								}
+							});
+						} else {
+							$('#tabel_atas').html('<h1 style="color: red; text-align: center;"><b>REPORT PRESENSI BELUM DI GENERATE!!!<b></h1><br><br><br>');
+						}
 
 						if(notifyprogress != ''){
 							notifyprogress.close();

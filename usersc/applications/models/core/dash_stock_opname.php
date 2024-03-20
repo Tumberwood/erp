@@ -266,15 +266,37 @@
                     );
         $rs_group_item = $qs_group_item->fetch();
 
+        $qs_selisih_terbanyak = $db
+            ->raw()
+            ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
+            ->exec('SELECT
+                        b.kode,
+                        b.nama,
+                        sum(a.jumlah_terkecil) AS s_jumlah_terkecil,
+                        sum(a.fisik) AS s_fisik,
+                        sum(a.selisih) AS s_selisih
+                    FROM isoittd_upload AS a
+                    LEFT JOIN iimxxmh AS b ON b.id = a.id_iimxxmh
+                    WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.selisih > 0
+                    GROUP BY a.id_iimxxmh
+                    ORDER BY s_selisih DESC
+                    LIMIT 10
+                    '
+                    );
+        $rs_selisih_terbanyak = $qs_selisih_terbanyak->fetchAll();
+
         $results = array();
 		$results['data'] = $rs_row_data;
 		$results['data2'] = $rs_group_item;
+		$results['data3'] = $rs_selisih_terbanyak;
         
-		// $results['columns2'] = [
-		// 	['data' => 'tanggal', 'name' => 'tanggal'],
-		// 	['data' => 'jam', 'name' => 'jam'],
-		// 	['data' => 'mesin', 'name' => 'mesin']
-		// ];
+		$results['columns'] = [
+			['data' => 'kode', 'name' => 'kode'],
+			['data' => 'nama', 'name' => 'nama'],
+			['data' => 's_jumlah_terkecil', 'name' => 's_jumlah_terkecil'],
+			['data' => 's_fisik', 'name' => 's_fisik'],
+			['data' => 's_selisih', 'name' => 's_selisih']
+		];
 	} else {
 		$results['data'] = [];
 		$results['columns'] = [];
