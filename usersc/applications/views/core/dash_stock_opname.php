@@ -224,7 +224,7 @@
 			<div class="ibox-content">
 				<div class="row">
 					<div class="col-md-6">
-						<h3>Result By Row Data</h3>
+						<h3>Bottom 10 Items</h3>
 						<div id="tabel_atas"></div>
 					</div>
 					<div class="col-md-6">
