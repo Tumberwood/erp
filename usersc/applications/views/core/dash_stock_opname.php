@@ -452,7 +452,7 @@
 								}
 							});
 						} else {
-							$('#tabel_atas').html('<h1 style="color: red; text-align: center;"><b>REPORT PRESENSI BELUM DI GENERATE!!!<b></h1><br><br><br>');
+							$('#tabel_atas').html('<h1 style="text-align: center;"><b>Mohon Isi data Fisik!!!<b></h1><br><br><br>');
 						}
 
 						if(notifyprogress != ''){
