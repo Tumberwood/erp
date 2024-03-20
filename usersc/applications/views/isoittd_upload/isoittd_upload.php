@@ -48,7 +48,7 @@
 
 <div id="tabel_atas" style="display: none">
 	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
+		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 p-w-xs">
 			<div class="ibox ">
 				<div class="ibox-content">
 					<!-- start Custom Form Datatables Editor -->
@@ -56,55 +56,31 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.nama"></editor-field>
+									<editor-field name="isoittd_upload.id_iimxxmh"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.alamat"></editor-field>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_gctxxmh"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_gpvxxmh"></editor-field>
+									<editor-field name="isoittd_upload.id_iumxxmh_terkecil"></editor-field>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_gbuxxmh"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_fpytmmh"></editor-field>
+									<editor-field name="isoittd_upload.id_wloxxmh"></editor-field>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.telepon"></editor-field>
+									<editor-field name="isoittd_upload.jumlah_terkecil"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.whatsapp"></editor-field>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.fax"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.email"></editor-field>
+									<editor-field name="isoittd_upload.lpn"></editor-field>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.is_pkp"></editor-field>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.npwp"></editor-field>
+									<editor-field name="isoittd_upload.batch_number"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.nik"></editor-field>
+									<editor-field name="isoittd_upload.expired_date"></editor-field>
 								</div>
 							</div>
 							<div class="row">
@@ -128,6 +104,7 @@
 									<th>Fisik</th>
 									<th>Selisih</th>
 									<th>Location</th>
+									<th>Location Zone</th>
 									<th>LPN</th>
 									<th>Batch Number</th>
 									<th>Expired Date</th>
@@ -138,54 +115,35 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 p-w-xs">
+			<div class="tabs-container">
+				<ul class="nav nav-tabs" role="tablist">
+					<li><a class="nav-link active" data-toggle="tab" href="#tabisoittd_upload_fisik_1"> Fisik</a></li>
+					<!-- <li><a class="nav-link" data-toggle="tab" href="#tabpsuctmd"> Kontak</a></li> -->
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" id="tabisoittd_upload_fisik_1" class="tab-pane active">
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table id="tblisoittd_upload_fisik" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>id_isoittd_upload</th>
+											<th>Fisik</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
-		<div class="tabs-container">
-			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabisoittd_upload_fisik_1"> Fisik</a></li>
-				<!-- <li><a class="nav-link" data-toggle="tab" href="#tabpsuctmd"> Kontak</a></li> -->
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" id="tabisoittd_upload_fisik_1" class="tab-pane active">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tblisoittd_upload_fisik" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_isoittd_upload</th>
-										<th>Fisik</th>
-										<th>Keterangan</th>
-										<th>Foto</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div role="tabpanel" id="tabpsuctmd" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tblpsuctmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_isoittd_upload</th>
-										<th>Nama</th>
-										<th>Posisi</th>
-										<th>Email</th>
-										<th>Handphone</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
 			</div>
-
 		</div>
-	</div> <!-- end of right col -->
+	</div>
+ <!-- end of right col -->
 </div> <!-- end of right col -->
 
 <div id="tabel_bawah">
@@ -218,7 +176,7 @@
 	var edtisoittd_upload_fisik, tblisoittd_upload_fisik, show_deleted_isoittd_upload_fisik = 0, id_isoittd_upload_fisik;
 	// ------------- end of default variable
 	
-	var id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0;
+	var id_gcpxxmh_old = 0, id_gbrxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0;
 	var id_isoxxth_upload_old = 0;
 	var id_iwhxxmh_old = 0;
 	var id_iimxxmh_old = 0;
@@ -309,12 +267,12 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
-					d.id_isoxxth_upload_filter = selectedText;
+					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
 					d.id_iwhxxmh_filter = id_iwhxxmh_filter;
 				}
 			},
 			table: "#tblisoittd_upload",
-			// template: "#custom_isoittd_upload",
+			template: "#custom_isoittd_upload",
 			fields: [ 
 				{
 					label: "isoittd_upload.start_at",
@@ -333,64 +291,15 @@
 					type: "hidden"
 				},	
 				{
+					label: "isoittd_upload.id_isoxxth_upload",
+					name: "isoittd_upload.id_isoxxth_upload",
+					type: "hidden"
+				},
+				{
 					label: "isoittd_upload.transaction_state",
 					name: "isoittd_upload.transaction_state",
 					type: "hidden",
-					def: 0
-				},
-				{
-					label: "Kode",
-					name: "isoxxth_upload.kode",
-					type: "readonly"
-				}, 	
-				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
-					name: "isoxxth_upload.tanggal",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
-				},
-				{
-					label: "Warehouse <sup class='text-danger'>*<sup>", 
-					name: "isoxxth_upload.id_iwhxxmh",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_iwhxxmh_old: id_iwhxxmh_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
+					def: 1
 				},
 				{
 					label: "Item <sup class='text-danger'>*<sup>", 
@@ -536,6 +445,7 @@
 		edtisoittd_upload.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtisoittd_upload.field('isoittd_upload.start_at').val(start_at);
+			edtisoittd_upload.field('isoittd_upload.id_isoxxth_upload').val(id_isoxxth_upload_filter);
 
 			if(action == 'create'){
 				tblisoittd_upload.rows().deselect();
@@ -550,7 +460,6 @@
 					edtisoittd_upload.field('isoittd_upload.id_iimxxmh').disable();
 				}
 			}
-			edtisoittd_upload.field('isoxxth_upload.kode').val(selectedText);
 		});
 
 		edtisoittd_upload.on("open", function (e, mode, action) {
@@ -559,10 +468,6 @@
 
 		edtisoittd_upload.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-
-				// set variable
-				id_iwhxxmh      = edtisoittd_upload.field('isoxxth_upload.id_iwhxxmh').val();
-				tanggal      = edtisoittd_upload.field('isoxxth_upload.tanggal').val();
 
 				id_iumxxmh_terkecil      = edtisoittd_upload.field('isoittd_upload.id_iumxxmh_terkecil').val();
 				id_iimxxmh = edtisoittd_upload.field('isoittd_upload.id_iimxxmh').val();
@@ -583,16 +488,6 @@
 						'lpn': lpn,
 						'batch_number': batch_number,
 						'expired_date': expired_date,
-					}
-				);
-
-				validasiRequired(
-					edtisoittd_upload,
-					'isoxxth_upload',
-					{
-						'id_iwhxxmh': id_iwhxxmh,
-						'tanggal': tanggal,
-
 					}
 				);
 
@@ -628,14 +523,15 @@
 		tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-3',
+				layout: 'columns-4',
 			},
+			// serverSide : true,
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
-					d.id_isoxxth_upload_filter = selectedText;
+					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
 					d.id_iwhxxmh_filter = id_iwhxxmh_filter;
 				}
 			},
@@ -645,13 +541,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [2,3,8,9]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -672,7 +568,8 @@
 					data: "isoittd_upload.selisih",
 					...renderNumber()
 				},
-				{ data: "wloxxmh.nama" },
+				{ data: "wloxxmh.nama" }, //8
+				{ data: "wloznmh.nama" }, //9
 				{ data: "isoittd_upload.lpn" },
 				{ data: "isoittd_upload.batch_number" },
 				{ data: "isoittd_upload.expired_date" },
@@ -688,7 +585,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -733,9 +630,6 @@
 			nama_item 		= iimxxmh_data.nama;
 			kode_item 		= iimxxmh_data.kode;
 			
-			isoxxth_upload_data    	= tblisoittd_upload.row( { selected: true } ).data().isoxxth_upload;
-			id_iwhxxmh_old 		= isoxxth_upload_data.id_iwhxxmh;
-			
 			iumxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iumxxmh;
 			kode_uom 		= iumxxmh_data.kode;
 			
@@ -745,7 +639,10 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
 			CekSelectHeaderHD(tblisoittd_upload, tbl_details);
-
+			// rowIndex = indexes[0]; // Get the index of the first selected row
+			// rowData = tblisoittd_upload.row(rowIndex).data();
+			// console.log(rowIndex);		
+			// console.log(rowData);		
 		} );
 		
 		tblisoittd_upload.on( 'deselect', function () {
@@ -781,7 +678,7 @@
 					selectedText = selectedOption.text;
 				}
 
-				if (selectedText != null) {
+				if (id_isoxxth_upload_filter > 0) {
 					$('#tabel_atas').show();
 					
 					notifyprogress = $.notify({
@@ -963,9 +860,10 @@
 			
 		edtisoittd_upload_fisik.on( 'postSubmit', function (e, json, data, action, xhr) {
 			subtotalFisik(id_transaksi_h);
-			tblisoittd_upload_fisik.rows().deselect();
 			tblisoittd_upload_fisik.ajax.reload(null, false);
 			tblisoittd_upload.ajax.reload(null, false);
+			// tblisoittd_upload.row(rowIndex).data(rowData).draw(false);
+			
 		} );
 
 		edtisoittd_upload_fisik.on( 'close', function () {
@@ -973,10 +871,7 @@
 		} );
 		
 		tblisoittd_upload_fisik = $('#tblisoittd_upload_fisik').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-2',
-			},
+			dom: dom0,
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload_fisik.php",
 				type: 'POST',
@@ -986,21 +881,7 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: '_all'
-				}
-			],
-			responsive: false,
+			responsive: true,
 			// scrollX: true,
 			columns: [
 				{ data: "isoittd_upload_fisik.id",visible:false },
@@ -1008,24 +889,7 @@
 				{ 
 					data: "isoittd_upload_fisik.fisik",
 					...renderNumber()
-				},
-				{ data: "isoittd_upload_fisik.keterangan" },
-				{ 
-					data: "files",
-					render: function(data, type, row) {
-						if (type === 'display' && data && data.length > 0) {
-							var links = '';
-							data.forEach(function(file) {
-								if (file.web_path) {
-									links += '<a href="' + file.web_path + '" target="_blank">' + file.web_path + '</a><br>';
-								}
-							});
-							return links;
-						} else {
-							return '';
-						}
-					}
-				},
+				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -1043,12 +907,8 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
 			}
 		} );
-
-		tblisoittd_upload_fisik.searchPanes.container().appendTo('#spisoittd_upload_fisik');
-		tblisoittd_upload_fisik.searchBuilder.container().appendTo( '#sbisoittd_upload_fisik' );
 
 		tblisoittd_upload_fisik.on( 'draw', function( e, settings ) { 
 			// atur hak akses

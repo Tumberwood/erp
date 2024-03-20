@@ -61,7 +61,6 @@
         } )
         ->limit($resultCount)
         ->offset($offset)
-        ->group_by('kode')
         ->exec();
     $rs_isoxxth_upload_all = $qs_isoxxth_upload_all->fetchAll();
     // END query options all except self

@@ -20,13 +20,14 @@
 	use 
 		Carbon\Carbon;
 	
-		if ( ! isset($_POST['id_isoxxth_upload_filter']) || $_POST['id_isoxxth_upload_filter'] == NULL ) {
+		if ( ! isset($_POST['id_isoxxth_upload_filter']) || $_POST['id_isoxxth_upload_filter'] == 0 ) {
 			echo json_encode( [ "data" => [] ] );
 		}else{	
 			$editor = Editor::inst( $db, 'isoittd_upload' )
 				->debug(true)
 				->fields(
 					Field::inst( 'isoittd_upload.id' ),
+					Field::inst( 'isoittd_upload.id_isoxxth_upload' ),
 					Field::inst( 'isoittd_upload.id_iimxxmh' )
 						->setFormatter( Format::ifEmpty( 0 ) ),
 					Field::inst( 'isoittd_upload.id_wloxxmh' )
@@ -65,33 +66,20 @@
 							'from' => 'd M Y',
 							'to' =>   'Y-m-d'
 						) ),
-
-					Field::inst( 'isoxxth_upload.kode' ),
-					Field::inst( 'isoxxth_upload.id_iwhxxmh' )
-						->setFormatter( Format::ifEmpty( 0 ) ),
-					Field::inst( 'isoxxth_upload.tanggal' )
-					->getFormatter( function ( $val, $data, $opts ) {
-						if ($val === '0000-00-00' || $val === null){
-							echo '';
-						}else{
-							return date( 'd M Y', strtotime( $val ) );
-						}
-					} )
-					->setFormatter( 'Format::datetime', array(
-						'from' => 'd M Y',
-						'to' =>   'Y-m-d'
-					) ),
 					Field::inst( 'iimxxmh.kode' ),
 					Field::inst( 'iimxxmh.nama' ),
 					Field::inst( 'iumxxmh.kode' ),
 					Field::inst( 'iwhxxmh.nama' ),
 					Field::inst( 'wloxxmh.nama' ),
+					Field::inst( 'wloznmh.nama' ),
 				)
 				->leftJoin( 'isoxxth_upload','isoxxth_upload.id','=','isoittd_upload.id_isoxxth_upload' )
 				->leftJoin( 'iimxxmh','iimxxmh.id','=','isoittd_upload.id_iimxxmh' )
 				->leftJoin( 'iumxxmh','iumxxmh.id','=','isoittd_upload.id_iumxxmh_terkecil' )
 				->leftJoin( 'iwhxxmh','iwhxxmh.id','=','isoxxth_upload.id_iwhxxmh' )
 				->leftJoin( 'wloxxmh','wloxxmh.id','=','isoittd_upload.id_wloxxmh' )
+				->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' )
+				->where( 'isoxxth_upload.id', $_POST['id_isoxxth_upload_filter']);
 				;
 			
 			// do not erase
@@ -99,11 +87,6 @@
 			if ( $_POST['show_deleted_isoittd_upload'] == 0){
 				$editor
 					->where( 'isoittd_upload.transaction_state', -9, '<>');
-			}
-			
-			if (isset($_POST['id_isoxxth_upload_filter']) && $_POST['id_isoxxth_upload_filter'] != null){
-				$editor
-					->where( 'isoxxth_upload.kode', $_POST['id_isoxxth_upload_filter']);
 			}
 			
 			if (isset($_POST['id_iwhxxmh_filter']) && $_POST['id_iwhxxmh_filter'] > 0){

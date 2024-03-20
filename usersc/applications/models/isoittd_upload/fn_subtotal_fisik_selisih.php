@@ -18,7 +18,7 @@
         ->raw()
         ->bind(':id_h', $id_h)
         ->exec('    UPDATE isoittd_upload AS b
-                    LEFT JOIN (
+                    INNER JOIN (
                         SELECT
                             a.id_isoittd_upload,
                             SUM(a.fisik) AS sum_fisik
