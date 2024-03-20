@@ -174,6 +174,7 @@
 							(
 								id_isoxxth_upload,
 								transaction_state,
+								is_upload,
 								id_iimxxmh,
 								jumlah_terkecil,
 								id_iumxxmh_terkecil,
@@ -184,6 +185,7 @@
 							)
 							SELECT
 								:id_header,
+								1,
 								1,
 								a.id,
 								:qty,
