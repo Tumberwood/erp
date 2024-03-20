@@ -42,7 +42,7 @@
 
 <div id="tabel_atas" style="display: none">
 	<div class="row">
-		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 p-w-xs">
+		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 			<div class="ibox ">
 				<div class="ibox-content">
 					<!-- start Custom Form Datatables Editor -->
@@ -90,18 +90,17 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Warehouse</th>
+									<th>Location</th>
+									<th>LPN</th>
 									<th>Item Code</th>
 									<th>Item Name</th>
+									<th>Batch Number</th>
+									<th>Expired Date</th>
 									<th>UoM</th>
 									<th>Quantity</th>
 									<th>Fisik</th>
 									<th>Selisih</th>
-									<th>Location</th>
 									<th>Location Zone</th>
-									<th>LPN</th>
-									<th>Batch Number</th>
-									<th>Expired Date</th>
 								</tr>
 							</thead>
 						</table>
@@ -110,7 +109,7 @@
 			</div>
 		</div>
 		
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 p-w-xs">
+		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 			<div class="tabs-container">
 				<ul class="nav nav-tabs" role="tablist">
 					<li><a class="nav-link active" data-toggle="tab" href="#tabisoittd_upload_fisik_1"> Fisik</a></li>
@@ -411,14 +410,22 @@
 				tblisoittd_upload.rows().deselect();
 
 				edtisoittd_upload.field('isoittd_upload.id_iimxxmh').enable();
+				edtisoittd_upload.field('isoittd_upload.id_iumxxmh_terkecil').enable();
+				edtisoittd_upload.field('isoittd_upload.id_wloxxmh').enable();
+				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').enable();
+				edtisoittd_upload.field('isoittd_upload.lpn').enable();
+				edtisoittd_upload.field('isoittd_upload.batch_number').enable();
+				edtisoittd_upload.field('isoittd_upload.expired_date').enable();
 
 			}else if(action == 'edit'){
-
-				if(transaction_state == 0){
-					edtisoittd_upload.field('isoittd_upload.id_iimxxmh').enable();
-				}else{
-					edtisoittd_upload.field('isoittd_upload.id_iimxxmh').disable();
-				}
+				
+				edtisoittd_upload.field('isoittd_upload.id_iimxxmh').disable();
+				edtisoittd_upload.field('isoittd_upload.id_iumxxmh_terkecil').disable();
+				edtisoittd_upload.field('isoittd_upload.id_wloxxmh').disable();
+				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').disable();
+				edtisoittd_upload.field('isoittd_upload.lpn').disable();
+				edtisoittd_upload.field('isoittd_upload.batch_number').disable();
+				edtisoittd_upload.field('isoittd_upload.expired_date').disable();
 			}
 		});
 
@@ -494,13 +501,12 @@
 					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
 				}
 			},
-			order: [[ 1, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
 						show: true,
 					},
-					targets: [2,3,8,9]
+					targets: [1,3,4,11]
 				},
 				{
 					searchPanes:{
@@ -509,11 +515,15 @@
 					targets: '_all'
 				}
 			],
+			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ]],
 			columns: [
 				{ data: "isoittd_upload.id",visible:false },
-				{ data: "iwhxxmh.nama" },
+				{ data: "wloxxmh.nama" },
+				{ data: "isoittd_upload.lpn" },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
+				{ data: "isoittd_upload.batch_number" },
+				{ data: "isoittd_upload.expired_date" },
 				{ data: "iumxxmh.kode" },
 				{ 
 					data: "isoittd_upload.jumlah_terkecil" ,
@@ -527,11 +537,7 @@
 					data: "isoittd_upload.selisih",
 					...renderNumber()
 				},
-				{ data: "wloxxmh.nama" }, //8
 				{ data: "wloznmh.nama" }, //9
-				{ data: "isoittd_upload.lpn" },
-				{ data: "isoittd_upload.batch_number" },
-				{ data: "isoittd_upload.expired_date" },
 			],
 			buttons: [
 
@@ -544,7 +550,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= [];
+					$arr_buttons_tools2 	= ['sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
