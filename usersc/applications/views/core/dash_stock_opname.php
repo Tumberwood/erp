@@ -473,6 +473,11 @@
 			$('#prevButton').hide();
 			$('#nextButton').hide();
 			$('#report').hide();
+
+			//Auto Reload
+			setInterval(function() {
+				generateTable(id_isoxxth_upload_filter);
+			}, 5000);
 			
 			$("#frmisoittd_upload").submit(function(e) {
 				e.preventDefault();

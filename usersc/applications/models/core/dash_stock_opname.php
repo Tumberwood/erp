@@ -128,7 +128,7 @@
                         c_upload,
                         
                         CONCAT(
-                                ROUND(
+                            ROUND(
                                     (c_terhitung / c_target) * 100, 
                                 2),
                                 "%"
@@ -201,22 +201,23 @@
                     -- isoittd yang sudah terhitung
                     left JOIN (
                         select
-                            sum(c_terhitung) as c_terhitung,
+                            count(c_terhitung) as c_terhitung,
                             id_isoxxth_upload
                         from (
                             select
                                 COUNT(id) AS c_terhitung,
                                 hitung.id_isoxxth_upload
                             FROM isoittd_upload AS hitung
-                            WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND fisik > 0
+                            WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload 
                             group by id_iimxxmh
+                            HAVING SUM(fisik) > 0
                         ) AS z
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
                     
                     -- fisik sesuai
                     left JOIN (
                         select
-                            sum(c_sesuai) as c_sesuai,
+                            count(c_sesuai) as c_sesuai,
                             id_isoxxth_upload
                         from (
                             select
@@ -224,15 +225,16 @@
                                 d.id_iimxxmh,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
-                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih = 0
+                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
                             group by id_iimxxmh
+                            Having sum(d.selisih) = 0
                         ) AS z
                     ) AS sesuai ON sesuai.id_isoxxth_upload = a.id
                     
                     -- fisik lebih
                     left JOIN (
                         select
-                            sum(c_lebih) as c_lebih,
+                            count(c_lebih) as c_lebih,
                             id_isoxxth_upload
                         from (
                             select
@@ -240,15 +242,16 @@
                                 d.id_iimxxmh,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
-                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih > 0
+                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
                             group by id_iimxxmh
+                            Having sum(d.selisih) > 0
                         ) AS z
                     ) AS lebih ON lebih.id_isoxxth_upload = a.id
                     
                     -- fisik kurang
                     left JOIN (
                         select
-                            sum(c_kurang) as c_kurang,
+                            count(c_kurang) as c_kurang,
                             id_isoxxth_upload
                         from (
                             select
@@ -256,8 +259,9 @@
                                 d.id_iimxxmh,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
-                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih < 0
+                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
                             group by id_iimxxmh
+                            Having sum(d.selisih) < 0
                         ) AS z
                     ) AS kurang ON kurang.id_isoxxth_upload = a.id
                     
