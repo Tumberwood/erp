@@ -29,12 +29,6 @@
 							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-lg-2 col-md-2">Warehouse</label>
-						<div class="col-lg-4 col-sm-4">
-							<select class="form-control" id="selectWarehouse" name="selectWarehouse" multiple="multiple"></select>
-						</div>
-					</div>
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <button class="btn btn-primary" type="submit" id="go">Submit</button>
@@ -183,7 +177,6 @@
 	var id_iumxxmh_old = 0;
 	var id_wloxxmh_old = 0;
 	var id_isoxxth_upload_filter = 0;
-	var id_iwhxxmh_filter = 0;
 	var selectedText = null;
 	
 
@@ -222,38 +215,6 @@
 		}
 	});
 
-	$("#selectWarehouse").select2({
-		placeholder : "Select",
-		allowClear: true,
-		multiple: false,
-		ajax: {
-			url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
-			dataType: 'json',
-			data: function (params) {
-				var query = {
-					id_iwhxxmh_old: id_iwhxxmh_filter,
-					search: params.term || '',
-					page: params.page || 1
-				}
-					return query;
-			},
-			processResults: function (data, params) {
-				return {
-					results: data.results,
-					pagination: {
-						more: true
-					}
-				};
-			},
-			cache: true,
-			minimumInputLength: 1,
-			maximum: 10,
-			delay: 500,
-			maximumSelectionLength: 5,
-			minimumResultsForSearch: -1,
-		}
-	});
-
 	$(document).ready(function() {
 		var selectedOption = $('#selectKode').select2('data')[0];
 		if (selectedOption) {
@@ -268,7 +229,6 @@
 				data: function (d){
 					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
 					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
-					d.id_iwhxxmh_filter = id_iwhxxmh_filter;
 				}
 			},
 			table: "#tblisoittd_upload",
@@ -532,7 +492,6 @@
 				data: function (d){
 					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
 					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
-					d.id_iwhxxmh_filter = id_iwhxxmh_filter;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -672,7 +631,6 @@
 			submitHandler: function(frmisoittd_upload) {
 				
 				id_isoxxth_upload_filter  = $('#selectKode').val();
-				id_iwhxxmh_filter  = $('#selectWarehouse').val();
 				selectedOption = $('#selectKode').select2('data')[0];
 				if (selectedOption) {
 					selectedText = selectedOption.text;

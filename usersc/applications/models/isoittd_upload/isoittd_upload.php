@@ -88,11 +88,6 @@
 				$editor
 					->where( 'isoittd_upload.transaction_state', -9, '<>');
 			}
-			
-			if (isset($_POST['id_iwhxxmh_filter']) && $_POST['id_iwhxxmh_filter'] > 0){
-				$editor
-					->where( 'isoxxth_upload.id_iwhxxmh', $_POST['id_iwhxxmh_filter']);
-			}
 
 			include( "isoittd_upload_extra.php" );
 
