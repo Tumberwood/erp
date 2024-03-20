@@ -49,7 +49,7 @@
 					<div class="col-lg-3">
 						<div class="widget no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="target" style="font-size: 40px"></h1>
+								<h1 class="text-center font-bold" id="targetRows" style="font-size: 40px"></h1>
 								<br>
 								<h4 class="no-margins text-center">
 									Target
@@ -60,7 +60,7 @@
 					<div class="col-lg-3">
 						<div class="widget no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="c_upload" style="font-size: 40px"></h1>
+								<h1 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h1>
 								<br>
 								<h4 class="no-margins text-center">
 									Total Upload
@@ -71,8 +71,8 @@
 					<div class="col-lg-3">
 						<div class="widget navy-bg no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="terhitung" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_terhitung" style="font-size: 20px"></h3>
+								<h1 class="text-center font-bold" id="terhitungRows" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_terhitungRows" style="font-size: 20px"></h3>
 								<h4 class="no-margins text-center">
 									Terhitung
 								</h3>
@@ -82,8 +82,8 @@
 					<div class="col-lg-3">
 						<div class="widget red-bg no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="not_terhitung" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_not_terhitung" style="font-size: 20px"></h3>
+								<h1 class="text-center font-bold" id="not_terhitungRows" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_not_terhitungRows" style="font-size: 20px"></h3>
 								<h4 class="no-margins text-center">
 									Belum Terhitung
 								</h3>
@@ -98,8 +98,8 @@
 					<div class="col-lg-3">
 						<div class="widget navy-bg no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="sesuai" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_sesuai" style="font-size: 20px"></h3>
+								<h1 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_sesuaiRows" style="font-size: 20px"></h3>
 								<h4 class="no-margins text-center">
 									Sesuai
 								</h3>
@@ -109,8 +109,8 @@
 					<div class="col-lg-3">
 						<div class="widget yellow-bg no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="lebih" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_lebih" style="font-size: 20px"></h3>
+								<h1 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_lebihRows" style="font-size: 20px"></h3>
 								<h4 class="no-margins text-center">
 									Selisih Lebih
 								</h3>
@@ -120,8 +120,97 @@
 					<div class="col-lg-3">
 						<div class="widget red-bg no-padding">
 							<div class="p-m">
-								<h1 class="text-center font-bold" id="kurang" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_kurang" style="font-size: 20px"></h3>
+								<h1 class="text-center font-bold" id="kurangRows" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_kurangRows" style="font-size: 20px"></h3>
+								<h4 class="no-margins text-center">
+									Selisih Kurang
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ibox ">
+			<div class="ibox-content">
+				<h3>Result By Item Data</h3>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="widget no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h1>
+								<br>
+								<h4 class="no-margins text-center">
+									Target
+								</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h1>
+								<br>
+								<h4 class="no-margins text-center">
+									Total Upload
+								</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget navy-bg no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_terhitungItem" style="font-size: 20px"></h3>
+								<h4 class="no-margins text-center">
+									Terhitung
+								</h3>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget red-bg no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_not_terhitungItem" style="font-size: 20px"></h3>
+								<h4 class="no-margins text-center">
+									Belum Terhitung
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				
+				<h3>Detail Result By Item Data</h3>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="widget navy-bg no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h3>
+								<h4 class="no-margins text-center">
+									Sesuai
+								</h3>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget yellow-bg no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h3>
+								<h4 class="no-margins text-center">
+									Selisih Lebih
+								</h3>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget red-bg no-padding">
+							<div class="p-m">
+								<h1 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h1>
+								<h3 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h3>
 								<h4 class="no-margins text-center">
 									Selisih Kurang
 								</h3>
@@ -199,41 +288,79 @@
 						$('#showing').show();
 
 						//Data by Rows
-						$('#target').empty();
-						$('#target').html(json.data.c_target);
+						$('#targetRows').empty();
+						$('#targetRows').html(json.data.c_target);
 
-						$('#c_upload').empty();
-						$('#c_upload').html(json.data.c_upload);
+						$('#c_uploadRows').empty();
+						$('#c_uploadRows').html(json.data.c_upload);
 						
-						$('#terhitung').empty();
-						$('#terhitung').html(json.data.c_terhitung);
+						$('#terhitungRows').empty();
+						$('#terhitungRows').html(json.data.c_terhitung);
 						
-						$('#p_terhitung').empty();
-						$('#p_terhitung').html(json.data.terhitung);
+						$('#p_terhitungRows').empty();
+						$('#p_terhitungRows').html(json.data.terhitung);
 						
-						$('#p_not_terhitung').empty();
-						$('#p_not_terhitung').html(json.data.not_terhitung);
+						$('#p_not_terhitungRows').empty();
+						$('#p_not_terhitungRows').html(json.data.not_terhitung);
 						
-						$('#not_terhitung').empty();
-						$('#not_terhitung').html(json.data.c_not_terhitung);
+						$('#not_terhitungRows').empty();
+						$('#not_terhitungRows').html(json.data.c_not_terhitung);
 						
-						$('#p_sesuai').empty();
-						$('#p_sesuai').html(json.data.sesuai);
+						$('#p_sesuaiRows').empty();
+						$('#p_sesuaiRows').html(json.data.sesuai);
 						
-						$('#sesuai').empty();
-						$('#sesuai').html(json.data.c_sesuai);
+						$('#sesuaiRows').empty();
+						$('#sesuaiRows').html(json.data.c_sesuai);
 						
-						$('#p_lebih').empty();
-						$('#p_lebih').html(json.data.lebih);
+						$('#p_lebihRows').empty();
+						$('#p_lebihRows').html(json.data.lebih);
 						
-						$('#lebih').empty();
-						$('#lebih').html(json.data.c_lebih);
+						$('#lebihRows').empty();
+						$('#lebihRows').html(json.data.c_lebih);
 						
-						$('#p_kurang').empty();
-						$('#p_kurang').html(json.data.kurang);
+						$('#p_kurangRows').empty();
+						$('#p_kurangRows').html(json.data.kurang);
 						
-						$('#kurang').empty();
-						$('#kurang').html(json.data.c_kurang);
+						$('#kurangRows').empty();
+						$('#kurangRows').html(json.data.c_kurang);
+						
+
+						//data2 by Item
+						$('#targetItem').empty();
+						$('#targetItem').html(json.data2.c_target);
+
+						$('#c_uploadItem').empty();
+						$('#c_uploadItem').html(json.data2.c_upload);
+						
+						$('#terhitungItem').empty();
+						$('#terhitungItem').html(json.data2.c_terhitung);
+						
+						$('#p_terhitungItem').empty();
+						$('#p_terhitungItem').html(json.data2.terhitung);
+						
+						$('#p_not_terhitungItem').empty();
+						$('#p_not_terhitungItem').html(json.data2.not_terhitung);
+						
+						$('#not_terhitungItem').empty();
+						$('#not_terhitungItem').html(json.data2.c_not_terhitung);
+						
+						$('#p_sesuaiItem').empty();
+						$('#p_sesuaiItem').html(json.data2.sesuai);
+						
+						$('#sesuaiItem').empty();
+						$('#sesuaiItem').html(json.data2.c_sesuai);
+						
+						$('#p_lebihItem').empty();
+						$('#p_lebihItem').html(json.data2.lebih);
+						
+						$('#lebihItem').empty();
+						$('#lebihItem').html(json.data2.c_lebih);
+						
+						$('#p_kurangItem').empty();
+						$('#p_kurangItem').html(json.data2.kurang);
+						
+						$('#kurangItem').empty();
+						$('#kurangItem').html(json.data2.c_kurang);
 						
 						//Result By Items
 
@@ -279,7 +406,7 @@
 						// 		} else {
 						// 			str1 += '<tr>';
 						// 			str1 += '<th class="text-center" colspan="2" rowspan="1">';
-						// 			str1 += '<a href="' + url + '" target="_blank">' + json.data[0].kode_spkl + '</a>';
+						// 			str1 += '<a href="' + url + '" targetRows="_blank">' + json.data[0].kode_spkl + '</a>';
 						// 			str1 += '</th>';
 						// 			str1 += '</tr>';
 						// 		}
@@ -326,7 +453,7 @@
 
 						// 					if (kondite !== '') {
 						// 						var linkUrlKondite = "../htlxxrh/htlxxrh.php?id_hemxxmh=" + id_hemxxmh + "&start_date=" + tanggal;
-						// 						return '<a href="' + linkUrlKondite + '" target="_blank">' + kondite + '</a>';
+						// 						return '<a href="' + linkUrlKondite + '" targetRows="_blank">' + kondite + '</a>';
 						// 					} else {
 						// 						return data;
 						// 					}
