@@ -81,6 +81,39 @@
 			$id_users = $hakakses['s_id_users'];
 			$username = $hakakses['s_username'];
 			//Insert Header isoxxth_uplaod
+			// $qi_header = $db
+			// 	->raw()
+			// 	->bind(':comp', $comp)
+			// 	->bind(':cab', $cab)
+			// 	->bind(':wh', $wh)
+			// 	->bind(':tanggal', $tanggal)
+			// 	->bind(':start_at', $start_at)
+			// 	->exec('INSERT INTO isoxxth_upload
+			// 		(
+			// 			id_gcpxxmh,
+			// 			id_gbrxxmh,
+			// 			id_iwhxxmh,
+			// 			tanggal,
+			// 			transaction_state,
+			// 			is_upload,
+			// 			start_at
+			// 		)
+			// 		SELECT
+			// 			c.id AS id_gcpxxmh,
+			// 			a.id AS id_gbrxxmh,
+			// 			b.id AS id_iwh,
+			// 			:tanggal,
+			// 			1,
+			// 			1,
+			// 			:start_at
+			// 		FROM gbrxxmh AS a
+			// 		INNER JOIN iwhxxmh AS b ON b.nama = :wh
+			// 		INNER JOIN gcpxxmh AS c ON c.nama = :comp
+			// 		WHERE a.nama = :cab
+			// 	'
+			// );
+
+			//Insert ID diganti Varchar
 			$qi_header = $db
 				->raw()
 				->bind(':comp', $comp)
@@ -90,26 +123,22 @@
 				->bind(':start_at', $start_at)
 				->exec('INSERT INTO isoxxth_upload
 					(
-						id_gcpxxmh,
-						id_gbrxxmh,
-						id_iwhxxmh,
+						company,
+						cabang,
+						warehouse,
 						tanggal,
 						transaction_state,
 						is_upload,
 						start_at
 					)
 					SELECT
-						c.id AS id_gcpxxmh,
-						a.id AS id_gbrxxmh,
-						b.id AS id_iwh,
+						:comp,
+						:cab,
+						:wh,
 						:tanggal,
 						1,
 						1,
 						:start_at
-					FROM gbrxxmh AS a
-					INNER JOIN iwhxxmh AS b ON b.nama = :wh
-					INNER JOIN gcpxxmh AS c ON c.nama = :comp
-					WHERE a.nama = :cab
 				'
 			);
 			
@@ -152,21 +181,64 @@
 				$nama_item 		= strtoupper($sheetData[$i]['5']) ;
 				$qty 		= strtoupper($sheetData[$i]['6']) ;
 				$uom 		= strtoupper($sheetData[$i]['7']) ;
-				$id_wloxxmh 		= strtoupper($sheetData[$i]['8']) ;
+				$loc 		= strtoupper($sheetData[$i]['8']) ;
 				$lpn 		= strtoupper($sheetData[$i]['9']) ;
 				$batch 		= strtoupper($sheetData[$i]['10']) ;
 
 				$exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data exp_date
 				$exp_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
 
+				// //Insert Detail
+				// $qi_detail = $db
+				// 	->raw()
+				// 	->bind(':id_header', $id_header)
+				// 	->bind(':nama_item', $nama_item)
+				// 	->bind(':qty', $qty)
+				// 	->bind(':uom', $uom)
+				// 	->bind(':loc', $loc)
+				// 	->bind(':lpn', $lpn)
+				// 	->bind(':batch', $batch)
+				// 	->bind(':exp_date', $exp_date)
+				// 	->exec('INSERT INTO isoittd_upload
+				// 			(
+				// 				id_isoxxth_upload,
+				// 				transaction_state,
+				// 				is_upload,
+				// 				id_iimxxmh,
+				// 				jumlah_terkecil,
+				// 				id_iumxxmh_terkecil,
+				// 				id_wloxxmh,
+				// 				lpn,
+				// 				batch_number,
+				// 				expired_date
+				// 			)
+				// 			SELECT
+				// 				:id_header,
+				// 				1,
+				// 				1,
+				// 				a.id,
+				// 				:qty,
+				// 				b.id,
+				// 				c.id,
+				// 				:lpn,
+				// 				:batch,
+				// 				:exp_date
+				// 			FROM iimxxmh AS a
+				// 			LEFT JOIN iumxxmh AS b ON b.kode = :uom
+				// 			LEFT JOIN wloxxmh AS c ON c.nama = :loc
+				// 			WHERE a.nama = :nama_item
+				// 	'
+				// );
+
 				//Insert Detail
 				$qi_detail = $db
 					->raw()
 					->bind(':id_header', $id_header)
+					->bind(':kode_item', $kode_item)
 					->bind(':nama_item', $nama_item)
 					->bind(':qty', $qty)
 					->bind(':uom', $uom)
-					->bind(':id_wloxxmh', $id_wloxxmh)
+					->bind(':loc', $loc)
 					->bind(':lpn', $lpn)
 					->bind(':batch', $batch)
 					->bind(':exp_date', $exp_date)
@@ -175,10 +247,11 @@
 								id_isoxxth_upload,
 								transaction_state,
 								is_upload,
-								id_iimxxmh,
+								kode,
+								nama,
 								jumlah_terkecil,
-								id_iumxxmh_terkecil,
-								id_wloxxmh,
+								satuan,
+								lokasi,
 								lpn,
 								batch_number,
 								expired_date
@@ -187,17 +260,14 @@
 								:id_header,
 								1,
 								1,
-								a.id,
+								:kode_item,
+								:nama_item,
 								:qty,
-								b.id,
-								c.id,
+								:uom,
+								:loc,
 								:lpn,
 								:batch,
 								:exp_date
-							FROM iimxxmh AS a
-							LEFT JOIN iumxxmh AS b ON b.kode = :uom
-							LEFT JOIN wloxxmh AS c ON c.nama = :id_wloxxmh
-							WHERE a.nama = :nama_item
 					'
 				);
 				$dataupload = $dataupload + 1;
@@ -233,9 +303,9 @@
 						JSON_OBJECT(
 							"id", id,
 							"kode", a.kode,
-							"id_gcpxxmh", a.id_gcpxxmh,
-							"id_gbrxxmh", a.id_gbrxxmh,
-							"id_iwhxxmh", a.id_iwhxxmh,
+							"company", a.company,
+							"cabang", a.cabang,
+							"warehouse", a.warehouse,
 							"tanggal", a.tanggal,
 							"start_at", a.start_at,
 							"is_upload", a.is_upload
@@ -277,9 +347,10 @@
 						JSON_OBJECT(
 							"id", a.id,
 							"id_isoxxth_upload", a.id_isoxxth_upload,
-							"id_iimxxmh", a.id_iimxxmh,
-							"id_iumxxmh_terkecil", a.id_iumxxmh_terkecil,
-							"id_wloxxmh", a.id_wloxxmh,
+							"kode", a.kode,
+							"nama", a.nama,
+							"satuan", a.satuan,
+							"lokasi", a.lokasi,
 							"jumlah_terkecil", a.jumlah_terkecil,
 							"lpn", a.lpn,
 							"batch_number", a.batch_number,

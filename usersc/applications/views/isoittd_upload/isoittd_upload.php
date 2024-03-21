@@ -50,15 +50,21 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_iimxxmh"></editor-field>
+									<editor-field name="isoittd_upload.select_item"></editor-field>
+									<editor-field name="isoittd_upload.kode"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_iumxxmh_terkecil"></editor-field>
+									<editor-field name="isoittd_upload.nama"></editor-field>
+									<editor-field name="isoittd_upload.select_satuan"></editor-field>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_wloxxmh"></editor-field>
+									<editor-field name="isoittd_upload.select_lokasi"></editor-field>
+									<editor-field name="isoittd_upload.satuan"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.lokasi"></editor-field>
 								</div>
 							</div>
 							<div class="row">
@@ -100,7 +106,7 @@
 									<th>Quantity</th>
 									<th>Fisik</th>
 									<th>Selisih</th>
-									<th>Location Zone</th>
+									<!-- <th>Location Zone</th> -->
 								</tr>
 							</thead>
 						</table>
@@ -174,7 +180,7 @@
 	var id_iwhxxmh_old = 0;
 	var id_iimxxmh_old = 0;
 	var id_iumxxmh_old = 0;
-	var id_wloxxmh_old = 0;
+	var id_isoxxth_upload_old = 0;
 	var id_isoxxth_upload_filter = 0;
 	var selectedText = null;
 	
@@ -219,7 +225,7 @@
 		if (selectedOption) {
 			selectedText = selectedOption.text
 		}
-		
+
 		// BEGIN isoittd_upload
 		edtisoittd_upload = new $.fn.dataTable.Editor( {
 			ajax: {
@@ -261,19 +267,42 @@
 					def: 1
 				},
 				{
+					label: "Kode Item",
+					name: "isoittd_upload.kode",
+					type: "readonly"
+				},
+				{
+					label: "Nama Item",
+					name: "isoittd_upload.nama",
+					type: "readonly"
+				},
+				{
+					label: "Satuan",
+					name: "isoittd_upload.satuan",
+					type: "readonly"
+				},
+				{
+					label: "Lokasi",
+					name: "isoittd_upload.lokasi",
+					type: "readonly"
+				},
+				{
 					label: "Item <sup class='text-danger'>*<sup>", 
-					name: "isoittd_upload.id_iimxxmh",
+					name: "isoittd_upload.select_item",
 					type: "select2",
+					id: "item_opname",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/isoittd_upload/item_opname_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_iimxxmh_old: id_iimxxmh_old,
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -297,19 +326,22 @@
 					}
 				},
 				{
-					label: "UoM <sup class='text-danger'>*<sup>", 
-					name: "isoittd_upload.id_iumxxmh_terkecil",
+					label: "Satuan <sup class='text-danger'>*<sup>", 
+					name: "isoittd_upload.select_satuan",
 					type: "select2",
+					id: "satuan_opname",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+							url: "../../models/isoittd_upload/satuan_opname_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_iumxxmh_old: id_iumxxmh_old,
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -333,19 +365,22 @@
 					}
 				},
 				{
-					label: "Location <sup class='text-danger'>*<sup>", 
-					name: "isoittd_upload.id_wloxxmh",
+					label: "Lokasi <sup class='text-danger'>*<sup>", 
+					name: "isoittd_upload.select_lokasi",
 					type: "select2",
+					id: "lokasi_opname",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/wloxxmh/wloxxmh_fn_opt.php",
+							url: "../../models/isoittd_upload/lokasi_opname_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_wloxxmh_old: id_wloxxmh_old,
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -368,6 +403,78 @@
 						},
 					}
 				},
+				// {
+				// 	label: "UoM <sup class='text-danger'>*<sup>", 
+				// 	name: "isoittd_upload.id_iumxxmh_terkecil",
+				// 	type: "select2",
+				// 	opts: {
+				// 		placeholder : "Select",
+				// 		allowClear: true,
+				// 		multiple: false,
+				// 		ajax: {
+				// 			url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+				// 			dataType: 'json',
+				// 			data: function (params) {
+				// 				var query = {
+				// 					id_iumxxmh_old: id_iumxxmh_old,
+				// 					search: params.term || '',
+				// 					page: params.page || 1
+				// 				}
+				// 					return query;
+				// 			},
+				// 			processResults: function (data, params) {
+				// 				return {
+				// 					results: data.results,
+				// 					pagination: {
+				// 						more: true
+				// 					}
+				// 				};
+				// 			},
+				// 			cache: true,
+				// 			minimumInputLength: 1,
+				// 			maximum: 10,
+				// 			delay: 500,
+				// 			maximumSelectionLength: 5,
+				// 			minimumResultsForSearch: -1,
+				// 		},
+				// 	}
+				// },
+				// {
+				// 	label: "Location <sup class='text-danger'>*<sup>", 
+				// 	name: "isoittd_upload.id_wloxxmh",
+				// 	type: "select2",
+				// 	opts: {
+				// 		placeholder : "Select",
+				// 		allowClear: true,
+				// 		multiple: false,
+				// 		ajax: {
+				// 			url: "../../models/wloxxmh/wloxxmh_fn_opt.php",
+				// 			dataType: 'json',
+				// 			data: function (params) {
+				// 				var query = {
+				// 					id_wloxxmh_old: id_wloxxmh_old,
+				// 					search: params.term || '',
+				// 					page: params.page || 1
+				// 				}
+				// 					return query;
+				// 			},
+				// 			processResults: function (data, params) {
+				// 				return {
+				// 					results: data.results,
+				// 					pagination: {
+				// 						more: true
+				// 					}
+				// 				};
+				// 			},
+				// 			cache: true,
+				// 			minimumInputLength: 1,
+				// 			maximum: 10,
+				// 			delay: 500,
+				// 			maximumSelectionLength: 5,
+				// 			minimumResultsForSearch: -1,
+				// 		},
+				// 	}
+				// },
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.jumlah_terkecil"
@@ -409,9 +516,13 @@
 			if(action == 'create'){
 				tblisoittd_upload.rows().deselect();
 
-				edtisoittd_upload.field('isoittd_upload.id_iimxxmh').enable();
-				edtisoittd_upload.field('isoittd_upload.id_iumxxmh_terkecil').enable();
-				edtisoittd_upload.field('isoittd_upload.id_wloxxmh').enable();
+				edtisoittd_upload.field('isoittd_upload.select_item').show();
+				edtisoittd_upload.field('isoittd_upload.select_satuan').show();
+				edtisoittd_upload.field('isoittd_upload.select_lokasi').show();
+				edtisoittd_upload.field('isoittd_upload.kode').hide();
+				edtisoittd_upload.field('isoittd_upload.nama').hide();
+				edtisoittd_upload.field('isoittd_upload.satuan').hide();
+				edtisoittd_upload.field('isoittd_upload.lokasi').hide();
 				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').disable();
 				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').val(0);
 				edtisoittd_upload.field('isoittd_upload.lpn').enable();
@@ -420,9 +531,13 @@
 
 			}else if(action == 'edit'){
 				
-				edtisoittd_upload.field('isoittd_upload.id_iimxxmh').disable();
-				edtisoittd_upload.field('isoittd_upload.id_iumxxmh_terkecil').disable();
-				edtisoittd_upload.field('isoittd_upload.id_wloxxmh').disable();
+				edtisoittd_upload.field('isoittd_upload.select_item').hide();
+				edtisoittd_upload.field('isoittd_upload.select_satuan').hide();
+				edtisoittd_upload.field('isoittd_upload.select_lokasi').hide();
+				edtisoittd_upload.field('isoittd_upload.kode').show();
+				edtisoittd_upload.field('isoittd_upload.nama').show();
+				edtisoittd_upload.field('isoittd_upload.satuan').show();
+				edtisoittd_upload.field('isoittd_upload.lokasi').show();
 				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').disable();
 				edtisoittd_upload.field('isoittd_upload.lpn').disable();
 				edtisoittd_upload.field('isoittd_upload.batch_number').disable();
@@ -434,12 +549,53 @@
 			$(".modal-dialog").addClass("modal-xl");
 		});
 
+		edtisoittd_upload.dependent( 'isoittd_upload.select_item', function ( val, data, callback ) {
+			if (val > 0) {
+				var data_item_opname = $('#item_opname').select2('data')[0];
+				if (data_item_opname) {
+					text_item_opname = data_item_opname.text
+				}
+				console.log(text_item_opname);
+				var separatorIndex = text_item_opname.indexOf(" - ");
+				var s_kode = text_item_opname.substring(0, separatorIndex);
+				var s_nama = text_item_opname.substring(separatorIndex + 3);
+
+				edtisoittd_upload.field('isoittd_upload.kode').val(s_kode);
+				edtisoittd_upload.field('isoittd_upload.nama').val(s_nama);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtisoittd_upload.dependent( 'isoittd_upload.select_satuan', function ( val, data, callback ) {
+			if (val > 0) {
+				var data_satuan_opname = $('#satuan_opname').select2('data')[0];
+				if (data_satuan_opname) {
+					text_satuan_opname = data_satuan_opname.text
+				}
+
+				edtisoittd_upload.field('isoittd_upload.satuan').val(text_satuan_opname);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtisoittd_upload.dependent( 'isoittd_upload.select_lokasi', function ( val, data, callback ) {
+			if (val > 0) {
+				var data_lokasi_opname = $('#lokasi_opname').select2('data')[0];
+				if (data_lokasi_opname) {
+					text_lokasi_opname = data_lokasi_opname.text
+				}
+
+				edtisoittd_upload.field('isoittd_upload.lokasi').val(text_lokasi_opname);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
 		edtisoittd_upload.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				id_iumxxmh_terkecil      = edtisoittd_upload.field('isoittd_upload.id_iumxxmh_terkecil').val();
-				id_iimxxmh = edtisoittd_upload.field('isoittd_upload.id_iimxxmh').val();
-				id_wloxxmh         = edtisoittd_upload.field('isoittd_upload.id_wloxxmh').val();
+				select_satuan      = edtisoittd_upload.field('isoittd_upload.select_satuan').val();
+				select_item = edtisoittd_upload.field('isoittd_upload.select_item').val();
+				select_lokasi         = edtisoittd_upload.field('isoittd_upload.select_lokasi').val();
 				jumlah_terkecil           = edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').val();
 				lpn          = edtisoittd_upload.field('isoittd_upload.lpn').val();
 				batch_number              = edtisoittd_upload.field('isoittd_upload.batch_number').val();
@@ -449,9 +605,9 @@
 					edtisoittd_upload,
 					'isoittd_upload',
 					{
-						'id_iumxxmh_terkecil': id_iumxxmh_terkecil,
-						'id_iimxxmh': id_iimxxmh,
-						'id_wloxxmh': id_wloxxmh,
+						'select_satuan': select_satuan,
+						'select_item': select_item,
+						'select_lokasi': select_lokasi,
 						'jumlah_terkecil': jumlah_terkecil,
 						'lpn': lpn,
 						'batch_number': batch_number,
@@ -459,15 +615,15 @@
 					}
 				);
 
-				validasiNumber(
-					edtisoittd_upload,
-					'isoittd_upload',
-					{
-						'jumlah_terkecil': jumlah_terkecil
-					},
-					0,
-					'>'
-				);
+				// validasiNumber(
+				// 	edtisoittd_upload,
+				// 	'isoittd_upload',
+				// 	{
+				// 		'jumlah_terkecil': jumlah_terkecil
+				// 	},
+				// 	0,
+				// 	'>'
+				// );
 			}
 			
 			if ( edtisoittd_upload.inError() ) {
@@ -508,7 +664,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,3,4,11]
+					targets: [1,3,4]
 				},
 				{
 					searchPanes:{
@@ -522,13 +678,17 @@
 			scrollX: true,
 			columns: [
 				{ data: "isoittd_upload.id",visible:false },
-				{ data: "wloxxmh.nama" },
+				// { data: "wloxxmh.nama" },
+				{ data: "isoittd_upload.lokasi" },
 				{ data: "isoittd_upload.lpn" },
-				{ data: "iimxxmh.kode" },
-				{ data: "iimxxmh.nama" },
+				// { data: "iimxxmh.kode" },
+				// { data: "iimxxmh.nama" },
+				{ data: "isoittd_upload.kode" },
+				{ data: "isoittd_upload.nama" },
 				{ data: "isoittd_upload.batch_number" },
 				{ data: "isoittd_upload.expired_date" },
-				{ data: "iumxxmh.kode" },
+				// { data: "iumxxmh.kode" },
+				{ data: "isoittd_upload.satuan" },
 				{ 
 					data: "isoittd_upload.jumlah_terkecil" ,
 					...renderNumber()
@@ -541,7 +701,7 @@
 					data: "isoittd_upload.selisih",
 					...renderNumber()
 				},
-				{ data: "wloznmh.nama" }, //9
+				// { data: "wloznmh.nama" }, 
 			],
 			buttons: [
 
@@ -604,15 +764,15 @@
 			expired   	= isoittd_upload_data.expired_date;
 			selisih   	= isoittd_upload_data.selisih;
 			
-			iimxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iimxxmh;
-			nama_item 		= iimxxmh_data.nama;
-			kode_item 		= iimxxmh_data.kode;
+			// iimxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iimxxmh;
+			nama_item 		= isoittd_upload_data.nama;
+			kode_item 		= isoittd_upload_data.kode;
 			
-			iumxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iumxxmh;
-			kode_uom 		= iumxxmh_data.kode;
+			// iumxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iumxxmh;
+			kode_uom 		= isoittd_upload_data.satuan;
 			
-			wloxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().wloxxmh;
-			nama_lokasi 		= wloxxmh_data.nama;
+			// wloxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().wloxxmh;
+			nama_lokasi 		= isoittd_upload_data.lokasi;
 			
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];

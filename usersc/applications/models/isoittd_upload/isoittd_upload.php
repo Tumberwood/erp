@@ -28,20 +28,19 @@
 				->fields(
 					Field::inst( 'isoittd_upload.id' ),
 					Field::inst( 'isoittd_upload.id_isoxxth_upload' ),
-					Field::inst( 'isoittd_upload.id_iimxxmh' )
+					// Field::inst( 'isoittd_upload.id_iimxxmh' )
+					// 	->setFormatter( Format::ifEmpty( 0 ) ),
+					// Field::inst( 'isoittd_upload.id_wloxxmh' )
+					// 	->setFormatter( Format::ifEmpty( 0 ) ),
+					// Field::inst( 'isoittd_upload.id_iumxxmh_terkecil' )
+					// 	->setFormatter( Format::ifEmpty( 0 ) ),
+					Field::inst( 'isoittd_upload.lokasi' )
 						->setFormatter( Format::ifEmpty( 0 ) ),
-					Field::inst( 'isoittd_upload.id_wloxxmh' )
-						->setFormatter( Format::ifEmpty( 0 ) ),
-					Field::inst( 'isoittd_upload.id_iumxxmh_terkecil' )
+					Field::inst( 'isoittd_upload.satuan' )
 						->setFormatter( Format::ifEmpty( 0 ) ),
 					Field::inst( 'isoittd_upload.kode' )
-						->setFormatter( function ( $val ) {
-							return strtoupper($val);
-						} ),
-					Field::inst( 'isoittd_upload.nama' )
-						->setFormatter( function ( $val ) {
-							return ucwords($val);
-						} ),
+						->setFormatter( Format::ifEmpty( 0 ) ),
+					Field::inst( 'isoittd_upload.nama' ),
 					Field::inst( 'isoittd_upload.keterangan' ),
 					Field::inst( 'isoittd_upload.created_by' ),
 					Field::inst( 'isoittd_upload.transaction_state' ),
@@ -66,19 +65,19 @@
 							'from' => 'd M Y',
 							'to' =>   'Y-m-d'
 						) ),
-					Field::inst( 'iimxxmh.kode' ),
-					Field::inst( 'iimxxmh.nama' ),
-					Field::inst( 'iumxxmh.kode' ),
-					Field::inst( 'iwhxxmh.nama' ),
-					Field::inst( 'wloxxmh.nama' ),
-					Field::inst( 'wloznmh.nama' ),
+					// Field::inst( 'iimxxmh.kode' ),
+					// Field::inst( 'iimxxmh.nama' ),
+					// Field::inst( 'iumxxmh.kode' ),
+					// Field::inst( 'iwhxxmh.nama' ),
+					// Field::inst( 'wloxxmh.nama' ),
+					// Field::inst( 'wloznmh.nama' ),
 				)
 				->leftJoin( 'isoxxth_upload','isoxxth_upload.id','=','isoittd_upload.id_isoxxth_upload' )
-				->leftJoin( 'iimxxmh','iimxxmh.id','=','isoittd_upload.id_iimxxmh' )
-				->leftJoin( 'iumxxmh','iumxxmh.id','=','isoittd_upload.id_iumxxmh_terkecil' )
-				->leftJoin( 'iwhxxmh','iwhxxmh.id','=','isoxxth_upload.id_iwhxxmh' )
-				->leftJoin( 'wloxxmh','wloxxmh.id','=','isoittd_upload.id_wloxxmh' )
-				->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' )
+				// ->leftJoin( 'iimxxmh','iimxxmh.id','=','isoittd_upload.id_iimxxmh' )
+				// ->leftJoin( 'iumxxmh','iumxxmh.id','=','isoittd_upload.id_iumxxmh_terkecil' )
+				// ->leftJoin( 'iwhxxmh','iwhxxmh.id','=','isoxxth_upload.id_iwhxxmh' )
+				// ->leftJoin( 'wloxxmh','wloxxmh.id','=','isoittd_upload.id_wloxxmh' )
+				// ->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' )
 				->where( 'isoxxth_upload.id', $_POST['id_isoxxth_upload_filter']);
 				;
 			

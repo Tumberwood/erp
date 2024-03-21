@@ -35,9 +35,8 @@
             ->query('select', 'isoxxth_upload')
             ->get([
                 'isoxxth_upload.id as id',
-                'CONCAT(isoxxth_upload.kode, " - ", iwhxxmh.nama) as text'
+                'CONCAT(isoxxth_upload.kode, " - ", warehouse) as text'
             ])
-            ->join('iwhxxmh','iwhxxmh.id = isoxxth_upload.id_iwhxxmh','LEFT' )
             ->where('isoxxth_upload.id', $id_isoxxth_upload_old )
             ->exec();
         $rs_isoxxth_upload_self = $qs_isoxxth_upload_self->fetchAll();
@@ -51,16 +50,15 @@
         ->query('select', 'isoxxth_upload')
         ->get([
             'isoxxth_upload.id as id',
-            'CONCAT(isoxxth_upload.kode, " - ", iwhxxmh.nama) as text'
+            'CONCAT(isoxxth_upload.kode, " - ", warehouse) as text'
         ])
-        ->join('iwhxxmh','iwhxxmh.id = isoxxth_upload.id_iwhxxmh','LEFT' )
         ->where('isoxxth_upload.transaction_state',1)
         ->where('isoxxth_upload.id', $id_isoxxth_upload_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
                 ->where('isoxxth_upload.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('iwhxxmh.nama', '%' . $q . '%', 'LIKE' )
+                ->or_where('warehouse', '%' . $q . '%', 'LIKE' )
                 ;
         } )
         ->limit($resultCount)
