@@ -22,43 +22,43 @@
                         c_upload,
                         
                         CONCAT(
-                                ROUND(
-                                    (c_terhitung / c_target) * 100, 
+                            ROUND(
+                                    (ifnull(c_terhitung, 0) / c_target) * 100, 
                                 2),
                                 "%"
                             ) AS terhitung,
-                        c_terhitung,
+                        ifnull(c_terhitung, 0) as c_terhitung,
                     
                         CONCAT(
                             ROUND(
-                                ( (c_target - c_terhitung) / c_target
+                                ( (c_target - ifnull(c_terhitung, 0)) / c_target
                                 )
                                 * 100, 
                             2),
                             "%"
                         ) AS not_terhitung,
-                        (c_target - c_terhitung) AS c_not_terhitung,
+                        (c_target - ifnull(c_terhitung, 0)) AS c_not_terhitung,
                         
-                        CONCAT(
+                        ifnull(CONCAT(
                             ROUND(
                                 (c_sesuai / c_terhitung) * 100,
                                 2)
-                        ,"%") AS sesuai,
-                        c_sesuai,
+                        ,"%"), "0.00%") AS sesuai,
+                        ifnull(c_sesuai, 0) as c_sesuai,
                     
-                        CONCAT(
+                        ifnull(CONCAT(
                             ROUND(
                                 (c_lebih / c_terhitung) * 100,
                                 2)
-                        ,"%") AS lebih,
-                        c_lebih,
+                        ,"%"), "0.00%") AS lebih,
+                        ifnull(c_lebih, 0) as c_lebih,
                     
-                        CONCAT(
+                        ifnull(CONCAT(
                             ROUND(
                                 (c_kurang / c_terhitung) * 100,
                                 2)
-                        ,"%") AS kurang,
-                        c_kurang
+                        ,"%"), "0.00%") AS kurang,
+                        ifnull(c_kurang, 0) as c_kurang
                     FROM isoxxth_upload AS a
                     
                     -- all data isoittd
@@ -129,42 +129,42 @@
                         
                         CONCAT(
                             ROUND(
-                                    (c_terhitung / c_target) * 100, 
+                                    (ifnull(c_terhitung, 0) / c_target) * 100, 
                                 2),
                                 "%"
                             ) AS terhitung,
-                    c_terhitung,
+                        ifnull(c_terhitung, 0) as c_terhitung,
                     
                         CONCAT(
                             ROUND(
-                                ( (c_target - c_terhitung) / c_target
+                                ( (c_target - ifnull(c_terhitung, 0)) / c_target
                                 )
                                 * 100, 
                             2),
                             "%"
                         ) AS not_terhitung,
-                        (c_target - c_terhitung) AS c_not_terhitung,
+                        (c_target - ifnull(c_terhitung, 0)) AS c_not_terhitung,
                         
-                        CONCAT(
+                        ifnull(CONCAT(
                             ROUND(
                                 (c_sesuai / c_terhitung) * 100,
                                 2)
-                        ,"%") AS sesuai,
-                        c_sesuai,
+                        ,"%"), "0.00%") AS sesuai,
+                        ifnull(c_sesuai, 0) as c_sesuai,
                     
-                        CONCAT(
+                        ifnull(CONCAT(
                             ROUND(
                                 (c_lebih / c_terhitung) * 100,
                                 2)
-                        ,"%") AS lebih,
-                        c_lebih,
+                        ,"%"), "0.00%") AS lebih,
+                        ifnull(c_lebih, 0) as c_lebih,
                     
-                        CONCAT(
+                        ifnull(CONCAT(
                             ROUND(
                                 (c_kurang / c_terhitung) * 100,
                                 2)
-                        ,"%") AS kurang,
-                        c_kurang
+                        ,"%"), "0.00%") AS kurang,
+                        ifnull(c_kurang, 0) as c_kurang
                     FROM isoxxth_upload AS a
                     
                     -- all data isoittd

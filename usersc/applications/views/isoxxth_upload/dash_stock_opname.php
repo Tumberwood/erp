@@ -47,7 +47,7 @@
 				<h3>Result By Row Data</h3>
 				<div class="row">
 					<div class="col-lg-3">
-						<div class="widget no-padding">
+						<div class="widget no-padding gray-bg ">
 							<div class="p-m">
 								<h1 class="text-center font-bold" id="targetRows" style="font-size: 40px"></h1>
 								<br>
@@ -58,7 +58,7 @@
 						</div>
 					</div>
 					<div class="col-lg-3">
-						<div class="widget no-padding">
+						<div class="widget no-padding gray-bg ">
 							<div class="p-m">
 								<h1 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h1>
 								<br>
@@ -136,7 +136,7 @@
 				<h3>Result By Item Data</h3>
 				<div class="row">
 					<div class="col-lg-3">
-						<div class="widget no-padding">
+						<div class="widget no-padding gray-bg ">
 							<div class="p-m">
 								<h1 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h1>
 								<br>
@@ -147,7 +147,7 @@
 						</div>
 					</div>
 					<div class="col-lg-3">
-						<div class="widget no-padding">
+						<div class="widget no-padding gray-bg ">
 							<div class="p-m">
 								<h1 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h1>
 								<br>
@@ -220,7 +220,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="ibox ">
+		<div class="ibox" id="tabel_item">
 			<div class="ibox-content">
 				<div class="row">
 					<div class="col-md-6">
@@ -291,7 +291,7 @@
 		function generateTable(id_isoxxth_upload_filter) {
 
 			$.ajax( {
-				url: "../../models/core/dash_stock_opname.php",
+				url: "../../models/isoxxth_upload/dash_stock_opname.php",
 				dataType: 'json',
 				type: 'POST',
 				data: {
@@ -379,81 +379,76 @@
 						$('#kurangItem').html(json.data2.c_kurang);
 						
 						//Result By Items
-
-						if(json.data3.length > 0){
-							var str1 = '<table id="tblselisih" class="table table-striped table-bordered">';
+						var str1 = '<table id="tblselisih" class="table table-striped table-bordered">';
+						
+						if ($.fn.dataTable.isDataTable('#tblselisih')) {
+							$('#tblselisih').DataTable().clear();
+							$('#tblselisih').DataTable().destroy();
+							$('#tblselisih tbody').empty();
+							$('#tblselisih thead').empty();
+						}
+						str1 += '<thead>';
 							
-							if ($.fn.dataTable.isDataTable('#tblselisih')) {
-								$('#tblselisih').DataTable().clear();
-								$('#tblselisih').DataTable().destroy();
-								$('#tblselisih tbody').empty();
-								$('#tblselisih thead').empty();
-							}
-							str1 += '<thead>';
-								
-								str1 += '<tr>';
-								$.each(json.columns, function (k, colObj) {
-									// BEGIN render column name
-									if (colObj.name == 'kode') {
-										str1 += '<th class="text-center">Item Code</th>';
-									} else if (colObj.name == 'nama') {
-										str1 += '<th class="text-center">Item Name</th>';
-									} else if (colObj.name == 's_jumlah_terkecil') {
-										str1 += '<th class="text-center">Sistem</th>';
-									} else if (colObj.name == 's_fisik') {
-										str1 += '<th class="text-center">Fisik</th>';
-									} else if (colObj.name == 's_selisih') {
-										str1 += '<th class="text-center">Selisih</th>';
-									}
-								});
-								str1 += '</tr>';
-								// END header baris 1
-							str1 = str1 + '</thead>';
-
-							$('#tabel_atas').html(str1);
-
-							$('#tblselisih').DataTable({
-								paging: false,          // Disable pagination
-								searching: false,       // Disable search
-								info: false,            // Disable "Showing X of Y entries" information
-								lengthChange: false,    // Disable "Show X entries" dropdown
-								responsive: false,
-								fixedHeader: {
-									header: false,
-									// footer: true
-								},
-								data: json.data3,
-								columns: json.columns,
-								buttons: [
-
-								// BEGIN breaking generate button
-								<?php
-									$id_table    = 'id_isoittd_upload';
-									$table       = 'tblisoittd_upload';
-									$edt         = 'edtisoittd_upload';
-									$show_status = '_isoittd_upload';
-									$table_name  = $nama_tabel;
-
-									$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-									$arr_buttons_tools2 	= [];
-									$arr_buttons_action 	= [];
-									include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-								?>
-								// END breaking generate button
-								],
-								columnDefs: [
-									{
-										targets: [2,3,4],
-										...renderNumber()
-									},
-								],
-								rowCallback: function (row, data, index) {
-
+							str1 += '<tr>';
+							$.each(json.columns, function (k, colObj) {
+								// BEGIN render column name
+								if (colObj.name == 'kode') {
+									str1 += '<th class="text-center">Item Code</th>';
+								} else if (colObj.name == 'nama') {
+									str1 += '<th class="text-center">Item Name</th>';
+								} else if (colObj.name == 's_jumlah_terkecil') {
+									str1 += '<th class="text-center">Sistem</th>';
+								} else if (colObj.name == 's_fisik') {
+									str1 += '<th class="text-center">Fisik</th>';
+								} else if (colObj.name == 's_selisih') {
+									str1 += '<th class="text-center">Selisih</th>';
 								}
 							});
-						} else {
-							$('#tabel_atas').html('<h1 style="text-align: center;"><b>Mohon Isi data Fisik!!!<b></h1><br><br><br>');
-						}
+							str1 += '</tr>';
+							// END header baris 1
+						str1 = str1 + '</thead>';
+
+						$('#tabel_atas').html(str1);
+
+						$('#tblselisih').DataTable({
+							paging: false,          // Disable pagination
+							searching: false,       // Disable search
+							info: false,            // Disable "Showing X of Y entries" information
+							lengthChange: false,    // Disable "Show X entries" dropdown
+							responsive: false,
+							fixedHeader: {
+								header: false,
+								// footer: true
+							},
+							data: json.data3,
+							columns: json.columns,
+							buttons: [
+
+							// BEGIN breaking generate button
+							<?php
+								$id_table    = 'id_isoittd_upload';
+								$table       = 'tblisoittd_upload';
+								$edt         = 'edtisoittd_upload';
+								$show_status = '_isoittd_upload';
+								$table_name  = $nama_tabel;
+
+								$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+								$arr_buttons_tools2 	= [];
+								$arr_buttons_action 	= [];
+								include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+							?>
+							// END breaking generate button
+							],
+							columnDefs: [
+								{
+									targets: [2,3,4],
+									...renderNumber()
+								},
+							],
+							rowCallback: function (row, data, index) {
+
+							}
+						});
 
 						if(notifyprogress != ''){
 							notifyprogress.close();
