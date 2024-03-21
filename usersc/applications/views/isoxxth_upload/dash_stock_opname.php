@@ -300,8 +300,6 @@
 				},
 				success: function ( json ) {
 					if (json.data && Object.keys(json.data).length > 0) {
-						console.log('oke');
-
 						$('#showing').show();
 
 						//Data by Rows
@@ -461,10 +459,10 @@
 						}
 						str2 += '<thead>';
 							str2 += '<tr>';
-								str2 += '<th class="text-center" rowspan="2" style="vertical-align: center">User</th>';
+								str2 += '<th class="text-center" rowspan="2" style="vertical-align: middle">User</th>';
 								str2 += '<th class="text-center" colspan="2">Count</th>';
-								str2 += '<th class="text-center" rowspan="2" style="vertical-align: center">Lokasi</th>';
-								str2 += '<th class="text-center" rowspan="2" style="vertical-align: center">Total Time</th>';
+								str2 += '<th class="text-center" rowspan="2" style="vertical-align: middle">Lokasi</th>';
+								str2 += '<th class="text-center" rowspan="2" style="vertical-align: middle">Total Time</th>';
 							str2 += '</tr>';
 							str2 += '<tr>';
 							$.each(json.columns2, function (k, colObj2) {
