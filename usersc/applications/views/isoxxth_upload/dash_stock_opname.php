@@ -476,6 +476,15 @@
 							});
 							str2 += '</tr>';
 						str2 += '</thead>';
+						str2 += '<tfoot>';
+							str2 += '<tr>';
+								str2 += '<th>User</th>';
+								str2 += '<th class="text-right fw-bold" id="ft_1"></th>';
+								str2 += '<th class="text-right fw-bold" id="ft_2"></th>';
+								str2 += '<th></th>';
+								str2 += '<th></th>';
+							str2 += '</tr>';
+						str2 += '</tfoot>';
 						
 						$('#tabel_kiri').html(str2);
 
@@ -514,8 +523,19 @@
 									...renderNumber()
 								},
 							],
-							rowCallback: function (row, data, index) {
+							footerCallback: function ( row, data, start, end, display ) {
+								var api = this.api();
+								var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 
+								for (var i = 1; i <= 2; i++) {
+									var columnIndex = i;
+									var sum_all = api.column(columnIndex).data().sum();
+									// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
+									// var sum = api.column(columnIndex, { page: 'current' }).data().sum();
+									$('#ft_' + columnIndex).html(numFormat(sum_all));
+
+									// console.log('Number of Pages: ' + api.page.info().pages);
+								}
 							}
 						});
 
