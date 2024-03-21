@@ -175,11 +175,11 @@
                         FROM (
                             select
                                 COUNT(id) AS c_target,
-                                id_iimxxmh,
+                                nama,
                                 target.id_isoxxth_upload
                             FROM isoittd_upload AS target
                             WHERE target.id_isoxxth_upload = :id_isoxxth_upload
-                            group BY id_iimxxmh
+                            group BY nama
                         ) AS z
                     ) AS target ON target.id_isoxxth_upload = a.id
                     
@@ -194,7 +194,7 @@
                                 up.id_isoxxth_upload
                             FROM isoittd_upload AS up
                             WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND up.is_upload = 1
-                            group by id_iimxxmh
+                            group by nama
                         ) AS z
                     ) AS upload ON upload.id_isoxxth_upload = a.id
                     
@@ -209,7 +209,7 @@
                                 hitung.id_isoxxth_upload
                             FROM isoittd_upload AS hitung
                             WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload 
-                            group by id_iimxxmh
+                            group by nama
                             HAVING SUM(fisik) > 0
                         ) AS z
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
@@ -222,11 +222,11 @@
                         from (
                             select
                                 COUNT(d.id) AS c_sesuai,
-                                d.id_iimxxmh,
+                                d.nama,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
                             WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
-                            group by id_iimxxmh
+                            group by nama
                             Having sum(d.selisih) = 0
                         ) AS z
                     ) AS sesuai ON sesuai.id_isoxxth_upload = a.id
@@ -239,11 +239,11 @@
                         from (
                             select
                                 COUNT(d.id) AS c_lebih,
-                                d.id_iimxxmh,
+                                d.nama,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
                             WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
-                            group by id_iimxxmh
+                            group by nama
                             Having sum(d.selisih) > 0
                         ) AS z
                     ) AS lebih ON lebih.id_isoxxth_upload = a.id
@@ -256,11 +256,11 @@
                         from (
                             select
                                 COUNT(d.id) AS c_kurang,
-                                d.id_iimxxmh,
+                                d.nama,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
                             WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
-                            group by id_iimxxmh
+                            group by nama
                             Having sum(d.selisih) < 0
                         ) AS z
                     ) AS kurang ON kurang.id_isoxxth_upload = a.id
@@ -274,15 +274,14 @@
             ->raw()
             ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
             ->exec('SELECT
-                        b.kode,
-                        b.nama,
+                        a.kode,
+                        a.nama,
                         sum(a.jumlah_terkecil) AS s_jumlah_terkecil,
                         sum(a.fisik) AS s_fisik,
                         sum(a.selisih) AS s_selisih
                     FROM isoittd_upload AS a
-                    LEFT JOIN iimxxmh AS b ON b.id = a.id_iimxxmh
                     WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.selisih > 0
-                    GROUP BY a.id_iimxxmh
+                    GROUP BY a.nama
                     ORDER BY s_selisih DESC
                     LIMIT 10
                     '
