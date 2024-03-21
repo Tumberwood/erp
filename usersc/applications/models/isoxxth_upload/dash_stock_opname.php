@@ -270,6 +270,61 @@
                     );
         $rs_group_item = $qs_group_item->fetch();
 
+        $qs_log_user = $db
+            ->raw()
+            ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
+            ->exec('WITH hasil AS (
+                        SELECT
+                            p.created_by,
+                            concat(us.fname, " ", us.lname) AS nama,
+                            SUM(if(a.is_upload = 1 AND fin.kode = "CREATE",1,0) ) AS c_upload,
+                            SUM(if(a.is_upload IS NULL  AND fin.kode = "CREATE" ,1,0) ) AS c_new,
+                            a.lokasi,
+                            MIN(p.start_on) AS start_on,
+                            MAX(fin.finish_on) AS finish_on,
+                            TIMESTAMPDIFF(SECOND, MIN(p.start_on), MAX(fin.finish_on)) AS diff_in_seconds
+                        FROM isoittd_upload a
+                        INNER JOIN (
+                            SELECT
+                                f.id_isoittd_upload,
+                                g.created_by,
+                                g.start_on,
+                                up.lokasi
+                            FROM isoittd_upload_fisik f
+                            inner JOIN activity_log_ml g ON g.id_transaksi = f.id AND g.nama = "isoittd_upload_fisik" AND g.kode = "CREATE"
+                            INNER JOIN isoittd_upload up ON up.id = f.id_isoittd_upload
+                        ) p ON p.id_isoittd_upload = a.id
+                        
+                        INNER JOIN (
+                            SELECT
+                                f.id_isoittd_upload,
+                                g.created_by,
+                                g.finish_on,
+                                g.kode,
+                                up.lokasi
+                            FROM isoittd_upload_fisik f
+                            inner JOIN activity_log_ml g ON g.id_transaksi = f.id AND g.nama = "isoittd_upload_fisik"
+                            INNER JOIN isoittd_upload up ON up.id = f.id_isoittd_upload
+                        ) fin ON fin.id_isoittd_upload = a.id
+                        INNER JOIN users AS us ON us.id = p.created_by
+                        WHERE a.id_isoxxth_upload = :id_isoxxth_upload
+                        GROUP BY p.created_by, a.lokasi
+                    )
+                    SELECT
+                        nama,
+                        c_upload,
+                        c_new,
+                        lokasi,
+                        CONCAT(
+                            FLOOR(diff_in_seconds / 3600), " jam ",
+                            FLOOR((diff_in_seconds % 3600) / 60), " menit ",
+                            (diff_in_seconds % 60), " detik"
+                        ) AS total_time
+                    FROM hasil
+                    '
+                    );
+        $rs_log_user = $qs_log_user->fetchAll();
+
         $qs_selisih_terbanyak = $db
             ->raw()
             ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
@@ -292,6 +347,7 @@
 		$results['data'] = $rs_row_data;
 		$results['data2'] = $rs_group_item;
 		$results['data3'] = $rs_selisih_terbanyak;
+		$results['data4'] = $rs_log_user;
         
 		$results['columns'] = [
 			['data' => 'kode', 'name' => 'kode'],
@@ -299,6 +355,14 @@
 			['data' => 's_jumlah_terkecil', 'name' => 's_jumlah_terkecil'],
 			['data' => 's_fisik', 'name' => 's_fisik'],
 			['data' => 's_selisih', 'name' => 's_selisih']
+		];
+
+		$results['columns2'] = [
+			['data' => 'nama', 'name' => 'nama'],
+			['data' => 'c_upload', 'name' => 'c_upload'],
+			['data' => 'c_new', 'name' => 'c_new'],
+			['data' => 'lokasi', 'name' => 'lokasi'],
+			['data' => 'total_time', 'name' => 'total_time']
 		];
 	} else {
 		$results['data'] = [];

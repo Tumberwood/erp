@@ -224,11 +224,12 @@
 			<div class="ibox-content">
 				<div class="row">
 					<div class="col-md-6">
-						<h3>Bottom 10 Items</h3>
-						<div id="tabel_atas"></div>
+						<h3>Log By User</h3>
+						<div id="tabel_kiri"></div>
 					</div>
 					<div class="col-md-6">
-						
+						<h3>Bottom 10 Items</h3>
+						<div id="tabel_atas"></div>
 					</div>
 				</div>
 			</div>
@@ -442,6 +443,76 @@
 							columnDefs: [
 								{
 									targets: [2,3,4],
+									...renderNumber()
+								},
+							],
+							rowCallback: function (row, data, index) {
+
+							}
+						});
+						
+						var str2 = '<table id="tbluserlog" class="table table-striped table-bordered">';
+						
+						if ($.fn.dataTable.isDataTable('#tbluserlog')) {
+							$('#tbluserlog').DataTable().clear();
+							$('#tbluserlog').DataTable().destroy();
+							$('#tbluserlog tbody').empty();
+							$('#tbluserlog thead').empty();
+						}
+						str2 += '<thead>';
+							str2 += '<tr>';
+								str2 += '<th class="text-center" rowspan="2" style="vertical-align: center">User</th>';
+								str2 += '<th class="text-center" colspan="2">Count</th>';
+								str2 += '<th class="text-center" rowspan="2" style="vertical-align: center">Lokasi</th>';
+								str2 += '<th class="text-center" rowspan="2" style="vertical-align: center">Total Time</th>';
+							str2 += '</tr>';
+							str2 += '<tr>';
+							$.each(json.columns2, function (k, colObj2) {
+								if (colObj2.name == 'c_upload') {
+									// Header for "Upload"
+									str2 += '<th class="text-center">Upload</th>';
+								} else if (colObj2.name == 'c_new') {
+									// Header for "New"
+									str2 += '<th class="text-center">New</th>';
+								}
+							});
+							str2 += '</tr>';
+						str2 += '</thead>';
+						
+						$('#tabel_kiri').html(str2);
+
+						$('#tbluserlog').DataTable({
+							paging: false,          // Disable pagination
+							searching: false,       // Disable search
+							info: false,            // Disable "Showing X of Y entries" information
+							lengthChange: false,    // Disable "Show X entries" dropdown
+							responsive: false,
+							fixedHeader: {
+								header: false,
+								// footer: true
+							},
+							data: json.data4,
+							columns: json.columns2,
+							buttons: [
+
+							// BEGIN breaking generate button
+							<?php
+								$id_table    = 'id_isoittd_upload';
+								$table       = 'tblisoittd_upload';
+								$edt         = 'edtisoittd_upload';
+								$show_status = '_isoittd_upload';
+								$table_name  = $nama_tabel;
+
+								$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+								$arr_buttons_tools2 	= [];
+								$arr_buttons_action 	= [];
+								include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+							?>
+							// END breaking generate button
+							],
+							columnDefs: [
+								{
+									targets: [1,2],
 									...renderNumber()
 								},
 							],
