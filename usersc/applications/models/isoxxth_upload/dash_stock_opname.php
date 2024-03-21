@@ -19,7 +19,7 @@
             ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
             ->exec('SELECT
                         c_target,
-                        c_upload,
+                        ifnull(c_upload,0) as c_upload,
                         
                         CONCAT(
                             ROUND(
@@ -125,7 +125,7 @@
             ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
             ->exec('SELECT
                         c_target,
-                        c_upload,
+                        ifnull(c_upload,0) as c_upload,
                         
                         CONCAT(
                             ROUND(
