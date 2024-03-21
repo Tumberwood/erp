@@ -470,9 +470,19 @@
 			$('#report').hide();
 
 			//Auto Reload
-			setInterval(function() {
-				generateTable(id_isoxxth_upload_filter);
-			}, 5000);
+			$.ajax( {
+				url: "../../models/isoxxth_upload/reload_interval_ms.php",
+				dataType: 'json',
+				type: 'POST',
+				success: function ( json ) {
+					var reload_interval_ms = json.data.reload_interval_ms
+
+					setInterval(function() {
+						generateTable(id_isoxxth_upload_filter);
+					}, reload_interval_ms);
+				}
+			} );
+
 			
 			$("#frmisoittd_upload").submit(function(e) {
 				e.preventDefault();
