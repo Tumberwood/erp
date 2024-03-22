@@ -12,6 +12,8 @@
 				->set('fisik',$fisik)
 				->set('id_isoittd_upload',$id)
 				->exec();
+
+			$id_det = $qi_det->insertId();
 				
 			$qu_header = $editor->db()
 				->query('update', 'isoittd_upload')
@@ -29,7 +31,7 @@
 				->bind(':start_button', $start_button)
 				->bind(':end', $end)
 				->bind(':durasi_detik', $durasi_detik)
-				->bind(':id_det', $id)
+				->bind(':id_det', $id_det)
 				->exec('INSERT INTO activity_log_ml
 					(
 						id_transaksi,
