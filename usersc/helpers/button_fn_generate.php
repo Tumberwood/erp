@@ -306,7 +306,16 @@
                             editor: <?php echo $edt;?>, 
                             text: '<i class="fa fa-plus"></i>&nbsp;Add New', 
                             className: 'btn btn-sm', 
-                            titleAttr: 'Add New'
+                            titleAttr: 'Add New',
+                            formButtons: [
+                            {
+                                text: 'Cancel',
+                                action: function () {
+                                    this.close();
+                                }
+                            },
+                            'Create'
+                            ]
                         },
 <?php
                     }
@@ -472,7 +481,16 @@
                             editor: <?php echo $edt;?>,
                             text: '<i class="fa fa-edit"></i>&nbsp;Edit',
                             className: 'btn btn-sm',
-                            titleAttr: 'Edit'
+                            titleAttr: 'Edit',
+                            formButtons: [
+                            {
+                                text: 'Cancel',
+                                action: function () {
+                                    this.close();
+                                }
+                            },
+                            'Edit'
+                            ]
                         },
 <?php
                     }
@@ -489,7 +507,16 @@
                             editor: <?php echo $edt;?>, 
                             text: '<i class="fa fa-trash"></i>&nbsp;Delete(xH)',
                             className: 'btn btn-sm text-danger',
-                            titleAttr: 'Remove'
+                            titleAttr: 'Remove',
+                            formButtons: [
+                            {
+                                text: 'Cancel',
+                                action: function () {
+                                    this.close();
+                                }
+                            },
+                            'Delete'
+                        ]
                         },
 <?php
                     }
