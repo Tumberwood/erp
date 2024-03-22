@@ -719,6 +719,34 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{ 
+					text: '<span>Sesuai Fisik</span>', 
+					name: 'btnSesuai',
+					className: 'btn btn-primary',
+					titleAttr: 'Sesuai',
+					action: function ( e, dt, node, config ) {
+						$.ajax( {
+							url: '../../models/isoittd_upload/fn_button_sesuai_fisik.php',
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h
+							},
+							success: function ( json ) {
+								$.notify({
+									message: json.message
+								},{
+									type: json.type_message
+								});
+								tblisoittd_upload_fisik.rows().deselect();
+								tblisoittd_upload_fisik.ajax.reload(null,false);
+
+								tblisoittd_upload.rows().deselect();
+								tblisoittd_upload.ajax.reload(null,false);
+							}
+						});
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -747,6 +775,8 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
 			CekInitHeaderHD(tblisoittd_upload, tbl_details);
+			
+			tblisoittd_upload.button('btnSesuai:name').disable();
 		} );
 		
 		tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -763,6 +793,7 @@
 			id_iumxxmh_old   	= isoittd_upload_data.id_iumxxmh_terkecil;
 			expired   	= isoittd_upload_data.expired_date;
 			selisih   	= isoittd_upload_data.selisih;
+			fisik   	= isoittd_upload_data.fisik;
 			
 			// iimxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iimxxmh;
 			nama_item 		= isoittd_upload_data.nama;
@@ -780,7 +811,12 @@
 			// rowIndex = indexes[0]; // Get the index of the first selected row
 			// rowData = tblisoittd_upload.row(rowIndex).data();
 			// console.log(rowIndex);		
-			// console.log(rowData);		
+			// console.log(rowData);
+			if (fisik > 0) {
+				tblisoittd_upload.button('btnSesuai:name').disable();
+			} else {
+				tblisoittd_upload.button('btnSesuai:name').enable();		
+			}
 		} );
 		
 		tblisoittd_upload.on( 'deselect', function () {
@@ -797,6 +833,7 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
 			CekDeselectHeaderHD(tblisoittd_upload, tbl_details);
+			tblisoittd_upload.button('btnSesuai:name').disable();
 		} );
 		
 		// END isoittd_upload
@@ -998,8 +1035,12 @@
 			
 		edtisoittd_upload_fisik.on( 'postSubmit', function (e, json, data, action, xhr) {
 			subtotalFisik(id_transaksi_h);
-			tblisoittd_upload_fisik.ajax.reload(null, false);
-			tblisoittd_upload.ajax.reload(null, false);
+
+			tblisoittd_upload_fisik.rows().deselect();
+			tblisoittd_upload_fisik.ajax.reload(null,false);
+
+			tblisoittd_upload.rows().deselect();
+			tblisoittd_upload.ajax.reload(null,false);
 			// tblisoittd_upload.row(rowIndex).data(rowData).draw(false);
 			
 		} );
