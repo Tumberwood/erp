@@ -850,19 +850,15 @@
 			// rowData = tblisoittd_upload.row(rowIndex).data();
 			// console.log(rowIndex);		
 			// console.log(rowData);
-				tblisoittd_upload.button('btnSetFisik:name').enable();
+			tblisoittd_upload.button('btnSetFisik:name').enable();
 
-			if (fisik > 0) {
-				tblisoittd_upload.button('btnSesuai:name').disable();
-				tblisoittd_upload.button('btnNol:name').disable();
-			} else {
+			if (fisik == null) {
+				tblisoittd_upload.button('btnNol:name').enable();		
 				tblisoittd_upload.button('btnSesuai:name').enable();
 
-				if (fisik == null) {
-					tblisoittd_upload.button('btnNol:name').enable();		
-				} else {
-					tblisoittd_upload.button('btnNol:name').disable();		
-				}		
+			} else {
+				tblisoittd_upload.button('btnSesuai:name').disable();
+				tblisoittd_upload.button('btnNol:name').disable();
 			}
 		} );
 		
