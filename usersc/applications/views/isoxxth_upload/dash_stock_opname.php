@@ -570,22 +570,21 @@
 			var is_auto_reload = false;
 			var reloadIntervalId;
 
-			// Toggle button click event
+			// ON OFF Reload
 			$("#toggleAutoReload").click(function(){
 				if (is_auto_reload) {
-					// If auto reload is currently on, turn it off
-					clearInterval(reloadIntervalId); // Clear the interval
+					
+					clearInterval(reloadIntervalId); 
 					is_auto_reload = false;
-					$("#toggleAutoReload").text("OFF").removeClass("btn-primary").addClass("btn-secondary"); // Update button text and class
+					$("#toggleAutoReload").text("OFF").removeClass("btn-primary").addClass("btn-secondary"); 
 				} else {
-					// If auto reload is currently off, turn it on
+					
 					is_auto_reload = true;
-					$("#toggleAutoReload").text("ON").removeClass("btn-secondary").addClass("btn-primary"); // Update button text and class
-					autoReload(); // Call the autoReload function
+					$("#toggleAutoReload").text("ON").removeClass("btn-secondary").addClass("btn-primary"); 
+					autoReload(); 
 				}
 			});
 			
-			// Function to handle auto reload
 			function autoReload() {
 				// Auto Reload
 				$.ajax({
