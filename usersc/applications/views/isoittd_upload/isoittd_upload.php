@@ -719,34 +719,70 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
-				{ 
-					text: '<span>Sesuai Fisik</span>', 
-					name: 'btnSesuai',
-					className: 'btn btn-primary',
-					titleAttr: 'Sesuai',
-					action: function ( e, dt, node, config ) {
-						$.ajax( {
-							url: '../../models/isoittd_upload/fn_button_sesuai_fisik.php',
-							dataType: 'json',
-							type: 'POST',
-							data: {
-								id_transaksi_h: id_transaksi_h
-							},
-							success: function ( json ) {
-								$.notify({
-									message: json.message
-								},{
-									type: json.type_message
-								});
-								tblisoittd_upload_fisik.rows().deselect();
-								tblisoittd_upload_fisik.ajax.reload(null,false);
+				{
+						extend: 'collection',
+						name: 'btnSetFisik',
+						text: 'Input Fisik',
+						className: 'btn btn-outline',
+						autoClose: true,
+						buttons: [
+							{ 
+								text: '<span>Sesuai Fisik</span>', 
+								name: 'btnSesuai',
+								className: 'btn btn-primary',
+								titleAttr: 'Sesuai',
+								action: function ( e, dt, node, config ) {
+									$.ajax( {
+										url: '../../models/isoittd_upload/fn_button_fisik_sesuai.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											id_transaksi_h: id_transaksi_h
+										},
+										success: function ( json ) {
+											$.notify({
+												message: json.message
+											},{
+												type: json.type_message
+											});
+											tblisoittd_upload_fisik.rows().deselect();
+											tblisoittd_upload_fisik.ajax.reload(null,false);
 
-								tblisoittd_upload.rows().deselect();
-								tblisoittd_upload.ajax.reload(null,false);
-							}
-						});
-					}
-				},
+											tblisoittd_upload.rows().deselect();
+											tblisoittd_upload.ajax.reload(null,false);
+										}
+									});
+								}
+							},
+							{ 
+								text: '<span>Fisik Nol</span>', 
+								name: 'btnNol',
+								titleAttr: 'Fisik Nol',
+								action: function ( e, dt, node, config ) {
+									$.ajax( {
+										url: '../../models/isoittd_upload/fn_button_fisik_nol.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											id_transaksi_h: id_transaksi_h
+										},
+										success: function ( json ) {
+											$.notify({
+												message: json.message
+											},{
+												type: json.type_message
+											});
+											tblisoittd_upload_fisik.rows().deselect();
+											tblisoittd_upload_fisik.ajax.reload(null,false);
+
+											tblisoittd_upload.rows().deselect();
+											tblisoittd_upload.ajax.reload(null,false);
+										}
+									});
+								}
+							},
+						]
+				}
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -776,7 +812,9 @@
 			tbl_details = [tblisoittd_upload_fisik];
 			CekInitHeaderHD(tblisoittd_upload, tbl_details);
 			
+			tblisoittd_upload.button('btnSetFisik:name').disable();
 			tblisoittd_upload.button('btnSesuai:name').disable();
+			tblisoittd_upload.button('btnNol:name').disable();
 		} );
 		
 		tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -812,10 +850,19 @@
 			// rowData = tblisoittd_upload.row(rowIndex).data();
 			// console.log(rowIndex);		
 			// console.log(rowData);
+				tblisoittd_upload.button('btnSetFisik:name').enable();
+
 			if (fisik > 0) {
 				tblisoittd_upload.button('btnSesuai:name').disable();
+				tblisoittd_upload.button('btnNol:name').disable();
 			} else {
-				tblisoittd_upload.button('btnSesuai:name').enable();		
+				tblisoittd_upload.button('btnSesuai:name').enable();
+
+				if (fisik == null) {
+					tblisoittd_upload.button('btnNol:name').enable();		
+				} else {
+					tblisoittd_upload.button('btnNol:name').disable();		
+				}		
 			}
 		} );
 		
@@ -834,6 +881,8 @@
 			tbl_details = [tblisoittd_upload_fisik];
 			CekDeselectHeaderHD(tblisoittd_upload, tbl_details);
 			tblisoittd_upload.button('btnSesuai:name').disable();
+			tblisoittd_upload.button('btnNol:name').disable();
+			tblisoittd_upload.button('btnSetFisik:name').disable();
 		} );
 		
 		// END isoittd_upload
