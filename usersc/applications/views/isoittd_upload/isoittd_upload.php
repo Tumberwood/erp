@@ -737,7 +737,8 @@
 										dataType: 'json',
 										type: 'POST',
 										data: {
-											id_transaksi_h: id_transaksi_h
+											id_transaksi_h: id_transaksi_h,
+											start_button: start_button
 										},
 										success: function ( json ) {
 											$.notify({
@@ -764,7 +765,8 @@
 										dataType: 'json',
 										type: 'POST',
 										data: {
-											id_transaksi_h: id_transaksi_h
+											id_transaksi_h: id_transaksi_h,
+											start_button: start_button
 										},
 										success: function ( json ) {
 											$.notify({
@@ -860,6 +862,9 @@
 				tblisoittd_upload.button('btnSesuai:name').disable();
 				tblisoittd_upload.button('btnNol:name').disable();
 			}
+
+			//keperluan Button
+			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
 		} );
 		
 		tblisoittd_upload.on( 'deselect', function () {
@@ -872,6 +877,7 @@
 			lpn = 0;
 			batch_number = 0;
 			expired = 0;
+			start_button = null;
 			
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];

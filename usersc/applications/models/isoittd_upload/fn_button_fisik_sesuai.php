@@ -10,7 +10,6 @@ use
     DataTables\Editor\Result;
 
 	$editor = Editor::inst( $db, '' );
-    $start_at = date('Y-m-d H:i:s');
     
     $id_users = $hakakses['s_id_users'];
     $username = $hakakses['s_username'];
@@ -19,6 +18,7 @@ use
         $db->transaction();
 
         $id_h = $_POST['id_transaksi_h'];
+        $start_button = $_POST['start_button'];
 
         $qu_def = $db
             ->raw()
@@ -47,13 +47,13 @@ use
         $id_det = $qi_det->insertId();
 
         $end = date('Y-m-d H:i:s');
-        $durasi_detik = strtotime($end) - strtotime($start_at);
+        $durasi_detik = strtotime($end) - strtotime($start_button);
 
         $qi_log = $db
             ->raw()
             ->bind(':id_users', $id_users)
             ->bind(':username', $username)
-            ->bind(':start_at', $start_at)
+            ->bind(':start_button', $start_button)
             ->bind(':end', $end)
             ->bind(':durasi_detik', $durasi_detik)
             ->bind(':id_det', $id_det)
@@ -76,7 +76,7 @@ use
                     "DARI BUTTON FISIK SESUAI",
                     :id_users,
                     :username,
-                    :start_at,
+                    :start_button,
                     :end,
                     :durasi_detik
             '
