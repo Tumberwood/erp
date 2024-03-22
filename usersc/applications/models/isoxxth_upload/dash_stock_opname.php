@@ -335,7 +335,7 @@
                         sum(a.fisik) AS s_fisik,
                         sum(a.selisih) AS s_selisih
                     FROM isoittd_upload AS a
-                    WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.selisih < 0
+                    WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.fisik is not null
                     GROUP BY a.nama
                     ORDER BY s_selisih ASC
                     LIMIT 10
