@@ -624,15 +624,15 @@
 					}
 				);
 
-				// validasiNumber(
-				// 	edtisoittd_upload,
-				// 	'isoittd_upload',
-				// 	{
-				// 		'jumlah_terkecil': jumlah_terkecil
-				// 	},
-				// 	0,
-				// 	'>'
-				// );
+				validasiNumber(
+					edtisoittd_upload,
+					'isoittd_upload',
+					{
+						'fisik': fisik
+					},
+					0,
+					'>='
+				);
 			}
 			
 			if ( edtisoittd_upload.inError() ) {

@@ -14,7 +14,7 @@
 				
 			$qu_header = $editor->db()
 				->query('update', 'isoittd_upload')
-				->set('selisih',-$fisik)
+				->set('selisih',$fisik)
 				->where('id',$id)
 				->exec();
 		})
