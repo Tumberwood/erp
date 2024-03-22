@@ -85,7 +85,7 @@
                             COUNT(id) AS c_terhitung,
                             hitung.id_isoxxth_upload
                         FROM isoittd_upload AS hitung
-                        WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND fisik > 0
+                        WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND fisik >= 0
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
                     
                     -- fisik sesuai
@@ -210,7 +210,7 @@
                             FROM isoittd_upload AS hitung
                             WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload 
                             group by nama
-                            HAVING SUM(fisik) > 0
+                            HAVING SUM(fisik) >= 0
                         ) AS z
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
                     
