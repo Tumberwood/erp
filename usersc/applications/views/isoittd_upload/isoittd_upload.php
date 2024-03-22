@@ -741,11 +741,10 @@
 											start_button: start_button
 										},
 										success: function ( json ) {
-											$.notify({
-												message: json.message
-											},{
-												type: json.type_message
-											});
+											full_message = json.message + '</br>';
+                                            toast_type   = json.type_message;
+                                            toastr[toast_type](full_message, 'INFO');
+
 											tblisoittd_upload_fisik.rows().deselect();
 											tblisoittd_upload_fisik.ajax.reload(null,false);
 
@@ -769,11 +768,10 @@
 											start_button: start_button
 										},
 										success: function ( json ) {
-											$.notify({
-												message: json.message
-											},{
-												type: json.type_message
-											});
+											full_message = json.message + '</br>';
+                                            toast_type   = json.type_message;
+                                            toastr[toast_type](full_message, 'INFO');
+											
 											tblisoittd_upload_fisik.rows().deselect();
 											tblisoittd_upload_fisik.ajax.reload(null,false);
 
@@ -906,17 +904,11 @@
 				if (id_isoxxth_upload_filter > 0) {
 					$('#tabel_atas').show();
 					
-					notifyprogress = $.notify({
-						message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-					},{
-						z_index: 9999,
-						allow_dismiss: false,
-						type: 'info',
-						delay: 0
-					});
+					full_message = "Sedang Melakukan Load Data" + '</br>';
+					toast_type   = "success";
+					toastr[toast_type](full_message, 'INFO');
 
 					tblisoittd_upload.ajax.reload(function ( json ) {
-						notifyprogress.close();
 					}, false);
 					return false; 
 				}
