@@ -337,6 +337,7 @@
                     FROM isoittd_upload AS a
                     WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.fisik is not null
                     GROUP BY a.nama
+                    having s_selisih < 0
                     ORDER BY s_selisih ASC
                     LIMIT 10
                     '
