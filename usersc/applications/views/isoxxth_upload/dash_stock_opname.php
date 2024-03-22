@@ -422,7 +422,7 @@
 							},
 							data: json.data3,
 							columns: json.columns,
-							order: [[ 4, "desc" ]],
+							order: [[ 4, "asc" ]],
 							buttons: [
 
 								// BEGIN breaking generate button
