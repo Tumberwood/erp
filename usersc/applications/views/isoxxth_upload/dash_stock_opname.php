@@ -35,6 +35,16 @@
                         </div>
                     </div>
                 </form>
+				
+				<br>
+				<div class="row">
+					<div class="col-2">
+						<h3>Auto Reload</h3>
+					</div>
+					<div class="col">
+						<button class="btn btn-secondary" id="toggleAutoReload">OFF</button>
+					</div>
+				</div>
             </div>
         </div>
     </div>
@@ -557,24 +567,40 @@
 		}
 
 		$(document).ready(function() {
-			$('#prevButton').hide();
-			$('#nextButton').hide();
-			$('#report').hide();
+			var is_auto_reload = false;
+			var reloadIntervalId;
 
-			//Auto Reload
-			$.ajax( {
-				url: "../../models/isoxxth_upload/reload_interval_ms.php",
-				dataType: 'json',
-				type: 'POST',
-				success: function ( json ) {
-					var reload_interval_ms = json.data.reload_interval_ms
-
-					setInterval(function() {
-						generateTable(id_isoxxth_upload_filter);
-					}, reload_interval_ms);
+			// Toggle button click event
+			$("#toggleAutoReload").click(function(){
+				if (is_auto_reload) {
+					// If auto reload is currently on, turn it off
+					clearInterval(reloadIntervalId); // Clear the interval
+					is_auto_reload = false;
+					$("#toggleAutoReload").text("OFF").removeClass("btn-primary").addClass("btn-secondary"); // Update button text and class
+				} else {
+					// If auto reload is currently off, turn it on
+					is_auto_reload = true;
+					$("#toggleAutoReload").text("ON").removeClass("btn-secondary").addClass("btn-primary"); // Update button text and class
+					autoReload(); // Call the autoReload function
 				}
-			} );
+			});
+			
+			// Function to handle auto reload
+			function autoReload() {
+				// Auto Reload
+				$.ajax({
+					url: "../../models/isoxxth_upload/reload_interval_ms.php",
+					dataType: 'json',
+					type: 'POST',
+					success: function (json) {
+						var reload_interval_ms = json.data.reload_interval_ms;
 
+						reloadIntervalId = setInterval(function () {
+							generateTable(id_isoxxth_upload_filter);
+						}, reload_interval_ms);
+					}
+				});
+			}
 			
 			$("#frmisoittd_upload").submit(function(e) {
 				e.preventDefault();
