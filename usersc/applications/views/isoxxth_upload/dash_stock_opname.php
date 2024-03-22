@@ -415,6 +415,7 @@
 							info: false,            // Disable "Showing X of Y entries" information
 							lengthChange: false,    // Disable "Show X entries" dropdown
 							responsive: false,
+							scrollX: true,
 							fixedHeader: {
 								header: false,
 								// footer: true
@@ -495,6 +496,7 @@
 							info: false,            // Disable "Showing X of Y entries" information
 							lengthChange: false,    // Disable "Show X entries" dropdown
 							responsive: false,
+							scrollX: true,
 							fixedHeader: {
 								header: false,
 								// footer: true
