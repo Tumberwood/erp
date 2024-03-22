@@ -72,7 +72,7 @@ use
                 SELECT 
                     :id_det,
                     "CREATE",
-                    "isoxxth_upload",	
+                    "isoittd_upload_fisik",	
                     "DARI BUTTON FISIK NOL",
                     :id_users,
                     :username,
