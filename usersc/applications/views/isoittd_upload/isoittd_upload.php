@@ -483,7 +483,7 @@
 					name: "isoittd_upload.jumlah_terkecil"
 				}, 	
 				{
-					label: "Fisik <sup class='text-danger'>*<sup>",
+					label: "Quantity Fisik <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.fisik"
 				}, 	
 				{
