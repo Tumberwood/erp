@@ -103,11 +103,11 @@ $.extend( true, $.fn.dataTable.defaults, {
 	// scroller: true,
 	// deferRender: true,
 	
-	colReorder: true,
-	fixedColumns: true,
-	fixedHeader: {
-		header: true
-	},
+	// colReorder: true,
+	// fixedColumns: true,
+	// fixedHeader: {
+	// 	header: true
+	// },
 	
 } );
 

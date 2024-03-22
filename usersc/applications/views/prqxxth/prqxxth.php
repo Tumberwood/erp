@@ -82,7 +82,6 @@
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
-	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_toast.php';
 ?>
 
 <!-- BEGIN JS -->
@@ -187,14 +186,6 @@
 								}
 									return query;
 							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
 							cache: true,
 							minimumInputLength: 1,
 							maximum: 10,
@@ -254,9 +245,8 @@
 		});
 		
 		edtprqxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblprqxxth.rows().deselect();
+			tblprqxxth.ajax.reload(null, false);
 		} );
 
 		edtprqxxth.on( 'close', function () {
@@ -442,14 +432,6 @@
 									page: params.page || 1
 								}
 									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
 							},
 							cache: true,
 							minimumInputLength: 1,
