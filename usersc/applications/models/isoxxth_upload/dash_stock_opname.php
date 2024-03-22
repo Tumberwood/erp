@@ -282,7 +282,7 @@
                             COUNT(distinct(a.id)) AS lokasi,
                             MIN(p.start_on) AS start_on,
                             MAX(fin.finish_on) AS finish_on,
-                            TIMESTAMPDIFF(SECOND, MIN(p.start_on), MAX(fin.finish_on)) AS diff_in_seconds
+                            diff_in_seconds
                         FROM isoittd_upload a
                         INNER JOIN (
                             SELECT
@@ -307,6 +307,15 @@
                             INNER JOIN isoittd_upload up ON up.id = f.id_isoittd_upload
                         ) fin ON fin.id_isoittd_upload = a.id
                         INNER JOIN users AS us ON us.id = p.created_by
+                        INNER JOIN (
+                            SELECT
+                                created_by,
+                                SUM(TIMESTAMPDIFF(second,start_on,finish_on)) AS diff_in_seconds
+                            FROM activity_log_ml
+                            WHERE nama = "isoittd_upload_fisik"
+                            GROUP BY created_by
+                        ) AS jam ON jam.created_by = p.created_by
+
                         WHERE a.id_isoxxth_upload = :id_isoxxth_upload
                         GROUP BY p.created_by
                     )
