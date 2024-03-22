@@ -421,22 +421,23 @@
 							},
 							data: json.data3,
 							columns: json.columns,
+							order: [[ 4, "desc" ]],
 							buttons: [
 
-							// BEGIN breaking generate button
-							<?php
-								$id_table    = 'id_isoittd_upload';
-								$table       = 'tblisoittd_upload';
-								$edt         = 'edtisoittd_upload';
-								$show_status = '_isoittd_upload';
-								$table_name  = $nama_tabel;
+								// BEGIN breaking generate button
+								<?php
+									$id_table    = 'id_isoittd_upload';
+									$table       = 'tblisoittd_upload';
+									$edt         = 'edtisoittd_upload';
+									$show_status = '_isoittd_upload';
+									$table_name  = $nama_tabel;
 
-								$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-								$arr_buttons_tools2 	= [];
-								$arr_buttons_action 	= [];
-								include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-							?>
-							// END breaking generate button
+									$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+									$arr_buttons_tools2 	= [];
+									$arr_buttons_action 	= [];
+									include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+								?>
+								// END breaking generate button
 							],
 							columnDefs: [
 								{

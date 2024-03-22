@@ -279,7 +279,7 @@
                             concat(us.fname, " ", us.lname) AS nama,
                             SUM(if(a.is_upload = 1 AND fin.kode = "CREATE",1,0) ) AS c_upload,
                             SUM(if(a.is_upload IS NULL  AND fin.kode = "CREATE" ,1,0) ) AS c_new,
-                            a.lokasi,
+                            COUNT(distinct(a.id)) AS lokasi,
                             MIN(p.start_on) AS start_on,
                             MAX(fin.finish_on) AS finish_on,
                             TIMESTAMPDIFF(SECOND, MIN(p.start_on), MAX(fin.finish_on)) AS diff_in_seconds
@@ -308,7 +308,7 @@
                         ) fin ON fin.id_isoittd_upload = a.id
                         INNER JOIN users AS us ON us.id = p.created_by
                         WHERE a.id_isoxxth_upload = :id_isoxxth_upload
-                        GROUP BY p.created_by, a.lokasi
+                        GROUP BY p.created_by
                     )
                     SELECT
                         nama,
