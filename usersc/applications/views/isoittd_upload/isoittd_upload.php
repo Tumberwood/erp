@@ -72,7 +72,7 @@
 									<editor-field name="isoittd_upload.jumlah_terkecil"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.lpn"></editor-field>
+									<editor-field name="isoittd_upload.fisik"></editor-field>
 								</div>
 							</div>
 							<div class="row">
@@ -80,10 +80,13 @@
 									<editor-field name="isoittd_upload.batch_number"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.expired_date"></editor-field>
+									<editor-field name="isoittd_upload.lpn"></editor-field>
 								</div>
 							</div>
 							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.expired_date"></editor-field>
+								</div>
 								<div class="col-lg-6">
 									<editor-field name="isoittd_upload.keterangan"></editor-field>
 								</div>
@@ -480,6 +483,10 @@
 					name: "isoittd_upload.jumlah_terkecil"
 				}, 	
 				{
+					label: "Fisik <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.fisik"
+				}, 	
+				{
 					label: "LPN <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.lpn"
 				}, 	
@@ -598,6 +605,7 @@
 				select_lokasi         = edtisoittd_upload.field('isoittd_upload.select_lokasi').val();
 				jumlah_terkecil           = edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').val();
 				lpn          = edtisoittd_upload.field('isoittd_upload.lpn').val();
+				fisik          = edtisoittd_upload.field('isoittd_upload.fisik').val();
 				batch_number              = edtisoittd_upload.field('isoittd_upload.batch_number').val();
 				expired_date              = edtisoittd_upload.field('isoittd_upload.expired_date').val();
 
@@ -610,6 +618,7 @@
 						'select_lokasi': select_lokasi,
 						'jumlah_terkecil': jumlah_terkecil,
 						'lpn': lpn,
+						'fisik': fisik,
 						'batch_number': batch_number,
 						'expired_date': expired_date,
 					}

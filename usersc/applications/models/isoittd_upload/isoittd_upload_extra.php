@@ -4,6 +4,19 @@
 			// script diletakkan disini
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) use ($s_id_users, $s_username) {
+			$fisik = $values['isoittd_upload']['fisik'];
+
+			$qi_fisik = $editor->db()
+				->query('insert', 'isoittd_upload_fisik')
+				->set('fisik',$fisik)
+				->set('id_isoittd_upload',$id)
+				->exec();
+				
+			$qu_header = $editor->db()
+				->query('update', 'isoittd_upload')
+				->set('selisih',-$fisik)
+				->where('id',$id)
+				->exec();
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// script diletakkan disini
