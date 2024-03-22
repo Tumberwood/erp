@@ -13,7 +13,7 @@
 				->set('id_isoittd_upload',$id)
 				->exec();
 
-			$id_det = $qi_det->insertId();
+			$id_det = $qi_fisik->insertId();
 				
 			$qu_header = $editor->db()
 				->query('update', 'isoittd_upload')
