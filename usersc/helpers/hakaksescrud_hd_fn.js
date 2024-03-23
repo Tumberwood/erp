@@ -1228,7 +1228,7 @@ function CekDrawDetailHD(tbl_header, tbl_detail, nama_tabel ){
 
     if(cek_c_detail == 0){
         // table detail tidak wajib diisi
-
+        is_valid_cek_detail = 1;
     }else{
         // table detail wajib diisi
         // cek apakah table detail ada baris datanya
