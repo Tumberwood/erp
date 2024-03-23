@@ -42,7 +42,7 @@
 
 <div id="tabel_atas" style="display: none">
 	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 p-w-xs">
 			<div class="ibox ">
 				<div class="ibox-content">
 					<!-- start Custom Form Datatables Editor -->
@@ -99,12 +99,12 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Location</th>
+									<th>Loc</th>
 									<th>LPN</th>
-									<th>Item Code</th>
-									<th>Item Name</th>
-									<th>Batch Number</th>
-									<th>Expired Date</th>
+									<th>SKU</th>
+									<th>Name</th>
+									<th>Batch</th>
+									<th>ED</th>
 									<th>UoM</th>
 									<th>Quantity</th>
 									<th>Fisik</th>
@@ -118,7 +118,7 @@
 			</div>
 		</div>
 		
-		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 p-w-xs">
 			<div class="tabs-container">
 				<ul class="nav nav-tabs" role="tablist">
 					<li><a class="nav-link active" data-toggle="tab" href="#tabisoittd_upload_fisik_1"> Fisik</a></li>
@@ -659,7 +659,6 @@
 			searchPanes:{
 				layout: 'columns-4',
 			},
-			// serverSide : true,
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload.php",
 				type: 'POST',
@@ -682,7 +681,7 @@
 					targets: '_all'
 				}
 			],
-			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ]],
+			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
 			responsive: false,
 			scrollX: true,
 			columns: [
@@ -1102,7 +1101,8 @@
 		} );
 		
 		tblisoittd_upload_fisik = $('#tblisoittd_upload_fisik').DataTable( {
-			dom: dom0,
+			dom: "<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B>>" +
+				"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>",
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload_fisik.php",
 				type: 'POST',
@@ -1132,6 +1132,7 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [''];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
