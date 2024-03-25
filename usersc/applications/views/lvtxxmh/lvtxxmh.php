@@ -62,7 +62,7 @@
 		// ------------- end of default variable
 		
 		// get tableRelation
-		tableRelation('iumxxmh');
+		tableRelation('lvtxxmh');
 
 		$(document).ready(function() {
 
