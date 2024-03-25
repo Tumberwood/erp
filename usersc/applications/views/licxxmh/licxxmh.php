@@ -1,0 +1,279 @@
+<?php
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+
+<?php
+	$nama_tabel    = 'licxxmh';
+	$nama_tabels_d = [];
+?>
+
+<!-- begin content here -->
+<div class="row">
+	<div class="col">
+		<div class="ibox">
+			<div class="ibox-content">
+				<div class="table-responsive">
+                    <table id="tbllicxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Keterangan</th>
+                                <th>TX</th>
+                            </tr>
+                        </thead>
+                    </table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+?>
+
+<!-- BEGIN JS -->
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/licxxmh/fn/licxxmh_fn.php'; ?>
+
+<!-- BEGIN javascript here -->
+<script type="text/javascript">
+		// ------------- default variable, do not erase
+		var edtlicxxmh, tbllicxxmh, show_deleted_licxxmh = 0, id_licxxmh;
+		// ------------- end of default variable
+		
+		$(document).ready(function() {
+			//start datatables editor
+			edtlicxxmh = new $.fn.dataTable.Editor( {
+				ajax: {
+					url: "../../models/licxxmh/licxxmh.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_licxxmh = show_deleted_licxxmh;
+					}
+				},
+				table: "#tbllicxxmh",
+				fields: [ 
+					{
+						label: "licxxmh.start_at",
+						name: "licxxmh.start_at",
+						type: "hidden"
+					},	
+					{
+						label: "licxxmh.finish_at",
+						name: "licxxmh.finish_at",
+						type: "hidden"
+					},	
+					{
+						label: "nama_tabel",
+						name: "nama_tabel",
+						def: "licxxmh",
+						type: "hidden"
+					},	
+					{
+						label: "licxxmh.transaction_state",
+						name: "licxxmh.transaction_state",
+                        type: "hidden",
+						def: 0
+					},	
+					{
+						label: "Kode <sup class='text-danger'>*<sup>",
+						name: "licxxmh.kode"
+					}, 	
+					{
+						label: "Nama <sup class='text-danger'>*<sup>",
+						name: "licxxmh.nama"
+					}, 	
+					{
+						label: "Keterangan",
+						name: "licxxmh.keterangan",
+						type: "textarea"
+					}
+				]
+			} );
+
+			edtlicxxmh.on( 'preOpen', function( e, mode, action ) {
+				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtlicxxmh.field('licxxmh.start_at').val(start_at);
+				
+				if(action == 'create'){
+					tbllicxxmh.rows().deselect();
+				}
+			});
+
+			edtlicxxmh.on("open", function (e, mode, action) {
+				$(".modal-dialog").addClass("modal-lg");
+			});
+
+            edtlicxxmh.on( 'preSubmit', function (e, data, action) {
+				if(action != 'remove'){
+
+					kode = edtlicxxmh.field('licxxmh.kode').val();
+					nama = edtlicxxmh.field('licxxmh.nama').val();
+
+					validasiRequired(
+						edtlicxxmh,
+						'licxxmh',
+						{
+							'kode': kode,
+							'nama': nama
+						}
+					);
+
+					validasiUnique(
+						action,
+						edtlicxxmh,
+						'licxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_licxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtlicxxmh,
+						'licxxmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
+						id_licxxmh
+					);
+				}
+				
+				if ( edtlicxxmh.inError() ) {
+					return false;
+				}
+			});
+			
+			edtlicxxmh.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtlicxxmh.field('licxxmh.finish_at').val(finish_at);
+			});
+
+			edtlicxxmh.on( 'close', function () {
+				edtlicxxmh.enable();
+			} );
+
+			//start datatables
+			tbllicxxmh = $('#tbllicxxmh').DataTable( {
+				dom: domPQ,
+				searchPanes:{
+					layout: 'columns-4',
+				},
+				ajax: {
+					url: "../../models/licxxmh/licxxmh.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_licxxmh = show_deleted_licxxmh;
+					}
+				},
+				order: [[ 1, "asc" ]],
+				columnDefs:[
+					{
+						searchPanes:{
+							show: true,
+						},
+						targets: [1,2,3]
+					},
+					{
+						searchPanes:{
+							show: false,
+						},
+						targets: [0]
+					}
+				],
+				columns: [
+					{ data: "licxxmh.id",visible:false },
+					{ data: "licxxmh.kode" },
+					{ data: "licxxmh.nama" },
+					{ data: "licxxmh.keterangan" },
+					{ 
+						data: "licxxmh.transaction_state" ,
+						...renderTransactionStatus()
+					}
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_licxxmh';
+						$table       = 'tbllicxxmh';
+						$edt         = 'edtlicxxmh';
+						$show_status = '_licxxmh';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+					?>
+					// END breaking generate button
+				],
+				initComplete: function() {
+					this.api().searchPanes.rebuildPane();
+				},
+				rowCallback: function( row, data, index ) {
+					if ( data.licxxmh.transaction_state == -9 ) {
+						$('td', row).addClass('text-danger');
+					}else if ( data.licxxmh.transaction_state == 0 ) {
+						$('td', row).addClass('text-warning');
+					}
+				}
+			} );
+
+			tbllicxxmh.searchPanes.container().appendTo('#splicxxmh');
+			tbllicxxmh.searchBuilder.container().appendTo( '#sblicxxmh' );
+			
+			tbllicxxmh.on( 'init', function () {
+				// atur hak akses
+				CekInitHeaderH(tbllicxxmh);
+			} );
+			
+			tbllicxxmh.on( 'select', function( e, dt, type, indexes ) {
+				licxxmh_data    		= tbllicxxmh.row( { selected: true } ).data().licxxmh;
+				id_licxxmh      		= licxxmh_data.id;
+				id_transaksi_h 		= id_licxxmh; // dipakai untuk general
+				id_transaksi_log	= id_licxxmh; // dipakai untuk general
+				transaction_state   = licxxmh_data.transaction_state;
+				approval_state   	= licxxmh_data.approval_state;
+				is_nextprocess 		= licxxmh_data.is_nextprocess;
+				is_jurnal      		= licxxmh_data.is_jurnal;
+
+				// atur hak akses
+				CekSelectHeaderH(tbllicxxmh);
+			} );
+
+			tbllicxxmh.on( 'deselect', function () {
+				// reload dipanggil di function CekDeselectHeader
+				id_licxxmh = 0;
+
+				// atur hak akses
+				CekDeselectHeaderH(tbllicxxmh);
+			} );
+			
+		} );// end of document.ready
+	
+	</script>
+
+<!-- END javascript here -->
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
