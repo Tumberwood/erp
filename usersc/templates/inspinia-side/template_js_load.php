@@ -20,7 +20,6 @@
 
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/moment/moment-with-locales.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery.mask/jquery.mask.min.js"></script>
-<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery.number/jquery.number.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/notify/bootstrap-notify.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/selectize/selectize.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/quill/quill.min.js"></script>
