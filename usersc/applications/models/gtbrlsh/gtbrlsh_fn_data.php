@@ -42,6 +42,7 @@
         $rs_gtbrlsh = $qs_gtbrlsh->fetch();
         
         if(!empty($rs_gtbrlsh)){
+
             $status_code           = '200';
             $message               = 'Get Table Relation Berhasil';
             $type_message          = 'success';
@@ -49,6 +50,31 @@
             $is_need_approval      = $rs_gtbrlsh['is_need_approval'] ;
             $is_need_generate_kode = $rs_gtbrlsh['is_need_generate_kode'];
             $is_need_jurnal        = $rs_gtbrlsh['is_need_jurnal'];
+
+            // BEGIN cek is_need_generate_kode
+            if($is_need_generate_kode == 1){
+                $qs_gdnxxsh = $db
+                    ->raw()
+                    ->bind(':tbl_name', $tbl_name)
+                    ->exec('
+                        SELECT
+                            count(*) as c_gdnxxsh
+                        FROM gdnxxsh
+                        WHERE 1
+                            AND nama_tabel = :tbl_name
+                            AND transaction_state = 1
+                    ');
+                $rs_gdnxxsh = $qs_gdnxxsh->fetch();
+                if($rs_gdnxxsh['c_gdnxxsh'] == 0){
+                    $status_code           = '500';
+                    $message               = 'Get Table Relation Berhasil, Tetapi Format Kode Dokumen Belum Ada!';
+                    $type_message          = 'error';
+                }
+
+            }
+            // END cek is_need_generate_kode
+
+            
         }else{
             $status_code           = '500';
             $message               = 'Get Table Relation Gagal! Tabel belum didefinisikan di table `gtbrlsh`';
