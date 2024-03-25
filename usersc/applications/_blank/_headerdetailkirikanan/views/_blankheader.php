@@ -108,8 +108,11 @@
 	var edt_blankdetail, tbl_blankdetail, show_deleted__blankdetail = 0, id__blankdetail;
 	// ------------- end of default variable
 
+	// get tableRelation
+	tableRelation('_blankheader');
+
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN _blankheader
 		edt_blankheader = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/_blankheader/_blankheader.php",
@@ -227,7 +230,6 @@
 			edt_blankheader.enable();
 		} );
 		
-		//start datatables
 		tbl_blankheader = $('#tbl_blankheader').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -291,7 +293,7 @@
 		} );
 
 		tbl_blankheader.searchPanes.container().appendTo('#sp_blankheader');
-			tbl_blankheader.searchBuilder.container().appendTo( '#sb_blankheader' );
+		tbl_blankheader.searchBuilder.container().appendTo( '#sb_blankheader' );
 		
 		tbl_blankheader.on( 'init', function () {
 			// atur hak akses
@@ -300,14 +302,13 @@
 		} );
 		
 		tbl_blankheader.on( 'select', function( e, dt, type, indexes ) {
-			_blankheader_data    		= tbl_blankheader.row( { selected: true } ).data()._blankheader;
-			id__blankheader      		= _blankheader_data.id;
-			id_transaksi_h 		= id__blankheader; // dipakai untuk general
-			id_transaksi_log	= id__blankheader; // dipakai untuk general
-			transaction_state   = _blankheader_data.transaction_state;
-			approval_state   	= _blankheader_data.approval_state;
-			is_nextprocess 		= _blankheader_data.is_nextprocess;
-			is_jurnal      		= _blankheader_data.is_jurnal;
+			_blankheader_data = tbl_blankheader.row( { selected: true } ).data()._blankheader;
+			id__blankheader   = _blankheader_data.id;
+			id_transaksi_h    = id__blankheader;                                                // dipakai untuk general
+			id_transaksi_log  = id__blankheader;                                                // dipakai untuk general
+			transaction_state = _blankheader_data.transaction_state;
+			approval_state    = _blankheader_data.approval_state;
+			is_nextprocess    = _blankheader_data.is_nextprocess;
 			
 			// atur hak akses
 			tbl_details = [tbl_blankdetail];
@@ -323,10 +324,9 @@
 			tbl_details = [tbl_blankdetail];
 			CekDeselectHeaderHD(tbl_blankheader, tbl_details);
 		} );
-		
-// --------- start _detail --------------- //
+		// END _blankheader
 
-		//start datatables editor
+		// BEGIN _blankdetail
 		edt_blankdetail = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/_blankheader/_blankdetail.php",
@@ -445,7 +445,6 @@
 			edt_blankdetail.enable();
 		} );
 		
-		//start datatables
 		tbl_blankdetail = $('#tbl_blankdetail').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -514,10 +513,10 @@
 		} );
 
 		tbl_blankdetail.on( 'select', function( e, dt, type, indexes ) {
-			data__blankdetail 		= tbl_blankdetail.row( { selected: true } ).data()._blankdetail;
-			id__blankdetail   		= data__blankdetail.id;
-			id_transaksi_d 		= id__blankdetail; // dipakai untuk general
-			id_transaksi_log 	= id__blankdetail; // dipakai untuk log
+			data__blankdetail = tbl_blankdetail.row( { selected: true } ).data()._blankdetail;
+			id__blankdetail   = data__blankdetail.id;
+			id_transaksi_d    = id__blankdetail;                                                // dipakai untuk general
+			id_transaksi_log  = id__blankdetail;                                                // dipakai untuk log
 
 			transaction_state_d   = data__blankdetail.transaction_state;
 			
@@ -531,8 +530,8 @@
 			// atur hak akses
 			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );
 		} );
-
-// --------- end _detail --------------- //		
+		// END _blankdetail
+		
 	} );// end of document.ready
 	
 </script>

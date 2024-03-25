@@ -58,8 +58,11 @@
 		var edt_blank, tbl_blank, show_deleted__blank = 0, id__blank;
 		// ------------- end of default variable
 		
+		// get tableRelation
+		tableRelation('_blank');
+
 		$(document).ready(function() {
-			//start datatables editor
+			// BEGIN _blank
 			edt_blank = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/_blank/_blank.php",
@@ -171,7 +174,6 @@
 				edt_blank.enable();
 			} );
 
-			//start datatables
 			tbl_blank = $('#tbl_blank').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -253,7 +255,6 @@
 				transaction_state   = _blank_data.transaction_state;
 				approval_state   	= _blank_data.approval_state;
 				is_nextprocess 		= _blank_data.is_nextprocess;
-				is_jurnal      		= _blank_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tbl_blank);
@@ -266,6 +267,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tbl_blank);
 			} );
+
+			// END _blank
 			
 		} );// end of document.ready
 	
