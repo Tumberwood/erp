@@ -142,7 +142,7 @@
 							allowClear: true,
 							multiple: false,
 							ajax: {
-								url: "../../models/aakxxmh/aakxxmh_kasbank_fn_opt.php",
+								url: "../../models/aakxxmh/aakxxmh_fn_opt_kasbank.php",
 								dataType: 'json',
 								data: function (params) {
 									var query = {
@@ -178,7 +178,7 @@
 							allowClear: true,
 							multiple: false,
 							ajax: {
-								url: "../../models/aakxxmh/aakxxmh_kasbank_fn_opt.php",
+								url: "../../models/aakxxmh/aakxxmh_fn_opt_kasbank.php",
 								dataType: 'json',
 								data: function (params) {
 									var query = {

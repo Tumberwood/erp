@@ -126,7 +126,7 @@
 							allowClear: true,
 							multiple: false,
 							ajax: {
-								url: "../../models/aakxxmh/aakxxmh_parent_fn_opt.php",
+								url: "../../models/aakxxmh/aakxxmh_fn_opt_parent.php",
 								dataType: 'json',
 								data: function (params) {
 									var query = {
