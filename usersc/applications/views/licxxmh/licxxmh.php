@@ -253,7 +253,6 @@
 				transaction_state   = licxxmh_data.transaction_state;
 				approval_state   	= licxxmh_data.approval_state;
 				is_nextprocess 		= licxxmh_data.is_nextprocess;
-				is_jurnal      		= licxxmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tbllicxxmh);

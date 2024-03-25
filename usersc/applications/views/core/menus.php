@@ -341,7 +341,6 @@
 				transaction_state   = menus_extend_data.transaction_state;
 				approval_state   	= menus_extend_data.approval_state;
 				is_nextprocess 		= menus_extend_data.is_nextprocess;
-				is_jurnal      		= menus_extend_data.is_jurnal;
 				
 				id_menus_old   = menus_data.id;
 

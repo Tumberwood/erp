@@ -916,7 +916,6 @@
 			transaction_state = podxxth_data.transaction_state;
 			approval_state    = podxxth_data.approval_state;
 			is_nextprocess    = podxxth_data.is_nextprocess;
-			is_jurnal         = podxxth_data.is_jurnal;
 			id_iitxxmh_old    = podxxth_data.id_iitxxmh;
 			id_iitxxmh        = podxxth_data.id_iitxxmh;
 			id_fcrxxmh_old    = podxxth_data.id_fcrxxmh;

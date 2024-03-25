@@ -256,7 +256,6 @@
 				transaction_state   = wloctmh_data.transaction_state;
 				approval_state   	= wloctmh_data.approval_state;
 				is_nextprocess 		= wloctmh_data.is_nextprocess;
-				is_jurnal      		= wloctmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tblwloctmh);

@@ -531,7 +531,6 @@
 			transaction_state = scuxxmh_data.transaction_state;
 			approval_state    = scuxxmh_data.approval_state;
 			is_nextprocess    = scuxxmh_data.is_nextprocess;
-			is_jurnal         = scuxxmh_data.is_jurnal;
 			id_gpvxxmh_old    = scuxxmh_data.id_gpvxxmh;
 			id_gbuxxmh_old    = scuxxmh_data.id_gbuxxmh;
 			id_gctxxmh_old    = scuxxmh_data.id_gctxxmh;
