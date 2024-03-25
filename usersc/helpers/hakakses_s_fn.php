@@ -12,16 +12,19 @@
 
     // $s_where_data_permission
 
-	// use
-	// 	DataTables\Editor,
-	// 	DataTables\Editor\Query,
-	// 	DataTables\Editor\Result;
-
-    $s_arr_ha_gbrxxmh = [0];
-    $s_str_arr_ha_gbrxxmh = (0);
     $s_id_gcpxxmh = 0;  // Company
-    $s_id_gbrxxmh = 0;  // Branch
-    $s_id_hodxxmh = 0;  // Department
+
+    $s_id_gbrxxmh         = 0;    // Branch
+    $s_arr_ha_gbrxxmh     = [0];
+    $s_str_arr_ha_gbrxxmh = (0);
+
+    $s_id_iwhxxmh         = 0;    // Branch
+    $s_arr_ha_iwhxxmh     = [0];
+    $s_str_arr_ha_iwhxxmh = (0);
+    
+    $s_id_hodxxmh         = 0;    // Department
+    $s_arr_ha_hodxxmh     = [0];
+    $s_str_arr_ha_hodxxmh = (0);
 
     try{
         $s_id_users = $user->data()->id;
@@ -108,8 +111,6 @@
                         a.id_users = :s_id_users
                 ');
             $rs_udpxxsh     = $qs_udpxxsh->fetch();
-
-            // $s_username = $rs_udpxxsh['username'];
         
             if ( empty($rs_udpxxsh) ) {
                 // belum dibuatkan hak akses
@@ -117,15 +118,15 @@
                 // sudah dibuatkan hak akses
                 $s_where_data_permission = $rs_udpxxsh['data_permission'];
 
-                // cek hak akses data sesuai kebutuhan, misal:
-                // ambil id_gbrxxmh dari users yang login
+                // BEGIN data terkait  user
                 $qs_hemjbmh = $db
                     ->raw()
                     ->bind(':s_id_users', $s_id_users)
                     ->bind(':transaction_state', -9)
                     ->exec('
                     	SELECT 
-                    		a.id_gbrxxmh as id_gbrxxmh
+                    		a.id_gbrxxmh as id_gbrxxmh,
+                    		a.id_hodxxmh as id_hodxxmh
                     	FROM hemjbmh a
                         LEFT JOIN hemxxmh b ON b.id = a.id_hemxxmh
                     	WHERE 
@@ -134,8 +135,10 @@
                     ');
                 $rs_hemjbmh     = $qs_hemjbmh->fetch();
                 $s_id_gbrxxmh   = $rs_hemjbmh['id_gbrxxmh'];
+                $s_id_hodxxmh   = $rs_hemjbmh['id_hodxxmh'];
+                // END data terkait  user
 
-                // cek hak akses gbrxxmh
+                // BEGIN hak akses gbrxxmh
                 $qs_gbrxxmh = $db
                     ->raw()
                     ->bind(':s_id_users', $s_id_users)
@@ -169,6 +172,79 @@
                     $s_str_arr_ha_gbrxxmh 	= implode(",",$s_arr_ha_gbrxxmh);
 
                 }
+                // END hak akses gbrxxmh
+
+                // BEGIN hak akses hodxxmh
+                $qs_hodxxmh = $db
+                    ->raw()
+                    ->bind(':s_id_users', $s_id_users)
+                    ->bind(':transaction_state', -9)
+                    ->exec('
+                    	SELECT 
+                    		a.id_hodxxmh as id_hodxxmh
+                    	FROM udpodsd a
+                        LEFT JOIN udpxxsh b ON b.id = a.id_udpxxsh
+                    	WHERE 
+                    		b.transaction_state <> :transaction_state AND 
+                    		b.id_users = :s_id_users AND 
+                            a.transaction_state <> :transaction_state
+                    ');
+                $rs_hodxxmh     = $qs_hodxxmh->fetchAll();
+                
+                if ( empty($rs_hodxxmh) ){
+                    // jika belum ada hak akses hodxxmh
+                    $s_arr_ha_hodxxmh 		= [0];
+                    $s_str_arr_ha_hodxxmh 	= (0);
+
+                }else{
+                    // jika sudah ada hak akses hodxxmh
+                    $arr_ha_hodxxmh=array();
+
+                    foreach ($rs_hodxxmh as $value) {	
+                        array_push($arr_ha_hodxxmh, $value['id_hodxxmh']);
+                    }
+
+                    $s_arr_ha_hodxxmh 		= $arr_ha_hodxxmh;
+                    $s_str_arr_ha_hodxxmh 	= implode(",",$s_arr_ha_hodxxmh);
+
+                }
+                // END hak akses hodxxmh
+
+                // BEGIN hak akses iwhxxmh
+                $qs_iwhxxmh = $db
+                    ->raw()
+                    ->bind(':s_id_users', $s_id_users)
+                    ->bind(':transaction_state', -9)
+                    ->exec('
+                    	SELECT 
+                    		a.id_iwhxxmh as id_iwhxxmh
+                    	FROM udpodsd a
+                        LEFT JOIN udpxxsh b ON b.id = a.id_udpxxsh
+                    	WHERE 
+                    		b.transaction_state <> :transaction_state AND 
+                    		b.id_users = :s_id_users AND 
+                            a.transaction_state <> :transaction_state
+                    ');
+                $rs_iwhxxmh     = $qs_iwhxxmh->fetchAll();
+                
+                if ( empty($rs_iwhxxmh) ){
+                    // jika belum ada hak akses iwhxxmh
+                    $s_arr_ha_iwhxxmh 		= [0];
+                    $s_str_arr_ha_iwhxxmh 	= (0);
+
+                }else{
+                    // jika sudah ada hak akses iwhxxmh
+                    $arr_ha_iwhxxmh=array();
+
+                    foreach ($rs_iwhxxmh as $value) {	
+                        array_push($arr_ha_iwhxxmh, $value['id_iwhxxmh']);
+                    }
+
+                    $s_arr_ha_iwhxxmh 		= $arr_ha_iwhxxmh;
+                    $s_str_arr_ha_iwhxxmh 	= implode(",",$s_arr_ha_iwhxxmh);
+
+                }
+                // END hak akses iwhxxmh
             }
         }
         
@@ -185,9 +261,14 @@
 
         // BEGIN optional
         's_id_gcpxxmh'         => $s_id_gcpxxmh,
+
         's_id_gbrxxmh'         => $s_id_gbrxxmh,
         's_arr_ha_gbrxxmh'     => $s_arr_ha_gbrxxmh,
-        's_str_arr_ha_gbrxxmh' => $s_str_arr_ha_gbrxxmh
+        's_str_arr_ha_gbrxxmh' => $s_str_arr_ha_gbrxxmh,
+
+        's_id_hodxxmh'         => $s_id_hodxxmh,
+        's_arr_ha_hodxxmh'     => $s_arr_ha_hodxxmh,
+        's_str_arr_ha_hodxxmh' => $s_str_arr_ha_hodxxmh,
         // END optional
     );
 	
