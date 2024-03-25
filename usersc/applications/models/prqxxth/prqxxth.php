@@ -24,14 +24,14 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'prqxxth.id' ),
-			Field::inst( 'prqxxth.id_hodxxmh' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prqxxth.id_gcpxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue(1),
 			Field::inst( 'prqxxth.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue(1),
+			Field::inst( 'prqxxth.id_hodxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prqxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -61,9 +61,13 @@
 					'to' =>   'Y-m-d'
 				) ),
 			
-			Field::inst( 'hodxxmh.nama' )
+			Field::inst( 'hodxxmh.nama' ),
+			Field::inst( 'activity_log_ml_c.created_by' )
 		)
 		->leftJoin( 'hodxxmh','hodxxmh.id','=','prqxxth.id_hodxxmh' )
+		->leftJoin( 
+			'activity_log_ml as activity_log_ml_c', 
+			'activity_log_ml_c.id_transaksi = prqxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "prqxxth"', '', '' )
 		;
 	
 	// do not erase
@@ -73,6 +77,14 @@
 			->where( 'prqxxth.transaction_state', -9, '<>');
 	}
 	
+	if($s_id_users > 100){
+		if($s_where_data_permission == 1){
+			$editor->where('activity_log_ml_c.created_by', $s_id_users);
+		}else{
+			
+		}
+	}
+
 	include( "prqxxth_extra.php" );
 
 
