@@ -68,7 +68,7 @@ function validasiRequired(edt, tbl_name, fields){
  *  action              : action    | trigger action datatables editor
  *  edt                 : object    | nama variable datatables editor
  *  tabel               : string    | nama tabel database terkait
- *  field_edt           : string    | nama field pada datatables editor (tanpa nama table)
+ *  field_edt           : string    | nama field pada datatables editor (tanpa nama table). multiple, pisahkan dengan koma
  *  nama_field          : string    | nama field pada tabel database yang akan di cek. Biasanya sama seperti field_edt
  *  nama_field_value    : any       | sesuai tipe data dari value yang akan dicek. Jika string harus diapit quote atau double quotes
  *  id_transaksi        : int       | id dari transaksi yang akan dicek. Diambilkan dari variable id__blank
