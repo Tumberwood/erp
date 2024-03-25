@@ -24,8 +24,8 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Gol</th>
-                                <th>Tonase</th>
-                                <th>Kubikasi</th>
+                                <th>Berat Max</th>
+                                <th>Dimensi Max</th>
                                 <th>Keterangan</th>
                                 <th>TX</th>
                             </tr>
@@ -112,12 +112,12 @@
 						name: "lvtxxmh.golongan",
 					},
 					{
-						label: "Tonase (kg)",
-						name: "lvtxxmh.tonase",
+						label: "Berat Maksimal (kg)",
+						name: "lvtxxmh.berat_maksimal",
 					},
 					{
-						label: "Kubikasi (m<sup>3</sup>)",
-						name: "lvtxxmh.kubikasi",
+						label: "Dimensi Maksimal (m<sup>3</sup>)",
+						name: "lvtxxmh.dimensi_maksimal",
 					},
 					{
 						label: "Keterangan",
@@ -233,11 +233,11 @@
 					{ data: "lvtxxmh.nama" },
 					{ data: "lvtxxmh.golongan" },
 					{ 
-						data: "lvtxxmh.tonase" ,
+						data: "lvtxxmh.berat_maksimal" ,
 						...renderNumber(0)
 					},
 					{ 
-						data: "lvtxxmh.kubikasi" ,
+						data: "lvtxxmh.dimensi_maksimal" ,
 						...renderNumber(2)
 					},
 					{ data: "lvtxxmh.keterangan" },

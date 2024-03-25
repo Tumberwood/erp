@@ -40,8 +40,8 @@
 			Field::inst( 'lvtxxmh.finish_at' ),
 			Field::inst( 'lvtxxmh.is_defaultprogram' ),
 			Field::inst( 'lvtxxmh.golongan' ),
-			Field::inst( 'lvtxxmh.tonase' ),
-			Field::inst( 'lvtxxmh.kubikasi' )
+			Field::inst( 'lvtxxmh.berat_maksimal' ),
+			Field::inst( 'lvtxxmh.dimensi_maksimal' )
 		);
 	
 	// do not erase
