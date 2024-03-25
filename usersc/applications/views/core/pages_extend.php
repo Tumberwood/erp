@@ -58,10 +58,12 @@
 		var edtpages, tblpages, id_pages;
 		// ------------- end of default variable
 
-		is_master_table = 1;
+		// get tableRelation
+		tableRelation('pages');		
 		
 		$(document).ready(function() {
-			//start datatables editor
+			
+			// BEGIN pages
 			edtpages = new $.fn.dataTable.Editor( {
 				formOptions: {
 					main: {
@@ -77,7 +79,7 @@
 				table: "#tblpages",
 				formOptions: {
 					main: {
-						focus: 5
+						focus: 6
 					}
 				},
 				fields: [ 
@@ -227,11 +229,6 @@
 			tblpages.searchPanes.container().appendTo('#sppages_extend');
 			tblpages.searchBuilder.container().appendTo( '#sbpages_extend' );
 
-			// Activate the bubble editor on click of a table cell
-			$('#tblpages').on('click', 'tbody td:not(:first-child)', function (e) {
-				edtpages.bubble(this);
-			});
-
 			tblpages.on( 'init', function () {
 				// atur hak akses
 				CekInitHeaderH(tblpages);
@@ -246,7 +243,6 @@
 				transaction_state   = pages_extend_data.transaction_state;
 				approval_state   	= pages_extend_data.approval_state;
 				is_nextprocess 		= pages_extend_data.is_nextprocess;
-				is_jurnal      		= pages_extend_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tblpages);
@@ -259,6 +255,8 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblpages);
 			} );
+
+			// END pages
 
 		} );// end of document.ready
 	
