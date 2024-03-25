@@ -17,7 +17,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-				<div class="table-responsive">
+				
                     <table id="tblitoxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                     </table>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -44,19 +44,19 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabitoittd_1" class="tab-pane active">
 					<div class="panel-body">
-						<div class="table-responsive">
+						
 							<table id="tblitoittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_itoxxth</th>
+										<th>SKU</th>
 										<th>Item</th>
 										<th>UoM</th>
 										<th>Quantity</th>
 									</tr>
 								</thead>
 							</table>
-						</div> <!-- end of table -->
 
 					</div>
 				</div>
@@ -235,7 +235,7 @@
 					type: "textarea"
 				}
 			]
-		} );
+		} );		
 		
 		edtitoxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -316,6 +316,7 @@
 				}
 			},
 			order: [[ 1, "desc" ]],
+			// orderFixed: [1, 'asc'],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -360,7 +361,6 @@
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
-					$arr_buttons_approve 	= ['approve', 'cancel_approve', 'void','noapprove'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -471,12 +471,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_iitxxmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
-									ids_iittpmh: 1,
+									ids_iitxxmh: 1,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -508,7 +508,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_iimummd_fn_opt.php",
+							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -540,14 +540,16 @@
 					label: "Quantity <sup class='text-danger'>*<sup>",
 					name: "itoittd.jumlah_unit"
 				}, 	
-				// {
-				// 	label: "Keterangan",
-				// 	name: "itoittd.keterangan",
-				// 	type: "textarea"
-				// }
+				{
+					label: "Keterangan",
+					name: "itoittd.keterangan",
+					type: "textarea"
+				}
 			]
 		} );
 			
+		edtitoittd.field('itoittd.jumlah_unit').input().addClass('text-right');
+
 		edtitoittd.on( 'preOpen', function( e, mode, action ) {
 			edtitoittd.field('itoittd.id_itoxxth').val(id_itoxxth);
 			
@@ -611,6 +613,9 @@
 				id_transaksi = json.data[0].itoittd.id;
 				konversiUom('itoittd', id_transaksi);
 			}
+
+			// tblitoittd.rows().deselect();
+			tblitoittd.ajax.reload(null, false);
 		} );
 
 		edtitoittd.on( 'close', function () {
@@ -649,6 +654,7 @@
 			columns: [
 				{ data: "itoittd.id",visible:false },
 				{ data: "itoittd.id_itoxxth",visible:false },
+				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh_unit.nama" },
 				{ 

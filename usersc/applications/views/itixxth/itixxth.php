@@ -81,6 +81,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/itixxth/fn/itixxth_fn.php'; ?>
@@ -304,18 +305,17 @@
 		
 		edtitixxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				// BEGIN of validasi itixxth.id_itoxxth 
 				id_itoxxth = edtitixxth.field('itixxth.id_itoxxth').val();
-				if(!id_itoxxth || id_itoxxth == ''){
-					edtitixxth.field('itixxth.id_itoxxth').error( 'Wajib diisi!' );
-				}
-
-				// BEGIN of validasi itixxth.tanggal 
 				tanggal = edtitixxth.field('itixxth.tanggal').val();
-				if(!tanggal || tanggal == ''){
-					edtitixxth.field('itixxth.tanggal').error( 'Wajib diisi!' );
-				}
-				// END of validasi itixxth.tanggal
+
+				validasiRequired(
+					edtitixxth,
+					'itixxth',
+					{
+						'id_itoxxth': id_itoxxth,
+						'tanggal': tanggal
+					}
+				);
 			}
 			
 			if ( edtitixxth.inError() ) {
@@ -542,7 +542,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_iimummd_fn_opt.php",
+							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -600,41 +600,29 @@
 		edtitiittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				id_iimxxmh = edtitiittd.field('itiittd.id_iimxxmh').val();
-				if(!id_iimxxmh || id_iimxxmh == ''){
-					edtitiittd.field('itiittd.id_iimxxmh').error( 'Wajib diisi!' );
-				}
-				
 				id_iumxxmh = edtitiittd.field('itiittd.id_iumxxmh_unit').val();
-				if(!id_iumxxmh || id_iumxxmh == ''){
-					edtitiittd.field('itiittd.id_iumxxmh_unit').error( 'Wajib diisi!' );
-				}
-				
 				jumlah_unit = edtitiittd.field('itiittd.jumlah_unit').val();
-				if(!jumlah_unit || jumlah_unit == ''){
-					edtitiittd.field('itiittd.jumlah_unit').error( 'Wajib diisi!' );
-				}
 
-				// validasi min atau max angka
-				if(jumlah_unit <= 0 ){
-					edtitiittd.field('itiittd.jumlah_unit').error( 'Inputan harus > 0' );
-				}
-				
-				// validasi angka
-				if(isNaN(jumlah_unit) ){
-					edtitiittd.field('itiittd.jumlah_unit').error( 'Inputan harus berupa Angka!' );
-				}
-				validasiQty(id_iimxxmh, id_iumxxmh, jumlah_unit,jumlah_unit_old);
-                // console.log('IN = '+terkecil_in);
-                // console.log('OUT = '+terkecil_out);
-
-				if (terkecil_in > terkecil_out) {
-					if (id_iumxxmh == id_iumxxmh_out) {
-						edtitiittd.field('itiittd.jumlah_unit').error( 'Quantity Tidak Boleh Melebihi '+text );
-					} else {
-						edtitiittd.field('itiittd.jumlah_unit').error( 'Quantity Tidak Boleh Melebihi '+terkecil_out+' '+satuan);
+				validasiRequired(
+					edtitiittd,
+					'itiittd',
+					{
+						'id_iimxxmh': id_iimxxmh,
+						'id_iumxxmh': id_iumxxmh,
+						'jumlah_unit': jumlah_unit
 					}
-				}
-
+				);
+				
+				validasiNumber(
+					edtitiittd,
+					'itiittd',
+					{
+						'jumlah_unit': jumlah_unit,
+					},
+					0,
+					'>'
+				);
+			
 			}
 			
 			if ( edtitiittd.inError() ) {

@@ -1092,7 +1092,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_iimummd_fn_opt.php",
+							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
