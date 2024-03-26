@@ -178,12 +178,12 @@
 		edt_blankheader.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edt_blank.field('_blank.kode').val();
-				nama = edt_blank.field('_blank.nama').val();
+				kode = edt_blankheader.field('_blankheader.kode').val();
+				nama = edt_blankheader.field('_blankheader.nama').val();
 
 				validasiRequired(
-					edt_blank,
-					'_blank',
+					edt_blankheader,
+					'_blankheader',
 					{
 						'kode': kode,
 						'nama': nama
@@ -192,22 +192,22 @@
 
 				validasiUnique(
 					action,
-					edt_blank,
-					'_blank',
+					edt_blankheader,
+					'_blankheader',
 					'kode',
 					'kode',
 					'"'+kode+'"',
-					id__blank
+					id__blankheader
 				);
 
 				validasiUnique(
 					action,
-					edt_blank,
-					'_blank',
+					edt_blankheader,
+					'_blankheader',
 					'nama',
 					'nama',
 					'"'+nama+'"',
-					id__blank
+					id__blankheader
 				);
 			}
 			
@@ -405,11 +405,11 @@
 		edt_blankdetail.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edt_blank.field('_blank.kode').val();
+				kode = edt_blankdetail.field('_blankdetail.kode').val();
 
 				validasiRequired(
-					edt_blank,
-					'_blank',
+					edt_blankdetail,
+					'_blankdetail',
 					{
 						'kode': kode
 					}
@@ -417,12 +417,12 @@
 
 				validasiUnique(
 					action,
-					edt_blank,
-					'_blank',
+					edt_blankdetail,
+					'_blankdetail',
 					'kode',
 					'kode',
 					'"'+kode+'"',
-					id__blank
+					id__blankdetail
 				);
 
 			}
