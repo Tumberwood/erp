@@ -308,13 +308,20 @@
                             className: 'btn btn-sm', 
                             titleAttr: 'Add New',
                             formButtons: [
-                            {
-                                text: 'Cancel',
-                                action: function () {
-                                    this.close();
+                                {
+                                    text: 'Cancel',
+                                    action: function () {
+                                        this.close();
+                                    },
+                                    className: 'btn btn-warning m-r-xs'
+                                },
+                                {
+                                    text: 'Save',
+                                    action: function () {
+                                        this.submit();
+                                    },
+                                    className: 'btn btn-primary'
                                 }
-                            },
-                            'Create'
                             ]
                         },
 <?php
@@ -483,13 +490,20 @@
                             className: 'btn btn-sm',
                             titleAttr: 'Edit',
                             formButtons: [
-                            {
-                                text: 'Cancel',
-                                action: function () {
-                                    this.close();
+                                {
+                                    text: 'Cancel',
+                                    action: function () {
+                                        this.close();
+                                    },
+                                    className: 'btn btn-warning m-r-xs'
+                                },
+                                {
+                                    text: 'Save',
+                                    action: function () {
+                                        this.submit();
+                                    },
+                                    className: 'btn btn-primary'
                                 }
-                            },
-                            'Edit'
                             ]
                         },
 <?php
