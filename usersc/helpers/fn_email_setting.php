@@ -14,22 +14,14 @@
      *  https://mailtrap.io/blog/phpmailer-gmail/
      */
 
-
-    // untuk dipanggil dari include file lain
-    // require_once( "../../../../usersc/vendor/autoload.php" );
-
-    // untuk tes jika menjalankan di file ini
-    // include_once( "../../usersc/lib/DataTables.php" );
-    // require_once( "../../usersc/vendor/autoload.php" );
     
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-
     $qs_email = $db
         ->raw()
-        ->bind(':id', 4)
+        ->bind(':id', 1)
         ->exec('
             SELECT
                 debug_level,
@@ -57,9 +49,10 @@
     $mail->SMTPSecure = $rs_email['transport'];     // jika di server, gunakan tls. localhost bisa ssl
 
     $mail->setFrom($rs_email['from_email'], $rs_email['from_name'] );
+    $mail->isHTML(true);
 
     // optional BCC wajib untuk keperluan testing cek email terkirim atau tidak
-    $mail->addBCC('omfrans.solusi@solusi-indonesia.com');
+    // $mail->addBCC('omfrans.solusi@solusi-indonesia.com');
 
     // parameter lain ditambahkan di masing-masing halaman yang mau di emailkan
     // parameter yang bisa digunakan
