@@ -233,6 +233,26 @@
 
 	var imtxxmh_kode 		= 0; // untuk movement type
 
+	// BEGIN default jquery-validator
+	$.validator.setDefaults({
+		errorPlacement: function(error, element) {
+			// Kosongkan untuk mencegah penempatan pesan error di DOM
+		},
+		showErrors: function(errorMap, errorList) {
+			if (errorList.length) {
+				var errorMessages = [];
+				$.each(errorList, function(index, error) {
+					errorMessages.push(error.message);
+				});				
+				toastr.error(errorMessages.join("<br>"));
+			}
+			this.defaultShowErrors();
+		},
+		onfocusout: false, // Tidak memvalidasi saat focus hilang dari input
+		onkeyup: false     // Tidak memvalidasi saat keyup di input
+	});
+	// END default jquery-validator
+
 	$(document).ready(function() {
 		// BEGIN notification
 		if(is_notification == 1){
