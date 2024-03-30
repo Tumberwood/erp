@@ -333,3 +333,12 @@ function validasiOutstanding(edt, tbl_name, id_transaksi) {
     } );
 
 }
+
+// BEGIN custom jquery-validation
+$.validator.addMethod("validDate", function(value, element, dateFormat) {
+    if (this.optional(element)) {
+        return true;
+    }
+    return moment(value, dateFormat, true).isValid();
+}, "Format tanggal salah! harap pilih dari Kalender");
+// BEGIN custom jquery-validation
