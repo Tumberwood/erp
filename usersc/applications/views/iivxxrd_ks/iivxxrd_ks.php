@@ -39,13 +39,13 @@
 					<div class="form-group row">												
                         <label class="col-sm-2 col-form-label">Warehouse</label>
                         <div class="col-sm-4">
-                            <select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh" required></select>
+                            <select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh"></select>
                         </div>
                     </div>
 					<div class="form-group row">												
                         <label class="col-sm-2 col-form-label">Item</label>
                         <div class="col-sm-4">
-                            <select class="form-control" id="select_id_iimxxmh" name="select_id_iimxxmh" required></select>
+                            <select class="form-control" id="select_id_iimxxmh" name="select_id_iimxxmh"></select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -270,26 +270,33 @@
 				e.preventDefault();
 			}).validate({
 				rules: {
-					
+					start_date: {
+						required: true,
+						validDate: "DD MMM YYYY"
+					},
+					end_date: {
+						required: true,
+						validDate: "DD MMM YYYY"
+					},
+					id_iwhxxmh: {
+						required: true
+					},
+					id_iimxxmh: {
+						required: true
+					}
 				},
 				submitHandler: function(frmiivxxrd) {
-					start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
-					end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
+					start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+					end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
 					id_iwhxxmh = $('#select_id_iwhxxmh').val();
 					id_iimxxmh = $('#select_id_iimxxmh').val();
 					
-					notifyprogress = $.notify({
-						message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-					},{
-						z_index: 9999,
-						allow_dismiss: false,
-						type: 'info',
-						delay: 0
-					});
+					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 
 					tbliivxxrd_ks.rows().deselect();
 					tbliivxxrd_ks.ajax.reload(function ( json ) {
-						notifyprogress.close();
+						toastr.remove();
+						toastr["success"]("Load data berhasil","INFO")
 					}, false);
 					return false; 
 				}
