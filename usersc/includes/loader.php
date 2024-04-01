@@ -32,9 +32,11 @@ if(hasPerm([2])){
     $hak_u = 1;
     $hak_d = 1;
     $hak_a = 1;
+    $hak_e = 1;
+    $hak_p = 1;
 }else{
     if($is_private == 1){
-        $sql_select_ucudasd = $db->query('SELECT id, hak_c, hak_u, hak_d, hak_a FROM ucudasd WHERE id_users = ' . $_SESSION["user"] . ' AND id_pages = ' . $pageId);
+        $sql_select_ucudasd = $db->query('SELECT id, hak_c, hak_u, hak_d, hak_a, hak_e, hak_p FROM ucudasd WHERE id_users = ' . $_SESSION["user"] . ' AND id_pages = ' . $pageId);
         
         // cek sudah di set atau belum, jika belum maka tidak punya hak akses crud
         if ($sql_select_ucudasd->count() > 0) {
@@ -42,16 +44,22 @@ if(hasPerm([2])){
             $hak_u = $sql_select_ucudasd->first()->hak_u;
             $hak_d = $sql_select_ucudasd->first()->hak_d;
             $hak_a = $sql_select_ucudasd->first()->hak_a;
+            $hak_e = $sql_select_ucudasd->first()->hak_e;
+            $hak_p = $sql_select_ucudasd->first()->hak_p;
         }else {
             $hak_c = 0;
             $hak_u = 0;
             $hak_d = 0;
             $hak_a = 0;
+            $hak_e = 0;
+            $hak_p = 0;
         }
     }else{
         $hak_c = 0;
         $hak_u = 0;
         $hak_d = 0;
         $hak_a = 0;
+        $hak_e = 0;
+        $hak_p = 0;
     }
 }

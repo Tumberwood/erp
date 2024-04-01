@@ -38,6 +38,8 @@
  * hak_u        : hak akses Update data
  * hak_d        : hak akses Remove, Non Aktif, Reactivate data
  * hak_a        : hak akses Approve, Cancel Approve, Void data
+ * hak_e        : hak akses Export Excel, Export pdf, Copy Clipboard
+ * hak_p        : hak akses Print
  * 
  * Variable lain yang berpengaruh
  * cek_c_detail : digunakan untuk menentukan apakah table detail wajib diisi minimal 1 baris. 
@@ -182,7 +184,20 @@ function CekInitHeaderH(tbl_header){
         console.log('c_btnSetAction ' + c_btnSetAction);
         console.log('c_btnSetApprove ' + c_btnSetApprove);
         console.log('hak_c ' + hak_c);
+        console.log('hak_e ' + hak_e);
     }
+
+    // BEGIN btnExcel
+    if(hak_e == 1){
+        tbl_header.button( 'btnExcel:name' )
+            .nodes()
+            .css( 'display', 'block' );
+    }else{
+        tbl_header.button( 'btnExcel:name' )
+            .nodes()
+            .css( 'display', 'none' );
+    }
+    // END btnExcel
 
     // BEGIN btnCreate
     if(hak_c == 1){
@@ -674,6 +689,30 @@ function CekInitHeaderHD(tbl_header, tbl_details){
     is_valid_cek_detail_final = 0;
     // digunakan untuk inisiasi table header di halaman header detail
 
+    // BEGIN btn Export & Copy
+    if(hak_e == 1){
+        tbl_header.button( 'btnExcel:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        tbl_header.button( 'btnPdf:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        tbl_header.button( 'btnCopy:name' )
+            .nodes()
+            .css( 'display', 'block' );
+    }else{
+        tbl_header.button( 'btnExcel:name' )
+            .nodes()
+            .css( 'display', 'none' );
+        tbl_header.button( 'btnPdf:name' )
+            .nodes()
+            .css( 'display', 'none' );
+        tbl_header.button( 'btnCopy:name' )
+            .nodes()
+            .css( 'display', 'none' );
+    }
+    // END btn Export & Copy
+
     // BEGIN Set Action
     // BEGIN btnCreate
     if(hak_c == 1){
@@ -804,6 +843,31 @@ function CekInitHeaderHD(tbl_header, tbl_details){
 
     // BEGIN looping semua table detail
     for (let i = 0; i < tbl_details.length; i++) {
+
+        // BEGIN btn Export & Copy
+        if(hak_e == 1){
+            tbl_details[i].button( 'btnExcel:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            tbl_details[i].button( 'btnPdf:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            tbl_details[i].button( 'btnCopy:name' )
+                .nodes()
+                .css( 'display', 'block' );
+        }else{
+            tbl_details[i].button( 'btnExcel:name' )
+                .nodes()
+                .css( 'display', 'none' );
+            tbl_details[i].button( 'btnPdf:name' )
+                .nodes()
+                .css( 'display', 'none' );
+            tbl_details[i].button( 'btnCopy:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
+        // END btn Export & Copy
+
         // BEGIN btnCreate
         tbl_details[i].button( 'btnCreate:name' )
             .nodes()

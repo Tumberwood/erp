@@ -194,6 +194,8 @@
 	var hak_u               = <?php echo json_encode($hak_u) ?>;
 	var hak_d               = <?php echo json_encode($hak_d) ?>;
 	var hak_a               = <?php echo json_encode($hak_a) ?>;
+	var hak_e               = <?php echo json_encode($hak_e) ?>;
+	var hak_p               = <?php echo json_encode($hak_p) ?>;
 	
 	var is_master_table		= 0;	// jika master table, maka bisa edit meskipun sudah confirm
 	var id_transaksi_log	= 0;
