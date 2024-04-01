@@ -48,6 +48,13 @@
             // Jika Tim Solusi Indonesia
             $s_where_data_permission = 0;
 
+            $hak_c = 1;
+            $hak_u = 1;
+            $hak_d = 1;
+            $hak_a = 1;
+            $hak_e = 1;
+            $hak_p = 1;
+
             // BEGIN gcpxxmh default
             $qs_gcpxxmh = $db
                 ->raw()
@@ -138,6 +145,44 @@
                 $s_id_hodxxmh   = $rs_hemjbmh['id_hodxxmh'];
                 // END data terkait  user
 
+                // BEGIN hak akses ucudasd
+                $qs_ucudasd = $db
+                    ->raw()
+                    ->bind(':s_id_users', $s_id_users)
+                    ->bind(':transaction_state', -9)
+                    ->exec('
+                    	SELECT 
+                    		a.hak_c as hak_c,
+                    		a.hak_u as hak_u,
+                    		a.hak_d as hak_d,
+                    		a.hak_a as hak_a,
+                    		a.hak_e as hak_e,
+                    		a.hak_p as hak_p
+                    	FROM ucudasd a
+                        LEFT JOIN udpxxsh b ON b.id = a.id_udpxxsh
+                    	WHERE 
+                    		b.transaction_state <> :transaction_state AND 
+                    		b.id_users = :s_id_users AND 
+                            a.transaction_state <> :transaction_state
+                    ');
+                $rs_ucudasd     = $qs_ucudasd->fetch();
+                
+                if ( empty($rs_ucudasd) ){
+                    // jika belum ada hak akses ucudasd
+                    // ikut default 0
+
+                }else{
+                    // jika sudah ada hak akses ucudasd
+                    $hak_c = $rs_ucudasd['hak_c'];
+                    $hak_u = $rs_ucudasd['hak_u'];
+                    $hak_d = $rs_ucudasd['hak_d'];
+                    $hak_a = $rs_ucudasd['hak_a'];
+                    $hak_e = $rs_ucudasd['hak_e'];
+                    $hak_p = $rs_ucudasd['hak_p'];
+
+                }
+                // END hak akses ucudasd
+
                 // BEGIN hak akses gbrxxmh
                 $qs_gbrxxmh = $db
                     ->raw()
@@ -218,7 +263,7 @@
                     ->exec('
                     	SELECT 
                     		a.id_iwhxxmh as id_iwhxxmh
-                    	FROM udpodsd a
+                    	FROM udpwhsd a
                         LEFT JOIN udpxxsh b ON b.id = a.id_udpxxsh
                     	WHERE 
                     		b.transaction_state <> :transaction_state AND 
@@ -258,6 +303,13 @@
         's_username' => $s_username,
         
         's_where_data_permission' => $s_where_data_permission,
+        
+        'hak_c' => $hak_c,
+        'hak_u' => $hak_u,
+        'hak_d' => $hak_d,
+        'hak_a' => $hak_a,
+        'hak_e' => $hak_e,
+        'hak_p' => $hak_p,
 
         // BEGIN optional
         's_id_gcpxxmh'         => $s_id_gcpxxmh,
