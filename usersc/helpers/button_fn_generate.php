@@ -22,6 +22,7 @@
  * |                            |                                                                                           |
  * | btnSetApproval             |                                                                                           |
  * |    btnApprove:name         | Approval, approval_state = 1, masih bisa di cancel Approve jika belum Next Process        |
+ * |    btnCancelApprove:name   | Approval, approval_state = -1                                                             |
  * |    btnVoid:name            | Void, approval_state = -9. Sudah tidak dapat diapa-apakah lagi                            |
  * +----------------------------+-------------------------------------------------------------------------------------------+
  */
@@ -81,6 +82,7 @@
             set button approval
                 table.button( 'btnSetApprove:name' );
                     table.button( 'btnApprove:name' );
+                    table.button( 'btnCancelApprove:name' );
                     table.button( 'btnVoid:name' );
 
         Kegunaan:
@@ -361,7 +363,7 @@
                                             toast_type   = json.data.type_message;
 
                                             if(status_code == 200){
-                                                console.log('200');
+
                                                 if(is_need_generate_kode == 1){
                                                     $.ajax( {
                                                         url: '../../../helpers/kode_fn_generate_confirm.php',
