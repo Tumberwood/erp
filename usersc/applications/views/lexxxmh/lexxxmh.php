@@ -7,9 +7,9 @@
 ?>
 
 <?php
-	$nama_tabel       = 'lexxxmh';
+	$nama_tabel       = 'grlxxmh';
     $nama_tabels_d 	= [];
-    $nama_tabels_d[0] = 'lexlomd';
+    $nama_tabels_d[0] = 'grllomd';
 ?>
 
 <!-- begin content here -->
@@ -18,7 +18,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tbllexxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblgrlxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -36,17 +36,17 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tablexlomd"> Location</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabgrllomd"> Location</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tablexlomd" class="tab-pane active">
+				<div role="tabpanel" id="tabgrllomd" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tbllexlomd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblgrllomd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_lexxxmh</th>
+										<th>id_grlxxmh</th>
 										<th>Lokasi</th>
 										<th>PIC</th>
 										<th>Keterangan</th>
@@ -86,62 +86,64 @@
 <script type="text/javascript">
 	cekNotification();
 	// ------------- default variable, do not erase
-	var edtlexxxmh, tbllexxxmh, show_deleted_lexxxmh = 0, id_lexxxmh;
-	var edtlexlomd, tbllexlomd, show_deleted_lexlomd = 0, id_lexlomd;
+	var edtgrlxxmh, tblgrlxxmh, show_deleted_grlxxmh = 0, id_grlxxmh;
+	var edtgrllomd, tblgrllomd, show_deleted_grllomd = 0, id_grllomd;
 	// ------------- end of default variable
+
+	var kategori_dokumen = 'is_expedition', kategori_dokumen_value = 1;
 
 	var id_gctxxmh_old = 0;
 
 	// get tableRelation
-	tableRelation('lexxxmh');
+	tableRelation('grlxxmh');
 
 	$(document).ready(function() {
 		
-		// BEGIN lexxxmh
-		edtlexxxmh = new $.fn.dataTable.Editor( {
+		// BEGIN grlxxmh
+		edtgrlxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/lexxxmh/lexxxmh.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_lexxxmh = show_deleted_lexxxmh;
+					d.show_deleted_grlxxmh = show_deleted_grlxxmh;
 				}
 			},
-			table: "#tbllexxxmh",
+			table: "#tblgrlxxmh",
 			fields: [ 
 				{
-					label: "lexxxmh.start_at",
-					name: "lexxxmh.start_at",
+					label: "grlxxmh.start_at",
+					name: "grlxxmh.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "lexxxmh.finish_at",
-					name: "lexxxmh.finish_at",
+					label: "grlxxmh.finish_at",
+					name: "grlxxmh.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "lexxxmh",
+					def: "grlxxmh",
 					type: "hidden"
 				},	
 				{
-					label: "lexxxmh.transaction_state",
-					name: "lexxxmh.transaction_state",
+					label: "grlxxmh.transaction_state",
+					name: "grlxxmh.transaction_state",
 					type: "hidden",
 					def: 0
 				},
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "lexxxmh.nama"
+					name: "grlxxmh.nama"
 				},
 				{
 					label: "Alamat <sup class='text-danger'>*<sup>",
-					name: "lexxxmh.alamat",
+					name: "grlxxmh.alamat",
 					type: "textarea"
 				},
 				{
 					label: "Kota",
-					name: "lexxxmh.id_gctxxmh",
+					name: "grlxxmh.id_gctxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -177,46 +179,43 @@
 				},
 				{
 					label: "Keterangan",
-					name: "lexxxmh.keterangan",
+					name: "grlxxmh.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 		
-		edtlexxxmh.on( 'preOpen', function( e, mode, action ) {
+		edtgrlxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtlexxxmh.field('lexxxmh.start_at').val(start_at);
+			edtgrlxxmh.field('grlxxmh.start_at').val(start_at);
 
 			if(action == 'create'){
-				tbllexxxmh.rows().deselect();
+				tblgrlxxmh.rows().deselect();
 
-				edtlexxxmh.field('lexxxmh.kode').enable();
-				edtlexxxmh.field('lexxxmh.nama').enable();
+				edtgrlxxmh.field('grlxxmh.nama').enable();
 			}else if(action == 'edit'){
 					
 				if(transaction_state == 0){
-					edtlexxxmh.field('lexxxmh.kode').enable();
-					edtlexxxmh.field('lexxxmh.nama').enable();
+					edtgrlxxmh.field('grlxxmh.nama').enable();
 				}else{
-					edtlexxxmh.field('lexxxmh.kode').disable();
-					edtlexxxmh.field('lexxxmh.nama').disable();
+					edtgrlxxmh.field('grlxxmh.nama').disable();
 				}
 			}
 		});
 
-		edtlexxxmh.on("open", function (e, mode, action) {
+		edtgrlxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtlexxxmh.on( 'preSubmit', function (e, data, action) {
+		edtgrlxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				
-				nama = edtlexxxmh.field('lexxxmh.nama').val();
-				alamat = edtlexxxmh.field('lexxxmh.alamat').val();
+				nama = edtgrlxxmh.field('grlxxmh.nama').val();
+				alamat = edtgrlxxmh.field('grlxxmh.alamat').val();
 
 				validasiRequired(
-					edtlexxxmh,
-					'lexxxmh',
+					edtgrlxxmh,
+					'grlxxmh',
 					{
 						'nama': nama,
 						'alamat': alamat
@@ -225,36 +224,36 @@
 
 				validasiUnique(
 					action,
-					edtlexxxmh,
-					'lexxxmh',
+					edtgrlxxmh,
+					'grlxxmh',
 					'nama',
 					'nama',
 					'"'+nama+'"',
-					id_lexxxmh
+					id_grlxxmh
 				);
 			}
 			
-			if ( edtlexxxmh.inError() ) {
+			if ( edtgrlxxmh.inError() ) {
 				return false;
 			}
 		});
 
-		edtlexxxmh.on('initSubmit', function(e, action) {
+		edtgrlxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtlexxxmh.field('lexxxmh.finish_at').val(finish_at);
+			edtgrlxxmh.field('grlxxmh.finish_at').val(finish_at);
 		});
 		
-		edtlexxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtgrlxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
 		} );
 
-		edtlexxxmh.on( 'close', function () {
-			edtlexxxmh.enable();
+		edtgrlxxmh.on( 'close', function () {
+			edtgrlxxmh.enable();
 		} );
 		
-		tbllexxxmh = $('#tbllexxxmh').DataTable( {
+		tblgrlxxmh = $('#tblgrlxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
@@ -263,7 +262,7 @@
 				url: "../../models/lexxxmh/lexxxmh.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_lexxxmh = show_deleted_lexxxmh;
+					d.show_deleted_grlxxmh = show_deleted_grlxxmh;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -282,19 +281,19 @@
 				}
 			],
 			columns: [
-				{ data: "lexxxmh.id",visible:false },
-				{ data: "lexxxmh.kode" },
-				{ data: "lexxxmh.nama" },
-				{ data: "lexxxmh.keterangan" }
+				{ data: "grlxxmh.id",visible:false },
+				{ data: "grlxxmh.kode" },
+				{ data: "grlxxmh.nama" },
+				{ data: "grlxxmh.keterangan" }
 			],
 			buttons: [
 
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_lexxxmh';
-					$table       = 'tbllexxxmh';
-					$edt         = 'edtlexxxmh';
-					$show_status = '_lexxxmh';
+					$id_table    = 'id_grlxxmh';
+					$table       = 'tblgrlxxmh';
+					$edt         = 'edtgrlxxmh';
+					$show_status = '_grlxxmh';
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -308,63 +307,63 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
-				if ( data.lexxxmh.transaction_state == -9 ) {
+				if ( data.grlxxmh.transaction_state == -9 ) {
 					$('td', row).addClass('text-danger');
-				}else if ( data.lexxxmh.transaction_state == 0 ) {
+				}else if ( data.grlxxmh.transaction_state == 0 ) {
 					$('td', row).addClass('text-warning');
 				}
 			}
 		} );
 
-		tbllexxxmh.searchPanes.container().appendTo('#splexxxmh');
-		tbllexxxmh.searchBuilder.container().appendTo( '#sblexxxmh' );
+		tblgrlxxmh.searchPanes.container().appendTo('#spgrlxxmh');
+		tblgrlxxmh.searchBuilder.container().appendTo( '#sbgrlxxmh' );
 		
-		tbllexxxmh.on( 'init', function () {
+		tblgrlxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tbllexlomd];
-			CekInitHeaderHD(tbllexxxmh, tbl_details);
+			tbl_details = [tblgrllomd];
+			CekInitHeaderHD(tblgrlxxmh, tbl_details);
 		} );
 		
-		tbllexxxmh.on( 'select', function( e, dt, type, indexes ) {
-			lexxxmh_data = tbllexxxmh.row( { selected: true } ).data().lexxxmh;
-			id_lexxxmh   = lexxxmh_data.id;
-			id_transaksi_h    = id_lexxxmh;                                                // dipakai untuk general
-			id_transaksi_log  = id_lexxxmh;                                                // dipakai untuk general
-			transaction_state = lexxxmh_data.transaction_state;
-			approval_state    = lexxxmh_data.approval_state;
-			is_nextprocess    = lexxxmh_data.is_nextprocess;
+		tblgrlxxmh.on( 'select', function( e, dt, type, indexes ) {
+			grlxxmh_data = tblgrlxxmh.row( { selected: true } ).data().grlxxmh;
+			id_grlxxmh   = grlxxmh_data.id;
+			id_transaksi_h    = id_grlxxmh;                                                // dipakai untuk general
+			id_transaksi_log  = id_grlxxmh;                                                // dipakai untuk general
+			transaction_state = grlxxmh_data.transaction_state;
+			approval_state    = grlxxmh_data.approval_state;
+			is_nextprocess    = grlxxmh_data.is_nextprocess;
 
-			id_gctxxmh_old    = lexxxmh_data.id_gctxxmh;
+			id_gctxxmh_old    = grlxxmh_data.id_gctxxmh;
 			
 			// atur hak akses
-			tbl_details = [tbllexlomd];
-			CekSelectHeaderHD(tbllexxxmh, tbl_details);
+			tbl_details = [tblgrllomd];
+			CekSelectHeaderHD(tblgrlxxmh, tbl_details);
 
 		} );
 		
-		tbllexxxmh.on( 'deselect', function () {
+		tblgrlxxmh.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
-			id_lexxxmh = 0;
+			id_grlxxmh = 0;
 
 			id_gctxxmh_old = 0;
 
 			// atur hak akses
-			tbl_details = [tbllexlomd];
-			CekDeselectHeaderHD(tbllexxxmh, tbl_details);
+			tbl_details = [tblgrllomd];
+			CekDeselectHeaderHD(tblgrlxxmh, tbl_details);
 		} );
-		// END lexxxmh
+		// END grlxxmh
 
-		// BEGIN lexlomd
-		edtlexlomd = new $.fn.dataTable.Editor( {
+		// BEGIN grllomd
+		edtgrllomd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/lexxxmh/lexlomd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_lexlomd = show_deleted_lexlomd;
-					d.id_lexxxmh = id_lexxxmh;
+					d.show_deleted_grllomd = show_deleted_grllomd;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
-			table: "#tbllexlomd",
+			table: "#tblgrllomd",
 			formOptions: {
 				main: {
 					focus: 5
@@ -372,44 +371,44 @@
 			},
 			fields: [ 
 				{
-					label: "lexlomd.start_at",
-					name: "lexlomd.start_at",
+					label: "grllomd.start_at",
+					name: "grllomd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "lexlomd.finish_at",
-					name: "lexlomd.finish_at",
+					label: "grllomd.finish_at",
+					name: "grllomd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "lexlomd",
+					def: "grllomd",
 					type: "hidden"
 				},	
 				{
-					label: "lexlomd.transaction_state",
-					name: "lexlomd.transaction_state",
+					label: "grllomd.transaction_state",
+					name: "grllomd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
-					label: "id_lexxxmh",
-					name: "lexlomd.id_lexxxmh",
+					label: "id_grlxxmh",
+					name: "grllomd.id_grlxxmh",
 					type: "hidden"
 				},	
 				{
 					label: "Lokasi <sup class='text-danger'>*<sup>",
-					name: "lexlomd.nama"
+					name: "grllomd.nama"
 				},
 				{
 					label: "Alamat <sup class='text-danger'>*<sup>",
-					name: "lexlomd.alamat",
+					name: "grllomd.alamat",
 					type: "textarea"
 				}, 	
 				{
 					label: "Kota",
-					name: "lexlomd.id_gctxxmh",
+					name: "grllomd.id_gctxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -445,47 +444,47 @@
 				},
 				{
 					label: "Nama PIC <sup class='text-danger'>*<sup>",
-					name: "lexlomd.pic_nama"
+					name: "grllomd.pic_nama"
 				},
 				{
 					label: "No Handphone PIC <sup class='text-danger'>*<sup>",
-					name: "lexlomd.pic_handphone",
+					name: "grllomd.pic_handphone",
 				},
 				{
 					label: "Keterangan",
-					name: "lexlomd.keterangan",
+					name: "grllomd.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 			
-		edtlexlomd.on( 'preOpen', function( e, mode, action ) {
-			edtlexlomd.field('lexlomd.id_lexxxmh').val(id_lexxxmh);
+		edtgrllomd.on( 'preOpen', function( e, mode, action ) {
+			edtgrllomd.field('grllomd.id_grlxxmh').val(id_grlxxmh);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtlexlomd.field('lexlomd.start_at').val(start_at);
+			edtgrllomd.field('grllomd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tbllexlomd.rows().deselect();
+				tblgrllomd.rows().deselect();
 			}
 		});
 
-		edtlexlomd.on("open", function (e, mode, action) {
+		edtgrllomd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtlexlomd.on( 'preSubmit', function (e, data, action) {
+		edtgrllomd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				nama          = edtlexlomd.field('lexlomd.nama').val();
-				alamat        = edtlexlomd.field('lexlomd.alamat').val();
-				id_gctxxmh    = edtlexlomd.field('lexlomd.id_gctxxmh').val();
-				pic_nama      = edtlexlomd.field('lexlomd.pic_nama').val();
-				pic_handphone = edtlexlomd.field('lexlomd.pic_handphone').val();
+				nama          = edtgrllomd.field('grllomd.nama').val();
+				alamat        = edtgrllomd.field('grllomd.alamat').val();
+				id_gctxxmh    = edtgrllomd.field('grllomd.id_gctxxmh').val();
+				pic_nama      = edtgrllomd.field('grllomd.pic_nama').val();
+				pic_handphone = edtgrllomd.field('grllomd.pic_handphone').val();
 
 				validasiRequired(
-					edtlexlomd,
-					'lexlomd',
+					edtgrllomd,
+					'grllomd',
 					{
 						'nama': nama,
 						'alamat': alamat,
@@ -497,37 +496,37 @@
 
 				validasiUnique(
 					action,
-					edtlexlomd,
-					'lexlomd',
+					edtgrllomd,
+					'grllomd',
 					'nama',
 					'nama',
 					'"'+nama+'"',
-					id_lexlomd
+					id_grllomd
 				);
 
 			}
 			
-			if ( edtlexlomd.inError() ) {
+			if ( edtgrllomd.inError() ) {
 				return false;
 			}
 		});
 
-		edtlexlomd.on('initSubmit', function(e, action) {
+		edtgrllomd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtlexlomd.field('lexlomd.finish_at').val(finish_at);
+			edtgrllomd.field('grllomd.finish_at').val(finish_at);
 		});
 			
-		edtlexlomd.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtgrllomd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
 		} );
 
-		edtlexlomd.on( 'close', function () {
-			edtlexlomd.enable();
+		edtgrllomd.on( 'close', function () {
+			edtgrllomd.enable();
 		} );
 		
-		tbllexlomd = $('#tbllexlomd').DataTable( {
+		tblgrllomd = $('#tblgrllomd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
@@ -536,8 +535,8 @@
 				url: "../../models/lexxxmh/lexlomd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_lexlomd = show_deleted_lexlomd;
-					d.id_lexxxmh = id_lexxxmh;
+					d.show_deleted_grllomd = show_deleted_grllomd;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
 			order: [[ 2, "desc" ]],
@@ -556,19 +555,19 @@
 				}
 			],
 			columns: [
-				{ data: "lexlomd.id",visible:false },
-				{ data: "lexlomd.id_lexxxmh",visible:false },
-				{ data: "lexlomd.nama" },
-				{ data: "lexlomd.pic_nama" },
-				{ data: "lexlomd.keterangan" }
+				{ data: "grllomd.id",visible:false },
+				{ data: "grllomd.id_grlxxmh",visible:false },
+				{ data: "grllomd.nama" },
+				{ data: "grllomd.pic_nama" },
+				{ data: "grllomd.keterangan" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_lexlomd';
-					$table       = 'tbllexlomd';
-					$edt         = 'edtlexlomd';
-					$show_status = '_lexlomd';
+					$id_table    = 'id_grllomd';
+					$table       = 'tblgrllomd';
+					$edt         = 'edtgrllomd';
+					$show_status = '_grllomd';
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -584,35 +583,35 @@
 			}
 		} );
 
-		tbllexlomd.searchPanes.container().appendTo('#splexlomd');
-		tbllexlomd.searchBuilder.container().appendTo( '#sblexlomd' );
+		tblgrllomd.searchPanes.container().appendTo('#spgrllomd');
+		tblgrllomd.searchBuilder.container().appendTo( '#sbgrllomd' );
 
-		tbllexlomd.on( 'draw', function( e, settings ) { 
+		tblgrllomd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tbllexxxmh, tbllexlomd, 'lexlomd' );
-			CekDrawDetailHDFinal(tbllexxxmh);
+			CekDrawDetailHD(tblgrlxxmh, tblgrllomd, 'grllomd' );
+			CekDrawDetailHDFinal(tblgrlxxmh);
 		} );
 
-		tbllexlomd.on( 'select', function( e, dt, type, indexes ) {
-			data_lexlomd = tbllexlomd.row( { selected: true } ).data().lexlomd;
-			id_lexlomd   = data_lexlomd.id;
-			id_transaksi_d    = id_lexlomd;                                                // dipakai untuk general
-			id_transaksi_log  = id_lexlomd;                                                // dipakai untuk log
+		tblgrllomd.on( 'select', function( e, dt, type, indexes ) {
+			data_grllomd = tblgrllomd.row( { selected: true } ).data().grllomd;
+			id_grllomd   = data_grllomd.id;
+			id_transaksi_d    = id_grllomd;                                                // dipakai untuk general
+			id_transaksi_log  = id_grllomd;                                                // dipakai untuk log
 
-			transaction_state_d   = data_lexlomd.transaction_state;
+			transaction_state_d   = data_grllomd.transaction_state;
 			
 			// atur hak akses
-			CekSelectDetailHD(tbllexxxmh, tbllexlomd );
+			CekSelectDetailHD(tblgrlxxmh, tblgrllomd );
 		} );
 
-		tbllexlomd.on( 'deselect', function() {
-			id_lexlomd = 0;
+		tblgrllomd.on( 'deselect', function() {
+			id_grllomd = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tbllexxxmh, tbllexlomd );
+			CekDeselectDetailHD(tblgrlxxmh, tblgrllomd );
 		} );
-		// END lexlomd
+		// END grllomd
 
 	} );// end of document.ready
 	

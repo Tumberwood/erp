@@ -20,46 +20,50 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'lexxxmh' )
+	$editor = Editor::inst( $db, 'grlxxmh' )
 		->debug(true)
 		->fields(
-			Field::inst( 'lexxxmh.id' ),
-			Field::inst( 'lexxxmh.id_gctxxmh' )
+			Field::inst( 'grlxxmh.id' ),
+			Field::inst( 'grlxxmh.id_gctxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'lexxxmh.kode' )
+			Field::inst( 'grlxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'lexxxmh.nama' )
+			Field::inst( 'grlxxmh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'lexxxmh.keterangan' ),
-			Field::inst( 'lexxxmh.created_by' ),
-			Field::inst( 'lexxxmh.transaction_state' ),
-			Field::inst( 'lexxxmh.approval_state' ),
-			Field::inst( 'lexxxmh.start_at' ),
-			Field::inst( 'lexxxmh.finish_at' ),
-			Field::inst( 'lexxxmh.is_defaultprogram' ),
+			Field::inst( 'grlxxmh.keterangan' ),
+			Field::inst( 'grlxxmh.created_by' ),
+			Field::inst( 'grlxxmh.transaction_state' ),
+			Field::inst( 'grlxxmh.approval_state' ),
+			Field::inst( 'grlxxmh.start_at' ),
+			Field::inst( 'grlxxmh.finish_at' ),
+			Field::inst( 'grlxxmh.is_defaultprogram' ),
+			Field::inst( 'grlxxmh.is_expedition' )
+				->setValue(1)
+				->set( Field::SET_CREATE ),
 
-			Field::inst( 'lexxxmh.alamat' ),
+			Field::inst( 'grlxxmh.alamat' ),
 
 			Field::inst( 'gctxxmh.nama' )
 
 		)
-		->leftJoin( 'gctxxmh','gctxxmh.id','=','lexxxmh.id_gctxxmh' );
+		->leftJoin( 'gctxxmh','gctxxmh.id','=','grlxxmh.id_gctxxmh' )
+		->where( 'grlxxmh.is_expedition', 1 );
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_lexxxmh'] == 0){
+	if ( $_POST['show_deleted_grlxxmh'] == 0){
 		$editor
-			->where( 'lexxxmh.transaction_state', -9, '<>');
+			->where( 'grlxxmh.transaction_state', -9, '<>');
 	}
 	
 	include( "lexxxmh_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'lexxxmh';
+	$nama_table = 'grlxxmh';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	

@@ -20,46 +20,46 @@
 	use 
 		Carbon\Carbon;
 	
-	if ( ! isset($_POST['id_lexxxmh']) || ! is_numeric($_POST['id_lexxxmh']) ) {
+	if ( ! isset($_POST['id_grlxxmh']) || ! is_numeric($_POST['id_grlxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'lexlomd' )
+		$editor = Editor::inst( $db, 'grllomd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'lexlomd.id' ),
-				Field::inst( 'lexlomd.id_lexxxmh' ),
-				Field::inst( 'lexlomd.id_gctxxmh' )
+				Field::inst( 'grllomd.id' ),
+				Field::inst( 'grllomd.id_grlxxmh' ),
+				Field::inst( 'grllomd.id_gctxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'lexlomd.kode' ),
-				Field::inst( 'lexlomd.nama' ),
-				Field::inst( 'lexlomd.keterangan' ),
-				Field::inst( 'lexlomd.created_by' ),
-				Field::inst( 'lexlomd.transaction_state' ),
-				Field::inst( 'lexlomd.approval_state' ),
-				Field::inst( 'lexlomd.start_at' ),
-				Field::inst( 'lexlomd.finish_at' ),
-				Field::inst( 'lexlomd.is_defaultprogram' ),
-				Field::inst( 'lexlomd.pic_email' ),
-				Field::inst( 'lexlomd.pic_nama' ),
-				Field::inst( 'lexlomd.pic_handphone' ),
-				Field::inst( 'lexlomd.alamat' ),
+				Field::inst( 'grllomd.kode' ),
+				Field::inst( 'grllomd.nama' ),
+				Field::inst( 'grllomd.keterangan' ),
+				Field::inst( 'grllomd.created_by' ),
+				Field::inst( 'grllomd.transaction_state' ),
+				Field::inst( 'grllomd.approval_state' ),
+				Field::inst( 'grllomd.start_at' ),
+				Field::inst( 'grllomd.finish_at' ),
+				Field::inst( 'grllomd.is_defaultprogram' ),
+				Field::inst( 'grllomd.pic_email' ),
+				Field::inst( 'grllomd.pic_nama' ),
+				Field::inst( 'grllomd.pic_handphone' ),
+				Field::inst( 'grllomd.alamat' ),
 
 				Field::inst( 'gctxxmh.nama' )
 			)
-			->leftJoin( 'gctxxmh','gctxxmh.id','=','lexlomd.id_gctxxmh' )
-			->where('lexlomd.id_lexxxmh',$_POST['id_lexxxmh']);
+			->leftJoin( 'gctxxmh','gctxxmh.id','=','grllomd.id_gctxxmh' )
+			->where('grllomd.id_grlxxmh',$_POST['id_grlxxmh']);
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_lexlomd'] == 0){
+		if ( $_POST['show_deleted_grllomd'] == 0){
 			$editor
-				->where( 'lexlomd.transaction_state', -9, '<>');
+				->where( 'grllomd.transaction_state', -9, '<>');
 		}
 		
 		include( "lexlomd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'lexlomd';
+		$nama_table = 'grllomd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		
