@@ -1,9 +1,9 @@
 <?php 
     /**
      * Digunakan untuk populate options data branch / cabang
-     * Table terkait    : scuxxmh
+     * Table terkait    : grlxxmh
      * Parameter        : 
-     *  - id_scuxxmh_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_grlxxmh_old       : data existing (untuk keperluan edit), dipakai di query self
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,73 +22,74 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id_scuxxmh_old'] > 0){
-        $id_scuxxmh_old = $_GET['id_scuxxmh_old'];
+    if($_GET['id_grlxxmh_old'] > 0){
+        $id_grlxxmh_old = $_GET['id_grlxxmh_old'];
     }else{
-        $id_scuxxmh_old = 0;
+        $id_grlxxmh_old = 0;
     }
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id_scuxxmh_old > 0){
-        $qs_scuxxmh_self = $db
-            ->query('select', 'scuxxmh')
+    if($id_grlxxmh_old > 0){
+        $qs_grlxxmh_self = $db
+            ->query('select', 'grlxxmh')
             ->get([
-                'scuxxmh.id as id',
+                'grlxxmh.id as id',
                 'IF(
-                    scuxxmh.kode IS NULL, 
-                    scuxxmh.nama,
+                    grlxxmh.kode IS NULL, 
+                    grlxxmh.nama,
                     IF(
-                        scuxxmh.nama IS NULL, 
-                        scuxxmh.kode,
-                        CONCAT(scuxxmh.kode," - ",scuxxmh.nama)
+                        grlxxmh.nama IS NULL, 
+                        grlxxmh.kode,
+                        CONCAT(grlxxmh.kode," - ",grlxxmh.nama)
                     )
                 ) as text'
             ])
-            ->where('scuxxmh.id', $id_scuxxmh_old )
+            ->where('grlxxmh.id', $id_grlxxmh_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
-        $rs_scuxxmh_self = $qs_scuxxmh_self->fetchAll();
+        $rs_grlxxmh_self = $qs_grlxxmh_self->fetchAll();
     }else{
-        $rs_scuxxmh_self = [];
+        $rs_grlxxmh_self = [];
     }
     // END query options self
 
     // BEGIN query options all except self
-    $qs_scuxxmh_all = $db
-        ->query('select', 'scuxxmh')
+    $qs_grlxxmh_all = $db
+        ->query('select', 'grlxxmh')
         ->get([
-            'scuxxmh.id as id',
+            'grlxxmh.id as id',
             'IF(
-                scuxxmh.kode IS NULL, 
-                scuxxmh.nama,
+                grlxxmh.kode IS NULL, 
+                grlxxmh.nama,
                 IF(
-                    scuxxmh.nama IS NULL, 
-                    scuxxmh.kode,
-                    CONCAT(scuxxmh.kode," - ",scuxxmh.nama)
+                    grlxxmh.nama IS NULL, 
+                    grlxxmh.kode,
+                    CONCAT(grlxxmh.kode," - ",grlxxmh.nama)
                 )
             ) as text'
         ])
-        ->where('scuxxmh.transaction_state',1)
-        ->where('scuxxmh.id', $id_scuxxmh_old, '<>' )
+        ->where('grlxxmh.transaction_state',1)
+        ->where('grlxxmh.id', $id_grlxxmh_old, '<>' )
+        ->where('grlxxmh.is_customer', 1 )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('scuxxmh.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('scuxxmh.nama', '%' . $q . '%', 'LIKE' );
+                ->where('grlxxmh.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('grlxxmh.nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
-    $rs_scuxxmh_all = $qs_scuxxmh_all->fetchAll();
+    $rs_grlxxmh_all = $qs_grlxxmh_all->fetchAll();
     // END query options all except self
     
     // BEGIN menggabungkan options
-    if(count($rs_scuxxmh_self) > 0){
-        $rs_opt = array_merge($rs_scuxxmh_self, $rs_scuxxmh_all);
+    if(count($rs_grlxxmh_self) > 0){
+        $rs_opt = array_merge($rs_grlxxmh_self, $rs_grlxxmh_all);
     }else{
-        $rs_opt = $rs_scuxxmh_all;
+        $rs_opt = $rs_grlxxmh_all;
     }
     $c_rs_opt = count($rs_opt);    
     // END menggabungkan options

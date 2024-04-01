@@ -20,47 +20,47 @@
 	use 
 		Carbon\Carbon;
 	
-	if ( ! isset($_POST['id_scuxxmh']) || ! is_numeric($_POST['id_scuxxmh']) ) {
+	if ( ! isset($_POST['id_grlxxmh']) || ! is_numeric($_POST['id_grlxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'sculomd' )
+		$editor = Editor::inst( $db, 'grllomd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'sculomd.id' ),
-				Field::inst( 'sculomd.id_scuxxmh' ),
-				Field::inst( 'sculomd.id_gctxxmh' )
+				Field::inst( 'grllomd.id' ),
+				Field::inst( 'grllomd.id_grlxxmh' ),
+				Field::inst( 'grllomd.id_gctxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'sculomd.id_gpvxxmh' )
+				Field::inst( 'grllomd.id_gpvxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'sculomd.kode' ),
-				Field::inst( 'sculomd.nama' ),
-				Field::inst( 'sculomd.keterangan' ),
-				Field::inst( 'sculomd.created_by' ),
-				Field::inst( 'sculomd.transaction_state' ),
-				Field::inst( 'sculomd.approval_state' ),
-				Field::inst( 'sculomd.start_at' ),
-				Field::inst( 'sculomd.finish_at' ),
-				Field::inst( 'sculomd.is_defaultprogram' ),
-				Field::inst( 'sculomd.alamat' ),
+				Field::inst( 'grllomd.kode' ),
+				Field::inst( 'grllomd.nama' ),
+				Field::inst( 'grllomd.keterangan' ),
+				Field::inst( 'grllomd.created_by' ),
+				Field::inst( 'grllomd.transaction_state' ),
+				Field::inst( 'grllomd.approval_state' ),
+				Field::inst( 'grllomd.start_at' ),
+				Field::inst( 'grllomd.finish_at' ),
+				Field::inst( 'grllomd.is_defaultprogram' ),
+				Field::inst( 'grllomd.alamat' ),
 				Field::inst( 'gctxxmh.nama' ),
 				Field::inst( 'gpvxxmh.nama' )
 			)
-			->leftJoin( 'gctxxmh','gctxxmh.id','=','sculomd.id_gctxxmh' )
-			->leftJoin( 'gpvxxmh','gpvxxmh.id','=','sculomd.id_gpvxxmh' )
-			->where('sculomd.id_scuxxmh',$_POST['id_scuxxmh'])
+			->leftJoin( 'gctxxmh','gctxxmh.id','=','grllomd.id_gctxxmh' )
+			->leftJoin( 'gpvxxmh','gpvxxmh.id','=','grllomd.id_gpvxxmh' )
+			->where('grllomd.id_grlxxmh',$_POST['id_grlxxmh'])
 			;
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_sculomd'] == 0){
+		if ( $_POST['show_deleted_grllomd'] == 0){
 			$editor
-				->where( 'sculomd.transaction_state', -9, '<>');
+				->where( 'grllomd.transaction_state', -9, '<>');
 		}
 		
 		include( "sculomd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'sculomd';
+		$nama_table = 'grllomd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		

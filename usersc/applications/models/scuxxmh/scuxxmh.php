@@ -20,64 +20,69 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'scuxxmh' )
+	$editor = Editor::inst( $db, 'grlxxmh' )
 		->debug(true)
 		->fields(
-			Field::inst( 'scuxxmh.id' ),
-			Field::inst( 'scuxxmh.id_gbuxxmh' )
+			Field::inst( 'grlxxmh.id' ),
+			Field::inst( 'grlxxmh.id_gbuxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'scuxxmh.id_gctxxmh' )
+			Field::inst( 'grlxxmh.id_gctxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'scuxxmh.id_gpvxxmh' )
+			Field::inst( 'grlxxmh.id_gpvxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'scuxxmh.id_fpytmmh' )
+			Field::inst( 'grlxxmh.id_fpytmmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'scuxxmh.kode' )
+			Field::inst( 'grlxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'scuxxmh.nama' )
+			Field::inst( 'grlxxmh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'scuxxmh.keterangan' ),
-			Field::inst( 'scuxxmh.created_by' ),
-			Field::inst( 'scuxxmh.transaction_state' ),
-			Field::inst( 'scuxxmh.approval_state' ),
-			Field::inst( 'scuxxmh.start_at' ),
-			Field::inst( 'scuxxmh.finish_at' ),
-			Field::inst( 'scuxxmh.is_defaultprogram' ),
-			Field::inst( 'scuxxmh.alamat' ),
-			Field::inst( 'scuxxmh.telepon' ),
-			Field::inst( 'scuxxmh.whatsapp' ),
-			Field::inst( 'scuxxmh.fax' ),
-			Field::inst( 'scuxxmh.email' ),
-			Field::inst( 'scuxxmh.nik' ),
-			Field::inst( 'scuxxmh.npwp' ),
-			Field::inst( 'scuxxmh.kredit_limit' ),
-			Field::inst( 'scuxxmh.tag' ),
-			Field::inst( 'scuxxmh.default_pembayaran' ),
-			Field::inst( 'scuxxmh.is_pkp' ),
+			Field::inst( 'grlxxmh.keterangan' ),
+			Field::inst( 'grlxxmh.created_by' ),
+			Field::inst( 'grlxxmh.transaction_state' ),
+			Field::inst( 'grlxxmh.approval_state' ),
+			Field::inst( 'grlxxmh.start_at' ),
+			Field::inst( 'grlxxmh.finish_at' ),
+			Field::inst( 'grlxxmh.is_defaultprogram' ),
+			Field::inst( 'grlxxmh.alamat' ),
+			Field::inst( 'grlxxmh.telepon' ),
+			Field::inst( 'grlxxmh.whatsapp' ),
+			Field::inst( 'grlxxmh.fax' ),
+			Field::inst( 'grlxxmh.email' ),
+			Field::inst( 'grlxxmh.nik' ),
+			Field::inst( 'grlxxmh.npwp' ),
+			Field::inst( 'grlxxmh.kredit_limit' ),
+			Field::inst( 'grlxxmh.tag' ),
+			Field::inst( 'grlxxmh.default_pembayaran' ),
+			Field::inst( 'grlxxmh.is_pkp' ),
+			Field::inst( 'grlxxmh.is_customer' )
+				->setValue(1)
+				->set( Field::SET_CREATE ),
+
 			Field::inst( 'gctxxmh.nama' ),
 			Field::inst( 'gpvxxmh.nama' ),
 			Field::inst( 'fpytmmh.nama' )
 		)
-		->leftJoin( 'gctxxmh','gctxxmh.id','=','scuxxmh.id_gctxxmh' )
-		->leftJoin( 'gpvxxmh','gpvxxmh.id','=','scuxxmh.id_gpvxxmh' )
-		->leftJoin( 'fpytmmh','fpytmmh.id','=','scuxxmh.id_fpytmmh' )
+		->leftJoin( 'gctxxmh','gctxxmh.id','=','grlxxmh.id_gctxxmh' )
+		->leftJoin( 'gpvxxmh','gpvxxmh.id','=','grlxxmh.id_gpvxxmh' )
+		->leftJoin( 'fpytmmh','fpytmmh.id','=','grlxxmh.id_fpytmmh' )
+		->where( 'grlxxmh.is_customer', 1 )
 		;
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_scuxxmh'] == 0){
+	if ( $_POST['show_deleted_grlxxmh'] == 0){
 		$editor
-			->where( 'scuxxmh.transaction_state', -9, '<>');
+			->where( 'grlxxmh.transaction_state', -9, '<>');
 	}
 	
 	include( "scuxxmh_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'scuxxmh';
+	$nama_table = 'grlxxmh';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	
