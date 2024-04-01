@@ -55,6 +55,8 @@
 				Field::inst( 'ucudasd.hak_u' ),
 				Field::inst( 'ucudasd.hak_d' ),
 				Field::inst( 'ucudasd.hak_a' ),
+				Field::inst( 'ucudasd.hak_e' ),
+				Field::inst( 'ucudasd.hak_p' ),
 				Field::inst( 'pages.title' )
 			)
 			->leftJoin( 'pages','pages.id','=','ucudasd.id_pages' )

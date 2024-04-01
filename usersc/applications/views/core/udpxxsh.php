@@ -61,6 +61,8 @@
 												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Edit / Update">U</th>
 												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Delete">D</th>
 												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Approve, Cancel Approve dan Void">A</th>
+												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Export dan Copy Data">E</th>
+												<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Print">P</th>
 											</tr>
 										</thead>
 									</table>
@@ -124,7 +126,6 @@
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
-	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_toast.php';
 ?>
 
 <!-- BEGIN JS -->
@@ -447,7 +448,8 @@
                             { "label": "Ya", "value": 1 },
                             { "label": "Tidak", "value": 0 }
                         ]
-                    },	{
+                    },	
+					{
                         label: "Update",
                         name: "ucudasd.hak_u",
                         type: "select",
@@ -456,7 +458,8 @@
                             { "label": "Ya", "value": 1 },
                             { "label": "Tidak", "value": 0 }
                         ]
-                    },	{
+                    },	
+					{
                         label: "Delete",
                         name: "ucudasd.hak_d",
                         type: "select",
@@ -465,9 +468,30 @@
                             { "label": "Ya", "value": 1 },
                             { "label": "Tidak", "value": 0 }
                         ]
-                    },	{
+                    },	
+					{
                         label: "Approve",
                         name: "ucudasd.hak_a",
+                        type: "select",
+                        placeholder: "Pilih",
+                        options: [
+                            { "label": "Ya", "value": 1 },
+                            { "label": "Tidak", "value": 0 }
+                        ]
+                    },
+					{
+                        label: "Export",
+                        name: "ucudasd.hak_e",
+                        type: "select",
+                        placeholder: "Pilih",
+                        options: [
+                            { "label": "Ya", "value": 1 },
+                            { "label": "Tidak", "value": 0 }
+                        ]
+                    },
+					{
+                        label: "Print",
+                        name: "ucudasd.hak_p",
                         type: "select",
                         placeholder: "Pilih",
                         options: [
@@ -574,6 +598,26 @@
                                 return '<i class="fa fa-remove text-danger"></i>';
                             }
                         }
+                    },
+					{ 
+                        data: "ucudasd.hak_e" ,
+                        render: function (data){
+                            if (data == 1){
+                                return '<i class="fa fa-check text-navy"></i>';
+                            }else if(data == 0){
+                                return '<i class="fa fa-remove text-danger"></i>';
+                            }
+                        }
+                    },
+					{ 
+                        data: "ucudasd.hak_p" ,
+                        render: function (data){
+                            if (data == 1){
+                                return '<i class="fa fa-check text-navy"></i>';
+                            }else if(data == 0){
+                                return '<i class="fa fa-remove text-danger"></i>';
+                            }
+                        }
                     }
                 ],
                 buttons: [
@@ -612,6 +656,7 @@
                                     },{
                                         type: json.type_message
                                     });
+									tblucudasd.rows().deselect();
                                     tblucudasd.ajax.reload(null,false);
                                 }
                             } );
