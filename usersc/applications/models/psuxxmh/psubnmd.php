@@ -20,43 +20,43 @@
 	use 
 		Carbon\Carbon;
 	
-	if ( ! isset($_POST['id_psuxxmh']) || ! is_numeric($_POST['id_psuxxmh']) ) {
+	if ( ! isset($_POST['id_grlxxmh']) || ! is_numeric($_POST['id_grlxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'psubnmd' )
+		$editor = Editor::inst( $db, 'grlbnmd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'psubnmd.id' ),
-				Field::inst( 'psubnmd.id_psuxxmh' ),
-				Field::inst( 'psubnmd.id_fbnxxmh' )
+				Field::inst( 'grlbnmd.id' ),
+				Field::inst( 'grlbnmd.id_grlxxmh' ),
+				Field::inst( 'grlbnmd.id_fbnxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'psubnmd.kode' ),
-				Field::inst( 'psubnmd.nama' ),
-				Field::inst( 'psubnmd.keterangan' ),
-				Field::inst( 'psubnmd.created_by' ),
-				Field::inst( 'psubnmd.transaction_state' ),
-				Field::inst( 'psubnmd.approval_state' ),
-				Field::inst( 'psubnmd.start_at' ),
-				Field::inst( 'psubnmd.finish_at' ),
-				Field::inst( 'psubnmd.is_defaultprogram' ),
-				Field::inst( 'psubnmd.is_default' ),
-				Field::inst( 'psubnmd.no_rek' ),
+				Field::inst( 'grlbnmd.kode' ),
+				Field::inst( 'grlbnmd.nama' ),
+				Field::inst( 'grlbnmd.keterangan' ),
+				Field::inst( 'grlbnmd.created_by' ),
+				Field::inst( 'grlbnmd.transaction_state' ),
+				Field::inst( 'grlbnmd.approval_state' ),
+				Field::inst( 'grlbnmd.start_at' ),
+				Field::inst( 'grlbnmd.finish_at' ),
+				Field::inst( 'grlbnmd.is_defaultprogram' ),
+				Field::inst( 'grlbnmd.is_default' ),
+				Field::inst( 'grlbnmd.no_rek' ),
 				Field::inst( 'fbnxxmh.nama' )
 			)
-			->leftJoin( 'fbnxxmh','fbnxxmh.id','=','psubnmd.id_fbnxxmh' )
-			->where('psubnmd.id_psuxxmh',$_POST['id_psuxxmh']);
+			->leftJoin( 'fbnxxmh','fbnxxmh.id','=','grlbnmd.id_fbnxxmh' )
+			->where('grlbnmd.id_grlxxmh',$_POST['id_grlxxmh']);
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_psubnmd'] == 0){
+		if ( $_POST['show_deleted_grlbnmd'] == 0){
 			$editor
-				->where( 'psubnmd.transaction_state', -9, '<>');
+				->where( 'grlbnmd.transaction_state', -9, '<>');
 		}
 		
 		include( "psubnmd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'psubnmd';
+		$nama_table = 'grlbnmd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		

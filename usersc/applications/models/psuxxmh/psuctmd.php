@@ -20,41 +20,41 @@
 	use 
 		Carbon\Carbon;
 	
-	if ( ! isset($_POST['id_psuxxmh']) || ! is_numeric($_POST['id_psuxxmh']) ) {
+	if ( ! isset($_POST['id_grlxxmh']) || ! is_numeric($_POST['id_grlxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'psuctmd' )
+		$editor = Editor::inst( $db, 'grlctmd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'psuctmd.id' ),
-				Field::inst( 'psuctmd.id_psuxxmh' ),
-				Field::inst( 'psuctmd.kode' ),
-				Field::inst( 'psuctmd.nama' ),
-				Field::inst( 'psuctmd.keterangan' ),
-				Field::inst( 'psuctmd.created_by' ),
-				Field::inst( 'psuctmd.transaction_state' ),
-				Field::inst( 'psuctmd.approval_state' ),
-				Field::inst( 'psuctmd.start_at' ),
-				Field::inst( 'psuctmd.finish_at' ),
-				Field::inst( 'psuctmd.is_defaultprogram' ),
-				Field::inst( 'psuctmd.email' ),
-				Field::inst( 'psuctmd.posisi' ),
-				Field::inst( 'psuctmd.handphone' )
+				Field::inst( 'grlctmd.id' ),
+				Field::inst( 'grlctmd.id_grlxxmh' ),
+				Field::inst( 'grlctmd.kode' ),
+				Field::inst( 'grlctmd.nama' ),
+				Field::inst( 'grlctmd.keterangan' ),
+				Field::inst( 'grlctmd.created_by' ),
+				Field::inst( 'grlctmd.transaction_state' ),
+				Field::inst( 'grlctmd.approval_state' ),
+				Field::inst( 'grlctmd.start_at' ),
+				Field::inst( 'grlctmd.finish_at' ),
+				Field::inst( 'grlctmd.is_defaultprogram' ),
+				Field::inst( 'grlctmd.email' ),
+				Field::inst( 'grlctmd.posisi' ),
+				Field::inst( 'grlctmd.handphone' )
 			)
-			->where('psuctmd.id_psuxxmh',$_POST['id_psuxxmh'])
+			->where('grlctmd.id_grlxxmh',$_POST['id_grlxxmh'])
 			;
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_psuctmd'] == 0){
+		if ( $_POST['show_deleted_grlctmd'] == 0){
 			$editor
-				->where( 'psuctmd.transaction_state', -9, '<>');
+				->where( 'grlctmd.transaction_state', -9, '<>');
 		}
 		
 		include( "psuctmd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'psuctmd';
+		$nama_table = 'grlctmd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		

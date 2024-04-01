@@ -7,10 +7,10 @@
 ?>
 
 <?php
-	$nama_tabel       = 'psuxxmh';
+	$nama_tabel       = 'grlxxmh';
     $nama_tabels_d 	= [];
-    $nama_tabels_d[0] = 'psubnmd';
-    $nama_tabels_d[1] = 'psuctmd';
+    $nama_tabels_d[0] = 'grlbnmd';
+    $nama_tabels_d[1] = 'grlctmd';
 ?>
 
 <!-- begin content here -->
@@ -19,71 +19,71 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<!-- start Custom Form Datatables Editor -->
-				<div id="custom_psuxxmh">
+				<div id="custom_grlxxmh">
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.nama"></editor-field>
+								<editor-field name="grlxxmh.nama"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.alamat"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="psuxxmh.id_gctxxmh"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="psuxxmh.id_gpvxxmh"></editor-field>
+								<editor-field name="grlxxmh.alamat"></editor-field>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.id_gbuxxmh"></editor-field>
+								<editor-field name="grlxxmh.id_gctxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.id_fpytmmh"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="psuxxmh.telepon"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="psuxxmh.whatsapp"></editor-field>
+								<editor-field name="grlxxmh.id_gpvxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.fax"></editor-field>
+								<editor-field name="grlxxmh.id_gbuxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.email"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="psuxxmh.is_pkp"></editor-field>
+								<editor-field name="grlxxmh.id_fpytmmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.npwp"></editor-field>
+								<editor-field name="grlxxmh.telepon"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.nik"></editor-field>
+								<editor-field name="grlxxmh.whatsapp"></editor-field>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="psuxxmh.keterangan"></editor-field>
+								<editor-field name="grlxxmh.fax"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="grlxxmh.email"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="grlxxmh.is_pkp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="grlxxmh.npwp"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="grlxxmh.nik"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="grlxxmh.keterangan"></editor-field>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- end Custom Form Datatables Editor -->
 				<div class="table-responsive">
-                    <table id="tblpsuxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblgrlxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -101,18 +101,18 @@
 	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabpsubnmd_1"> Bank</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabpsuctmd"> Kontak</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabgrlbnmd_1"> Bank</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabgrlctmd"> Kontak</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabpsubnmd_1" class="tab-pane active">
+				<div role="tabpanel" id="tabgrlbnmd_1" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblpsubnmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblgrlbnmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_psuxxmh</th>
+										<th>id_grlxxmh</th>
 										<th>Bank</th>
 										<th>No Rekening</th>
 										<th>Nama Rekening</th>
@@ -123,14 +123,14 @@
 						</div>
 					</div>
 				</div>
-				<div role="tabpanel" id="tabpsuctmd" class="tab-pane">
+				<div role="tabpanel" id="tabgrlctmd" class="tab-pane">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblpsuctmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblgrlctmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_psuxxmh</th>
+										<th>id_grlxxmh</th>
 										<th>Nama</th>
 										<th>Posisi</th>
 										<th>Email</th>
@@ -151,7 +151,6 @@
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
-	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_toast.php';
 ?>
 
 <!-- BEGIN JS -->
@@ -170,30 +169,30 @@
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
-	var edtpsuxxmh, tblpsuxxmh, show_deleted_psuxxmh = 0, id_psuxxmh;
-	var edtpsubnmd, tblpsubnmd, show_deleted_psubnmd = 0, id_psubnmd;
-	var edtpsuctmd, tblpsuctmd, show_deleted_psuctmd = 0, id_psuctmd;
+	var edtgrlxxmh, tblgrlxxmh, show_deleted_grlxxmh = 0, id_grlxxmh;
+	var edtgrlbnmd, tblgrlbnmd, show_deleted_grlbnmd = 0, id_grlbnmd;
+	var edtgrlctmd, tblgrlctmd, show_deleted_grlctmd = 0, id_grlctmd;
 	// ------------- end of default variable
 	
 	var id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0;
 	var id_fbnxxmh_old = 0;
 
 	// get tableRelation
-	tableRelation('psuxxmh');
+	tableRelation('grlxxmh');
 
 	$(document).ready(function() {
 
-		// BEGIN psuxxmh
-		edtpsuxxmh = new $.fn.dataTable.Editor( {
+		// BEGIN grlxxmh
+		edtgrlxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/psuxxmh/psuxxmh.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psuxxmh = show_deleted_psuxxmh;
+					d.show_deleted_grlxxmh = show_deleted_grlxxmh;
 				}
 			},
-			table: "#tblpsuxxmh",
-			template: "#custom_psuxxmh",
+			table: "#tblgrlxxmh",
+			template: "#custom_grlxxmh",
 			fields: [ 
 				{
 					label: "kategori_dokumen",
@@ -209,39 +208,39 @@
 					type: "hidden"
 				},	
 				{
-					label: "psuxxmh.start_at",
-					name: "psuxxmh.start_at",
+					label: "grlxxmh.start_at",
+					name: "grlxxmh.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "psuxxmh.finish_at",
-					name: "psuxxmh.finish_at",
+					label: "grlxxmh.finish_at",
+					name: "grlxxmh.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "psuxxmh",
+					def: "grlxxmh",
 					type: "hidden"
 				},	
 				{
-					label: "psuxxmh.transaction_state",
-					name: "psuxxmh.transaction_state",
+					label: "grlxxmh.transaction_state",
+					name: "grlxxmh.transaction_state",
 					type: "hidden",
 					def: 0
 				},
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "psuxxmh.nama"
+					name: "grlxxmh.nama"
 				}, 	
 				{
 					label: "Alamat <sup class='text-danger'>*<sup>",
-					name: "psuxxmh.alamat",
+					name: "grlxxmh.alamat",
 					type: "textarea"
 				},
 				{
 					label: "Kota <sup class='text-danger'>*<sup>",
-					name: "psuxxmh.id_gctxxmh",
+					name: "grlxxmh.id_gctxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -277,7 +276,7 @@
 				},
 				{
 					label: "Badan Usaha <sup class='text-danger'>*<sup>",
-					name: "psuxxmh.id_gbuxxmh",
+					name: "grlxxmh.id_gbuxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -313,28 +312,28 @@
 				},
 				{
 					label: "Provinsi <sup class='text-danger'>*<sup>",
-					name: "psuxxmh.id_gpvxxmh",
+					name: "grlxxmh.id_gpvxxmh",
 					type: "readonly"
 				},
 				{
 					label: "Telepon",
-					name: "psuxxmh.telepon"
+					name: "grlxxmh.telepon"
 				},
 				{
 					label: "Whatsapp",
-					name: "psuxxmh.whatsapp"
+					name: "grlxxmh.whatsapp"
 				},
 				{
 					label: "Fax",
-					name: "psuxxmh.fax"
+					name: "grlxxmh.fax"
 				},
 				{
 					label: "Email",
-					name: "psuxxmh.email"
+					name: "grlxxmh.email"
 				},
 				{
 					label: "PKP",
-					name: "psuxxmh.is_pkp",
+					name: "grlxxmh.is_pkp",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -344,17 +343,17 @@
 				},
 				{
 					label: "NIK",
-					name: "psuxxmh.nik"
+					name: "grlxxmh.nik"
 				},
 				{
 					label: "NPWP",
-					name: "psuxxmh.npwp",
+					name: "grlxxmh.npwp",
 					type: "mask",
 					mask: "00.000.000.0-000.000"
 				},
 				{
 					label: "Syarat Bayar <sup class='text-danger'>*<sup>",
-					name: "psuxxmh.id_fpytmmh",
+					name: "grlxxmh.id_fpytmmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -390,70 +389,70 @@
 				},
 				{
 					label: "Keterangan",
-					name: "psuxxmh.keterangan",
+					name: "grlxxmh.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 		
-		edtpsuxxmh.on( 'preOpen', function( e, mode, action ) {
+		edtgrlxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsuxxmh.field('psuxxmh.start_at').val(start_at);
+			edtgrlxxmh.field('grlxxmh.start_at').val(start_at);
 
 			if(action == 'create'){
-				tblpsuxxmh.rows().deselect();
-				edtpsuxxmh.field('kategori_dokumen').val('');
-				edtpsuxxmh.field('kategori_dokumen_value').val('');
-				edtpsuxxmh.field('field_tanggal').val('start_at');
+				tblgrlxxmh.rows().deselect();
+				edtgrlxxmh.field('kategori_dokumen').val('is_supplier');
+				edtgrlxxmh.field('kategori_dokumen_value').val(1);
+				edtgrlxxmh.field('field_tanggal').val('start_at');
 
-				edtpsuxxmh.field('psuxxmh.nama').enable();
+				edtgrlxxmh.field('grlxxmh.nama').enable();
 
 			}else if(action == 'edit'){
 
 				if(transaction_state == 0){
-					edtpsuxxmh.field('psuxxmh.nama').enable();
+					edtgrlxxmh.field('grlxxmh.nama').enable();
 				}else{
-					edtpsuxxmh.field('psuxxmh.nama').disable();
+					edtgrlxxmh.field('grlxxmh.nama').disable();
 				}
 			}
 		});
 
-		edtpsuxxmh.on("open", function (e, mode, action) {
+		edtgrlxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		});
 
-		edtpsuxxmh.dependent( 'psuxxmh.id_gctxxmh', function ( val, data, callback ) {
+		edtgrlxxmh.dependent( 'grlxxmh.id_gctxxmh', function ( val, data, callback ) {
 			// BEGIN load nama provinsi
-			id_gctxxmh = edtpsuxxmh.field('psuxxmh.id_gctxxmh').val();
+			id_gctxxmh = edtgrlxxmh.field('grlxxmh.id_gctxxmh').val();
 			autofillField('gctxxmh', id_gctxxmh, 'id_gpvxxmh');
 			id_gpvxxmh = autofillData.id_gpvxxmh;
 			autofillField('gpvxxmh', id_gpvxxmh, 'nama');
 			gpvxxmh_nama = autofillData.nama;
-			edtpsuxxmh.field('psuxxmh.id_gpvxxmh').val(gpvxxmh_nama);
+			edtgrlxxmh.field('grlxxmh.id_gpvxxmh').val(gpvxxmh_nama);
 			// END load nama provinsi
 
 			return {}
 		}, {event: 'keyup change'});
 		
-		edtpsuxxmh.on( 'preSubmit', function (e, data, action) {
+		edtgrlxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				nama       = edtpsuxxmh.field('psuxxmh.nama').val();
-				alamat     = edtpsuxxmh.field('psuxxmh.alamat').val();
-				id_gctxxmh = edtpsuxxmh.field('psuxxmh.id_gctxxmh').val();
-				id_gpvxxmh = edtpsuxxmh.field('psuxxmh.id_gpvxxmh').val();
-				id_gbuxxmh = edtpsuxxmh.field('psuxxmh.id_gbuxxmh').val();
-				id_fpytmmh = edtpsuxxmh.field('psuxxmh.id_fpytmmh').val();
-				telepon    = edtpsuxxmh.field('psuxxmh.telepon').val();
-				whatsapp   = edtpsuxxmh.field('psuxxmh.whatsapp').val();
-				fax        = edtpsuxxmh.field('psuxxmh.fax').val();
-				email      = edtpsuxxmh.field('psuxxmh.email').val();
-				npwp       = edtpsuxxmh.field('psuxxmh.npwp').val();
-				nik        = edtpsuxxmh.field('psuxxmh.nik').val();
+				nama       = edtgrlxxmh.field('grlxxmh.nama').val();
+				alamat     = edtgrlxxmh.field('grlxxmh.alamat').val();
+				id_gctxxmh = edtgrlxxmh.field('grlxxmh.id_gctxxmh').val();
+				id_gpvxxmh = edtgrlxxmh.field('grlxxmh.id_gpvxxmh').val();
+				id_gbuxxmh = edtgrlxxmh.field('grlxxmh.id_gbuxxmh').val();
+				id_fpytmmh = edtgrlxxmh.field('grlxxmh.id_fpytmmh').val();
+				telepon    = edtgrlxxmh.field('grlxxmh.telepon').val();
+				whatsapp   = edtgrlxxmh.field('grlxxmh.whatsapp').val();
+				fax        = edtgrlxxmh.field('grlxxmh.fax').val();
+				email      = edtgrlxxmh.field('grlxxmh.email').val();
+				npwp       = edtgrlxxmh.field('grlxxmh.npwp').val();
+				nik        = edtgrlxxmh.field('grlxxmh.nik').val();
 
 				validasiRequired(
-					edtpsuxxmh,
-					'psuxxmh',
+					edtgrlxxmh,
+					'grlxxmh',
 					{
 						'nama': nama,
 						'alamat': alamat,
@@ -466,17 +465,17 @@
 
 				validasiUnique(
 					action,
-					edtpsuxxmh,
-					'psuxxmh',
+					edtgrlxxmh,
+					'grlxxmh',
 					'nama',
 					'nama',
 					'"'+nama+'"',
-					id_psuxxmh
+					id_grlxxmh
 				);
 
 				validasiEmail(
-					edtpsuxxmh,
-					'psuxxmh',
+					edtgrlxxmh,
+					'grlxxmh',
 					{
 						'email': email
 					}
@@ -486,39 +485,39 @@
 				// if (npwp != '') {
 				// 	npwp_clean = npwp.replace(/[.-]/g,"");
 				// 	if(npwp <= 0 ){
-				// 		edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
+				// 		edtgrlxxmh.field('grlxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
 				// 	}
 				// 	if(isNaN(npwp_clean) ){
-				// 		edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
+				// 		edtgrlxxmh.field('grlxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
 				// 	}
 				// 	npwp_length   = npwp_clean.length;
 				// 	if(npwp_length != 15){
-				// 		edtpsuxxmh.field('psuxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
+				// 		edtgrlxxmh.field('grlxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
 				// 	}
 				// }
 				
 				
 			}
 			
-			if ( edtpsuxxmh.inError() ) {
+			if ( edtgrlxxmh.inError() ) {
 				return false;
 			}
 		});
 
-		edtpsuxxmh.on('initSubmit', function(e, action) {
+		edtgrlxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsuxxmh.field('psuxxmh.finish_at').val(finish_at);
+			edtgrlxxmh.field('grlxxmh.finish_at').val(finish_at);
 		});
 		
-		edtpsuxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblpsuxxmh.ajax.reload(null,false);
+		edtgrlxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblgrlxxmh.ajax.reload(null,false);
 		} );
 
-		edtpsuxxmh.on( 'close', function () {
-			edtpsuxxmh.enable();
+		edtgrlxxmh.on( 'close', function () {
+			edtgrlxxmh.enable();
 		} );
 		
-		tblpsuxxmh = $('#tblpsuxxmh').DataTable( {
+		tblgrlxxmh = $('#tblgrlxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-3',
@@ -527,7 +526,7 @@
 				url: "../../models/psuxxmh/psuxxmh.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psuxxmh = show_deleted_psuxxmh;
+					d.show_deleted_grlxxmh = show_deleted_grlxxmh;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -546,19 +545,19 @@
 				}
 			],
 			columns: [
-				{ data: "psuxxmh.id",visible:false },
-				{ data: "psuxxmh.kode" },
-				{ data: "psuxxmh.nama" },
+				{ data: "grlxxmh.id",visible:false },
+				{ data: "grlxxmh.kode" },
+				{ data: "grlxxmh.nama" },
 				{ data: "gctxxmh.nama" }
 			],
 			buttons: [
 
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_psuxxmh';
-					$table       = 'tblpsuxxmh';
-					$edt         = 'edtpsuxxmh';
-					$show_status = '_psuxxmh';
+					$id_table    = 'id_grlxxmh';
+					$table       = 'tblgrlxxmh';
+					$edt         = 'edtgrlxxmh';
+					$show_status = '_grlxxmh';
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -572,65 +571,65 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
-				if ( data.psuxxmh.transaction_state == -9 ) {
+				if ( data.grlxxmh.transaction_state == -9 ) {
 					$('td', row).addClass('text-danger');
-				}else if ( data.psuxxmh.transaction_state == 0 ) {
+				}else if ( data.grlxxmh.transaction_state == 0 ) {
 					$('td', row).addClass('text-warning');
 				}
 			}
 		} );
 
-		tblpsuxxmh.searchPanes.container().appendTo('#sppsuxxmh');
-		tblpsuxxmh.searchBuilder.container().appendTo( '#sbpsuxxmh' );
+		tblgrlxxmh.searchPanes.container().appendTo('#spgrlxxmh');
+		tblgrlxxmh.searchBuilder.container().appendTo( '#sbgrlxxmh' );
 		
-		tblpsuxxmh.on( 'init', function () {
+		tblgrlxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tblpsubnmd, tblpsuctmd];
-			CekInitHeaderHD(tblpsuxxmh, tbl_details);
+			tbl_details = [tblgrlbnmd, tblgrlctmd];
+			CekInitHeaderHD(tblgrlxxmh, tbl_details);
 		} );
 		
-		tblpsuxxmh.on( 'select', function( e, dt, type, indexes ) {
-			psuxxmh_data    	= tblpsuxxmh.row( { selected: true } ).data().psuxxmh;
-			id_psuxxmh      	= psuxxmh_data.id;
-			id_transaksi_h 		= id_psuxxmh; // dipakai untuk general
-			id_transaksi_log	= id_psuxxmh; // dipakai untuk general
-			transaction_state   = psuxxmh_data.transaction_state;
-			approval_state   	= psuxxmh_data.approval_state;
-			is_nextprocess 		= psuxxmh_data.is_nextprocess;
+		tblgrlxxmh.on( 'select', function( e, dt, type, indexes ) {
+			grlxxmh_data    	= tblgrlxxmh.row( { selected: true } ).data().grlxxmh;
+			id_grlxxmh      	= grlxxmh_data.id;
+			id_transaksi_h 		= id_grlxxmh; // dipakai untuk general
+			id_transaksi_log	= id_grlxxmh; // dipakai untuk general
+			transaction_state   = grlxxmh_data.transaction_state;
+			approval_state   	= grlxxmh_data.approval_state;
+			is_nextprocess 		= grlxxmh_data.is_nextprocess;
 			
-			id_gpvxxmh_old      = psuxxmh_data.id_gpvxxmh;
-			id_gbuxxmh_old      = psuxxmh_data.id_gbuxxmh;
-			id_gctxxmh_old      = psuxxmh_data.id_gctxxmh;
-			id_fpytmmh_old      = psuxxmh_data.id_fpytmmh;
+			id_gpvxxmh_old      = grlxxmh_data.id_gpvxxmh;
+			id_gbuxxmh_old      = grlxxmh_data.id_gbuxxmh;
+			id_gctxxmh_old      = grlxxmh_data.id_gctxxmh;
+			id_fpytmmh_old      = grlxxmh_data.id_fpytmmh;
 			
 			// atur hak akses
-			tbl_details = [tblpsubnmd, tblpsuctmd];
-			CekSelectHeaderHD(tblpsuxxmh, tbl_details);
+			tbl_details = [tblgrlbnmd, tblgrlctmd];
+			CekSelectHeaderHD(tblgrlxxmh, tbl_details);
 
 		} );
 		
-		tblpsuxxmh.on( 'deselect', function () {
+		tblgrlxxmh.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
-			id_psuxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old;
+			id_grlxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old;
 
 			// atur hak akses
-			tbl_details = [tblpsubnmd, tblpsuctmd];
-			CekDeselectHeaderHD(tblpsuxxmh, tbl_details);
+			tbl_details = [tblgrlbnmd, tblgrlctmd];
+			CekDeselectHeaderHD(tblgrlxxmh, tbl_details);
 		} );
 		
-		// END psuxxmh
+		// END grlxxmh
 
-		// BEGIN psubnmd
-		edtpsubnmd = new $.fn.dataTable.Editor( {
+		// BEGIN grlbnmd
+		edtgrlbnmd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/psuxxmh/psubnmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psubnmd = show_deleted_psubnmd;
-					d.id_psuxxmh = id_psuxxmh;
+					d.show_deleted_grlbnmd = show_deleted_grlbnmd;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
-			table: "#tblpsubnmd",
+			table: "#tblgrlbnmd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -638,35 +637,35 @@
 			},
 			fields: [ 
 				{
-					label: "psubnmd.start_at",
-					name: "psubnmd.start_at",
+					label: "grlbnmd.start_at",
+					name: "grlbnmd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "psubnmd.finish_at",
-					name: "psubnmd.finish_at",
+					label: "grlbnmd.finish_at",
+					name: "grlbnmd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "psubnmd",
+					def: "grlbnmd",
 					type: "hidden"
 				},	
 				{
-					label: "psubnmd.transaction_state",
-					name: "psubnmd.transaction_state",
+					label: "grlbnmd.transaction_state",
+					name: "grlbnmd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
-					label: "id_psuxxmh",
-					name: "psubnmd.id_psuxxmh",
+					label: "id_grlxxmh",
+					name: "grlbnmd.id_grlxxmh",
 					type: "hidden"
 				},	
 				{
 					label: "Bank <sup class='text-danger'>*<sup>",
-					name: "psubnmd.id_fbnxxmh",
+					name: "grlbnmd.id_fbnxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -702,15 +701,15 @@
 				},	
 				{
 					label: "Nama di Rekening<sup class='text-danger'>*<sup>",
-					name: "psubnmd.nama"
+					name: "grlbnmd.nama"
 				}, 	
 				{
 					label: "Nomor Rekening<sup class='text-danger'>*<sup>",
-					name: "psubnmd.no_rek"
+					name: "grlbnmd.no_rek"
 				}, 	
 				{
 					label: "Default Rekening",
-					name: "psubnmd.is_default",
+					name: "grlbnmd.is_default",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -720,36 +719,36 @@
 				},
 				{
 					label: "Keterangan",
-					name: "psubnmd.keterangan",
+					name: "grlbnmd.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 			
-		edtpsubnmd.on( 'preOpen', function( e, mode, action ) {
-			edtpsubnmd.field('psubnmd.id_psuxxmh').val(id_psuxxmh);
+		edtgrlbnmd.on( 'preOpen', function( e, mode, action ) {
+			edtgrlbnmd.field('grlbnmd.id_grlxxmh').val(id_grlxxmh);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsubnmd.field('psubnmd.start_at').val(start_at);
+			edtgrlbnmd.field('grlbnmd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblpsubnmd.rows().deselect();
+				tblgrlbnmd.rows().deselect();
 			}
 		});
 
-		edtpsubnmd.on("open", function (e, mode, action) {
+		edtgrlbnmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtpsubnmd.on( 'preSubmit', function (e, data, action) {
+		edtgrlbnmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				id_fbnxxmh = edtpsubnmd.field('psubnmd.id_fbnxxmh').val();
-				nama       = edtpsubnmd.field('psubnmd.nama').val();
-				no_rek     = edtpsubnmd.field('psubnmd.no_rek').val();
+				id_fbnxxmh = edtgrlbnmd.field('grlbnmd.id_fbnxxmh').val();
+				nama       = edtgrlbnmd.field('grlbnmd.nama').val();
+				no_rek     = edtgrlbnmd.field('grlbnmd.no_rek').val();
 
 				validasiRequired(
-					edtpsubnmd,
-					'psubnmd',
+					edtgrlbnmd,
+					'grlbnmd',
 					{
 						'id_fbnxxmh': id_fbnxxmh,
 						'nama'      : nama,
@@ -759,8 +758,8 @@
 				
 				if (no_rek != '') {
 					validasiNumber(
-						edtpsubnmd,
-						'psubnmd',
+						edtgrlbnmd,
+						'grlbnmd',
 						{
 							'no_rek': no_rek
 						}
@@ -768,26 +767,26 @@
 				}
 			}
 			
-			if ( edtpsubnmd.inError() ) {
+			if ( edtgrlbnmd.inError() ) {
 				return false;
 			}
 		});
 
-		edtpsubnmd.on('initSubmit', function(e, action) {
+		edtgrlbnmd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsubnmd.field('psubnmd.finish_at').val(finish_at);
+			edtgrlbnmd.field('grlbnmd.finish_at').val(finish_at);
 		});
 			
-		edtpsubnmd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblpsubnmd.rows().deselect();
-			tblpsubnmd.ajax.reload(null, false);
+		edtgrlbnmd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblgrlbnmd.rows().deselect();
+			tblgrlbnmd.ajax.reload(null, false);
 		} );
 
-		edtpsubnmd.on( 'close', function () {
-			edtpsubnmd.enable();
+		edtgrlbnmd.on( 'close', function () {
+			edtgrlbnmd.enable();
 		} );
 		
-		tblpsubnmd = $('#tblpsubnmd').DataTable( {
+		tblgrlbnmd = $('#tblgrlbnmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-2',
@@ -796,8 +795,8 @@
 				url: "../../models/psuxxmh/psubnmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psubnmd = show_deleted_psubnmd;
-					d.id_psuxxmh = id_psuxxmh;
+					d.show_deleted_grlbnmd = show_deleted_grlbnmd;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
 			order: [[ 2, "desc" ]],
@@ -818,23 +817,23 @@
 			responsive: false,
 			// scrollX: true,
 			columns: [
-				{ data: "psubnmd.id",visible:false },
-				{ data: "psubnmd.id_psuxxmh",visible:false },
+				{ data: "grlbnmd.id",visible:false },
+				{ data: "grlbnmd.id_grlxxmh",visible:false },
 				{ data: "fbnxxmh.nama" },
-				{ data: "psubnmd.no_rek" },
-				{ data: "psubnmd.nama" },
+				{ data: "grlbnmd.no_rek" },
+				{ data: "grlbnmd.nama" },
 				{ 
-					data: "psubnmd.is_default",
+					data: "grlbnmd.is_default",
 					...renderYaTidak()
 				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_psubnmd';
-					$table       = 'tblpsubnmd';
-					$edt         = 'edtpsubnmd';
-					$show_status = '_psubnmd';
+					$id_table    = 'id_grlbnmd';
+					$table       = 'tblgrlbnmd';
+					$edt         = 'edtgrlbnmd';
+					$show_status = '_grlbnmd';
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -848,49 +847,49 @@
 			}
 		} );
 
-		tblpsubnmd.searchPanes.container().appendTo('#sppsubnmd');
-		tblpsubnmd.searchBuilder.container().appendTo( '#sbpsubnmd' );
+		tblgrlbnmd.searchPanes.container().appendTo('#spgrlbnmd');
+		tblgrlbnmd.searchBuilder.container().appendTo( '#sbgrlbnmd' );
 
-		tblpsubnmd.on( 'draw', function( e, settings ) { 
+		tblgrlbnmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblpsuxxmh, tblpsubnmd, 'psubnmd' );
-			CekDrawDetailHDFinal(tblpsuxxmh);
+			CekDrawDetailHD(tblgrlxxmh, tblgrlbnmd, 'grlbnmd' );
+			CekDrawDetailHDFinal(tblgrlxxmh);
 		} );
 
-		tblpsubnmd.on( 'select', function( e, dt, type, indexes ) {
-			data_psubnmd 		= tblpsubnmd.row( { selected: true } ).data().psubnmd;
-			id_psubnmd   		= data_psubnmd.id;
-			id_transaksi_d 		= id_psubnmd; // dipakai untuk general
-			id_transaksi_log_d  = id_psubnmd; // dipakai untuk log
+		tblgrlbnmd.on( 'select', function( e, dt, type, indexes ) {
+			data_grlbnmd 		= tblgrlbnmd.row( { selected: true } ).data().grlbnmd;
+			id_grlbnmd   		= data_grlbnmd.id;
+			id_transaksi_d 		= id_grlbnmd; // dipakai untuk general
+			id_transaksi_log_d  = id_grlbnmd; // dipakai untuk log
 
-			transaction_state_d   = data_psubnmd.transaction_state;
-			id_fbnxxmh_old   = data_psubnmd.id_fbnxxmh;
+			transaction_state_d   = data_grlbnmd.transaction_state;
+			id_fbnxxmh_old   = data_grlbnmd.id_fbnxxmh;
 			// atur hak akses
-			CekSelectDetailHD(tblpsuxxmh, tblpsubnmd );
+			CekSelectDetailHD(tblgrlxxmh, tblgrlbnmd );
 		} );
 
-		tblpsubnmd.on( 'deselect', function() {
-			id_psubnmd = 0;
+		tblgrlbnmd.on( 'deselect', function() {
+			id_grlbnmd = 0;
 			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblpsuxxmh, tblpsubnmd );
+			CekDeselectDetailHD(tblgrlxxmh, tblgrlbnmd );
 		} );
 
-		// END psubnmd
+		// END grlbnmd
 
-		// BEGIN psuctmd
-		edtpsuctmd = new $.fn.dataTable.Editor( {
+		// BEGIN grlctmd
+		edtgrlctmd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/psuxxmh/psuctmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psuctmd = show_deleted_psuctmd;
-					d.id_psuxxmh = id_psuxxmh;
+					d.show_deleted_grlctmd = show_deleted_grlctmd;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
-			table: "#tblpsuctmd",
+			table: "#tblgrlctmd",
 			formOptions: {
 				main: {
 					focus: 5
@@ -898,77 +897,77 @@
 			},
 			fields: [ 
 				{
-					label: "psuctmd.start_at",
-					name: "psuctmd.start_at",
+					label: "grlctmd.start_at",
+					name: "grlctmd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "psuctmd.finish_at",
-					name: "psuctmd.finish_at",
+					label: "grlctmd.finish_at",
+					name: "grlctmd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "psuctmd",
+					def: "grlctmd",
 					type: "hidden"
 				},	
 				{
-					label: "psuctmd.transaction_state",
-					name: "psuctmd.transaction_state",
+					label: "grlctmd.transaction_state",
+					name: "grlctmd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
-					label: "id_psuxxmh",
-					name: "psuctmd.id_psuxxmh",
+					label: "id_grlxxmh",
+					name: "grlctmd.id_grlxxmh",
 					type: "hidden"
 				},	
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "psuctmd.nama"
+					name: "grlctmd.nama"
 				}, 	
 				{
 					label: "Posisi <sup class='text-danger'>*<sup>",
-					name: "psuctmd.posisi"
+					name: "grlctmd.posisi"
 				},
 				{
 					label: "Email",
-					name: "psuctmd.email"
+					name: "grlctmd.email"
 				},
 				{
 					label: "Handphone",
-					name: "psuctmd.handphone"
+					name: "grlctmd.handphone"
 				}
 			]
 		} );
 			
-		edtpsuctmd.on( 'preOpen', function( e, mode, action ) {
-			edtpsuctmd.field('psuctmd.id_psuxxmh').val(id_psuxxmh);
+		edtgrlctmd.on( 'preOpen', function( e, mode, action ) {
+			edtgrlctmd.field('grlctmd.id_grlxxmh').val(id_grlxxmh);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsuctmd.field('psuctmd.start_at').val(start_at);
+			edtgrlctmd.field('grlctmd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblpsuctmd.rows().deselect();
+				tblgrlctmd.rows().deselect();
 			}
 		});
 
-		edtpsuctmd.on("open", function (e, mode, action) {
+		edtgrlctmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtpsuctmd.on( 'preSubmit', function (e, data, action) {
+		edtgrlctmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				// nama = edtpsuctmd.field('psuctmd.nama').val();
-				// posisi = edtpsuctmd.field('psuctmd.posisi').val();
-				// email = edtpsuctmd.field('psuctmd.email').val();
-				// handphone = edtpsuctmd.field('psuctmd.handphone').val();
+				// nama = edtgrlctmd.field('grlctmd.nama').val();
+				// posisi = edtgrlctmd.field('grlctmd.posisi').val();
+				// email = edtgrlctmd.field('grlctmd.email').val();
+				// handphone = edtgrlctmd.field('grlctmd.handphone').val();
 
 				// validasiRequired(
-				// 	edtpsuctmd,
-				// 	'psuctmd',
+				// 	edtgrlctmd,
+				// 	'grlctmd',
 				// 	{
 				// 		'nama': nama,
 				// 		'posisi': posisi
@@ -976,8 +975,8 @@
 				// );
 
 				// validasiEmail(
-				// 	edtpsuctmd,
-				// 	'psuctmd',
+				// 	edtgrlctmd,
+				// 	'grlctmd',
 				// 	{
 				// 		'email': email
 				// 	}
@@ -985,26 +984,26 @@
 
 			}
 			
-			if ( edtpsuctmd.inError() ) {
+			if ( edtgrlctmd.inError() ) {
 				return false;
 			}
 		});
 
-		edtpsuctmd.on('initSubmit', function(e, action) {
+		edtgrlctmd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpsuctmd.field('psuctmd.finish_at').val(finish_at);
+			edtgrlctmd.field('grlctmd.finish_at').val(finish_at);
 		});
 			
-		edtpsuctmd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblpsuctmd.rows().deselect();
-			tblpsuctmd.ajax.reload(null, false);
+		edtgrlctmd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblgrlctmd.rows().deselect();
+			tblgrlctmd.ajax.reload(null, false);
 		} );
 
-		edtpsuctmd.on( 'close', function () {
-			edtpsuctmd.enable();
+		edtgrlctmd.on( 'close', function () {
+			edtgrlctmd.enable();
 		} );
 		
-		tblpsuctmd = $('#tblpsuctmd').DataTable( {
+		tblgrlctmd = $('#tblgrlctmd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-2',
@@ -1013,8 +1012,8 @@
 				url: "../../models/psuxxmh/psuctmd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_psuctmd = show_deleted_psuctmd;
-					d.id_psuxxmh = id_psuxxmh;
+					d.show_deleted_grlctmd = show_deleted_grlctmd;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
 			order: [[ 2, "desc" ]],
@@ -1035,20 +1034,20 @@
 			responsive: false,
 			// scrollX: true,
 			columns: [
-				{ data: "psuctmd.id",visible:false },
-				{ data: "psuctmd.id_psuxxmh",visible:false },
-				{ data: "psuctmd.nama" },
-				{ data: "psuctmd.posisi" },
-				{ data: "psuctmd.email" },
-				{ data: "psuctmd.handphone" }
+				{ data: "grlctmd.id",visible:false },
+				{ data: "grlctmd.id_grlxxmh",visible:false },
+				{ data: "grlctmd.nama" },
+				{ data: "grlctmd.posisi" },
+				{ data: "grlctmd.email" },
+				{ data: "grlctmd.handphone" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_psuctmd';
-					$table       = 'tblpsuctmd';
-					$edt         = 'edtpsuctmd';
-					$show_status = '_psuctmd';
+					$id_table    = 'id_grlctmd';
+					$table       = 'tblgrlctmd';
+					$edt         = 'edtgrlctmd';
+					$show_status = '_grlctmd';
 					$table_name  = $nama_tabels_d[1];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -1062,37 +1061,37 @@
 			}
 		} );
 
-		tblpsuctmd.searchPanes.container().appendTo('#sppsuctmd');
-		tblpsuctmd.searchBuilder.container().appendTo( '#sbpsuctmd' );
+		tblgrlctmd.searchPanes.container().appendTo('#spgrlctmd');
+		tblgrlctmd.searchBuilder.container().appendTo( '#sbgrlctmd' );
 
-		tblpsuctmd.on( 'draw', function( e, settings ) { 
+		tblgrlctmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblpsuxxmh, tblpsuctmd, 'psuctmd' );
-			CekDrawDetailHDFinal(tblpsuxxmh);
+			CekDrawDetailHD(tblgrlxxmh, tblgrlctmd, 'grlctmd' );
+			CekDrawDetailHDFinal(tblgrlxxmh);
 		} );
 
-		tblpsuctmd.on( 'select', function( e, dt, type, indexes ) {
-			data_psuctmd 		= tblpsuctmd.row( { selected: true } ).data().psuctmd;
-			id_psuctmd   		= data_psuctmd.id;
-			id_transaksi_d 		= id_psuctmd; // dipakai untuk general
-			id_transaksi_log_d 	= id_psuctmd; // dipakai untuk log
+		tblgrlctmd.on( 'select', function( e, dt, type, indexes ) {
+			data_grlctmd 		= tblgrlctmd.row( { selected: true } ).data().grlctmd;
+			id_grlctmd   		= data_grlctmd.id;
+			id_transaksi_d 		= id_grlctmd; // dipakai untuk general
+			id_transaksi_log_d 	= id_grlctmd; // dipakai untuk log
 
-			transaction_state_d  = data_psuctmd.transaction_state;
-			id_fbnxxmh_old   = data_psuctmd.id_fbnxxmh;
+			transaction_state_d  = data_grlctmd.transaction_state;
+			id_fbnxxmh_old   = data_grlctmd.id_fbnxxmh;
 			// atur hak akses
-			CekSelectDetailHD(tblpsuxxmh, tblpsuctmd );
+			CekSelectDetailHD(tblgrlxxmh, tblgrlctmd );
 		} );
 
-		tblpsuctmd.on( 'deselect', function() {
-			id_psuctmd = 0;
+		tblgrlctmd.on( 'deselect', function() {
+			id_grlctmd = 0;
 			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblpsuxxmh, tblpsuctmd );
+			CekDeselectDetailHD(tblgrlxxmh, tblgrlctmd );
 		} );
 
-		// END psuctmd
+		// END grlctmd
 		
 	} );// end of document.ready
 	

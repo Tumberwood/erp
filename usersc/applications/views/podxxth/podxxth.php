@@ -339,7 +339,7 @@
 	var edtpodittd, tblpodittd, show_deleted_podittd = 0, id_podittd;
 	// ------------- end of default variable
 
-	var id_iitxxmh_old = 0, id_psuxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
+	var id_iitxxmh_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
 
 	// get tableRelation
@@ -475,7 +475,7 @@
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_psuxxmh_old: id_psuxxmh_old,
+									id_grlxxmh_old: id_grlxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -920,7 +920,7 @@
 			id_iitxxmh        = podxxth_data.id_iitxxmh;
 			id_fcrxxmh_old    = podxxth_data.id_fcrxxmh;
 			id_fpytmmh_old    = podxxth_data.id_fpytmmh;
-			id_psuxxmh_old    = podxxth_data.id_psuxxmh;
+			id_grlxxmh_old    = podxxth_data.id_grlxxmh;
 
 			// terkait footer
 			diskon_final_h = podxxth_data.diskon_final;
@@ -938,7 +938,7 @@
 		tblpodxxth.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
 			id_podxxth = 0;
-			id_psuxxmh_old = 0;
+			id_grlxxmh_old = 0;
 			id_fpytmmh_old = 0;
 			id_fcrxxmh_old = 0;
 			id_iitxxmh_old = 0;
