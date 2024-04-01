@@ -173,6 +173,8 @@
 	var edtgrlbnmd, tblgrlbnmd, show_deleted_grlbnmd = 0, id_grlbnmd;
 	var edtgrlctmd, tblgrlctmd, show_deleted_grlctmd = 0, id_grlctmd;
 	// ------------- end of default variable
+
+	var kategori_dokumen = 'is_supplier', kategori_dokumen_value = 1;
 	
 	var id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0;
 	var id_fbnxxmh_old = 0;
@@ -194,19 +196,6 @@
 			table: "#tblgrlxxmh",
 			template: "#custom_grlxxmh",
 			fields: [ 
-				{
-					label: "kategori_dokumen",
-					name: "kategori_dokumen",
-					type: "hidden"
-				},	{
-					label: "kategori_dokumen_value",
-					name: "kategori_dokumen_value",
-					type: "hidden"
-				},	{
-					label: "field_tanggal",
-					name: "field_tanggal",
-					type: "hidden"
-				},	
 				{
 					label: "grlxxmh.start_at",
 					name: "grlxxmh.start_at",
@@ -401,10 +390,6 @@
 
 			if(action == 'create'){
 				tblgrlxxmh.rows().deselect();
-				edtgrlxxmh.field('kategori_dokumen').val('is_supplier');
-				edtgrlxxmh.field('kategori_dokumen_value').val(1);
-				edtgrlxxmh.field('field_tanggal').val('start_at');
-
 				edtgrlxxmh.field('grlxxmh.nama').enable();
 
 			}else if(action == 'edit'){
