@@ -32,7 +32,7 @@
 				->setValue($s_id_gbrxxmh),
 			Field::inst( 'podxxth.id_iitxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'podxxth.id_psuxxmh' )
+			Field::inst( 'podxxth.id_grlxxmh_supplier' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'podxxth.id_fpytmmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -82,10 +82,10 @@
 			Field::inst( 'podxxth.grand_total' ),
 
 			Field::inst( 'iitxxmh.nama' ),
-			Field::inst( 'psuxxmh.nama' )
+			Field::inst( 'grlxxmh.nama' )
 		)
 		->leftJoin( 'iitxxmh','iitxxmh.id','=','podxxth.id_iitxxmh' )
-		->leftJoin( 'psuxxmh','psuxxmh.id','=','podxxth.id_psuxxmh' )
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','podxxth.id_grlxxmh_supplier' )
 		;
 	
 	// do not erase
