@@ -25,6 +25,7 @@
                                 <th>Nama</th>
                                 <th>Kode</th>
                                 <th>Type</th>
+                                <th>Group</th>
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
@@ -50,6 +51,7 @@
 										<th>id_gapxxsh</th>
 										<th>User</th>
 										<th>Level</th>
+										<th>Group Data</th>
 										<th>Batas Bawah</th>
 										<th>Batas Atas</th>
 										<th>Keterangan</th>
@@ -93,8 +95,8 @@
 	var edtgapdusd, tblgapdusd, show_deleted_gapdusd = 0, id_gapdusd;
 	// ------------- end of default variable
 
-	var id_gtbrlsh_old = 0, id_gaptpmh_old = 0;
-	var id_users_old = 0;
+	var id_gtbrlsh = 0, id_gtbrlsh_old = 0, id_gaptpmh_old = 0, id_gtbrlsh_group_old = 0;
+	var id_users_old = 0, id_tbl_group_old = 0;
 
 	// get tableRelation
 	tableRelation('gapxxsh');
@@ -183,6 +185,42 @@
 							data: function (params) {
 								var query = {
 									id_gaptpmh_old: id_gaptpmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Group",
+					name: "gapxxsh.id_gtbrlsh_group",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/gtbrlsh/gtbrlsh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gtbrlsh_group_old: id_gtbrlsh_group_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -307,6 +345,7 @@
 				{ data: "gtbrlsh.nama" },
 				{ data: "gtbrlsh.tblheader" },
 				{ data: "gaptpmh.nama" },
+				{ data: "gtbrlsh_grup.nama" },
 				{ data: "gapxxsh.keterangan" }
 			],
 			buttons: [
@@ -356,10 +395,12 @@
 			approval_state    = gapxxsh_data.approval_state;
 			is_nextprocess    = gapxxsh_data.is_nextprocess;
 
-			id_gaptpmh_old = gapxxsh_data.id_gaptpmh;
-			id_gaptpmh     = gapxxsh_data.id_gaptpmh;
-			jumlah_level   = gapxxsh_data.jumlah_level;
-			
+			id_gaptpmh_old       = gapxxsh_data.id_gaptpmh;
+			id_gaptpmh           = gapxxsh_data.id_gaptpmh;
+			id_gtbrlsh_group_old = gapxxsh_data.id_gtbrlsh_group;
+			id_gtbrlsh           = gapxxsh_data.id_gtbrlsh_group;
+			jumlah_level         = gapxxsh_data.jumlah_level;
+			console.log(id_gtbrlsh);
 			// atur hak akses
 			tbl_details = [tblgapdusd];
 			CekSelectHeaderHD(tblgapxxsh, tbl_details);
@@ -369,7 +410,7 @@
 		tblgapxxsh.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
 			id_gapxxsh = 0;
-			id_gaptpmh_old = 0;
+			id_gaptpmh_old = 0, id_gtbrlsh_group_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblgapdusd];
@@ -459,6 +500,49 @@
 					}
 				}, 	
 				{
+					label: "Group",
+					name: "gapdusd.id_tbl_group",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							// ini harus dinamik
+							url: "../../models/gapxxsh/gapxxsh_fn_opt_gtbrlsh_group.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gtbrlsh_group: id_gtbrlsh,
+									id_tbl_group_old: id_tbl_group_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}, 	
+				{
+					label: "gapdusd.tbl_group_nama",
+					name: "gapdusd.tbl_group_nama",
+					// type: "hidden"
+				},
+				{
 					label: "Level",
 					name: "gapdusd.level_ke"
 				},
@@ -492,6 +576,12 @@
 		edtgapdusd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
+
+		edtgapdusd.dependent( 'gapdusd.id_tbl_group', function ( val, data, callback ) {
+			tbl_group_nama = edtgapdusd.field('gapdusd.id_tbl_group').input().children(':selected').text();
+			edtgapdusd.field('gapdusd.tbl_group_nama').val(tbl_group_nama);
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtgapdusd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -551,6 +641,7 @@
 				{ data: "gapdusd.id_gapxxsh",visible:false },
 				{ data: "users.username" },
 				{ data: "gapdusd.level_ke" },
+				{ data: "gapdusd.tbl_group_nama" },
 				{ 
 					data: "gapdusd.gaptpmh_value_fr" ,
 					...renderNumber(0)
@@ -599,8 +690,9 @@
 			id_transaksi_d 		= id_gapdusd; // dipakai untuk general
 			id_transaksi_log 	= id_gapdusd; // dipakai untuk log
 
-			transaction_state_d   = data_gapdusd.transaction_state;
-			id_users_old   = data_gapdusd.id_users;
+			transaction_state_d = data_gapdusd.transaction_state;
+			id_users_old        = data_gapdusd.id_users;
+			id_tbl_group_old    = data_gapdusd.id_tbl_group;
 			
 			// atur hak akses
 			CekSelectDetailHD(tblgapxxsh, tblgapdusd );
@@ -608,7 +700,7 @@
 
 		tblgapdusd.on( 'deselect', function() {
 			id_gapdusd = 0;
-			id_users_old = 0;
+			id_users_old = 0, id_tbl_group_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblgapxxsh, tblgapdusd );
