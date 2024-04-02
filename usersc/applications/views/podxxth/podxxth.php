@@ -31,7 +31,7 @@
 								<editor-field name="podxxth.id_iitxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="podxxth.id_psuxxmh"></editor-field>
+								<editor-field name="podxxth.id_grlxxmh_supplier"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -116,11 +116,11 @@
 					<thead>
 						<tr>
 							<th>ID</th>
+							<th>Nomor</th>
 							<th>Tanggal</th>
-							<th>Kode</th>
 							<th>Supplier</th>
 							<th>Type</th>
-							<th>TX</th>
+							<th>Status</th>
 							<th>Approval</th>
 						</tr>
 					</thead>
@@ -213,10 +213,11 @@
 									<tr>
 										<th>ID</th>
 										<th>id_podxxth</th>
-										<th>Item</th>
+										<th>Item Code</th>
+										<th>Item Name</th>
 										<th>UoM</th>
 										<th>Quantity</th>
-										<th>Price</th>
+										<th>Price @</th>
 										<th>Subtotal</th>
 										<th>Discount</th>
 										<th>Total</th>
@@ -225,6 +226,7 @@
 								</thead>
 								<tfoot>
 									<tr>
+										<th></th>
 										<th></th>
 										<th></th>
 										<th id="c_item"></th>
@@ -240,6 +242,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
+										<th></th>
 										<th>Diskon</th>
 										<th></th>
 										<th></th>
@@ -249,6 +252,7 @@
 										<th></th>
 									</tr>
 									<tr>
+										<th></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -264,6 +268,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
+										<th></th>
 										<th>Pajak</th>
 										<th></th>
 										<th></th>
@@ -273,6 +278,7 @@
 										<th></th>
 									</tr>
 									<tr>
+										<th></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -464,7 +470,7 @@
 				},		
 				{
 					label: "Supplier <sup class='text-danger'>*<sup>",
-					name: "podxxth.id_psuxxmh",
+					name: "podxxth.id_grlxxmh_supplier",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -746,7 +752,7 @@
 		edtpodxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				id_psuxxmh    = edtpodxxth.field('podxxth.id_psuxxmh').val();
+				id_grlxxmh_supplier = edtpodxxth.field('podxxth.id_grlxxmh_supplier').val();
 				id_fpytmmh    = edtpodxxth.field('podxxth.id_fpytmmh').val();
 				id_fcrxxmh    = edtpodxxth.field('podxxth.id_fcrxxmh').val();
 				id_iitxxmh    = edtpodxxth.field('podxxth.id_iitxxmh').val();
@@ -759,7 +765,7 @@
 					edtpodxxth,
 					'podxxth',
 					{
-						'id_psuxxmh': id_psuxxmh,
+						'id_grlxxmh_supplier': id_grlxxmh_supplier,
 						'id_fpytmmh': id_fpytmmh,
 						'id_fcrxxmh': id_fcrxxmh,
 						'id_iitxxmh': id_iitxxmh,
@@ -850,9 +856,9 @@
 			],
 			columns: [
 				{ data: "podxxth.id",visible:false },
-				{ data: "podxxth.tanggal" },
 				{ data: "podxxth.kode" },
-				{ data: "psuxxmh.nama" },
+				{ data: "podxxth.tanggal" },
+				{ data: "grlxxmh.nama" },
 				{ data: "iitxxmh.nama" },
 				{ 
 					data: "podxxth.transaction_state" ,
@@ -920,7 +926,7 @@
 			id_iitxxmh        = podxxth_data.id_iitxxmh;
 			id_fcrxxmh_old    = podxxth_data.id_fcrxxmh;
 			id_fpytmmh_old    = podxxth_data.id_fpytmmh;
-			id_grlxxmh_old    = podxxth_data.id_grlxxmh;
+			id_grlxxmh_old    = podxxth_data.id_grlxxmh_supplier;
 
 			// terkait footer
 			diskon_final_h = podxxth_data.diskon_final;
@@ -954,12 +960,9 @@
 			tbl_details = [tblpodittd];
 			CekDeselectHeaderHD(tblpodxxth, tbl_details);
 		} );
-		
 		// END podxxth
 
-
 		// BEGIN podittd
-
 		edtpodittd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/podxxth/podittd.php",
@@ -1387,24 +1390,25 @@
 			},
 			order: [[ 2, "desc" ]],
 			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
+				// {
+				// 	searchPanes:{
+				// 		show: true,
+				// 	},
+				// 	targets: [1,2,3,10]
+				// },
+				// {
+				// 	searchPanes:{
+				// 		show: false,
+				// 	},
+				// 	targets: [0,4,5,6,7,8,9]
+				// }
 			],
 			responsive: false,
 			scrollX: true,
 			columns: [
 				{ data: "podittd.id",visible:false },
 				{ data: "podittd.id_podxxth",visible:false },
+				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.nama" },
 				{ 
@@ -1453,7 +1457,7 @@
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       	= this.api(), data;
 				var c_item 		= api.column(0).data().count();
-				var s_subtotal 	= api.column(8).data().sum();
+				var s_subtotal 	= api.column(9).data().sum();
 
 				$( '#c_item' ).html( "Total Item(s): " + c_item);
 				$( '#s_subtotal' ).html( dtNumberFormat(s_subtotal) );
