@@ -30,7 +30,7 @@
 			Field::inst( 'sqtxxth.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue(1),
-			Field::inst( 'sqtxxth.id_grlxxmh' )
+			Field::inst( 'sqtxxth.id_grlxxmh_customer' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sqtxxth.id_fpytmmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -97,7 +97,7 @@
 			
 			Field::inst( 'activity_log_ml_c.created_by' )
 		)
-		->leftJoin( 'grlxxmh','grlxxmh.id','=','sqtxxth.id_grlxxmh' )
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','sqtxxth.id_grlxxmh_customer' )
 		->leftJoin( 
 			'activity_log_ml as activity_log_ml_c', 
 			'activity_log_ml_c.id_transaksi = sqtxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "sqtxxth"', '', '' )

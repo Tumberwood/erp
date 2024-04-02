@@ -17,15 +17,105 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
+
+			<!-- start Custom Form Datatables Editor -->
+			<div id="frmsqtxxth">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.tanggal"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.id_grlxxmh_customer"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.id_fcrxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.id_fpytmmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.subtotal"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.diskon_jenis"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.diskon_persen"></editor-field>
+								<editor-field name="sqtxxth.diskon_value"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.diskon_final"></editor-field>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							<editor-field name="sqtxxth.dpp_final"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.dpp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.is_pajak"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.pajak_in_ex"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.pajak_jenis"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.pajak_persen"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.pajak_final"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.grand_total"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sqtxxth.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblsqtxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Nomor</th>
                                 <th>Tanggal</th>
-                                <th>Kode</th>
                                 <th>Customer</th>
-                                <th>TX</th>
+                                <th>Status</th>
                                 <th>Approval</th>
                             </tr>
                         </thead>
@@ -42,6 +132,65 @@
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabsqtittd" class="tab-pane active">
+					
+					<div id="frmsqtittd">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.id_iimxxmh"></editor-field>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.id_iumxxmh_unit"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.jumlah_unit"></editor-field>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.harga_unit"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.subtotal"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.diskon_jenis"></editor-field>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.diskon_persen"></editor-field>
+									<editor-field name="sqtittd.diskon_value"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="sqtittd.diskon_final"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="sqtittd.dpp"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="sqtittd.keterangan"></editor-field>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table id="tblsqtittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -49,10 +198,14 @@
 									<tr>
 										<th>ID</th>
 										<th>id_sqtxxth</th>
-										<th>Item</th>
-										<th>Quantity</th>
+										<th>Item Code</th>
+										<th>Item name</th>
 										<th>UoM</th>
-										<th>Tanggal Dibutuhkan</th>
+										<th>Quantity</th>
+										<th>Price @</th>
+										<th>Subtotal</th>
+										<th>Discount</th>
+										<th>Total</th>
 										<th>Keterangan</th>
 									</tr>
 								</thead>
@@ -60,10 +213,66 @@
 									<tr>
 										<th></th>
 										<th></th>
-										<th id="c_items"></th>
+										<th></th>
+										<th id="c_item"></th>
+										<th>Subtotal</th>
 										<th></th>
 										<th></th>
 										<th></th>
+										<th></th>
+										<th id="s_subtotal"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>Diskon</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th id="diskon_final_h"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>DPP</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th id="dpp_final_h"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>Pajak</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th id="pajak_final_h"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>Total</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th id="grand_total_h"></th>
 										<th></th>
 									</tr>
 								</tfoot>
@@ -103,8 +312,10 @@
 	var edtsqtxxth, tblsqtxxth, show_deleted_sqtxxth = 0, id_sqtxxth;
 	var edtsqtittd, tblsqtittd, show_deleted_sqtittd = 0, id_sqtittd;
 	// ------------- end of default variable
-	var id_grlxxmh_old = 0;
+	var id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0;
 	var id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0;
+
+	var id_iitxxmh = 1;
 
 	// get tableRelation
 	tableRelation('sqtxxth');
@@ -113,6 +324,11 @@
 		
 		// BEGIN sqtxxth
 		edtsqtxxth = new $.fn.dataTable.Editor( {
+			formOptions: {
+				main: {
+					focus: 3,
+				}
+			},
 			ajax: {
 				url: "../../models/sqtxxth/sqtxxth.php",
 				type: 'POST',
@@ -121,17 +337,8 @@
 				}
 			},
 			table: "#tblsqtxxth",
+			template: "#frmsqtxxth",
 			fields: [ 
-				{
-					label: "kategori_dokumen",
-					name: "kategori_dokumen",
-					type: "hidden"
-				},	
-				{
-					label: "kategori_dokumen_value",
-					name: "kategori_dokumen_value",
-					type: "hidden"
-				},
 				{
 					label: "sqtxxth.start_at",
 					name: "sqtxxth.start_at",
@@ -169,7 +376,7 @@
 				},
 				{
 					label: "Customer <sup class='text-danger'>*<sup>",
-					name: "sqtxxth.id_scuxxmh",
+					name: "sqtxxth.id_grlxxmh_customer",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -196,6 +403,95 @@
 					}
 				},
 				{
+					label: "Payment Terms <sup class='text-danger'>*<sup>",
+					name: "sqtxxth.id_fpytmmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/fpytmmh/fpytmmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_fpytmmh_old: id_fpytmmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
+				{
+					label: "Currency <sup class='text-danger'>*<sup>",
+					name: "sqtxxth.id_fcrxxmh",
+					id: "select_id_fcrxxmh", //tambahkan id di select2nya
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/fcrxxmh/fcrxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+
+								var query = {
+									id_fcrxxmh_old: id_fcrxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								defaultCurrency();
+
+								if (params.page && params.page === 1) {
+									$('#select_id_fcrxxmh').empty().select2({ data: options });
+								} else {
+									$('#select_id_fcrxxmh').append(new Option(nama_def, id_def, false, false)).trigger('change');
+								}
+
+								return {
+									results: options,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
+				{
 					label: "Valid Until <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.tanggal_validity",
 					type: "datetime",
@@ -212,6 +508,88 @@
 					label: "UP <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.up1"
 				},
+
+				{
+					label: "Subtotal",
+					name: "sqtxxth.subtotal",
+					type: "readonly"
+				},
+				{
+					label: "Diskon",
+					name: "sqtxxth.diskon_jenis",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "-", "value": 0 },
+						{ "label": "Percent", "value": 1 },
+						{ "label": "Value", "value": 2 }
+					]
+				},
+				{
+					label: "Diskon (%)",
+					name: "sqtxxth.diskon_persen"
+				}, 	
+				{
+					label: "Diskon (Rp)",
+					name: "sqtxxth.diskon_value"
+				}, 	
+				{
+					label: "Diskon Final",
+					name: "sqtxxth.diskon_final",
+					type: "readonly"
+				},
+				{
+					label: "Total",
+					name: "sqtxxth.dpp",
+					type: "readonly"
+				},
+				{
+					label: "dpp_final",
+					name: "sqtxxth.dpp_final",
+					type: "hidden"
+				},
+				{
+					label: "Menggunakan Pajak",
+					name: "sqtxxth.is_pajak",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Termasuk Pajak",
+					name: "sqtxxth.pajak_in_ex",
+					type: "select",
+					def: 2,
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 2 }
+					]
+				},
+				{
+					label: "pajak_jenis",
+					name: "sqtxxth.pajak_jenis",
+					type: "hidden"
+				},
+				{
+					label: "pajak_persen",
+					name: "sqtxxth.pajak_persen",
+					type: "hidden"
+				},
+				{
+					label: "Pajak",
+					name: "sqtxxth.pajak_final",
+					type: "readonly"
+				},
+				{
+					label: "Grand Total",
+					name: "sqtxxth.grand_total",
+					type: "readonly"
+				},
+
 				{
 					label: "Keterangan",
 					name: "sqtxxth.keterangan",
@@ -219,6 +597,14 @@
 				}
 			]
 		} );
+
+		edtsqtxxth.field('sqtxxth.subtotal').input().addClass('text-right');
+		edtsqtxxth.field('sqtxxth.diskon_persen').input().addClass('text-right');
+		edtsqtxxth.field('sqtxxth.diskon_value').input().addClass('text-right');
+		edtsqtxxth.field('sqtxxth.diskon_final').input().addClass('text-right');
+		edtsqtxxth.field('sqtxxth.dpp').input().addClass('text-right');
+		edtsqtxxth.field('sqtxxth.pajak_final').input().addClass('text-right');
+		edtsqtxxth.field('sqtxxth.grand_total').input().addClass('text-right');
 		
 		edtsqtxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -226,30 +612,84 @@
 
 			if(action == 'create'){
 				tblsqtxxth.rows().deselect();
-				edtsqtxxth.field('kategori_dokumen').val('');
-				edtsqtxxth.field('kategori_dokumen_value').val('');
 			}
 		});
 
 		edtsqtxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
+		
+		edtsqtxxth.dependent( 'sqtxxth.diskon_jenis', function ( val, data, callback ) {
+			if (val == 1) {
+				edtsqtxxth.field('sqtxxth.diskon_persen').show();
+				edtsqtxxth.field('sqtxxth.diskon_value').hide();
+				
+				edtsqtxxth.field('sqtxxth.diskon_persen').val();
+				edtsqtxxth.field('sqtxxth.diskon_value').val('');
+			} else if (val == 2) {
+				edtsqtxxth.field('sqtxxth.diskon_persen').hide();
+				edtsqtxxth.field('sqtxxth.diskon_value').show();
+				
+				edtsqtxxth.field('sqtxxth.diskon_persen').val('');
+				edtsqtxxth.field('sqtxxth.diskon_value').val();
+			} else {
+				edtsqtxxth.field('sqtxxth.diskon_persen').hide();
+				edtsqtxxth.field('sqtxxth.diskon_value').hide();
+				
+				edtsqtxxth.field('sqtxxth.diskon_persen').val(0);
+				edtsqtxxth.field('sqtxxth.diskon_value').val(0);
+				edtsqtxxth.field('sqtxxth.diskon_final').val(0);
+			}
+			hitungDiskon(edtsqtxxth, 'sqtxxth');
+			hitungDpp(edtsqtxxth, 'sqtxxth');
+			hitungHeader(edtsqtxxth,'sqtxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtsqtxxth.dependent( 'sqtxxth.diskon_persen', function ( val, data, callback ) {
+			hitungDiskon(edtsqtxxth, 'sqtxxth');
+			hitungDpp(edtsqtxxth, 'sqtxxth');
+			hitungHeader(edtsqtxxth,'sqtxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup'});
+		
+		edtsqtxxth.dependent( 'sqtxxth.diskon_value', function ( val, data, callback ) {
+			hitungDiskon(edtsqtxxth, 'sqtxxth');
+			hitungDpp(edtsqtxxth, 'sqtxxth');
+			hitungHeader(edtsqtxxth,'sqtxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup'});
+
+		edtsqtxxth.dependent( 'sqtxxth.is_pajak', function ( val, data, callback ) {
+			/**
+			 * is_pajak: menentukan apakah PO tersebut kena pajak atau tidak
+			 * nantinya bisa diambilkan dari master supplier. 
+			 * tergantung bisnis prosesnya
+			 */
+			hitungHeader(edtsqtxxth,'sqtxxth', id_iitxxmh);
+			return {}
+		}, {event: 'change'});
+
+		edtsqtxxth.dependent( 'sqtxxth.pajak_in_ex', function ( val, data, callback ) {
+			hitungHeader(edtsqtxxth,'sqtxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtsqtxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				tanggal          = edtsqtxxth.field('sqtxxth.tanggal').val();
-				id_scuxxmh       = edtsqtxxth.field('sqtxxth.id_scuxxmh').val();
-				tanggal_validity = edtsqtxxth.field('sqtxxth.tanggal_validity').val();
-				up1              = edtsqtxxth.field('sqtxxth.up1').val();
+				tanggal             = edtsqtxxth.field('sqtxxth.tanggal').val();
+				id_grlxxmh_customer = edtsqtxxth.field('sqtxxth.id_grlxxmh_customer').val();
+				tanggal_validity    = edtsqtxxth.field('sqtxxth.tanggal_validity').val();
+				up1                 = edtsqtxxth.field('sqtxxth.up1').val();
 
 				validasiRequired(
 					edtsqtxxth,
 					'sqtxxth',
 					{
-						'tanggal': tanggal,
-						'id_scuxxmh': id_scuxxmh,
-						'tanggal_validity': tanggal_validity,
-						'up1': up1
+						'tanggal'            : tanggal,
+						'id_grlxxmh_customer': id_grlxxmh_customer,
+						'tanggal_validity'   : tanggal_validity,
+						'up1'                : up1
 					}
 				);
 				
@@ -263,11 +703,23 @@
 		edtsqtxxth.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtsqtxxth.field('sqtxxth.finish_at').val(finish_at);
+
+			diskon_final_h = edtsqtxxth.field('sqtxxth.diskon_final').val();
+			dpp_final_h    = edtsqtxxth.field('sqtxxth.dpp_final').val();
+			pajak_final_h  = edtsqtxxth.field('sqtxxth.pajak_final').val();
+			grand_total_h  = edtsqtxxth.field('sqtxxth.grand_total').val();
+			
+			sqtxxthUpdateFooter();
 		});
 		
 		edtsqtxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
 			tblsqtxxth.rows().deselect();
 			tblsqtxxth.ajax.reload(null, false);
+
+			edtsqtxxth.field('sqtxxth.diskon_final').val(diskon_final_h);
+			edtsqtxxth.field('sqtxxth.dpp_final').val(dpp_final_h);
+			edtsqtxxth.field('sqtxxth.pajak_final').val(pajak_final_h);
+			edtsqtxxth.field('sqtxxth.grand_total').val(grand_total_h);
 		} );
 
 		edtsqtxxth.on( 'close', function () {
@@ -298,13 +750,13 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: [0,4,5]
 				}
 			],
 			columns: [
 				{ data: "sqtxxth.id",visible:false },
-				{ data: "sqtxxth.tanggal" },
 				{ data: "sqtxxth.kode" },
+				{ data: "sqtxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
 				{ 
 					data: "sqtxxth.transaction_state" ,
@@ -348,6 +800,13 @@
 		tblsqtxxth.searchBuilder.container().appendTo( '#sbsqtxxth' );
 		
 		tblsqtxxth.on( 'init', function () {
+			// terkait footer
+			diskon_final_h = 0;
+			dpp_final_h    = 0;
+			pajak_final_h  = 0;
+			grand_total_h  = 0;
+			sqtxxthUpdateFooter();
+
 			// atur hak akses
 			tbl_details = [tblsqtittd];
 			CekInitHeaderHD(tblsqtxxth, tbl_details);
@@ -362,7 +821,16 @@
 			approval_state    = sqtxxth_data.approval_state;
 			is_nextprocess    = sqtxxth_data.is_nextprocess;
 			
-			id_grlxxmh_old = sqtxxth_data.id_scuxxmh;
+			id_grlxxmh_old = sqtxxth_data.id_grlxxmh_customer;
+			id_fpytmmh_old = sqtxxth_data.id_fpytmmh;
+			id_fcrxxmh_old = sqtxxth_data.id_fcrxxmh;
+
+			// terkait footer
+			diskon_final_h = sqtxxth_data.diskon_final;
+			dpp_final_h    = sqtxxth_data.dpp_final;
+			pajak_final_h  = sqtxxth_data.pajak_final;
+			grand_total_h  = sqtxxth_data.grand_total;
+			sqtxxthUpdateFooter();
 			
 			// atur hak akses
 			tbl_details = [tblsqtittd];
@@ -373,13 +841,19 @@
 		tblsqtxxth.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
 			id_sqtxxth = 0;
-			id_grlxxmh_old = 0;
+			id_grlxxmh_old = 0, id_fpytmmh_old = 0, id_fcrxxmh_old = 0;
+
+			// terkait footer
+			diskon_final_h = 0;
+			dpp_final_h    = 0;
+			pajak_final_h  = 0;
+			grand_total_h  = 0;
+			sqtxxthUpdateFooter();
 
 			// atur hak akses
 			tbl_details = [tblsqtittd];
 			CekDeselectHeaderHD(tblsqtxxth, tbl_details);
 		} );
-		
 		// END sqtxxth
 
 		// BEGIN sqtittd
@@ -393,6 +867,7 @@
 				}
 			},
 			table: "#tblsqtittd",
+			template: "#frmsqtittd",
 			formOptions: {
 				main: {
 					focus: 5,
@@ -464,10 +939,6 @@
 					}
 				},
 				{
-					label: "Quantity <sup class='text-danger'>*<sup>",
-					name: "sqtittd.jumlah_unit"
-				}, 
-				{
 					label: "UoM <sup class='text-danger'>*<sup>",
 					name: "sqtittd.id_iumxxmh_unit",
 					type: "select2",
@@ -497,8 +968,44 @@
 					}
 				},		
 				{
-					label: "Harga <sup class='text-danger'>*<sup>", 
+					label: "Quantity <sup class='text-danger'>*<sup>",
+					name: "sqtittd.jumlah_unit"
+				}, 
+				{
+					label: "Price @ <sup class='text-danger'>*<sup>", 
 					name: "sqtittd.harga_unit",
+				},
+				{
+					label: "Subtotal",
+					name: "sqtittd.subtotal",
+					type: "readonly"
+				},
+				{
+					label: "Diskon",
+					name: "sqtittd.diskon_jenis",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "-", "value": 0 },
+						{ "label": "Percent", "value": 1 },
+						{ "label": "Value", "value": 2 }
+					]
+				},
+				{
+					label: "Diskon (%)",
+					name: "sqtittd.diskon_persen"
+				}, 	{
+					label: "Diskon (Rp)",
+					name: "sqtittd.diskon_value"
+				}, 	{
+					label: "Diskon Final",
+					name: "sqtittd.diskon_final",
+					type: "readonly"
+				},
+				{
+					label: "Total",
+					name: "sqtittd.dpp",
+					type: "readonly"
 				},
 				{
 					label: "Keterangan",
@@ -507,6 +1014,14 @@
 				}
 			]
 		} );
+
+		edtsqtittd.field('sqtittd.jumlah_unit').input().addClass('text-right');
+		edtsqtittd.field('sqtittd.harga_unit').input().addClass('text-right');
+		edtsqtittd.field('sqtittd.subtotal').input().addClass('text-right');
+		edtsqtittd.field('sqtittd.diskon_persen').input().addClass('text-right');
+		edtsqtittd.field('sqtittd.diskon_value').input().addClass('text-right');
+		edtsqtittd.field('sqtittd.diskon_final').input().addClass('text-right');
+		edtsqtittd.field('sqtittd.dpp').input().addClass('text-right');
 			
 		edtsqtittd.on( 'preOpen', function( e, mode, action ) {
 			edtsqtittd.field('sqtittd.id_sqtxxth').val(id_sqtxxth);
@@ -520,14 +1035,68 @@
 		});
 
 		edtsqtittd.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 		});
 
 		edtsqtittd.dependent( 'sqtittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = edtsqtittd.field('sqtittd.id_iimxxmh').val();
 			return {}
 		}, {event: 'keyup change'});
+
+		edtsqtittd.dependent( 'sqtittd.harga_unit', function ( val, data, callback ) {
+			hitungSubtotalDetail(edtsqtittd, 'sqtittd');
+			hitungDpp(edtsqtittd, 'sqtittd');
+			return {}
+		}, {event: 'keyup change'});
+
+		edtsqtittd.dependent( 'sqtittd.jumlah_unit', function ( val, data, callback ) {
+			hitungSubtotalDetail(edtsqtittd, 'sqtittd');
+			hitungDpp(edtsqtittd, 'sqtittd');
+			return {}
+		}, {event: 'keyup change'});
+
+		edtsqtittd.dependent( 'sqtittd.diskon_jenis', function ( val, data, callback ) {
+			if (val == 1) {
+				edtsqtittd.field('sqtittd.diskon_persen').show();
+				edtsqtittd.field('sqtittd.diskon_value').hide();
+				
+				edtsqtittd.field('sqtittd.diskon_persen').val();
+				edtsqtittd.field('sqtittd.diskon_value').val('');
+			} else if (val == 2) {
+				edtsqtittd.field('sqtittd.diskon_persen').hide();
+				edtsqtittd.field('sqtittd.diskon_value').show();
+				
+				edtsqtittd.field('sqtittd.diskon_persen').val('');
+				edtsqtittd.field('sqtittd.diskon_value').val();
+			} else {
+				edtsqtittd.field('sqtittd.diskon_persen').hide();
+				edtsqtittd.field('sqtittd.diskon_value').hide();
+				edtsqtittd.field('sqtittd.diskon_persen').val(0);
+				edtsqtittd.field('sqtittd.diskon_value').val(0);
+				edtsqtittd.field('sqtittd.diskon_final').val(0);
+			}
+
+			hitungDiskon(edtsqtittd, 'sqtittd');
+			hitungDpp(edtsqtittd, 'sqtittd');
+			return {}
+		}, {event: 'keyup change'});
+
+		edtsqtittd.dependent( 'sqtittd.diskon_persen', function ( val, data, callback ) {
+			if (val != null) {
+				hitungDiskon(edtsqtittd, 'sqtittd');
+				hitungDpp(edtsqtittd, 'sqtittd');
+			}
+			return {}
+		}, {event: 'keyup'});
 		
+		edtsqtittd.dependent( 'sqtittd.diskon_value', function ( val, data, callback ) {
+			if (val != null) {
+				hitungDiskon(edtsqtittd, 'sqtittd');
+				hitungDpp(edtsqtittd, 'sqtittd');
+			}
+			return {}
+		}, {event: 'keyup'});
+
 		edtsqtittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				
@@ -580,9 +1149,15 @@
 		});
 			
 		edtsqtittd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+
+			hitungSubtotalHeader(id_transaksi_h, 'sqtittd', 'sqtxxth');
+			hitungHeaderDetail('sqtxxth', 'sqtittd', id_transaksi_h);
+			
+			tblsqtxxth.ajax.reload(null, false);
+			tblsqtittd.ajax.reload(null, false);
+
+			// tblsqtittd.rows().deselect();
+			// tblsqtittd.ajax.reload(null, false);
 		} );
 
 		edtsqtittd.on( 'close', function () {
@@ -604,29 +1179,45 @@
 			},
 			order: [[ 2, "desc" ]],
 			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
+				// {
+				// 	searchPanes:{
+				// 		show: true,
+				// 	},
+				// 	targets: [1,2,3]
+				// },
+				// {
+				// 	searchPanes:{
+				// 		show: false,
+				// 	},
+				// 	targets: [0,4]
+				// }
 			],
 			columns: [
 				{ data: "sqtittd.id",visible:false },
 				{ data: "sqtittd.id_sqtxxth",visible:false },
-				{ data: "sqtittd.nama" },
+				{ data: "iimxxmh.kode" },
+				{ data: "iimxxmh.nama" },
+				{ data: "iumxxmh.nama" },
 				{ 
 					data: "sqtittd.jumlah_unit",
 					...renderNumber(0)
 				},
-				{ data: "iumxxmh.nama" },
-				{ data: "sqtittd.tanggal_dibutuhkan" },
+				{ 
+					data: "sqtittd.harga_unit",
+					...renderNumber(2)
+				},
+				{ 
+					data: "sqtittd.subtotal",
+					...renderNumber(2)
+				},
+				{ 
+					data: "sqtittd.diskon_final",
+					...renderNumber(2)
+				},
+				{ 
+					data: "sqtittd.dpp",
+					...renderNumber(2)
+				},
 				{ data: "sqtittd.keterangan" }
 			],
 			buttons: [
@@ -648,10 +1239,12 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			footerCallback: function ( row, data, start, end, display ) {
-				var api       = this.api(), data;
-				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display;
-				var c_items = api.column(0).data().count();
-				$( '#c_items' ).html( numFormat("Total Item(s): " + c_items) );
+				var api       	= this.api(), data;
+				var c_item 		= api.column(0).data().count();
+				var s_subtotal 	= api.column(9).data().sum();
+
+				$( '#c_item' ).html( "Total Item(s): " + c_item);
+				$( '#s_subtotal' ).html( dtNumberFormat(s_subtotal) );
 			},
 			rowCallback: function( row, data, index ) {
 			}
@@ -675,9 +1268,10 @@
 
 			transaction_state_d   = data_sqtittd.transaction_state;
 
-			id_iumxxmh_old      = data_sqtittd.id_iumxxmh_unit;
+			id_iumxxmh_unit_old = data_sqtittd.id_iumxxmh_unit;
 			id_iimxxmh          = data_sqtittd.id_iimxxmh;
-			id_iimxxmh_unit_old = data_sqtittd.id_iimxxmh;
+			id_iimxxmh_old = data_sqtittd.id_iimxxmh;
+			
 			
 			// atur hak akses
 			CekSelectDetailHD(tblsqtxxth, tblsqtittd );
@@ -685,7 +1279,7 @@
 
 		tblsqtittd.on( 'deselect', function() {
 			id_sqtittd = 0;
-			id_iumxxmh_old   = 0, id_iimxxmh_unit_old = 0;
+			id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblsqtxxth, tblsqtittd );
