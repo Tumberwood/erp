@@ -1,0 +1,120 @@
+<?php
+	include_once( "../../../../users/init.php" );
+	include_once( "../../../../usersc/lib/DataTables.php" );
+	include_once( "../../../../usersc/vendor/autoload.php");
+	include_once( "../../../helpers/hakakses_s_fn.php" );
+	
+	use
+		DataTables\Editor,
+		DataTables\Editor\Field,
+		DataTables\Editor\Format,
+		DataTables\Editor\Mjoin,
+		DataTables\Editor\Options,
+		DataTables\Editor\Upload,
+		DataTables\Editor\Validate,
+		DataTables\Editor\ValidateOptions,
+		DataTables\Editor\SearchPaneOptions,
+		DataTables\Editor\Query,
+		DataTables\Editor\Result;
+
+	use 
+		Carbon\Carbon;
+	
+	$editor = Editor::inst( $db, 'ljoprtd' )
+		->debug(true)
+		->fields(
+			Field::inst( 'ljoprtd.id' ),
+			Field::inst( 'ljoprtd.id_ljoxxth' ),
+			Field::inst( 'ljoprtd.id_lprxxmh' )
+				->setValue(1),
+			Field::inst( 'ljoprtd.kode' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
+			Field::inst( 'ljoprtd.nama' )
+				->setFormatter( function ( $val ) {
+					return ucwords($val);
+				} ),
+			Field::inst( 'ljoprtd.keterangan' ),
+			Field::inst( 'ljoprtd.created_by' ),
+			Field::inst( 'ljoprtd.transaction_state' ),
+			Field::inst( 'ljoprtd.approval_state' ),
+			Field::inst( 'ljoprtd.start_at' ),
+			Field::inst( 'ljoprtd.finish_at' ),
+			Field::inst( 'ljoprtd.is_defaultprogram' ),
+			Field::inst( 'ljoprtd.tanggaljam_start' ),
+			Field::inst( 'ljoprtd.tanggaljam_finish' ),
+
+			Field::inst( 'ljoxxth.id' )
+				->set( Field::SET_NONE ),
+			Field::inst( 'ljoxxth.id_grlxxmh_expedition' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.id_lacxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.id_lvtxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.kode' ),
+			Field::inst( 'ljoxxth.tanggal' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '0000-00-00' || $val === null){
+						return '';
+					}else{
+						return date( 'd M Y', strtotime( $val ) );
+					}
+				} )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y',
+					'to' =>   'Y-m-d'
+				) ),
+			Field::inst( 'ljoxxth.plat_no' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
+			Field::inst( 'ljoxxth.supir_nama' )
+				->setFormatter( function ( $val ) {
+					return ucwords($val);
+				} ),
+			Field::inst( 'ljoxxth.kernet_nama' )
+				->setFormatter( function ( $val ) {
+					return ucwords($val);
+				} ),
+			Field::inst( 'ljoxxth.berat_muatan' ),
+			Field::inst( 'ljoxxth.dimensi_muatan' ),
+
+			Field::inst( 'grlxxmh.nama' ),
+			Field::inst( 'lacxxmh.nama' ),
+			Field::inst( 'lvtxxmh.nama' )
+		)
+		->leftJoin( 'ljoxxth','ljoxxth.id','=','ljoprtd.id_ljoxxth' )
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
+		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
+		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
+		
+		->where( 'ljoprtd.id_lprxxmh', 1 )
+		->where( 'ljoxxth.tanggal', $_POST['start_date'], '>=' )
+		->where( 'ljoxxth.tanggal', $_POST['end_date'],'<=' );
+
+
+	// do not erase
+	// function show / hide inactive document
+	if ( $_POST['show_deleted_ljoprtd'] == 0){
+		$editor
+			->where( 'ljoprtd.transaction_state', -9, '<>');
+	}
+	
+	include( "ljoprtd_booking_extra.php" );
+
+	// BEGIN log
+	$nama_table = 'ljoprtd';
+	include( "../../../helpers/edt_log.php" );
+	// END log
+	
+	$json = $editor
+		->process( $_POST )
+		->data();
+
+	// debugging hak akses
+	$json['hakakses'] = $hakakses;
+
+	echo json_encode( $json );
+?>
