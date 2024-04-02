@@ -64,7 +64,9 @@
 				Field::inst( 'podittd.diskon_persen' ),
 				Field::inst( 'podittd.diskon_final' ),
 				Field::inst( 'podittd.dpp' ),
+
 				Field::inst( 'iumxxmh.nama' ),
+				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'prqxxth.kode' )
 			)
