@@ -28,6 +28,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'gapxxsh.id_gaptpmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'gapxxsh.id_gtbrlsh_group' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'gapxxsh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -47,10 +49,12 @@
 
 			Field::inst( 'gtbrlsh.nama' ),
 			Field::inst( 'gtbrlsh.tblheader' ),
-			Field::inst( 'gaptpmh.nama' )
+			Field::inst( 'gaptpmh.nama' ),
+			Field::inst( 'gtbrlsh_grup.nama' )
 		)
 		->leftJoin( 'gtbrlsh','gtbrlsh.id','=','gapxxsh.id_gtbrlsh' )
-		->leftJoin( 'gaptpmh','gaptpmh.id','=','gapxxsh.id_gaptpmh' );
+		->leftJoin( 'gaptpmh','gaptpmh.id','=','gapxxsh.id_gaptpmh' )
+		->leftJoin( 'gtbrlsh as gtbrlsh_grup','gtbrlsh_grup.id','=','gapxxsh.id_gtbrlsh_group' );
 	
 	// do not erase
 	// function show / hide inactive document

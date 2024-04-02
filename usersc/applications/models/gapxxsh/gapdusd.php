@@ -31,6 +31,8 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'gapdusd.id_users' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'gapdusd.id_tbl_group' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'gapdusd.kode' ),
 				Field::inst( 'gapdusd.nama' ),
 				Field::inst( 'gapdusd.keterangan' ),
@@ -43,6 +45,7 @@
 				Field::inst( 'gapdusd.level_ke' ),
 				Field::inst( 'gapdusd.gaptpmh_value_fr' ),
 				Field::inst( 'gapdusd.gaptpmh_value_to' ),
+				Field::inst( 'gapdusd.tbl_group_nama' ),
 
 				Field::inst( 'users.username' )
 			)

@@ -60,6 +60,10 @@
 			->where( 'gaplgtd.transaction_state', -9, '<>');
 	}
 	
+	if($s_id_users > 100){
+		$editor->where('gaplgtd.id_users', $s_id_users);
+	}
+
 	include( "gaplgtd_extra.php" );
 
 	// BEGIN log
