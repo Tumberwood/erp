@@ -154,8 +154,6 @@
 
 	}
 
-    
-
     // tampilkan results
     require_once( "fn_ajax_results.php" );
 	
