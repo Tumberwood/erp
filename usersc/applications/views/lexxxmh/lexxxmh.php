@@ -265,7 +265,7 @@
 					d.show_deleted_grlxxmh = show_deleted_grlxxmh;
 				}
 			},
-			order: [[ 1, "desc" ]],
+			order: [[ 1, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -494,16 +494,6 @@
 					}
 				);
 
-				validasiUnique(
-					action,
-					edtgrllomd,
-					'grllomd',
-					'nama',
-					'nama',
-					'"'+nama+'"',
-					id_grllomd
-				);
-
 			}
 			
 			if ( edtgrllomd.inError() ) {
@@ -517,9 +507,8 @@
 		});
 			
 		edtgrllomd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblgrllomd.rows().deselect();
+			tblgrllomd.ajax.reload(null, false);
 		} );
 
 		edtgrllomd.on( 'close', function () {
