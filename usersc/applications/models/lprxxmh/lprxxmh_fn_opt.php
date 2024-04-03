@@ -78,6 +78,7 @@
                 ->where('lprxxmh.kode', '%' . $q . '%', 'LIKE' )
                 ->or_where('lprxxmh.nama', '%' . $q . '%', 'LIKE' );
         } )
+        ->order('lprxxmh.id')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
