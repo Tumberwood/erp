@@ -46,19 +46,11 @@
 					'from' => 'Y-m-d H:i:s',
 					'to' =>   'd M Y H:i'
 				) ),
-				// ->setFormatter( 'Format::datetime', array(
-				// 	'from' => 'd M Y H:i',
-				// 	'to' =>   'Y-m-d H:i:s'
-				// ) ),
 			Field::inst( 'ljoprtd.tanggaljam_finish' )
 				->getFormatter( 'Format::datetime', array(
 					'from' => 'Y-m-d H:i:s',
 					'to' =>   'd M Y H:i'
 				) ),
-				// ->setFormatter( 'Format::datetime', array(
-				// 	'from' => 'd M Y H:i',
-				// 	'to' =>   'Y-m-d H:i:s'
-				// ) ),
 			Field::inst( 'ljoprtd.durasi_detik' ),
 
 			Field::inst( 'ljoxxth.id' )
@@ -95,18 +87,18 @@
 			Field::inst( 'lvtxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' )
 		)
-		// ->leftJoin( 'ljoxxth','ljoxxth.id','=','ljoprtd.id_ljoxxth' )
-		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth','=','ljoxxth.id' )
+		// ->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth','=','ljoxxth.id' )
+		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth = ljoxxth.id AND ljoprtd.id_lprxxmh = 1','','' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
-		->where( 'ljoprtd.id_lprxxmh', 1  );
+		;
 	
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_ljoprtd'] == 0){
 		$editor
-			->where( 'ljoprtd.transaction_state', -9, '<>');
+			->where( 'ljoxxth.transaction_state', -9, '<>');
 	}
 	
 	include( "ljoprtd_booking_extra.php" );
