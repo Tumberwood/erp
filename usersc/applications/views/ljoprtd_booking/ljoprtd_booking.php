@@ -14,52 +14,22 @@
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
-		<div class="ibox collapsed" id="iboxfilter">
-			<div class="ibox-title">
-				<h5 class="text-navy">Filter</h5>&nbsp
-				<button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-			</div>
-			<div class="ibox-content">
-				<form class="form-horizontal" id="frmFilter">
-					<div class="form-group row">
-						<label class="col-lg-2 col-form-label">Periode</label>
-						<div class="col-lg-5">
-							<div class="input-group input-daterange" id="periode">
-								<input type="text" id="start_date" name="start_date" class="form-control">
-								<span class="input-group-addon">to</span>
-								<input type="text" id="end_date" name="end_date" class="form-control">
-								<div class="input-group-addon">
-									<span class="fa fa-calendar"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-lg-4">
-							<button class="btn btn-primary" type="submit" id="go">Submit</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
                     <table id="tblljoprtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
-								<th>ID</th>
-                                <th>Tx No</th>
-                                <th>Date</th>
+                                <th>ID</th>
+                                <th>ID</th>
+                                <th>Kode</th>
+                                <th>Tanggal</th>
+                                <th>Activity</th>
                                 <th>Expedition</th>
-                                <th>Plate No</th>
-                                <th>Driver</th>
                                 <th>Vehicle Type</th>
+                                <th>Start</th>
+                                <th>Finish</th>
+                                <th>Duration</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -94,26 +64,12 @@
 		var edtljoprtd, tblljoprtd, show_deleted_ljoprtd = 0, id_ljoprtd;
 		// ------------- end of default variable
 
-		$('#periode').datepicker({
-			setDate: new Date(),
-			autoclose: true,
-			todayHighlight: true,
-			clearBtn: true,
-			format: "dd M yyyy",
-			minViewMode: 'month'
-		});
-
-		$('#start_date').datepicker('setDate', awal_bulan_dmy);
-		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+		id_lacxxmh_old = 0, id_lvtxxmh_old = 0, id_grlxxmh_old = 0;
 		
-		var id_grlxxmh_old = 0, id_lacxxmh_old = 0, id_lvtxxmh_old = 0;
 		// get tableRelation
 		tableRelation('ljoprtd');
 
 		$(document).ready(function() {
-			start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-			end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
-
 			// BEGIN ljoprtd
 			edtljoprtd = new $.fn.dataTable.Editor( {
 				formOptions: {
@@ -126,8 +82,6 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_ljoprtd = show_deleted_ljoprtd;
-						d.start_date = start_date;
-						d.end_date = end_date;
 					}
 				},
 				table: "#tblljoprtd",
@@ -151,13 +105,8 @@
 					{
 						label: "ljoprtd.transaction_state",
 						name: "ljoprtd.transaction_state",
-						type: "hidden",
+                        type: "hidden",
 						def: 0
-					},
-					{
-						label: "ljoprtd.id_ljoxxth",
-						name: "ljoprtd.id_ljoxxth",
-						type: "hidden"
 					},	
 					{
 						label: "Tanggal <sup class='text-danger'>*<sup>",
@@ -209,7 +158,7 @@
 						}
 					},
 					{
-						label: "Expedition",
+						label: "Expedition <sup class='text-danger'>*<sup>",
 						name: "ljoxxth.id_grlxxmh_expedition",
 						type: "select2",
 						opts: {
@@ -301,7 +250,6 @@
 			} );
 
 			edtljoprtd.on( 'preOpen', function( e, mode, action ) {
-
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtljoprtd.field('ljoprtd.start_at').val(start_at);
 				
@@ -316,20 +264,23 @@
 
             edtljoprtd.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					tanggal    = edtljoprtd.field('ljoxxth.tanggal').val();
+
+					tanggal = edtljoprtd.field('ljoxxth.tanggal').val();
 					id_lacxxmh = edtljoprtd.field('ljoxxth.id_lacxxmh').val();
+					id_grlxxmh_expedition = edtljoprtd.field('ljoxxth.id_grlxxmh_expedition').val();
 					id_lvtxxmh = edtljoprtd.field('ljoxxth.id_lvtxxmh').val();
 
 					validasiRequired(
 						edtljoprtd,
 						'ljoxxth',
 						{
-							'tanggal'   : tanggal,
+							'tanggal': tanggal,
 							'id_lacxxmh': id_lacxxmh,
+							'id_grlxxmh_expedition': id_grlxxmh_expedition,
 							'id_lvtxxmh': id_lvtxxmh
 						}
 					);
-					
+
 				}
 				
 				if ( edtljoprtd.inError() ) {
@@ -356,8 +307,6 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_ljoprtd = show_deleted_ljoprtd;
-						d.start_date = start_date;
-						d.end_date = end_date;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -372,17 +321,23 @@
 						searchPanes:{
 							show: false,
 						},
-						targets: [0]
+						targets: [0,4]
 					}
 				],
 				columns: [
 					{ data: "ljoprtd.id",visible:false },
+					{ data: "ljoxxth.id",visible:false },
 					{ data: "ljoxxth.kode" },
 					{ data: "ljoxxth.tanggal" },
+					{ data: "lacxxmh.nama" },
 					{ data: "grlxxmh.nama" },
-					{ data: "ljoxxth.plat_no" },
-					{ data: "ljoxxth.supir_nama" },
 					{ data: "lvtxxmh.nama" },
+					{ data: "ljoprtd.tanggaljam_start" },
+					{ data: "ljoprtd.tanggaljam_finish" },
+					{ 
+						data: "ljoprtd.durasi_detik" ,
+						...renderNumber(0)
+					},
 					{ 
 						data: "ljoprtd.transaction_state" ,
 						...renderTransactionStatus()
@@ -425,18 +380,18 @@
 			} );
 			
 			tblljoprtd.on( 'select', function( e, dt, type, indexes ) {
-				ljoprtd_data      = tblljoprtd.row( { selected: true } ).data().ljoprtd;
-				ljoxxth_data      = tblljoprtd.row( { selected: true } ).data().ljoxxth;
-				id_ljoprtd        = ljoprtd_data.id;
-				id_transaksi_h    = id_ljoprtd;                                           // dipakai untuk general
-				id_transaksi_log  = id_ljoprtd;                                           // dipakai untuk general
-				transaction_state = ljoprtd_data.transaction_state;
-				approval_state    = ljoprtd_data.approval_state;
-				is_nextprocess    = ljoprtd_data.is_nextprocess;
+				ljoprtd_data    		= tblljoprtd.row( { selected: true } ).data().ljoprtd;
+				ljoxxth_data    		= tblljoprtd.row( { selected: true } ).data().ljoxxth;
+				id_ljoprtd      		= ljoprtd_data.id;
+				id_transaksi_h 		= id_ljoprtd; // dipakai untuk general
+				id_transaksi_log	= id_ljoprtd; // dipakai untuk general
+				transaction_state   = ljoprtd_data.transaction_state;
+				approval_state   	= ljoprtd_data.approval_state;
+				is_nextprocess 		= ljoprtd_data.is_nextprocess;
 
-				id_grlxxmh_old    = ljoxxth_data.id_grlxxmh_expedition;
-				id_lacxxmh_old    = ljoxxth_data.id_lacxxmh;
-				id_lvtxxmh_old    = ljoxxth_data.id_lvtxxmh;
+				id_lacxxmh_old 		= ljoxxth_data.id_lacxxmh;
+				id_lvtxxmh_old 		= ljoxxth_data.id_lvtxxmh;
+				id_grlxxmh_old 		= ljoxxth_data.id_grlxxmh_expedition;
 
 				// atur hak akses
 				CekSelectHeaderH(tblljoprtd);
@@ -445,49 +400,14 @@
 			tblljoprtd.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_ljoprtd = 0;
-				id_grlxxmh_old = 0, id_lacxxmh_old = 0, id_lvtxxmh_old = 0;
+
+				id_lacxxmh_old = 0, id_lvtxxmh_old = 0, id_grlxxmh_old = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblljoprtd);
 			} );
 
 			// END ljoprtd
-
-			$("#frmFilter").submit(function(e) {
-				e.preventDefault();
-			}).validate({
-				rules: {
-					start_date: {
-						required: true,
-						validDate: "DD MMM YYYY"
-					},
-					end_date: {
-						required: true,
-						validDate: "DD MMM YYYY"
-					}
-				},
-				messages: {
-					start_date: {
-						required: "Wajib diisi!"
-					},
-					end_date: {
-						required: "Wajib diisi!"
-					}
-				},
-				submitHandler: function(frmFilter) {
-					start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-					end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
-
-					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
-
-					tblljoprtd.rows().deselect();
-					tblljoprtd.ajax.reload(function ( json ) {
-						toastr.remove();
-						toastr["success"]("Load data berhasil","INFO")
-					}, false);
-					return false; 
-				}
-			});
 			
 		} );// end of document.ready
 	

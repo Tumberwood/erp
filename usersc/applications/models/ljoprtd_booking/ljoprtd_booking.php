@@ -20,13 +20,12 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'ljoprtd' )
+	$editor = Editor::inst( $db, 'ljoxxth' )
 		->debug(true)
 		->fields(
 			Field::inst( 'ljoprtd.id' ),
 			Field::inst( 'ljoprtd.id_ljoxxth' ),
-			Field::inst( 'ljoprtd.id_lprxxmh' )
-				->setValue(1),
+			Field::inst( 'ljoprtd.id_lprxxmh' ),
 			Field::inst( 'ljoprtd.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -42,16 +41,35 @@
 			Field::inst( 'ljoprtd.start_at' ),
 			Field::inst( 'ljoprtd.finish_at' ),
 			Field::inst( 'ljoprtd.is_defaultprogram' ),
-			Field::inst( 'ljoprtd.tanggaljam_start' ),
-			Field::inst( 'ljoprtd.tanggaljam_finish' ),
+			Field::inst( 'ljoprtd.tanggaljam_start' )
+				->getFormatter( 'Format::datetime', array(
+					'from' => 'Y-m-d H:i:s',
+					'to' =>   'd M Y H:i'
+				) ),
+				// ->setFormatter( 'Format::datetime', array(
+				// 	'from' => 'd M Y H:i',
+				// 	'to' =>   'Y-m-d H:i:s'
+				// ) ),
+			Field::inst( 'ljoprtd.tanggaljam_finish' )
+				->getFormatter( 'Format::datetime', array(
+					'from' => 'Y-m-d H:i:s',
+					'to' =>   'd M Y H:i'
+				) ),
+				// ->setFormatter( 'Format::datetime', array(
+				// 	'from' => 'd M Y H:i',
+				// 	'to' =>   'Y-m-d H:i:s'
+				// ) ),
+			Field::inst( 'ljoprtd.durasi_detik' ),
 
 			Field::inst( 'ljoxxth.id' )
-				->set( Field::SET_NONE ),
-			Field::inst( 'ljoxxth.id_grlxxmh_expedition' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ljoxxth.id_lacxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ljoxxth.id_lvtxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.id_lprxxmh_last' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.id_grlxxmh_expedition' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ljoxxth.kode' ),
 			Field::inst( 'ljoxxth.tanggal' )
@@ -66,35 +84,24 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
-			Field::inst( 'ljoxxth.plat_no' )
-				->setFormatter( function ( $val ) {
-					return strtoupper($val);
-				} ),
-			Field::inst( 'ljoxxth.supir_nama' )
-				->setFormatter( function ( $val ) {
-					return ucwords($val);
-				} ),
-			Field::inst( 'ljoxxth.kernet_nama' )
-				->setFormatter( function ( $val ) {
-					return ucwords($val);
-				} ),
+			Field::inst( 'ljoxxth.supir_nama' ),
+			Field::inst( 'ljoxxth.kernet_nama' ),
 			Field::inst( 'ljoxxth.berat_muatan' ),
 			Field::inst( 'ljoxxth.dimensi_muatan' ),
+			Field::inst( 'ljoxxth.plat_no' ),
+			Field::inst( 'ljoxxth.keterangan' ),
 
-			Field::inst( 'grlxxmh.nama' ),
 			Field::inst( 'lacxxmh.nama' ),
-			Field::inst( 'lvtxxmh.nama' )
+			Field::inst( 'lvtxxmh.nama' ),
+			Field::inst( 'grlxxmh.nama' )
 		)
-		->leftJoin( 'ljoxxth','ljoxxth.id','=','ljoprtd.id_ljoxxth' )
-		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
+		// ->leftJoin( 'ljoxxth','ljoxxth.id','=','ljoprtd.id_ljoxxth' )
+		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth','=','ljoxxth.id' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
-		
-		->where( 'ljoprtd.id_lprxxmh', 1 )
-		->where( 'ljoxxth.tanggal', $_POST['start_date'], '>=' )
-		->where( 'ljoxxth.tanggal', $_POST['end_date'],'<=' );
-
-
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
+		->where( 'ljoprtd.id_lprxxmh', 1  );
+	
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_ljoprtd'] == 0){
