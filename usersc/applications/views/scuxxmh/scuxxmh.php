@@ -160,6 +160,11 @@
 	$(document).ready(function() {
 		// BEGIN grlxxmh
 		edtgrlxxmh = new $.fn.dataTable.Editor( {
+			formOptions: {
+				main: {
+					focus: 4,
+				}
+			},
 			ajax: {
 				url: "../../models/scuxxmh/scuxxmh.php",
 				type: 'POST',
@@ -170,19 +175,6 @@
 			table: "#tblgrlxxmh",
 			template: '#custom_grlxxmh',
 			fields: [ 
-				{
-					label: "kategori_dokumen",
-					name: "kategori_dokumen",
-					type: "hidden"
-				},	{
-					label: "kategori_dokumen_value",
-					name: "kategori_dokumen_value",
-					type: "hidden"
-				},	{
-					label: "field_tanggal",
-					name: "field_tanggal",
-					type: "hidden"
-				},	
 				{
 					label: "grlxxmh.start_at",
 					name: "grlxxmh.start_at",
@@ -375,10 +367,6 @@
 
 			if(action == 'create'){
 				tblgrlxxmh.rows().deselect();
-				// edtgrlxxmh.field('kategori_dokumen').val('is_customer');
-				// edtgrlxxmh.field('kategori_dokumen_value').val(1);
-				edtgrlxxmh.field('field_tanggal').val('start_at');
-
 				edtgrlxxmh.field('grlxxmh.nama').enable();
 
 			}else if(action == 'edit'){
@@ -474,7 +462,7 @@
 					d.show_deleted_grlxxmh = show_deleted_grlxxmh;
 				}
 			},
-			order: [[ 1, "desc" ]],
+			order: [[ 1, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -656,39 +644,44 @@
 				{
 					label: "Provinsi <sup class='text-danger'>*<sup>",
 					name: "grllomd.id_gpvxxmh",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/core/gpvxxmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_gpvxxmh_old: id_gpvxxmh_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
-				}
+					type: "readonly"
+				},
+				// {
+				// 	label: "Provinsi <sup class='text-danger'>*<sup>",
+				// 	name: "grllomd.id_gpvxxmh",
+				// 	type: "select2",
+				// 	opts: {
+				// 		placeholder : "Select",
+				// 		allowClear: true,
+				// 		multiple: false,
+				// 		ajax: {
+				// 			url: "../../models/core/gpvxxmh_fn_opt.php",
+				// 			dataType: 'json',
+				// 			data: function (params) {
+				// 				var query = {
+				// 					id_gpvxxmh_old: id_gpvxxmh_old,
+				// 					search: params.term || '',
+				// 					page: params.page || 1
+				// 				}
+				// 					return query;
+				// 			},
+				// 			processResults: function (data, params) {
+				// 				return {
+				// 					results: data.results,
+				// 					pagination: {
+				// 						more: true
+				// 					}
+				// 				};
+				// 			},
+				// 			cache: true,
+				// 			minimumInputLength: 1,
+				// 			maximum: 10,
+				// 			delay: 500,
+				// 			maximumSelectionLength: 5,
+				// 			minimumResultsForSearch: -1,
+				// 		},
+				// 	}
+				// }
 			]
 		} );
 			
@@ -706,6 +699,19 @@
 		edtgrllomd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
+
+		edtgrllomd.dependent( 'grllomd.id_gctxxmh', function ( val, data, callback ) {
+			// BEGIN load nama provinsi
+			id_gctxxmh = edtgrllomd.field('grllomd.id_gctxxmh').val();
+			autofillField('gctxxmh', id_gctxxmh, 'id_gpvxxmh');
+			id_gpvxxmh = autofillData.id_gpvxxmh;
+			autofillField('gpvxxmh', id_gpvxxmh, 'nama');
+			gpvxxmh_nama = autofillData.nama;
+			edtgrllomd.field('grllomd.id_gpvxxmh').val(gpvxxmh_nama);
+			// END load nama provinsi
+
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtgrllomd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
