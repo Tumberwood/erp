@@ -22,7 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Document No</th>
-                                <th>Tanggal Jam Terima</th>
+                                <th>Tanggal Jam Masuk</th>
                                 <th>Pengirim</th>
                                 <th>Ditujukan Kepada</th>
                                 <th>Keterangan</th>
@@ -104,7 +104,7 @@
 						name: "ndrxxtd.dokumen_nomor"
 					}, 	
 					{
-						label: "Tanggal Jam Terima <sup class='text-danger'>*<sup>",
+						label: "Tanggal Jam Masuk <sup class='text-danger'>*<sup>",
 						name: "ndrxxtd.tanggal_jam_terima",
 						type: "datetime",
 						def: function () { 
