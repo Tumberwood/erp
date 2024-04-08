@@ -1,6 +1,6 @@
 <?php 
     /**
-     * Digunakan untuk populate options data branch / cabang
+     * Digunakan untuk populate options data _blank
      * Table terkait    : _blank
      * Parameter        : 
      *  - id__blank_old       : data existing (untuk keperluan edit), dipakai di query self
