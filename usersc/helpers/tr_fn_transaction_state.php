@@ -119,11 +119,11 @@
                 // jika hard delete header detail
                 // ini seharusnya pakai datatables editor remove
                 // tetapi karna harus remove header dan detail, maka dibuat custom disini
+
+                // dapat dilakukan manipulasi sebelum data dihapus.
+                // diletakkan di file model dengan suffix _pre_delete
                 if(file_exists($abs_us_root . $us_url_root ."usersc/applications/models/" . $table_name . '/' . $table_name . "_pre_delete.php")) {
                     require_once $abs_us_root . $us_url_root ."usersc/applications/models/" . $table_name . '/' . $table_name . "_pre_delete.php";
-                    $hasil = 'ada';
-                }else{
-                    $hasil = 'tidak ada';
                 }
     
                 // delete table header
@@ -208,8 +208,7 @@
 		'status_code'  => $status_code,
 		'message'      => $message,
 		'type_message' => $type_message,
-		'table_name' => $table_name,
-		'hasil' => $hasil
+		'table_name' => $table_name
 	);
 
     // tampilkan results
