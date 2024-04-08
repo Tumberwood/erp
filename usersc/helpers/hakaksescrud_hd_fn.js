@@ -923,6 +923,7 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
         console.log('transaction_state: ' + transaction_state);
         console.log('approval_state: ' + approval_state);
         console.log('hak_u: ' + hak_u);
+        console.log('is_nextprocess: ' + is_nextprocess);
     }
     
     // BEGIN Set Action
