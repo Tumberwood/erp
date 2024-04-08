@@ -36,12 +36,12 @@
             ->get([
                 'ndrxxtd.id as id',
                 'IF(
-                    ndrxxtd.kode IS NULL, 
-                    ndrxxtd.nama,
+                    ndrxxtd.dokumen_nomor IS NULL, 
+                    ndrxxtd.pengirim,
                     IF(
-                        ndrxxtd.nama IS NULL, 
-                        ndrxxtd.kode,
-                        CONCAT(ndrxxtd.kode," - ",ndrxxtd.nama)
+                        ndrxxtd.pengirim IS NULL, 
+                        ndrxxtd.dokumen_nomor,
+                        CONCAT(ndrxxtd.dokumen_nomor," - ",ndrxxtd.pengirim)
                     )
                 ) as text'
             ])
@@ -61,12 +61,12 @@
         ->get([
             'ndrxxtd.id as id',
             'IF(
-                ndrxxtd.kode IS NULL, 
-                ndrxxtd.nama,
+                ndrxxtd.dokumen_nomor IS NULL, 
+                ndrxxtd.pengirim,
                 IF(
-                    ndrxxtd.nama IS NULL, 
-                    ndrxxtd.kode,
-                    CONCAT(ndrxxtd.kode," - ",ndrxxtd.nama)
+                    ndrxxtd.pengirim IS NULL, 
+                    ndrxxtd.dokumen_nomor,
+                    CONCAT(ndrxxtd.dokumen_nomor," - ",ndrxxtd.pengirim)
                 )
             ) as text'
         ])
@@ -75,8 +75,8 @@
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('ndrxxtd.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('ndrxxtd.nama', '%' . $q . '%', 'LIKE' );
+                ->where('ndrxxtd.dokumen_nomor', '%' . $q . '%', 'LIKE' )
+                ->or_where('ndrxxtd.pengirim', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
