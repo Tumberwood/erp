@@ -41,6 +41,7 @@
 			Field::inst( 'ndoxxth.start_at' ),
 			Field::inst( 'ndoxxth.finish_at' ),
 			Field::inst( 'ndoxxth.is_defaultprogram' ),
+			Field::inst( 'ndoxxth.is_nextprocess' ),
 
 			Field::inst( 'ndoxxth.tanggal_jam_to' )
 				->getFormatter( 'Format::datetime', array(
