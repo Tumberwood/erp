@@ -59,25 +59,29 @@
 			$query = 'SELECT id ' . ' FROM ' . $table_name . $where;
 			$qs = $db->sql( $query );
 			
-			$c_result 	= $qs->count();
-			$message 	= 'Cek Berhasil';
-			$type_message 	= 'success';
+			$status_code  = 200;
+			$c_result     = $qs->count();
+			$message      = 'Cek Berhasil';
+			$type_message = 'success';
 
 		}else{
-			$c_result = -1;
-			$message 	= 'Error #101. Harap hubungi administrator!';
-			$type_message 	= 'error';
+			$status_code  = 500;
+			$c_result     = -1;
+			$message      = 'Error #101. Harap hubungi administrator!';
+			$type_message = 'error';
 		}
 
 	}catch(PDOException $e){
-		$c_result = -1;
-		$message 	= 'Cek Gagal. ' . $e->getMessage();
-		$type_message 	= 'error';
+		$status_code  = 500;
+		$c_result     = -1;
+		$message      = 'Cek Gagal. ' . $e->getMessage();
+		$type_message = 'error';
 	}
 
 	$data = array(
-		"count" => $c_result,
-		"message" => $message,
+		"count"        => $c_result,
+		"status_code"  => $status_code,
+		"message"      => $message,
 		"type_message" => $type_message,
 		"id_transaksi" => $_POST['id_transaksi']
 	);
