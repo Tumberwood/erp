@@ -819,6 +819,8 @@
                                 is_delete = confirm(message_is_delete);
 
                                 if(is_delete == true){
+                                    full_message = '';
+
                                     $.ajax( {
                                         url: '../../../helpers/tr_fn_transaction_state.php',
                                         dataType: 'json',
@@ -829,9 +831,10 @@
                                             transaction_state   : -93
                                         },
                                         success: function ( json ) {
-                                            
+
                                             toast_type   = json.data.type_message;
-                                            full_message = json.data.message;
+                                            full_message = full_message + json.data.message + '</br>';
+                                            
                                             toastr[toast_type](full_message, 'INFO');
                                             
                                             <?php echo $table;?>.ajax.reload(null, false);
