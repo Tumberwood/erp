@@ -119,6 +119,12 @@
                 // jika hard delete header detail
                 // ini seharusnya pakai datatables editor remove
                 // tetapi karna harus remove header dan detail, maka dibuat custom disini
+                if(file_exists($abs_us_root . $us_url_root ."usersc/applications/models/" . $table_name . '/' . $table_name . "_pre_delete.php")) {
+                    require_once $abs_us_root . $us_url_root ."usersc/applications/models/" . $table_name . '/' . $table_name . "_pre_delete.php";
+                    $hasil = 'ada';
+                }else{
+                    $hasil = 'tidak ada';
+                }
     
                 // delete table header
                 $qd_tblheader = $db
@@ -165,17 +171,17 @@
             // berlaku untuk semua transaction_state
             // jadi tidak perlu masuk ke if else diatas
             $qi_log = $db
-            ->query('insert', 'activity_log_ml')
-            ->set('id_transaksi',$id_transaksi)
-            ->set('kode',$kode)
-            ->set('nama', $table_name )
-            ->set('keterangan', $notes )
-            ->set('created_by', $s_id_users )
-            ->set('username',$s_username)
-            ->set('start_on', date("Y-m-d H:i:s"))
-            ->set('finish_on', date("Y-m-d H:i:s"))
-            ->set('durasi_detik', 0)
-            ->exec();
+                ->query('insert', 'activity_log_ml')
+                ->set('id_transaksi',$id_transaksi)
+                ->set('kode',$kode)
+                ->set('nama', $table_name )
+                ->set('keterangan', $notes )
+                ->set('created_by', $s_id_users )
+                ->set('username',$s_username)
+                ->set('start_on', date("Y-m-d H:i:s"))
+                ->set('finish_on', date("Y-m-d H:i:s"))
+                ->set('durasi_detik', 0)
+                ->exec();
             // END insert ke activity_log_ml
 
             $status_code  = 200;
@@ -201,7 +207,9 @@
     $data = array(
 		'status_code'  => $status_code,
 		'message'      => $message,
-		'type_message' => $type_message
+		'type_message' => $type_message,
+		'table_name' => $table_name,
+		'hasil' => $hasil
 	);
 
     // tampilkan results
