@@ -235,6 +235,18 @@
 <?php
     // BEGIN IF $arr_buttons_tools2
     if(count($arr_buttons_tools2) > 0){
+
+        // BEGIN btnSetTools2
+?>
+        {
+            extend: 'collection',
+            name: 'btnSetTools2',
+            text: '<i class="fa fa-search-plus"></i>',
+            titleAttr: 'Advanced Filter',
+            className: 'btn btn-sm btn-outline',
+            autoClose: true,
+            buttons: [
+<?php        
         foreach ($arr_buttons_tools2 as $value) {
         // BEGIN btnSetTools2
 ?>
@@ -244,7 +256,7 @@
                     if($value == 'sp'){
 ?>
                         { 
-                            text: '&nbsp;<i class="fa fa-filter"></i>&nbsp;',
+                            text: '&nbsp;<i class="fa fa-filter"></i>&nbsp;Search Panes',
                             name: 'btnSP',
                             className: 'btn btn-sm btn-outline',
                             titleAttr: 'Filter',
@@ -261,7 +273,7 @@
                     if($value == 'sb'){
 ?>
                         { 
-                            text: '&nbsp;<i class="fa fa-search"></i>&nbsp;',
+                            text: '&nbsp;<i class="fa fa-search"></i>&nbsp;Search Builder',
                             name: 'btnSB',
                             className: 'btn btn-sm btn-outline',
                             titleAttr: 'Search',
@@ -273,8 +285,13 @@
                     }   // END button sb
 ?>
 
+<?php
+                }
+                // END of foreach arr_buttons_tools2
+?>
+            ]  
+        },
 <?php       
-        }
         // END btnSetTools2
     }   
     // END IF $arr_buttons_tools2
