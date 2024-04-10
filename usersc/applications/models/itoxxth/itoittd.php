@@ -42,6 +42,7 @@
 				Field::inst( 'itoittd.finish_at' ),
 				Field::inst( 'itoittd.is_defaultprogram' ),
 				Field::inst( 'itoittd.jumlah_unit' ),
+				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'iumxxmh_unit.nama' )
 			)
