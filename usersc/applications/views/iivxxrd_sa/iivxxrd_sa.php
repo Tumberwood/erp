@@ -39,8 +39,8 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-									<button class="btn btn-primary" type="submit" id="go">Submit</button>
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
 								</div>
 							</form>
 						</div>
@@ -94,7 +94,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
 									<button type="submit" class="btn btn-primary m-r-xs">Import</button>
 								</div>
 
