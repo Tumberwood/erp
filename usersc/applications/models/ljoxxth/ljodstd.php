@@ -28,6 +28,8 @@
 			->fields(
 				Field::inst( 'ljodstd.id' ),
 				Field::inst( 'ljodstd.id_ljoxxth' ),
+				Field::inst( 'ljodstd.id_grlxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'ljodstd.kode' ),
 				Field::inst( 'ljodstd.nama' ),
 				Field::inst( 'ljodstd.keterangan' ),
@@ -36,8 +38,12 @@
 				Field::inst( 'ljodstd.approval_state' ),
 				Field::inst( 'ljodstd.start_at' ),
 				Field::inst( 'ljodstd.finish_at' ),
-				Field::inst( 'ljodstd.is_defaultprogram' )
+				Field::inst( 'ljodstd.is_defaultprogram' ),
+				Field::inst( 'ljodstd.urutan' ),
+
+				Field::inst( 'grlxxmh.nama' )
 			)
+			->leftJoin( 'grlxxmh','grlxxmh.id','=','ljodstd.id_grlxxmh' )
 			->where('ljodstd.id_ljoxxth',$_POST['id_ljoxxth']);
 		
 		// do not erase

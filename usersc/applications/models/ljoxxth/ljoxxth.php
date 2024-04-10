@@ -19,7 +19,7 @@
 
 	use 
 		Carbon\Carbon;
-	
+
 	$editor = Editor::inst( $db, 'ljoxxth' )
 		->debug(true)
 		->fields(
@@ -80,6 +80,14 @@
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' );
+		
+		if($_POST['start_date'] != ''){
+			$editor->where( 'ljoxxth.tanggal', $_POST['start_date'], '>=' );
+		}
+
+		if($_POST['end_date'] != ''){
+			$editor->where( 'ljoxxth.tanggal', $_POST['end_date'], '<=' );
+		}
 	
 	// do not erase
 	// function show / hide inactive document
