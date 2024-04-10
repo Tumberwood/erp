@@ -16,11 +16,15 @@
     $results = array(
         "debug" => $debug,
         "data" => $data,
+
+        // untuk select2
         "results" => $rs_opt,
-        "total_data" => $c_rs_opt,
-        "pagination" => array(
-            "more" => $morePages
-        )
+
+        // 2 ini harusny tidak dipakai
+        // "total_data" => $c_rs_opt,
+        // "pagination" => array(
+        //     "more" => $morePages
+        // )
     );
     // END results akhir
 
