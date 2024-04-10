@@ -68,7 +68,9 @@
 		->leftJoin( 
 			'activity_log_ml as activity_log_ml_c', 
 			'activity_log_ml_c.id_transaksi = prqxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "prqxxth"', '', '' )
-		;
+
+		->where( 'prqxxth.tanggal', $_POST['start_date'], '>=' )
+		->where( 'prqxxth.tanggal', $_POST['end_date'], '<=' );
 	
 	// do not erase
 	// function show / hide inactive document
