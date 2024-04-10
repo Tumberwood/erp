@@ -252,11 +252,28 @@
 ?>
 
 <?php
+                    // BEGIN button sf
+                    if($value == 'sf'){
+?>
+                        { 
+                            text: '&nbsp;<i class="fa fa-filter"></i>&nbsp;Filter',
+                            name: 'btnSF',
+                            className: 'btn btn-sm btn-outline',
+                            titleAttr: 'Simple Filter',
+                            action: function (e, dt, button, config) {
+                                $('#modalSF<?php echo $table_name; ?>').modal('show');
+                            }
+                        },
+<?php
+                    }   // END button sf
+?>
+
+<?php
                     // BEGIN button sp
                     if($value == 'sp'){
 ?>
                         { 
-                            text: '&nbsp;<i class="fa fa-filter"></i>&nbsp;Search Panes',
+                            text: '&nbsp;<i class="fa fa-columns"></i>&nbsp;Search Panes',
                             name: 'btnSP',
                             className: 'btn btn-sm btn-outline',
                             titleAttr: 'Filter',
