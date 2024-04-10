@@ -293,6 +293,11 @@
 				edtljoprtd.field('ljoprtd.finish_at').val(finish_at);
 			});
 
+			edtljoprtd.on('postSubmit', function(e, json, data, action, xhr) {
+				tblljoprtd.rows().deselect();
+				tblljoprtd.ajax.reload(null, false);
+			});
+
 			edtljoprtd.on( 'close', function () {
 				edtljoprtd.enable();
 			} );
@@ -380,9 +385,9 @@
 			} );
 			
 			tblljoprtd.on( 'select', function( e, dt, type, indexes ) {
-				ljoprtd_data    		= tblljoprtd.row( { selected: true } ).data().ljoprtd;
-				ljoxxth_data    		= tblljoprtd.row( { selected: true } ).data().ljoxxth;
-				id_ljoprtd      		= ljoprtd_data.id;
+				ljoprtd_data    	= tblljoprtd.row( { selected: true } ).data().ljoprtd;
+				ljoxxth_data    	= tblljoprtd.row( { selected: true } ).data().ljoxxth;
+				id_ljoprtd      	= ljoprtd_data.id;
 				id_transaksi_h 		= id_ljoprtd; // dipakai untuk general
 				id_transaksi_log	= id_ljoprtd; // dipakai untuk general
 				transaction_state   = ljoprtd_data.transaction_state;

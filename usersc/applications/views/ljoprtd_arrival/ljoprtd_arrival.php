@@ -16,6 +16,35 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div class="modal" id="modalSFljoprtd" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblljoprtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -69,12 +98,28 @@
 		// get tableRelation
 		tableRelation('ljoprtd');
 
+		// BEGIN datepicker init
+		$('#periode').datepicker({
+			setDate: new Date(),
+			autoclose: true,
+			todayHighlight: true,
+			clearBtn: true,
+			format: "dd M yyyy",
+			minViewMode: 'month' 
+		});
+		$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+		// END datepicker init
+
 		$(document).ready(function() {
+			start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+			end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+
 			// BEGIN ljoprtd
 			edtljoprtd = new $.fn.dataTable.Editor( {
 				formOptions: {
 					main: {
-						focus: 3,
+						focus: 8,
 					}
 				},
 				ajax: {
@@ -82,6 +127,8 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_ljoprtd = show_deleted_ljoprtd;
+						d.start_date = start_date;
+						d.end_date = end_date;
 					}
 				},
 				table: "#tblljoprtd",
@@ -252,10 +299,15 @@
 			edtljoprtd.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtljoprtd.field('ljoprtd.start_at').val(start_at);
-				
+
 				if(action == 'create'){
 					tblljoprtd.rows().deselect();
 				}
+
+				edtljoprtd.field('ljoxxth.tanggal').disable();
+				edtljoprtd.field('ljoxxth.id_lacxxmh').disable();
+				edtljoprtd.field('ljoxxth.id_grlxxmh_expedition').disable();
+				edtljoprtd.field('ljoxxth.id_lvtxxmh').disable();
 			});
 
 			edtljoprtd.on("open", function (e, mode, action) {
@@ -293,6 +345,11 @@
 				edtljoprtd.field('ljoprtd.finish_at').val(finish_at);
 			});
 
+			edtljoprtd.on('postSubmit', function(e, json, data, action, xhr) {
+				tblljoprtd.rows().deselect();
+				tblljoprtd.ajax.reload(null, false);
+			});
+
 			edtljoprtd.on( 'close', function () {
 				edtljoprtd.enable();
 			} );
@@ -307,6 +364,8 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_ljoprtd = show_deleted_ljoprtd;
+						d.start_date = start_date;
+						d.end_date = end_date;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -353,8 +412,8 @@
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
-						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+						$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
+						$arr_buttons_action 	= ['edit', 'confirm', 'close', 'view', 'log','noaction'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
@@ -380,9 +439,9 @@
 			} );
 			
 			tblljoprtd.on( 'select', function( e, dt, type, indexes ) {
-				ljoprtd_data    		= tblljoprtd.row( { selected: true } ).data().ljoprtd;
-				ljoxxth_data    		= tblljoprtd.row( { selected: true } ).data().ljoxxth;
-				id_ljoprtd      		= ljoprtd_data.id;
+				ljoprtd_data    	= tblljoprtd.row( { selected: true } ).data().ljoprtd;
+				ljoxxth_data    	= tblljoprtd.row( { selected: true } ).data().ljoxxth;
+				id_ljoprtd      	= ljoprtd_data.id;
 				id_transaksi_h 		= id_ljoprtd; // dipakai untuk general
 				id_transaksi_log	= id_ljoprtd; // dipakai untuk general
 				transaction_state   = ljoprtd_data.transaction_state;
@@ -392,6 +451,9 @@
 				id_lacxxmh_old 		= ljoxxth_data.id_lacxxmh;
 				id_lvtxxmh_old 		= ljoxxth_data.id_lvtxxmh;
 				id_grlxxmh_old 		= ljoxxth_data.id_grlxxmh_expedition;
+
+				// hacked agar bisa edit
+				is_master_table = 1;
 
 				// atur hak akses
 				CekSelectHeaderH(tblljoprtd);

@@ -95,11 +95,26 @@
 			Field::inst( 'lvtxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' )
 		)
+		// ->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth','=','ljoxxth.id' )
 		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth = ljoxxth.id AND ljoprtd.id_lprxxmh = 2','','' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
-		;
+		->where( function ( $q ) {
+			$q
+				->where( function ( $r ) {
+					$r
+						->where( 'ljoxxth.id_lprxxmh_last', 1 )
+						->or_where( 'ljoxxth.id_lprxxmh_last', 2 );
+				} );
+		} );
+
+		if($_POST['start_date'] != ''){
+			$editor->where( '_blank.tanggal',$_POST['start_date'], '>=' );
+		}
+		if($_POST['end_date'] != ''){
+			$editor->where( '_blank.tanggal', $_POST['end_date'], '<=' );
+		}
 	
 	// do not erase
 	// function show / hide inactive document
@@ -114,7 +129,7 @@
 	$nama_table = 'ljoprtd';
 	include( "../../../helpers/edt_log.php" );
 	// END log
-	
+
 	$json = $editor
 		->process( $_POST )
 		->data();
