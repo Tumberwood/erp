@@ -41,7 +41,7 @@
             $type_message = 'success';
         }else{
             $status_code  = 500;
-            $message      = 'Autofill Data Gagal';
+            $message      = 'Autofill Data Gagal 1';
             $type_message = 'error';
         }
 
@@ -54,6 +54,8 @@
     
     $data = array(
         'status_code' => $status_code,
+        'message' => $message,
+        'type_message' => $type_message,
         'rs_autofill' => $rs_autofill
     );
     // tampilkan results
