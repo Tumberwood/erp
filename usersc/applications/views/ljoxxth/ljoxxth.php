@@ -18,6 +18,35 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
+				<div class="modal" id="modalSFljoxxth" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblljoxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -71,8 +100,8 @@
 									<tr>
 										<th>ID</th>
 										<th>id_ljoxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
+										<th>Urutan</th>
+										<th>Tujuan</th>
 										<th>Keterangan</th>
 									</tr>
 								</thead>
@@ -120,7 +149,22 @@
 	// get tableRelation
 	tableRelation('ljoxxth');
 
+	// BEGIN datepicker init
+	$('#periode').datepicker({
+		setDate: new Date(),
+		autoclose: true,
+		todayHighlight: true,
+		clearBtn: true,
+		format: "dd M yyyy",
+		minViewMode: 'month' 
+	});
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+	// END datepicker init
+
 	$(document).ready(function() {
+		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
 		
 		// BEGIN ljoxxth
 		edtljoxxth = new $.fn.dataTable.Editor( {
@@ -129,6 +173,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_ljoxxth = show_deleted_ljoxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			table: "#tblljoxxth",
@@ -358,6 +404,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_ljoxxth = show_deleted_ljoxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -399,7 +447,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -623,10 +671,6 @@
 		} );
 		
 		tblljoprtd = $('#tblljoprtd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/ljoxxth/ljoprtd.php",
 				type: 'POST',
@@ -635,21 +679,7 @@
 					d.id_ljoxxth = id_ljoxxth;
 				}
 			},
-			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
+			order: [[ 3, "asc" ]],
 			columns: [
 				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoprtd.id_ljoxxth",visible:false },
@@ -667,20 +697,18 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2		= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+
 			},
 			rowCallback: function( row, data, index ) {
 			}
 		} );
-
-		tblljoprtd.searchPanes.container().appendTo('#spljoprtd');
-		tblljoprtd.searchBuilder.container().appendTo( '#sbljoprtd' );
 
 		tblljoprtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
@@ -756,13 +784,45 @@
 					type: "hidden"
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
-					name: "ljodstd.kode"
-				}, 	
+					label: "Tujuan",
+					name: "ljodstd.id_grlxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/grlxxmh/grlxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_old: id_grlxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "ljodstd.nama"
-				}, 	
+					label: "Urutan",
+					name: "ljodstd.urutan"
+				},
 				{
 					label: "Keterangan",
 					name: "ljodstd.keterangan",
@@ -789,24 +849,36 @@
 		edtljodstd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edtljoxxth.field('ljoxxth.kode').val();
+				id_ljoxxth = edtljodstd.field('ljodstd.id_ljoxxth').val();
+				id_grlxxmh = edtljodstd.field('ljodstd.id_grlxxmh').val();
+				urutan = edtljodstd.field('ljodstd.urutan').val();
 
 				validasiRequired(
-					edtljoxxth,
-					'ljoxxth',
+					edtljodstd,
+					'ljodstd',
 					{
-						'kode': kode
+						'id_grlxxmh': id_grlxxmh
 					}
 				);
 
 				validasiUnique(
 					action,
-					edtljoxxth,
-					'ljoxxth',
-					'kode',
-					'kode',
-					'"'+kode+'"',
-					id_ljoxxth
+					edtljodstd,
+					'ljodstd',
+					'id_grlxxmh',
+					'id_ljoxxth,id_grlxxmh',
+					id_ljoxxth+','+id_grlxxmh,
+					id_ljodstd
+				);
+
+				validasiUnique(
+					action,
+					edtljodstd,
+					'ljodstd',
+					'urutan',
+					'id_ljoxxth,urutan',
+					id_ljoxxth+','+urutan,
+					id_ljodstd
 				);
 
 			}
@@ -832,10 +904,6 @@
 		} );
 		
 		tblljodstd = $('#tblljodstd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/ljoxxth/ljodstd.php",
 				type: 'POST',
@@ -844,26 +912,12 @@
 					d.id_ljoxxth = id_ljoxxth;
 				}
 			},
-			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
+			order: [[ 2, "asc" ]],
 			columns: [
 				{ data: "ljodstd.id",visible:false },
 				{ data: "ljodstd.id_ljoxxth",visible:false },
-				{ data: "ljodstd.kode" },
-				{ data: "ljodstd.nama" },
+				{ data: "ljodstd.urutan" },
+				{ data: "grlxxmh.nama" },
 				{ data: "ljodstd.keterangan" }
 			],
 			buttons: [
@@ -876,20 +930,18 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2		= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
 			},
 			rowCallback: function( row, data, index ) {
 			}
 		} );
-
-		tblljodstd.searchPanes.container().appendTo('#spljodstd');
-		tblljodstd.searchBuilder.container().appendTo( '#sbljodstd' );
 
 		tblljodstd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
@@ -905,6 +957,8 @@
 			id_transaksi_log  = id_ljodstd;                                                // dipakai untuk log
 
 			transaction_state_d   = data_ljodstd.transaction_state;
+
+			id_grlxxmh_old = data_ljodstd.id_grlxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD(tblljoxxth, tblljodstd );
@@ -912,11 +966,38 @@
 
 		tblljodstd.on( 'deselect', function() {
 			id_ljodstd = 0;
-			
+			id_grlxxmh_old = 0;
 			// atur hak akses
 			CekDeselectDetailHD(tblljoxxth, tblljodstd );
 		} );
 		// END ljodstd
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+				if( moment(start_date).isValid() == false ){
+					start_date = '';
+				}
+
+				end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
+				if( moment(end_date).isValid() == false ){
+					end_date = '';
+				}
+
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblljoxxth.rows().deselect();
+				tblljoxxth.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFljoxxth').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
 
 	} );// end of document.ready
 	
