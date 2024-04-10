@@ -564,10 +564,6 @@
 		} );
 			
 		tblprqittd = $('#tblprqittd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/prqxxth/prqittd.php",
 				type: 'POST',
@@ -577,20 +573,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "prqittd.id",visible:false },
 				{ data: "prqittd.id_prqxxth",visible:false },
@@ -620,7 +602,7 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
 			},
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       = this.api(), data;

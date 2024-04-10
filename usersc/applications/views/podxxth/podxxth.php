@@ -17,7 +17,36 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-					
+				<div class="modal" id="modalSFpodxxth" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 				<!-- start Custom Form Datatables Editor -->
 				<div id="frmpodxxth">
 					<div class="panel-body">
@@ -351,7 +380,23 @@
 	// get tableRelation
 	tableRelation('podxxth');
 
+	// BEGIN datepicker init
+	$('#periode').datepicker({
+		setDate: new Date(),
+		autoclose: true,
+		todayHighlight: true,
+		clearBtn: true,
+		format: "dd M yyyy",
+		minViewMode: 'month' 
+	});
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+	// END datepicker init
+
 	$(document).ready(function() {
+		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+
 		// BEGIN podxxth
 		edtpodxxth = new $.fn.dataTable.Editor( {
 			ajax: {
@@ -359,6 +404,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_podxxth = show_deleted_podxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			template: "#frmpodxxth",
@@ -835,6 +882,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_podxxth = show_deleted_podxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -880,7 +929,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -1376,10 +1425,6 @@
 		} );
 		
 		tblpodittd = $('#tblpodittd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/podxxth/podittd.php",
 				type: 'POST',
@@ -1389,20 +1434,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				// {
-				// 	searchPanes:{
-				// 		show: true,
-				// 	},
-				// 	targets: [1,2,3,10]
-				// },
-				// {
-				// 	searchPanes:{
-				// 		show: false,
-				// 	},
-				// 	targets: [0,4,5,6,7,8,9]
-				// }
-			],
 			responsive: false,
 			scrollX: true,
 			columns: [
@@ -1444,13 +1475,14 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
 			},
 			rowCallback: function( row, data, index ) {
 			},
@@ -1463,9 +1495,6 @@
 				$( '#s_subtotal' ).html( dtNumberFormat(s_subtotal) );
 			}
 		} );
-
-		tblpodittd.searchPanes.container().appendTo('#sppodittd');
-		tblpodittd.searchBuilder.container().appendTo( '#sbpodittd' );
 
 		tblpodittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
@@ -1502,6 +1531,25 @@
 		} );
 
 		// END podittd
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblpodxxth.rows().deselect();
+				tblpodxxth.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFpodxxth').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
 
 	} );// end of document.ready
 	

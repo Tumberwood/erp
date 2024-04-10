@@ -86,6 +86,8 @@
 		)
 		->leftJoin( 'iitxxmh','iitxxmh.id','=','podxxth.id_iitxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','podxxth.id_grlxxmh_supplier' )
+		->where( 'podxxth.tanggal', $_POST['start_date'], '>=' )
+		->where( 'podxxth.tanggal', $_POST['end_date'], '<=' )
 		;
 	
 	// do not erase
