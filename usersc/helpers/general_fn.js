@@ -274,8 +274,10 @@ function autofillField(tbl_name, id_transaksi, fields_name){
             fields_name: fields_name
         },
         success: function ( json ) {
-            if(json.data.status_code = 500){
+            if(json.data.status_code == 200){
                 autofillData = json.data.rs_autofill;
+            }else{
+                autofillData = [];
             }
         }
     } );
@@ -390,12 +392,10 @@ function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
  * @param {*} id_iitxxmh 
  */
 function hitungHeader(edt, tabel_nama, id_iitxxmh) {
-    console.log('hitungHeader');
     subtotal     = parseFloat(edt.field(tabel_nama+'.subtotal').val());
     diskon_final = parseFloat(edt.field(tabel_nama+'.diskon_final').val());
     is_pajak     = edt.field(tabel_nama+'.is_pajak').val();
     dpp          = parseFloat(edt.field(tabel_nama+'.dpp').val());
-    console.log(is_pajak);
     // BEGIN ambil tarif pajak
     if(is_pajak == 1){
         // jika menggunakan pajak
@@ -605,6 +605,27 @@ function tableRelation(tbl_name){
     } );
 }
 
+/**
+ * defaultCurrency
+ * Digunakan untuk get data default Currency untuk di load di datatables editor select2
+ * Credit to Ferry Ibnu
+ */
+function defaultCurrency() {
+    $.ajax( {
+        url: "../../models/fcrxxmh/fcrxxmh_fn_default.php",
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        data: {
+        },
+        success: function ( json ) {
+            if(json.data.status_code == 200){
+                id_def = json.data.id_def;
+                nama_def = json.data.nama_def;
+            }
+        }
+    } );
+}
 
 /**
  * 
