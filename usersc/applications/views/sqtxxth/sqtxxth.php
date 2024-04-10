@@ -18,8 +18,38 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 
-			<!-- start Custom Form Datatables Editor -->
-			<div id="frmsqtxxth">
+				<div class="modal" id="modalSFsqtxxth" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- start Custom Form Datatables Editor -->
+				<div id="frmsqtxxth">
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
@@ -320,7 +350,22 @@
 	// get tableRelation
 	tableRelation('sqtxxth');
 
+	// BEGIN datepicker init
+	$('#periode').datepicker({
+		setDate: new Date(),
+		autoclose: true,
+		todayHighlight: true,
+		clearBtn: true,
+		format: "dd M yyyy",
+		minViewMode: 'month' 
+	});
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+	// END datepicker init
+
 	$(document).ready(function() {
+		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
 		
 		// BEGIN sqtxxth
 		edtsqtxxth = new $.fn.dataTable.Editor( {
@@ -334,6 +379,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_sqtxxth = show_deleted_sqtxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			table: "#tblsqtxxth",
@@ -736,6 +783,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_sqtxxth = show_deleted_sqtxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -778,7 +827,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -1165,10 +1214,6 @@
 		} );
 			
 		tblsqtittd = $('#tblsqtittd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/sqtxxth/sqtittd.php",
 				type: 'POST',
@@ -1178,20 +1223,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				// {
-				// 	searchPanes:{
-				// 		show: true,
-				// 	},
-				// 	targets: [1,2,3]
-				// },
-				// {
-				// 	searchPanes:{
-				// 		show: false,
-				// 	},
-				// 	targets: [0,4]
-				// }
-			],
 			columns: [
 				{ data: "sqtittd.id",visible:false },
 				{ data: "sqtittd.id_sqtxxth",visible:false },
@@ -1230,13 +1261,14 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
 			},
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       	= this.api(), data;
@@ -1249,9 +1281,6 @@
 			rowCallback: function( row, data, index ) {
 			}
 		} );
-
-		tblsqtittd.searchPanes.container().appendTo('#spsqtittd');
-		tblsqtittd.searchBuilder.container().appendTo( '#sbsqtittd' );
 
 		tblsqtittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
@@ -1284,6 +1313,25 @@
 			// atur hak akses
 			CekDeselectDetailHD(tblsqtxxth, tblsqtittd );
 		} );
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblsqtxxth.rows().deselect();
+				tblsqtxxth.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFsqtxxth').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
 
 		// END sqtittd
 		
