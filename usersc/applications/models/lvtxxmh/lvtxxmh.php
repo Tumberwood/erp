@@ -41,7 +41,10 @@
 			Field::inst( 'lvtxxmh.is_defaultprogram' ),
 			Field::inst( 'lvtxxmh.golongan' ),
 			Field::inst( 'lvtxxmh.berat_maksimal' ),
-			Field::inst( 'lvtxxmh.dimensi_maksimal' )
+			Field::inst( 'lvtxxmh.dimensi_maksimal' ),
+			Field::inst( 'lvtxxmh.panjang' ),
+			Field::inst( 'lvtxxmh.lebar' ),
+			Field::inst( 'lvtxxmh.tinggi' )
 		);
 	
 	// do not erase

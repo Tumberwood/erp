@@ -16,6 +16,47 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div id="frmlvtxxmh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.kode"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.golongan"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.keterangan"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.berat_maksimal"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.dimensi_maksimal"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.panjang"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.lebar"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.tinggi"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tbllvtxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -23,7 +64,6 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
-                                <th>Gol</th>
                                 <th>Berat Max</th>
                                 <th>Dimensi Max</th>
                                 <th>Keterangan</th>
@@ -76,6 +116,7 @@
 					}
 				},
 				table: "#tbllvtxxmh",
+				template: "#frmlvtxxmh",
 				fields: [ 
 					{
 						label: "lvtxxmh.start_at",
@@ -120,6 +161,18 @@
 						name: "lvtxxmh.dimensi_maksimal",
 					},
 					{
+						label: "Panjang (m)",
+						name: "lvtxxmh.panjang"
+					},
+					{
+						label: "Lebar (m)",
+						name: "lvtxxmh.lebar"
+					},
+					{
+						label: "Tinggi (m)",
+						name: "lvtxxmh.tinggi"
+					},
+					{
 						label: "Keterangan",
 						name: "lvtxxmh.keterangan",
 						type: "textarea"
@@ -147,14 +200,19 @@
 			});
 
 			edtlvtxxmh.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
+				$(".modal-dialog").addClass("modal-xl");
 			});
 
             edtlvtxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					kode = edtlvtxxmh.field('lvtxxmh.kode').val();
-					nama = edtlvtxxmh.field('lvtxxmh.nama').val();
+					kode             = edtlvtxxmh.field('lvtxxmh.kode').val();
+					nama             = edtlvtxxmh.field('lvtxxmh.nama').val();
+					berat_maksimal   = edtlvtxxmh.field('lvtxxmh.berat_maksimal').val();
+					dimensi_maksimal = edtlvtxxmh.field('lvtxxmh.dimensi_maksimal').val();
+					panjang          = edtlvtxxmh.field('lvtxxmh.panjang').val();
+					lebar            = edtlvtxxmh.field('lvtxxmh.lebar').val();
+					tinggi           = edtlvtxxmh.field('lvtxxmh.tinggi').val();
 
 					validasiRequired(
 						edtlvtxxmh,
@@ -183,6 +241,20 @@
 						'nama',
 						'"'+nama+'"',
 						id_lvtxxmh
+					);
+
+					validasiNumber(
+						edtlvtxxmh,
+						'lvtxxmh',
+						{
+							'berat_maksimal': berat_maksimal,
+							'dimensi_maksimal': dimensi_maksimal,
+							'panjang': panjang,
+							'lebar': lebar,
+							'tinggi': tinggi
+						},
+						0,
+						'>='
 					);
 				}
 				
@@ -231,10 +303,9 @@
 					{ data: "lvtxxmh.id",visible:false },
 					{ data: "lvtxxmh.kode" },
 					{ data: "lvtxxmh.nama" },
-					{ data: "lvtxxmh.golongan" },
 					{ 
 						data: "lvtxxmh.berat_maksimal" ,
-						...renderNumber(0)
+						...renderNumber(2)
 					},
 					{ 
 						data: "lvtxxmh.dimensi_maksimal" ,
