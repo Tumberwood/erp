@@ -32,7 +32,7 @@
 						pod.transaction_state,
 						td.jumlah_unit,
 						td.id_iimxxmh,
-						td.id_iumxxmh,
+						td.id_iumxxmh_unit,
 						td.id_prqittd
 					FROM podxxth AS pod
 					LEFT JOIN podittd AS td ON td.id_podxxth = pod.id
@@ -41,7 +41,7 @@
 				LEFT JOIN prqxxth AS d ON d.id = a.id_prqxxth
 				LEFT JOIN iimxxmh AS e ON e.id = b.id_iimxxmh
 				LEFT JOIN iumxxmh AS uom_pr ON uom_pr.id = a.id_iumxxmh
-				LEFT JOIN iumxxmh AS uom_po ON uom_po.id = b.id_iumxxmh
+				LEFT JOIN iumxxmh AS uom_po ON uom_po.id = b.id_iumxxmh_unit
 				WHERE d.transaction_state = 1
 				'
 				);
