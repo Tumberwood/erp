@@ -59,7 +59,6 @@
 		var edtiwhctmh, tbliwhctmh, show_deleted_iwhctmh = 0, id_iwhctmh;
 		// ------------- end of default variable
 
-
 		// get tableRelation
 		tableRelation('iwhctmh');
 
@@ -190,10 +189,6 @@
 			} );
 
 			tbliwhctmh = $('#tbliwhctmh').DataTable( {
-				dom: domPQ,
-				searchPanes:{
-					layout: 'columns-4',
-				},
 				ajax: {
 					url: "../../models/iwhctmh/iwhctmh.php",
 					type: 'POST',
@@ -202,20 +197,6 @@
 					}
 				},
 				order: [[ 1, "asc" ]],
-				columnDefs:[
-					{
-						searchPanes:{
-							show: true,
-						},
-						targets: [1,2,3]
-					},
-					{
-						searchPanes:{
-							show: false,
-						},
-						targets: [0]
-					}
-				],
 				columns: [
 					{ data: "iwhctmh.id",visible:false },
 					{ data: "iwhctmh.kode" },
@@ -236,14 +217,14 @@
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_tools2 	= [];
 						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
 				],
 				initComplete: function() {
-					this.api().searchPanes.rebuildPane();
+				
 				},
 				rowCallback: function( row, data, index ) {
 					if ( data.iwhctmh.transaction_state == -9 ) {
@@ -254,9 +235,6 @@
 				}
 			} );
 
-			tbliwhctmh.searchPanes.container().appendTo('#spiwhctmh');
-			tbliwhctmh.searchBuilder.container().appendTo( '#sbiwhctmh' );
-			
 			tbliwhctmh.on( 'init', function () {
 				// atur hak akses
 				CekInitHeaderH(tbliwhctmh);
