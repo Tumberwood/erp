@@ -41,6 +41,13 @@
 			Field::inst( '_blankheader.is_defaultprogram' )
 		);
 	
+	if($_POST['start_date'] != ''){
+		$editor->where( '_blankheader.tanggal',$_POST['start_date'], '>=' );
+	}
+	if($_POST['end_date'] != ''){
+		$editor->where( '_blankheader.tanggal', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted__blankheader'] == 0){

@@ -34,13 +34,20 @@
 				} ),
 			Field::inst( '_blankheader.keterangan' ),
 			Field::inst( '_blankheader.created_by' ),
-			Field::inst( '_blank.transaction_state' ),
-			Field::inst( '_blank.approval_state' ),
-			Field::inst( '_blank.start_at' ),
-			Field::inst( '_blank.finish_at' ),
-			Field::inst( '_blank.is_defaultprogram' )
+			Field::inst( '_blankheader.transaction_state' ),
+			Field::inst( '_blankheader.approval_state' ),
+			Field::inst( '_blankheader.start_at' ),
+			Field::inst( '_blankheader.finish_at' ),
+			Field::inst( '_blankheader.is_defaultprogram' )
 		);
 	
+	if($_POST['start_date'] != ''){
+		$editor->where( '_blankheader.tanggal',$_POST['start_date'], '>=' );
+	}
+	if($_POST['end_date'] != ''){
+		$editor->where( '_blankheader.tanggal', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted__blankheader'] == 0){

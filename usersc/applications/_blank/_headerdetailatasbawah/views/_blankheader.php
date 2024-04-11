@@ -14,40 +14,59 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmFilter">
-                    <div class="form-group row">
-						<label class="col-lg-2 col-form-label">Periode</label>
-                        <div class="col-lg-5">
-                            <div class="input-group input-daterange" id="periode">
-                                <input type="text" id="start_date" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" id="end_date" class="form-control">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-calendar"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div>
-                </form>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
+		<div class="ibox ">
+			<div class="ibox-content">
+
+				<div class="modal" id="modalSF_blankheader" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-responsive">
+                    <table id="tbl_blankheader" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row">
-	<div class="col">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tab_blankdetail_1"> Tab 1</a></li>
@@ -121,7 +140,23 @@
 	// get tableRelation
 	tableRelation('_blankheader');
 
+	// BEGIN datepicker init
+	$('#periode').datepicker({
+		setDate: new Date(),
+		autoclose: true,
+		todayHighlight: true,
+		clearBtn: true,
+		format: "dd M yyyy",
+		minViewMode: 'month' 
+	});
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+	// END datepicker init
+
 	$(document).ready(function() {
+		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+
 		// BEGIN _blankheader
 		edt_blankheader = new $.fn.dataTable.Editor( {
 			ajax: {
@@ -129,6 +164,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted__blankheader = show_deleted__blankheader;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			table: "#tbl_blankheader",
@@ -250,6 +287,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted__blankheader = show_deleted__blankheader;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -458,10 +497,6 @@
 		} );
 		
 		tbl_blankdetail = $('#tbl_blankdetail').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/_blankheader/_blankdetail.php",
 				type: 'POST',
@@ -471,20 +506,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "_blankdetail.id",visible:false },
 				{ data: "_blankdetail.id__blankheader",visible:false },
@@ -514,9 +535,6 @@
 			}
 		} );
 
-		tbl_blankdetail.searchPanes.container().appendTo('#sp_blankdetail');
-		tbl_blankdetail.searchBuilder.container().appendTo( '#sb_blankdetail' );
-
 		tbl_blankdetail.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
@@ -542,8 +560,26 @@
 			// atur hak akses
 			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );
 		} );
-
 		// END _blankdetail
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tbl_blankheader.rows().deselect();
+				tbl_blankheader.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSF_blankheader').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
 
 	} );// end of document.ready
 	
