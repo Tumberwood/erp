@@ -114,9 +114,19 @@
 			edthovxxmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthovxxmh.field('hovxxmh.start_at').val(start_at);
-				
+
 				if(action == 'create'){
 					tblhovxxmh.rows().deselect();
+					edthovxxmh.field('hovxxmh.kode').enable();
+					edthovxxmh.field('hovxxmh.nama').enable();
+				}else if(action == 'edit'){
+					if(transaction_state == 0){
+						edthovxxmh.field('hovxxmh.kode').enable();
+						edthovxxmh.field('hovxxmh.nama').enable();
+					}else{
+						edthovxxmh.field('hovxxmh.kode').disable();
+						edthovxxmh.field('hovxxmh.nama').disable();
+					}
 				}
 			});
 
