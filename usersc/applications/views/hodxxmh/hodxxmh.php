@@ -23,6 +23,7 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
+                                <th>Division</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -57,6 +58,8 @@
 		// ------------- default variable, do not erase
 		var edthodxxmh, tblhodxxmh, show_deleted_hodxxmh = 0, id_hodxxmh;
 		// ------------- end of default variable
+
+		var id_hovxxmh_old = 0;
 
 		// get tableRelation
 		tableRelation('hodxxmh');
@@ -102,7 +105,43 @@
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "hodxxmh.nama"
-					}
+					},
+					{
+						label: "Select2",
+						name: "hodxxmh.id_hovxxmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/hovxxmh/hovxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_hovxxmh_old: id_hovxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
 				]
 			} );
 
@@ -206,6 +245,7 @@
 					{ data: "hodxxmh.id",visible:false },
 					{ data: "hodxxmh.kode" , type: 'string'},
 					{ data: "hodxxmh.nama" },
+					{ data: "hovxxmh.nama" },
 					{ 
 						data: "hodxxmh.transaction_state" ,
 						...renderTransactionStatus()
@@ -256,7 +296,7 @@
 				approval_state   	= hodxxmh_data.approval_state;
 				is_nextprocess 		= hodxxmh_data.is_nextprocess;
 				
-				id_hodxxmh_parent_old = hodxxmh_data.id_hodxxmh_parent;
+				id_hovxxmh_old = hodxxmh_data.id_hovxxmh;
 
 				// atur hak akses
 				CekSelectHeaderH(tblhodxxmh);
@@ -265,7 +305,7 @@
 			tblhodxxmh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_hodxxmh = 0;
-				id_hodxxmh_parent_old = 0;
+				id_hovxxmh_old = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhodxxmh);
