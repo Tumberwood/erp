@@ -60,57 +60,54 @@
                         </thead>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
-		<div class="tabs-container">
-			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tab_blankdetail_1"> Tab 1</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tab_blankdetail_2"> Tab 2</a></li>
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" id="tab_blankdetail_1" class="tab-pane active">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tbl_blankdetail" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id__blankheader</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
-									</tr>
-								</thead>
-							</table>
-						</div> <!-- end of table -->
+				<div class="tabs-container">
+					<ul class="nav nav-tabs" role="tablist">
+						<li><a class="nav-link active" data-toggle="tab" href="#tab_blankdetail_1"> Tab 1</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tab_blankdetail_2"> Tab 2</a></li>
+					</ul>
+					<div class="tab-content">
+						<div role="tabpanel" id="tab_blankdetail_1" class="tab-pane active">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tbl_blankdetail" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id__blankheader</th>
+												<th>Kode</th>
+												<th>Nama</th>
+												<th>Keterangan</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-					</div>
-				</div>
-				<div role="tabpanel" id="tab_blankdetail_2" class="tab-pane">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table id="tbl_blankdetail_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id__blankheader</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
-									</tr>
-								</thead>
-							</table>
+							</div>
+						</div>
+						<div role="tabpanel" id="tab_blankdetail_2" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tbl_blankdetail_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id__blankheader</th>
+												<th>Kode</th>
+												<th>Nama</th>
+												<th>Keterangan</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php
