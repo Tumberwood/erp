@@ -632,7 +632,15 @@
                                     selected: true
                                 }).index(), {
                                     title: 'View'
-                                }).buttons("");
+                                }).buttons(
+                                    {
+                                        text: 'Close',
+                                        action: function () {
+                                            this.close();
+                                        },
+                                        className: 'btn btn-warning'
+                                    }
+                                );
                                 <?php echo $edt;?>.disable();
                                 e.preventDefault();
                             }
