@@ -8,7 +8,7 @@
 
 <div class="modal fade" id="modalP<?php echo $nama_tabel; ?>">
 	<div class="modal-dialog modal-xxxl">
-		<div class="modal-content">
+		<div class="modal-content animated bounceInRight">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">Filter</h4>
@@ -25,7 +25,7 @@
 
 <div class="modal fade" id="modalQ<?php echo $nama_tabel; ?>">
 	<div class="modal-dialog modal-xxxl">
-		<div class="modal-content">
+		<div class="modal-content animated bounceInRight">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">Search</h4>
@@ -44,7 +44,7 @@
 <?php for ($i=0; $i < $c_tabel_detail; $i++) { ?>
     <div class="modal fade" id="modalP<?php echo $nama_tabels_d[$i]; ?>">
         <div class="modal-dialog modal-xxxl">
-            <div class="modal-content">
+            <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
                     <h4 class="modal-title">Filter</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -61,7 +61,7 @@
 
     <div class="modal fade" id="modalQ<?php echo $nama_tabels_d[$i]; ?>">
         <div class="modal-dialog modal-xxxl">
-            <div class="modal-content">
+            <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
                     <h4 class="modal-title">Search</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
