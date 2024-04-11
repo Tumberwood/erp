@@ -32,11 +32,11 @@
 				Field::inst( '_blankdetail.nama' ),
 				Field::inst( '_blankdetail.keterangan' ),
 				Field::inst( '_blankdetail.created_by' ),
-				Field::inst( '_blank.transaction_state' ),
-				Field::inst( '_blank.approval_state' ),
-				Field::inst( '_blank.start_at' ),
-				Field::inst( '_blank.finish_at' ),
-				Field::inst( '_blank.is_defaultprogram' )
+				Field::inst( '_blankdetail.transaction_state' ),
+				Field::inst( '_blankdetail.approval_state' ),
+				Field::inst( '_blankdetail.start_at' ),
+				Field::inst( '_blankdetail.finish_at' ),
+				Field::inst( '_blankdetail.is_defaultprogram' )
 			)
 			->where('_blankdetail.id__blankheader',$_POST['id__blankheader']);
 		
@@ -44,13 +44,13 @@
 		// function show / hide inactive document
 		if ( $_POST['show_deleted__blank'] == 0){
 			$editor
-				->where( '_blank.transaction_state', -9, '<>');
+				->where( '_blankdetail.transaction_state', -9, '<>');
 		}
 		
-		include( "_blank_extra.php" );
+		include( "_blankdetail_extra.php" );
 
 		// BEGIN log
-		$nama_table = '_blank';
+		$nama_table = '_blankdetail';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		
