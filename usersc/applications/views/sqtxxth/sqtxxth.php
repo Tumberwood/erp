@@ -364,8 +364,8 @@
 	// END datepicker init
 
 	$(document).ready(function() {
-		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		
 		// BEGIN sqtxxth
 		edtsqtxxth = new $.fn.dataTable.Editor( {
@@ -488,7 +488,7 @@
 				{
 					label: "Currency <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.id_fcrxxmh",
-					id: "select_id_fcrxxmh", //tambahkan id di select2nya
+					id: "select_id_fcrxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -516,7 +516,9 @@
 
 								defaultCurrency();
 
+								console.log(params.page);
 								if (params.page && params.page === 1) {
+
 									$('#select_id_fcrxxmh').empty().select2({ data: options });
 								} else {
 									$('#select_id_fcrxxmh').append(new Option(nama_def, id_def, false, false)).trigger('change');
@@ -664,6 +666,11 @@
 
 		edtsqtxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+
+			$('#select_id_fcrxxmh').select2('open');
+			setTimeout(function() {
+				$('#select_id_fcrxxmh').select2('close');
+			}, 5);
 		});
 		
 		edtsqtxxth.dependent( 'sqtxxth.diskon_jenis', function ( val, data, callback ) {
@@ -736,7 +743,7 @@
 						'tanggal'            : tanggal,
 						'id_grlxxmh_customer': id_grlxxmh_customer,
 						'tanggal_validity'   : tanggal_validity,
-						'up1'                : up1
+						// 'up1'                : up1
 					}
 				);
 				
@@ -1320,8 +1327,8 @@
 			rules: {
 			},
 			submitHandler: function(frmFilter) {
-				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-				end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblsqtxxth.rows().deselect();
 				tblsqtxxth.ajax.reload(function ( json ) {

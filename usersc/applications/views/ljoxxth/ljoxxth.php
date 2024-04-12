@@ -163,8 +163,8 @@
 	// END datepicker init
 
 	$(document).ready(function() {
-		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		
 		// BEGIN ljoxxth
 		edtljoxxth = new $.fn.dataTable.Editor( {
@@ -978,7 +978,7 @@
 			rules: {
 			},
 			submitHandler: function(frmFilter) {
-				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				if( moment(start_date).isValid() == false ){
 					start_date = '';
 				}

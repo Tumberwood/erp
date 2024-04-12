@@ -342,7 +342,7 @@
 	var edtsodxxth, tblsodxxth, show_deleted_sodxxth = 0, id_sodxxth;
 	var edtsodittd, tblsodittd, show_deleted_sodittd = 0, id_sodittd;
 	// ------------- end of default variable
-	var id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0;
+	var id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, id_fpytmmh_def = 0;
 	var id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0;
 
 	var id_iitxxmh = 1;
@@ -359,13 +359,14 @@
 		format: "dd M yyyy",
 		minViewMode: 'month' 
 	});
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#start_date').datepicker('setDate', awal_bulan_dmy);
 	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 	// END datepicker init
 
 	$(document).ready(function() {
-		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-		end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+		
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		
 		// BEGIN sodxxth
 		edtsodxxth = new $.fn.dataTable.Editor( {
@@ -452,6 +453,7 @@
 				{
 					label: "Payment Terms <sup class='text-danger'>*<sup>",
 					name: "sodxxth.id_fpytmmh",
+					id: "select_id_fpytmmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -463,6 +465,7 @@
 							data: function (params) {
 								var query = {
 									id_fpytmmh_old: id_fpytmmh_old,
+									id_fpytmmh_def: id_fpytmmh_def,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -485,6 +488,8 @@
 						},
 					}
 				},	
+
+
 				{
 					label: "Currency <sup class='text-danger'>*<sup>",
 					name: "sodxxth.id_fcrxxmh",
@@ -539,6 +544,7 @@
 					}
 				},	
 
+				
 				{
 					label: "Subtotal",
 					name: "sodxxth.subtotal",
@@ -647,8 +653,23 @@
 
 		edtsodxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+
+			$('#select_id_fcrxxmh').select2('open');
+			setTimeout(function() {
+				$('#select_id_fcrxxmh').select2('close');
+			}, 5);
+
 		});
 		
+		edtsodxxth.dependent( 'sodxxth.id_grlxxmh_customer', function ( val, data, callback ) {
+			id_grlxxmh_customer =  edtsodxxth.field('sodxxth.id_grlxxmh_customer').val();
+			if(id_grlxxmh_customer > 0){
+				autofillField('grlxxmh', id_grlxxmh_customer, 'id_fpytmmh');
+				id_fpytmmh_def = autofillData.id_fpytmmh;
+			}
+			return {}
+		}, {event: 'keyup change'});
+
 		edtsodxxth.dependent( 'sodxxth.diskon_jenis', function ( val, data, callback ) {
 			if (val == 1) {
 				edtsodxxth.field('sodxxth.diskon_persen').show();
@@ -1300,8 +1321,8 @@
 			rules: {
 			},
 			submitHandler: function(frmFilter) {
-				start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-				end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblsodxxth.rows().deselect();
 				tblsodxxth.ajax.reload(function ( json ) {
