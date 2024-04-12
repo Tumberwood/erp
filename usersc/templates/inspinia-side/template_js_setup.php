@@ -197,7 +197,7 @@
 	var hak_e               = <?php echo json_encode($hak_e) ?>;
 	var hak_p               = <?php echo json_encode($hak_p) ?>;
 	
-	var is_master_table		= 0;	// jika master table, maka bisa edit meskipun sudah confirm
+	// var is_master_table		= 0;	// jika master table, maka bisa edit meskipun sudah confirm
 	var id_transaksi_log	= 0;
 	var transaction_state	= 0;
 	var approval_state 		= 0;
@@ -205,16 +205,16 @@
 	var is_approve          = 0;	// status persetujuan transaksi
 	var tr_status           = 0;	// status persetujuan transaksi
 	var is_nextprocess      = 0;	// sudah ditarik ke proses selanjutnya atau belum
-	var is_jurnal 		    = 0;
+	// var is_jurnal 		    = 0;
 	var is_valid_harga_d    = 0;
-	var is_need_generate_kode = 0;	// untuk generate kode saat approve
-	var is_need_delete	    = 1; 	
-	var is_need_approval    = 0;	// untuk cek apakah transaksi perlu approval atau tidak
-	var is_need_inventory   = 0;	// menentukan apakah transaksi terkait inventory atau tidak
-	var is_need_jurnal 	 	= 0;	// menentukan apakah transaksi terkait jurnal accounting atau tidak
-	var is_active 	  	    = 0;
-	var kategori_dokumen	= '';
-	var kategori_dokumen_value = '';
+	// var is_need_generate_kode = 0;	// untuk generate kode saat approve
+	// var is_need_delete	    = 1; 	
+	// var is_need_approval    = 0;	// untuk cek apakah transaksi perlu approval atau tidak
+	// var is_need_inventory   = 0;	// menentukan apakah transaksi terkait inventory atau tidak
+	// var is_need_jurnal 	 	= 0;	// menentukan apakah transaksi terkait jurnal accounting atau tidak
+	// var is_active 	  	    = 0;
+	// var kategori_dokumen	= '';
+	// var kategori_dokumen_value = '';
 
 	// variable terkait setting default data
 	// dipakai di helpers/fn_is_default_update.php
@@ -225,15 +225,27 @@
 	var act;	//pengganti action datatables editor, untuk dibawa ke dependent
 	var is_pkp, is_ppn, persen_ppn, ppn_in_ex, is_pph, persen_pph, pph_in_ex;
 
+	// BEGIN variable terkait moment.js
+	// format web DD MMM YYYY, dipakai di datepicker
 	var tanggal_hariini_dmy = moment().format('DD MMM YYYY');
 	var awal_bulan_dmy 		= moment().startOf('month').format('DD MMM YYYY');
 	var akhir_bulan_dmy 	= moment().endOf('month').format('DD MMM YYYY');
+	var awal_tahun_dmy 		= moment().startOf('year').format('DD MMM YYYY');
+	var akhir_tahun_dmy 	= moment().endOf('year').format('DD MMM YYYY');
+	var today_sub_m_dmy		= moment().subtract(1, 'months').format('DD MMM YYYY');
+	var today_add_m_dmy		= moment().add(1, 'months').format('DD MMM YYYY');
 
+	// format database YYYY-MM-DD, dipakai di untuk model
 	var tanggal_hariini_ymd = moment().format('YYYY-MM-DD');
 	var awal_bulan_ymd 		= moment().startOf('month').format('YYYY-MM-DD');
-	var akhir_bulan_ymd 	= moment().endOf('month').format('YYYY-MM-DD');
+	var akhir_bulan_ymd 	= moment().endOf('tahun').format('YYYY-MM-DD');
+	var awal_tahun_ymd 		= moment().startOf('tahun').format('YYYY-MM-DD');
+	var akhir_tahun_ymd 	= moment().endOf('month').format('YYYY-MM-DD');
+	var today_sub_m_ymd		= moment().subtract(1, 'months').format('YYYY-MM-DD');
+	var today_add_m_ymd		= moment().add(1, 'months').format('YYYY-MM-DD');
+	// END variable terkait moment.js
 
-	var imtxxmh_kode 		= 0; // untuk movement type
+	// var imtxxmh_kode 		= 0; // untuk movement type
 
 	// BEGIN default jquery-validator
 	$.validator.setDefaults({
