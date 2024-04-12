@@ -170,8 +170,8 @@
         // END datepicker init
 
 		$(document).ready(function() {
-			start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-			end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+			start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 			// BEGIN iivxxrd_sa
 			edtiivxxrd_sa = new $.fn.dataTable.Editor( {
 				ajax: {
@@ -482,8 +482,8 @@
 				rules: {
 				},
 				submitHandler: function(frmFilter) {
-					start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-					end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					
 					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 					tbliivxxrd_sa.rows().deselect();

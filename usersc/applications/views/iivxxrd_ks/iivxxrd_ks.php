@@ -187,8 +187,8 @@
 		
 
 		$(document).ready(function() {
-			start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-			end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+			start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
 			//start datatables
 			tbliivxxrd_ks = $('#tbliivxxrd_ks').DataTable( {
@@ -286,7 +286,7 @@
 					}
 				},
 				submitHandler: function(frmiivxxrd) {
-					start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
 					id_iwhxxmh = $('#select_id_iwhxxmh').val();
 					id_iimxxmh = $('#select_id_iimxxmh').val();
