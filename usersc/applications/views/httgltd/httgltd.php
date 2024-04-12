@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'htlgntd';
+	$nama_tabel    = 'httgltd';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,7 +17,7 @@
 		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblhtlgntd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblhttgltd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -51,54 +51,54 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htlgntd/fn/htlgntd_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/httgltd/fn/httgltd_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edthtlgntd, tblhtlgntd, show_deleted_htlgntd = 0, id_htlgntd;
+		var edthttgltd, tblhttgltd, show_deleted_httgltd = 0, id_httgltd;
 		// ------------- end of default variable
 		
 		// get tableRelation
-		tableRelation('htlgntd');
+		tableRelation('httgltd');
 
 		$(document).ready(function() {
-			// BEGIN htlgntd
-			edthtlgntd = new $.fn.dataTable.Editor( {
+			// BEGIN httgltd
+			edthttgltd = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/htlgntd/htlgntd.php",
+					url: "../../models/httgltd/httgltd.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_htlgntd = show_deleted_htlgntd;
+						d.show_deleted_httgltd = show_deleted_httgltd;
 					}
 				},
-				table: "#tblhtlgntd",
+				table: "#tblhttgltd",
 				fields: [ 
 					{
-						label: "htlgntd.start_at",
-						name: "htlgntd.start_at",
+						label: "httgltd.start_at",
+						name: "httgltd.start_at",
 						type: "hidden"
 					},	
 					{
-						label: "htlgntd.finish_at",
-						name: "htlgntd.finish_at",
+						label: "httgltd.finish_at",
+						name: "httgltd.finish_at",
 						type: "hidden"
 					},	
 					{
 						label: "nama_tabel",
 						name: "nama_tabel",
-						def: "htlgntd",
+						def: "httgltd",
 						type: "hidden"
 					},	
 					{
-						label: "htlgntd.transaction_state",
-						name: "htlgntd.transaction_state",
+						label: "httgltd.transaction_state",
+						name: "httgltd.transaction_state",
                         type: "hidden",
 						def: 0
 					},	
 					{
 						label: "Tanggal",
-						name: "htlgntd.tanggal",
+						name: "httgltd.tanggal",
 						type: "datetime",
 						def: function () { 
 							return new Date(); 
@@ -111,39 +111,39 @@
 					},
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
-						name: "htlgntd.nama"
+						name: "httgltd.nama"
 					}, 	
 					{
 						label: "Keterangan",
-						name: "htlgntd.keterangan",
+						name: "httgltd.keterangan",
 						type: "textarea"
 					}
 				]
 			} );
 
-			edthtlgntd.on( 'preOpen', function( e, mode, action ) {
+			edthttgltd.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthtlgntd.field('htlgntd.start_at').val(start_at);
+				edthttgltd.field('httgltd.start_at').val(start_at);
 				
 				if(action == 'create'){
-					tblhtlgntd.rows().deselect();
+					tblhttgltd.rows().deselect();
 				}
 			});
 
-			edthtlgntd.on("open", function (e, mode, action) {
+			edthttgltd.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
-            edthtlgntd.on( 'preSubmit', function (e, data, action) {
+            edthttgltd.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					tanggal = edthtlgntd.field('htlgntd.tanggal').val();
+					tanggal = edthttgltd.field('httgltd.tanggal').val();
 					tanggal_ymd = moment(tanggal).format("YYYY-MM-DD");
-					nama = edthtlgntd.field('htlgntd.nama').val();
+					nama = edthttgltd.field('httgltd.nama').val();
 
 					validasiRequired(
-						edthtlgntd,
-						'htlgntd',
+						edthttgltd,
+						'httgltd',
 						{
 							'tanggal': tanggal,
 							'nama': nama
@@ -152,49 +152,49 @@
 
 					validasiUnique(
 						action,
-						edthtlgntd,
-						'htlgntd',
+						edthttgltd,
+						'httgltd',
 						'tanggal',
 						'tanggal',
 						'"'+tanggal_ymd+'"',
-						id_htlgntd
+						id_httgltd
 					);
 
 					validasiUnique(
 						action,
-						edthtlgntd,
-						'htlgntd',
+						edthttgltd,
+						'httgltd',
 						'nama',
 						'nama',
 						'"'+nama+'"',
-						id_htlgntd
+						id_httgltd
 					);
 				}
 				
-				if ( edthtlgntd.inError() ) {
+				if ( edthttgltd.inError() ) {
 					return false;
 				}
 			});
 			
-			edthtlgntd.on('initSubmit', function(e, action) {
+			edthttgltd.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthtlgntd.field('htlgntd.finish_at').val(finish_at);
+				edthttgltd.field('httgltd.finish_at').val(finish_at);
 			});
 
-			edthtlgntd.on( 'close', function () {
-				edthtlgntd.enable();
+			edthttgltd.on( 'close', function () {
+				edthttgltd.enable();
 			} );
 
-			tblhtlgntd = $('#tblhtlgntd').DataTable( {
+			tblhttgltd = $('#tblhttgltd').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/htlgntd/htlgntd.php",
+					url: "../../models/httgltd/httgltd.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_htlgntd = show_deleted_htlgntd;
+						d.show_deleted_httgltd = show_deleted_httgltd;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -213,23 +213,23 @@
 					}
 				],
 				columns: [
-					{ data: "htlgntd.id",visible:false },
-					{ data: "htlgntd.tanggal" },
-					{ data: "htlgntd.kode" },
-					{ data: "htlgntd.nama" },
-					{ data: "htlgntd.keterangan" },
+					{ data: "httgltd.id",visible:false },
+					{ data: "httgltd.tanggal" },
+					{ data: "httgltd.kode" },
+					{ data: "httgltd.nama" },
+					{ data: "httgltd.keterangan" },
 					{ 
-						data: "htlgntd.transaction_state" ,
+						data: "httgltd.transaction_state" ,
 						...renderTransactionStatus()
 					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_htlgntd';
-						$table       = 'tblhtlgntd';
-						$edt         = 'edthtlgntd';
-						$show_status = '_htlgntd';
+						$id_table    = 'id_httgltd';
+						$table       = 'tblhttgltd';
+						$edt         = 'edthttgltd';
+						$show_status = '_httgltd';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -243,44 +243,44 @@
 					this.api().searchPanes.rebuildPane();
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.htlgntd.transaction_state == -9 ) {
+					if ( data.httgltd.transaction_state == -9 ) {
 						$('td', row).addClass('text-danger');
-					}else if ( data.htlgntd.transaction_state == 0 ) {
+					}else if ( data.httgltd.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
 				}
 			} );
 
-			tblhtlgntd.searchPanes.container().appendTo('#sphtlgntd');
-			tblhtlgntd.searchBuilder.container().appendTo( '#sbhtlgntd' );
+			tblhttgltd.searchPanes.container().appendTo('#sphttgltd');
+			tblhttgltd.searchBuilder.container().appendTo( '#sbhttgltd' );
 			
-			tblhtlgntd.on( 'init', function () {
+			tblhttgltd.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tblhtlgntd);
+				CekInitHeaderH(tblhttgltd);
 			} );
 			
-			tblhtlgntd.on( 'select', function( e, dt, type, indexes ) {
-				htlgntd_data    		= tblhtlgntd.row( { selected: true } ).data().htlgntd;
-				id_htlgntd      		= htlgntd_data.id;
-				id_transaksi_h 		= id_htlgntd; // dipakai untuk general
-				id_transaksi_log	= id_htlgntd; // dipakai untuk general
-				transaction_state   = htlgntd_data.transaction_state;
-				approval_state   	= htlgntd_data.approval_state;
-				is_nextprocess 		= htlgntd_data.is_nextprocess;
+			tblhttgltd.on( 'select', function( e, dt, type, indexes ) {
+				httgltd_data    		= tblhttgltd.row( { selected: true } ).data().httgltd;
+				id_httgltd      		= httgltd_data.id;
+				id_transaksi_h 		= id_httgltd; // dipakai untuk general
+				id_transaksi_log	= id_httgltd; // dipakai untuk general
+				transaction_state   = httgltd_data.transaction_state;
+				approval_state   	= httgltd_data.approval_state;
+				is_nextprocess 		= httgltd_data.is_nextprocess;
 
 				// atur hak akses
-				CekSelectHeaderH(tblhtlgntd);
+				CekSelectHeaderH(tblhttgltd);
 			} );
 
-			tblhtlgntd.on( 'deselect', function () {
+			tblhttgltd.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
-				id_htlgntd = 0;
+				id_httgltd = 0;
 
 				// atur hak akses
-				CekDeselectHeaderH(tblhtlgntd);
+				CekDeselectHeaderH(tblhttgltd);
 			} );
 
-			// END htlgntd
+			// END httgltd
 			
 		} );// end of document.ready
 	

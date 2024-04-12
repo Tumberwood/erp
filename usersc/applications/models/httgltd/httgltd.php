@@ -20,28 +20,28 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'htlgntd' )
+	$editor = Editor::inst( $db, 'httgltd' )
 		->debug(true)
 		->fields(
-			Field::inst( 'htlgntd.id' ),
-			Field::inst( 'htlgntd.kode' )
+			Field::inst( 'httgltd.id' ),
+			Field::inst( 'httgltd.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'htlgntd.nama' )
+			Field::inst( 'httgltd.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'htlgntd.keterangan' ),
-			Field::inst( 'htlgntd.created_by' ),
-			Field::inst( 'htlgntd.transaction_state' ),
-			Field::inst( 'htlgntd.approval_state' ),
-			Field::inst( 'htlgntd.start_at' ),
-			Field::inst( 'htlgntd.finish_at' ),
-			Field::inst( 'htlgntd.is_defaultprogram' ),
-			Field::inst( 'htlgntd.is_nextprocess' ),
+			Field::inst( 'httgltd.keterangan' ),
+			Field::inst( 'httgltd.created_by' ),
+			Field::inst( 'httgltd.transaction_state' ),
+			Field::inst( 'httgltd.approval_state' ),
+			Field::inst( 'httgltd.start_at' ),
+			Field::inst( 'httgltd.finish_at' ),
+			Field::inst( 'httgltd.is_defaultprogram' ),
+			Field::inst( 'httgltd.is_nextprocess' ),
 
-			Field::inst( 'htlgntd.tanggal' )
+			Field::inst( 'httgltd.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
 						return '';
@@ -57,15 +57,15 @@
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_htlgntd'] == 0){
+	if ( $_POST['show_deleted_httgltd'] == 0){
 		$editor
-			->where( 'htlgntd.transaction_state', -9, '<>');
+			->where( 'httgltd.transaction_state', -9, '<>');
 	}
 	
-	include( "htlgntd_extra.php" );
+	include( "httgltd_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'htlgntd';
+	$nama_table = 'httgltd';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	
