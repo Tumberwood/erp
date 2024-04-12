@@ -59,7 +59,8 @@
 		var edtgtbrlsh, tblgtbrlsh, show_deleted_gtbrlsh = 0, id_gtbrlsh;
 		// ------------- end of default variable
 
-		var is_master_table = 1;
+		// get tableRelation
+		tableRelation('gtbrlsh');
 		
 		$(document).ready(function() {
 			//start datatables editor
