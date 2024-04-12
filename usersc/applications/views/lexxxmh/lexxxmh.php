@@ -516,10 +516,6 @@
 		} );
 		
 		tblgrllomd = $('#tblgrllomd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/lexxxmh/lexlomd.php",
 				type: 'POST',
@@ -529,20 +525,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "grllomd.id",visible:false },
 				{ data: "grllomd.id_grlxxmh",visible:false },
@@ -560,20 +542,18 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
 			},
 			rowCallback: function( row, data, index ) {
 			}
-		} );
-
-		tblgrllomd.searchPanes.container().appendTo('#spgrllomd');
-		tblgrllomd.searchBuilder.container().appendTo( '#sbgrllomd' );
+		} );		
 
 		tblgrllomd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
