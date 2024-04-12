@@ -34,7 +34,8 @@
                     is_master_table,
                     is_need_approval,
                     is_need_generate_kode,
-                    is_need_jurnal
+                    is_need_jurnal,
+                    is_need_inventory
                 FROM gtbrlsh
                 WHERE 1
                     AND tblheader = :tbl_name
@@ -50,6 +51,7 @@
             $is_need_approval      = $rs_gtbrlsh['is_need_approval'] ;
             $is_need_generate_kode = $rs_gtbrlsh['is_need_generate_kode'];
             $is_need_jurnal        = $rs_gtbrlsh['is_need_jurnal'];
+            $is_need_inventory     = $rs_gtbrlsh['is_need_inventory'];
 
             // BEGIN cek is_need_generate_kode
             if($is_need_generate_kode == 1){
@@ -95,7 +97,8 @@
         'is_master_table'       => $is_master_table,
         'is_need_approval'      => $is_need_approval,
         'is_need_generate_kode' => $is_need_generate_kode,
-        'is_need_jurnal'        => $is_need_jurnal
+        'is_need_jurnal'        => $is_need_jurnal,
+        'is_need_inventory'     => $is_need_inventory
     );
 
     // tampilkan results

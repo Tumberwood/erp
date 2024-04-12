@@ -148,6 +148,16 @@
 						]
 					},
 					{
+						label: "Menggunakan Inventory",
+						name: "gtbrlsh.is_need_inventory",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Yes", "value": 1 },
+							{ "label": "No", "value": 0 }
+						]
+					},
+					{
 						label: "Keterangan",
 						name: "gtbrlsh.keterangan",
 						type: "textarea"
