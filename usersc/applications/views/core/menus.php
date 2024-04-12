@@ -64,6 +64,9 @@
 
 		var id_menus_old = 0;
 
+		// get tableRelation
+		tableRelation('menus_extend');
+
 		$(document).ready(function() {
 
 			//start datatables editor
