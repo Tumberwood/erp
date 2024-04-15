@@ -13,6 +13,47 @@
 
 <!-- begin content here -->
 <div class="row">
+	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+		<div class="widget style1">
+			<div class="row">
+				<div class="col-4">
+					<i class="fa fa-truck fa-5x"></i>
+				</div>
+				<div class="col-8">
+					<span> Unloading </span>
+					<h2 class="font-bold" id="c_unloading"></h2>
+					<div class="progress progress-small">
+						<div id="p_unloading_done" style="width: 0%;" class="progress-bar progress-bar-warning"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+		<div class="widget style1">
+			<div class="row">
+				<div class="col-4">
+					<i class="fa fa-truck fa-flip-horizontal fa-5x"></i>
+				</div>
+				<div class="col-8">
+					<span> Loading </span>
+					<h2 class="font-bold" id="c_loading"></h2>
+					<div class="progress progress-small">
+						<div id="p_loading_done" style="width: 0%;" class="progress-bar progress-bar-warning"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+		
+	</div>
+</div>
+
+				
+
+
+<div class="row">
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
@@ -88,7 +129,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ljoxxth/fn/ljoxxth_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ljoxxth_dashboard/fn/ljoxxth_dashboard_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
@@ -116,6 +157,8 @@
 			
 			start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');	
+
+			laod_dsahboard_logistic();
 
 			tblljoxxth = $('#tblljoxxth').DataTable( {
 				dom: domPQ,
@@ -224,6 +267,8 @@
 					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+
+					laod_dsahboard_logistic();
 					tblljoxxth.rows().deselect();
 					tblljoxxth.ajax.reload(function ( json ) {
 					toastr.remove();
