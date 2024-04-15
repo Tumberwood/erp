@@ -27,11 +27,11 @@
 			->debug(true)
 			->fields(
 				Field::inst( 'sodittd.id' ),
+				Field::inst( 'sodittd.id_sodxxth' ),
 				Field::inst( 'sodittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sodittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'sodittd.id_sodxxth' ),
 				Field::inst( 'sodittd.kode' ),
 				Field::inst( 'sodittd.nama' ),
 				Field::inst( 'sodittd.keterangan' ),
