@@ -23,6 +23,7 @@
     $is_need_approval      = null;
     $is_need_generate_kode = null;
     $is_need_jurnal        = null;
+    $is_need_inventory     = null;
     $tbl_name              = $_POST['tbl_name'];
 
     try{
