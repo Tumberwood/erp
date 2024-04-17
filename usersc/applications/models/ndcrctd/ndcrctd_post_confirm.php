@@ -18,7 +18,21 @@
     try{
         $db->transaction();
 
-        $qr_ndcxxrd = $db
+        $qu_ndcxxmh = $db
+            ->raw()
+            ->bind(':id_ndcrctd', $_POST['id_transaksi'])
+            ->exec('
+                UPDATE ndcxxmh a
+                LEFT JOIN ndcrctd b ON b.id_ndcxxmh = a.id
+                SET
+                    a.transaction_state = 1
+                WHERE
+                    b.id = :id_ndcrctd
+            ');
+
+           
+
+        $qi_ndcxxrd = $db
             ->raw()
             ->bind(':id_ndcrctd', $_POST['id_transaksi'])
             ->exec('
@@ -45,7 +59,7 @@
             ');
 
 
-        if(!empty($qr_ndcxxrd)){
+        if(!empty($qi_ndcxxrd)){
             $db->commit();
             $status_code  = '200';
             $message      = 'Data Dokumen Masuk Berhasil Ditambahkan';

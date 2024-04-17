@@ -7,7 +7,7 @@
 			$qi_ndcxxmh = $editor->db()
 				->query('insert', 'ndcxxmh')
 				->set('dokumen_nomor', $values['ndcxxmh']['dokumen_nomor'])
-				->set('status_dokumen', 1)
+				->set('document_state', 1)
 				->exec();
 
 			$id_ndcrctd = $qi_ndcxxmh->insertId();
