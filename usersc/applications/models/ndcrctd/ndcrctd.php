@@ -20,30 +20,30 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'ndrxxtd' )
+	$editor = Editor::inst( $db, 'ndcrctd' )
 		->debug(true)
 		->fields(
-			Field::inst( 'ndrxxtd.id' ),
-			Field::inst( 'ndrxxtd.id_grlxxmh_expedisi' )
+			Field::inst( 'ndcrctd.id' ),
+			Field::inst( 'ndcrctd.id_grlxxmh_expedisi' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'ndrxxtd.kode' )
+			Field::inst( 'ndcrctd.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'ndrxxtd.nama' )
+			Field::inst( 'ndcrctd.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'ndrxxtd.keterangan' ),
-			Field::inst( 'ndrxxtd.created_by' ),
-			Field::inst( 'ndrxxtd.transaction_state' ),
-			Field::inst( 'ndrxxtd.approval_state' ),
-			Field::inst( 'ndrxxtd.start_at' ),
-			Field::inst( 'ndrxxtd.finish_at' ),
-			Field::inst( 'ndrxxtd.is_defaultprogram' ),
+			Field::inst( 'ndcrctd.keterangan' ),
+			Field::inst( 'ndcrctd.created_by' ),
+			Field::inst( 'ndcrctd.transaction_state' ),
+			Field::inst( 'ndcrctd.approval_state' ),
+			Field::inst( 'ndcrctd.start_at' ),
+			Field::inst( 'ndcrctd.finish_at' ),
+			Field::inst( 'ndcrctd.is_defaultprogram' ),
 
-			Field::inst( 'ndrxxtd.dokumen_nomor' ),
-			Field::inst( 'ndrxxtd.tanggal_jam_terima' )
+			
+			Field::inst( 'ndcrctd.tanggal_jam_terima' )
 				->getFormatter( 'Format::datetime', array(
 					'from' => 'Y-m-d H:i:s',
 					'to' =>   'd M Y H:i'
@@ -52,24 +52,29 @@
 					'from' => 'd M Y H:i',
 					'to' =>   'Y-m-d H:i:s'
 				) ),
-			Field::inst( 'ndrxxtd.pengirim' ),
-			Field::inst( 'ndrxxtd.kepada' ),
+			Field::inst( 'ndcrctd.pengirim' ),
+			Field::inst( 'ndcrctd.kepada' ),
 
-			Field::inst( 'grlxxmh.nama' )
+			Field::inst( 'grlxxmh.nama' ),
+
+			Field::inst( 'ndcxxmh.id' ),
+			Field::inst( 'ndcxxmh.dokumen_nomor' ),
+			Field::inst( 'ndcxxmh.keterangan' )
 		)
-		->leftJoin( 'grlxxmh','grlxxmh.id','=','ndrxxtd.id_grlxxmh_expedisi' );
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','ndcrctd.id_grlxxmh_expedisi' )
+		->leftJoin( 'ndcxxmh','ndcxxmh.id','=','ndcrctd.id_ndcxxmh' );
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_ndrxxtd'] == 0){
+	if ( $_POST['show_deleted_ndcrctd'] == 0){
 		$editor
-			->where( 'ndrxxtd.transaction_state', -9, '<>');
+			->where( 'ndcrctd.transaction_state', -9, '<>');
 	}
 	
-	include( "ndrxxtd_extra.php" );
+	include( "ndcrctd_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'ndrxxtd';
+	$nama_table = 'ndcrctd';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	

@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'ndrxxtd';
+	$nama_tabel    = 'ndcrctd';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,7 +17,7 @@
 		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblndrxxtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblndcrctd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -52,60 +52,60 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndrxxtd/fn/ndrxxtd_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndcrctd/fn/ndcrctd_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edtndrxxtd, tblndrxxtd, show_deleted_ndrxxtd = 0, id_ndrxxtd;
+		var edtndcrctd, tblndcrctd, show_deleted_ndcrctd = 0, id_ndcrctd;
 		// ------------- end of default variable
 
 		var id_grlxxmh_expedisi_old = 0;
 		
 		// get tableRelation
-		tableRelation('ndrxxtd');
+		tableRelation('ndcrctd');
 
 		$(document).ready(function() {
-			// BEGIN ndrxxtd
-			edtndrxxtd = new $.fn.dataTable.Editor( {
+			// BEGIN ndcrctd
+			edtndcrctd = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/ndrxxtd/ndrxxtd.php",
+					url: "../../models/ndcrctd/ndcrctd.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_ndrxxtd = show_deleted_ndrxxtd;
+						d.show_deleted_ndcrctd = show_deleted_ndcrctd;
 					}
 				},
-				table: "#tblndrxxtd",
+				table: "#tblndcrctd",
 				fields: [ 
 					{
-						label: "ndrxxtd.start_at",
-						name: "ndrxxtd.start_at",
+						label: "ndcrctd.start_at",
+						name: "ndcrctd.start_at",
 						type: "hidden"
 					},	
 					{
-						label: "ndrxxtd.finish_at",
-						name: "ndrxxtd.finish_at",
+						label: "ndcrctd.finish_at",
+						name: "ndcrctd.finish_at",
 						type: "hidden"
 					},	
 					{
 						label: "nama_tabel",
 						name: "nama_tabel",
-						def: "ndrxxtd",
+						def: "ndcrctd",
 						type: "hidden"
 					},	
 					{
-						label: "ndrxxtd.transaction_state",
-						name: "ndrxxtd.transaction_state",
+						label: "ndcrctd.transaction_state",
+						name: "ndcrctd.transaction_state",
                         type: "hidden",
 						def: 0
 					},	
 					{
 						label: "Document No <sup class='text-danger'>*<sup>",
-						name: "ndrxxtd.dokumen_nomor"
+						name: "ndcxxmh.dokumen_nomor"
 					}, 	
 					{
 						label: "Tanggal Jam Masuk <sup class='text-danger'>*<sup>",
-						name: "ndrxxtd.tanggal_jam_terima",
+						name: "ndcrctd.tanggal_jam_terima",
 						type: "datetime",
 						def: function () { 
 							return new Date(); 
@@ -118,15 +118,15 @@
 					},
 					{
 						label: "Pengirim <sup class='text-danger'>*<sup>",
-						name: "ndrxxtd.pengirim"
+						name: "ndcrctd.pengirim"
 					},
 					{
 						label: "Ditujukan Kepada <sup class='text-danger'>*<sup>",
-						name: "ndrxxtd.kepada"
+						name: "ndcrctd.kepada"
 					},
 					{
 						label: "Courier / Expedition",
-						name: "ndrxxtd.id_grlxxmh_expedisi",
+						name: "ndcrctd.id_grlxxmh_expedisi",
 						type: "select2",
 						opts: {
 							placeholder : "Select",
@@ -162,70 +162,87 @@
 					},
 					{
 						label: "Keterangan",
-						name: "ndrxxtd.keterangan",
+						name: "ndcxxmh.keterangan",
 						type: "textarea"
-					}
+					},
+					{
+						label: "ndcxxmh.id",
+						name: "ndcxxmh.id",
+						type: "hidden"
+					},
 				]
 			} );
 
-			edtndrxxtd.on( 'preOpen', function( e, mode, action ) {
+			edtndcrctd.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtndrxxtd.field('ndrxxtd.start_at').val(start_at);
+				edtndcrctd.field('ndcrctd.start_at').val(start_at);
 				
 				if(action == 'create'){
-					tblndrxxtd.rows().deselect();
+					tblndcrctd.rows().deselect();
 				}
 			});
 
-			edtndrxxtd.on("open", function (e, mode, action) {
+			edtndcrctd.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
-            edtndrxxtd.on( 'preSubmit', function (e, data, action) {
+            edtndcrctd.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					dokumen_nomor = edtndrxxtd.field('ndrxxtd.dokumen_nomor').val();
-					tanggal_jam_terima = edtndrxxtd.field('ndrxxtd.tanggal_jam_terima').val();
-					pengirim = edtndrxxtd.field('ndrxxtd.pengirim').val();
-					kepada = edtndrxxtd.field('ndrxxtd.kepada').val();
+					dokumen_nomor = edtndcrctd.field('ndcxxmh.dokumen_nomor').val();
+					tanggal_jam_terima = edtndcrctd.field('ndcrctd.tanggal_jam_terima').val();
+					pengirim = edtndcrctd.field('ndcrctd.pengirim').val();
+					kepada = edtndcrctd.field('ndcrctd.kepada').val();
 
 					validasiRequired(
-						edtndrxxtd,
-						'ndrxxtd',
+						edtndcrctd,
+						'ndcrctd',
 						{
-							'dokumen_nomor': dokumen_nomor,
 							'tanggal_jam_terima': tanggal_jam_terima,
 							'pengirim': pengirim,
 							'kepada': kepada
 						}
 					);
 
+					validasiRequired(
+						edtndcrctd,
+						'ndcxxmh',
+						{
+							'dokumen_nomor': dokumen_nomor
+						}
+					);
+
 				}
 				
-				if ( edtndrxxtd.inError() ) {
+				if ( edtndcrctd.inError() ) {
 					return false;
 				}
 			});
 			
-			edtndrxxtd.on('initSubmit', function(e, action) {
+			edtndcrctd.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtndrxxtd.field('ndrxxtd.finish_at').val(finish_at);
+				edtndcrctd.field('ndcrctd.finish_at').val(finish_at);
 			});
 
-			edtndrxxtd.on( 'close', function () {
-				edtndrxxtd.enable();
+			edtndcrctd.on( 'close', function () {
+				edtndcrctd.enable();
 			} );
 
-			tblndrxxtd = $('#tblndrxxtd').DataTable( {
+			edtndcrctd.on('postSubmit', function(e, json, data, action, xhr) {
+				tblndcrctd.rows().deselect();
+				tblndcrctd.ajax.reload(null, false);
+			});
+
+			tblndcrctd = $('#tblndcrctd').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/ndrxxtd/ndrxxtd.php",
+					url: "../../models/ndcrctd/ndcrctd.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_ndrxxtd = show_deleted_ndrxxtd;
+						d.show_deleted_ndcrctd = show_deleted_ndcrctd;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -244,24 +261,24 @@
 					}
 				],
 				columns: [
-					{ data: "ndrxxtd.id",visible:false },
-					{ data: "ndrxxtd.dokumen_nomor" },
-					{ data: "ndrxxtd.tanggal_jam_terima" },
-					{ data: "ndrxxtd.pengirim" },
-					{ data: "ndrxxtd.kepada" },
-					{ data: "ndrxxtd.keterangan" },
+					{ data: "ndcrctd.id",visible:false },
+					{ data: "ndcxxmh.dokumen_nomor" },
+					{ data: "ndcrctd.tanggal_jam_terima" },
+					{ data: "ndcrctd.pengirim" },
+					{ data: "ndcrctd.kepada" },
+					{ data: "ndcrctd.keterangan" },
 					{ 
-						data: "ndrxxtd.transaction_state" ,
+						data: "ndcrctd.transaction_state" ,
 						...renderTransactionStatus()
 					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_ndrxxtd';
-						$table       = 'tblndrxxtd';
-						$edt         = 'edtndrxxtd';
-						$show_status = '_ndrxxtd';
+						$id_table    = 'id_ndcrctd';
+						$table       = 'tblndcrctd';
+						$edt         = 'edtndcrctd';
+						$show_status = '_ndcrctd';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -275,47 +292,47 @@
 					this.api().searchPanes.rebuildPane();
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.ndrxxtd.transaction_state == -9 ) {
+					if ( data.ndcrctd.transaction_state == -9 ) {
 						$('td', row).addClass('text-danger');
-					}else if ( data.ndrxxtd.transaction_state == 0 ) {
+					}else if ( data.ndcrctd.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
 				}
 			} );
 
-			tblndrxxtd.searchPanes.container().appendTo('#spndrxxtd');
-			tblndrxxtd.searchBuilder.container().appendTo( '#sbndrxxtd' );
+			tblndcrctd.searchPanes.container().appendTo('#spndcrctd');
+			tblndcrctd.searchBuilder.container().appendTo( '#sbndcrctd' );
 			
-			tblndrxxtd.on( 'init', function () {
+			tblndcrctd.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tblndrxxtd);
+				CekInitHeaderH(tblndcrctd);
 			} );
 			
-			tblndrxxtd.on( 'select', function( e, dt, type, indexes ) {
-				ndrxxtd_data    		= tblndrxxtd.row( { selected: true } ).data().ndrxxtd;
-				id_ndrxxtd      		= ndrxxtd_data.id;
-				id_transaksi_h 		= id_ndrxxtd; // dipakai untuk general
-				id_transaksi_log	= id_ndrxxtd; // dipakai untuk general
-				transaction_state   = ndrxxtd_data.transaction_state;
-				approval_state   	= ndrxxtd_data.approval_state;
-				is_nextprocess 		= ndrxxtd_data.is_nextprocess;
+			tblndcrctd.on( 'select', function( e, dt, type, indexes ) {
+				ndcrctd_data    		= tblndcrctd.row( { selected: true } ).data().ndcrctd;
+				id_ndcrctd      		= ndcrctd_data.id;
+				id_transaksi_h 		= id_ndcrctd; // dipakai untuk general
+				id_transaksi_log	= id_ndcrctd; // dipakai untuk general
+				transaction_state   = ndcrctd_data.transaction_state;
+				approval_state   	= ndcrctd_data.approval_state;
+				is_nextprocess 		= ndcrctd_data.is_nextprocess;
 
-				id_grlxxmh_expedisi_old	= ndrxxtd_data.id_grlxxmh_expedisi;
+				id_grlxxmh_expedisi_old	= ndcrctd_data.id_grlxxmh_expedisi;
 
 				// atur hak akses
-				CekSelectHeaderH(tblndrxxtd);
+				CekSelectHeaderH(tblndcrctd);
 			} );
 
-			tblndrxxtd.on( 'deselect', function () {
+			tblndcrctd.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
-				id_ndrxxtd = 0;
+				id_ndcrctd = 0;
 				id_grlxxmh_expedisi_old = 0;
 
 				// atur hak akses
-				CekDeselectHeaderH(tblndrxxtd);
+				CekDeselectHeaderH(tblndcrctd);
 			} );
 
-			// END ndrxxtd
+			// END ndcrctd
 			
 		} );// end of document.ready
 	

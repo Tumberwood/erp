@@ -1,9 +1,9 @@
 <?php 
     /**
      * Digunakan untuk populate options data Document Receive
-     * Table terkait    : ndrxxtd
+     * Table terkait    : ndcrctd
      * Parameter        : 
-     *  - id_ndrxxtd_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_ndcrctd_old       : data existing (untuk keperluan edit), dipakai di query self
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,73 +22,73 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id_ndrxxtd_old'] > 0){
-        $id_ndrxxtd_old = $_GET['id_ndrxxtd_old'];
+    if($_GET['id_ndcrctd_old'] > 0){
+        $id_ndcrctd_old = $_GET['id_ndcrctd_old'];
     }else{
-        $id_ndrxxtd_old = 0;
+        $id_ndcrctd_old = 0;
     }
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id_ndrxxtd_old > 0){
-        $qs_ndrxxtd_self = $db
-            ->query('select', 'ndrxxtd')
+    if($id_ndcrctd_old > 0){
+        $qs_ndcrctd_self = $db
+            ->query('select', 'ndcrctd')
             ->get([
-                'ndrxxtd.id as id',
+                'ndcrctd.id as id',
                 'IF(
-                    ndrxxtd.dokumen_nomor IS NULL, 
-                    ndrxxtd.pengirim,
+                    ndcrctd.dokumen_nomor IS NULL, 
+                    ndcrctd.pengirim,
                     IF(
-                        ndrxxtd.pengirim IS NULL, 
-                        ndrxxtd.dokumen_nomor,
-                        CONCAT(ndrxxtd.dokumen_nomor," - ",ndrxxtd.pengirim)
+                        ndcrctd.pengirim IS NULL, 
+                        ndcrctd.dokumen_nomor,
+                        CONCAT(ndcrctd.dokumen_nomor," - ",ndcrctd.pengirim)
                     )
                 ) as text'
             ])
-            ->where('ndrxxtd..id', $id_ndrxxtd_old )
+            ->where('ndcrctd..id', $id_ndcrctd_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
-        $rs_ndrxxtd_self = $qs_ndrxxtd_self->fetchAll();
+        $rs_ndcrctd_self = $qs_ndcrctd_self->fetchAll();
     }else{
-        $rs_ndrxxtd_self = [];
+        $rs_ndcrctd_self = [];
     }
     // END query options self
 
     // BEGIN query options all except self
-    $qs_ndrxxtd_all = $db
-        ->query('select', 'ndrxxtd')
+    $qs_ndcrctd_all = $db
+        ->query('select', 'ndcrctd')
         ->get([
-            'ndrxxtd.id as id',
+            'ndcrctd.id as id',
             'IF(
-                ndrxxtd.dokumen_nomor IS NULL, 
-                ndrxxtd.pengirim,
+                ndcrctd.dokumen_nomor IS NULL, 
+                ndcrctd.pengirim,
                 IF(
-                    ndrxxtd.pengirim IS NULL, 
-                    ndrxxtd.dokumen_nomor,
-                    CONCAT(ndrxxtd.dokumen_nomor," - ",ndrxxtd.pengirim)
+                    ndcrctd.pengirim IS NULL, 
+                    ndcrctd.dokumen_nomor,
+                    CONCAT(ndcrctd.dokumen_nomor," - ",ndcrctd.pengirim)
                 )
             ) as text'
         ])
-        ->where('ndrxxtd.transaction_state',1)
-        ->where('ndrxxtd.id', $id_ndrxxtd_old, '<>' )
+        ->where('ndcrctd.transaction_state',1)
+        ->where('ndcrctd.id', $id_ndcrctd_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('ndrxxtd.dokumen_nomor', '%' . $q . '%', 'LIKE' )
-                ->or_where('ndrxxtd.pengirim', '%' . $q . '%', 'LIKE' );
+                ->where('ndcrctd.dokumen_nomor', '%' . $q . '%', 'LIKE' )
+                ->or_where('ndcrctd.pengirim', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
-    $rs_ndrxxtd_all = $qs_ndrxxtd_all->fetchAll();
+    $rs_ndcrctd_all = $qs_ndcrctd_all->fetchAll();
     // END query options all except self
     
     // BEGIN menggabungkan options
-    if(count($rs_ndrxxtd_self) > 0){
-        $rs_opt = array_merge($rs_ndrxxtd_self, $rs_ndrxxtd_all);
+    if(count($rs_ndcrctd_self) > 0){
+        $rs_opt = array_merge($rs_ndcrctd_self, $rs_ndcrctd_all);
     }else{
-        $rs_opt = $rs_ndrxxtd_all;
+        $rs_opt = $rs_ndcrctd_all;
     }
     $c_rs_opt = count($rs_opt);    
     // END menggabungkan options
