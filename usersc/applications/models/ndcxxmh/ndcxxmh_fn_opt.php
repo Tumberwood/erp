@@ -35,15 +35,7 @@
             ->query('select', 'ndcxxmh')
             ->get([
                 'ndcxxmh.id as id',
-                'IF(
-                    ndcxxmh.kode IS NULL, 
-                    ndcxxmh.nama,
-                    IF(
-                        ndcxxmh.nama IS NULL, 
-                        ndcxxmh.kode,
-                        CONCAT(ndcxxmh.kode," - ",ndcxxmh.nama)
-                    )
-                ) as text'
+                'ndcxxmh.dokumen_nomor as text'
             ])
             ->where('ndcxxmh..id', $id_ndcxxmh_old )
             ->limit(1)
@@ -85,7 +77,7 @@
         } )
         ->limit($resultCount)
         ->offset($offset);
-        
+
     $rs_ndcxxmh_all = $qs_ndcxxmh_all->exec()->fetchAll();
     // END query options all except self
     
