@@ -35,11 +35,7 @@
 					WHERE
 						b.id = :id
 				');
-			// $qu_ndcxxmh = $editor->db()
-			// 	->query('update', 'ndcxxmh')
-			// 	->set('dokumen_nomor', $values['ndcxxmh']['dokumen_nomor'])
-			// 	->where('id', $values['ndcxxmh']['id'])
-			// 	->exec();
+
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini

@@ -57,7 +57,6 @@
 
 			Field::inst( 'grlxxmh.nama' ),
 
-			// Field::inst( 'ndcxxmh.id' ),
 			Field::inst( 'ndcxxmh.dokumen_nomor' ),
 			Field::inst( 'ndcxxmh.keterangan' )
 		)
