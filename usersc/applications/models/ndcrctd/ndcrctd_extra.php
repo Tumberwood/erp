@@ -22,11 +22,24 @@
 			// script diletakkan disini
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
+			
 			$qu_ndcxxmh = $editor->db()
-				->query('update', 'ndcxxmh')
-				->set('dokumen_nomor', $values['ndcxxmh']['dokumen_nomor'])
-				->where('id', $values['ndcxxmh']['id'])
-				->exec();
+				->raw()
+				->bind(':dokumen_nomor',$values['ndcxxmh']['dokumen_nomor'])
+				->bind(':id', $id)
+				->exec('
+					UPDATE ndcxxmh a
+					LEFT JOIN ndcrctd b ON b.id_ndcxxmh = a.id
+					SET
+						a.dokumen_nomor = :dokumen_nomor
+					WHERE
+						b.id = :id
+				');
+			// $qu_ndcxxmh = $editor->db()
+			// 	->query('update', 'ndcxxmh')
+			// 	->set('dokumen_nomor', $values['ndcxxmh']['dokumen_nomor'])
+			// 	->where('id', $values['ndcxxmh']['id'])
+			// 	->exec();
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini

@@ -164,12 +164,7 @@
 						label: "Keterangan",
 						name: "ndcxxmh.keterangan",
 						type: "textarea"
-					},
-					{
-						label: "ndcxxmh.id",
-						name: "ndcxxmh.id",
-						type: "hidden"
-					},
+					}
 				]
 			} );
 
