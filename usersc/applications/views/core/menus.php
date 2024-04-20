@@ -18,7 +18,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblmenus" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblmenus" class="table table-striped table-bordered table-hover" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
