@@ -28,5 +28,6 @@
     );
     // END results akhir
 
+    header('Content-Type: application/json');
     echo json_encode($results,JSON_NUMERIC_CHECK);
 ?>
