@@ -41,43 +41,56 @@
                         id_ndcxxmh,
                         id_transaksi_h,
                         id_transaksi_d,
+                        id_users,
                         tanggaljam,
                         dokumen_nomor,
-                        transaction_state
+                        transaction_state,
+                        jumlah_terkecil
                     )
                 SELECT
                     ndcxxmh.id,
                     ndcrctd.id,
                     ndcrctd.id,
+                    activity_log_ml_c.created_b,
                     ndcrctd.tanggal_jam_terima,
                     ndcxxmh.dokumen_nomor,
+                    1,
                     1
                 FROM ndcrctd
                 LEFT JOIN ndcxxmh ON ndcxxmh.id = ndcrctd.id_ndcxxmh
+                LEFT JOIN activity_log_ml as activity_log_ml_c ON 
+                    activity_log_ml_c.id_transaksi = ndcrctd.id 
+                    AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "ndcrctd"
                 WHERE
                     ndcrctd.id = :id_ndcrctd
             ');
 
-
         if(!empty($qi_ndcxxrd)){
             $db->commit();
-            $status_code  = '200';
+            $status_code  = 200;
             $message      = 'Data Dokumen Masuk Berhasil Ditambahkan';
             $type_message = 'success';
             // parameter lain
         }else{
             $db->rollback();
-            $status_code  = '500';
+            $status_code  = 500;
             $message      = 'Data Dokumen Masuk Gagal Ditambahkan. Data bermasalah!';
             $type_message = 'error';
             // parameter lain
         }
     }catch(PDOException $e){
         $db->rollback();
-        $status_code  = '500';
+        $status_code  = 500;
         $message      = 'Data Dokumen Masuk Gagal Ditambahkan, ' . $e->getMessage();
         $type_message = 'error';
+    }catch (Exception $e) {
+        $db->rollback();
+        $status_code = 500;
+        $message = 'Data Dokumen Masuk Gagal Ditambahkan, ' . $e->getMessage();
+        $type_message = 'error';
+        
     }
+
     // build response
     $data = array(
         'status_code'    => $status_code,
