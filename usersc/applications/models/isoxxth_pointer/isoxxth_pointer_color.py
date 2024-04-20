@@ -44,37 +44,7 @@ def hitung_dan_gambar_kontur(image, color_ranges):
                         contour_centers.append((cX, cY))
                         total_count += 1
 
-        # Tampilkan jumlah stiker di pojok kiri atas gambar
-        # cv2.putText(image, f"Total item = {total_count}", (100, 100), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 0, 0), 3)
-
-        # Tentukan ukuran font relatif terhadap ukuran gambar
-        font_scale = min(image.shape[0], image.shape[1]) / 1000.0
-
-        # Tentukan teks dan properti font lainnya
-        text = f"Total item = {total_count}"
-        font = cv2.FONT_HERSHEY_DUPLEX
-        font_thickness = max(1, int(font_scale))  # Ketebalan font sesuai dengan skala font
-
-        # Hitung ukuran teks
-        text_size, _ = cv2.getTextSize(text, font, font_scale, font_thickness)
-        text_width, text_height = text_size
-
-        # Tentukan posisi teks di kiri bawah
-        text_org = (20, image.shape[0] - 20)
-
-        # Tentukan warna latar belakang teks
-        background_color = (255, 0, 0)
-
-        # Gambar latar belakang teks
-        cv2.rectangle(image, (text_org[0], text_org[1] - text_height), (text_org[0] + text_width, text_org[1]), background_color, -1)
-
-        # Tulis teks di atas latar belakang
-        cv2.putText(image, text, text_org, font, font_scale, (255, 255, 255), font_thickness)
-
-
-
-    return image
-
+    return image, total_count
 
 def main():
     if len(sys.argv) < 3:  # Periksa jumlah argumen yang diberikan
@@ -84,7 +54,6 @@ def main():
     file = sys.argv[1]
     image = cv2.imread(file)
 
-    # Proses gambar
     color_ranges = []  # Definisikan ini sesuai kebutuhan
     color = sys.argv[2]  # Ambil warna dari argumen kedua
     
@@ -106,7 +75,11 @@ def main():
         status1 = "Warna tidak didukung"
         sys.exit(1)
 
-    image_with_contours = hitung_dan_gambar_kontur(image, color_ranges)
+    image_with_contours, total_count = hitung_dan_gambar_kontur(image, color_ranges)
+    
+    # Tambahkan jumlah kontur pada gambar
+    cv2.putText(image_with_contours, f"Total item = {total_count}", (100, 100), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 0, 0), 3)
+
     output_file = sys.argv[3] + "h" + sys.argv[4]  # Nama file untuk hasil gambar yang akan disimpan
     cv2.imwrite(output_file, image_with_contours)  # Menyimpan hasil gambar
 
