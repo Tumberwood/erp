@@ -483,9 +483,13 @@
                                                         async: false,
                                                         data: {
                                                             state           : 1,
-                                                            id_transaksi_h  : id_transaksi_h
+                                                            id_transaksi  : id_transaksi_h
                                                         },
                                                         success: function ( json ) {
+                                                            toast_type = json.data.type_message;
+                                                            full_message = full_message + json.data.message + '</br>';
+                                                        },
+                                                        error: function(xhr, status, error) {
                                                             toast_type = json.data.type_message;
                                                             full_message = full_message + json.data.message + '</br>';
                                                         }
