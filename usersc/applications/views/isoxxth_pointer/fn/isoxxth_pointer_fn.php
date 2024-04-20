@@ -1,19 +1,25 @@
 <script>
     function replaceCanvasImage(imageData) {
-        // $('#iboxfilter').addClass("collapsed");
-        $('#hasil').empty();
+        // Hapus semua objek yang ada di canvas
+        canvas.clear();
+
+        // Atur gambar sebagai latar belakang canvas
         fabric.Image.fromURL(imageData, function(img) {
-            img.set({
-                left: 0,
-                top: 0,
-                selectable: false
-            });
-            canvas.clear();
-            canvas.add(img);
+            // Mengatur ukuran canvas sesuai ukuran gambar
             canvas.setDimensions({ width: img.width, height: img.height });
-            canvas.renderAll();
+
+            // Atur gambar sebagai latar belakang dengan konfigurasi
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                // Menjadikan gambar sebagai latar belakang tanpa mengubah ukurannya
+                scaleX: canvas.width / img.width,
+                scaleY: canvas.height / img.height,
+                top: 0,
+                left: 0
+            });
         });
 
+        // Render ulang canvas
+        canvas.renderAll();
     }
 
     function addCircle(left, top) {
@@ -49,13 +55,39 @@
     }
 
     function hitungWarna(imageId) {
-        var dataURL = canvas.toDataURL('image/jpeg');
-        var imageData = dataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
-        var blob = base64ToBlob(imageData, 'image/jpeg');
+        // canvas.setBackgroundImage(null);
+        // var dataURL = canvas.toDataURL('image/jpeg');
+        // var imageData = dataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
+        // var blob = base64ToBlob(imageData, 'image/jpeg');
+        // var formData = new FormData();
+        // formData.append('canvasImage', blob);
+        // formData.append('imageId', imageId); 
+        // formData.append('warna', warna); 
+
+        canvas.setBackgroundImage(null);
+        var backgroundDataURL = canvas.toDataURL('image/jpeg');
+
+        var circleDataURL = canvas.toDataURL({
+            format: 'jpeg',
+            quality: 1,
+            multiplier: 1,
+            left: 0,
+            top: 0,
+            width: canvas.width,
+            height: canvas.height
+        });
+
+        var backgroundImageData = backgroundDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
+        var circleImageData = circleDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
+
+        var backgroundBlob = base64ToBlob(backgroundImageData, 'image/jpeg');
+        var circleBlob = base64ToBlob(circleImageData, 'image/jpeg');
+
         var formData = new FormData();
-        formData.append('canvasImage', blob);
+        formData.append('canvasImage', circleBlob);
         formData.append('imageId', imageId); 
         formData.append('warna', warna); 
+        formData.append('backgroundImage', backgroundBlob);
 
         $.ajax({
             url: "../../models/isoxxth_pointer/isoxxth_pointer.php",
@@ -80,6 +112,5 @@
         });
 
     }
-
 
 </script>
