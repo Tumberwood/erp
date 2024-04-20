@@ -51,7 +51,7 @@
                     ndcxxmh.id,
                     ndcrctd.id,
                     ndcrctd.id,
-                    activity_log_ml_c.created_b,
+                    activity_log_ml_c.created_by,
                     ndcrctd.tanggal_jam_terima,
                     ndcxxmh.dokumen_nomor,
                     1,
