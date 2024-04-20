@@ -7,9 +7,9 @@
 ?>
 
 <?php
-	$nama_tabel       = 'ndoxxth';
+	$nama_tabel       = 'ndctoth';
     $nama_tabels_d 	= [];
-    $nama_tabels_d[0] = 'ndodctd';
+    $nama_tabels_d[0] = 'ndctotd';
 ?>
 
 <!-- begin content here -->
@@ -18,7 +18,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblndoxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblndctoth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -39,17 +39,17 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabndodctd"> Document</a></li>				
+				<li><a class="nav-link active" data-toggle="tab" href="#tabndctotd"> Document</a></li>				
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabndodctd" class="tab-pane active">
+				<div role="tabpanel" id="tabndctotd" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblndodctd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblndctotd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_ndoxxth</th>
+										<th>id_ndctoth</th>
 										<th>Document No</th>
 										<th>Pengirim</th>
 										<th>Kepada</th>
@@ -85,60 +85,60 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndoxxth/fn/ndoxxth_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndctoth/fn/ndctoth_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	cekNotification();
 	// ------------- default variable, do not erase
-	var edtndoxxth, tblndoxxth, show_deleted_ndoxxth = 0, id_ndoxxth;
-	var edtndodctd, tblndodctd, show_deleted_ndodctd = 0, id_ndodctd;
+	var edtndctoth, tblndctoth, show_deleted_ndctoth = 0, id_ndctoth;
+	var edtndctotd, tblndctotd, show_deleted_ndctotd = 0, id_ndctotd;
 	// ------------- end of default variable
 
 	var id_users_penerima_old = 0;
-	var id_ndrxxtd_old = 0;
+	var id_ndcxxmh_old = 0;
 
 	// get tableRelation
-	tableRelation('ndoxxth');
+	tableRelation('ndctoth');
 
 	$(document).ready(function() {
 		
-		// BEGIN ndoxxth
-		edtndoxxth = new $.fn.dataTable.Editor( {
+		// BEGIN ndctoth
+		edtndctoth = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/ndoxxth/ndoxxth.php",
+				url: "../../models/ndctoth/ndctoth.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_ndoxxth = show_deleted_ndoxxth;
+					d.show_deleted_ndctoth = show_deleted_ndctoth;
 				}
 			},
-			table: "#tblndoxxth",
+			table: "#tblndctoth",
 			fields: [ 
 				{
-					label: "ndoxxth.start_at",
-					name: "ndoxxth.start_at",
+					label: "ndctoth.start_at",
+					name: "ndctoth.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "ndoxxth.finish_at",
-					name: "ndoxxth.finish_at",
+					label: "ndctoth.finish_at",
+					name: "ndctoth.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "ndoxxth",
+					def: "ndctoth",
 					type: "hidden"
 				},	
 				{
-					label: "ndoxxth.transaction_state",
-					name: "ndoxxth.transaction_state",
+					label: "ndctoth.transaction_state",
+					name: "ndctoth.transaction_state",
 					type: "hidden",
 					def: 0
 				},
 				{
 					label: "Tanggal Jam Penyerahan <sup class='text-danger'>*<sup>",
-					name: "ndoxxth.tanggal_jam_to",
+					name: "ndctoth.tanggal_jam_to",
 					type: "datetime",
 					def: function () { 
 						return new Date(); 
@@ -151,7 +151,7 @@
 				},
 				{
 					label: "Kepada <sup class='text-danger'>*<sup>",
-					name: "ndoxxth.id_users_penerima",
+					name: "ndctoth.id_users_penerima",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -187,34 +187,34 @@
 				},
 				{
 					label: "Keterangan",
-					name: "ndoxxth.keterangan",
+					name: "ndctoth.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 		
-		edtndoxxth.on( 'preOpen', function( e, mode, action ) {
+		edtndctoth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtndoxxth.field('ndoxxth.start_at').val(start_at);
+			edtndctoth.field('ndctoth.start_at').val(start_at);
 
 			if(action == 'create'){
-				tblndoxxth.rows().deselect();
+				tblndctoth.rows().deselect();
 			}
 		});
 
-		edtndoxxth.on("open", function (e, mode, action) {
+		edtndctoth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtndoxxth.on( 'preSubmit', function (e, data, action) {
+		edtndctoth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				tanggal_jam_to = edtndoxxth.field('ndoxxth.tanggal_jam_to').val();
-				id_users_penerima = edtndoxxth.field('ndoxxth.id_users_penerima').val();
+				tanggal_jam_to = edtndctoth.field('ndctoth.tanggal_jam_to').val();
+				id_users_penerima = edtndctoth.field('ndctoth.id_users_penerima').val();
 
 				validasiRequired(
-					edtndoxxth,
-					'ndoxxth',
+					edtndctoth,
+					'ndctoth',
 					{
 						'tanggal_jam_to': tanggal_jam_to,
 						'id_users_penerima': id_users_penerima
@@ -223,36 +223,36 @@
 
 			}
 			
-			if ( edtndoxxth.inError() ) {
+			if ( edtndctoth.inError() ) {
 				return false;
 			}
 		});
 
-		edtndoxxth.on('initSubmit', function(e, action) {
+		edtndctoth.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtndoxxth.field('ndoxxth.finish_at').val(finish_at);
+			edtndctoth.field('ndctoth.finish_at').val(finish_at);
 		});
 		
-		edtndoxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtndctoth.on( 'postSubmit', function (e, json, data, action, xhr) {
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
 		} );
 
-		edtndoxxth.on( 'close', function () {
-			edtndoxxth.enable();
+		edtndctoth.on( 'close', function () {
+			edtndctoth.enable();
 		} );
 		
-		tblndoxxth = $('#tblndoxxth').DataTable( {
+		tblndctoth = $('#tblndctoth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/ndoxxth/ndoxxth.php",
+				url: "../../models/ndctoth/ndctoth.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_ndoxxth = show_deleted_ndoxxth;
+					d.show_deleted_ndctoth = show_deleted_ndctoth;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -271,21 +271,21 @@
 				}
 			],
 			columns: [
-				{ data: "ndoxxth.id",visible:false },
-				{ data: "ndoxxth.kode" },
-				{ data: "ndoxxth.tanggal_jam_to" },
+				{ data: "ndctoth.id",visible:false },
+				{ data: "ndctoth.kode" },
+				{ data: "ndctoth.tanggal_jam_to" },
 				{ data: "users_pengirim.username" },
 				{ data: "users_penerima.username" },
-				{ data: "ndoxxth.keterangan" }
+				{ data: "ndctoth.keterangan" }
 			],
 			buttons: [
 
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_ndoxxth';
-					$table       = 'tblndoxxth';
-					$edt         = 'edtndoxxth';
-					$show_status = '_ndoxxth';
+					$id_table    = 'id_ndctoth';
+					$table       = 'tblndctoth';
+					$edt         = 'edtndctoth';
+					$show_status = '_ndctoth';
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -299,63 +299,63 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
-				if ( data.ndoxxth.transaction_state == -9 ) {
+				if ( data.ndctoth.transaction_state == -9 ) {
 					$('td', row).addClass('text-danger');
-				}else if ( data.ndoxxth.transaction_state == 0 ) {
+				}else if ( data.ndctoth.transaction_state == 0 ) {
 					$('td', row).addClass('text-warning');
 				}
 			}
 		} );
 
-		tblndoxxth.searchPanes.container().appendTo('#spndoxxth');
-		tblndoxxth.searchBuilder.container().appendTo( '#sbndoxxth' );
+		tblndctoth.searchPanes.container().appendTo('#spndctoth');
+		tblndctoth.searchBuilder.container().appendTo( '#sbndctoth' );
 		
-		tblndoxxth.on( 'init', function () {
+		tblndctoth.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tblndodctd];
-			CekInitHeaderHD(tblndoxxth, tbl_details);
+			tbl_details = [tblndctotd];
+			CekInitHeaderHD(tblndctoth, tbl_details);
 		} );
 		
-		tblndoxxth.on( 'select', function( e, dt, type, indexes ) {
-			ndoxxth_data = tblndoxxth.row( { selected: true } ).data().ndoxxth;
-			id_ndoxxth   = ndoxxth_data.id;
-			id_transaksi_h    = id_ndoxxth;                                                // dipakai untuk general
-			id_transaksi_log  = id_ndoxxth;                                                // dipakai untuk general
-			transaction_state = ndoxxth_data.transaction_state;
-			approval_state    = ndoxxth_data.approval_state;
-			is_nextprocess    = ndoxxth_data.is_nextprocess;
+		tblndctoth.on( 'select', function( e, dt, type, indexes ) {
+			ndctoth_data = tblndctoth.row( { selected: true } ).data().ndctoth;
+			id_ndctoth   = ndctoth_data.id;
+			id_transaksi_h    = id_ndctoth;                                                // dipakai untuk general
+			id_transaksi_log  = id_ndctoth;                                                // dipakai untuk general
+			transaction_state = ndctoth_data.transaction_state;
+			approval_state    = ndctoth_data.approval_state;
+			is_nextprocess    = ndctoth_data.is_nextprocess;
 
-			id_users_penerima_old    = ndoxxth_data.id_users_penerima;
+			id_users_penerima_old    = ndctoth_data.id_users_penerima;
 			
 			// atur hak akses
-			tbl_details = [tblndodctd];
-			CekSelectHeaderHD(tblndoxxth, tbl_details);
+			tbl_details = [tblndctotd];
+			CekSelectHeaderHD(tblndctoth, tbl_details);
 
 		} );
 		
-		tblndoxxth.on( 'deselect', function () {
+		tblndctoth.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
-			id_ndoxxth = 0;
+			id_ndctoth = 0;
 
 			id_users_penerima_old = 0;
 
 			// atur hak akses
-			tbl_details = [tblndodctd];
-			CekDeselectHeaderHD(tblndoxxth, tbl_details);
+			tbl_details = [tblndctotd];
+			CekDeselectHeaderHD(tblndctoth, tbl_details);
 		} );
-		// END ndoxxth
+		// END ndctoth
 
-		// BEGIN ndodctd
-		edtndodctd = new $.fn.dataTable.Editor( {
+		// BEGIN ndctotd
+		edtndctotd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/ndoxxth/ndodctd.php",
+				url: "../../models/ndctoth/ndctotd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_ndodctd = show_deleted_ndodctd;
-					d.id_ndoxxth = id_ndoxxth;
+					d.show_deleted_ndctotd = show_deleted_ndctotd;
+					d.id_ndctoth = id_ndctoth;
 				}
 			},
-			table: "#tblndodctd",
+			table: "#tblndctotd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -363,46 +363,47 @@
 			},
 			fields: [ 
 				{
-					label: "ndodctd.start_at",
-					name: "ndodctd.start_at",
+					label: "ndctotd.start_at",
+					name: "ndctotd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "ndodctd.finish_at",
-					name: "ndodctd.finish_at",
+					label: "ndctotd.finish_at",
+					name: "ndctotd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "ndodctd",
+					def: "ndctotd",
 					type: "hidden"
 				},	
 				{
-					label: "ndodctd.transaction_state",
-					name: "ndodctd.transaction_state",
+					label: "ndctotd.transaction_state",
+					name: "ndctotd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
-					label: "id_ndoxxth",
-					name: "ndodctd.id_ndoxxth",
+					label: "id_ndctoth",
+					name: "ndctotd.id_ndctoth",
 					type: "hidden"
 				},	
 				{
 					label: "Document No <sup class='text-danger'>*<sup>",
-					name: "ndodctd.id_ndrxxtd",
+					name: "ndctotd.id_ndcxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/ndrxxtd/ndrxxtd_fn_opt.php",
+							url: "../../models/ndcxxmh/ndcxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_ndrxxtd_old: id_ndrxxtd_old,
+									id_ndcxxmh_old: id_ndcxxmh_old,
+									document_state: 'in',
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -427,133 +428,113 @@
 				},
 				{
 					label: "Ditujukan Kepada",
-					name: "kepada",
+					name: "ndcrctd.kepada",
 					type: "readonly"
 				}, 	
 				{
 					label: "Keterangan",
-					name: "ndodctd.keterangan",
+					name: "ndctotd.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 			
-		edtndodctd.on( 'preOpen', function( e, mode, action ) {
-			edtndodctd.field('ndodctd.id_ndoxxth').val(id_ndoxxth);
+		edtndctotd.on( 'preOpen', function( e, mode, action ) {
+			edtndctotd.field('ndctotd.id_ndctoth').val(id_ndctoth);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtndodctd.field('ndodctd.start_at').val(start_at);
+			edtndctotd.field('ndctotd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblndodctd.rows().deselect();
+				tblndctotd.rows().deselect();
 			}
 		});
 
-		edtndodctd.on("open", function (e, mode, action) {
+		edtndctotd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtndodctd.dependent( 'ndodctd.id_ndrxxtd', function ( val, data, callback ) {
-			id_ndrxxtd = edtndodctd.field('ndodctd.id_ndrxxtd').val();
-			autofillField('ndrxxtd', id_ndrxxtd, 'kepada');
-
-			edtndodctd.field('kepada').val(autofillData.kepada);
-			
+		edtndctotd.dependent( 'ndctotd.id_ndcxxmh', function ( val, data, callback ) {
+			id_ndcxxmh = edtndctotd.field('ndctotd.id_ndcxxmh').val();
+			autofillField('ndcrctd', id_ndcxxmh, 'kepada');
+			edtndctotd.field('ndcrctd.kepada').val(autofillData.kepada);
 			return {}
 		}, {event: 'keyup change'});
 
-		edtndodctd.on( 'preSubmit', function (e, data, action) {
+		edtndctotd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				id_ndrxxtd = edtndodctd.field('ndodctd.id_ndrxxtd').val();
+				id_ndcxxmh = edtndctotd.field('ndctotd.id_ndcxxmh').val();
 
 				validasiRequired(
-					edtndodctd,
-					'ndodctd',
+					edtndctotd,
+					'ndctotd',
 					{
-						'id_ndrxxtd': id_ndrxxtd
+						'id_ndcxxmh': id_ndcxxmh
 					}
 				);
 
 				validasiUnique(
 					action,
-					edtndodctd,
-					'ndodctd',
-					'id_ndrxxtd',
-					'id_ndrxxtd,id_ndoxxth',
-					id_ndrxxtd + ',' + id_ndoxxth,
-					id_ndodctd
+					edtndctotd,
+					'ndctotd',
+					'id_ndcxxmh',
+					'id_ndcxxmh,id_ndctoth',
+					id_ndcxxmh + ',' + id_ndctoth,
+					id_ndctotd
 				);
 
 			}
 			
-			if ( edtndodctd.inError() ) {
+			if ( edtndctotd.inError() ) {
 				return false;
 			}
 		});
 
-		edtndodctd.on('initSubmit', function(e, action) {
+		edtndctotd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtndodctd.field('ndodctd.finish_at').val(finish_at);
+			edtndctotd.field('ndctotd.finish_at').val(finish_at);
 		});
 			
-		edtndodctd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+		edtndctotd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblndctotd.rows().deselect();
+			tblndctotd.ajax.reload(null, false);
 		} );
 
-		edtndodctd.on( 'close', function () {
-			edtndodctd.enable();
+		edtndctotd.on( 'close', function () {
+			edtndctotd.enable();
 		} );
 		
-		tblndodctd = $('#tblndodctd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
+		tblndctotd = $('#tblndctotd').DataTable( {
 			ajax: {
-				url: "../../models/ndoxxth/ndodctd.php",
+				url: "../../models/ndctoth/ndctotd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_ndodctd = show_deleted_ndodctd;
-					d.id_ndoxxth = id_ndoxxth;
+					d.show_deleted_ndctotd = show_deleted_ndctotd;
+					d.id_ndctoth = id_ndctoth;
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
-				{ data: "ndodctd.id",visible:false },
-				{ data: "ndodctd.id_ndoxxth",visible:false },
-				{ data: "ndrxxtd.dokumen_nomor" },
-				{ data: "ndrxxtd.pengirim" },
-				{ data: "ndrxxtd.kepada" },
-				{ data: "ndrxxtd.tanggal_jam_terima" },
-				{ data: "ndodctd.keterangan" }
+				{ data: "ndctotd.id",visible:false },
+				{ data: "ndctotd.id_ndctoth",visible:false },
+				{ data: "ndcxxmh.dokumen_nomor" },
+				{ data: "ndcrctd.pengirim" },
+				{ data: "ndcrctd.kepada" },
+				{ data: "ndcrctd.tanggal_jam_terima" },
+				{ data: "ndctotd.keterangan" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_ndodctd';
-					$table       = 'tblndodctd';
-					$edt         = 'edtndodctd';
-					$show_status = '_ndodctd';
+					$id_table    = 'id_ndctotd';
+					$table       = 'tblndctotd';
+					$edt         = 'edtndctotd';
+					$show_status = '_ndctotd';
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
@@ -566,37 +547,34 @@
 			}
 		} );
 
-		tblndodctd.searchPanes.container().appendTo('#spndodctd');
-		tblndodctd.searchBuilder.container().appendTo( '#sbndodctd' );
-
-		tblndodctd.on( 'draw', function( e, settings ) { 
+		tblndctotd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblndoxxth, tblndodctd, 'ndodctd' );
-			CekDrawDetailHDFinal(tblndoxxth);
+			CekDrawDetailHD(tblndctoth, tblndctotd, 'ndctotd' );
+			CekDrawDetailHDFinal(tblndctoth);
 		} );
 
-		tblndodctd.on( 'select', function( e, dt, type, indexes ) {
-			data_ndodctd = tblndodctd.row( { selected: true } ).data().ndodctd;
-			id_ndodctd   = data_ndodctd.id;
-			id_transaksi_d    = id_ndodctd; // dipakai untuk general
-			id_transaksi_log  = id_ndodctd; // dipakai untuk log
+		tblndctotd.on( 'select', function( e, dt, type, indexes ) {
+			data_ndctotd = tblndctotd.row( { selected: true } ).data().ndctotd;
+			id_ndctotd   = data_ndctotd.id;
+			id_transaksi_d    = id_ndctotd; // dipakai untuk general
+			id_transaksi_log  = id_ndctotd; // dipakai untuk log
 
-			transaction_state_d   = data_ndodctd.transaction_state;
+			transaction_state_d   = data_ndctotd.transaction_state;
 			
-			id_ndrxxtd_old   = data_ndodctd.id_ndrxxtd;
+			id_ndcxxmh_old   = data_ndctotd.id_ndcxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblndoxxth, tblndodctd );
+			CekSelectDetailHD(tblndctoth, tblndctotd );
 		} );
 
-		tblndodctd.on( 'deselect', function() {
-			id_ndodctd = 0;
-			id_ndrxxtd_old = 0;
+		tblndctotd.on( 'deselect', function() {
+			id_ndctotd = 0;
+			id_ndcxxmh_old = 0;
 			// atur hak akses
-			CekDeselectDetailHD(tblndoxxth, tblndodctd );
+			CekDeselectDetailHD(tblndctoth, tblndctotd );
 		} );
-		// END ndodctd
+		// END ndctotd
 
 	} );// end of document.ready
 	
