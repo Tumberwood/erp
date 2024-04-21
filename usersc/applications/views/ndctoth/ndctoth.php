@@ -203,7 +203,14 @@
 		});
 
 		edtndctoth.on("open", function (e, mode, action) {
+			// BEGIN form setup
 			$(".modal-dialog").addClass("modal-lg");
+			if(is_master_table == 1){
+                $('div.DTE_Form_Buttons button:eq(2)').show();
+			}else{
+				$('div.DTE_Form_Buttons button:eq(2)').hide();
+			}
+			// END form setup
 		});
 		
 		edtndctoth.on( 'preSubmit', function (e, data, action) {
@@ -451,7 +458,14 @@
 		});
 
 		edtndctotd.on("open", function (e, mode, action) {
+			// BEGIN form setup
 			$(".modal-dialog").addClass("modal-lg");
+			if(is_master_table == 1){
+                $('div.DTE_Form_Buttons button:eq(2)').show();
+			}else{
+				$('div.DTE_Form_Buttons button:eq(2)').hide();
+			}
+			// END form setup
 		});
 		
 		edtndctotd.dependent( 'ndctotd.id_ndcxxmh', function ( val, data, callback ) {
