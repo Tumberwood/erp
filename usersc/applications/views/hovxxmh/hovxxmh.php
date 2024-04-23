@@ -59,8 +59,8 @@
 		var edthovxxmh, tblhovxxmh, show_deleted_hovxxmh = 0, id_hovxxmh;
 		// ------------- end of default variable
 		// get tableRelation
-		tableRelation('hovxxmh');
-		
+		tableRelation('hovxxmh');		
+
 		$(document).ready(function() {
 			//start datatables editor
 			edthovxxmh = new $.fn.dataTable.Editor( {
