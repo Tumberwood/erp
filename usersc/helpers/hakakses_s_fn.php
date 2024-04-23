@@ -13,7 +13,7 @@
     // $s_where_data_permission
 
     $s_id_gcpxxmh = 0;  // Company
-    $s_id_hemxxxmh = 0;  // Company
+    $s_id_hemxxmh = 0;  // Company
 
     $s_id_gbrxxmh         = 0;    // Branch
     $s_arr_ha_gbrxxmh     = [0];
