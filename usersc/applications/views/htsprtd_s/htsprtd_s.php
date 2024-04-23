@@ -96,12 +96,12 @@
 						def: 0
 					},	
 					{
-						label: "Username <sup class='text-danger'>*<sup>",
+						label: "Username",
 						name: "htsprtd.username",
 						type: "readonly"
 					}, 	
 					{
-						label: "Tanggal",
+						label: "Tanggal <sup class='text-danger'>*<sup>",
 						name: "htsprtd.tanggal",
 						type: "datetime",
 						def: function () { 
@@ -114,7 +114,7 @@
 						format: 'DD MMM YYYY'
 					},
 					{
-						label: "Jam",
+						label: "Jam <sup class='text-danger'>*<sup>",
 						name: "htsprtd.jam",
 						type: "datetime",
 						def: function () { 
@@ -123,7 +123,7 @@
 						format: 'HH:mm:ss'
 					},
 					{
-						label: "In / Out",
+						label: "In / Out <sup class='text-danger'>*<sup>",
 						name: "htsprtd.checkinout",
 						type: "select",
 						placeholder : "Select",
@@ -169,7 +169,19 @@
 
             edthtsprtd.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					
+					tanggal = edthetxxmh.field('hetxxmh.tanggal').val();
+					jam = edthetxxmh.field('hetxxmh.jam').val();
+					checkinout = edthetxxmh.field('hetxxmh.checkinout').val();
+
+					validasiRequired(
+						edthetxxmh,
+						'hetxxmh',
+						{
+							'tanggal': tanggal,
+							'jam': jam
+							'checkinout': checkinout
+						}
+					);
 				}
 				
 				if ( edthtsprtd.inError() ) {
