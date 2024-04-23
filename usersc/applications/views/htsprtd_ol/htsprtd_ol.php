@@ -54,7 +54,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htsprtd_s/fn/htsprtd_s_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htsprtd_ol/fn/htsprtd_ol_fn.php'; ?>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -71,7 +71,7 @@
 			//start datatables editor
 			edthtsprtd = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/htsprtd_s/htsprtd_s.php",
+					url: "../../models/htsprtd_ol/htsprtd_ol.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_htsprtd = show_deleted_htsprtd;
@@ -216,7 +216,7 @@
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/htsprtd_s/htsprtd_s.php",
+					url: "../../models/htsprtd_ol/htsprtd_ol.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_htsprtd = show_deleted_htsprtd;

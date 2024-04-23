@@ -87,7 +87,7 @@
 			->where( 'htsprtd.transaction_state', -9, '<>');
 	}
 	
-	include( "htsprtd_s_extra.php" );
+	include( "htsprtd_ol_extra.php" );
 
 	// BEGIN log
 	$nama_table = 'htsprtd';
