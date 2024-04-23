@@ -14,7 +14,7 @@
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
-		<div class="ibox">
+		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
                     <table id="tblhovxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -37,6 +37,7 @@
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_toast.php';
 ?>
 
 <!-- BEGIN JS -->
@@ -52,17 +53,16 @@
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hovxxmh/fn/hovxxmh_fn.php'; ?>
 
-<!-- BEGIN javascript here -->
+<!-- BEGIN datatables here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
 		var edthovxxmh, tblhovxxmh, show_deleted_hovxxmh = 0, id_hovxxmh;
 		// ------------- end of default variable
-		
 		// get tableRelation
 		tableRelation('hovxxmh');
-
+		
 		$(document).ready(function() {
-			// BEGIN hovxxmh
+			//start datatables editor
 			edthovxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
 					url: "../../models/hovxxmh/hovxxmh.php",
@@ -98,8 +98,7 @@
 					{
 						label: "Kode <sup class='text-danger'>*<sup>",
 						name: "hovxxmh.kode"
-					}, 	
-					{
+					}, 	{
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "hovxxmh.nama"
 					}, 	
@@ -114,19 +113,9 @@
 			edthovxxmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthovxxmh.field('hovxxmh.start_at').val(start_at);
-
+				
 				if(action == 'create'){
 					tblhovxxmh.rows().deselect();
-					edthovxxmh.field('hovxxmh.kode').enable();
-					edthovxxmh.field('hovxxmh.nama').enable();
-				}else if(action == 'edit'){
-					if(transaction_state == 0){
-						edthovxxmh.field('hovxxmh.kode').enable();
-						edthovxxmh.field('hovxxmh.nama').enable();
-					}else{
-						edthovxxmh.field('hovxxmh.kode').disable();
-						edthovxxmh.field('hovxxmh.nama').disable();
-					}
 				}
 			});
 
@@ -136,7 +125,6 @@
 
             edthovxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-
 					kode = edthovxxmh.field('hovxxmh.kode').val();
 					nama = edthovxxmh.field('hovxxmh.nama').val();
 
@@ -144,19 +132,9 @@
 						edthovxxmh,
 						'hovxxmh',
 						{
+							'nama': nama,
 							'kode': kode,
-							'nama': nama
 						}
-					);
-
-					validasiUnique(
-						action,
-						edthovxxmh,
-						'hovxxmh',
-						'kode',
-						'kode',
-						'"'+kode+'"',
-						id_hovxxmh
 					);
 
 					validasiUnique(
@@ -166,6 +144,16 @@
 						'nama',
 						'nama',
 						'"'+nama+'"',
+						id_hovxxmh
+					);
+					
+					validasiUnique(
+						action,
+						edthovxxmh,
+						'hovxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
 						id_hovxxmh
 					);
 				}
@@ -184,6 +172,7 @@
 				edthovxxmh.enable();
 			} );
 
+			//start datatables
 			tblhovxxmh = $('#tblhovxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -233,6 +222,7 @@
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 						$arr_buttons_tools2 	= ['sp', 'sb'];
 						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+						$arr_buttons_approve 	= ['approve', 'cancel_approve', 'void','noapprove'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
@@ -265,6 +255,7 @@
 				transaction_state   = hovxxmh_data.transaction_state;
 				approval_state   	= hovxxmh_data.approval_state;
 				is_nextprocess 		= hovxxmh_data.is_nextprocess;
+				is_jurnal      		= hovxxmh_data.is_jurnal;
 
 				// atur hak akses
 				CekSelectHeaderH(tblhovxxmh);
@@ -277,14 +268,12 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblhovxxmh);
 			} );
-
-			// END hovxxmh
 			
 		} );// end of document.ready
 	
 	</script>
 
-<!-- END javascript here -->
+<!-- END datatables here -->
 
 <!-- end content here -->
 
