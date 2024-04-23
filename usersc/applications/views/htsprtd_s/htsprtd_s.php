@@ -178,8 +178,8 @@
 						'hetxxmh',
 						{
 							'tanggal': tanggal,
-							'jam': jam
-							'checkinout': checkinout
+							'jam': jam,
+							'checkinout': checkinout,
 						}
 					);
 				}
