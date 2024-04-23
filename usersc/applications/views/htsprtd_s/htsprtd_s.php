@@ -172,13 +172,13 @@
 
             edthtsprtd.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					tanggal = edthetxxmh.field('hetxxmh.tanggal').val();
-					jam = edthetxxmh.field('hetxxmh.jam').val();
-					checkinout = edthetxxmh.field('hetxxmh.checkinout').val();
+					tanggal = edthtsprtd.field('htsprtd.tanggal').val();
+					jam = edthtsprtd.field('htsprtd.jam').val();
+					checkinout = edthtsprtd.field('htsprtd.checkinout').val();
 
 					validasiRequired(
-						edthetxxmh,
-						'hetxxmh',
+						edthtsprtd,
+						'htsprtd',
 						{
 							'tanggal': tanggal,
 							'jam': jam,
