@@ -50,7 +50,8 @@
 				} ),
 			Field::inst( 'hemxxmh.id_files_ktp' )
 				->setFormatter( Format::ifEmpty( 0 ) )
-				->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/ktp/__ID__.__EXTN__' )
+				// ->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/ktp/__ID__.__EXTN__' )
+				->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/__ID__.__EXTN__' )
 					->db( 'files', 'id', array(
 						'filename'		=> Upload::DB_FILE_NAME,
 						'filesize'		=> Upload::DB_FILE_SIZE,
@@ -63,7 +64,8 @@
 				),
 			Field::inst( 'hemxxmh.id_files_npwp' )
 				->setFormatter( Format::ifEmpty( 0 ) )
-				->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/npwp/__ID__.__EXTN__' )
+				// ->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/npwp/__ID__.__EXTN__' )
+				->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/__ID__.__EXTN__' )
 					->db( 'files', 'id', array(
 						'filename'		=> Upload::DB_FILE_NAME,
 						'filesize'		=> Upload::DB_FILE_SIZE,
