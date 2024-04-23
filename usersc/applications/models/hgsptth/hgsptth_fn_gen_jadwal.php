@@ -226,7 +226,7 @@
                             ->query('insert', 'htssctd')
                             ->set('transaction_state',1)
                             ->set('id_hemxxmh',$id_hemxxmh)
-                            ->set('id_htsxxmh',$rs_htststd['id_htsxxmh'])
+                            // ->set('id_htsxxmh',$rs_htststd['id_htsxxmh'])
                             ->set('tanggal',$tanggal_ymd)
                             // ->set('jam_awal',$rs_htststd['jam_awal'])
                             // ->set('jam_akhir',$rs_htststd['jam_akhir'])
