@@ -78,11 +78,12 @@
 			Field::inst( 'users.fname' ),
 			
 			Field::inst( 'concat(hemxxmh.kode, " - ", hemxxmh.nama) as peg' ),
-			Field::inst( 'hemxxmh.nama' )
+			// Field::inst( 'hemxxmh.nama' )
 		)
-		->leftJoin( 
-			'hemxxmh', 
-			'hemxxmh.id = htsprtd.id_hemxxmh OR hemxxmh.id_users = htsprtd.id_users', '', '' )
+		// ->leftJoin( 
+		// 	'hemxxmh', 
+		// 	'hemxxmh.id = htsprtd.id_hemxxmh OR hemxxmh.id_users = htsprtd.id_users', '', '' )
+		->leftJoin( 'hemxxmh','hemxxmh.id','=','htsprtd.id_hemxxmh ' )
 		->leftJoin( 'users','users.id','=','htsprtd.id_users ' )
 		;
 	// do not erase

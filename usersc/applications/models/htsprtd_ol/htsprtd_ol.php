@@ -27,6 +27,9 @@
 			Field::inst( 'htsprtd.id_users' )
 				->set( Field::SET_CREATE )
 				->setValue($hakakses['s_id_users']),
+			Field::inst( 'htsprtd.id_hemxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($hakakses['s_id_hemxxmh']),
 			Field::inst( 'htsprtd.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -43,6 +46,9 @@
 			Field::inst( 'htsprtd.finish_at' ),
 			Field::inst( 'htsprtd.is_defaultprogram' ),
 			Field::inst( 'htsprtd.username' ),
+			Field::inst( 'htsprtd.tipe' )
+				->set( Field::SET_CREATE )
+				->setValue('online'),
 			Field::inst( 'htsprtd.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
