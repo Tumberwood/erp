@@ -57,16 +57,19 @@
 				) ),
 			Field::inst( 'htsprtd.jam' )
 				->getFormatter( function ( $val, $data, $opts ) {
-					if ($val === '00:00:00' || $val === null){
+					if ($val === null){
 						return '';
 					}else{
 						return date( 'H:i', strtotime( $val ) );
 					}
 				} )
-				->setFormatter( 'Format::datetime', array(
-					'from' => 'H:i',
-					'to' =>   'H:i:s'
-				) ),
+				->setFormatter( function ( $val ) {
+					if ($val === ''){
+						return null;
+					}else{
+						return date( 'H:i:s', strtotime( $val ) );
+					}
+				} ),
 			Field::inst( 'htsprtd.lat' ),
 			Field::inst( 'htsprtd.lng' ),
 			Field::inst( 'htsprtd.lokasi' ),

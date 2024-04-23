@@ -62,6 +62,8 @@
 		var edthtsprtd, tblhtsprtd, show_deleted_htsprtd = 0, id_htsprtd;
 		// ------------- end of default variable;
 
+		var lokasi = '';
+
 		// get tableRelation
 		tableRelation('htsprtd');
 		
@@ -157,7 +159,11 @@
 			edthtsprtd.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthtsprtd.field('htsprtd.start_at').val(start_at);
-				getLocation();
+
+				if (lokasi == '') {
+					getLocation();
+				}
+				
 				edthtsprtd.field('htsprtd.lokasi').disable();
 				console.log(username_ha);
 				
@@ -284,6 +290,7 @@
 				id_transaksi_h 		= id_htsprtd; // dipakai untuk general
 				id_transaksi_log	= id_htsprtd; // dipakai untuk general
 				transaction_state   = htsprtd_data.transaction_state;
+				lokasi   = htsprtd_data.lokasi;
 
 				// atur hak akses
 				CekSelectHeaderH(tblhtsprtd);
@@ -292,6 +299,7 @@
 			tblhtsprtd.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_htsprtd = 0;
+				lokasi = '';
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhtsprtd);
