@@ -59,7 +59,10 @@
 <script type="text/javascript">
 		// ------------- default variable, do not erase
 		var edthtsprtd, tblhtsprtd, show_deleted_htsprtd = 0, id_htsprtd;
-		// ------------- end of default variable
+		// ------------- end of default variable;
+
+		// get tableRelation
+		tableRelation('htsprtd');
 		
 		$(document).ready(function() {
 			//start datatables editor
