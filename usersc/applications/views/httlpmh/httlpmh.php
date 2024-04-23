@@ -227,7 +227,18 @@
 					{ data: "httlpmh.id",visible:false },
 					{ data: "httlpmh.kode" },
 					{ data: "httlpmh.nama" },
-					{ data: "httlpmh.jenis" },
+					{ 
+						data: "httlpmh.jenis",
+						render: function (data) {
+							if (data == 1) {
+								return '<span class="badge badge-primary">Hari</span>';
+							} else if (data == 2) {
+								return '<span class="badge badge-primary">Jam</span>';
+							} else {
+								return '<span class="badge badge-warning">INVALID</span>';
+							}
+						}
+					},
 					{ 
 						data: "httlpmh.is_potongcuti" ,
 						...renderYaTidak()
