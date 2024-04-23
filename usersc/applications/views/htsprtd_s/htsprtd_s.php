@@ -62,7 +62,7 @@
 		var edthtsprtd, tblhtsprtd, show_deleted_htsprtd = 0, id_htsprtd;
 		// ------------- end of default variable;
 
-		var lokasi = '';
+		var lokasi_sel = "";
 
 		// get tableRelation
 		tableRelation('htsprtd');
@@ -160,12 +160,13 @@
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthtsprtd.field('htsprtd.start_at').val(start_at);
 
-				if (lokasi == '') {
+				// console.log(lokasi_sel);
+				if (lokasi_sel == "") {
 					getLocation();
 				}
-				
+
 				edthtsprtd.field('htsprtd.lokasi').disable();
-				console.log(username_ha);
+				// console.log(username_ha);
 				
 				if(action == 'create'){
 					tblhtsprtd.rows().deselect();
@@ -282,6 +283,7 @@
 				// atur hak akses
 				CekInitHeaderH(tblhtsprtd);
 				username_ha = json.hakakses.s_username
+				lokasi_sel = "";
 			} );
 			
 			tblhtsprtd.on( 'select', function( e, dt, type, indexes ) {
@@ -290,7 +292,7 @@
 				id_transaksi_h 		= id_htsprtd; // dipakai untuk general
 				id_transaksi_log	= id_htsprtd; // dipakai untuk general
 				transaction_state   = htsprtd_data.transaction_state;
-				lokasi   = htsprtd_data.lokasi;
+				lokasi_sel   = htsprtd_data.lokasi;
 
 				// atur hak akses
 				CekSelectHeaderH(tblhtsprtd);
@@ -299,7 +301,7 @@
 			tblhtsprtd.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_htsprtd = 0;
-				lokasi = '';
+				lokasi_sel = "";
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhtsprtd);

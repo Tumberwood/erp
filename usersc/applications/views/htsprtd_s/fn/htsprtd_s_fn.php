@@ -4,7 +4,7 @@
         if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
         } else {
-        console.log("Geolocation is not supported by this browser.");
+        // console.log("Geolocation is not supported by this browser.");
         }
     }
 
@@ -13,8 +13,8 @@
         var longitude = position.coords.longitude;
 
         // Menampilkan lat dan long
-        console.log("Latitude: " + latitude);
-        console.log("Longitude: " + longitude);
+        // console.log("Latitude: " + latitude);
+        // console.log("Longitude: " + longitude);
         edthtsprtd.field('htsprtd.lat').val(latitude);
         edthtsprtd.field('htsprtd.lng').val(longitude);
         
@@ -25,11 +25,11 @@
         .then(response => response.json())
         .then(data => {
             // Menampilkan alamat
-            console.log("Alamat: " + data.display_name);
+            // console.log("Alamat: " + data.display_name);
             edthtsprtd.field('htsprtd.lokasi').val(data.display_name);
         })
             .catch(error => {
-            console.log("Error:", error);
+            // console.log("Error:", error);
         });
     }
 
