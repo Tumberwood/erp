@@ -20,6 +20,10 @@
 	use 
 		Carbon\Carbon;
 	
+	$start_date = $_POST['start_date'];
+	$end_date   = $_POST['end_date'];
+	$id_hemxxmh_filter   = $_POST['id_hemxxmh_filter'];
+	
 	$editor = Editor::inst( $db, 'htssctd' )
 		->debug(true)
 		->fields(
@@ -170,13 +174,20 @@
 		)
 		->leftJoin( 'hemxxmh','hemxxmh.id','=','htssctd.id_hemxxmh' )
 		->leftJoin( 'hemjbmh','hemjbmh.id_hemxxmh','=','hemxxmh.id' )
-		->leftJoin( 'hodxxmh','hodxxmh.id','=','hemjbmh.id_hodxxmh' );
+		->leftJoin( 'hodxxmh','hodxxmh.id','=','hemjbmh.id_hodxxmh' )
+		->where( 'htssctd.tanggal', $start_date , '>=' )
+		->where( 'htssctd.tanggal', $end_date , '<=' );
 	
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_htssctd'] == 0){
 		$editor
 			->where( 'htssctd.transaction_state', -9, '<>');
+	}
+	
+	if ($id_hemxxmh_filter > 0){
+		$editor
+			->where( 'htssctd.id_hemxxmh', $id_hemxxmh_filter);
 	}
 	
 	include( "htssctd_extra.php" );

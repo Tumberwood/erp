@@ -11,6 +11,46 @@
 	$nama_tabels_d = [];
 ?>
 
+<div class="row">
+    <div class="col">
+        <div class="ibox collapsed" id="iboxfilter">
+            <div class="ibox-title">
+                <h5 class="text-navy">Filter</h5>&nbsp
+                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
+            </div>
+            <div class="ibox-content">
+                <form class="form-horizontal" id="frmhtssctd">
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label">Periode</label>
+                        <div class="col-lg-5">
+                            <div class="input-group input-daterange" id="periode">
+                                <input type="text" id="start_date" class="form-control">
+                                <span class="input-group-addon">to</span>
+                                <input type="text" id="end_date" class="form-control">
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Pegawai</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectPegawai" name="selectPegawai" multiple="multiple"></select>
+						</div>
+					</div>
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="searchPanes1"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
@@ -69,12 +109,61 @@
 		var edthtssctd, tblhtssctd, show_deleted_htssctd = 0, id_htssctd;
 		// ------------- end of default variable
 
+		id_hemxxmh_filter = 0;
 		id_hemxxmh_old = 0;
 		
 		// get tableRelation
 		tableRelation('htssctd');
 
+		// BEGIN datepicker init
+		$('#periode').datepicker({
+			setDate: new Date(),
+			autoclose: true,
+			todayHighlight: true,
+			clearBtn: true,
+			format: "dd M yyyy",
+			minViewMode: 'month' 
+		});
+		$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+        // END datepicker init
+		
+		$("#selectPegawai").select2({
+			placeholder : "Select",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/hemxxmh/hemxxmh_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_hemxxmh_old: id_hemxxmh_filter,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			}
+		});
+		
 		$(document).ready(function() {
+			start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+			end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
+
 			// BEGIN htssctd
 			edthtssctd = new $.fn.dataTable.Editor( {
 				ajax: {
@@ -82,6 +171,9 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_htssctd = show_deleted_htssctd;
+						d.start_date = start_date;
+						d.end_date = end_date;
+						d.id_hemxxmh_filter = id_hemxxmh_filter;
 					}
 				},
 				table: "#tblhtssctd",
@@ -303,6 +395,9 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_htssctd = show_deleted_htssctd;
+						d.start_date = start_date;
+						d.end_date = end_date;
+						d.id_hemxxmh_filter = id_hemxxmh_filter;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -397,6 +492,39 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblhtssctd);
 			} );
+
+			$("#frmhtssctd").submit(function(e) {
+				e.preventDefault();
+			}).validate({
+				rules: {
+					
+				},
+				submitHandler: function(frmhtssctd) {
+					
+					if( $('#selectPegawai').val() > 0){
+						id_hemxxmh_filter  = $('#selectPegawai').val();
+					}else{
+						id_hemxxmh_filter = '';
+					}
+
+					start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
+					end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
+					
+					notifyprogress = $.notify({
+						message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
+					},{
+						z_index: 9999,
+						allow_dismiss: false,
+						type: 'info',
+						delay: 0
+					});
+
+					tblhtssctd.ajax.reload(function ( json ) {
+						notifyprogress.close();
+					}, false);
+					return false; 
+				}
+			});
 
 			// END htssctd
 			

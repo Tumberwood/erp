@@ -5,6 +5,7 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			// script diletakkan disini
+			
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// script diletakkan disini
