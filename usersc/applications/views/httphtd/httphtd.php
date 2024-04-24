@@ -25,6 +25,7 @@
                                 <th>Nama</th>
                                 <th>Keterangan</th>
                                 <th>TX</th>
+                                <th>Approval</th>
                             </tr>
                         </thead>
                     </table>
@@ -219,6 +220,10 @@
 					{ 
 						data: "httphtd.transaction_state" ,
 						...renderTransactionStatus()
+					},
+					{ 
+						data: "httphtd.approval_state" ,
+						...renderApprovalStatus()
 					}
 				],
 				buttons: [
@@ -236,6 +241,78 @@
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
+					// BEGIN buttom Approval Set
+					{
+						extend: 'collection',
+						name: 'btnSetApprove',
+						text: '<span class="fa fa-check"></span>',
+						titleAttr: 'Approval',
+						className: 'btn btn-sm btn-outline',
+						autoClose: true,
+						buttons: [
+							{ 
+								text: '<i class="fa fa-check"></i>&nbsp;Approve',
+								name: 'btnApprove1',
+								className: 'btn btn-sm text-navy',
+								titleAttr: 'Approve',
+								action: function (e, dt, node, config) {
+									$.ajax( {
+										url: '../../models/httphtd/httphtd_post_approve.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											state           : 1,
+                        					id_transaksi_h  : id_transaksi_h
+										},
+										success: function ( json ) {
+											tblhttphtd.ajax.reload(null, false);
+										}
+									} );
+								}
+							},
+							{ 
+								text: '<i class="fa fa-undo"></i>&nbsp;Cancel Approve',
+								name: 'btnCancelApprove1',
+								className: 'btn btn-sm',
+								titleAttr: 'Approve',
+								action: function ( e, dt, node, config ) {
+									$.ajax( {
+										url: '../../models/httphtd/httphtd_post_approve.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											state           : -1,
+                        					id_transaksi_h  : id_transaksi_h
+										},
+										success: function ( json ) {
+											tblhttphtd.ajax.reload(null, false);
+										}
+									} );
+								}
+							},
+							{
+								text: '<i class="fa fa-remove"></i>&nbsp;Void',
+								name: 'btnVoid1',
+								className: 'btn btn-sm text-danger',
+								titleAttr: 'Void',
+								action: function ( e, dt, node, config ) {
+									$.ajax( {
+										url: '../../models/httphtd/httphtd_post_approve.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											state           : -9,
+                        					id_transaksi_h  : id_transaksi_h
+										},
+										success: function ( json ) {
+											tblhttphtd.ajax.reload(null, false);
+										}
+									} );
+								}
+							}
+						]
+					}
+					// END buttom Approval Set
 				],
 				initComplete: function() {
 					this.api().searchPanes.rebuildPane();
@@ -255,6 +332,7 @@
 			tblhttphtd.on( 'init', function () {
 				// atur hak akses
 				CekInitHeaderH(tblhttphtd);
+				tblhttphtd.button( 'btnSetApprove:name' ).disable();
 			} );
 			
 			tblhttphtd.on( 'select', function( e, dt, type, indexes ) {
@@ -268,6 +346,31 @@
 
 				// atur hak akses
 				CekSelectHeaderH(tblhttphtd);
+				
+				// BEGIN approval button
+				tblhttphtd.button( 'btnSetApprove:name' ).enable();
+				if(approval_state == 1){
+					// approve
+					tblhttphtd.button( 'btnApprove1:name' ).disable();
+					tblhttphtd.button( 'btnCancelApprove1:name' ).enable();
+					tblhttphtd.button( 'btnVoid1:name' ).disable();
+				}else if(approval_state == -1){
+					// cancel approve
+					tblhttphtd.button( 'btnApprove1:name' ).enable();
+					tblhttphtd.button( 'btnCancelApprove1:name' ).disable();
+					tblhttphtd.button( 'btnVoid1:name' ).disable();
+				}else if(approval_state == -9){
+					// void
+					tblhttphtd.button( 'btnApprove1:name' ).disable();
+					tblhttphtd.button( 'btnCancelApprove1:name' ).disable();
+					tblhttphtd.button( 'btnVoid1:name' ).disable();
+				}else{
+					// open
+					tblhttphtd.button( 'btnApprove1:name' ).enable();
+					tblhttphtd.button( 'btnCancelApprove1:name' ).disable();
+					tblhttphtd.button( 'btnVoid1:name' ).enable();
+				}
+				// END approval button
 			} );
 
 			tblhttphtd.on( 'deselect', function () {
@@ -276,6 +379,7 @@
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhttphtd);
+				tblhttphtd.button( 'btnSetApprove:name' ).disable();
 			} );
 
 			// END httphtd
