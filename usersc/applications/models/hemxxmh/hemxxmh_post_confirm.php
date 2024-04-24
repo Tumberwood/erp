@@ -82,7 +82,7 @@
 			//insert saldo cuti
 			$qi_saldo = $db
 			->raw()
-			->exec('INSERT INTO htlxxrh (
+			->exec('INSERT INTO httxxrd (
 						id_hemxxmh,
 						saldo,
 						tanggal,
@@ -112,7 +112,7 @@
 						SELECT
 							rh.id_hemxxmh,
 							COUNT(rh.id) AS c_id
-						FROM htlxxrh AS rh
+						FROM httxxrd AS rh
 						WHERE year(rh.tanggal) = YEAR(CURDATE()) AND rh.nama = "saldo"
 						GROUP BY id_hemxxmh
 					) AS c ON c.id_hemxxmh = a.id
