@@ -27,7 +27,7 @@
     // Jalankan skrip Python untuk memproses gambar
     
     // $output = shell_exec("python isoxxth_pointer_color.py \"$circleImageUrl\" \"$warna\" \"$filePath\" \"$circleImageFile\"");
-    $output = shell_exec("python isoxxth_pointer_color.py \"$warna\" \"$filePath\" \"$backgroundImageUrl\" \"$backgroundImageFile\" \"$circleImageUrl\" \"$circleImageFile\"");
+    $output = shell_exec("python3 isoxxth_pointer_color.py \"$warna\" \"$filePath\" \"$backgroundImageUrl\" \"$backgroundImageFile\" \"$circleImageUrl\" \"$circleImageFile\"");
 
     if ($output === false) {
         // Jika ada kesalahan dalam menjalankan skrip Python
