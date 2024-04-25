@@ -21,151 +21,8 @@
     //tanggal
     $tanggal_select = new Carbon($_POST['tanggal_select']); //gunakan carbon untuk ambil data tanggal
     $tanggal = $tanggal_select->format('Y-m-d'); //format jadi 2023-09-12
-    // print_r($tanggal);
-    // outsourcing or organik
+
     $timestamp     = $_POST['timestamp']; //tambah timestamp untuk view
-    // INSERT DATA BACKUP / OLD
-    // $qi_htsprrd = $db
-    //     ->raw()
-    //     ->bind(':tanggal', $tanggal)
-    //     ->exec(' INSERT INTO htsprrd_old (
-    //                 id_hemxxmh,
-    //                 keterangan,
-    //                 kode_finger,
-    //                 tanggal,
-    //                 shift_in,
-    //                 shift_out,
-    //                 st_jadwal,
-    //                 tanggaljam_awal_t1,
-    //                 tanggaljam_awal,
-    //                 tanggaljam_awal_t2,
-    //                 tanggaljam_akhir_t1,
-    //                 tanggaljam_akhir,
-    //                 tanggaljam_akhir_t2,
-    //                 clock_in,
-    //                 clock_out,
-    //                 st_clock_in,
-    //                 st_clock_out,
-    //                 status_presensi_in,
-    //                 status_presensi_out,
-    //                 htlxxrh_kode,
-    //                 jam_awal_lembur_libur,
-    //                 jam_akhir_lembur_libur,
-    //                 durasi_lembur_libur,
-    //                 jam_awal_lembur_awal,
-    //                 jam_akhir_lembur_awal,
-    //                 durasi_lembur_awal,
-    //                 jam_awal_lembur_akhir,
-    //                 jam_akhir_lembur_akhir,
-    //                 durasi_lembur_akhir,
-    //                 jam_awal_lembur_istirahat1,
-    //                 jam_akhir_lembur_istirahat1,
-    //                 durasi_lembur_istirahat1,
-    //                 jam_awal_lembur_istirahat2,
-    //                 jam_akhir_lembur_istirahat2,
-    //                 durasi_lembur_istirahat2,
-    //                 jam_awal_lembur_istirahat3,
-    //                 jam_akhir_lembur_istirahat3,
-    //                 durasi_lembur_istirahat3,
-    //                 durasi_lembur_total_jam,
-    //                 pot_jam,
-    //                 pot_overtime,
-    //                 pot_hk,
-    //                 pot_ti,
-    //                 durasi_lembur_final,
-    //                 pot_jam_final,
-    //                 is_makan,
-    //                 is_pot_premi,
-    //                 is_pot_upah,
-    //                 cek,
-    //                 lembur15,
-    //                 rp_lembur15,
-    //                 lembur15_final,
-    //                 lembur2,
-    //                 rp_lembur2,
-    //                 lembur2_final,
-    //                 lembur3,
-    //                 rp_lembur3,
-    //                 lembur3_final,
-    //                 lembur4,
-    //                 rp_lembur4,
-    //                 lembur4_final,
-    //                 nominal_lembur_jam,
-    //                 grup_hk
-    //             )
-    //             SELECT
-    //                 id_hemxxmh,
-    //                 keterangan,
-    //                 kode_finger,
-    //                 tanggal,
-    //                 shift_in,
-    //                 shift_out,
-    //                 st_jadwal,
-    //                 tanggaljam_awal_t1,
-    //                 tanggaljam_awal,
-    //                 tanggaljam_awal_t2,
-    //                 tanggaljam_akhir_t1,
-    //                 tanggaljam_akhir,
-    //                 tanggaljam_akhir_t2,
-    //                 clock_in,
-    //                 clock_out,
-    //                 st_clock_in,
-    //                 st_clock_out,
-    //                 status_presensi_in,
-    //                 status_presensi_out,
-    //                 htlxxrh_kode,
-    //                 jam_awal_lembur_libur,
-    //                 jam_akhir_lembur_libur,
-    //                 durasi_lembur_libur,
-    //                 jam_awal_lembur_awal,
-    //                 jam_akhir_lembur_awal,
-    //                 durasi_lembur_awal,
-    //                 jam_awal_lembur_akhir,
-    //                 jam_akhir_lembur_akhir,
-    //                 durasi_lembur_akhir,
-    //                 jam_awal_lembur_istirahat1,
-    //                 jam_akhir_lembur_istirahat1,
-    //                 durasi_lembur_istirahat1,
-    //                 jam_awal_lembur_istirahat2,
-    //                 jam_akhir_lembur_istirahat2,
-    //                 durasi_lembur_istirahat2,
-    //                 jam_awal_lembur_istirahat3,
-    //                 jam_akhir_lembur_istirahat3,
-    //                 durasi_lembur_istirahat3,
-    //                 durasi_lembur_total_jam,
-    //                 pot_jam,
-    //                 pot_overtime,
-    //                 pot_hk,
-    //                 pot_ti,
-    //                 durasi_lembur_final,
-    //                 pot_jam_final,
-    //                 is_makan,
-    //                 is_pot_premi,
-    //                 is_pot_upah,
-    //                 cek,
-    //                 lembur15,
-    //                 rp_lembur15,
-    //                 lembur15_final,
-    //                 lembur2,
-    //                 rp_lembur2,
-    //                 lembur2_final,
-    //                 lembur3,
-    //                 rp_lembur3,
-    //                 lembur3_final,
-    //                 lembur4,
-    //                 rp_lembur4,
-    //                 lembur4_final,
-    //                 nominal_lembur_jam,
-    //                 grup_hk
-    //             FROM htsprrd
-    //             WHERE tanggal = :tanggal AND 
-    //                 id_hemxxmh IN (
-    //                     SELECT hemxxmh.id
-    //                     FROM hemxxmh
-    //                     LEFT JOIN hemjbmh ON hemjbmh.id_hemxxmh = hemxxmh.id
-    //                 )
-    //             '
-    // );
 
     // BEGIN delete old data
     $qd_htsprrd = $db
@@ -196,7 +53,7 @@
                     status_presensi_out
                 )
                 WITH presensi AS (
-                    SELECT
+                    SELECT DISTINCT
                         a.id AS id_hemxxmh,
                         a.id_users,
                         a.nama,
@@ -229,14 +86,14 @@
                         )
                     ) AS st_clock_out,
                     simbol_cuti,
-                    id_htsxxmh,
+                    jam_shift,
                     simbol_ijin_in,
                     simbol_ijin_out,
                     simbol_ijin_mid,
-                    CONCAT(simbol_cuti, " [", cuti.htlxxrh_kode, "] ") AS ket_cuti,
-                    CONCAT(simbol_ijin_in, " [", izin_in.htlxxrh_kode, "] ") AS ket_izin_in,
-                    CONCAT(simbol_ijin_out, " [", izin_out.htlxxrh_kode, "] ") AS ket_izin_out,
-                    CONCAT(simbol_ijin_mid, " [", izin_mid.htlxxrh_kode, "] ") AS ket_izin_mid
+                    CONCAT(simbol_cuti, " [", cuti.httxxrd_kode, "] ") AS ket_cuti,
+                    CONCAT(simbol_ijin_in, " [", izin_in.httxxrd_kode, "] ") AS ket_izin_in,
+                    CONCAT(simbol_ijin_out, " [", izin_out.httxxrd_kode, "] ") AS ket_izin_out,
+                    CONCAT(simbol_ijin_mid, " [", izin_mid.httxxrd_kode, "] ") AS ket_izin_mid
 
                     FROM hemxxmh a
                     LEFT JOIN hemjbmh b ON b.id_hemxxmh = a.id
@@ -244,8 +101,9 @@
                     LEFT JOIN (
                         SELECT
                             jad.*,
+                            sft.jam_awal as jam_shift,
                             jad.tanggal AS tanggaljadwal,
-                            concat(sft.jam_awal , " - ", sft.jam_akhir) AS kode_shift,
+                            concat(sft.jam_awal, " - ", sft.jam_akhir) AS kode_shift,
                             DATE_ADD(jad.tanggaljam_awal, INTERVAL 5 MINUTE) AS tanggaljam_akhir_toleransi, -- tolreansi awal 5 menit
                             DATE_SUB(jad.tanggaljam_awal, INTERVAL 5 MINUTE) AS tanggaljam_awal_toleransi, -- toleransi akhir 5 menit
                             DATE_ADD(jad.tanggaljam_awal, INTERVAL 65 MINUTE) AS tanggaljam_akhir_toleransi_min1jam, -- keperluan toleransi terlambat Late +1 jam 
@@ -253,7 +111,7 @@
                                 DATE_SUB(jad.tanggaljam_akhir_t2 , INTERVAL 60 MINUTE) AS tanggaljam_akhir_t2_min_hour -- untuk is_makan akhir t2 - 1 jam
                             
                         FROM htssctd AS jad
-                        LEFT JOIN htsxxmh AS sft ON sft.id = jad.id_htsxxmh
+                        LEFT JOIN htsxxmh AS sft ON concat(:tanggal, " ", sft.jam_awal) = jad.tanggaljam_awal
                         
                         WHERE jad.transaction_state = 1 AND jad.tanggal = :tanggal
                     ) AS jadwal ON jadwal.id_hemxxmh =  a.id
@@ -293,89 +151,78 @@
                     -- cuti
                     LEFT JOIN (
                         SELECT
-                            htlxxrh.kode AS htlxxrh_kode,
-                            htlxxrh.id_hemxxmh,
-                            htlxxrh.approval_state AS approval_state,
-                            htlxxrh.saldo AS saldo,
-                            htlxxmh.is_potongupah AS is_potongupah,
-                            htlxxmh.kode AS htlxxmh_kode,
-                            htlgrmh.kode AS simbol_cuti
-                        FROM htlxxrh
-                        LEFT JOIN htlxxmh ON htlxxmh.id = htlxxrh.id_htlxxmh
-                        LEFT JOIN htlgrmh ON htlgrmh.id = htlxxmh.id_htlgrmh
-                        WHERE htlxxrh.tanggal = :tanggal
-                            AND htlxxrh.jenis = 1
-                        GROUP BY htlxxrh.id_hemxxmh
+                            httxxrd.kode AS httxxrd_kode,
+                            httxxrd.id_hemxxmh,
+                            httxxrd.approval_state AS approval_state,
+                            httxxrd.saldo AS saldo,
+                            httlpmh.kode AS httlpmh_kode,
+                            httlpmh_kode AS simbol_cuti
+                        FROM httxxrd
+                        LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
+                        WHERE httxxrd.tanggal = :tanggal
+                            AND httxxrd.jenis = 1
+                        GROUP BY httxxrd.id_hemxxmh
                     ) AS cuti ON cuti.id_hemxxmh = a.id
                         
                     -- Izin IN
                     LEFT JOIN (
                         SELECT
-                            htlxxrh.id_hemxxmh,
-                            htlxxrh.id_htlxxmh,
-                            htlxxrh.kode AS htlxxrh_kode,
-                            concat(htlxxrh.tanggal, " ", htlxxrh.jam_awal) AS tanggal_jam_izin_awal_in,
-                            htlxxrh.jam_awal,
-                            htlxxrh.htlxxmh_kode AS htlxxmh_kode,
-                            htpxxmh.is_potong_gaji AS is_potong_gaji_in,
-                            htpxxmh.is_potong_premi,
-                            htlgrmh.kode AS simbol_ijin_in,
-                            htlxxrh.approval_state
-                        FROM htlxxrh
-                        LEFT JOIN htpxxmh ON htpxxmh.id = htlxxrh.id_htlxxmh
-                        LEFT JOIN htlgrmh ON htlgrmh.id = htpxxmh.id_htlgrmh
-                        WHERE htlxxrh.transaction_state <> -9
-                            AND htlxxrh.tanggal = :tanggal
-                            AND htpxxmh.jenis_jam = 1 -- jenis jam awal
-                            AND htlxxrh.jenis = 2
+                            httxxrd.id_hemxxmh,
+                            httxxrd.id_httlpmh,
+                            httxxrd.kode AS httxxrd_kode,
+                            concat(httxxrd.tanggal, " ", httxxrd.jam_awal) AS tanggal_jam_izin_awal_in,
+                            httxxrd.jam_awal,
+                            httxxrd.httlpmh_kode AS httlpmh_kode,
+                            httlpmh_kode AS simbol_ijin_in,
+                            httxxrd.approval_state
+                        FROM httxxrd
+                        LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
+                        WHERE httxxrd.transaction_state <> -9
+                            AND httxxrd.tanggal = :tanggal
+                            AND httlpmh.jenis_jam = 1 -- jenis jam awal
+                            AND httxxrd.jenis = 2
 
                     ) AS izin_in ON izin_in.id_hemxxmh = a.id
                         
                     -- Izin OUT
                     LEFT JOIN (
                         SELECT
-                            htlxxrh.id_hemxxmh,
-                            htlxxrh.id_htlxxmh,
-                            htlxxrh.kode AS htlxxrh_kode,
-                            concat(htlxxrh.tanggal, " ", htlxxrh.jam_akhir) AS tanggal_jam_izin_akhir_out,
-                            htlxxrh.jam_akhir as jam_akhir_izin_out,
-                            htlxxrh.htlxxmh_kode AS htlxxmh_kode,
-                            htpxxmh.is_potong_gaji AS is_potong_gaji_out,
-                            htpxxmh.is_potong_premi,
-                            htlgrmh.kode AS simbol_ijin_out,
-                            htlxxrh.approval_state
-                        FROM htlxxrh
-                        LEFT JOIN htpxxmh ON htpxxmh.id = htlxxrh.id_htlxxmh
-                        LEFT JOIN htlgrmh ON htlgrmh.id = htpxxmh.id_htlgrmh
-                        WHERE htlxxrh.transaction_state <> -9
-                            AND htlxxrh.tanggal = :tanggal
-                            AND htpxxmh.jenis_jam = 2 -- jenis jam akhir
-                            AND htlxxrh.jenis = 2
+                            httxxrd.id_hemxxmh,
+                            httxxrd.id_httlpmh,
+                            httxxrd.kode AS httxxrd_kode,
+                            concat(httxxrd.tanggal, " ", httxxrd.jam_akhir) AS tanggal_jam_izin_akhir_out,
+                            httxxrd.jam_akhir as jam_akhir_izin_out,
+                            httxxrd.httlpmh_kode AS httlpmh_kode,
+                            httlpmh_kode AS simbol_ijin_out,
+                            httxxrd.approval_state
+                        FROM httxxrd
+                        LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
+                        WHERE httxxrd.transaction_state <> -9
+                            AND httxxrd.tanggal = :tanggal
+                            AND httlpmh.jenis_jam = 2 -- jenis jam akhir
+                            AND httxxrd.jenis = 2
 
                     ) AS izin_out ON izin_out.id_hemxxmh = a.id
                         
                     -- Izin mid
                     LEFT JOIN (
                         SELECT
-                            htlxxrh.id_hemxxmh,
-                            htlxxrh.id_htlxxmh,
-                            htlxxrh.kode AS htlxxrh_kode,
-                            concat(htlxxrh.tanggal, " ", htlxxrh.jam_akhir) AS tanggal_jam_izin_akhir_mid,
-                            concat(htlxxrh.tanggal, " ", htlxxrh.jam_awal) AS tanggal_jam_izin_awal_mid,
-                            htlxxrh.jam_akhir as jam_akhir_izin_mid,
-                            htlxxrh.jam_awal as jam_awal_izin_mid,
-                            htlxxrh.htlxxmh_kode AS htlxxmh_kode,
-                            htpxxmh.is_potong_gaji AS is_potong_gaji_mid,
-                            htpxxmh.is_potong_premi AS is_potong_premi_mid,
-                            htlgrmh.kode AS simbol_ijin_mid,
-                            htlxxrh.approval_state
-                        FROM htlxxrh
-                        LEFT JOIN htpxxmh ON htpxxmh.id = htlxxrh.id_htlxxmh
-                        LEFT JOIN htlgrmh ON htlgrmh.id = htpxxmh.id_htlgrmh
-                        WHERE htlxxrh.transaction_state <> -9
-                            AND htlxxrh.tanggal = :tanggal
-                            AND htpxxmh.jenis_jam = 3 -- jenis jam awal dan akhir
-                            AND htlxxrh.jenis = 2
+                            httxxrd.id_hemxxmh,
+                            httxxrd.id_httlpmh,
+                            httxxrd.kode AS httxxrd_kode,
+                            concat(httxxrd.tanggal, " ", httxxrd.jam_akhir) AS tanggal_jam_izin_akhir_mid,
+                            concat(httxxrd.tanggal, " ", httxxrd.jam_awal) AS tanggal_jam_izin_awal_mid,
+                            httxxrd.jam_akhir as jam_akhir_izin_mid,
+                            httxxrd.jam_awal as jam_awal_izin_mid,
+                            httxxrd.httlpmh_kode AS httlpmh_kode,
+                            httlpmh_kode AS simbol_ijin_mid,
+                            httxxrd.approval_state
+                        FROM httxxrd
+                        LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
+                        WHERE httxxrd.transaction_state <> -9
+                            AND httxxrd.tanggal = :tanggal
+                            AND httlpmh.jenis_jam = 3 -- jenis jam awal dan akhir
+                            AND httxxrd.jenis = 2
 
                     ) AS izin_mid ON izin_mid.id_hemxxmh = a.id
 
@@ -391,12 +238,12 @@
                         st_clock_out,
                         concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) AS keterangan,
                         concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") ) AS kode_kondite,
-                        -- STATUS PRESENSI IN
+                         -- STATUS PRESENSI IN
                         CASE
                             WHEN simbol_cuti IS NOT NULL AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) <> "" THEN concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") )
                             -- WHEN st_clock_in = "No CI" AND st_clock_out = "No CO" AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) = ""  THEN "Jadwal Salah"
-                            WHEN st_clock_in = "No CI" AND st_clock_out = "No CO" AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) = "" AND id_htsxxmh <> 4 THEN "A"
-                            WHEN st_clock_in = "NO CI" AND st_clock_out = "NO CO" AND id_htsxxmh = 4 THEN "OFF"
+                            WHEN st_clock_in = "No CI" AND st_clock_out = "No CO" AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) = "" AND jam_shift <> "00:00:00" THEN "AL"
+                            WHEN st_clock_in = "NO CI" AND st_clock_out = "NO CO" AND jam_shift = "00:00:00" THEN "OFF"
                             WHEN st_clock_in = "OK" AND st_clock_out = "OK" THEN "HK"
                             WHEN simbol_ijin_in IS NOT NULL AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) <> "" THEN concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") )
                             WHEN simbol_ijin_in IS NULL AND st_clock_in NOT IN ("OK", "Late 1") THEN "TF"
@@ -409,8 +256,8 @@
                         CASE
                             WHEN simbol_cuti IS NOT NULL AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) <> "" THEN concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") )
                             -- WHEN st_clock_in = "No CI" AND st_clock_out = "No CO" AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) = ""  THEN "Jadwal Salah"
-                            WHEN st_clock_in = "No CI" AND st_clock_out = "No CO" AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) = "" AND id_htsxxmh <> 4 THEN "A"
-                            WHEN st_clock_in = "NO CI" AND st_clock_out = "NO CO" AND id_htsxxmh = 4 THEN "OFF"
+                            WHEN st_clock_in = "No CI" AND st_clock_out = "No CO" AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) = "" AND jam_shift <> "00:00:00" THEN "AL"
+                            WHEN st_clock_in = "NO CI" AND st_clock_out = "NO CO" AND jam_shift = "00:00:00" THEN "OFF"
                             WHEN st_clock_in = "OK" AND st_clock_out = "OK" THEN "HK"
                             WHEN simbol_ijin_out IS NOT NULL AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) <> "" THEN concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") )
                             WHEN simbol_ijin_out IS NULL AND st_clock_out <> "OK" THEN "TF"
