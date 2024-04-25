@@ -62,7 +62,7 @@
                     ->set( 'id_htotpmh', $row_htoemtd['id_htotpmh'] )
                     ->set( 'kode', $row_htoemtd['kode'] ) 
                     ->set( 'transaction_state', 1 ) 
-                    ->set( 'approval_state', $row_htoemtd['approval_state'] ) 
+                    ->set( 'approval_state', 1 ) 
                     ->set( 'tanggal', $row_htoemtd['tanggal'] )
                     ->set( 'jam_awal', $row_htoemtd['jam_awal'] )
                     ->set( 'jam_akhir', $row_htoemtd['jam_akhir'] )
