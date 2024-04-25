@@ -213,8 +213,8 @@
 	// var is_need_inventory   = 0;	// menentukan apakah transaksi terkait inventory atau tidak
 	// var is_need_jurnal 	 	= 0;	// menentukan apakah transaksi terkait jurnal accounting atau tidak
 	// var is_active 	  	    = 0;
-	// var kategori_dokumen	= '';
-	// var kategori_dokumen_value = '';
+	var kategori_dokumen	= '';
+	var kategori_dokumen_value = '';
 
 	// variable terkait setting default data
 	// dipakai di helpers/fn_is_default_update.php
