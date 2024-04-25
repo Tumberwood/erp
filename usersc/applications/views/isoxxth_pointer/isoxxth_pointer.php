@@ -113,7 +113,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/fabric/fabric.min.js"></script>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>

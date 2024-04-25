@@ -96,6 +96,7 @@
             processData: false,
             contentType: false,
             success: function (json) {
+                console.log(json);
                 if(json.data.status_code == 200){
 
                     var urlhasil = json.data.output_file;

@@ -13,21 +13,21 @@
     $filePath = '../../../files/isoxxth_pointer/';
     $imageId = $_POST['imageId'];
     $warna = $_POST['warna'];
-
-    $backgroundImage     = $_FILES['backgroundImage']['tmp_name'];
-    $backgroundImageFile = $imageId . '_o.jpg';
-    $backgroundImageUrl  = $filePath.$backgroundImageFile;
-    move_uploaded_file($backgroundImage, $backgroundImageUrl);
-
-    $circleImage     = $_FILES['canvasImage']['tmp_name'];
-    $circleImageFile = $imageId . '_c.jpg';
-    $circleImageUrl  = $filePath.$circleImageFile;
-    move_uploaded_file($circleImage, $circleImageUrl);
     
+    $imageCircleName = $imageId . 'c';
+    $imageCircle     = $_FILES['canvasImage']['tmp_name'];
+    $imageCircleUrl  = $filePath.$imageCircleName.'.jpg';
+    move_uploaded_file($imageCircle, $imageCircleUrl);
+
+    $imageBackgroundName = $imageId . 'o.jpg';
+    $imageBackground     = $_FILES['backgroundImage']['tmp_name'];
+    $imageBackgroundUrl  = $filePath.$imageBackgroundName;
+    move_uploaded_file($imageBackground, $imageBackgroundUrl);
+    
+
     // Jalankan skrip Python untuk memproses gambar
-    
-    // $output = shell_exec("python isoxxth_pointer_color.py \"$circleImageUrl\" \"$warna\" \"$filePath\" \"$circleImageFile\"");
-    $output = shell_exec("python3 isoxxth_pointer_color.py \"$warna\" \"$filePath\" \"$backgroundImageUrl\" \"$backgroundImageFile\" \"$circleImageUrl\" \"$circleImageFile\"");
+    // $output = shell_exec("python isoxxth_pointer_color.py \"$imageCircleUrl\" \"$warna\" \"$filePath\" \"$imageCircleName\"");
+    $output = shell_exec("python isoxxth_pointer_color.py \"$warna\" \"$filePath\" \"$imageCircleName\" \"$imageCircleUrl\" \"$imageBackgroundName\" \"$imageBackgroundUrl\"");
 
     if ($output === false) {
         // Jika ada kesalahan dalam menjalankan skrip Python
@@ -42,14 +42,8 @@
         $status_code  = 200;
         $message = "Processing image berhasil";
         $type_message = 'success';
-        $output_file = $result['outputfileCircle'];
+        $output_file = $result['output_file'];
     }
-
-
-    
-
-    // print_r($result);
-    // echo $result['output_file'];
 
     $data = array(
         'status_code' => $status_code,
