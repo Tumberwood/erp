@@ -52,6 +52,7 @@
 				->set('id_hemxxmh', $rs_htpxxth['id_hemxxmh'] )
 				->set('kode', $rs_htpxxth['kode'] )
 				->set('approval_state', $state )
+				->set('transaction_state', 1 )
 				// ->set('tanggal', $tanggal->format('Y-m-d') )
 				->set('tanggal', $rs_htpxxth['tanggal'] )
 				->set('keterangan', $rs_htpxxth['keterangan'] )

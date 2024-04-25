@@ -1,0 +1,106 @@
+<?php
+	include_once( "../../../../users/init.php" );
+	include_once( "../../../../usersc/lib/DataTables.php" );
+	include_once( "../../../../usersc/vendor/autoload.php");
+	include_once( "../../../helpers/hakakses_s_fn.php" );
+	
+	use
+		DataTables\Editor,
+		DataTables\Editor\Field,
+		DataTables\Editor\Format,
+		DataTables\Editor\Mjoin,
+		DataTables\Editor\Options,
+		DataTables\Editor\Upload,
+		DataTables\Editor\Validate,
+		DataTables\Editor\ValidateOptions,
+		DataTables\Editor\SearchPaneOptions,
+		DataTables\Editor\Query,
+		DataTables\Editor\Result;
+
+	use 
+		Carbon\Carbon;
+	
+	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
+
+	$editor = Editor::inst( $db, 'htoxxrd' )
+		->debug(true)
+		->fields(
+			Field::inst( 'htoxxrd.id' ),
+			Field::inst( 'htoxxrd.id_hemxxmh' ),
+			// Field::inst( 'htoxxrd.id_heyxxmh' ),
+			Field::inst( 'htoxxrd.kode' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
+			Field::inst( 'htoxxrd.nama' )
+				->setFormatter( function ( $val ) {
+					return ucwords($val);
+				} ),
+			Field::inst( 'htoxxrd.keterangan' ),
+			Field::inst( 'htoxxrd.created_by' ),
+			Field::inst( 'htoxxrd.transaction_state' ),
+			Field::inst( 'htoxxrd.approval_state' ),
+			Field::inst( 'htoxxrd.start_at' ),
+			Field::inst( 'htoxxrd.finish_at' ),
+			Field::inst( 'htoxxrd.is_defaultprogram' ),
+
+			Field::inst( 'htoxxrd.tanggal' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '0000-00-00' || $val === null){
+						echo '';
+					}else{
+						return date( 'd M Y', strtotime( $val ) );
+					}
+				} ),
+			Field::inst( 'htoxxrd.jam_awal' ),
+			Field::inst( 'htoxxrd.jam_akhir' ),
+			Field::inst( 'htoxxrd.durasi_lembur_jam' ),
+			Field::inst( 'htoxxrd.durasi_jam_final' ),
+			Field::inst( 'htoxxrd.upah_lembur' ),
+			Field::inst( 'htoxxrd.is_istirahat' ),
+			Field::inst( 'htoxxrd.pot_ti' ),
+
+			Field::inst( 'concat(hemxxmh.kode," - ",hemxxmh.nama) as hemxxmh_data' ),
+			Field::inst( 'hodxxmh.nama' ),
+			Field::inst( 'hetxxmh.nama' ),
+			// Field::inst( 'heyxxmh.nama' ),
+			Field::inst( 'htotpmh.nama' )
+
+		)
+		->leftJoin( 'hemxxmh','hemxxmh.id','=','htoxxrd.id_hemxxmh' )
+		->leftJoin( 'hemjbmh','hemjbmh.id_hemxxmh','=','hemxxmh.id' )
+		->leftJoin( 'htotpmh','htotpmh.id','=','htoxxrd.id_htotpmh' )
+		// ->leftJoin( 'heyxxmh','heyxxmh.id','=','hemjbmh.id_heyxxmh' )
+		->leftJoin( 'hodxxmh','hodxxmh.id','=','hemjbmh.id_hodxxmh' )
+		->leftJoin( 'hetxxmh','hetxxmh.id','=','hemjbmh.id_hetxxmh' )
+		->where( 'htoxxrd.tanggal', $start_date, '>=' )
+		->where( 'htoxxrd.tanggal', $end_date, '<=' );
+	
+	// do not erase
+	// function show / hide inactive document
+	if ( $_POST['show_deleted_htoxxrd'] == 0){
+		$editor
+			->where( 'htoxxrd.transaction_state', -9, '<>');
+	}
+	
+	if($_POST['id_hemxxmh'] > 0){
+		$editor->where( 'htoxxrd.id_hemxxmh', $_POST['id_hemxxmh'] );
+	}
+	
+	include( "htoxxrd_extra.php" );
+
+	// BEGIN log
+	$nama_table = 'htoxxrd';
+	include( "../../../helpers/edt_log.php" );
+	// END log
+	
+	$json = $editor
+		->process( $_POST )
+		->data();
+
+	// debugging hak akses
+	$json['hakakses'] = $hakakses;
+
+	echo json_encode( $json );
+?>
