@@ -346,7 +346,7 @@
 	var id_hedlvmh_old = 0;
 	var id_gtxpkmh_old = 0;
 	var id_heyxxmd_old = 0;
-	var id_htlxxmh_old = 0;
+	var id_httlpmh_old = 0;
 	var id_hesxxmh_pkwt = 0;
 
 	$(document).ready(function() {
@@ -1789,18 +1789,18 @@
 				},
 				{
 					label: "Jenis <sup class='text-danger'>*<sup>",
-					name: "htlxxth.id_htlxxmh",
+					name: "htlxxth.id_httlpmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/htlxxmh/htlxxmh_fn_opt.php",
+							url: "../../models/httlpmh/httlpmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_htlxxmh_old: id_htlxxmh_old,
+									id_httlpmh_old: id_httlpmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1940,7 +1940,7 @@
 				{ data: "htlxxth.kode" },
 				{ data: "htlxxth.tanggal_awal" },
 				{ data: "htlxxth.tanggal_akhir" },
-				{ data: "htlxxmh.nama" },
+				{ data: "httlpmh.nama" },
 				{ data: "htlxxth.keterangan" },
 			],
 			buttons: [

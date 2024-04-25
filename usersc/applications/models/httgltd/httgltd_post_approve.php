@@ -130,7 +130,7 @@
             //                         rh.id_hemxxmh,
             //                         COUNT(rh.id) AS c_cb
             //                     FROM httxxrd AS rh
-            //                     LEFT JOIN htlxxmh AS mh ON mh.id = rh.id_htlxxmh
+            //                     LEFT JOIN httlpmh AS mh ON mh.id = rh.id_httlpmh
             //                     WHERE YEAR(rh.tanggal) = YEAR(:tanggal) AND rh.jenis = 1 AND mh.is_potongcuti = 1
             //                     GROUP BY rh.id_hemxxmh
             //                 ) AS cb ON cb.id_hemxxmh = a.id_hemxxmh
@@ -172,13 +172,13 @@
                             transaction_state,
                             id_transaksi,
                             id_htlgrmh,
-                            id_htlxxmh,
+                            id_httlpmh,
                             id_hemxxmh,
                             kode,
                             tanggal,
                             keterangan,
                             jenis,
-                            htlxxmh_kode,
+                            httlpmh_kode,
                             htlgrmh_kode,
                             jumlah,
                             jam_awal,

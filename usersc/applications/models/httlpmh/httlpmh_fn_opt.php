@@ -28,6 +28,14 @@
         $id_httlpmh_old = 0;
     }
 
+    if(isset($_GET['jenis']) && $_GET['jenis'] > 0){
+        $jenis = '(' . $_GET['jenis'] . ')';
+        $where_jenis = "IN";
+    }else{
+        $jenis = '(-9)';
+        $where_jenis = "NOT IN";
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_httlpmh_old > 0){
@@ -72,6 +80,7 @@
         ])
         ->where('httlpmh.transaction_state',1)
         ->where('httlpmh.id', $id_httlpmh_old, '<>' )
+        ->where('httlpmh.jenis', $jenis, $where_jenis, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

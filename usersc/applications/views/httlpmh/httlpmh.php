@@ -24,6 +24,7 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Jenis</th>
+                                <th>Jenis Jam</th>
                                 <th>Potong Cuti</th>
                                 <th>Keterangan</th>
                                 <th>TX</th>
@@ -106,13 +107,25 @@
 						name: "httlpmh.nama"
 					}, 	
 					{
-						label: "Jenis",
+						label: "Jenis <sup class='text-danger'>*<sup>",
 						name: "httlpmh.jenis",
 						type: "select",
 						placeholder : "Select",
 						options: [
 							{ "label": "Hari", "value": 1 },
 							{ "label": "Jam", "value": 2 }
+						]
+					},
+					{
+						label: "Jenis Jam <sup class='text-danger'>*<sup>",
+						name: "httlpmh.jenis_jam",
+						type: "select",
+						placeholder : "Select",
+						fieldInfo: "Inputan jam yang harus diisi saat pengajuan Izin",
+						options: [
+							{ "label": "Awal", "value": 1 },
+							{ "label": "Akhir", "value": 2 },
+							{ "label": "Awal dan Akhir", "value": 3 }
 						]
 					},
 					{
@@ -136,6 +149,7 @@
 			edthttlpmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthttlpmh.field('httlpmh.start_at').val(start_at);
+				edthttlpmh.field('httlpmh.jenis_jam').hide();
 				
 				if(action == 'create'){
 					tblhttlpmh.rows().deselect();
@@ -146,20 +160,44 @@
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
+			edthttlpmh.dependent( 'httlpmh.jenis', function ( val, data, callback ) {
+				if (val == 1) {
+					edthttlpmh.field('httlpmh.jenis_jam').hide();
+					edthttlpmh.field('httlpmh.jenis_jam').val('');
+				} else {
+					edthttlpmh.field('httlpmh.jenis_jam').show();
+					edthttlpmh.field('httlpmh.jenis_jam').val();
+				}
+				return {}
+			}, {event: 'keyup change'});
+
             edthttlpmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
 					kode = edthttlpmh.field('httlpmh.kode').val();
 					nama = edthttlpmh.field('httlpmh.nama').val();
+					jenis = edthttlpmh.field('httlpmh.jenis').val();
+					jenis_jam = edthttlpmh.field('httlpmh.jenis_jam').val();
 
 					validasiRequired(
 						edthttlpmh,
 						'httlpmh',
 						{
 							'kode': kode,
-							'nama': nama
+							'nama': nama,
+							'jenis': jenis,
 						}
 					);
+
+					if (jenis == 2) {
+						validasiRequired(
+							edthttlpmh,
+							'httlpmh',
+							{
+								'jenis_jam': jenis_jam,
+							}
+						);
+					}
 
 					validasiUnique(
 						action,
@@ -235,6 +273,20 @@
 							} else if (data == 2) {
 								return '<span class="badge badge-primary">Jam</span>';
 							} else {
+								return '<span class="badge badge-warning">INVALID</span>';
+							}
+						}
+					},
+					{ 
+						data: "httlpmh.jenis_jam" ,
+						render: function (data){
+							if(data == 1){
+								return '<span class="badge badge-primary">Awal</span>';
+							}else if(data == 2){
+								return '<span class="badge badge-primary">Akhir</span>';
+							}else if(data == 3){
+								return '<span class="badge badge-primary">Awal dan Akhir</span>';
+							}else{
 								return '<span class="badge badge-warning">INVALID</span>';
 							}
 						}

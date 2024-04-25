@@ -28,7 +28,7 @@
 			->fields(
 				Field::inst( 'htlxxth.id' ),
 				Field::inst( 'htlxxth.id_hemxxmh' ),
-				Field::inst( 'htlxxth.id_htlxxmh' )
+				Field::inst( 'htlxxth.id_httlpmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'htlxxth.id_files_lampiran' )
 					->setFormatter( Format::ifEmpty( 0 ) )
@@ -78,9 +78,9 @@
 						'to' =>   'Y-m-d'
 					) ),
 
-				Field::inst( 'htlxxmh.nama' )
+				Field::inst( 'httlpmh.nama' )
 			)
-			->leftJoin( 'htlxxmh','htlxxmh.id','=','htlxxth.id_htlxxmh' )
+			->leftJoin( 'httlpmh','httlpmh.id','=','htlxxth.id_httlpmh' )
 			->where('htlxxth.approval_state', 1)
 			->where('htlxxth.id_hemxxmh',$_POST['id_hemxxmh']);
 		

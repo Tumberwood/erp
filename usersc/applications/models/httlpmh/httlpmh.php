@@ -42,7 +42,8 @@
 			Field::inst( 'httlpmh.is_nextprocess' ),
 
 			Field::inst( 'httlpmh.is_potongcuti' ),
-			Field::inst( 'httlpmh.jenis' )
+			Field::inst( 'httlpmh.jenis' ),
+			Field::inst( 'httlpmh.jenis_jam' ),
 		);
 	
 	// do not erase
