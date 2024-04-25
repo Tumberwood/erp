@@ -63,6 +63,9 @@
 		var edthadxxtd, tblhadxxtd, show_deleted_hadxxtd = 0, id_hadxxtd;
 		// ------------- end of default variable
 		
+		kategori_dokumen = "";
+		kategori_dokumen_value = "";
+		
 		// get tableRelation
 		tableRelation('hadxxtd');
 		
