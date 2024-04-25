@@ -159,35 +159,12 @@
 						return query;
 				},
 				processResults: function (data, params) {
-					if (id_hem_get > 0) {
-						var options = data.results.map(function (result) {
-							return {
-								id: result.id,
-								text: result.text
-							};
-						});
-
-						//add by ferry agar auto select 07 sep 23
-						if (params.page && params.page === 1) {
-							$('#select_hemxxmh').empty().select2({ data: options });
-						} else {
-							$('#select_hemxxmh').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
+					return {
+						results: data.results,
+						pagination: {
+							more: true
 						}
-
-						return {
-							results: options,
-							pagination: {
-								more: true
-							}
-						};
-					} else {
-						return {
-							results: data.results,
-							pagination: {
-								more: true
-							}
-						};
-					}
+					};
 				},
 				cache: true,
 				minimumInputLength: 1,

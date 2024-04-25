@@ -84,6 +84,10 @@
 			->where( 'htoxxrd.transaction_state', -9, '<>');
 	}
 	
+	if($_POST['id_hemxxmh'] > 0){
+		$editor->where( 'htoxxrd.id_hemxxmh', $_POST['id_hemxxmh'] );
+	}
+	
 	include( "htoxxrd_extra.php" );
 
 	// BEGIN log
