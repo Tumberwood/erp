@@ -1,4 +1,6 @@
 <script>
+    var backgroundBlob;
+
     function replaceCanvasImage(imageData) {
         // Hapus semua objek yang ada di canvas
         canvas.clear();
@@ -16,10 +18,16 @@
                 top: 0,
                 left: 0
             });
+
+            var backgroundDataURL = canvas.toDataURL('image/jpeg');
+            var backgroundImageData = backgroundDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
+            backgroundBlob = base64ToBlob(backgroundImageData, 'image/jpeg');
         });
 
         // Render ulang canvas
         canvas.renderAll();
+
+        
     }
 
     function addCircle(left, top) {
@@ -55,17 +63,12 @@
     }
 
     function hitungWarna(imageId) {
-        // canvas.setBackgroundImage(null);
-        // var dataURL = canvas.toDataURL('image/jpeg');
-        // var imageData = dataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
-        // var blob = base64ToBlob(imageData, 'image/jpeg');
-        // var formData = new FormData();
-        // formData.append('canvasImage', blob);
-        // formData.append('imageId', imageId); 
-        // formData.append('warna', warna); 
+
+        // var backgroundDataURL = canvas.toDataURL('image/jpeg');
+        // var backgroundImageData = backgroundDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
+        // var backgroundBlob = base64ToBlob(backgroundImageData, 'image/jpeg');
 
         canvas.setBackgroundImage(null);
-        var backgroundDataURL = canvas.toDataURL('image/jpeg');
 
         var circleDataURL = canvas.toDataURL({
             format: 'jpeg',
@@ -76,11 +79,8 @@
             width: canvas.width,
             height: canvas.height
         });
-
-        var backgroundImageData = backgroundDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
+        
         var circleImageData = circleDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
-
-        var backgroundBlob = base64ToBlob(backgroundImageData, 'image/jpeg');
         var circleBlob = base64ToBlob(circleImageData, 'image/jpeg');
 
         var formData = new FormData();

@@ -10,16 +10,24 @@
     $rs_opt    = array();
     // END definisi variable untuk fn_ajax_results.php
 
-    $imageData = $_FILES['canvasImage']['tmp_name'];
+    $filePath = '../../../files/isoxxth_pointer/';
     $imageId = $_POST['imageId'];
     $warna = $_POST['warna'];
-    $filePath = '../../../files/isoxxth_pointer/';
-    $file = 'r' . $imageId . '.jpg';
-    $fullurl = $filePath.$file;
-    move_uploaded_file($imageData, $fullurl);
 
+    $backgroundImage     = $_FILES['backgroundImage']['tmp_name'];
+    $backgroundImageFile = $imageId . '_o.jpg';
+    $backgroundImageUrl  = $filePath.$backgroundImageFile;
+    move_uploaded_file($backgroundImage, $backgroundImageUrl);
+
+    $circleImage     = $_FILES['canvasImage']['tmp_name'];
+    $circleImageFile = $imageId . '_c.jpg';
+    $circleImageUrl  = $filePath.$circleImageFile;
+    move_uploaded_file($circleImage, $circleImageUrl);
+    
     // Jalankan skrip Python untuk memproses gambar
-    $output = shell_exec("python isoxxth_pointer_color.py \"$fullurl\" \"$warna\" \"$filePath\" \"$file\"");
+    
+    // $output = shell_exec("python isoxxth_pointer_color.py \"$circleImageUrl\" \"$warna\" \"$filePath\" \"$circleImageFile\"");
+    $output = shell_exec("python3 isoxxth_pointer_color.py \"$warna\" \"$filePath\" \"$backgroundImageUrl\" \"$backgroundImageFile\" \"$circleImageUrl\" \"$circleImageFile\"");
 
     if ($output === false) {
         // Jika ada kesalahan dalam menjalankan skrip Python
@@ -34,7 +42,7 @@
         $status_code  = 200;
         $message = "Processing image berhasil";
         $type_message = 'success';
-        $output_file = $result['output_file'];
+        $output_file = $result['outputfileCircle'];
     }
 
 
