@@ -60,6 +60,7 @@
 					->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
 					->set('kode', $rs_httlptd['kode'] )
 					->set('approval_state', $state )
+					->set('transaction_state', $state )
 					->set('tanggal', $tanggal_ymd->format('Y-m-d') )
 					->set('keterangan', $rs_httlptd['keterangan'] )
 					->set('jenis', 1 )
@@ -87,6 +88,7 @@
 					->bind(':tanggal_awal', $tanggal_awal)
 					->exec(' INSERT INTO httxxrd (
 								id_transaksi,
+								transaction_state,
 								id_hemxxmh,
 								nama,
 								tanggal,
@@ -94,6 +96,7 @@
 							)
 							SELECT
 								:id_transaksi,
+								1,
 								a.id_hemxxmh,
 								"sisa saldo cuti",
 								:tanggal_awal,
@@ -159,7 +162,7 @@
 
         //Update Approval state manual
         $qu_httgltd = $db
-            ->query('update', 'htpxxth')
+            ->query('update', 'httlptd')
             ->set('approval_state',$state)
             ->where('id',$_POST['id_transaksi_h'])
             ->exec();

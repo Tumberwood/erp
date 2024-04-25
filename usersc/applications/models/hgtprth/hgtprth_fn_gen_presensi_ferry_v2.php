@@ -161,6 +161,7 @@
                         LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
                         WHERE httxxrd.tanggal = :tanggal
                             AND httxxrd.jenis = 1
+                            AND httxxrd.transaction_state = 1
                         GROUP BY httxxrd.id_hemxxmh
                     ) AS cuti ON cuti.id_hemxxmh = a.id
                         
@@ -177,7 +178,7 @@
                             httxxrd.approval_state
                         FROM httxxrd
                         LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
-                        WHERE httxxrd.transaction_state <> -9
+                        WHERE httxxrd.transaction_state = 1
                             AND httxxrd.tanggal = :tanggal
                             AND httlpmh.jenis_jam = 1 -- jenis jam awal
                             AND httxxrd.jenis = 2
@@ -197,7 +198,7 @@
                             httxxrd.approval_state
                         FROM httxxrd
                         LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
-                        WHERE httxxrd.transaction_state <> -9
+                        WHERE httxxrd.transaction_state = 1
                             AND httxxrd.tanggal = :tanggal
                             AND httlpmh.jenis_jam = 2 -- jenis jam akhir
                             AND httxxrd.jenis = 2
@@ -219,7 +220,7 @@
                             httxxrd.approval_state
                         FROM httxxrd
                         LEFT JOIN httlpmh ON httlpmh.id = httxxrd.id_httlpmh
-                        WHERE httxxrd.transaction_state <> -9
+                        WHERE httxxrd.transaction_state = 1
                             AND httxxrd.tanggal = :tanggal
                             AND httlpmh.jenis_jam = 3 -- jenis jam awal dan akhir
                             AND httxxrd.jenis = 2
