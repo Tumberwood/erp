@@ -1,0 +1,245 @@
+<?php
+	/**
+     *V2 ini tanpa Python, by Ferry Ibnu 26 April 2024
+     */
+	
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+<link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+
+<style>
+	canvas {
+		cursor: pointer !important; /* Mengubah kursor menjadi pointer */
+	}
+
+	#canvas-container {
+		width: 100%; /* Ukuran canvas */
+		height: 600px;
+		overflow: auto; /* Menambahkan scroll jika gambar lebih besar dari canvas */
+		border: 1px solid black; /* Garis batas untuk canvas */
+		position: relative;
+	}
+
+	#c {
+		position: absolute;
+	}
+
+</style>
+
+<?php
+	$nama_tabel    = 'isoxxth';
+	$nama_tabels_d = [];
+?>
+
+<div class="row">
+	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+		<div class="ibox">
+			<div class="ibox-content float-e-margins">
+				<form id="frmUpload" enctype="multipart/form-data">
+					<div class="form-group row">
+						<div class="input-group">
+							<input type="file" placeholder="Select File" id="inputfileUpload" name="inputfileUpload" class="form-control" accept="image/*">
+						</div>
+						<span class="form-text text-info">Format file harus berupa png, jpg, jpeg, atau foto langsung dari kamera</span>
+					</div>
+				</form>
+				<hr/>
+				<h3>Action</h3>
+				<p>
+					<button class="btn btn-info" id="addCircleBtn"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-warning" id="moveCircleBtn"><i class="fa fa-arrows"></i></button>
+					<button class="btn btn-danger" id="deleteCircleBtn"><i class="fa fa-trash"></i></button>
+				</p>
+
+				<h3>Color</h3>
+				<p>
+					<input type="color" id="colorPicker">
+					<button class="btn btn-sm btn-primary" id="pickColor"><i class="fa fa-check"></i></button>
+					<div id="btnWarna"></div>
+				</p>
+
+				<br>
+				<input id="circleSize"/>
+
+				<hr/>
+				<button class="btn btn-primary" id="analyzeBtn">Analisa</button>
+				
+			</div>
+		</div>
+	</div>	
+	<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+		<div class="ibox">
+			<div class="ibox-content">
+				<div id="hitung"></div>
+				<div id="canvas-container">
+					<canvas id="c" width="800" height="600"></canvas>
+				</div>
+				<br/>
+				<div id="hasil"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+?>
+
+<!-- BEGIN JS -->
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/fabric/fabric.min.js"></script>
+
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/isoxxth_pointer_v2/fn/isoxxth_pointer_v2_fn.php'; ?>
+
+<!-- BEGIN javascript here -->
+<script type="text/javascript">
+	var canvas = new fabric.Canvas('c');
+	var canvasContainer = $('#canvas-container');
+	var mode = 'add';
+	var warna = 'black';
+	var circleSize = 1;
+	var fungsi = "draw";
+	var c_circle = 0;
+	var arr_warna = [];
+
+	const colorPicker = document.getElementById('colorPicker');
+	const pickColorButton = document.getElementById('pickColor');
+	const btnWarna = document.getElementById('btnWarna'); // Menyimpan referensi ke elemen dengan id 'btnWarna'
+
+	pickColorButton.addEventListener('click', () => {
+		var selectedColor = colorPicker.value;
+		
+		warna = selectedColor;
+
+		 // Cek apakah warna yang dipilih sudah ada di dalam array arr_warna
+		 if (!arr_warna.includes(selectedColor)) {
+			// Jika warna tidak ada di dalam array, tambahkan ke dalam array
+			arr_warna.push(selectedColor);
+		}
+
+		// Kosongkan konten sebelum menambahkan tombol warna baru
+		btnWarna.innerHTML = '';
+
+		// Gunakan forEach untuk menambahkan tombol warna untuk setiap warna dalam array arr_warna
+		arr_warna.forEach(s_warna => {
+			// Buat elemen tombol warna baru
+			const btn = document.createElement('button');
+			btn.classList.add('btn', 'btn-circle', 'mr-1');
+			btn.style.backgroundColor = s_warna;
+			btn.type = 'button';
+
+			// Tambahkan event listener untuk setiap tombol warna
+			btn.addEventListener('click', () => {
+				// Ketika tombol warna diklik, ubah variabel warna menjadi warna yang sesuai
+				warna = s_warna;
+				colorPicker.value = warna;
+			});
+
+			// Tambahkan tombol warna ke dalam elemen dengan id 'btnWarna'
+			btnWarna.appendChild(btn);
+
+		});
+
+	});
+
+	$(document).ready(function() {
+
+		$('#addCircleBtn').prop('disabled', true);
+		$('#moveCircleBtn').prop('disabled', true);
+		$('#deleteCircleBtn').prop('disabled', true);
+		$('#colorPicker').prop('disabled', true);
+		$('#pickColor').prop('disabled', true);
+		$('#circleSize').prop('disabled', true);
+		$('#analyzeBtn').prop('disabled', true);
+
+		$("#inputfileUpload").change(function(e) {
+			e.preventDefault();
+
+			var file = $('#inputfileUpload')[0].files[0];				
+			var reader = new FileReader();
+			reader.onload = function (event) {
+				replaceCanvasImage(event.target.result);
+				// Aktifkan elemen-elemen setelah file terpilih
+				$('#addCircleBtn').prop('disabled', false);
+				$('#moveCircleBtn').prop('disabled', false);
+				$('#deleteCircleBtn').prop('disabled', false);
+				$('#colorPicker').prop('disabled', false);
+				$('#pickColor').prop('disabled', false);
+				$('#circleSize').prop('disabled', false);
+				$('#analyzeBtn').prop('disabled', false);
+				
+				$('#addCircleBtn').on( "click", function() {
+					mode = 'add';
+				} );
+
+				$('#deleteCircleBtn').on( "click", function() {
+					mode = 'delete';
+				} );
+
+				$('#moveCircleBtn').on( "click", function() {
+					mode = 'move';
+				} );
+
+				canvas.on('mouse:down', function(options) {
+					if (mode == 'add') {
+						var pointer = canvas.getPointer(options.e);
+						addCircle(pointer.x, pointer.y);
+					} else if (mode == 'delete') {
+						var target = canvas.findTarget(options.e);
+						if (target && target.type === 'circle') {
+							removeCircle(target);
+						}
+					} else if (mode == 'move') {
+						canvas.isDrawingMode = false;
+						canvas.selection = true;
+					}
+				});
+				
+				$('#analyzeBtn').on( "click", function() {
+					toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+					hitungWarna(Date.now());
+					
+				} );
+			};
+			reader.readAsDataURL(file);
+
+			return false; 
+		});
+		
+		$("#circleSize").ionRangeSlider({
+			skin: "round",
+			min: 0,
+			max: 10,
+			from: 1,
+			type: 'single',
+			step: 0.1,
+			onChange: function (data) {
+				circleSize = data.from;
+			},
+		});
+		
+	} );// end of document.ready
+
+</script>
+
+<!-- END javascript here -->
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
