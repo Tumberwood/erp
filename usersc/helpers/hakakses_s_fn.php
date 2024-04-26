@@ -44,31 +44,6 @@
             ');
         $rs_users = $qs_users->fetch();
         $s_username = $rs_users['username'];
-
-        //Untuk mendapatkan id_hemxxmh, ditempatkan disini agar Semua akun bisa tahu id_hemxxmh nya berapa
-        //Untuk keperluan testing admin juga.
-        // BEGIN hemxxmh default
-        $qs_hemxxmh = $db
-            ->raw()
-            ->bind(':transaction_state',1)
-            ->bind(':s_id_users', $s_id_users)
-            ->exec('
-                SELECT
-                    id as id_hemxxmh
-                FROM hemxxmh
-                WHERE 
-                    transaction_state = :transaction_state AND
-                    id_users = :s_id_users
-            ');
-
-        $rs_hemxxmh = $qs_hemxxmh->fetch();
-
-        if(!empty($rs_hemxxmh)){
-            if(!is_null($rs_hemxxmh['id_hemxxmh'])){
-                $s_id_hemxxmh = $rs_hemxxmh['id_hemxxmh'];
-            }
-        }
-        // END hemxxmh default
         
         if($s_id_users < 101){
             // Jika Tim Solusi Indonesia
@@ -129,7 +104,32 @@
 
         }else{
             // Jika selain Tim Solusi Indonesia
+            
+            //Untuk mendapatkan id_hemxxmh, ditempatkan disini agar Semua akun bisa tahu id_hemxxmh nya berapa
+            //Untuk keperluan testing admin juga.
+            // BEGIN hemxxmh default
+            $qs_hemxxmh = $db
+            ->raw()
+            ->bind(':transaction_state',1)
+            ->bind(':s_id_users', $s_id_users)
+            ->exec('
+                SELECT
+                    id as id_hemxxmh
+                FROM hemxxmh
+                WHERE 
+                    transaction_state = :transaction_state AND
+                    id_users = :s_id_users
+            ');
 
+        $rs_hemxxmh = $qs_hemxxmh->fetch();
+
+        if(!empty($rs_hemxxmh)){
+            if(!is_null($rs_hemxxmh['id_hemxxmh'])){
+                $s_id_hemxxmh = $rs_hemxxmh['id_hemxxmh'];
+            }
+        }
+        // END hemxxmh default
+        
             $qs_udpxxsh = $db
                 ->raw()
                 ->bind(':s_id_users', $s_id_users)
