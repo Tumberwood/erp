@@ -109,6 +109,7 @@
 									<th>Quantity</th>
 									<th>Fisik</th>
 									<th>Selisih</th>
+									<th>SKIP</th>
 									<!-- <th>Location Zone</th> -->
 								</tr>
 							</thead>
@@ -709,6 +710,10 @@
 					data: "isoittd_upload.selisih",
 					...renderNumber()
 				},
+				{ 
+					data: "isoittd_upload.is_skip",
+					...renderYaTidak()
+				},
 				// { data: "wloznmh.nama" }, 
 			],
 			buttons: [
@@ -790,7 +795,32 @@
 								}
 							},
 						]
-				}
+				},
+				{ 
+					text: 'SKIP', 
+					name: 'btnSkip',
+					className: 'btn btn-warning',
+					titleAttr: 'Skip',
+					action: function ( e, dt, node, config ) {
+						$.ajax( {
+							url: '../../models/isoittd_upload/fn_button_skip.php',
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+								start_button: start_button
+							},
+							success: function ( json ) {
+								full_message = json.message + '</br>';
+								toast_type   = json.type_message;
+								toastr[toast_type](full_message, 'INFO');
+
+								tblisoittd_upload.rows().deselect();
+								tblisoittd_upload.ajax.reload(null,false);
+							}
+						});
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -823,6 +853,7 @@
 			tblisoittd_upload.button('btnSetFisik:name').disable();
 			tblisoittd_upload.button('btnSesuai:name').disable();
 			tblisoittd_upload.button('btnNol:name').disable();
+			tblisoittd_upload.button('btnSkip:name').disable();
 		} );
 		
 		tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -868,6 +899,7 @@
 				tblisoittd_upload.button('btnSesuai:name').disable();
 				tblisoittd_upload.button('btnNol:name').disable();
 			}
+			tblisoittd_upload.button('btnSkip:name').enable();
 
 			//keperluan Button
 			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -891,6 +923,7 @@
 			tblisoittd_upload.button('btnSesuai:name').disable();
 			tblisoittd_upload.button('btnNol:name').disable();
 			tblisoittd_upload.button('btnSetFisik:name').disable();
+			tblisoittd_upload.button('btnSkip:name').disable();
 		} );
 		
 		// END isoittd_upload

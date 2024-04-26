@@ -52,6 +52,7 @@
 					Field::inst( 'isoittd_upload.fisik' ),
 					Field::inst( 'isoittd_upload.selisih' ),
 					Field::inst( 'isoittd_upload.lpn' ),
+					Field::inst( 'isoittd_upload.is_skip' ),
 					Field::inst( 'isoittd_upload.batch_number' ),
 					Field::inst( 'isoittd_upload.expired_date' )
 						->getFormatter( function ( $val, $data, $opts ) {
