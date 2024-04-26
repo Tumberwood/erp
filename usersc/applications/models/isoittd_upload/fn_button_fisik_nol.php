@@ -26,7 +26,8 @@ use
             ->exec('    UPDATE isoittd_upload AS b
                         SET 
                             b.fisik = 0,
-                            b.selisih = -b.jumlah_terkecil
+                            b.selisih = -b.jumlah_terkecil,
+                            b.is_skip = 0
                         WHERE b.id = :id_h
         ');
 
