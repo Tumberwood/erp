@@ -157,7 +157,7 @@
 
                     simpanFoto[imageId] = circleBlob;
 
-                    console.log(imageId);
+                    // console.log(imageId);
 
                     // var formData = new FormData();
                     // formData.append('canvasImage', circleBlob);
@@ -368,7 +368,7 @@
                 edtisoittd_upload_fisik.field('isoittd_upload_fisik.start_at').val(start_at);
                 edtisoittd_upload_fisik.field('isoittd_upload_fisik.fisik').val(count);
                 edtisoittd_upload_fisik.field('foto').val(image);
-                console.log(image);
+                // console.log(image);
                 // console.log(file);
                 // edtisoittd_upload_fisik.field('files[].id').val([file]);
                 

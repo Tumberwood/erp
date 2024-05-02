@@ -261,7 +261,7 @@
 			},
 			submitHandler: function(frmisoittd_upload) {
 				id_isoxxth_upload_filter  = $('#selectKode').val();
-				console.log(id_isoxxth_upload_filter);
+				// console.log(id_isoxxth_upload_filter);
 
 				//Jika ada filter kode maka akan muncul konten
 				if (id_isoxxth_upload_filter > 0) {
@@ -280,15 +280,15 @@
 
 						// Check if a file is selected
 						if (fileInput.files.length > 0) {
-							console.log(fileInput.files.length);
+							// console.log(fileInput.files.length);
 							// Get the first file
 							// var file = fileInput.files[0];
 							var file =  fileInput.files[fileInput.files.length - 1];
-							console.log(file);
+							// console.log(file);
 							// console.log(file.name);
 							
 							var reader = new FileReader();
-							console.log(reader);
+							// console.log(reader);
 							reader.onload = function (event) {
 								// console.log(file.name);
 								target_bg = event.target.result
@@ -342,7 +342,7 @@
 										hitungWarna(target_bg, function(result) {
 											// Assign result to simpanFoto
 											simpanFoto = result;
-											console.log(simpanFoto);
+											// console.log(simpanFoto);
 
 											hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
 										});
@@ -364,7 +364,7 @@
 									$('#saveBtn').prop('disabled', true);
 									
 									canvas.off('mouse:down');
-									console.log(simpanFoto); 
+									// console.log(simpanFoto); 
 
 									var formData = new FormData();
 
@@ -383,7 +383,7 @@
 												contentType: false,
 												success: function (json) {
 													var imageId = json.data.imageId;
-													console.log(imageId);
+													// console.log(imageId);
 												},
 												error: function (xhr, status, error) {
 													console.error(xhr, status, error);
