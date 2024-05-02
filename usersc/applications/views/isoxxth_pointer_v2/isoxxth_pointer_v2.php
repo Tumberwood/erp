@@ -45,7 +45,7 @@
             <div class="ibox-content">
                 <form class="form-horizontal" id="frmisoittd_upload">
 					<div class="form-group row">
-						<label class="col-lg-2 col-md-2">Kode</label>
+						<label class="col-lg-2 col-md-2">Kode Stock Opname</label>
 						<div class="col-lg-4 col-sm-4">
 							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
 						</div>
@@ -267,6 +267,7 @@
 				if (id_isoxxth_upload_filter > 0) {
 					$('#konten').show();
 					
+					var target_bg = '';
 					//ketika sudah dipilih filenya
 					$("#inputfileUpload").change(function(e) {
 						e.preventDefault();
@@ -281,17 +282,19 @@
 						if (fileInput.files.length > 0) {
 							console.log(fileInput.files.length);
 							// Get the first file
-							var file = fileInput.files[0];
+							// var file = fileInput.files[0];
+							var file =  fileInput.files[fileInput.files.length - 1];
 							console.log(file);
 							// console.log(file.name);
 							
 							var reader = new FileReader();
-
+							console.log(reader);
 							reader.onload = function (event) {
 								// console.log(file.name);
+								target_bg = event.target.result
 								// console.log(event);
 								// console.log(event.target);
-								replaceCanvasImage(event.target.result);
+								replaceCanvasImage(target_bg);
 
 								// Aktifkan elemen-elemen setelah file terpilih
 								$('#addCircleBtn').prop('disabled', false);
@@ -329,14 +332,21 @@
 									}
 								});
 								
-
 								$('#analyzeBtn').on("click", function() {
 									toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
-									hitungWarna(event.target.result, function(result) {
-										// Assign result to simpanFoto
-										simpanFoto = result;
-										console.log(simpanFoto);
-									});
+
+									// Ensure hitungWarna is called only once
+									if (!hitungWarna.isRunning) {
+										hitungWarna.isRunning = true; // Set flag to indicate that hitungWarna is running
+
+										hitungWarna(target_bg, function(result) {
+											// Assign result to simpanFoto
+											simpanFoto = result;
+											console.log(simpanFoto);
+
+											hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
+										});
+									}
 								});
 
 								$('#saveBtn').on("click", function() {
