@@ -20,7 +20,7 @@
 		width: 100%; /* Ukuran canvas */
 		height: 600px;
 		overflow: auto; /* Menambahkan scroll jika gambar lebih besar dari canvas */
-		border: 1px solid black; /* Garis batas untuk canvas */
+		border: 1px solid #000000; /* Garis batas untuk canvas */
 		position: relative;
 	}
 
@@ -36,6 +36,32 @@
 ?>
 
 <div class="row">
+    <div class="col">
+        <div class="ibox collapsed" id="iboxfilter">
+            <div class="ibox-title">
+                <h5 class="text-navy">Filter</h5>&nbsp
+                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
+            </div>
+            <div class="ibox-content">
+                <form class="form-horizontal" id="frmisoittd_upload">
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Kode</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+						</div>
+					</div>
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="konten" style="display: none">
 	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
 		<div class="ibox">
 			<div class="ibox-content float-e-margins">
@@ -57,7 +83,7 @@
 
 				<h3>Color</h3>
 				<p>
-					<input type="color" id="colorPicker">
+					<input type="color" id="colorPicker" value="#ff0000">
 					<button class="btn btn-sm btn-primary" id="pickColor"><i class="fa fa-check"></i></button>
 					<div id="btnWarna"></div>
 				</p>
@@ -66,7 +92,15 @@
 				<input id="circleSize"/>
 
 				<hr/>
-				<button class="btn btn-primary" id="analyzeBtn">Analisa</button>
+
+				<div class="row">
+					<div class="col-6">
+						<button class="btn btn-primary" id="analyzeBtn">Analisa</button>
+					</div>
+					<div class="col-6">
+						<button class="btn btn-warning" id="saveBtn">Save</button>
+					</div>
+				</div>
 				
 			</div>
 		</div>
@@ -111,21 +145,32 @@
 	var canvas = new fabric.Canvas('c');
 	var canvasContainer = $('#canvas-container');
 	var mode = 'add';
-	var warna = 'black';
+	var warna = '#ff0000';
 	var circleSize = 1;
 	var fungsi = "draw";
 	var c_circle = 0;
 	var arr_warna = [];
+	var id_isoxxth_upload_old = 0;
+	var id_isoittd_upload_old = 0;
+	var simpanFoto = {};
+	var id_isoxxth_upload_filter = 0;
 
 	const colorPicker = document.getElementById('colorPicker');
 	const pickColorButton = document.getElementById('pickColor');
 	const btnWarna = document.getElementById('btnWarna'); // Menyimpan referensi ke elemen dengan id 'btnWarna'
+	
+	var btnMerah = document.createElement('button'); // Membuat elemen tombol
+	btnWarna.innerHTML = '<button class="btn btn-circle" id="colorRed" type="button" style="background-color: red;"></button>';
 
 	pickColorButton.addEventListener('click', () => {
 		var selectedColor = colorPicker.value;
 		
 		warna = selectedColor;
 
+		// cek apakah sudah ada warna merah, jika sudah maka tidak perlu push, ini untuk def value
+		if (!arr_warna.includes('#ff0000')) {
+			arr_warna.push('#ff0000');
+		}
 		 // Cek apakah warna yang dipilih sudah ada di dalam array arr_warna
 		 if (!arr_warna.includes(selectedColor)) {
 			// Jika warna tidak ada di dalam array, tambahkan ke dalam array
@@ -134,7 +179,7 @@
 
 		// Kosongkan konten sebelum menambahkan tombol warna baru
 		btnWarna.innerHTML = '';
-
+		
 		// Gunakan forEach untuk menambahkan tombol warna untuk setiap warna dalam array arr_warna
 		arr_warna.forEach(s_warna => {
 			// Buat elemen tombol warna baru
@@ -157,8 +202,43 @@
 
 	});
 
-	$(document).ready(function() {
+	$("#selectKode").select2({
+		placeholder : "Select",
+		allowClear: true,
+		multiple: false,
+		ajax: {
+			url: "../../models/isoxxth_upload/isoxxth_upload_fn_opt.php",
+			dataType: 'json',
+			data: function (params) {
+				var query = {
+					id_isoxxth_upload_old: id_isoxxth_upload_filter,
+					search: params.term || '',
+					page: params.page || 1
+				}
+					return query;
+			},
+			processResults: function (data, params) {
+				return {
+					results: data.results,
+					pagination: {
+						more: true
+					}
+				};
+			},
+			cache: true,
+			minimumInputLength: 1,
+			maximum: 10,
+			delay: 500,
+			maximumSelectionLength: 5,
+			minimumResultsForSearch: -1,
+		}
+	});
 
+	$(document).ready(function() {
+		var selectedOption = $('#selectKode').select2('data')[0];
+		if (selectedOption) {
+			selectedText = selectedOption.text
+		}
 		$('#addCircleBtn').prop('disabled', true);
 		$('#moveCircleBtn').prop('disabled', true);
 		$('#deleteCircleBtn').prop('disabled', true);
@@ -166,59 +246,151 @@
 		$('#pickColor').prop('disabled', true);
 		$('#circleSize').prop('disabled', true);
 		$('#analyzeBtn').prop('disabled', true);
+		$('#saveBtn').prop('disabled', true);
 
-		$("#inputfileUpload").change(function(e) {
+		$('#colorRed').on( "click", function() {
+			warna = '#ff0000';
+		} );
+		
+		//Filter Kode harus dipilih dulu
+		$("#frmisoittd_upload").submit(function(e) {
 			e.preventDefault();
-
-			var file = $('#inputfileUpload')[0].files[0];				
-			var reader = new FileReader();
-			reader.onload = function (event) {
-				replaceCanvasImage(event.target.result);
-				// Aktifkan elemen-elemen setelah file terpilih
-				$('#addCircleBtn').prop('disabled', false);
-				$('#moveCircleBtn').prop('disabled', false);
-				$('#deleteCircleBtn').prop('disabled', false);
-				$('#colorPicker').prop('disabled', false);
-				$('#pickColor').prop('disabled', false);
-				$('#circleSize').prop('disabled', false);
-				$('#analyzeBtn').prop('disabled', false);
+		}).validate({
+			rules: {
 				
-				$('#addCircleBtn').on( "click", function() {
-					mode = 'add';
-				} );
+			},
+			submitHandler: function(frmisoittd_upload) {
+				id_isoxxth_upload_filter  = $('#selectKode').val();
+				console.log(id_isoxxth_upload_filter);
 
-				$('#deleteCircleBtn').on( "click", function() {
-					mode = 'delete';
-				} );
-
-				$('#moveCircleBtn').on( "click", function() {
-					mode = 'move';
-				} );
-
-				canvas.on('mouse:down', function(options) {
-					if (mode == 'add') {
-						var pointer = canvas.getPointer(options.e);
-						addCircle(pointer.x, pointer.y);
-					} else if (mode == 'delete') {
-						var target = canvas.findTarget(options.e);
-						if (target && target.type === 'circle') {
-							removeCircle(target);
-						}
-					} else if (mode == 'move') {
-						canvas.isDrawingMode = false;
-						canvas.selection = true;
-					}
-				});
-				
-				$('#analyzeBtn').on( "click", function() {
-					toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
-					hitungWarna(Date.now());
+				//Jika ada filter kode maka akan muncul konten
+				if (id_isoxxth_upload_filter > 0) {
+					$('#konten').show();
 					
-				} );
-			};
-			reader.readAsDataURL(file);
+					//ketika sudah dipilih filenya
+					$("#inputfileUpload").change(function(e) {
+						e.preventDefault();
 
-			return false; 
+						$('#hitung').empty();
+						$('#hasil').empty(); // Clear any previous images
+						canvas.clear();
+						
+						var fileInput = $('#inputfileUpload')[0];
+
+						// Check if a file is selected
+						if (fileInput.files.length > 0) {
+							console.log(fileInput.files.length);
+							// Get the first file
+							var file = fileInput.files[0];
+							console.log(file);
+							// console.log(file.name);
+							
+							var reader = new FileReader();
+
+							reader.onload = function (event) {
+								// console.log(file.name);
+								// console.log(event);
+								// console.log(event.target);
+								replaceCanvasImage(event.target.result);
+
+								// Aktifkan elemen-elemen setelah file terpilih
+								$('#addCircleBtn').prop('disabled', false);
+								$('#moveCircleBtn').prop('disabled', false);
+								$('#deleteCircleBtn').prop('disabled', false);
+								$('#colorPicker').prop('disabled', false);
+								$('#pickColor').prop('disabled', false);
+								$('#circleSize').prop('disabled', false);
+								$('#analyzeBtn').prop('disabled', false);
+								
+								$('#addCircleBtn').on( "click", function() {
+									mode = 'add';
+								} );
+
+								$('#deleteCircleBtn').on( "click", function() {
+									mode = 'delete';
+								} );
+
+								$('#moveCircleBtn').on( "click", function() {
+									mode = 'move';
+								} );
+
+								canvas.on('mouse:down', function(options) {
+									if (mode == 'add') {
+										var pointer = canvas.getPointer(options.e);
+										addCircle(pointer.x, pointer.y);
+									} else if (mode == 'delete') {
+										var target = canvas.findTarget(options.e);
+										if (target && target.type === 'circle') {
+											removeCircle(target);
+										}
+									} else if (mode == 'move') {
+										canvas.isDrawingMode = false;
+										canvas.selection = true;
+									}
+								});
+								
+
+								$('#analyzeBtn').on("click", function() {
+									toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+									hitungWarna(event.target.result, function(result) {
+										// Assign result to simpanFoto
+										simpanFoto = result;
+										console.log(simpanFoto);
+									});
+								});
+
+								$('#saveBtn').on("click", function() {
+									toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+									$('.btn_hasil').prop('disabled', false); 
+									
+									// Disable all buttons when saved
+									$('#addCircleBtn').prop('disabled', true);
+									$('#moveCircleBtn').prop('disabled', true);
+									$('#deleteCircleBtn').prop('disabled', true);
+									$('#colorPicker').prop('disabled', true);
+									$('#pickColor').prop('disabled', true);
+									$('#circleSize').prop('disabled', true);
+									$('#analyzeBtn').prop('disabled', true);
+									$('#saveBtn').prop('disabled', true);
+									
+									canvas.off('mouse:down');
+									console.log(simpanFoto); 
+
+									var formData = new FormData();
+
+									// Loop melalui setiap kunci (key) dalam simpanFoto
+									for (var key in simpanFoto) {
+										if (simpanFoto.hasOwnProperty(key)) {
+											// Menambahkan nilai simpanFoto ke FormData
+											formData.append('canvasImage', simpanFoto[key]);
+											formData.append('imageId', key);
+											
+											$.ajax({
+												url: "../../models/isoxxth_pointer/isoxxth_pointer_v2.php",
+												type: 'POST',
+												data: formData,
+												processData: false,
+												contentType: false,
+												success: function (json) {
+													var imageId = json.data.imageId;
+													console.log(imageId);
+												},
+												error: function (xhr, status, error) {
+													console.error(xhr, status, error);
+												}
+											});
+										}
+									}
+								});
+
+							};
+							reader.readAsDataURL(file);
+						}
+						return false; 
+					});
+					return false; 
+				}
+			}
 		});
 		
 		$("#circleSize").ionRangeSlider({

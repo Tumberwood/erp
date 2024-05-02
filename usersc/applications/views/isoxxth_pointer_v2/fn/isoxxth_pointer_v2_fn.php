@@ -1,33 +1,29 @@
 <script>
     var backgroundBlob;
-
+    
     function replaceCanvasImage(imageData) {
-        // Hapus semua objek yang ada di canvas
+        // Remove all objects from the canvas
         canvas.clear();
 
-        // Atur gambar sebagai latar belakang canvas
+        // Set the image as the background of the canvas
         fabric.Image.fromURL(imageData, function(img) {
-            // Mengatur ukuran canvas sesuai ukuran gambar
+            // Set canvas dimensions to match the image size
             canvas.setDimensions({ width: img.width, height: img.height });
 
-            // Atur gambar sebagai latar belakang dengan konfigurasi
+            // Set the image as the background with configuration
             canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                // Menjadikan gambar sebagai latar belakang tanpa mengubah ukurannya
+                // Make the image the background without resizing it
                 scaleX: canvas.width / img.width,
                 scaleY: canvas.height / img.height,
                 top: 0,
-                left: 0
+                left: 0,
+                originX: 'left',
+                originY: 'top' // Ensure the background image starts from the top-left corner
             });
-
-            var backgroundDataURL = canvas.toDataURL('image/jpeg');
-            var backgroundImageData = backgroundDataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
-            backgroundBlob = base64ToBlob(backgroundImageData, 'image/jpeg');
         });
 
-        // Render ulang canvas
+        // Render canvas
         canvas.renderAll();
-
-        
     }
 
     function addCircle(left, top) {
@@ -69,107 +65,341 @@
         return blob;
     }
 
-    function hitungWarna() {
+    function hitungWarna(imageData, callback) {
+        //Inputan File disable ketika sudah di analisa
+        $('#inputfileUpload').prop('disabled', true);
+
+        //filter kode disable ketika analisa
+        $('#go').prop('disabled', true);
+        $('#frmisoittd_upload :input').prop('disabled', true);
+
         var circles = canvas.getObjects('circle');
         var countByColor = {};
+        var circleOldAnalisis = new Set(); // Menggunakan Set untuk menyimpan nilai analisis yang unik
 
-        // console.log("circles = "+circles);
+        // Iterate over each circle to count and display
         circles.forEach(function(circle) {
             var color = circle.fill;
-            console.log(circle);
-            if (!countByColor[color]) {
-                countByColor[color] = 1;
-            } else {
-                countByColor[color]++;
+
+            var analisis = color + '-' + circle.left + '-' + circle.top;
+            // console.log(analisis);
+
+            // Jika analisis belum ada dalam Set, tambahkan ke Set dan array circleOldAnalisis
+            if (!circleOldAnalisis.has(analisis)) {
+                circleOldAnalisis.add(analisis);
+
+                if (!countByColor[color]) {
+                    countByColor[color] = 1;
+                } else {
+                    countByColor[color]++;
+                }
             }
         });
-        
+
+        // console.log([...circleOldAnalisis]); // Ubah Set kembali menjadi array saat mencetak
+        // console.log(countByColor);
+
         $('#hitung').empty();
-        // Tampilkan jumlah lingkaran per warna di dalam elemen #hitung
-        for (var color in countByColor) {
-            if (countByColor.hasOwnProperty(color)) {
-                $('#hitung').append(`<h3 style="color: ${color}">Warna ${color}: ${countByColor[color]}</h3>`);
-                
-                // Ubah kanvas menjadi gambar
-                var canvasDataUrl = canvas.toDataURL({
-                    format: 'png',
-                    quality: 1
-                });
+        $('#hasil').empty(); // Clear any previous images
 
-                // Buat elemen gambar baru dan tambahkan ke dalam elemen #hasil
-                var img = document.createElement('img');
-                img.src = canvasDataUrl;
-                $('#hasil').html(img);
+        // Set the canvas with filtered circles
+        canvas.clear().renderAll();
+        fabric.Image.fromURL(imageData, function(img) {
+            // Mengatur ukuran canvas sesuai ukuran gambar
+            canvas.setDimensions({ width: img.width, height: img.height });
+
+            // Atur gambar sebagai latar belakang dengan konfigurasi
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                // Menjadikan gambar sebagai latar belakang tanpa mengubah ukurannya
+                scaleX: canvas.width / img.width,
+                scaleY: canvas.height / img.height,
+                top: 0,
+                left: 0
+            });
+
+            // Loop through each color
+            var simpanFoto = {};
+            for (var color in countByColor) {
+                if (countByColor.hasOwnProperty(color)) {
+                    //Enable Save ketika sudah ada warna
+                    $('#saveBtn').prop('disabled', false);
+
+                    // Filter circles by color
+                    var filteredCircles = circles.filter(function(circle) {
+                        return circle.fill === color;
+                    });
+
+                    // Remove circles with different colors
+                    var circlesToRemove = circles.filter(function(circle) {
+                        return circle.fill !== color;
+                    });
+                    canvas.remove.apply(canvas, circlesToRemove);
+
+                    // Add circles with the current color
+                    filteredCircles.forEach(function(circle) {
+                        canvas.add(circle);
+                    });
+
+                    // Convert canvas to image
+                    var canvasDataUrl = canvas.toDataURL({
+                        format: 'png',
+                        quality: 1
+                    });
+
+                    // Create image element and append it to #hasil
+                    var img = document.createElement('img');
+                    img.src = canvasDataUrl;
+                    $('#hasil').append(img); // Append the image to #hasil
+                    
+                    var circleImageData = canvasDataUrl.replace(/^data:image\/(png|jpeg);base64,/, '');
+                    var circleBlob = base64ToBlob(circleImageData, 'image/jpeg');
+                    var imageId = Date.now();
+
+                    simpanFoto[imageId] = circleBlob;
+
+                    console.log(imageId);
+
+                    // var formData = new FormData();
+                    // formData.append('canvasImage', circleBlob);
+                    // formData.append('imageId', imageId); 
+
+                    // $.ajax({
+                    //     url: "../../models/isoxxth_pointer/isoxxth_pointer_v2.php",
+                    //     type: 'POST',
+                    //     data: formData,
+                    //     processData: false,
+                    //     contentType: false,
+                    //     success: function (json) {
+                    //         var imageId = json.data.imageId;
+                    //         console.log(imageId);
+                    //     },
+                    //     error: function (xhr, status, error) {
+                    //         console.error(xhr, status, error);
+                    //     }
+                    // });
+
+                    $('#hitung').append(`<button id="addFisik" data-count="${countByColor[color]}" data-image="${imageId}" class="btn btn-primary btn_hasil" style="background-color: ${color}; border-color: ${color}">Warna ${color}: ${countByColor[color]}</button>`);
+                    $('.btn_hasil').prop('disabled', true); 
+                }
             }
-        }
+            callback(simpanFoto);
+
+            // Restore all circles
+            canvas.renderAll();
+            circles.forEach(function(circle) {
+                canvas.add(circle);
+            });
+        });
+
+        // $('#analyzeBtn').hide();
+        
+        // BEGIN isoittd_upload_fisik
+        edtisoittd_upload_fisik = new $.fn.dataTable.Editor( {
+            ajax: {
+                url: "../../models/isoittd_upload/isoittd_upload_fisik_pointer_v2.php",
+                type: 'POST',
+                data: function (d){
+                }
+            },
+            formOptions: {
+                main: {
+                    focus: 12,
+                    onBackground: 'none'
+                }
+            },
+            fields: [ 
+                {
+                    label: "isoittd_upload_fisik.start_at",
+                    name: "isoittd_upload_fisik.start_at",
+                    type: "hidden"
+                },	
+                {
+                    label: "isoittd_upload_fisik.finish_at",
+                    name: "isoittd_upload_fisik.finish_at",
+                    type: "hidden"
+                },	
+                {
+                    label: "nama_tabel",
+                    name: "nama_tabel",
+                    def: "isoittd_upload_fisik",
+                    type: "hidden"
+                },	
+                {
+                    label: "isoittd_upload_fisik.transaction_state",
+                    name: "isoittd_upload_fisik.transaction_state",
+                    type: "hidden",
+                    def: 0
+                },	
+                {
+                    label: "Kode",
+                    name: "isoxxth_upload_fisik.id_isoxxth_upload",
+                    type: "hidden",
+					def: id_isoxxth_upload_filter
+				},
+                {
+                    label: "Item",
+                    name: "isoittd_upload_fisik.id_isoittd_upload",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/isoittd_upload_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_isoittd_upload_old: id_isoittd_upload_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+                {
+                    label: "Fisik <sup class='text-danger'>*<sup>",
+                    name: "isoittd_upload_fisik.fisik",
+                    type: "readonly"
+                }, 	
+                // {
+                //     label: "Images",
+                //     name: "files[].id",
+                //     type: "uploadMany",
+                //     display: function ( fileId, counter ) {
+                //         if (fileId == 0){
+                //             return 'Belum ada lampiran';
+                //         }else{
+                //             return '<a href="'+edtisoittd_upload_fisik.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_upload_fisik.file( 'files', fileId ).filename + '</a>'; 
+                //         }
+                //     },
+                // },	
+                {
+                    label: "Gambar",
+                    name: "foto",
+                    type: "hidden"
+                },
+                {
+                    label: "Keterangan",
+                    name: "isoittd_upload_fisik.keterangan",
+                    type: "textarea"
+                }
+            ]
+        } );
+
+        edtisoittd_upload_fisik.on("open", function (e, mode, action) {
+            $(".modal-dialog").addClass("modal-lg");
+        });
+
+        edtisoittd_upload_fisik.dependent( 'isoxxth_upload_fisik.id_isoxxth_upload', function ( val, data, callback ) {
+            if (val > 0) {
+                // console.log(val);
+                id_isoxxth_upload_old = val;
+            }
+            return {}
+        }, {event: 'keyup change'});
+
+        edtisoittd_upload_fisik.on( 'preSubmit', function (e, data, action) {
+            if(action != 'remove'){
+                fisik           = edtisoittd_upload_fisik.field('isoittd_upload_fisik.fisik').val();
+
+                validasiRequired(
+                    edtisoittd_upload_fisik,
+                    'isoittd_upload_fisik',
+                    {
+                        'fisik': fisik,
+                    }
+                );
+
+                validasiNumber(
+                    edtisoittd_upload_fisik,
+                    'isoittd_upload_fisik',
+                    {
+                        'fisik': fisik
+                    },
+                    0,
+                    '>='
+                );
+            }
+            
+            if ( edtisoittd_upload_fisik.inError() ) {
+                return false;
+            }
+        });
+
+        edtisoittd_upload_fisik.on('initSubmit', function(e, action) {
+            finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+            edtisoittd_upload_fisik.field('isoittd_upload_fisik.finish_at').val(finish_at);
+        });
+            
+        edtisoittd_upload_fisik.on( 'postSubmit', function (e, json, data, action, xhr) {
+        } );
+
+        edtisoittd_upload_fisik.on( 'close', function () {
+            edtisoittd_upload_fisik.enable();
+        } );
+
+        $('#hitung').on('click', '#addFisik', function (e) {
+            e.preventDefault();
+            var count = $(this).data('count');
+            var image = $(this).data('image');
+            // console.log(count);
+            // console.log(image);
+                
+            edtisoittd_upload_fisik.on( 'preOpen', function( e, mode, action ) {
+                
+                start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+                edtisoittd_upload_fisik.field('isoittd_upload_fisik.start_at').val(start_at);
+                edtisoittd_upload_fisik.field('isoittd_upload_fisik.fisik').val(count);
+                edtisoittd_upload_fisik.field('foto').val(image);
+                console.log(image);
+                // console.log(file);
+                // edtisoittd_upload_fisik.field('files[].id').val([file]);
+                
+                // console.log(countByColor[color]);
+                // edtisoittd_upload_fisik.field('files[]').input().files = [file];
+                // console.log(count);
+            });
+            
+            var clickedButton = $(this); // Store a reference to the clicked button
+            edtisoittd_upload_fisik.title('Input Fisik').buttons(
+                {
+                    label: 'Submit',
+                    className: 'btn btn-primary',
+                    action: function () {
+                        this.submit();
+                        clickedButton.hide(); // Hide the clicked button after submission
+                        
+                        var visibleButtons = $('#hitung #addFisik:visible').length;
+                        // console.log("Jumlah tombol yang tidak tersembunyi: " + visibleButtons);
+
+                        if (visibleButtons == 0) {
+                            $('#go').prop('disabled', false);
+                            $('#frmisoittd_upload :input').prop('disabled', false);
+                            $('#inputfileUpload').prop('disabled', false);
+                        }
+                    }
+                }
+            ).create();
+        });
+        
+        //show, berapa button yang tidak di hide
     }
-
-// function hitungWarna() {
-//     var circles = canvas.getObjects('circle');
-//     var circlesByColor = {};
-
-//     // Group circles by fill color
-//     circles.forEach(function(circle) {
-//         var color = circle.fill;
-//         if (!circlesByColor[color]) {
-//             circlesByColor[color] = [];
-//         }
-//         circlesByColor[color].push(circle);
-//     });
-
-//     $('#hasil').empty(); // Clear the #hasil element
-//     // Debugging the code
-//     // console.log("Number of circles:", circles.length);
-//     // console.log("Circles grouped by color:", circlesByColor);
-
-//     // Iterate over circles grouped by color
-//     for (var color in circlesByColor) {
-//         if (circlesByColor.hasOwnProperty(color)) {
-//             var circlesGroup = circlesByColor[color];
-
-//             // Create a canvas for each group of circles with the same fill color
-//             var canvasCopy = new fabric.Canvas();
-
-//             // Iterate over circles in the group
-//             circlesGroup.forEach(function(circle) {
-//                 var circleCopy = new fabric.Circle({
-//                     radius: circle.radius,
-//                     fill: circle.fill,
-//                     left: circle.left,
-//                     top: circle.top
-//                 });
-
-//                 // Add circle to canvasCopy
-//                 canvasCopy.add(circleCopy);
-//                 canvasCopy.renderAll(); // Render circle immediately after adding
-//             });
-
-//             // Log canvasCopy for debugging
-//             console.log("Canvas Copy:", canvasCopy);
-
-//             // Convert canvasCopy to an image
-//             var canvasDataUrl = canvasCopy.toDataURL({
-//                 format: 'png',
-//                 quality: 1
-//             });
-
-//             // Log canvasDataUrl for debugging
-//             console.log("Canvas Data URL:", canvasDataUrl);
-
-//             // Create a new image element and append it to the #hasil element
-//             var img = document.createElement('img');
-//             img.src = canvasDataUrl;
-
-//             // Log img for debugging
-//             console.log("Image Element:", img);
-
-//             $('#hasil').append(img); // Append image inside the loop
-//         }
-//     }
-
-
-
-// }
-
 
 </script>
