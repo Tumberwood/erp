@@ -26,3 +26,5 @@
 
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
+
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/i18next/i18next.min.js"></script>
