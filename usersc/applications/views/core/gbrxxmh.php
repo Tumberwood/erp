@@ -208,10 +208,6 @@
 				
 				if(action == 'create'){
 					tblgbrxxmh.rows().deselect();
-				}
-
-				if(action == 'create'){
-					tblgbrxxmh.rows().deselect();
 
 					edtgbrxxmh.field('gbrxxmh.kode').enable();					
 					edtgbrxxmh.field('gbrxxmh.nama').enable();					
