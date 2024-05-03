@@ -22,11 +22,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Cabang</th>
-                                <th>Alamat</th>
-                                <th>Kota</th>
-                                <th>Perusahaan</th>
-								<th>TX</th>
+                                <th data-i18n="branchCode"></th>
+                                <th data-i18n="branchName"></th>
+                                <th data-i18n="address"></th>
+                                <th data-i18n="city"></th>
+                                <th data-i18n="companyName"></th>
+								<th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -52,6 +53,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -62,7 +64,7 @@
 		var id_gctxxmh_old = 0, id_gcpxxmh_old = 0;
 
 		// get tableRelation
-		tableRelation('gcpxxmh');
+		tableRelation('gbrxxmh');
 
 		$(document).ready(function() {
 
@@ -100,15 +102,19 @@
 						def: 0
 					},
 					{
-						label: "Cabang <sup class='text-danger'>*<sup>",
+						label: getTranslation('branchCode') + " <sup class='text-danger'>*<sup>",
+						name: "gbrxxmh.kode"
+					}, 	
+					{
+						label: getTranslation('branchName') + " <sup class='text-danger'>*<sup>",
 						name: "gbrxxmh.nama"
 					}, 	
 					{
-						label: "Alamat <sup class='text-danger'>*<sup>",
+						label: getTranslation('address') +" <sup class='text-danger'>*<sup>",
 						name: "gbrxxmh.alamat"
 					},	
 					{
-						label: "Kota <sup class='text-danger'>*<sup>",
+						label: getTranslation('city') +" <sup class='text-danger'>*<sup>",
 						name: "gbrxxmh.id_gctxxmh",
 						type: "select2",
 						opts: {
@@ -144,7 +150,7 @@
 						}
 					}, 	
 					{
-						label: "Perusahaan <sup class='text-danger'>*<sup>",
+						label: getTranslation('companyName') +" <sup class='text-danger'>*<sup>",
 						name: "gbrxxmh.id_gcpxxmh",
                         type: "select2",
 						opts: {
@@ -180,17 +186,17 @@
 						}
 					}, 	
 					{
-						label: "Latitude",
+						label: getTranslation('latitude'),
 						name: "gbrxxmh.lat",
                         type: "readonly"
 					}, 	
 					{
-						label: "Longitude",
+						label: getTranslation('longitude'),
 						name: "gbrxxmh.lng",
                         type: "readonly"
 					}, 
 					{
-						label: "Maps",
+						label: getTranslation('maps'),
 						name: "tes_maps"
 					}
 				]
@@ -203,15 +209,37 @@
 				if(action == 'create'){
 					tblgbrxxmh.rows().deselect();
 				}
+
+				if(action == 'create'){
+					tblgbrxxmh.rows().deselect();
+
+					edtgbrxxmh.field('gbrxxmh.kode').enable();					
+					edtgbrxxmh.field('gbrxxmh.nama').enable();					
+
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtgbrxxmh.field('gbrxxmh.kode').enable();
+						edtgbrxxmh.field('gbrxxmh.nama').enable();
+					}else{
+						edtgbrxxmh.field('gbrxxmh.kode').disable();
+						edtgbrxxmh.field('gbrxxmh.nama').disable();
+					}
+				}
+
 			});
 
 			edtgbrxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtgbrxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
+					kode       = edtgbrxxmh.field('gbrxxmh.kode').val();
 					nama       = edtgbrxxmh.field('gbrxxmh.nama').val();
 					alamat     = edtgbrxxmh.field('gbrxxmh.alamat').val();
 					id_gctxxmh = edtgbrxxmh.field('gbrxxmh.id_gctxxmh').val();
@@ -221,11 +249,22 @@
 						edtgbrxxmh,
 						'gbrxxmh',
 						{
+							'kode'      : kode,
 							'nama'      : nama,
 							'alamat'    : alamat,
 							'id_gctxxmh': id_gctxxmh,
 							'id_gcpxxmh': id_gcpxxmh
 						}
+					);
+
+					validasiUnique(
+						action,
+						edtgbrxxmh,
+						'gbrxxmh',
+						'kode',
+						'kode',
+						'"'+kode+'"',
+						id_gbrxxmh
 					);
 
 				}
@@ -256,7 +295,7 @@
 						d.show_deleted_gbrxxmh = show_deleted_gbrxxmh;
 					}
 				},
-				order: [[ 2, "asc" ],[1,"asc"]],
+				order: [[1,"asc"]],
 				columnDefs:[
 					{
 						searchPanes:{
@@ -273,6 +312,7 @@
 				],
 				columns: [
 					{ data: "gbrxxmh.id",visible:false },
+					{ data: "gbrxxmh.kode" },
 					{ data: "gbrxxmh.nama" },
 					{ data: "gbrxxmh.alamat" },
 					{ data: "gctxxmh.nama" },
@@ -314,14 +354,8 @@
 			} );
 			
 			tblgbrxxmh.on( 'select', function( e, dt, type, indexes ) {
-				gbrxxmh_data    	= tblgbrxxmh.row( { selected: true } ).data().gbrxxmh;
-				id_gbrxxmh      	= gbrxxmh_data.id;
-				id_transaksi_h 		= id_gbrxxmh; // dipakai untuk general
-				id_transaksi_log	= id_gbrxxmh; // dipakai untuk general
-				transaction_state   = gbrxxmh_data.transaction_state;
-				approval_state   	= gbrxxmh_data.approval_state;
-				is_nextprocess 		= gbrxxmh_data.is_nextprocess;
-
+				// set variable standar framework
+				siVarSet('gbrxxmh');
 				id_gctxxmh_old = gbrxxmh_data.id_gctxxmh;
 				id_gcpxxmh_old = gbrxxmh_data.id_gcpxxmh;
 
@@ -330,8 +364,8 @@
 			} );
 
 			tblgbrxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gbrxxmh = 0;
+				// reset variable standar framework
+				siVarReset('gcpxxmh');
 				id_gctxxmh_old = 0;
 				id_gcpxxmh_old = 0;
 
