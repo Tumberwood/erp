@@ -24,8 +24,8 @@
                                 <th>ID</th>
                                 <th>BU</th>
                                 <th data-i18n="companyName"></th>
-                                <th>Alamat</th>
-                                <th>Kota</th>
+                                <th data-i18n="address"></th>
+                                <th data-i18n="city"></th>
                                 <th>NPWP</th>
                                 <th>KLU</th>
                                 <th>TX</th>
@@ -103,7 +103,7 @@
 						def: 0
 					},	
 					{
-						label: "Badan Usaha",
+						label: getTranslation('businessEntityCode') + " <sup class='text-danger'>*<sup>",
 						name: "gcpxxmh.id_gbuxxmh",
 						type: "select2",
 						opts: {
@@ -143,11 +143,11 @@
 						name: "gcpxxmh.nama"
 					}, 	
 					{
-						label: "Alamat <sup class='text-danger'>*<sup>",
+						label: getTranslation('address') + " <sup class='text-danger'>*<sup>",
 						name: "gcpxxmh.alamat"
 					},	
 					{
-						label: "Kota <sup class='text-danger'>*<sup>",
+						label: getTranslation('city') + " <sup class='text-danger'>*<sup>",
 						name: "gcpxxmh.id_gctxxmh",
 						type: "select2",
 						opts: {
@@ -199,12 +199,22 @@
 				
 				if(action == 'create'){
 					tblgcpxxmh.rows().deselect();
+
+					edtgcpxxmh.field('gcpxxmh.nama').enable();
+
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtgcpxxmh.field('gcpxxmh.nama').enable();
+					}else{
+						edtgcpxxmh.field('gcpxxmh.nama').disable();
+					}
 				}
 			});
 
 			edtgcpxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
-				
+
 				// enable disable tombol Save & Confirm
 				edtFormButtonSaveConfirm();
 			});
@@ -307,7 +317,7 @@
 
 						$arr_buttons_tools 		= ['show_hide', 'copy', 'excel', 'colvis'];
 						$arr_buttons_tools2 	= [];
-						$arr_buttons_action 	= ['edit', 'nonaktif_h', 'log','noaction'];
+						$arr_buttons_action 	= ['edit', 'nonaktif_h', 'view', 'log'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
