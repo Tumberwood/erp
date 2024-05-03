@@ -121,6 +121,9 @@
 
 			edthovxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edthovxxmh.on( 'preSubmit', function (e, data, action) {
@@ -248,22 +251,16 @@
 			} );
 			
 			tblhovxxmh.on( 'select', function( e, dt, type, indexes ) {
-				hovxxmh_data    		= tblhovxxmh.row( { selected: true } ).data().hovxxmh;
-				id_hovxxmh      		= hovxxmh_data.id;
-				id_transaksi_h 		= id_hovxxmh; // dipakai untuk general
-				id_transaksi_log	= id_hovxxmh; // dipakai untuk general
-				transaction_state   = hovxxmh_data.transaction_state;
-				approval_state   	= hovxxmh_data.approval_state;
-				is_nextprocess 		= hovxxmh_data.is_nextprocess;
-				is_jurnal      		= hovxxmh_data.is_jurnal;
+				// set variable standar framework
+				siVarSet('hovxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblhovxxmh);
 			} );
 
 			tblhovxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_hovxxmh = 0;
+				// reset variable standar framework
+				siVarReset('hovxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhovxxmh);

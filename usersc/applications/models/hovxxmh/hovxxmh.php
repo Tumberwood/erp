@@ -39,6 +39,7 @@
 			Field::inst( 'hovxxmh.start_at' ),
 			Field::inst( 'hovxxmh.finish_at' ),
 			Field::inst( 'hovxxmh.is_defaultprogram' ),
+			Field::inst( 'hovxxmh.is_nextprocess' )
 		);
 	
 	// do not erase
