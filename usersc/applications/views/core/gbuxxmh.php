@@ -22,7 +22,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
+                                <th data-i18n="businessEntityCode"></th>
+                                <th data-i18n="businessEntityName"></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,6 +49,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -93,8 +95,12 @@
 						def: 0
 					},
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
+						label: getTranslation('businessEntityCode') + " <sup class='text-danger'>*<sup>",
 						name: "gbuxxmh.kode"
+					},
+					{
+						label: getTranslation('businessEntityName') + " <sup class='text-danger'>*<sup>",
+						name: "gbuxxmh.nama"
 					}
 				]
 			} );
@@ -105,31 +111,42 @@
 				
 				if(action == 'create'){
 					tblgbuxxmh.rows().deselect();
-				}else if(action == 'edit'){
 
+					edtgbuxxmh.field('gbuxxmh.kode').enable();
+					edtgbuxxmh.field('gbuxxmh.nama').enable();
+
+				}else if(action == 'edit'){
+					
 					if(transaction_state == 0){
 						edtgbuxxmh.field('gbuxxmh.kode').enable();
+						edtgbuxxmh.field('gbuxxmh.nama').enable();
 					}else{
 						edtgbuxxmh.field('gbuxxmh.kode').disable();
+						edtgbuxxmh.field('gbuxxmh.nama').disable();
 					}
-
 				}
+
 			});
 
 			edtgbuxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtgbuxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
 					kode = edtgbuxxmh.field('gbuxxmh.kode').val();
+					nama = edtgbuxxmh.field('gbuxxmh.nama').val();
 
 					validasiRequired(
 						edtgbuxxmh,
 						'gbuxxmh',
 						{
-							'kode': kode
+							'kode': kode,
+							'nama': nama
 						}
 					);
 
@@ -140,6 +157,16 @@
 						'kode',
 						'kode',
 						'"'+kode+'"',
+						id_gbuxxmh
+					);
+
+					validasiUnique(
+						action,
+						edtgbuxxmh,
+						'gbuxxmh',
+						'nama',
+						'nama',
+						'"'+nama+'"',
 						id_gbuxxmh
 					);
 					
@@ -170,7 +197,8 @@
 				order: [[ 1, "asc" ]],
 				columns: [
 					{ data: "gbuxxmh.id",visible:false },
-					{ data: "gbuxxmh.kode" }
+					{ data: "gbuxxmh.kode" },
+					{ data: "gbuxxmh.nama" }
 				],
 				buttons: [
 					// BEGIN breaking generate button
@@ -199,21 +227,16 @@
 			} );
 			
 			tblgbuxxmh.on( 'select', function( e, dt, type, indexes ) {
-				gbuxxmh_data    	= tblgbuxxmh.row( { selected: true } ).data().gbuxxmh;
-				id_gbuxxmh      	= gbuxxmh_data.id;
-				id_transaksi_h 		= id_gbuxxmh; // dipakai untuk general
-				id_transaksi_log	= id_gbuxxmh; // dipakai untuk general
-				transaction_state   = gbuxxmh_data.transaction_state;
-				approval_state   	= gbuxxmh_data.approval_state;
-				is_nextprocess 		= gbuxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('gbuxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblgbuxxmh);
 			} );
 
 			tblgbuxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gbuxxmh = '';
+				// reset variable standar framework
+				siVarReset('gbuxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblgbuxxmh);
