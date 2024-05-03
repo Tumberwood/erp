@@ -16,10 +16,6 @@
  *  contoh: id_transaksi_h, id_transaksi_d 
  */
 
-function stripEdt(nilai) {
-    return nilai.replace(/,/g, '');
-}
-
 /**
  * Digunakan untuk meng-copy error message yang tampil pada toastr (notifikasi)
  */
@@ -29,6 +25,71 @@ function copyError() {
     }, function () {
         alert('Failure to copy. Check permissions for clipboard')
     });
+}
+
+/**
+ * siVarSet
+ * Digunakan untuk set nilai variable yang diperlukan oleh framework, yaitu:
+ *  tbl_name
+ *  id_tbl_name
+ *  id_transaksi_h
+ *  id_transaksi_log
+ *  transaction_state
+ *  approval_state
+ *  is_nextprocess
+ * 
+ * @param {String} tbl_name 
+ */
+function siVarSet(tbl_name){
+
+    var rowData = window['tbl' + tbl_name].row({ selected: true }).data();
+    window[tbl_name + '_data'] = rowData[tbl_name];
+    window['id_' + tbl_name] = rowData[tbl_name].id;
+    id_transaksi_h 		= rowData[tbl_name].id;
+    id_transaksi_log	= rowData[tbl_name].id;
+    transaction_state   = rowData[tbl_name].transaction_state;
+    approval_state   	= rowData[tbl_name].approval_state;
+    is_nextprocess 		= rowData[tbl_name].is_nextprocess;
+
+}
+
+/**
+ * siVarReset
+ * Digunakan untuk reset variable yang diperlukan oleh framework, yaitu:
+ *  tbl_name
+ *  id_tbl_name
+ *  id_transaksi_h
+ *  id_transaksi_log
+ *  transaction_state
+ *  approval_state
+ *  is_nextprocess
+ * 
+ * @param {String} tbl_name 
+ */
+function siVarReset(tbl_name){
+
+    window[tbl_name + '_data'] = 0;
+    window['id_' + tbl_name] = 0;
+    id_transaksi_h 		= 0;
+    id_transaksi_log	= 0;
+    transaction_state   = 0;
+    approval_state   	= 0;
+    is_nextprocess 		= 0;
+
+}
+
+/**
+ * edtFormButtonSaveConfirm
+ * Digunakan untuk show hide Form Button Save & Confirm
+ * Rule:
+ *  transaction_state = 1, maka tombol di hide 
+ */
+function edtFormButtonSaveConfirm(){
+    if(transaction_state == 1){
+        $('div.DTE_Form_Buttons button:eq(2)').hide();
+    }else{
+        $('div.DTE_Form_Buttons button:eq(2)').show();
+    }
 }
 
 /**
