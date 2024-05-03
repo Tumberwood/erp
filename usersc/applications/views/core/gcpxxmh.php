@@ -23,7 +23,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>BU</th>
-                                <th>Perusahaan</th>
+                                <th data-i18n="companyName"></th>
                                 <th>Alamat</th>
                                 <th>Kota</th>
                                 <th>NPWP</th>
@@ -54,6 +54,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -138,7 +139,7 @@
 						}
 					},	
 					{
-						label: "Perusahaan <sup class='text-danger'>*<sup>",
+						label: getTranslation('companyName') + " <sup class='text-danger'>*<sup>",
 						name: "gcpxxmh.nama"
 					}, 	
 					{
@@ -203,6 +204,9 @@
 
 			edtgcpxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+				
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtgcpxxmh.on( 'preSubmit', function (e, data, action) {
@@ -322,14 +326,8 @@
 			} );
 			
 			tblgcpxxmh.on( 'select', function( e, dt, type, indexes ) {
-				gcpxxmh_data    	= tblgcpxxmh.row( { selected: true } ).data().gcpxxmh;
-				id_gcpxxmh      	= gcpxxmh_data.id;
-				id_transaksi_h 		= id_gcpxxmh; // dipakai untuk general
-				id_transaksi_log	= id_gcpxxmh; // dipakai untuk general
-				transaction_state   = gcpxxmh_data.transaction_state;
-				approval_state   	= gcpxxmh_data.approval_state;
-				is_nextprocess 		= gcpxxmh_data.is_nextprocess;
-
+				// set variable standar framework
+				siVarSet('gcpxxmh');
 				id_gbuxxmh_old = gcpxxmh_data.id_gbuxxmh;
 				id_gctxxmh_old = gcpxxmh_data.id_gctxxmh;
 
@@ -338,8 +336,8 @@
 			} );
 
 			tblgcpxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gcpxxmh = 0;
+				// reset variable standar framework
+				siVarReset('gcpxxmh');
 				id_gbuxxmh_old = 0;
 				id_gctxxmh_old = 0;
 
