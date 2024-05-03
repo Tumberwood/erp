@@ -86,6 +86,7 @@
 			Field::inst( 'hemxxmh.finish_at' ),
 			Field::inst( 'hemxxmh.is_pot_makan' ),
 			Field::inst( 'hemxxmh.is_defaultprogram' ),
+			Field::inst( 'hemxxmh.is_nextprocess' ),
 			
 			Field::inst( 'hemjbmh.tanggal_masuk' )
 				->getFormatter( function ( $val, $data, $opts ) {

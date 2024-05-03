@@ -69,6 +69,7 @@
 			Field::inst( 'hadxxtd.start_at' ),
 			Field::inst( 'hadxxtd.finish_at' ),
 			Field::inst( 'hadxxtd.is_defaultprogram' ),
+			Field::inst( 'hadxxtd.is_nextprocess' ),
 			Field::inst( 'hadxxtd.tanggal_awal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){

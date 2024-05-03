@@ -39,6 +39,7 @@
 			Field::inst( 'hadxxmh.start_at' ),
 			Field::inst( 'hadxxmh.finish_at' ),
 			Field::inst( 'hadxxmh.is_defaultprogram' ),
+			Field::inst( 'hadxxmh.is_nextprocess' ),
 
 			Field::inst( 'hadxxmh.masa_berlaku_hari' )
 		);

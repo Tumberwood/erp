@@ -40,6 +40,7 @@
 			Field::inst( 'htsprrd.start_at' ),
 			Field::inst( 'htsprrd.finish_at' ),
 			Field::inst( 'htsprrd.is_defaultprogram' ),
+			Field::inst( 'htsprrd.is_nextprocess' ),
 			Field::inst( 'htsprrd.st_jadwal' ),
 			Field::inst( 'htsprrd.clock_in' )
 				->getFormatter( 'Format::datetime', array(

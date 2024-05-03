@@ -40,6 +40,7 @@
 				Field::inst( 'htpr_hemxxmh.start_at' ),
 				Field::inst( 'htpr_hemxxmh.finish_at' ),
 				Field::inst( 'htpr_hemxxmh.is_defaultprogram' ),
+				Field::inst( 'htpr_hemxxmh.is_nextprocess' ),
 				Field::inst( 'htpr_hemxxmh.tanggal_efektif' )
 				   ->getFormatter( function ( $val, $data, $opts ) {
 					   if ($val === '0000-00-00' || $val === null){

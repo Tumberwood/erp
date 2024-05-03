@@ -38,6 +38,7 @@
 			Field::inst( 'htsptth.start_at' ),
 			Field::inst( 'htsptth.finish_at' ),
 			Field::inst( 'htsptth.is_defaultprogram' ),
+			Field::inst( 'htsptth.is_nextprocess' ),
 			Field::inst( 'htsptth.jumlah_grup' ),
 			Field::inst( 'htsptth.is_tukar' )
 		);

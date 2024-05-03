@@ -53,6 +53,7 @@
 				Field::inst( 'htpxxth.finish_at' ),
 				Field::inst( 'htpxxth.is_defaultprogram' ),
 				Field::inst( 'htpxxth.is_default' ),
+				Field::inst( 'htpxxth.is_nextprocess' ),
 				Field::inst( 'htpxxth.tanggal' )
 					->getFormatter( function ( $val, $data, $opts ) {
 						if ($val === '0000-00-00' || $val === null){

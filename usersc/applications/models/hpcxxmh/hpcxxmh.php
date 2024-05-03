@@ -39,6 +39,7 @@
 			Field::inst( 'hpcxxmh.start_at' ),
 			Field::inst( 'hpcxxmh.finish_at' ),
 			Field::inst( 'hpcxxmh.is_defaultprogram' ),
+			Field::inst( 'hpcxxmh.is_nextprocess' ),
 			Field::inst( 'hpcxxmh.jenis' ),
 			Field::inst( 'hpcxxmh.periode' ),
 			Field::inst( 'hpcxxmh.nominal' ),

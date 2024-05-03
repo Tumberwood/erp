@@ -45,6 +45,7 @@
 			Field::inst( 'htsprtd.start_at' ),
 			Field::inst( 'htsprtd.finish_at' ),
 			Field::inst( 'htsprtd.is_defaultprogram' ),
+			Field::inst( 'htsprtd.is_nextprocess' ),
 			Field::inst( 'htsprtd.username' ),
 			Field::inst( 'htsprtd.tipe' )
 				->set( Field::SET_CREATE )

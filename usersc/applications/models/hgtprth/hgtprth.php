@@ -39,6 +39,7 @@
 			Field::inst( 'hgtprth.start_at' ),
 			Field::inst( 'hgtprth.finish_at' ),
 			Field::inst( 'hgtprth.is_defaultprogram' ),
+			Field::inst( 'hgtprth.is_nextprocess' ),
 			Field::inst( 'hgtprth.generated_on' )
 				->getFormatter( 'Format::datetime', array(
 					'from' => 'Y-m-d H:i:s',

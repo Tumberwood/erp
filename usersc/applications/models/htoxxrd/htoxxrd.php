@@ -44,6 +44,7 @@
 			Field::inst( 'htoxxrd.start_at' ),
 			Field::inst( 'htoxxrd.finish_at' ),
 			Field::inst( 'htoxxrd.is_defaultprogram' ),
+			Field::inst( 'htoxxrd.is_nextprocess' ),
 
 			Field::inst( 'htoxxrd.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {

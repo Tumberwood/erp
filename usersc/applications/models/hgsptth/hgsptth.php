@@ -41,6 +41,7 @@
 			Field::inst( 'hgsptth.start_at' ),
 			Field::inst( 'hgsptth.finish_at' ),
 			Field::inst( 'hgsptth.is_defaultprogram' ),
+			Field::inst( 'hgsptth.is_nextprocess' ),
 			Field::inst( 'hgsptth.tanggal_awal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
