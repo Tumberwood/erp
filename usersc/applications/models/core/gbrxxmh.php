@@ -43,6 +43,7 @@
 			Field::inst( 'gbrxxmh.start_at' ),
 			Field::inst( 'gbrxxmh.finish_at' ),
 			Field::inst( 'gbrxxmh.is_defaultprogram' ),
+			Field::inst( 'gbrxxmh.is_nextprocess' ),
 			
 			
 			Field::inst( 'gbrxxmh.alamat' ),

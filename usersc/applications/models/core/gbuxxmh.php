@@ -32,7 +32,8 @@
 			Field::inst( 'gbuxxmh.approval_state' ),
 			Field::inst( 'gbuxxmh.start_at' ),
 			Field::inst( 'gbuxxmh.finish_at' ),
-			Field::inst( 'gbuxxmh.is_defaultprogram' )
+			Field::inst( 'gbuxxmh.is_defaultprogram' ),
+			Field::inst( 'gbuxxmh.is_nextprocess' )
 		);
 	
 	// do not erase
