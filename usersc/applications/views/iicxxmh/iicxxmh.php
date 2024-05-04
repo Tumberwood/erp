@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iicxxmh/fn/iicxxmh_fn.php'; ?>
 
@@ -97,15 +98,15 @@
 						def: 0
 					},	
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
+						label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 						name: "iicxxmh.kode"
 					}, 	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "iicxxmh.nama"
 					}, 	
 					{
-						label: "Keterangan",
+						label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
 						name: "iicxxmh.keterangan",
 						type: "textarea"
 					}
@@ -118,6 +119,10 @@
 
 				if(action == 'create'){
 					tbliicxxmh.rows().deselect();
+
+					edtiicxxmh.field('iicxxmh.kode').enable();
+					edtiicxxmh.field('iicxxmh.nama').enable();
+
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
@@ -132,6 +137,9 @@
 
 			edtiicxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiicxxmh.on( 'preSubmit', function (e, data, action) {
@@ -235,19 +243,16 @@
 			} );
 			
 			tbliicxxmh.on( 'select', function( e, dt, type, indexes ) {
-				iicxxmh_data    	= tbliicxxmh.row( { selected: true } ).data().iicxxmh;
-				id_iicxxmh      	= iicxxmh_data.id;
-				id_transaksi_h 		= id_iicxxmh; // dipakai untuk general
-				id_transaksi_log	= id_iicxxmh; // dipakai untuk general
-				transaction_state   = iicxxmh_data.transaction_state;
+				// set variable standar framework
+				siVarSet('iicxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tbliicxxmh);
 			} );
 
 			tbliicxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iicxxmh = '';
+				// reset variable standar framework
+				siVarReset('iicxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tbliicxxmh);
