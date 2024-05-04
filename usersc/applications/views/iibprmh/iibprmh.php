@@ -21,9 +21,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,6 +48,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iibprmh/fn/iibprmh_fn.php'; ?>
 
@@ -95,11 +96,11 @@
 						def: 0
 					},	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "iibprmh.nama"
 					}, 	
 					{
-						label: "Keterangan",
+						label: getTranslation('notes'),
 						name: "iibprmh.keterangan",
 						type: "textarea"
 					}
@@ -112,11 +113,24 @@
 				
 				if(action == 'create'){
 					tbliibprmh.rows().deselect();
+
+					edtiibprmh.field('iibprmh.nama').enable();
+
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtiibprmh.field('iibprmh.nama').enable();
+					}else{
+						edtiibprmh.field('iibprmh.nama').disable();
+					}
 				}
 			});
 
 			edtiibprmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiibprmh.on( 'preSubmit', function (e, data, action) {
@@ -230,21 +244,16 @@
 			} );
 			
 			tbliibprmh.on( 'select', function( e, dt, type, indexes ) {
-				iibprmh_data    		= tbliibprmh.row( { selected: true } ).data().iibprmh;
-				id_iibprmh      		= iibprmh_data.id;
-				id_transaksi_h 		= id_iibprmh; // dipakai untuk general
-				id_transaksi_log	= id_iibprmh; // dipakai untuk general
-				transaction_state   = iibprmh_data.transaction_state;
-				approval_state   	= iibprmh_data.approval_state;
-				is_nextprocess 		= iibprmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('iibprmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tbliibprmh);
 			} );
 
 			tbliibprmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iibprmh = 0;
+				// reset variable standar framework
+				siVarReset('iibprmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tbliibprmh);
