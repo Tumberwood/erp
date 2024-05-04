@@ -41,6 +41,8 @@
 			Field::inst( 'iitxxmh.start_at' ),
 			Field::inst( 'iitxxmh.finish_at' ),
 			Field::inst( 'iitxxmh.is_defaultprogram' ),
+			Field::inst( 'iitxxmh.is_nextprocess' ),
+
 			Field::inst( 'ftxxxmh.kode' )
 		)
 		->leftJoin( 'ftxxxmh','ftxxxmh.id','=','iitxxmh.id_ftxxxmh' )

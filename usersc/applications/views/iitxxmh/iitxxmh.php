@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nama</th>
+								<th data-i18n="name"></th>
                                 <th>Tax Type</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iitxxmh/fn/iitxxmh_fn.php'; ?>
 
@@ -99,7 +100,7 @@
 						def: 0
 					},	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "iitxxmh.nama"
 					}, 	
 					{
@@ -139,7 +140,7 @@
 						}
 					},
 					{
-						label: "Keterangan",
+						label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
 						name: "iitxxmh.keterangan",
 						type: "textarea"
 					}
@@ -152,13 +153,14 @@
 
 				if(action == 'create'){
 					tbliitxxmh.rows().deselect();
+
+					edtiitxxmh.field('iitxxmh.nama').enable();
+
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
-						edtiitxxmh.field('iitxxmh.kode').enable();
 						edtiitxxmh.field('iitxxmh.nama').enable();
 					}else{
-						edtiitxxmh.field('iitxxmh.kode').disable();
 						edtiitxxmh.field('iitxxmh.nama').disable();
 					}
 				}
@@ -166,6 +168,9 @@
 
 			edtiitxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiitxxmh.on( 'preSubmit', function (e, data, action) {
@@ -257,21 +262,16 @@
 			} );
 			
 			tbliitxxmh.on( 'select', function( e, dt, type, indexes ) {
-				iitxxmh_data    	= tbliitxxmh.row( { selected: true } ).data().iitxxmh;
-				id_iitxxmh      	= iitxxmh_data.id;
-				id_transaksi_h 		= id_iitxxmh; // dipakai untuk general
-				id_transaksi_log	= id_iitxxmh; // dipakai untuk general
-				transaction_state   = iitxxmh_data.transaction_state;
-				is_defaultprogram   = iitxxmh_data.is_defaultprogram;
-				id_ftxxxmh_old   	= iitxxmh_data.id_ftxxxmh;
+				// set variable standar framework
+				siVarSet('iitxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tbliitxxmh);
 			} );
 
 			tbliitxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iitxxmh = '';
+				// reset variable standar framework
+				siVarReset('iitxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tbliitxxmh);
