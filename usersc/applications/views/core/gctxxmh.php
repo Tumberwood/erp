@@ -22,8 +22,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>City</th>
-                                <th>Province</th>
+                                <th data-i18n="cityName"></th>
+                                <th data-i18n="provinceName"></th>
                             </tr>
                         </thead>
                     </table>
@@ -49,6 +49,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -96,11 +97,11 @@
 						def: 0
 					},	
 					{
-						label: "City <sup class='text-danger'>*<sup>",
+						label: getTranslation('cityName') + " <sup class='text-danger'>*<sup>",
 						name: "gctxxmh.nama"
 					}, 	
 					{
-						label: "Province <sup class='text-danger'>*<sup>",
+						label: getTranslation('provinceName') + " <sup class='text-danger'>*<sup>",
 						name: "gctxxmh.id_gpvxxmh",
 						type: "select2",
 						opts: {
@@ -144,11 +145,27 @@
 				
 				if(action == 'create'){
 					tblgctxxmh.rows().deselect();
+
+					edtgctxxmh.field('gctxxmh.nama').enable();
+					edtgctxxmh.field('gctxxmh.id_gpvxxmh').enable();
+
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtgctxxmh.field('gctxxmh.nama').enable();
+						edtgctxxmh.field('gctxxmh.id_gpvxxmh').enable();
+					}else{
+						edtgctxxmh.field('gctxxmh.nama').disable();
+						edtgctxxmh.field('gctxxmh.id_gpvxxmh').disable();
+					}
 				}
 			});
 
 			edtgctxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtgctxxmh.on( 'preSubmit', function (e, data, action) {
@@ -223,13 +240,8 @@
 			} );
 			
 			tblgctxxmh.on( 'select', function( e, dt, type, indexes ) {
-				gctxxmh_data    	= tblgctxxmh.row( { selected: true } ).data().gctxxmh;
-				id_gctxxmh      	= gctxxmh_data.id;
-				id_transaksi_h 		= id_gctxxmh; // dipakai untuk general
-				id_transaksi_log	= id_gctxxmh; // dipakai untuk general
-				transaction_state   = gctxxmh_data.transaction_state;
-				approval_state   	= gctxxmh_data.approval_state;
-				is_nextprocess 		= gctxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('gctxxmh');
 
 				id_gpvxxmh_old = gctxxmh_data.id_gpvxxmh;
 
@@ -238,8 +250,8 @@
 			} );
 
 			tblgctxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gctxxmh = 0;
+				// reset variable standar framework
+				siVarReset('gctxxmh');
 				id_gpvxxmh_old = 0;
 
 				// atur hak akses

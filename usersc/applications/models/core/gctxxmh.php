@@ -41,6 +41,7 @@
 			Field::inst( 'gctxxmh.start_at' ),
 			Field::inst( 'gctxxmh.finish_at' ),
 			Field::inst( 'gctxxmh.is_defaultprogram' ),
+			Field::inst( 'gctxxmh.is_nextprocess' ),
 
 			Field::inst( 'gpvxxmh.nama' )
 		)
