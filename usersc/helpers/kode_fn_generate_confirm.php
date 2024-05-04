@@ -258,13 +258,13 @@
 			if ($result){
 				$db->commit();
 
-				$status_code  = '200';
+				$status_code  = 200;
 				$message      = 'Generate Kode Berhasil';
 				$type_message = 'success';
 			}else{
 				$db->rollback();
 
-				$status_code  = '500';
+				$status_code  = 500;
 				$message      = 'Generate Kode Gagal!';
 				$type_message = 'error';
 			} 
@@ -272,7 +272,7 @@
 		}catch(PDOException $e){
 			$db->rollback();
 
-			$status_code  = '500';
+			$status_code  = 500;
 			$message      = 'Message Gagal! ' . $e->getMessage();
 			$type_message = 'error';
 		}
