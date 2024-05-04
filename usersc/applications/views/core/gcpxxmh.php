@@ -25,7 +25,7 @@
                                 <th>BU</th>
                                 <th data-i18n="companyName"></th>
                                 <th data-i18n="address"></th>
-                                <th data-i18n="city"></th>
+                                <th data-i18n="cityName"></th>
                                 <th>NPWP</th>
                                 <th>KLU</th>
                                 <th>TX</th>
@@ -147,7 +147,7 @@
 						name: "gcpxxmh.alamat"
 					},	
 					{
-						label: getTranslation('city') + " <sup class='text-danger'>*<sup>",
+						label: getTranslation('cityName') + " <sup class='text-danger'>*<sup>",
 						name: "gcpxxmh.id_gctxxmh",
 						type: "select2",
 						opts: {

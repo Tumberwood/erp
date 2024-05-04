@@ -25,7 +25,7 @@
                                 <th data-i18n="branchCode"></th>
                                 <th data-i18n="branchName"></th>
                                 <th data-i18n="address"></th>
-                                <th data-i18n="city"></th>
+                                <th data-i18n="cityName"></th>
                                 <th data-i18n="companyName"></th>
 								<th data-i18n="state"></th>
                             </tr>
@@ -114,7 +114,7 @@
 						name: "gbrxxmh.alamat"
 					},	
 					{
-						label: getTranslation('city') +" <sup class='text-danger'>*<sup>",
+						label: getTranslation('cityName') +" <sup class='text-danger'>*<sup>",
 						name: "gbrxxmh.id_gctxxmh",
 						type: "select2",
 						opts: {
