@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Province</th>
+                                <th data-i18n="provinceName"></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,6 +48,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -93,7 +94,7 @@
 						def: 0
 					},	
 					{
-						label: "Province <sup class='text-danger'>*<sup>",
+						label: getTranslation('provinceName') + " <sup class='text-danger'>*<sup>",
 						name: "gpvxxmh.nama"
 					}
 				]
@@ -105,11 +106,24 @@
 				
 				if(action == 'create'){
 					tblgpvxxmh.rows().deselect();
+
+					edtgpvxxmh.field('gpvxxmh.nama').enable();
+
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtgpvxxmh.field('gpvxxmh.nama').enable();
+					}else{
+						edtgpvxxmh.field('gpvxxmh.nama').disable();
+					}
 				}
 			});
 
 			edtgpvxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtgpvxxmh.on( 'preSubmit', function (e, data, action) {
@@ -181,21 +195,16 @@
 			} );
 			
 			tblgpvxxmh.on( 'select', function( e, dt, type, indexes ) {
-				gpvxxmh_data    	= tblgpvxxmh.row( { selected: true } ).data().gpvxxmh;
-				id_gpvxxmh      	= gpvxxmh_data.id;
-				id_transaksi_h 		= id_gpvxxmh; // dipakai untuk general
-				id_transaksi_log	= id_gpvxxmh; // dipakai untuk general
-				transaction_state   = gpvxxmh_data.transaction_state;
-				approval_state   	= gpvxxmh_data.approval_state;
-				is_nextprocess 		= gpvxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('gpvxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblgpvxxmh);
 			} );
 
 			tblgpvxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gpvxxmh = '';
+				// reset variable standar framework
+				siVarReset('gpvxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblgpvxxmh);

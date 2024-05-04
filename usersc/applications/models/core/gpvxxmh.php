@@ -38,7 +38,8 @@
 			Field::inst( 'gpvxxmh.approval_state' ),
 			Field::inst( 'gpvxxmh.start_at' ),
 			Field::inst( 'gpvxxmh.finish_at' ),
-			Field::inst( 'gpvxxmh.is_defaultprogram' )
+			Field::inst( 'gpvxxmh.is_defaultprogram' ),
+			Field::inst( 'gpvxxmh.is_nextprocess' )
 		);
 	
 	// do not erase
