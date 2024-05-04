@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iibxxmh/fn/iibxxmh_fn.php'; ?>
 
@@ -112,7 +113,7 @@
 						def: 0
 					},
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>", 
 						name: "iibxxmh.nama"
 					}, 	
 					{
@@ -132,9 +133,6 @@
 
 					edtiibxxmh.field('iibxxmh.nama').enable();
 
-					edtiibxxmh.field('kategori_dokumen').val('');
-					edtiibxxmh.field('kategori_dokumen_value').val('');
-
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
@@ -147,6 +145,9 @@
 
 			edtiibxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiibxxmh.on( 'preSubmit', function (e, data, action) {
@@ -238,21 +239,16 @@
 			} );
 			
 			tbliibxxmh.on( 'select', function( e, dt, type, indexes ) {
-				iibxxmh_data    		= tbliibxxmh.row( { selected: true } ).data().iibxxmh;
-				id_iibxxmh      		= iibxxmh_data.id;
-				id_transaksi_h 		= id_iibxxmh; // dipakai untuk general
-				id_transaksi_log	= id_iibxxmh; // dipakai untuk general
-				transaction_state   = iibxxmh_data.transaction_state;
-				approval_state   	= iibxxmh_data.approval_state;
-				is_nextprocess 		= iibxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('iibxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tbliibxxmh);
 			} );
 
 			tbliibxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iibxxmh = '';
+				// reset variable standar framework
+				siVarReset('iibxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tbliibxxmh);
