@@ -20,11 +20,11 @@
                     <table id="tbliigxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+								<th>ID</th>
+								<th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iigxxmh/fn/iigxxmh_fn.php'; ?>
 
@@ -112,11 +113,11 @@
 						def: 0
 					},	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "iigxxmh.nama"
 					}, 	
 					{
-						label: "Keterangan",
+						label: getTranslation('notes'),
 						name: "iigxxmh.keterangan",
 						type: "textarea"
 					}
@@ -144,6 +145,9 @@
 
 			edtiigxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiigxxmh.on( 'preSubmit', function (e, data, action) {
@@ -237,21 +241,16 @@
 			} );
 			
 			tbliigxxmh.on( 'select', function( e, dt, type, indexes ) {
-				iigxxmh_data    		= tbliigxxmh.row( { selected: true } ).data().iigxxmh;
-				id_iigxxmh      		= iigxxmh_data.id;
-				id_transaksi_h 		= id_iigxxmh; // dipakai untuk general
-				id_transaksi_log	= id_iigxxmh; // dipakai untuk general
-				transaction_state   = iigxxmh_data.transaction_state;
-				approval_state   	= iigxxmh_data.approval_state;
-				is_nextprocess 		= iigxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('iigxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tbliigxxmh);
 			} );
 
 			tbliigxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iigxxmh = 0;
+				// reset variable standar framework
+				siVarReset('iigxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tbliigxxmh);
