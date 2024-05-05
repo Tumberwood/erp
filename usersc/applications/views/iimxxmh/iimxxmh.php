@@ -63,10 +63,10 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Kode</th>
-							<th>Nama</th>
-							<th>Tipe</th>
-							<th>Kategori</th>
+							<th data-i18n="code"></th>
+							<th data-i18n="name"></th>
+							<th data-i18n="type"></th>
+							<th data-i18n="category"></th>
 						</tr>
 					</thead>
 				</table>
@@ -145,14 +145,14 @@
 									<th rowspan=2>ID</th>
 									<th rowspan=2>id_iimxxmh</th>
 									<th rowspan=2>UoM</th>
-									<th rowspan=2>Konversi</th>
+									<th rowspan=2 data-i18n="conversion"></th>
 									<th colspan=4>UoM Purpose</th>
 								</tr>
 								<tr>
-									<th>Inventory</th>
+									<th data-i18n="inventory"></th>
 									<th>Base</th>
-									<th>Buy</th>
-									<th>Sell</th>
+									<th data-i18n="buy"></th>
+									<th data-i18n="sell"></th>
 								</tr>
 							</thead>
 						</table>
@@ -182,6 +182,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iimxxmh/fn/iimxxmh_fn.php'; ?>
 
@@ -240,11 +241,11 @@
 					def: 0
 				},
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.kode"
 				},
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.nama"
 				},
 				{
@@ -441,7 +442,7 @@
 					},
 				},	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.keterangan",
 					type: "textarea"
 				}
@@ -471,6 +472,9 @@
 
 		edtiimxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
 		});
 
 		edtiimxxmh.dependent( 'iimxxmh.id_iitxxmh', function ( val, data, callback ) {
@@ -643,14 +647,8 @@
 		} );
 		
 		tbliimxxmh.on( 'select', function( e, dt, type, indexes ) {
-			iimxxmh_data    	= tbliimxxmh.row( { selected: true } ).data().iimxxmh;
-			id_iimxxmh      	= iimxxmh_data.id;
-			id_transaksi_h 		= id_iimxxmh; // dipakai untuk general
-			id_transaksi_log	= id_iimxxmh; // dipakai untuk general
-			transaction_state   = iimxxmh_data.transaction_state;
-			approval_state   	= iimxxmh_data.approval_state;
-			is_nextprocess 		= iimxxmh_data.is_nextprocess;
-
+			// set variable standar framework
+			siVarSet('iimxxmh');
 			id_iitxxmh_old = iimxxmh_data.id_iitxxmh;
 			id_iicxxmh_old = iimxxmh_data.id_iicxxmh;
 			id_iigxxmh     = iimxxmh_data.id_iigxxmh;
@@ -667,9 +665,8 @@
 		} );
 		
 		tbliimxxmh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_iimxxmh = 0;
-
+			// reset variable standar framework
+			siVarReset('iimxxmh');
 			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
@@ -678,7 +675,7 @@
 
 			tbliimummd.button( 'btnCopyFrom:name' ).disable();
 		} );
-		
+
 		// END iimxxmh
 
 		
@@ -810,7 +807,7 @@
 					]
 				}, 		
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "iimummd.keterangan",
 					type: "textarea"
 				},
@@ -868,6 +865,9 @@
 
 		edtiimummd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
 		});
 		
 		edtiimummd.on( 'preSubmit', function (e, data, action) {
@@ -1153,17 +1153,12 @@
 		} );
 
 		tbliimummd.on( 'select', function( e, dt, type, indexes ) {
-			data_iimummd 		= tbliimummd.row( { selected: true } ).data().iimummd;
-			id_iimummd   		= data_iimummd.id;
-			id_transaksi_d 		= id_iimummd; // dipakai untuk general
-			id_transaksi_log 	= id_iimummd; // dipakai untuk log
-
-			transaction_state_d   = data_iimummd.transaction_state;
-
-			id_iumxxmh_old = data_iimummd.id_iumxxmh;
-			is_default_old = data_iimummd.is_default;
-			is_iumxxmh_beli_old = data_iimummd.is_iumxxmh_beli;
-			is_iumxxmh_jual_old = data_iimummd.is_iumxxmh_jual;
+			// set variable standar framework
+			siVarSetD('iimummd');
+			id_iumxxmh_old      = iimummd_data.id_iumxxmh;
+			is_default_old      = iimummd_data.is_default;
+			is_iumxxmh_beli_old = iimummd_data.is_iumxxmh_beli;
+			is_iumxxmh_jual_old = iimummd_data.is_iumxxmh_jual;
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimxxmh, tbliimummd );
@@ -1171,6 +1166,8 @@
 		} );
 
 		tbliimummd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('iimummd');
 			id_iimummd = 0;
 			id_iumxxmh_old = 0;
 			
