@@ -30,7 +30,7 @@ function copyError() {
 /**
  * siVarSet
  * Digunakan untuk set nilai variable yang diperlukan oleh framework, yaitu:
- *  tbl_name
+ *  tbl_name_data
  *  id_tbl_name
  *  id_transaksi_h
  *  id_transaksi_log
@@ -44,12 +44,12 @@ function siVarSet(tbl_name){
 
     var rowData = window['tbl' + tbl_name].row({ selected: true }).data();
     window[tbl_name + '_data'] = rowData[tbl_name];
-    window['id_' + tbl_name] = rowData[tbl_name].id;
-    id_transaksi_h 		= rowData[tbl_name].id;
-    id_transaksi_log	= rowData[tbl_name].id;
-    transaction_state   = rowData[tbl_name].transaction_state;
-    approval_state   	= rowData[tbl_name].approval_state;
-    is_nextprocess 		= rowData[tbl_name].is_nextprocess;
+    window['id_' + tbl_name]   = rowData[tbl_name].id;
+    id_transaksi_h             = rowData[tbl_name].id;
+    id_transaksi_log           = rowData[tbl_name].id;
+    transaction_state          = rowData[tbl_name].transaction_state;
+    approval_state             = rowData[tbl_name].approval_state;
+    is_nextprocess             = rowData[tbl_name].is_nextprocess;
 
 }
 
@@ -69,12 +69,59 @@ function siVarSet(tbl_name){
 function siVarReset(tbl_name){
 
     window[tbl_name + '_data'] = 0;
-    window['id_' + tbl_name] = 0;
-    id_transaksi_h 		= 0;
-    id_transaksi_log	= 0;
-    transaction_state   = 0;
-    approval_state   	= 0;
-    is_nextprocess 		= 0;
+    window['id_' + tbl_name]   = 0;
+    id_transaksi_h             = 0;
+    id_transaksi_log           = 0;
+    transaction_state          = 0;
+    approval_state             = 0;
+    is_nextprocess             = 0;
+
+}
+
+/**
+ * siVarSetD
+ * Digunakan untuk set nilai variable yang diperlukan oleh framework, yaitu:
+ *  tbl_name_data
+ *  id_tbl_name
+ *  id_transaksi_d
+ *  id_transaksi_log
+ *  transaction_state_d
+ *  is_nextprocess_d
+ * 
+ * @param {String} tbl_name 
+ */
+function siVarSetD(tbl_name){
+
+    var rowDataD = window['tbl' + tbl_name].row({ selected: true }).data();
+    window[tbl_name + '_data'] = rowDataD[tbl_name];
+    window['id_' + tbl_name]   = rowDataD[tbl_name].id;
+    id_transaksi_d             = rowDataD[tbl_name].id;
+    id_transaksi_log           = rowDataD[tbl_name].id;
+    transaction_state_d        = rowDataD[tbl_name].transaction_state;
+    is_nextprocess_d           = rowDataD[tbl_name].is_nextprocess;
+
+}
+
+/**
+ * siVarReset
+ * Digunakan untuk reset variable yang diperlukan oleh framework, yaitu:
+ *  tbl_name
+ *  id_tbl_name
+ *  id_transaksi_d
+ *  id_transaksi_log
+ *  transaction_state_d
+ *  is_nextprocess_d
+ * 
+ * @param {String} tbl_name 
+ */
+function siVarResetD(tbl_name){
+
+    window[tbl_name + '_data'] = 0;
+    window['id_' + tbl_name]   = 0;
+    id_transaksi_d             = 0;
+    id_transaksi_log           = 0;
+    transaction_state_d         = 0;
+    is_nextprocess_d             = 0;
 
 }
 
