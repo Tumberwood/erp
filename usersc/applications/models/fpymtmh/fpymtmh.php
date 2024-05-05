@@ -41,7 +41,8 @@
 			Field::inst( 'fpymtmh.start_at' ),
 			Field::inst( 'fpymtmh.finish_at' ),
 			Field::inst( 'fpymtmh.is_default' ),
-			Field::inst( 'fpymtmh.is_defaultprogram' )
+			Field::inst( 'fpymtmh.is_defaultprogram' ),
+			Field::inst( 'fpymtmh.is_nextprocess' )
 		);
 	
 	// do not erase

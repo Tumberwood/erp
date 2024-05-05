@@ -21,11 +21,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nama</th>
-                                <th>Jatuh Tempo</th>
-                                <th>Keterangan</th>
-                                <th>Default</th>
-                                <th>TX</th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="dueDate"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="default"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -51,6 +51,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fpytmmh/fn/fpytmmh_fn.php'; ?>
 
@@ -98,20 +99,20 @@
 						def: 0
 					},	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "fpytmmh.nama"
 					},
 					{
-						label: "Jatuh Tempo (Hari)<sup class='text-danger'>*<sup>",
+						label: getTranslation('dueDate') + " (Day) <sup class='text-danger'>*<sup>",
 						name: "fpytmmh.jatuh_tempo"
 					},
 					{
-						label: "Keterangan ",
+						label: getTranslation('notes'),
 						name: "fpytmmh.keterangan",
 						type: "textarea"
 					},
 					{
-						label: "Default",
+						label: getTranslation('default'),
 						name: "fpytmmh.is_default",
 						type: "select",
 						placeholder : "Select",
@@ -141,6 +142,9 @@
 
 			edtfpytmmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtfpytmmh.on( 'preSubmit', function (e, data, action) {
@@ -300,14 +304,8 @@
 			} );
 			
 			tblfpytmmh.on( 'select', function( e, dt, type, indexes ) {
-				fpytmmh_data    	= tblfpytmmh.row( { selected: true } ).data().fpytmmh;
-				id_fpytmmh      	= fpytmmh_data.id;
-				id_transaksi_h 		= id_fpytmmh; // dipakai untuk general
-				id_transaksi_log	= id_fpytmmh; // dipakai untuk general
-				transaction_state   = fpytmmh_data.transaction_state;
-				approval_state   	= fpytmmh_data.approval_state;
-				is_nextprocess 		= fpytmmh_data.is_nextprocess;
-
+				// set variable standar framework
+				siVarSet('fpytmmh');
 				is_default_old      = fpytmmh_data.is_default;
 
 				// atur hak akses
@@ -315,8 +313,8 @@
 			} );
 
 			tblfpytmmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_fpytmmh = 0;
+				// reset variable standar framework
+				siVarReset('fpytmmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblfpytmmh);

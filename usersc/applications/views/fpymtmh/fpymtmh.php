@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>Default</th>
-                                <th>TX</th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="default"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fpymtmh/fn/fpymtmh_fn.php'; ?>
 
@@ -97,16 +98,16 @@
 						def: 0
 					},	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "fpymtmh.nama"
 					},
 					{
-						label: "Keterangan ",
+						label: getTranslation('notes'),
 						name: "fpymtmh.keterangan",
 						type: "textarea"
 					},
 					{
-						label: "Default",
+						label: getTranslation('default'),
 						name: "fpymtmh.is_default",
 						type: "select",
 						placeholder : "Select",
@@ -137,6 +138,9 @@
 
 			edtfpymtmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtfpymtmh.on( 'preSubmit', function (e, data, action) {
@@ -293,21 +297,16 @@
 			} );
 			
 			tblfpymtmh.on( 'select', function( e, dt, type, indexes ) {
-				fpymtmh_data    	= tblfpymtmh.row( { selected: true } ).data().fpymtmh;
-				id_fpymtmh      	= fpymtmh_data.id;
-				id_transaksi_h 		= id_fpymtmh; // dipakai untuk general
-				id_transaksi_log	= id_fpymtmh; // dipakai untuk general
-				transaction_state   = fpymtmh_data.transaction_state;
-				approval_state   	= fpymtmh_data.approval_state;
-				is_nextprocess 		= fpymtmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('fpymtmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblfpymtmh);
 			} );
 
 			tblfpymtmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_fpymtmh = 0;
+				// reset variable standar framework
+				siVarReset('fpymtmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblfpymtmh);

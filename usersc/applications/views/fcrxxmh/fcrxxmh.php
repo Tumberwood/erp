@@ -21,11 +21,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Simbol</th>
-                                <th>Default</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="symbol"></th>
+                                <th data-i18n="default"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -51,6 +51,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fcrxxmh/fn/fcrxxmh_fn.php'; ?>
 
@@ -98,19 +99,19 @@
 						def: 0
 					},	
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
+						label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 						name: "fcrxxmh.kode"
 					}, 	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "fcrxxmh.nama"
 					}, 	
 					{
-						label: "Simbol <sup class='text-danger'>*<sup>",
+						label: getTranslation('symbol') + " <sup class='text-danger'>*<sup>",
 						name: "fcrxxmh.simbol"
 					},
 					{
-						label: "Default",
+						label: getTranslation('default') + " <sup class='text-danger'>*<sup>",
 						name: "fcrxxmh.is_default",
 						type: "select",
 						placeholder : "Select",
@@ -145,6 +146,9 @@
 
 			edtfcrxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtfcrxxmh.on( 'preSubmit', function (e, data, action) {
@@ -329,13 +333,8 @@
 			} );
 			
 			tblfcrxxmh.on( 'select', function( e, dt, type, indexes ) {
-				fcrxxmh_data      = tblfcrxxmh.row( { selected: true } ).data().fcrxxmh;
-				id_fcrxxmh        = fcrxxmh_data.id;
-				id_transaksi_h    = id_fcrxxmh;                                           // dipakai untuk general
-				id_transaksi_log  = id_fcrxxmh;                                           // dipakai untuk general
-				transaction_state = fcrxxmh_data.transaction_state;
-				approval_state    = fcrxxmh_data.approval_state;
-				is_nextprocess    = fcrxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('fcrxxmh');
 				is_default_old    = fcrxxmh_data.is_default;
 
 				// atur hak akses
@@ -343,8 +342,8 @@
 			} );
 
 			tblfcrxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_fcrxxmh = 0;
+				// reset variable standar framework
+				siVarReset('fcrxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblfcrxxmh);
