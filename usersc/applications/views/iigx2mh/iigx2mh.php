@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iigx2mh/fn/iigx2mh_fn.php'; ?>
 
@@ -115,11 +116,11 @@
 						def: 0
 					},	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "iigx2mh.nama"
 					}, 	
 					{
-						label: "item Group 1",
+						label: "Item Group 1",
 						name: "iigx2mh.id_iigxxmh",
 						type: "select2",
 						opts: {
@@ -155,7 +156,7 @@
 						}
 					},
 					{
-						label: "Keterangan",
+						label: getTranslation('notes'),
 						name: "iigx2mh.keterangan",
 						type: "textarea"
 					}
@@ -168,6 +169,9 @@
 				
 				if(action == 'create'){
 					tbliigx2mh.rows().deselect();
+
+					edtiigx2mh.field('iigx2mh.nama').enable();
+
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
@@ -183,6 +187,9 @@
 
 			edtiigx2mh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiigx2mh.on( 'preSubmit', function (e, data, action) {
@@ -276,13 +283,8 @@
 			} );
 			
 			tbliigx2mh.on( 'select', function( e, dt, type, indexes ) {
-				iigx2mh_data      = tbliigx2mh.row( { selected: true } ).data().iigx2mh;
-				id_iigx2mh        = iigx2mh_data.id;
-				id_transaksi_h    = id_iigx2mh;	// dipakai untuk general
-				id_transaksi_log  = id_iigx2mh;	// dipakai untuk general
-				transaction_state = iigx2mh_data.transaction_state;
-				approval_state    = iigx2mh_data.approval_state;
-				is_nextprocess    = iigx2mh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('iigx2mh');
 				id_iigxxmh_old    = iigx2mh_data.id_iigxxmh;
 
 				// atur hak akses
@@ -290,9 +292,10 @@
 			} );
 
 			tbliigx2mh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iigx2mh = 0;
+				// reset variable standar framework
+				siVarReset('iigx2mh');
 				id_iigxxmh_old = 0;
+
 				// atur hak akses
 				CekDeselectHeaderH(tbliigx2mh);
 			} );
