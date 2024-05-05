@@ -42,6 +42,7 @@
 				Field::inst( 'iimummd.start_at' ),
 				Field::inst( 'iimummd.finish_at' ),
 				Field::inst( 'iimummd.is_defaultprogram' ),
+				Field::inst( 'iimummd.is_nextprocess' ),
 				Field::inst( 'iimummd.is_default' ),
 				Field::inst( 'iimummd.is_iumxxmh_beli' ),
 				Field::inst( 'iimummd.is_iumxxmh_jual' ),
