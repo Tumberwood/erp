@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -50,6 +50,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iumxxmh/fn/iumxxmh_fn.php'; ?>
 
@@ -98,15 +99,15 @@
 						def: 0
 					},	
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
+						label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 						name: "iumxxmh.kode"
 					}, 	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 						name: "iumxxmh.nama"
 					}, 	
 					{
-						label: "Keterangan",
+						label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
 						name: "iumxxmh.keterangan",
 						type: "textarea"
 					}
@@ -134,6 +135,9 @@
 
 			edtiumxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtiumxxmh.on( 'preSubmit', function (e, data, action) {
@@ -239,21 +243,16 @@
 			} );
 			
 			tbliumxxmh.on( 'select', function( e, dt, type, indexes ) {
-				iumxxmh_data    		= tbliumxxmh.row( { selected: true } ).data().iumxxmh;
-				id_iumxxmh      		= iumxxmh_data.id;
-				id_transaksi_h 		= id_iumxxmh; // dipakai untuk general
-				id_transaksi_log	= id_iumxxmh; // dipakai untuk general
-				transaction_state   = iumxxmh_data.transaction_state;
-				approval_state   	= iumxxmh_data.approval_state;
-				is_nextprocess 		= iumxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('iumxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tbliumxxmh);
 			} );
 
 			tbliumxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_iumxxmh = '';
+				// reset variable standar framework
+				siVarReset('iumxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tbliumxxmh);
