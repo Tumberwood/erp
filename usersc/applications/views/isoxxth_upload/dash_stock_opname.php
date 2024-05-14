@@ -130,7 +130,7 @@
                 </form>
 				
 				<br>
-				<h3>Auto Reload</h3>
+				<h5>Auto Reload</h5>
 				
 				<div class="switch">
 					<input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
@@ -142,194 +142,239 @@
 </div>
 
 <div class="row" id="showing" style="display: none">
+	<div class="col-lg-6">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<h5>Row Data</h5>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="widget no-padding gray-bg ">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="targetRows" style="font-size: 40px"></h4>
+								<br>
+								<h6 class="no-margins text-center font-bold">
+									Target
+								</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div id="uploadCarousel" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<div class="widget no-padding gray-bg">
+										<div class="p-m">
+											<div class="row">
+												<div class="col-12">
+													<h4 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h4>
+													<br>
+													<h6 class="no-margins text-center font-bold">Upload</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="carousel-item">
+									<div class="widget no-padding gray-bg">
+										<div class="p-m">
+											<div class="row">
+												<div class="col-12">
+													<h4 class="text-center font-bold" id="c_not_uploadRows" style="font-size: 40px"></h4>
+													<br>
+													<h6 class="no-margins text-center font-bold">Diluar Upload</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<a class="carousel-control-prev" href="#uploadCarousel" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#uploadCarousel" role="button" data-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-lg-3">
+						<div class="widget navy-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="terhitungRows" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_terhitungRows" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Terhitung
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget red-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="not_terhitungRows" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_not_terhitungRows" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Belum Terhitung
+								</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				
+				<h5>Detail Row Data</h5>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="widget navy-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_sesuaiRows" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Sesuai
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget yellow-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_lebihRows" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Selisih Lebih
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget red-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="kurangRows" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_kurangRows" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Selisih Kurang
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget gray-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="skipRows" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_skipRows" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Data Skip
+								</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<h5>Item Data</h5>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="widget no-padding gray-bg ">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h4>
+								<br>
+								<h6 class="no-margins text-center font-bold">
+									Target
+								</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget no-padding gray-bg ">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h4>
+								<br>
+								<h6 class="no-margins text-center font-bold">
+									Total Upload
+								</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget navy-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_terhitungItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Terhitung
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget red-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_not_terhitungItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Belum Terhitung
+								</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				
+				<h5>Detail Item Data</h5>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="widget navy-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Sesuai
+									</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget yellow-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Selisih Lebih
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="widget red-bg no-padding">
+							<div class="p-m">
+								<h4 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Selisih Kurang
+								</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="col">
-		<div class="ibox ">
-			<div class="ibox-content">
-				<h3>Result By Row Data</h3>
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="targetRows" style="font-size: 40px"></h1>
-								<br>
-								<h4 class="no-margins text-center">
-									Target
-								</h4>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h1>
-								<br>
-								<h4 class="no-margins text-center">
-									Total Upload
-								</h4>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="terhitungRows" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_terhitungRows" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Terhitung
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="not_terhitungRows" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_not_terhitungRows" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Belum Terhitung
-								</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				
-				<h3>Detail Result By Row Data</h3>
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_sesuaiRows" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Sesuai
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget yellow-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_lebihRows" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Selisih Lebih
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="kurangRows" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_kurangRows" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Selisih Kurang
-								</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="ibox ">
-			<div class="ibox-content">
-				<h3>Result By Item Data</h3>
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h1>
-								<br>
-								<h4 class="no-margins text-center">
-									Target
-								</h4>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h1>
-								<br>
-								<h4 class="no-margins text-center">
-									Total Upload
-								</h4>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_terhitungItem" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Terhitung
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_not_terhitungItem" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Belum Terhitung
-								</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-				<br>
-				
-				<h3>Detail Result By Item Data</h3>
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Sesuai
-									</h3>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget yellow-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Selisih Lebih
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h1 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h1>
-								<h3 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h3>
-								<h4 class="no-margins text-center">
-									Selisih Kurang
-								</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="ibox" id="tabel_item">
 			<div class="ibox-content">
 				<div class="row">
 					<div class="col-md-6">
-						<h3>Log By User</h3>
+						<h5>Log By User</h5>
 						<div id="tabel_kiri"></div>
 					</div>
 					<div class="col-md-6">
-						<h3>Bottom 10 Items</h3>
+						<h5>Bottom 10 Items</h5>
 						<div id="tabel_atas"></div>
 					</div>
 				</div>
@@ -409,6 +454,9 @@
 
 						$('#c_uploadRows').empty();
 						$('#c_uploadRows').html(json.data.c_upload);
+
+						$('#c_not_uploadRows').empty();
+						$('#c_not_uploadRows').html(json.data.c_not_upload);
 						
 						$('#terhitungRows').empty();
 						$('#terhitungRows').html(json.data.c_terhitung);
@@ -439,6 +487,12 @@
 						
 						$('#kurangRows').empty();
 						$('#kurangRows').html(json.data.c_kurang);
+						
+						$('#p_skipRows').empty();
+						$('#p_skipRows').html(json.data.skip);
+						
+						$('#skipRows').empty();
+						$('#skipRows').html(json.data.c_skip);
 						
 
 						//data2 by Item
@@ -478,7 +532,7 @@
 						$('#kurangItem').empty();
 						$('#kurangItem').html(json.data2.c_kurang);
 						
-						//Result By Items
+						//Items
 						var str1 = '<table id="tblselisih" class="table table-striped table-bordered">';
 						
 						if ($.fn.dataTable.isDataTable('#tblselisih')) {

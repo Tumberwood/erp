@@ -20,6 +20,7 @@
             ->exec('SELECT
                         c_target,
                         ifnull(c_upload,0) as c_upload,
+                        ifnull(c_not_upload,0) as c_not_upload,
                         
                         CONCAT(
                             ROUND(
@@ -58,7 +59,15 @@
                                 (c_kurang / c_terhitung) * 100,
                                 2)
                         ,"%"), "0.00%") AS kurang,
-                        ifnull(c_kurang, 0) as c_kurang
+                        ifnull(c_kurang, 0) as c_kurang,
+                    
+                        ifnull(CONCAT(
+                            ROUND(
+                                (c_skip / c_terhitung) * 100,
+                                2)
+                        ,"%"), "0.00%") AS skip,
+                        ifnull(c_skip, 0) as c_skip
+
                     FROM isoxxth_upload AS a
                     
                     -- all data isoittd
@@ -79,13 +88,22 @@
                         WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND up.is_upload = 1
                     ) AS upload ON upload.id_isoxxth_upload = a.id
                     
+                    -- is_upload = 0 / Bukan Upload
+                    left JOIN (
+                        select
+                            COUNT(id) AS c_not_upload,
+                            up.id_isoxxth_upload
+                        FROM isoittd_upload AS up
+                        WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND up.is_upload IS NULL
+                    ) AS not_upload ON not_upload.id_isoxxth_upload = a.id
+                    
                     -- isoittd yang sudah terhitung
                     left JOIN (
                         select
                             COUNT(id) AS c_terhitung,
                             hitung.id_isoxxth_upload
                         FROM isoittd_upload AS hitung
-                        WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND fisik >= 0
+                        WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND (fisik >= 0 OR is_skip = 1)
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
                     
                     -- fisik sesuai
@@ -114,6 +132,15 @@
                         FROM isoittd_upload AS d
                         WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih < 0
                     ) AS kurang ON kurang.id_isoxxth_upload = a.id
+                    
+                    -- fisik skip
+                    left JOIN (
+                        select
+                            COUNT(d.id) AS c_skip,
+                            d.id_isoxxth_upload
+                        FROM isoittd_upload AS d
+                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.is_skip = 1
+                    ) AS skip ON skip.id_isoxxth_upload = a.id
                     
                     WHERE a.id = :id_isoxxth_upload
                     '
@@ -325,9 +352,9 @@
                         c_new,
                         lokasi,
                         CONCAT(
-                            FLOOR(diff_in_seconds / 3600), " jam ",
-                            FLOOR((diff_in_seconds % 3600) / 60), " menit ",
-                            (diff_in_seconds % 60), " detik"
+                            FLOOR(diff_in_seconds / 3600), "h ",
+                            FLOOR((diff_in_seconds % 3600) / 60), "m ",
+                            (diff_in_seconds % 60), "s"
                         ) AS total_time
                     FROM hasil
                     '
