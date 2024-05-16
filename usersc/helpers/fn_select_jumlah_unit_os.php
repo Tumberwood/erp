@@ -79,5 +79,5 @@
 
 		
 		// tampilkan results
-		require_once( "fn_ajax_results2.php" );
+		require_once( "fn_ajax_results.php" );
 ?>

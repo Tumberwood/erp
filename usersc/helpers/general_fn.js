@@ -739,7 +739,7 @@ function defaultCurrency() {
     validasi_outstanding(edt, nama_tabel, id_transaksi, id_detail_item_before, nama_tabel_before) {
     edt                     = editor                            = variable
     nama_tabel              = nama tabel                        = string
-    id_transaksi            = id transaksi sekarang             = variable
+    id_transaksi            = id detail sekarang             = variable
     id_detail_item_before   = id detail item transaksi before   = variable
     nama_tabel_before       = nama tabel yang ingin di select   = string
 **/
@@ -749,7 +749,7 @@ function validasi_outstanding(edt, nama_tabel, id_transaksi, id_detail_item_befo
     jumlah_unit = (parseFloat(edt.field(nama_tabel+'.jumlah_unit').val())).toFixed(2);
 
     $.ajax( {
-        url: "../../../helpers2/fn_select_jumlah_unit_os.php",
+        url: "../../../helpers/fn_select_jumlah_unit_os.php",
         dataType: 'json',
         type: 'POST',
         async: false,

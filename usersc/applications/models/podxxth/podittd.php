@@ -89,6 +89,12 @@
 		$nama_table = 'podittd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
+
+		
+		//Extra kalkulasi jumlah_unit_os
+		$nama_table_d = 'podittd';
+		$nama_table_d_before = 'prqittd';
+		include( "../../../helpers/fn_kalkulasi_jumlah_unit_os_extra.php" );
 		
 		$json = $editor
 			->process( $_POST )

@@ -1293,6 +1293,9 @@
 		edtpodittd.dependent( 'podittd.jumlah_unit', function ( val, data, callback ) {
 			hitungSubtotalDetail(edtpodittd, 'podittd');
 			hitungDpp(edtpodittd, 'podittd');
+
+			id_prqittd = edtpodittd.field('podittd.id_prqittd').val();
+			// validasi_outstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -1392,6 +1395,9 @@
 						'>'
 					);
 				}
+
+				
+			validasi_outstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
 
 			}
 			

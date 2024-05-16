@@ -33,6 +33,31 @@
             ->exec();
         $rs_httgltd = $qs_httgltd->fetch();
 
+        $where_kecuali = '';
+		$qs_kecuali = $db
+            ->raw()
+            ->bind(':id_h', $_POST['id_transaksi_h'])
+            ->exec('SELECT
+                        a.id,
+                        a.tanggal,
+                        a.kode,
+                        a.nama,
+                        CONCAT("id_", b.nama_tabel) AS nama_id_transaksi,
+                        GROUP_CONCAT(b.id_transaksi ORDER BY b.id_transaksi) AS id_transaksi_concat,
+                        CONCAT(" AND id_", b.nama_tabel, " NOT IN (", GROUP_CONCAT(b.id_transaksi ORDER BY b.id_transaksi), ") ") AS where_not_in
+                    FROM httgltd a
+                    LEFT JOIN httgltd_d b ON b.id_httgltd = a.id
+                    WHERE a.id = :id_h
+                    GROUP BY a.id, a.tanggal, a.kode, a.nama, b.nama_tabel;
+            '
+            );
+
+        $rs_kecuali = $qs_kecuali->fetchAll();
+        foreach ($rs_kecuali as $key => $kecuali) {
+            $where_kecuali .= $kecuali['where_not_in'];
+        }
+        // print_r($where_kecuali);
+
         if ($state == 1) {
             
             // BEGIN non aktif
@@ -55,6 +80,7 @@
                     a.keterangan = CONCAT("Cuti Bersama - ", :keterangan)
                 WHERE 
                     a.transaction_state = 1
+                '.$where_kecuali.'
                 AND a.tanggal = :tanggal
             ');
 
@@ -99,6 +125,7 @@
                     LEFT JOIN hemjbmh AS jb on jb.id_hemxxmh = htssctd.id_hemxxmh
                     WHERE 
                         tanggal = :tanggal
+                    '.$where_kecuali.'
                     AND keterangan = CONCAT("Cuti Bersama - ", :nama) 
                 ');
             // END insert pengaju
@@ -205,6 +232,7 @@
                         LEFT JOIN hemjbmh AS jb ON jb.id_hemxxmh = hem.id
                         WHERE 
                             a.transaction_state = 1
+                        '.$where_kecuali.'
                         AND a.tanggal = :tanggal
                         -- AND a.is_pot_cuti = 1
                 ');

@@ -93,9 +93,12 @@
 	// ------------- end of default variable
 
 	is_need_generate_kode = 1, is_need_inventory = 1;
+	// get tableRelation
+	tableRelation('prcxxth');
 
 	var id_psuxxmh = 0, id_podxxth = 0, id_podxxth_old = 0, id_psuxxmh_old = 0, id_iwhxxmh_old = 0;
 	var id_podittd_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0, jumlah_terkecil_old = 0;
+	var id_grlxxmh_old = 0;
 
 	$(document).ready(function() {
 		//start datatables editor
@@ -172,7 +175,7 @@
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_psuxxmh_old: id_psuxxmh_old,
+									id_grlxxmh_old: id_grlxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -476,7 +479,7 @@
 			id_podxxth 			= prcxxth_data.id_podxxth;
 			id_iwhxxmh_old 		= prcxxth_data.id_iwhxxmh;
 			id_psuxxmh_old 		= prcxxth_data.id_psuxxmh;
-			
+			console.log(id_podxxth);
 			// atur hak akses
 			tbl_details = [tblprcittd];
 			CekSelectHeaderHD(tblprcxxth, tbl_details);
@@ -701,11 +704,13 @@
 					'>'
 				);
 
-				validasiOutstanding(
-					edtprcittd, 
-					'prcittd', 
-					id_transaksi
-				);
+				// validasiOutstanding(
+				// 	edtprcittd, 
+				// 	'prcittd', 
+				// 	id_transaksi
+				// );
+
+				validasi_outstanding(edtprcittd, 'prcittd', id_prcittd, id_podittd, 'podittd');
 			}
 			
 			if ( edtprcittd.inError() ) {
@@ -720,8 +725,8 @@
 			
 		edtprcittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
-				id_transaksi = json.data[0].prcittd.id;
-				konversiUom('prcittd', id_transaksi);
+				// id_transaksi = json.data[0].prcittd.id;
+				// konversiUom('prcittd', id_transaksi);
 			}
 			tblprcittd.rows().deselect();
 		} );

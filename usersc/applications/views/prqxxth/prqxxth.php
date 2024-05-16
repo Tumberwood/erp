@@ -245,8 +245,8 @@
 
 			if(action == 'create'){
 				tblprqxxth.rows().deselect();
-				edtprqxxth.field('kategori_dokumen').val('');
-				edtprqxxth.field('kategori_dokumen_value').val('');
+				// edtprqxxth.field('kategori_dokumen').val('');
+				// edtprqxxth.field('kategori_dokumen_value').val('');
 			}
 		});
 
@@ -384,6 +384,7 @@
 			// atur hak akses
 			tbl_details = [tblprqittd];
 			CekSelectHeaderHD(tblprqxxth, tbl_details);
+			// console.log(id_prqxxth);
 
 		} );
 		
@@ -503,6 +504,7 @@
 			
 		edtprqittd.on( 'preOpen', function( e, mode, action ) {
 			edtprqittd.field('prqittd.id_prqxxth').val(id_prqxxth);
+			console.log(id_prqxxth);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtprqittd.field('prqittd.start_at').val(start_at);
@@ -614,14 +616,15 @@
 			}
 		} );
 
-		tblprqittd.searchPanes.container().appendTo('#spprqittd');
-		tblprqittd.searchBuilder.container().appendTo( '#sbprqittd' );
+		// tblprqittd.searchPanes.container().appendTo('#spprqittd');
+		// tblprqittd.searchBuilder.container().appendTo( '#sbprqittd' );
 
 		tblprqittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
 			CekDrawDetailHD(tblprqxxth, tblprqittd, 'prqittd' );
 			CekDrawDetailHDFinal(tblprqxxth);
+			// console.log(id_prqxxth);
 		} );
 
 		tblprqittd.on( 'select', function( e, dt, type, indexes ) {

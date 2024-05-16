@@ -68,7 +68,8 @@
         ->join('podittd','podittd.id_iimxxmh = iimxxmh.id','LEFT' )
         ->where('iimxxmh.transaction_state',1)
         ->where('podittd.id_podxxth', $id_podxxth)
-        ->where('podittd.jumlah_terkecil_os', 0, '>')
+        // ->where('podittd.jumlah_terkecil_os', 0, '>')
+        ->where('podittd.jumlah_unit_os', 0, '>')
         ->where('podittd.id', $id_podittd_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];

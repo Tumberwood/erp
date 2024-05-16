@@ -60,7 +60,9 @@
             'podxxth.kode as text'
         ])
         ->where('podxxth.transaction_state',1)
-        ->where('podxxth.id_psuxxmh', $id_psuxxmh)
+        ->where('podxxth.approval_state',1)
+        // ->where('podxxth.id_psuxxmh', $id_psuxxmh)
+        ->where('podxxth.id_grlxxmh_supplier', $id_psuxxmh)
         ->where('podxxth.id', $id_podxxth_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];

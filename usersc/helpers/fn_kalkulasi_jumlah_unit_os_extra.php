@@ -1,8 +1,6 @@
 <?php
 	
 	//Extra kalkulasi jumlah_unit_os
-	// $nama_table_h = 'prcxxth';
-	// $nama_table_h_before = 'podxxth';
 	// $nama_table_d = 'prcittd';
 	// $nama_table_d_before = 'podittd';
 	// include( "../../../helpers/fn_kalkulasi_jumlah_unit_os_extra.php" );
@@ -11,7 +9,7 @@
 		->on('preCreate',function( $editor, $values ) {
 			// script diletakkan disini
 		})
-		->on('postCreate',function( $editor, $id, $values, $row ) use ($nama_table_h, $nama_table_d, $nama_table_h_before, $nama_table_d_before) {
+		->on('postCreate',function( $editor, $id, $values, $row ) use ($nama_table_d, $nama_table_d_before) {
 			$id_transaksi_d_before = $values[$nama_table_d]['id_'.$nama_table_d_before];
 			$jumlah_unit = $values[$nama_table_d]['jumlah_unit'];
 
@@ -23,8 +21,7 @@
 						b.jumlah_unit AS jumlah_unit,
 						b.jumlah_unit_next AS jumlah_unit_next					
 					FROM '.$nama_table_d.' AS a
-					LEFT JOIN '.$nama_table_h.' AS h ON h.id = a.id_'.$nama_table_h.'
-					LEFT JOIN '.$nama_table_d_before.' AS b ON b.id_'.$nama_table_h_before.' = h.id_'.$nama_table_h_before.'
+					LEFT JOIN '.$nama_table_d_before.' AS b ON b.id = a.id_'.$nama_table_d_before.'
 					WHERE b.id = :id_transaksi_d_before
 					'
 					);
@@ -51,7 +48,7 @@
 				->where('id', $id )
 			->exec();
 		})
-		->on('preEdit',function( $editor, $id, $values ) use ($nama_table_h, $nama_table_d, $nama_table_h_before, $nama_table_d_before) {
+		->on('preEdit',function( $editor, $id, $values ) use ($nama_table_d, $nama_table_d_before) {
 			$id_transaksi_d_before = $values[$nama_table_d]['id_'.$nama_table_d_before];
 			$jumlah_unit = $values[$nama_table_d]['jumlah_unit'];
 
@@ -109,7 +106,7 @@
 		->on('postEdit',function( $editor, $id, $values, $row ) {
 			
 		})
-		->on('preRemove',function( $editor, $id, $values ) use ($nama_table_h, $nama_table_d, $nama_table_h_before, $nama_table_d_before) {
+		->on('preRemove',function( $editor, $id, $values ) use ($nama_table_d, $nama_table_d_before) {
 			//Ambil jumlah unit lama di PRC
 			$s_prcittd_old = $editor->db()
 			->raw()

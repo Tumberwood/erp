@@ -75,7 +75,7 @@
         ->where('prqxxth.transaction_state',1)
         ->where('prqxxth.approval_state',9)
         ->where('prqittd.id', $id_prqittd_old, '<>' )
-        ->where('prqittd.is_nextprocess', null)
+        // ->where('prqittd.is_nextprocess', null)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

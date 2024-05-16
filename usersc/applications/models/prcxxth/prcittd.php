@@ -30,6 +30,8 @@
 				Field::inst( 'prcittd.id_prcxxth' ),
 				Field::inst( 'prcittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'prcittd.id_podittd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.kode' ),
@@ -63,6 +65,11 @@
 		$nama_table = 'prcittd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
+		
+		//Extra kalkulasi jumlah_unit_os
+		$nama_table_d = 'prcittd';
+		$nama_table_d_before = 'podittd';
+		include( "../../../helpers/fn_kalkulasi_jumlah_unit_os_extra.php" );
 		
 		$json = $editor
 			->process( $_POST )
