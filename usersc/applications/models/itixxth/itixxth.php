@@ -24,6 +24,9 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'itixxth.id' ),
+			Field::inst( 'itixxth.id_gbrxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gbrxxmh),
 			Field::inst( 'itixxth.id_itoxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'itixxth.id_iwhxxmh_asal' )
@@ -57,11 +60,11 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'itixxth.is_defaultprogram' ),
-			Field::inst( 'asal.nama' ),
-			Field::inst( 'tujuan.nama' )
+			Field::inst( 'iwhxxmh_asal.nama' ),
+			Field::inst( 'iwhxxmh_tujuan.nama' )
 		)
-		->leftJoin( 'iwhxxmh as asal','asal.id','=','itixxth.id_iwhxxmh_asal' )
-		->leftJoin( 'iwhxxmh as tujuan','tujuan.id','=','itixxth.id_iwhxxmh_tujuan' )
+		->leftJoin( 'iwhxxmh as iwhxxmh_asal','iwhxxmh_asal.id','=','itixxth.id_iwhxxmh_asal' )
+		->leftJoin( 'iwhxxmh as iwhxxmh_tujuan','iwhxxmh_tujuan.id','=','itixxth.id_iwhxxmh_tujuan' )
 		;
 	
 	// do not erase
