@@ -162,6 +162,9 @@
 
 			edthodxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edthodxxmh.on( 'preSubmit', function (e, data, action) {

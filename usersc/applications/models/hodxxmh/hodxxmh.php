@@ -41,6 +41,7 @@
 			Field::inst( 'hodxxmh.start_at' ),
 			Field::inst( 'hodxxmh.finish_at' ),
 			Field::inst( 'hodxxmh.is_defaultprogram' ),
+			Field::inst( 'hodxxmh.is_nextprocess' ),
 
 			Field::inst( 'hovxxmh.nama' )
 		)
