@@ -62,6 +62,7 @@
 		is_master_table = 1;
 		// is_need_generate_kode = 1;
 		var id_htsptth_old = 0;
+		var id_hemxxmh_old = 0;
 		
 		// get tableRelation
 		tableRelation('hgsptth');
@@ -148,7 +149,54 @@
 								minimumResultsForSearch: -1,
 							},
 						}
-					},	{
+					},	
+					{
+						label: "Pilih Karyawan",
+						name: "hgsptth.is_pegawai",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Yes", "value": 1 },
+							{ "label": "No", "value": 0 }
+						]
+					},
+					{
+						label: "Karyawan <sup class='text-danger'>*<sup>",
+						name: "hemxxmh[].id",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: true,
+							ajax: {
+								url: "../../models/hemxxmh/hemxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_hemxxmh_old: id_hemxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},	
+					{
 						label: "Siklus  <sup class='text-danger'>*<sup>",
 						name: "hgsptth.jumlah_siklus"
 					}, 	{
@@ -174,6 +222,7 @@
 			edthgsptth.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthgsptth.field('hgsptth.start_at').val(start_at);
+				edthgsptth.field('hemxxmh[].id').hide();
 				
 				if(action == 'create'){
 					tblhgsptth.rows().deselect();
@@ -187,10 +236,21 @@
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
+			edthgsptth.dependent( 'hgsptth.is_pegawai', function ( val, data, callback ) {
+				if (val == 1) {
+					edthgsptth.field('hemxxmh[].id').show();
+				} else {
+					edthgsptth.field('hemxxmh[].id').hide();
+				}
+				return {}
+			}, {event: 'keyup change'});
+
             edthgsptth.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					id_htsptth = edthgsptth.field('hgsptth.id_htsptth').val();
+					is_pegawai = edthgsptth.field('hgsptth.is_pegawai').val();
 					tanggal_awal = edthgsptth.field('hgsptth.tanggal_awal').val();
+					id_hemxxmh = edthgsptth.field('hemxxmh[].id').val();
 
 					validasiRequired(
 						edthgsptth,
@@ -200,6 +260,7 @@
 							'id_htsptth': id_htsptth,
 						}
 					);
+
 					// BEGIN of validasi hgsptth.jumlah_siklus
 					if ( ! edthgsptth.field('hgsptth.jumlah_siklus').isMultiValue() ) {
 						jumlah_siklus = edthgsptth.field('hgsptth.jumlah_siklus').val();
@@ -214,6 +275,12 @@
 						}
 					}
 					// END of validasi hgsptth.jumlah_siklus
+
+					if (is_pegawai == 1) {
+						if(!id_hemxxmh || id_hemxxmh == ''){
+							edthgsptth.field('hemxxmh[].id').error( 'Wajib diisi!' );
+						}
+					}
 				}
 				
 				if ( edthgsptth.inError() ) {

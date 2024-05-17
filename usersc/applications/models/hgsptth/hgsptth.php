@@ -67,9 +67,27 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'hgsptth.jumlah_siklus' ),
+			Field::inst( 'hgsptth.is_pegawai' ),
 			Field::inst( 'htsptth.nama' ),
 		)
-		->leftJoin( 'htsptth','htsptth.id','=','hgsptth.id_htsptth' );
+		->leftJoin( 'htsptth','htsptth.id','=','hgsptth.id_htsptth' )
+		->join(
+			Mjoin::inst( 'hemxxmh' )
+				->link( 'hgsptth.id', 'hgsptth_hemxxmh.id_hgsptth' )
+				->link( 'hemxxmh.id', 'hgsptth_hemxxmh.id_hemxxmh' )
+				->order( 'hemxxmh.nama asc' )
+				->fields(
+					Field::inst( 'id' )
+						->validator( 'Validate::required' )
+						->options( Options::inst()
+							->table( 'hemxxmh' )
+							->value( 'id' )
+							->label( 'nama' )
+						),
+					Field::inst( 'id' ),
+					Field::inst( 'nama' )
+				)
+		)
 		;
 	
 	// do not erase
