@@ -25,6 +25,7 @@
         ->get([
             'hgsptth.id_htsptth as id_htsptth',
             'hgsptth.tanggal_awal as tanggal_awal',
+            'hgsptth.is_pegawai as is_pegawai',
             'hgsptth.jumlah_siklus as jumlah_siklus'
         ] )
         ->where('hgsptth.id', $_POST['id_transaksi_h'] )
@@ -33,6 +34,7 @@
     $rs_hgsptth = $qs_hgsptth->fetch();
 
     $id_htsptth         = $rs_hgsptth['id_htsptth'];
+    $is_pegawai      = $rs_hgsptth['is_pegawai'];
     $jumlah_siklus      = $rs_hgsptth['jumlah_siklus'];
     $tanggal_awal       = new Carbon ($rs_hgsptth['tanggal_awal']);
     $tanggal_awal_ymd   = $tanggal_awal->format('Y-m-d');
@@ -49,6 +51,33 @@
     $jumlah_grup = $rs_htsptth['jumlah_grup'];
     // END ambil jumlah_grup dari pola shift htsptth
 
+    if ($is_pegawai == 1) {
+        //Ambil dari tabel relasi, ini case generate dengan karyawan multiple
+        $qs_relasi_hem = $db
+            ->raw()
+            ->bind(':id_h', $_POST['id_transaksi_h'])
+            ->exec('SELECT
+                        CONCAT("(", group_concat(a.id_hemxxmh) , ")") AS id_hem
+                    FROM hgsptth_hemxxmh a
+                    WHERE a.id_hgsptth = :id_h
+            '
+            );
+    
+        $rs_relasi_hem = $qs_relasi_hem->fetch();
+        $id_hem = $rs_relasi_hem['id_hem'];
+    
+        if ($id_hem != null) {
+            $where_in = $id_hem;
+            $where_con = " IN ";
+        } else {
+            $where_in = "(-9)";
+            $where_con = " NOT IN ";
+        }
+    } else {
+        $where_in = "(-9)";
+        $where_con = " NOT IN ";
+    }
+    
     // BEGIN ambil detail karyawan sesuai pola shift terpilih
     $qs_htsemtd = $db
         ->query('select', 'htsemtd' )
@@ -57,6 +86,7 @@
             'htsemtd.grup_ke as grup_ke'
         ] )
         ->where('htsemtd.transaction_state', -9, '<>')
+        ->where('htsemtd.id_hemxxmh', $where_in, $where_con, false )
         ->where('htsemtd.id_htsptth', $id_htsptth )
         ->exec();
     $rs_htsemtd = $qs_htsemtd->fetchAll();

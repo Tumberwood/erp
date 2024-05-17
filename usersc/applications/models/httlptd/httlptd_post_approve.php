@@ -62,22 +62,40 @@
 				$tt = '';
 				for ($x = 0; $x < $jumlah_hari; $x++) {
 					$tanggal_ymd = $tanggal;
-					$qi = $db
-						->query('insert', 'httxxrd')
-						->set('id_transaksi', $rs_httlptd['id_transaksi'] )
-						->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
-						->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
-						->set('kode', $rs_httlptd['kode'] )
-						->set('approval_state', $state )
-						->set('transaction_state', $state )
-						->set('tanggal', $tanggal_ymd->format('Y-m-d') )
-						->set('keterangan', $rs_httlptd['keterangan'] )
-						->set('jenis', $jenis )
-						->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
-						->set('jumlah', 1 )
-						->set('jam_awal', null )
-						->set('jam_akhir', null )
-						->exec();
+
+					$qs_jadwal = $db
+						->raw()
+						->bind(':tanggal_ymd', $tanggal_ymd)
+						->bind(':id_hemxxmh', $rs_httlptd['id_hemxxmh'])
+						->exec('SELECT
+									DATE_FORMAT(tanggaljam_awal, "%H:%i:%s") AS jam
+								FROM htssctd a
+								WHERE a.tanggal = :tanggal_ymd AND a.id_hemxxmh = :id_hemxxmh;
+						'
+						);
+				
+					$rs_jadwal = $qs_jadwal->fetch();
+					$jam = $rs_jadwal['jam'];
+
+					//Jika jadawal Libur, maka tidak diinsert ke report detail httxxrd
+					if ($jam != "00:00:00") {
+						$qi = $db
+							->query('insert', 'httxxrd')
+							->set('id_transaksi', $rs_httlptd['id_transaksi'] )
+							->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
+							->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
+							->set('kode', $rs_httlptd['kode'] )
+							->set('approval_state', $state )
+							->set('transaction_state', $state )
+							->set('tanggal', $tanggal_ymd->format('Y-m-d') )
+							->set('keterangan', $rs_httlptd['keterangan'] )
+							->set('jenis', $jenis )
+							->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
+							->set('jumlah', 1 )
+							->set('jam_awal', null )
+							->set('jam_akhir', null )
+							->exec();
+					}
 					$tt = $tt . ' - ' . $tanggal_ymd->format('Y-m-d');
 					$tanggal->add(1, 'days');
 				}
