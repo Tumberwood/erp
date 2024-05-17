@@ -387,6 +387,7 @@
 			CekInitHeaderHD(tblhttgltd, tbl_details);
 
 			tblhttgltd_d.button( 'btnCopyFrom:name' ).disable();
+			tblhttgltd.button( 'btnSetApprove:name' ).disable();
 		} );
 		
 		tblhttgltd.on( 'select', function( e, dt, type, indexes ) {
@@ -405,6 +406,33 @@
 
 			tblhttgltd_d.button( 'btnCopyFrom:name' ).enable();
 
+			if (transaction_state == 1) {
+				tblhttgltd.button( 'btnSetApprove:name' ).enable();
+			} else {
+				tblhttgltd.button( 'btnSetApprove:name' ).disable();
+			}
+			
+			if(approval_state == 1){
+				// approve
+				tblhttgltd.button( 'btnApprove1:name' ).disable();
+				tblhttgltd.button( 'btnCancelApprove1:name' ).enable();
+				tblhttgltd.button( 'btnVoid1:name' ).disable();
+			}else if(approval_state == -1){
+				// cancel approve
+				tblhttgltd.button( 'btnApprove1:name' ).enable();
+				tblhttgltd.button( 'btnCancelApprove1:name' ).disable();
+				tblhttgltd.button( 'btnVoid1:name' ).disable();
+			}else if(approval_state == -9){
+				// void
+				tblhttgltd.button( 'btnApprove1:name' ).disable();
+				tblhttgltd.button( 'btnCancelApprove1:name' ).disable();
+				tblhttgltd.button( 'btnVoid1:name' ).disable();
+			}else{
+				// open
+				tblhttgltd.button( 'btnApprove1:name' ).enable();
+				tblhttgltd.button( 'btnCancelApprove1:name' ).disable();
+				tblhttgltd.button( 'btnVoid1:name' ).enable();
+			}
 		} );
 		
 		tblhttgltd.on( 'deselect', function () {
@@ -417,6 +445,7 @@
 			CekDeselectHeaderHD(tblhttgltd, tbl_details);
 
 			tblhttgltd_d.button( 'btnCopyFrom:name' ).disable();
+			tblhttgltd.button( 'btnSetApprove:name' ).disable();
 		} );
 
 		// END httgltd

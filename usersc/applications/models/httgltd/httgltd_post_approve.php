@@ -269,6 +269,7 @@
         //Update Approval state manual
         $qu_httgltd = $db
             ->query('update', 'httgltd')
+            ->set('transaction_state',1)
             ->set('approval_state',$state)
             ->where('id',$_POST['id_transaksi_h'])
             ->exec();

@@ -44,6 +44,7 @@
 			Field::inst( 'httlptd.finish_at' ),
 			Field::inst( 'httlptd.is_defaultprogram' ),
 			Field::inst( 'httlptd.is_nextprocess' ),
+			Field::inst( 'httlptd.jenis' ),
 
 			Field::inst( 'httlptd.tanggal_awal' )
 				->getFormatter( function ( $val, $data, $opts ) {
@@ -68,6 +69,30 @@
 				->setFormatter( 'Format::datetime', array(
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
+				) ),
+			Field::inst( 'httlptd.jam_awal' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '00:00:00' || $val === null){
+						echo '';
+					}else{
+						return date( 'H:i', strtotime( $val ) );
+					}
+				} )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'H:i',
+					'to' =>   'H:i:s'
+				) ),
+			Field::inst( 'httlptd.jam_akhir' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '00:00:00' || $val === null){
+						echo '';
+					}else{
+						return date( 'H:i', strtotime( $val ) );
+					}
+				} )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'H:i',
+					'to' =>   'H:i:s'
 				) ),
 
 			Field::inst( 'httlpmh.nama' ),

@@ -21,10 +21,13 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Awal</th>
-                                <th>Akhir</th>
+                                <th>Tgl Awal</th>
+                                <th>Tgl Akhir</th>
+                                <th>Jam Awal</th>
+                                <th>Jam Akhir</th>
                                 <th>Doc No.</th>
                                 <th>Jenis</th>
+                                <th>Nama Izin/Cuti</th>
                                 <th>NIP</th>
                                 <th>Nama</th>
                                 <th>TX</th>
@@ -105,6 +108,54 @@
 						def: 0
 					},	
 					{
+						label: "Jenis",
+						name: "httlptd.jenis",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "Hari", "value": 1 },
+							{ "label": "Jam", "value": 2 }
+						]
+					},
+					{
+						label: "Nama Izin/Cuti <sup class='text-danger'>*<sup>",
+						name: "httlptd.id_httlpmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/httlpmh/httlpmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									jenis = edthttlptd.field('httlptd.jenis').val();
+									var query = {
+										id_httlpmh_old: id_httlpmh_old,
+										jenis: jenis,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
 						label: "Tanggal Awal <sup class='text-danger'>*<sup>", 
 						name: "httlptd.tanggal_awal",
 						type: "datetime",
@@ -129,6 +180,25 @@
 							firstDay: 0
 						},
 						format: 'DD MMM YYYY'
+					},
+					{
+						label: "Jam Awal",
+						name: "httlptd.jam_awal",
+						type: "datetime",
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'HH:mm'
+					},	{
+						label: "Jam Akhir",
+						name: "httlptd.jam_akhir",
+						type: "datetime",
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'HH:mm'
 					},
 					{
 						label: "Employee <sup class='text-danger'>*<sup>",
@@ -167,42 +237,6 @@
 						}
 					},
 					{
-						label: "Jenis <sup class='text-danger'>*<sup>",
-						name: "httlptd.id_httlpmh",
-						type: "select2",
-						opts: {
-							placeholder : "Select",
-							allowClear: true,
-							multiple: false,
-							ajax: {
-								url: "../../models/httlpmh/httlpmh_fn_opt.php",
-								dataType: 'json',
-								data: function (params) {
-									var query = {
-										id_httlpmh_old: id_httlpmh_old,
-										search: params.term || '',
-										page: params.page || 1
-									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
-								},
-								cache: true,
-								minimumInputLength: 1,
-								maximum: 10,
-								delay: 500,
-								maximumSelectionLength: 5,
-								minimumResultsForSearch: -1,
-							},
-						}
-					},
-					{
 						label: "Keterangan <sup class='text-danger'>*<sup>",
 						name: "httlptd.keterangan",
 						type: "textarea"
@@ -213,6 +247,10 @@
 			edthttlptd.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edthttlptd.field('httlptd.start_at').val(start_at);
+				edthttlptd.field('httlptd.tanggal_awal').hide();
+				edthttlptd.field('httlptd.tanggal_akhir').hide();
+				edthttlptd.field('httlptd.jam_awal').hide();
+				edthttlptd.field('httlptd.jam_akhir').hide();
 				
 				if(action == 'create'){
 					tblhttlptd.rows().deselect();
@@ -223,15 +261,65 @@
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
+			edthttlptd.dependent( 'httlptd.jenis', function ( val, data, callback ) {
+				if (val > 0) {
+					if (val == 1) {
+						edthttlptd.field('httlptd.tanggal_awal').label("Tanggal Awal <sup class='text-danger'>*<sup>");
+						edthttlptd.field('httlptd.tanggal_awal').show();
+						edthttlptd.field('httlptd.tanggal_akhir').show();
+						edthttlptd.field('httlptd.jam_awal').hide();
+						edthttlptd.field('httlptd.jam_akhir').hide();
+						edthttlptd.field('httlptd.jam_awal').val('');
+						edthttlptd.field('httlptd.jam_akhir').val('');
+					} else {
+						edthttlptd.field('httlptd.tanggal_awal').label("Tanggal <sup class='text-danger'>*<sup>");
+						edthttlptd.field('httlptd.tanggal_awal').show();
+						edthttlptd.field('httlptd.tanggal_akhir').hide();
+					}
+				}
+				return {}
+			}, {event: 'keyup change'});
+
 			edthttlptd.dependent( 'httlptd.id_httlpmh', function ( val, data, callback ) {
 				if (val > 0) {
-					autofillField("httlpmh", val, "jenis");
-					jenis = autofillData.jenis;
-					//Jika Harian
-					if (jenis == 1) {
+					jenis = edthttlptd.field('httlptd.jenis').val();
+					if (jenis == 2) {
+						autofillField("httlpmh", val, "jenis_jam");
+						jenis_jam = autofillData.jenis_jam;
+						//Jika Harian
 						
-					} else {
+						if(jenis_jam == 1){
+							edthttlptd.field('httlptd.jam_awal').show();
+							edthttlptd.field('httlptd.jam_akhir').hide();
 
+							edthttlptd.field('httlptd.jam_awal').label('Jam Awal <sup class="text-danger">*<sup>');
+							edthttlptd.field('httlptd.jam_akhir').label('Jam Akhir');
+							
+							edthttlptd.field('httlptd.jam_akhir').val(null);
+						}else if (jenis_jam == 2){
+							edthttlptd.field('httlptd.jam_awal').hide();
+							edthttlptd.field('httlptd.jam_akhir').show();
+
+							edthttlptd.field('httlptd.jam_awal').label('Jam Awal');
+							edthttlptd.field('httlptd.jam_akhir').label('Jam Akhir <sup class="text-danger">*<sup>');
+
+							edthttlptd.field('httlptd.jam_awal').val(null);
+						}else if (jenis_jam == 3){
+							edthttlptd.field('httlptd.jam_awal').show();
+							edthttlptd.field('httlptd.jam_akhir').show();
+							edthttlptd.field('httlptd.jam_awal').label('Jam Awal <sup class="text-danger">*<sup>');
+							edthttlptd.field('httlptd.jam_akhir').label('Jam Akhir <sup class="text-danger">*<sup>');
+
+						}else{
+							edthttlptd.field('httlptd.jam_awal').hide();
+							edthttlptd.field('httlptd.jam_akhir').hide();
+
+							edthttlptd.field('httlptd.jam_awal').label('Jam Awal');
+							edthttlptd.field('httlptd.jam_akhir').label('Jam Akhir');
+
+							edthttlptd.field('httlptd.jam_awal').val(null);
+							edthttlptd.field('httlptd.jam_akhir').val(null);
+						}
 					}
 				}
 				return {}
@@ -241,24 +329,67 @@
 				if(action != 'remove'){
 
 					tanggal_awal = edthttlptd.field('httlptd.tanggal_awal').val();
-					tanggal_awal_ymd = moment(tanggal_awal).format("YYYY-MM-DD HH:mm:ss");
+					// tanggal_awal_ymd = moment(tanggal_awal).format("YYYY-MM-DD HH:mm:ss");
 					tanggal_akhir = edthttlptd.field('httlptd.tanggal_akhir').val();
-					tanggal_akhir_ymd = moment(tanggal_akhir).format("YYYY-MM-DD HH:mm:ss");
+					// tanggal_akhir_ymd = moment(tanggal_akhir).format("YYYY-MM-DD HH:mm:ss");
 					id_hemxxmh = edthttlptd.field('httlptd.id_hemxxmh').val();
 					id_httlpmh = edthttlptd.field('httlptd.id_httlpmh').val();
 					keterangan = edthttlptd.field('httlptd.keterangan').val();
+					jenis = edthttlptd.field('httlptd.jenis').val();
+					jam_awal = edthttlptd.field('httlptd.jam_awal').val();
+					jam_akhir = edthttlptd.field('httlptd.jam_akhir').val();
 
 					validasiRequired(
 						edthttlptd,
 						'httlptd',
 						{
-							'tanggal_awal': tanggal_awal,
-							'tanggal_akhir': tanggal_akhir,
 							'id_hemxxmh': id_hemxxmh,
 							'id_httlpmh': id_httlpmh,
-							'keterangan': keterangan
+							'keterangan': keterangan,
+							'tanggal_awal': tanggal_awal, //Jika izin/jam, tanggal_awal ini akan jadi tanggal biasa
+							'jenis': jenis
 						}
 					);
+
+					if (jenis == 1) {
+						validasiRequired(
+							edthttlptd,
+							'httlptd',
+							{
+								'tanggal_akhir': tanggal_akhir,
+							}
+						);
+					} else {
+						autofillField("httlpmh", id_httlpmh, "jenis_jam");
+						jenis_jam = autofillData.jenis_jam;
+
+						if(jenis_jam == 1) {
+							validasiRequired(
+								edthttlptd,
+								'httlptd',
+								{
+									'jam_awal': jam_awal,
+								}
+							);
+						} else if(jenis_jam == 2) {
+							validasiRequired(
+								edthttlptd,
+								'httlptd',
+								{
+									'jam_akhir': jam_akhir,
+								}
+							);
+						} else if(jenis_jam == 3) {
+							validasiRequired(
+								edthttlptd,
+								'httlptd',
+								{
+									'jam_awal': jam_awal,
+									'jam_akhir': jam_akhir,
+								}
+							);
+						}
+					}
 
 				}
 				
@@ -288,7 +419,7 @@
 						d.show_deleted_httlptd = show_deleted_httlptd;
 					}
 				},
-				order: [[ 1, "asc" ]],
+				order: [[ 1, "desc" ]],
 				columnDefs:[
 					{
 						searchPanes:{
@@ -303,11 +434,27 @@
 						targets: [0]
 					}
 				],
+				responsive: false,
+				scrollX: true,
 				columns: [
 					{ data: "httlptd.id",visible:false },
 					{ data: "httlptd.tanggal_awal" },
 					{ data: "httlptd.tanggal_akhir" },
+					{ data: "httlptd.jam_awal" },
+					{ data: "httlptd.jam_akhir" },
 					{ data: "httlptd.kode" },
+					{ 
+						data: "httlptd.jenis",
+						render: function (data) {
+							if (data == 1) {
+								return '<span class="badge badge-primary">Hari</span>';
+							} else if (data == 2) {
+								return '<span class="badge badge-primary">Jam</span>';
+							} else {
+								return '<span class="badge badge-warning">INVALID</span>';
+							}
+						}
+					},
 					{ data: "httlpmh.nama" },
 					{ data: "hemxxmh.kode" },
 					{ data: "hemxxmh.nama" },
