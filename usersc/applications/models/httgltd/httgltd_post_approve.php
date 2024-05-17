@@ -188,6 +188,22 @@
             //             AND jad.transaction_state = 1;
             //     ');
             //End flag is_pot_hk dan is_pot_cuti
+
+            //Delete Absen Hari, pada tanggal Cuti, karena akan digantikan sama CB Cuti Bersama
+            $qd_absen_lama_same_day = $db
+            ->raw()
+            ->bind(':tanggal', $rs_httgltd["tanggal"])
+            ->exec('DELETE FROM httxxrd
+                    WHERE tanggal = :tanggal
+                    AND id_hemxxmh IN (
+                        SELECT
+                            hem.id
+                        FROM hemxxmh hem
+                        LEFT JOIN hemjbmh jb ON jb.id_hemxxmh = hem.id
+                        WHERE hem.transaction_state <> -9 
+                        '.$where_kecuali.'
+                    )
+            ');
             
             //INI TETAP DIINSERT
             $qr_htsprrd = $db
