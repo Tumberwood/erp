@@ -28,7 +28,7 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'prcxxth.id_psuxxmh' )
+			Field::inst( 'prcxxth.id_grlxxmh_supplier' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth.id_podxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -65,10 +65,10 @@
 			Field::inst( 'prcxxth.supir_nama' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
-			Field::inst( 'psuxxmh.nama' )
+			Field::inst( 'grlxxmh.nama' )
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','prcxxth.id_iwhxxmh' )
-		->leftJoin( 'psuxxmh','psuxxmh.id','=','prcxxth.id_psuxxmh' )
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','prcxxth.id_grlxxmh_supplier' )
 		;
 	
 	// do not erase

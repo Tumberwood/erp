@@ -171,7 +171,20 @@
 				],
 				columns: [
 					{ data: "gaplgtd.id",visible:false },
-					{ data: "gaplgtd.kode" },
+					{ 
+						data: "gaplgtd.kode" ,
+						render: function (data, type, row) {
+							folder              = row.gaplgtd.tbl_name;
+							id_transaksi_tujuan = row.gaplgtd.id_transaksi;
+							url = '/erpx/usersc/applications/views/' + folder + '/' + folder + '.php?rowid=' +id_transaksi_tujuan;
+							console.log(url);
+							if(data){
+								return '<a href="'+url+'" target="_blank">'+ data + '</a>';
+							}else{
+								return '';
+							}
+						}
+					},
 					{ data: "gaplgtd.nama" },
 					{ data: "users_pengaju.username" },
 					{ data: "gaplgtd.dt_pengajuan" },

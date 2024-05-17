@@ -29,7 +29,9 @@
 				Field::inst( 'itiittd.id' ),
 				Field::inst( 'itiittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'itiittd.id_iumxxmh' )
+				Field::inst( 'itiittd.id_iumxxmh_unit' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'itiittd.id_iumxxmh_terkecil' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'itiittd.id_itixxth' ),
 				Field::inst( 'itiittd.kode' ),
@@ -45,7 +47,7 @@
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'iumxxmh.nama' )
 			)
-			->leftJoin( 'iumxxmh','iumxxmh.id','=','itiittd.id_iumxxmh' )
+			->leftJoin( 'iumxxmh','iumxxmh.id','=','itiittd.id_iumxxmh_unit' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','itiittd.id_iimxxmh' )
 			->where('itiittd.id_itixxth',$_POST['id_itixxth'])
 			;

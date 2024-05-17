@@ -67,11 +67,18 @@
 		->leftJoin( 'hodxxmh','hodxxmh.id','=','prqxxth.id_hodxxmh' )
 		->leftJoin( 
 			'activity_log_ml as activity_log_ml_c', 
-			'activity_log_ml_c.id_transaksi = prqxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "prqxxth"', '', '' )
+			'activity_log_ml_c.id_transaksi = prqxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "prqxxth"', '', '' );
 
-		->where( 'prqxxth.tanggal', $_POST['start_date'], '>=' )
-		->where( 'prqxxth.tanggal', $_POST['end_date'], '<=' );
-	
+	if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
+		$rowid = $_POST['rowid'];
+		$editor
+			->where( 'prqxxth.id', $rowid);
+	}else{
+		$editor
+			->where( 'prqxxth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'prqxxth.tanggal', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_prqxxth'] == 0){

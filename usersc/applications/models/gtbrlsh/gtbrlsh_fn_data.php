@@ -45,7 +45,7 @@
         
         if(!empty($rs_gtbrlsh)){
 
-            $status_code           = '200';
+            $status_code           = 200;
             $message               = 'Get Table Relation Berhasil';
             $type_message          = 'success';
             $is_master_table       = $rs_gtbrlsh['is_master_table'];
@@ -69,7 +69,7 @@
                     ');
                 $rs_gdnxxsh = $qs_gdnxxsh->fetch();
                 if($rs_gdnxxsh['c_gdnxxsh'] == 0){
-                    $status_code           = '500';
+                    $status_code           = 500;
                     $message               = 'Get Table Relation Berhasil, Tetapi Format Kode Dokumen Belum Ada!';
                     $type_message          = 'error';
                 }
@@ -79,13 +79,13 @@
 
             
         }else{
-            $status_code           = '500';
+            $status_code           = 500;
             $message               = 'Get Table Relation Gagal! Tabel belum didefinisikan di table `gtbrlsh`';
             $type_message          = 'error';
         }
 
     }catch(PDOException $e){
-        $status_code = '500';
+        $status_code = 500;
         $message = 'Get Table Relation Gagal! ' . $e->getMessage();
         $type_message          = 'error';
     }

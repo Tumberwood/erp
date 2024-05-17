@@ -96,7 +96,7 @@
 	// get tableRelation
 	tableRelation('prcxxth');
 
-	var id_psuxxmh = 0, id_podxxth = 0, id_podxxth_old = 0, id_psuxxmh_old = 0, id_iwhxxmh_old = 0;
+	var id_grlxxmh_supplier = 0, id_podxxth = 0, id_podxxth_old = 0, id_grlxxmh_supplier_old = 0, id_iwhxxmh_old = 0;
 	var id_podittd_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0, jumlah_terkecil_old = 0;
 	var id_grlxxmh_old = 0;
 
@@ -164,7 +164,7 @@
 				},
 				{
 					label: "Supplier <sup class='text-danger'>*<sup>",
-					name: "prcxxth.id_psuxxmh",
+					name: "prcxxth.id_grlxxmh_supplier",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -211,7 +211,7 @@
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_psuxxmh: id_psuxxmh,
+									id_grlxxmh_supplier: id_grlxxmh_supplier,
 									id_podxxth_old: id_podxxth_old,
 									search: params.term || '',
 									page: params.page || 1
@@ -335,8 +335,8 @@
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtprcxxth.dependent( 'prcxxth.id_psuxxmh', function ( val, data, callback ) {
-			id_psuxxmh = edtprcxxth.field('prcxxth.id_psuxxmh').val();
+		edtprcxxth.dependent( 'prcxxth.id_grlxxmh_supplier', function ( val, data, callback ) {
+			id_grlxxmh_supplier = edtprcxxth.field('prcxxth.id_grlxxmh_supplier').val();
 			return {}
 		}, {event: 'keyup change'});
 
@@ -357,7 +357,7 @@
 
 				tanggal         = edtprcxxth.field('prcxxth.tanggal').val();
 				id_iwhxxmh      = edtprcxxth.field('prcxxth.id_iwhxxmh').val();
-				id_psuxxmh      = edtprcxxth.field('prcxxth.id_psuxxmh').val();
+				id_grlxxmh_supplier      = edtprcxxth.field('prcxxth.id_grlxxmh_supplier').val();
 				id_podxxth      = edtprcxxth.field('prcxxth.id_podxxth').val();
 				referensi_nomor = edtprcxxth.field('prcxxth.referensi_nomor').val();
 
@@ -367,7 +367,7 @@
 					{
 						"tanggal": tanggal, 
 						"id_iwhxxmh": id_iwhxxmh, 
-						"id_psuxxmh": id_psuxxmh,
+						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_podxxth": id_podxxth,
 						"referensi_nomor": referensi_nomor
 					}
@@ -478,7 +478,7 @@
 			id_podxxth_old 		= prcxxth_data.id_podxxth;
 			id_podxxth 			= prcxxth_data.id_podxxth;
 			id_iwhxxmh_old 		= prcxxth_data.id_iwhxxmh;
-			id_psuxxmh_old 		= prcxxth_data.id_psuxxmh;
+			id_grlxxmh_supplier_old 		= prcxxth_data.id_grlxxmh_supplier;
 			console.log(id_podxxth);
 			// atur hak akses
 			tbl_details = [tblprcittd];
@@ -490,7 +490,7 @@
 			// reload dipanggil di function CekDeselectHeader
 			id_prcxxth = 0;
 
-			id_podxxth_old = 0, id_podxxth = 0, id_iwhxxmh_old = 0, id_psuxxmh_old = 0;
+			id_podxxth_old = 0, id_podxxth = 0, id_iwhxxmh_old = 0, id_grlxxmh_supplier_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd];
