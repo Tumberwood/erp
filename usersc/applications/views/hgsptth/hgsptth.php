@@ -154,10 +154,11 @@
 						label: "Pilih Karyawan",
 						name: "hgsptth.is_pegawai",
 						type: "select",
+						fieldInfo: "Jika Ya, maka hanya karyawan yang dipilih saja yang akan dibuatkan Jadwal!",
 						placeholder : "Select",
 						options: [
-							{ "label": "Yes", "value": 1 },
-							{ "label": "No", "value": 0 }
+							{ "label": "Ya", "value": 1 },
+							{ "label": "Tidak", "value": 0 }
 						]
 					},
 					{
