@@ -10,6 +10,13 @@
 	$nama_tabel       = 'prqxxth';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'prqittd';
+
+	// terkait self view
+	if (isset($_GET['rowid']) && $_GET['rowid'] > 0) {
+		$rowid = $_GET['rowid'];
+	} else {
+		$rowid = 0;
+	}
 ?>
 
 <!-- begin content here -->
@@ -131,6 +138,7 @@
 	// ------------- default variable, do not erase
 	var edtprqxxth, tblprqxxth, show_deleted_prqxxth = 0, id_prqxxth;
 	var edtprqittd, tblprqittd, show_deleted_prqittd = 0, id_prqittd;
+	var rowid = <?php echo $rowid; ?>;
 	// ------------- end of default variable
 	var id_hodxxmh_old = 0;
 	var id_iumxxmh_old = 0;
@@ -164,6 +172,7 @@
 					d.show_deleted_prqxxth = show_deleted_prqxxth;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.rowid = rowid;
 				}
 			},
 			table: "#tblprqxxth",
@@ -301,6 +310,7 @@
 					d.show_deleted_prqxxth = show_deleted_prqxxth;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.rowid = rowid;
 				}
 			},
 			order: [[ 1, "desc" ]],
