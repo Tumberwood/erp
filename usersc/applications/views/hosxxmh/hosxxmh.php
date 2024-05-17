@@ -301,14 +301,8 @@
 			} );
 			
 			tblhosxxmh.on( 'select', function( e, dt, type, indexes ) {
-				hosxxmh_data    		= tblhosxxmh.row( { selected: true } ).data().hosxxmh;
-				id_hosxxmh      		= hosxxmh_data.id;
-				id_transaksi_h 		= id_hosxxmh; // dipakai untuk general
-				id_transaksi_log	= id_hosxxmh; // dipakai untuk general
-				transaction_state   = hosxxmh_data.transaction_state;
-				approval_state   	= hosxxmh_data.approval_state;
-				is_nextprocess 		= hosxxmh_data.is_nextprocess;
-
+				// set variable standar framework
+				siVarSet('hosxxmh');
 				id_hodxxmh_old 		= hosxxmh_data.id_hodxxmh;
 
 				// atur hak akses
@@ -316,8 +310,8 @@
 			} );
 
 			tblhosxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_hosxxmh = 0;
+				// reset variable standar framework
+				siVarReset('hosxxmh');
 				id_hodxxmh_old = 0;
 
 				// atur hak akses
