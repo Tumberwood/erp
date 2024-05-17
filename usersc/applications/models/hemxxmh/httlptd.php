@@ -23,41 +23,36 @@
 	if ( ! isset($_POST['id_hemxxmh']) || ! is_numeric($_POST['id_hemxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'htpxxth' )
+		$editor = Editor::inst( $db, 'httlptd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'htpxxth.id' ),
-				Field::inst( 'htpxxth.id_hemxxmh' ),
-				Field::inst( 'htpxxth.id_htpxxmh' )
+				Field::inst( 'httlptd.id' ),
+				Field::inst( 'httlptd.id_httlpmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'htpxxth.id_files_bukti' )
-					->setFormatter( Format::ifEmpty( 0 ) )
-					->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/__ID__.__EXTN__' )
-						->db( 'files', 'id', array(
-							'filename'    => Upload::DB_FILE_NAME,
-							'filesize'    => Upload::DB_FILE_SIZE,
-							'web_path'    => Upload::DB_WEB_PATH,
-							'system_path' => Upload::DB_SYSTEM_PATH,
-							'extn' 		  => Upload::DB_EXTN
-						) )
-						->validator( Validate::fileSize( 500000, 'Ukuran lampiran maksimal 500Kb' ) )
-						->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg'), "Hanya boleh format png, jpg atau jpeg" ) )
-					),
-				Field::inst( 'htpxxth.kode' ),
-				Field::inst( 'htpxxth.nama' ),
-				Field::inst( 'htpxxth.keterangan' ),
-				Field::inst( 'htpxxth.created_by' ),
-				Field::inst( 'htpxxth.transaction_state' ),
-				Field::inst( 'htpxxth.approval_state' ),
-				Field::inst( 'htpxxth.start_at' ),
-				Field::inst( 'htpxxth.finish_at' ),
-				Field::inst( 'htpxxth.is_defaultprogram' ),
-				Field::inst( 'htpxxth.is_default' ),
-				Field::inst( 'htpxxth.is_nextprocess' ),
-				Field::inst( 'htpxxth.tanggal' )
+				Field::inst( 'httlptd.id_hemxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'httlptd.kode' )
+					->setFormatter( function ( $val ) {
+						return strtoupper($val);
+					} ),
+				Field::inst( 'httlptd.nama' )
+					->setFormatter( function ( $val ) {
+						return ucwords($val);
+					} ),
+				Field::inst( 'httlptd.keterangan' ),
+				Field::inst( 'httlptd.created_by' ),
+				Field::inst( 'httlptd.transaction_state' ),
+				Field::inst( 'httlptd.approval_state' ),
+				Field::inst( 'httlptd.start_at' ),
+				Field::inst( 'httlptd.finish_at' ),
+				Field::inst( 'httlptd.is_defaultprogram' ),
+				Field::inst( 'httlptd.is_nextprocess' ),
+				Field::inst( 'httlptd.jenis' ),
+	
+				Field::inst( 'httlptd.tanggal_awal' )
 					->getFormatter( function ( $val, $data, $opts ) {
 						if ($val === '0000-00-00' || $val === null){
-							echo '';
+							return '';
 						}else{
 							return date( 'd M Y', strtotime( $val ) );
 						}
@@ -66,7 +61,19 @@
 						'from' => 'd M Y',
 						'to' =>   'Y-m-d'
 					) ),
-				Field::inst( 'htpxxth.jam_awal' )
+				Field::inst( 'httlptd.tanggal_akhir' )
+					->getFormatter( function ( $val, $data, $opts ) {
+						if ($val === '0000-00-00' || $val === null){
+							return '';
+						}else{
+							return date( 'd M Y', strtotime( $val ) );
+						}
+					} )
+					->setFormatter( 'Format::datetime', array(
+						'from' => 'd M Y',
+						'to' =>   'Y-m-d'
+					) ),
+				Field::inst( 'httlptd.jam_awal' )
 					->getFormatter( function ( $val, $data, $opts ) {
 						if ($val === '00:00:00' || $val === null){
 							echo '';
@@ -78,7 +85,7 @@
 						'from' => 'H:i',
 						'to' =>   'H:i:s'
 					) ),
-				Field::inst( 'htpxxth.jam_akhir' )
+				Field::inst( 'httlptd.jam_akhir' )
 					->getFormatter( function ( $val, $data, $opts ) {
 						if ($val === '00:00:00' || $val === null){
 							echo '';
@@ -90,24 +97,27 @@
 						'from' => 'H:i',
 						'to' =>   'H:i:s'
 					) ),
-
-				Field::inst( 'htpxxmh.nama' )
+	
+				Field::inst( 'httlpmh.nama' ),
+				Field::inst( 'hemxxmh.kode' ),
+				Field::inst( 'hemxxmh.nama' )
 			)
-			->leftJoin( 'htpxxmh','htpxxmh.id','=','htpxxth.id_htpxxmh' )
-			->where('htpxxth.approval_state', 1)
-			->where('htpxxth.id_hemxxmh',$_POST['id_hemxxmh']);
+			->leftJoin( 'httlpmh','httlpmh.id','=','httlptd.id_httlpmh' )
+			->leftJoin( 'hemxxmh','hemxxmh.id','=','httlptd.id_hemxxmh' )
+			->where('httlptd.approval_state', 1)
+			->where('httlptd.id_hemxxmh',$_POST['id_hemxxmh']);
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_htpxxth'] == 0){
+		if ( $_POST['show_deleted_httlptd'] == 0){
 			$editor
-				->where( 'htpxxth.transaction_state', -9, '<>');
+				->where( 'httlptd.transaction_state', -9, '<>');
 		}
 		
-		// include( "htpxxth_extra.php" );
+		// include( "httlptd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'htpxxth';
+		$nama_table = 'httlptd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		

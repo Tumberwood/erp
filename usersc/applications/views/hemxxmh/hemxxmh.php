@@ -11,9 +11,7 @@
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'hemfmmd';
     $nama_tabels_d[1] = 'hadxxtd';
-    $nama_tabels_d[2] = 'htlxxth';
-    $nama_tabels_d[3] = 'htpxxth';
-    // $nama_tabels_d[4] = 'fpdxxth';
+    $nama_tabels_d[4] = 'httlptd';
     $nama_tabels_d[5] = 'hemtrmd';
     $nama_tabels_d[6] = 'hesxxtd';
 ?>
@@ -134,6 +132,7 @@
                                 <th>Kode Finger</th>
                                 <th>No KTP</th>
                                 <th>Nama</th>
+                                <th>Level</th>
                                 <th>Department</th>
                                 <th>Jabatan</th>
                                 <th>Status</th>
@@ -149,10 +148,8 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li><a class="nav-link active" data-toggle="tab" href="#tabhemfmmd"> Family</a></li>
 							<li><a class="nav-link" data-toggle="tab" href="#tabhadxxtd "> Pelanggaran</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhtlxxth"> Cuti</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhtpxxth"> Ijin</a></li>
 							<li><a class="nav-link" data-toggle="tab" href="#tabhemtrmd"> Pelatihan</a></li>
-							<!-- <li><a class="nav-link" data-toggle="tab" href="#tabfpdxxth"> Perjalanan Dinas</a></li> -->
+							<li><a class="nav-link" data-toggle="tab" href="#tabhttlptd"> Absensi</a></li>
 							<li><a class="nav-link" data-toggle="tab" href="#tabhesxxtd"> PKWT</a></li>
 						</ul>
 						<div class="tab-content">
@@ -197,41 +194,21 @@
 
 								</div>
 							</div>
-							<div role="tabpanel" id="tabhtlxxth" class="tab-pane">
+							<div role="tabpanel" id="tabhttlptd" class="tab-pane">
 								<div class="panel-body">
-									<h3 id="sisa_cuti_text"></h3>
 									<div class="table-responsive">
-										<table id="tblhtlxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<table id="tblhttlptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 											<thead>
 												<tr>
 													<th>ID</th>
 													<th>id_hemxxmh</th>
-													<th>Kode</th>
-													<th>Tanggal Awal</th>
-													<th>Tanggal Akhir</th>
-                                					<th>Jenis</th>
-													<th>Keterangan</th>
-												</tr>
-											</thead>
-										</table>
-									</div> 
-
-								</div>
-							</div>
-							<div role="tabpanel" id="tabhtpxxth" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhtpxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Kode</th>
-													<th>Tanggal </th>
-                                					<th>Jenis</th>
+													<th>Tgl Awal</th>
+													<th>Tgl Akhir</th>
 													<th>Jam Awal</th>
 													<th>Jam Akhir</th>
-													<th>Keterangan</th>
+													<th>Doc No.</th>
+													<th>Jenis</th>
+													<th>Nama Izin/Cuti</th>
 												</tr>
 											</thead>
 										</table>
@@ -239,28 +216,6 @@
 
 								</div>
 							</div>
-							<!-- <div role="tabpanel" id="tabfpdxxth" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblfpdxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Kode</th>
-													<th>Tanggal</th>
-													<th>Tujuan</th>
-													<th>Catatan</th>
-													<th>Tgl Awal Jaldis</th>
-													<th>Tgl Akhir Jaldis</th>
-                                					<th>Approval</th>
-												</tr>
-											</thead>
-										</table>
-									</div> 
-
-								</div>
-							</div> -->
 							<div role="tabpanel" id="tabhemtrmd" class="tab-pane">
 								<div class="panel-body">
 									<div class="table-responsive">
@@ -332,9 +287,7 @@
 	var edthemxxmh, tblhemxxmh, show_deleted_hemxxmh = 0, id_hemxxmh;
 	var edthemfmmd, tblhemfmmd, show_deleted_hemfmmd = 0, id_hemfmmd;
 	var edthadxxtd, tblhadxxtd, show_deleted_hadxxtd = 0, id_hadxxtd;
-	var edthtlxxth, tblhtlxxth, show_deleted_htlxxth = 0, id_htlxxth;
-	var edthtpxxth, tblhtpxxth, show_deleted_htpxxth = 0, id_htpxxth;
-	// var edtfpdxxth, tblfpdxxth, show_deleted_fpdxxth = 0, id_fpdxxth;
+	var edthttlptd, tblhttlptd, show_deleted_httlptd = 0, id_httlptd;
 	var edthemtrmd, tblhemtrmd, show_deleted_hemtrmd = 0, id_hemtrmd;
 	var edthesxxtd, tblhesxxtd, show_deleted_hesxxtd = 0, id_hesxxtd;
 	// ------------- end of default variable
@@ -1016,6 +969,7 @@
 					{ data: "hemxxmh.kode_finger" },
 					{ data: "hemdcmh.ktp_no" },
 					{ data: "hemxxmh.nama" }, //4
+					{ data: "hevxxmh.nama" },
 					{ data: "hodxxmh.nama" },
 					{ data: "hetxxmh.nama" },
 					{ data: "hesxxmh.nama" },//10
@@ -1074,9 +1028,7 @@
 			// atur hak akses
 			tbl_details = [
 				tblhemfmmd, tblhadxxtd
-				, tblhtlxxth
-				, tblhtpxxth
-				// , tblfpdxxth
+				, tblhttlptd
 				, tblhemtrmd
 				, tblhesxxtd
 			];
@@ -1108,9 +1060,7 @@
 			// atur hak akses
 			tbl_details = [
 				tblhemfmmd, tblhadxxtd
-				, tblhtlxxth
-				, tblhtpxxth
-				// , tblfpdxxth
+				, tblhttlptd
 				, tblhemtrmd
 				, tblhesxxtd
 			];
@@ -1142,9 +1092,7 @@
 			// atur hak akses
 			tbl_details = [
 				tblhemfmmd, tblhadxxtd
-				, tblhtlxxth
-				, tblhtpxxth
-				// , tblfpdxxth
+				, tblhttlptd
 				, tblhemtrmd
 				, tblhesxxtd
 			];
@@ -1741,612 +1689,115 @@
 		} );
 
 // --------- end _detail --------------- //		
-// --------- start _detail --------------- //
-
-		//start datatables editor
-		edthtlxxth = new $.fn.dataTable.Editor( {
-			ajax: {
-				url: "../../models/hemxxmh/htlxxth.php",
-				type: 'POST',
-				data: function (d){
-					d.show_deleted_htlxxth = show_deleted_htlxxth;
-					d.id_hemxxmh = id_hemxxmh;
-				}
-			},
-			table: "#tblhtlxxth",
-			formOptions: {
-				main: {
-					focus: 5
-				}
-			},
-			fields: [ 
-				{
-					label: "htlxxth.start_at",
-					name: "htlxxth.start_at",
-					type: "hidden"
-				},	
-				{
-					label: "htlxxth.finish_at",
-					name: "htlxxth.finish_at",
-					type: "hidden"
-				},	
-				{
-					label: "nama_tabel",
-					name: "nama_tabel",
-					def: "htlxxth",
-					type: "hidden"
-				},	
-				{
-					label: "htlxxth.transaction_state",
-					name: "htlxxth.transaction_state",
-					type: "hidden",
-					def: 0
-				},	
-				{
-					label: "id_hemxxmh",
-					name: "htlxxth.id_hemxxmh",
-					type: "hidden"
-				},
-				{
-					label: "Jenis <sup class='text-danger'>*<sup>",
-					name: "htlxxth.id_httlpmh",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/httlpmh/httlpmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_httlpmh_old: id_httlpmh_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
-				},	{
-					label: "Tanggal Awal <sup class='text-danger'>*<sup>",
-					name: "htlxxth.tanggal_awal",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
-				},	{
-					label: "Tanggal Akhir <sup class='text-danger'>*<sup>",
-					name: "htlxxth.tanggal_akhir",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
-				}, 	{
-					label: "Keterangan <sup class='text-danger'>*<sup>",
-					name: "htlxxth.keterangan",
-					type: "textarea"
-				},	{
-					label: "Lampiran",
-					name: "htlxxth.id_files_lampiran",
-					type: "upload",
-					display: function ( fileId, counter ) {
-						if(fileId > 0){
-							return '<img src="'+edthtlxxth.file( 'files', fileId ).web_path+'"/>';
-						}
-					},
-					noFileText: 'Belum ada gambar'
-				}
-			]
-		} );
-			
-		edthtlxxth.on( 'preOpen', function( e, mode, action ) {
-			edthtlxxth.field('htlxxth.id_hemxxmh').val(id_hemxxmh);
-			
-			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthtlxxth.field('htlxxth.start_at').val(start_at);
-			
-			if(action == 'create'){
-				tblhtlxxth.rows().deselect();
-			}
-		});
-
-		edthtlxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
-		});
-		
-		edthtlxxth.on( 'preSubmit', function (e, data, action) {
-			if(action != 'remove'){
-			}
-			
-			if ( edthtlxxth.inError() ) {
-				return false;
-			}
-		});
-
-		edthtlxxth.on('initSubmit', function(e, action) {
-			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthtlxxth.field('htlxxth.finish_at').val(finish_at);
-		});
-			
-		edthtlxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblhtlxxth.rows().deselect();
-			tblhtlxxth.ajax.reload(null, false);
-		} );
-
-		edthtlxxth.on( 'close', function () {
-			edthtlxxth.enable();
-		} );
-		
-		//start datatables
-		tblhtlxxth = $('#tblhtlxxth').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-2',
-			},
-			ajax: {
-				url: "../../models/hemxxmh/htlxxth.php",
-				type: 'POST',
-				data: function (d){
-					d.show_deleted_htlxxth = show_deleted_htlxxth;
-					d.id_hemxxmh = id_hemxxmh;
-				}
-			},
-			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,1,4,5]
-				}
-			],
-			responsive: false,
-			// scrollX: true,
-			order: [[ 2, "desc" ]],
-			columns: [
-				{ data: "htlxxth.id",visible:false },
-				{ data: "htlxxth.id_hemxxmh",visible:false },
-				{ data: "htlxxth.kode" },
-				{ data: "htlxxth.tanggal_awal" },
-				{ data: "htlxxth.tanggal_akhir" },
-				{ data: "httlpmh.nama" },
-				{ data: "htlxxth.keterangan" },
-			],
-			buttons: [
-				// BEGIN breaking generate button
-				<?php
-					$id_table    = 'id_htlxxth';
-					$table       = 'tblhtlxxth';
-					$edt         = 'edthtlxxth';
-					$show_status = '_htlxxth';
-					$table_name  = $nama_tabels_d[2];
-
-					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_action 	= [];
-					$arr_buttons_approve 	= [];
-					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
-				?>
-				// END breaking generate button
-			],
-			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
-			}
-		} );
-
-		tblhtlxxth.searchPanes.container().appendTo('#sphtlxxth');
-		tblhtlxxth.searchBuilder.container().appendTo( '#sbhtlxxth' );
-
-		tblhtlxxth.on( 'draw', function( e, settings ) { 
-			// atur hak akses
-			cek_c_detail= 0;
-			// is_valid_cek_detail = 1;
-			CekDrawDetailHD(tblhemxxmh, tblhtlxxth, 'htlxxth' );
-			CekDrawDetailHDFinal(tblhemxxmh);
-		} );
-
-		tblhtlxxth.on( 'select', function( e, dt, type, indexes ) {
-			data_htlxxth 		= tblhtlxxth.row( { selected: true } ).data().htlxxth;
-			id_htlxxth   		= data_htlxxth.id;
-			id_transaksi_d 		= id_htlxxth; // dipakai untuk general
-			id_transaksi_log_d 	= id_htlxxth; // dipakai untuk log
-
-			transaction_state_d  = data_htlxxth.transaction_state;
-			id_hedlvmh_old   = data_htlxxth.id_hedlvmh;
-			// atur hak akses
-			CekSelectDetailHD(tblhemxxmh, tblhtlxxth );
-		} );
-
-		tblhtlxxth.on( 'deselect', function() {
-			id_htlxxth = 0;
-			id_hedlvmh_old = 0;
-			
-			// atur hak akses
-			CekDeselectDetailHD(tblhemxxmh, tblhtlxxth );
-		} );
-
-// --------- end _detail --------------- //		
-// --------- start _detail --------------- //
-
-		//start datatables editor
-		edthtpxxth = new $.fn.dataTable.Editor( {
-			ajax: {
-				url: "../../models/hemxxmh/htpxxth.php",
-				type: 'POST',
-				data: function (d){
-					d.show_deleted_htpxxth = show_deleted_htpxxth;
-					d.id_hemxxmh = id_hemxxmh;
-				}
-			},
-			table: "#tblhtpxxth",
-			formOptions: {
-				main: {
-					focus: 5
-				}
-			},
-			fields: [ 
-				{
-					label: "htpxxth.start_at",
-					name: "htpxxth.start_at",
-					type: "hidden"
-				},	
-				{
-					label: "htpxxth.finish_at",
-					name: "htpxxth.finish_at",
-					type: "hidden"
-				},	
-				{
-					label: "nama_tabel",
-					name: "nama_tabel",
-					def: "htpxxth",
-					type: "hidden"
-				},	
-				{
-					label: "htpxxth.transaction_state",
-					name: "htpxxth.transaction_state",
-					type: "hidden",
-					def: 0
-				},	
-				{
-					label: "id_hemxxmh",
-					name: "htpxxth.id_hemxxmh",
-					type: "hidden"
-				},
-				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
-					name: "htpxxth.tanggal",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
-				},	{
-					label: "Jenis <sup class='text-danger'>*<sup>",
-					name: "htpxxth.id_htpxxmh",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/htpxxmh/htpxxmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_htpxxmh_old: id_htpxxmh_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
-				},	{
-					label: "Jam Awal",
-					name: "htpxxth.jam_awal",
-					type: "datetime",
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'HH:mm'
-				},	{
-					label: "Jam Akhir",
-					name: "htpxxth.jam_akhir",
-					type: "datetime",
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'HH:mm'
-				}, 	{
-					label: "Keterangan <sup class='text-danger'>*<sup>",
-					name: "htpxxth.keterangan",
-					type: "textarea"
-				}		
-			]
-		} );
-			
-		edthtpxxth.on( 'preOpen', function( e, mode, action ) {
-			edthtpxxth.field('htpxxth.id_hemxxmh').val(id_hemxxmh);
-			
-			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthtpxxth.field('htpxxth.start_at').val(start_at);
-			
-			if(action == 'create'){
-				tblhtpxxth.rows().deselect();
-			}
-		});
-
-		edthtpxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
-		});
-		
-		edthtpxxth.on( 'preSubmit', function (e, data, action) {
-			if(action != 'remove'){
-			}
-			
-			if ( edthtpxxth.inError() ) {
-				return false;
-			}
-		});
-
-		edthtpxxth.on('initSubmit', function(e, action) {
-			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthtpxxth.field('htpxxth.finish_at').val(finish_at);
-		});
-			
-		edthtpxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblhtpxxth.rows().deselect();
-			tblhtpxxth.ajax.reload(null, false);
-		} );
-
-		edthtpxxth.on( 'close', function () {
-			edthtpxxth.enable();
-		} );
-		
-		//start datatables
-		tblhtpxxth = $('#tblhtpxxth').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-2',
-			},
-			ajax: {
-				url: "../../models/hemxxmh/htpxxth.php",
-				type: 'POST',
-				data: function (d){
-					d.show_deleted_htpxxth = show_deleted_htpxxth;
-					d.id_hemxxmh = id_hemxxmh;
-				}
-			},
-			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,1,4,5]
-				}
-			],
-			responsive: false,
-			// scrollX: true,
-			order: [[ 2, "desc" ]],
-			columns: [
-				{ data: "htpxxth.id",visible:false },
-				{ data: "htpxxth.id_hemxxmh",visible:false },
-				{ data: "htpxxth.kode" },
-				{ data: "htpxxth.tanggal" },
-				{ data: "htpxxmh.nama" },
-				{ data: "htpxxth.jam_awal" },
-				{ data: "htpxxth.jam_akhir" },
-				{ data: "htpxxth.keterangan" }
-			],
-			buttons: [
-				// BEGIN breaking generate button
-				<?php
-					$id_table    = 'id_htpxxth';
-					$table       = 'tblhtpxxth';
-					$edt         = 'edthtpxxth';
-					$show_status = '_htpxxth';
-					$table_name  = $nama_tabels_d[3];
-
-					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_action 	= [];
-					$arr_buttons_approve 	= [];
-					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
-				?>
-				// END breaking generate button
-			],
-			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
-			}
-		} );
-
-		tblhtpxxth.searchPanes.container().appendTo('#sphtpxxth');
-		tblhtpxxth.searchBuilder.container().appendTo( '#sbhtpxxth' );
-
-		tblhtpxxth.on( 'draw', function( e, settings ) { 
-			// atur hak akses
-			cek_c_detail= 0;
-			// is_valid_cek_detail = 1;
-			CekDrawDetailHD(tblhemxxmh, tblhtpxxth, 'htpxxth' );
-			CekDrawDetailHDFinal(tblhemxxmh);
-		} );
-
-		tblhtpxxth.on( 'select', function( e, dt, type, indexes ) {
-			data_htpxxth 		= tblhtpxxth.row( { selected: true } ).data().htpxxth;
-			id_htpxxth   		= data_htpxxth.id;
-			id_transaksi_d 		= id_htpxxth; // dipakai untuk general
-			id_transaksi_log_d 	= id_htpxxth; // dipakai untuk log
-
-			transaction_state_d  = data_htpxxth.transaction_state;
-			id_hedlvmh_old   = data_htpxxth.id_hedlvmh;
-			// atur hak akses
-			CekSelectDetailHD(tblhemxxmh, tblhtpxxth );
-		} );
-
-		tblhtpxxth.on( 'deselect', function() {
-			id_htpxxth = 0;
-			id_hedlvmh_old = 0;
-			
-			// atur hak akses
-			CekDeselectDetailHD(tblhemxxmh, tblhtpxxth );
-		} );
-
-// --------- end _detail --------------- //		
 
 // Perjalanan Dinas Nonaktif dulu
-// // --------- start _detail --------------- //
-// 		//start datatables
-// 		tblfpdxxth = $('#tblfpdxxth').DataTable( {
-// 			dom: domPQ,
-// 			searchPanes:{
-// 				layout: 'columns-2',
-// 			},
-// 			ajax: {
-// 				url: "../../models/hemxxmh/fpdxxth.php",
-// 				type: 'POST',
-// 				data: function (d){
-// 					d.show_deleted_fpdxxth = show_deleted_fpdxxth;
-// 					d.id_hemxxmh = id_hemxxmh;
-// 				}
-// 			},
-// 			order: [[ 2, "desc" ]],
-// 			columnDefs:[
-// 				{
-// 					searchPanes:{
-// 						show: true,
-// 					},
-// 					targets: [2,3]
-// 				},
-// 				{
-// 					searchPanes:{
-// 						show: false,
-// 					},
-// 					targets: [0,1,4,5]
-// 				}
-// 			],
-// 			responsive: false,
-// 			// scrollX: true,
-// 			order: [[ 2, "desc" ]],
-// 			columns: [
-// 				{ data: "fpdxxth.id",visible:false },
-// 				{ data: "fpdxxth.id_hemxxmh",visible:false },
-// 				{ data: "fpdxxth.kode" },
-// 				{ data: "fpdxxth.tanggal" },
-// 				{ data: "fpdxxth.tujuan" },
-// 				{ data: "fpdxxth.keterangan" },
-// 				{ data: "fpdxxth.tanggal_awal" },
-// 				{ data: "fpdxxth.tanggal_akhir" },
-// 				{ data: "fpdxxth.tanggal_approve" },
-// 			],
-// 			buttons: [
-// 				// BEGIN breaking generate button
-// 				<?php
-// 					$id_table    = 'id_fpdxxth';
-// 					$table       = 'tblfpdxxth';
-// 					$edt         = 'edtfpdxxth';
-// 					$show_status = '_fpdxxth';
-// 					$table_name  = $nama_tabels_d[4];
+// --------- start _detail --------------- //
+		//start datatables
+		tblhttlptd = $('#tblhttlptd').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-2',
+			},
+			ajax: {
+				url: "../../models/hemxxmh/httlptd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_httlptd = show_deleted_httlptd;
+					d.id_hemxxmh = id_hemxxmh;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [2,3]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: [0,1,4,5]
+				}
+			],
+			responsive: false,
+			// scrollX: true,
+			order: [[ 1, "desc" ]],
+			columns: [
+				{ data: "httlptd.id",visible:false },
+				{ data: "httlptd.id_hemxxmh",visible:false },
+				{ data: "httlptd.tanggal_awal" },
+				{ data: "httlptd.tanggal_akhir" },
+				{ data: "httlptd.jam_awal" },
+				{ data: "httlptd.jam_akhir" },
+				{ data: "httlptd.kode" },
+				{ 
+					data: "httlptd.jenis",
+					render: function (data) {
+						if (data == 1) {
+							return '<span class="badge badge-primary">Hari</span>';
+						} else if (data == 2) {
+							return '<span class="badge badge-primary">Jam</span>';
+						} else {
+							return '<span class="badge badge-warning">INVALID</span>';
+						}
+					}
+				},
+				{ data: "httlpmh.nama" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_httlptd';
+					$table       = 'tblhttlptd';
+					$edt         = 'edthttlptd';
+					$show_status = '_httlptd';
+					$table_name  = $nama_tabels_d[4];
 
-// 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-// 					$arr_buttons_action 	= [];
-// 					$arr_buttons_approve 	= [];
-// 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
-// 				?>
-// 				// END breaking generate button
-// 			],
-// 			initComplete: function() {
-// 				this.api().searchPanes.rebuildPane();
-// 			}
-// 		} );
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_action 	= [];
+					$arr_buttons_approve 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			}
+		} );
 
-// 		tblfpdxxth.searchPanes.container().appendTo('#spfpdxxth');
-// 		tblfpdxxth.searchBuilder.container().appendTo( '#sbfpdxxth' );
+		tblhttlptd.searchPanes.container().appendTo('#sphttlptd');
+		tblhttlptd.searchBuilder.container().appendTo( '#sbhttlptd' );
 
-// 		tblfpdxxth.on( 'draw', function( e, settings ) { 
-// 			// atur hak akses
-// 			cek_c_detail= 0;
-// 			// is_valid_cek_detail = 1;
-// 			CekDrawDetailHD(tblhemxxmh, tblfpdxxth, 'fpdxxth' );
-// 			CekDrawDetailHDFinal(tblhemxxmh);
-// 		} );
+		tblhttlptd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			cek_c_detail= 0;
+			// is_valid_cek_detail = 1;
+			CekDrawDetailHD(tblhemxxmh, tblhttlptd, 'httlptd' );
+			CekDrawDetailHDFinal(tblhemxxmh);
+		} );
 
-// 		tblfpdxxth.on( 'select', function( e, dt, type, indexes ) {
-// 			data_fpdxxth 		= tblfpdxxth.row( { selected: true } ).data().fpdxxth;
-// 			id_fpdxxth   		= data_fpdxxth.id;
-// 			id_transaksi_d 		= id_fpdxxth; // dipakai untuk general
-// 			id_transaksi_log_d 	= id_fpdxxth; // dipakai untuk log
+		tblhttlptd.on( 'select', function( e, dt, type, indexes ) {
+			data_httlptd 		= tblhttlptd.row( { selected: true } ).data().httlptd;
+			id_httlptd   		= data_httlptd.id;
+			id_transaksi_d 		= id_httlptd; // dipakai untuk general
+			id_transaksi_log_d 	= id_httlptd; // dipakai untuk log
 
-// 			transaction_state_d  = data_fpdxxth.transaction_state;
-// 			id_hedlvmh_old   = data_fpdxxth.id_hedlvmh;
-// 			// atur hak akses
-// 			CekSelectDetailHD(tblhemxxmh, tblfpdxxth );
-// 		} );
+			transaction_state_d  = data_httlptd.transaction_state;
+			id_hedlvmh_old   = data_httlptd.id_hedlvmh;
+			// atur hak akses
+			CekSelectDetailHD(tblhemxxmh, tblhttlptd );
+		} );
 
-// 		tblfpdxxth.on( 'deselect', function() {
-// 			id_fpdxxth = 0;
-// 			id_hedlvmh_old = 0;
+		tblhttlptd.on( 'deselect', function() {
+			id_httlptd = 0;
+			id_hedlvmh_old = 0;
 			
-// 			// atur hak akses
-// 			CekDeselectDetailHD(tblhemxxmh, tblfpdxxth );
-// 		} );
+			// atur hak akses
+			CekDeselectDetailHD(tblhemxxmh, tblhttlptd );
+		} );
 
-// // --------- end _detail --------------- //		
 // --------- end _detail --------------- //		
 
 
