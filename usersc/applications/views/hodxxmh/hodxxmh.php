@@ -107,7 +107,7 @@
 						name: "hodxxmh.nama"
 					},
 					{
-						label: "Select2",
+						label: "Division",
 						name: "hodxxmh.id_hovxxmh",
 						type: "select2",
 						opts: {
