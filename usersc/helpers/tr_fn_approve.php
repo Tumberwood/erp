@@ -130,6 +130,7 @@
 
         $db->commit();
         
+        $status_code = 200;
         $message = 'Proses '.$status_approval.'Berhasil';
         $type_message = 'success';
 
@@ -137,15 +138,17 @@
 		// rollback on error
 		$db->rollback();
 
+        $status_code = 500;
         $message = 'Proses '.$status_approval.'Gagal';
         $type_message = 'danger';
 
 	}
 
     $data = array(
-		'message'      => $message,
+        'status_code'    => $status_code,
+        'message'      => $message,
 		'type_message' => $type_message
-	);
+    );
 
     // tampilkan results
     require_once( "fn_ajax_results.php" );
