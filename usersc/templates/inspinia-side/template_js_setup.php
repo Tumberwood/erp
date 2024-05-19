@@ -267,6 +267,19 @@
 	});
 	// END default jquery-validator
 
+	// BEGIN datepicker init
+	$('#periode').datepicker({
+		setDate: new Date(),
+		autoclose: true,
+		todayHighlight: true,
+		clearBtn: true,
+		format: "dd M yyyy",
+		minViewMode: 'month' 
+	});
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+	// END datepicker init
+	
 	$(document).ready(function() {
 		// BEGIN notification
 		if(is_notification == 1){
