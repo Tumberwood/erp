@@ -27,7 +27,7 @@
 			'aglxxth.total_kredit as total_kredit'
 		] )
 		->where('aglxxth.id_transaksi_h', $id_fbtxxth )
-		->where('aglxxth.jenis_transaksi', 'Kas Bank Transfer' )
+		->where('aglxxth.jenis_transaksi', 'Overbook' )
 		->exec();
 	$rs_aglxxth = $qs_aglxxth->fetch();
 

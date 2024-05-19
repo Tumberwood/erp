@@ -7,8 +7,15 @@
 ?>
 
 <?php
-	$nama_tabel    = 'fbtxxth';
+	$nama_tabel    = 'fobxxth';
 	$nama_tabels_d = [];
+
+	// self view
+	if (isset($_GET['rowid']) && $_GET['rowid'] > 0) {
+		$rowid = $_GET['rowid'];
+	} else {
+		$rowid = 0;
+	}
 ?>
 
 <!-- begin content here -->
@@ -16,8 +23,37 @@
 	<div class="col">
 		<div class="ibox ">
 			<div class="ibox-content">
+				<div class="modal" id="modalSFfobxxth" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
-                    <table id="tblfbtxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblfobxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -54,34 +90,41 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fbtxxth/fn/fbtxxth_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/fobxxth/fn/fobxxth_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edtfbtxxth, tblfbtxxth, show_deleted_fbtxxth = 0, id_fbtxxth;
+		var edtfobxxth, tblfobxxth, show_deleted_fobxxth = 0, id_fobxxth;
+		var rowid = <?php echo $rowid; ?>;
 		// ------------- end of default variable
 		id_aakxxmh_asal_old = 0, id_aakxxmh_tujuan_old = 0;
 
 		// get tableRelation
-		tableRelation('fbtxxth');
+		tableRelation('fobxxth');
 		
 		$(document).ready(function() {
-			// BEGIN fbtxxth
-			edtfbtxxth = new $.fn.dataTable.Editor( {
+			start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			
+			// BEGIN fobxxth
+			edtfobxxth = new $.fn.dataTable.Editor( {
 				formOptions: {
 					main: {
 						focus: 5,
 					}
 				},
 				ajax: {
-					url: "../../models/fbtxxth/fbtxxth.php",
+					url: "../../models/fobxxth/fobxxth.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_fbtxxth = show_deleted_fbtxxth;
+						d.show_deleted_fobxxth = show_deleted_fobxxth;
+						d.start_date = start_date;
+						d.end_date = end_date;
+						d.rowid = rowid;
 					}
 				},
-				table: "#tblfbtxxth",
+				table: "#tblfobxxth",
 				fields: [ 
 					{
 						label: "kategori_dokumen",
@@ -99,30 +142,30 @@
 						type: "hidden"
 					},
 					{
-						label: "fbtxxth.start_at",
-						name: "fbtxxth.start_at",
+						label: "fobxxth.start_at",
+						name: "fobxxth.start_at",
 						type: "hidden"
 					},	
 					{
-						label: "fbtxxth.finish_at",
-						name: "fbtxxth.finish_at",
+						label: "fobxxth.finish_at",
+						name: "fobxxth.finish_at",
 						type: "hidden"
 					},	
 					{
 						label: "nama_tabel",
 						name: "nama_tabel",
-						def: "fbtxxth",
+						def: "fobxxth",
 						type: "hidden"
 					},	
 					{
-						label: "fbtxxth.transaction_state",
-						name: "fbtxxth.transaction_state",
+						label: "fobxxth.transaction_state",
+						name: "fobxxth.transaction_state",
                         type: "hidden",
 						def: 0
 					},	
 					{
 						label: "Tanggal <sup class='text-danger'>*<sup>",
-						name: "fbtxxth.tanggal",
+						name: "fobxxth.tanggal",
 						type: "datetime",
 						def: function () { 
 							return new Date(); 
@@ -135,7 +178,7 @@
 					},
 					{
 						label: "Asal <sup class='text-danger'>*<sup>",
-						name: "fbtxxth.id_aakxxmh_asal",
+						name: "fobxxth.id_aakxxmh_asal",
 						type: "select2",
 						opts: {
 							placeholder : "Select",
@@ -171,7 +214,7 @@
 					},
 					{
 						label: "Tujuan <sup class='text-danger'>*<sup>",
-						name: "fbtxxth.id_aakxxmh_tujuan",
+						name: "fobxxth.id_aakxxmh_tujuan",
 						type: "select2",
 						opts: {
 							placeholder : "Select",
@@ -207,44 +250,44 @@
 					},
 					{
 						label: "Amount <sup class='text-danger'>*<sup>",
-						name: "fbtxxth.amount"
+						name: "fobxxth.amount"
 					},
 					{
 						label: "Keterangan <sup class='text-danger'>*<sup>",
-						name: "fbtxxth.keterangan",
+						name: "fobxxth.keterangan",
 						type: "textarea"
 					}
 				]
 			} );
 
-			edtfbtxxth.on( 'preOpen', function( e, mode, action ) {
+			edtfobxxth.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtfbtxxth.field('fbtxxth.start_at').val(start_at);
+				edtfobxxth.field('fobxxth.start_at').val(start_at);
 				
 				if(action == 'create'){
-					edtfbtxxth.field('kategori_dokumen').val('');
-					edtfbtxxth.field('kategori_dokumen_value').val('');
-					edtfbtxxth.field('field_tanggal').val('tanggal');
-					tblfbtxxth.rows().deselect();
+					edtfobxxth.field('kategori_dokumen').val('');
+					edtfobxxth.field('kategori_dokumen_value').val('');
+					edtfobxxth.field('field_tanggal').val('tanggal');
+					tblfobxxth.rows().deselect();
 				}
 			});
 
-			edtfbtxxth.on("open", function (e, mode, action) {
+			edtfobxxth.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
 			});
 
-            edtfbtxxth.on( 'preSubmit', function (e, data, action) {
+            edtfobxxth.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					
-					tanggal           = edtfbtxxth.field('fbtxxth.tanggal').val();
-					id_aakxxmh_asal   = edtfbtxxth.field('fbtxxth.id_aakxxmh_asal').val();
-					id_aakxxmh_tujuan = edtfbtxxth.field('fbtxxth.id_aakxxmh_tujuan').val();
-					amount            = edtfbtxxth.field('fbtxxth.amount').val();
-					keterangan        = edtfbtxxth.field('fbtxxth.keterangan').val();
+					tanggal           = edtfobxxth.field('fobxxth.tanggal').val();
+					id_aakxxmh_asal   = edtfobxxth.field('fobxxth.id_aakxxmh_asal').val();
+					id_aakxxmh_tujuan = edtfobxxth.field('fobxxth.id_aakxxmh_tujuan').val();
+					amount            = edtfobxxth.field('fobxxth.amount').val();
+					keterangan        = edtfobxxth.field('fobxxth.keterangan').val();
 
 					validasiRequired(
-						edtfbtxxth,
-						'fbtxxth',
+						edtfobxxth,
+						'fobxxth',
 						{
 							'tanggal'          : tanggal,
 							'id_aakxxmh_asal'  : id_aakxxmh_asal,
@@ -255,8 +298,8 @@
 					);
 
 					validasiNumber(
-						edtfbtxxth,
-						'fbtxxth',
+						edtfobxxth,
+						'fobxxth',
 						{
 							'amount': amount
 						},
@@ -265,8 +308,8 @@
 					);
 
 					validasiDifferent(
-						edtfbtxxth,
-						'fbtxxth',
+						edtfobxxth,
+						'fobxxth',
 						{
 							'id_aakxxmh_asal': id_aakxxmh_asal,
 							'id_aakxxmh_tujuan': id_aakxxmh_tujuan
@@ -275,30 +318,33 @@
 				
 				}
 				
-				if ( edtfbtxxth.inError() ) {
+				if ( edtfobxxth.inError() ) {
 					return false;
 				}
 			});
 			
-			edtfbtxxth.on('initSubmit', function(e, action) {
+			edtfobxxth.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtfbtxxth.field('fbtxxth.finish_at').val(finish_at);
+				edtfobxxth.field('fobxxth.finish_at').val(finish_at);
 			});
 
-			edtfbtxxth.on( 'close', function () {
-				edtfbtxxth.enable();
+			edtfobxxth.on( 'close', function () {
+				edtfobxxth.enable();
 			} );
 
-			tblfbtxxth = $('#tblfbtxxth').DataTable( {
+			tblfobxxth = $('#tblfobxxth').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/fbtxxth/fbtxxth.php",
+					url: "../../models/fobxxth/fobxxth.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_fbtxxth = show_deleted_fbtxxth;
+						d.show_deleted_fobxxth = show_deleted_fobxxth;
+						d.start_date = start_date;
+						d.end_date = end_date;
+						d.rowid = rowid;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -317,45 +363,45 @@
 					}
 				],
 				columns: [
-					{ data: "fbtxxth.id",visible:false },
-					{ data: "fbtxxth.tanggal" },
-					{ data: "fbtxxth.kode" },
+					{ data: "fobxxth.id",visible:false },
+					{ data: "fobxxth.tanggal" },
+					{ data: "fobxxth.kode" },
 					{ data: "aakxxmh_asal.nama" },
 					{ data: "aakxxmh_tujuan.nama" },
 					{ 
-						data: "fbtxxth.amount" ,
+						data: "fobxxth.amount" ,
 						...renderNumber(2)
 					},
-					{ data: "fbtxxth.keterangan" },
+					{ data: "fobxxth.keterangan" },
 					{ 
-						data: "fbtxxth.transaction_state" ,
+						data: "fobxxth.transaction_state" ,
 						...renderTransactionStatus()
 					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_fbtxxth';
-						$table       = 'tblfbtxxth';
-						$edt         = 'edtfbtxxth';
-						$show_status = '_fbtxxth';
+						$id_table    = 'id_fobxxth';
+						$table       = 'tblfobxxth';
+						$edt         = 'edtfobxxth';
+						$show_status = '_fobxxth';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
 					{
 						text: '<i class="fa fa-print"></i>',
-						name: 'btnPrint',
+						name: 'btnPrintJurnal',
 						className: 'btn btn-sm btn-outline',
-						titleAttr: 'Print Voucher',
+						titleAttr: 'Print Jurnal',
 						action: function ( e, dt, node, config ) {
 							e.preventDefault(); 
 							var url = $(this).attr('href'); 
-							window.open('fbtxxth_jv_print.php?id_fbtxxth='+id_fbtxxth, '_blank');
+							window.open('fobxxth_jv_print.php?id_fobxxth='+id_fobxxth, '_blank');
 						}
 					}
 				],
@@ -363,49 +409,63 @@
 					this.api().searchPanes.rebuildPane();
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.fbtxxth.transaction_state == -9 ) {
+					if ( data.fobxxth.transaction_state == -9 ) {
 						$('td', row).addClass('text-danger');
-					}else if ( data.fbtxxth.transaction_state == 0 ) {
+					}else if ( data.fobxxth.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
 				}
 			} );
 
-			tblfbtxxth.searchPanes.container().appendTo('#spfbtxxth');
-			tblfbtxxth.searchBuilder.container().appendTo( '#sbfbtxxth' );
+			tblfobxxth.searchPanes.container().appendTo('#spfobxxth');
+			tblfobxxth.searchBuilder.container().appendTo( '#sbfobxxth' );
 			
-			tblfbtxxth.on( 'init', function () {
+			tblfobxxth.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tblfbtxxth);
+				CekInitHeaderH(tblfobxxth);
 			} );
 			
-			tblfbtxxth.on( 'select', function( e, dt, type, indexes ) {
-				fbtxxth_data    	= tblfbtxxth.row( { selected: true } ).data().fbtxxth;
-				id_fbtxxth      	= fbtxxth_data.id;
-				id_transaksi_h 		= id_fbtxxth; // dipakai untuk general
-				id_transaksi_log	= id_fbtxxth; // dipakai untuk general
-				transaction_state   = fbtxxth_data.transaction_state;
-				approval_state   	= fbtxxth_data.approval_state;
-				is_nextprocess 		= fbtxxth_data.is_nextprocess;
+			tblfobxxth.on( 'select', function( e, dt, type, indexes ) {
+				// set variable standar framework
+				siVarSet('fobxxth');
 
-				id_aakxxmh_asal_old = fbtxxth_data.id_aakxxmh_asal;
-				id_aakxxmh_tujuan_old = fbtxxth_data.id_aakxxmh_tujuan;
+				id_aakxxmh_asal_old = fobxxth_data.id_aakxxmh_asal;
+				id_aakxxmh_tujuan_old = fobxxth_data.id_aakxxmh_tujuan;
 
 				// atur hak akses
-				CekSelectHeaderH(tblfbtxxth);
+				CekSelectHeaderH(tblfobxxth);
 			} );
 
-			tblfbtxxth.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_fbtxxth = 0;
+			tblfobxxth.on( 'deselect', function () {
+				// reset variable standar framework
+				siVarReset('fobxxth');
 
 				id_aakxxmh_asal_old = 0, id_aakxxmh_tujuan_old = 0;
 
 				// atur hak akses
-				CekDeselectHeaderH(tblfbtxxth);
+				CekDeselectHeaderH(tblfobxxth);
 			} );
 			
-			// END fbtxxth
+			// END fobxxth
+
+			$("#frmFilter").submit(function(e) {
+				e.preventDefault();
+			}).validate({
+				rules: {
+				},
+				submitHandler: function(frmFilter) {
+					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+					tblfobxxth.rows().deselect();
+					tblfobxxth.ajax.reload(function ( json ) {
+					toastr.remove();
+					toastr["success"]("Load data berhasil","INFO")
+					$('#modalSFfobxxth').modal('toggle');
+				}, false);
+					return false;
+				}
+			});
 			
 		} );// end of document.ready
 	

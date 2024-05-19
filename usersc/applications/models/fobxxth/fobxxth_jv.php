@@ -2,8 +2,8 @@
 	/**
 	 * Digunakan untuk insert ke table aglxxth dan aglaktd
 	 * Sumber data:
-	 * fbtxxth tujuan	: debit
-	 * fbtxxth asal		: kredit
+	 * fobxxth tujuan	: debit
+	 * fobxxth asal		: kredit
 	 */
 	
 	include_once( "../../../../users/init.php" );
@@ -26,30 +26,30 @@
 	
 	$id_transaksi_h = $_POST['id_transaksi_h'];
 	$state          = $_POST['state'];
-	$jenis_transaksi = 'Kas Bank Transfer';
+	$jenis_transaksi = 'Overbook';
 
 	try{
 		$db->transaction();
 
 		// header
-		// select fbtxxth
-		$qs_fbtxxth = $db
+		// select fobxxth
+		$qs_fobxxth = $db
 			->raw()
 			->bind(':id_transaksi_h', $id_transaksi_h)
 			->exec('
 				SELECT
-					fbtxxth.id as id_transaksi_h,
-					fbtxxth.id_gbrxxmh_asal as id_gbrxxmh,
-					fbtxxth.kode as kode,
-					fbtxxth.created_by as created_by,
-					fbtxxth.tanggal as tanggal,
-					fbtxxth.keterangan as keterangan,
-					fbtxxth.amount as total_nilai
-				FROM fbtxxth
+					fobxxth.id as id_transaksi_h,
+					fobxxth.id_gbrxxmh_asal as id_gbrxxmh,
+					fobxxth.kode as kode,
+					fobxxth.created_by as created_by,
+					fobxxth.tanggal as tanggal,
+					fobxxth.keterangan as keterangan,
+					fobxxth.amount as total_nilai
+				FROM fobxxth
 				WHERE 
-					fbtxxth.id = :id_transaksi_h
+					fobxxth.id = :id_transaksi_h
 			');
-		$rs_header = $qs_fbtxxth->fetch();
+		$rs_header = $qs_fobxxth->fetch();
 
 		// BEGIN generate kode JV
 		include_once("../../../../usersc/helpers/kode_fn_generate_jv.php");
@@ -74,13 +74,13 @@
 		// detail
 		// select debit
 		$qs_debit = $db
-			->query('select', 'fbtxxth')
-			->get('fbtxxth.id_aakxxmh_tujuan as id_aakxxmh')
-			->get('fbtxxth.id as id_transaksi_d')
-			->get('fbtxxth.created_by as created_by')
-			->get('fbtxxth.keterangan as keterangan')
-			->get('fbtxxth.amount as debit')
-			->where('fbtxxth.id', $id_transaksi_h )
+			->query('select', 'fobxxth')
+			->get('fobxxth.id_aakxxmh_tujuan as id_aakxxmh')
+			->get('fobxxth.id as id_transaksi_d')
+			->get('fobxxth.created_by as created_by')
+			->get('fobxxth.keterangan as keterangan')
+			->get('fobxxth.amount as debit')
+			->where('fobxxth.id', $id_transaksi_h )
 			->exec();
 		$rs_debit = $qs_debit->fetch();
 
@@ -100,13 +100,13 @@
 		
 		// select kredit
 		$qs_kredit = $db
-			->query('select', 'fbtxxth')
-			->get('fbtxxth.id_aakxxmh_asal as id_aakxxmh')
-			->get('fbtxxth.id as id_transaksi_h')
-			->get('fbtxxth.created_by as created_by')
-			->get('fbtxxth.keterangan as keterangan')
-			->get('fbtxxth.amount as kredit')
-			->where('fbtxxth.id', $id_transaksi_h )
+			->query('select', 'fobxxth')
+			->get('fobxxth.id_aakxxmh_asal as id_aakxxmh')
+			->get('fobxxth.id as id_transaksi_h')
+			->get('fobxxth.created_by as created_by')
+			->get('fobxxth.keterangan as keterangan')
+			->get('fobxxth.amount as kredit')
+			->where('fobxxth.id', $id_transaksi_h )
 			->exec();
 		$rs_kredit = $qs_kredit->fetch();
 

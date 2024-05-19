@@ -20,35 +20,35 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'fbtxxth' )
+	$editor = Editor::inst( $db, 'fobxxth' )
 		->debug(true)
 		->fields(
-			Field::inst( 'fbtxxth.id' ),
-			Field::inst( 'fbtxxth.id_gbrxxmh_asal' )
+			Field::inst( 'fobxxth.id' ),
+			Field::inst( 'fobxxth.id_gbrxxmh_asal' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'fbtxxth.id_gbrxxmh_tujuan' )
+			Field::inst( 'fobxxth.id_gbrxxmh_tujuan' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'fbtxxth.id_aakxxmh_asal' )
+			Field::inst( 'fobxxth.id_aakxxmh_asal' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'fbtxxth.id_aakxxmh_tujuan' )
+			Field::inst( 'fobxxth.id_aakxxmh_tujuan' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'fbtxxth.kode' )
+			Field::inst( 'fobxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'fbtxxth.nama' )
+			Field::inst( 'fobxxth.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'fbtxxth.keterangan' ),
-			Field::inst( 'fbtxxth.created_by' ),
-			Field::inst( 'fbtxxth.transaction_state' ),
-			Field::inst( 'fbtxxth.approval_state' ),
-			Field::inst( 'fbtxxth.start_at' ),
-			Field::inst( 'fbtxxth.finish_at' ),
-			Field::inst( 'fbtxxth.is_defaultprogram' ),
+			Field::inst( 'fobxxth.keterangan' ),
+			Field::inst( 'fobxxth.created_by' ),
+			Field::inst( 'fobxxth.transaction_state' ),
+			Field::inst( 'fobxxth.approval_state' ),
+			Field::inst( 'fobxxth.start_at' ),
+			Field::inst( 'fobxxth.finish_at' ),
+			Field::inst( 'fobxxth.is_defaultprogram' ),
 
-			Field::inst( 'fbtxxth.tanggal' )
+			Field::inst( 'fobxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
 						echo '';
@@ -60,26 +60,35 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
-			Field::inst( 'fbtxxth.amount' ),
+			Field::inst( 'fobxxth.amount' ),
 
 			Field::inst( 'aakxxmh_asal.nama' ),
 			Field::inst( 'aakxxmh_tujuan.nama' )
 		)
-		->leftJoin( 'aakxxmh as aakxxmh_asal ','aakxxmh_asal.id','=','fbtxxth.id_aakxxmh_asal' )
-		->leftJoin( 'aakxxmh as aakxxmh_tujuan','aakxxmh_tujuan.id','=','fbtxxth.id_aakxxmh_tujuan' )
-		;
+		->leftJoin( 'aakxxmh as aakxxmh_asal ','aakxxmh_asal.id','=','fobxxth.id_aakxxmh_asal' )
+		->leftJoin( 'aakxxmh as aakxxmh_tujuan','aakxxmh_tujuan.id','=','fobxxth.id_aakxxmh_tujuan' );
 	
+	if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
+		$rowid = $_POST['rowid'];
+		$editor
+			->where( 'fobxxth.id', $rowid);
+	}else{
+		$editor
+			->where( 'fobxxth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'fobxxth.tanggal', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_fbtxxth'] == 0){
+	if ( $_POST['show_deleted_fobxxth'] == 0){
 		$editor
-			->where( 'fbtxxth.transaction_state', -9, '<>');
+			->where( 'fobxxth.transaction_state', -9, '<>');
 	}
 	
-	include( "fbtxxth_extra.php" );
+	include( "fobxxth_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'fbtxxth';
+	$nama_table = 'fobxxth';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	
