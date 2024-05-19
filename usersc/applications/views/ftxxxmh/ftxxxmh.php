@@ -174,6 +174,9 @@
 
 		edtftxxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
 		});
 		
 		edtftxxxmh.on( 'preSubmit', function (e, data, action) {
@@ -290,14 +293,8 @@
 		} );
 		
 		tblftxxxmh.on( 'select', function( e, dt, type, indexes ) {
-			ftxxxmh_data    		= tblftxxxmh.row( { selected: true } ).data().ftxxxmh;
-			id_ftxxxmh      		= ftxxxmh_data.id;
-			id_transaksi_h 		= id_ftxxxmh; // dipakai untuk general
-			id_transaksi_log	= id_ftxxxmh; // dipakai untuk general
-			transaction_state   = ftxxxmh_data.transaction_state;
-			approval_state   	= ftxxxmh_data.approval_state;
-			is_nextprocess 		= ftxxxmh_data.is_nextprocess;
-			
+			// set variable standar framework
+			siVarSet('ftxxxmh');
 			is_progressif 		= ftxxxmh_data.is_progressif
 
 			// atur hak akses
@@ -307,8 +304,8 @@
 		} );
 		
 		tblftxxxmh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_ftxxxmh = 0;
+			// set variable standar framework
+			siVarReset('ftxxxmh');
 
 			// atur hak akses
 			tbl_details = [tblftxrtmd];
@@ -529,19 +526,14 @@
 		} );
 
 		tblftxrtmd.on( 'select', function( e, dt, type, indexes ) {
-			data_ftxrtmd 		= tblftxrtmd.row( { selected: true } ).data().ftxrtmd;
-			id_ftxrtmd   		= data_ftxrtmd.id;
-			id_transaksi_d 		= id_ftxrtmd; // dipakai untuk general
-			id_transaksi_log 	= id_ftxrtmd; // dipakai untuk log
-
-			transaction_state_d   = data_ftxrtmd.transaction_state;
+			siVarSetD(ftxrtmd);			
 			
 			// atur hak akses
 			CekSelectDetailHD(tblftxxxmh, tblftxrtmd );
 		} );
 
 		tblftxrtmd.on( 'deselect', function() {
-			id_ftxrtmd = 0;
+			siVarResetD(ftxrtmd);
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblftxxxmh, tblftxrtmd );
