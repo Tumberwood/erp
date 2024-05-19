@@ -368,14 +368,8 @@
 		} );
 		
 		tblprqxxth.on( 'select', function( e, dt, type, indexes ) {
-			prqxxth_data      = tblprqxxth.row( { selected: true } ).data().prqxxth;
-			id_prqxxth        = prqxxth_data.id;
-			id_transaksi_h    = id_prqxxth;                                           // dipakai untuk general
-			id_transaksi_log  = id_prqxxth;                                           // dipakai untuk general
-			transaction_state = prqxxth_data.transaction_state;
-			approval_state    = prqxxth_data.approval_state;
-			is_nextprocess    = prqxxth_data.is_nextprocess;
-			
+			// set variable standar framework
+			siVarSet('prqxxth');
 			id_hodxxmh_old = prqxxth_data.id_hodxxmh;
 			
 			// atur hak akses
@@ -386,8 +380,8 @@
 		} );
 		
 		tblprqxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_prqxxth = 0;
+			// reset variable standar framework
+			siVarReset('prqxxth');
 			id_hodxxmh_old = 0;
 
 			// atur hak akses
@@ -612,9 +606,6 @@
 			rowCallback: function( row, data, index ) {
 			}
 		} );
-
-		// tblprqittd.searchPanes.container().appendTo('#spprqittd');
-		// tblprqittd.searchBuilder.container().appendTo( '#sbprqittd' );
 
 		tblprqittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
