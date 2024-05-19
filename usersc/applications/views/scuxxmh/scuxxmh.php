@@ -381,6 +381,9 @@
 
 		edtgrlxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
 		});
 
 		edtgrlxxmh.dependent( 'grlxxmh.id_gctxxmh', function ( val, data, callback ) {
@@ -524,13 +527,8 @@
 		} );
 		
 		tblgrlxxmh.on( 'select', function( e, dt, type, indexes ) {
-			grlxxmh_data      = tblgrlxxmh.row( { selected: true } ).data().grlxxmh;
-			id_grlxxmh        = grlxxmh_data.id;
-			id_transaksi_h    = id_grlxxmh;                                           // dipakai untuk general
-			id_transaksi_log  = id_grlxxmh;                                           // dipakai untuk general
-			transaction_state = grlxxmh_data.transaction_state;
-			approval_state    = grlxxmh_data.approval_state;
-			is_nextprocess    = grlxxmh_data.is_nextprocess;
+			// set variable standar framework
+			siVarSet('grlxxmh');
 			id_gpvxxmh_old    = grlxxmh_data.id_gpvxxmh;
 			id_gbuxxmh_old    = grlxxmh_data.id_gbuxxmh;
 			id_gctxxmh_old    = grlxxmh_data.id_gctxxmh;
@@ -543,8 +541,9 @@
 		} );
 		
 		tblgrlxxmh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_grlxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
+			// reset variable standar framework
+			siVarReset('grlxxmh');
+			id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
 
 			// atur hak akses
 			tbl_details = [tblgrllomd];
@@ -802,21 +801,18 @@
 		} );
 
 		tblgrllomd.on( 'select', function( e, dt, type, indexes ) {
-			data_grllomd 		= tblgrllomd.row( { selected: true } ).data().grllomd;
-			id_grllomd   		= data_grllomd.id;
-			id_transaksi_d 		= id_grllomd; // dipakai untuk general
-			id_transaksi_log 	= id_grllomd; // dipakai untuk log
-
-			transaction_state_d   = data_grllomd.transaction_state;
-			id_gctxxmh_old   = data_grllomd.id_gctxxmh;
-			id_gpvxxmh_old   = data_grllomd.id_gpvxxmh;
+			// set variable standar framework
+			siVarSet('grllomd');
+			id_gctxxmh_old   = grllomd_data.id_gctxxmh;
+			id_gpvxxmh_old   = grllomd_data.id_gpvxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD(tblgrlxxmh, tblgrllomd );
 		} );
 
 		tblgrllomd.on( 'deselect', function() {
-			id_grllomd = 0;
+			// reset variable standar framework
+			siVarReset('grllomd');
 			id_gctxxmh_old = 0;
 			id_gpvxxmh_old = 0;
 			
