@@ -276,7 +276,7 @@
 		format: "dd M yyyy",
 		minViewMode: 'month' 
 	});
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#start_date').datepicker('setDate', awal_bulan_dmy);
 	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 	// END datepicker init
 	
