@@ -122,19 +122,9 @@ $('table').on( 'init.dt', function () {
 	$('table').DataTable().button( 'btnPrint:name' )
 		.nodes()
 		.css( 'display', 'none' );
-} );
-
-$('table').on( 'select.dt deselect.dt', function () {
-	var cSelectedRow = $('table').DataTable().rows( { selected: true } ).count();
-	if(cSelectedRow == 1){
-		$('table').DataTable().button( 'btnPrint:name' )
-			.nodes()
-			.css( 'display', 'block' );
-	}else{
-		$('table').DataTable().button( 'btnPrint:name' )
-			.nodes()
-			.css( 'display', 'none' );
-	}
+	$('table').DataTable().button( 'btnPrintJurnal:name' )
+		.nodes()
+		.css( 'display', 'none' );
 } );
 
 </script>
