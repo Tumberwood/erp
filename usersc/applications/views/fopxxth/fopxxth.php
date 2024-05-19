@@ -10,6 +10,13 @@
 	$nama_tabel       = 'fopxxth';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'fopaktd';
+
+	// self view
+	if (isset($_GET['rowid']) && $_GET['rowid'] > 0) {
+		$rowid = $_GET['rowid'];
+	} else {
+		$rowid = 0;
+	}
 ?>
 
 <!-- begin content here -->
@@ -17,7 +24,36 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-				<!-- <div class="table-responsive"> -->
+				<div class="modal" id="modalSFfopxxth" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive">
                     <table id="tblfopxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -30,7 +66,7 @@
                             </tr>
                         </thead>
                     </table>
-                <!-- </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -99,6 +135,7 @@
 	// ------------- default variable, do not erase
 	var edtfopxxth, tblfopxxth, show_deleted_fopxxth = 0, id_fopxxth;
 	var edtfopaktd, tblfopaktd, show_deleted_fopaktd = 0, id_fopaktd;
+	var rowid = <?php echo $rowid; ?>;
 	// ------------- end of default variable
 
 	var id_aakxxmh_kasbank_old = 0;
@@ -108,7 +145,9 @@
 	tableRelation('fopxxth');
 
 	$(document).ready(function() {
-		
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+
 		// BEGIN fopxxth
 		edtfopxxth = new $.fn.dataTable.Editor( {
 			ajax: {
@@ -116,6 +155,9 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_fopxxth = show_deleted_fopxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
+					d.rowid = rowid;
 				}
 			},
 			table: "#tblfopxxth",
@@ -282,6 +324,9 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_fopxxth = show_deleted_fopxxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
+					d.rowid = rowid;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -321,16 +366,16 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
 				{
 					text: '<i class="fa fa-print"></i>',
-					name: 'btnPrint',
+					name: 'btnPrintJurnal',
 					className: 'btn btn-sm btn-outline',
-					titleAttr: 'Print Voucher',
+					titleAttr: 'Print Jurnal',
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
@@ -360,14 +405,8 @@
 		} );
 		
 		tblfopxxth.on( 'select', function( e, dt, type, indexes ) {
-			fopxxth_data    		= tblfopxxth.row( { selected: true } ).data().fopxxth;
-			id_fopxxth      		= fopxxth_data.id;
-			id_transaksi_h 		= id_fopxxth; // dipakai untuk general
-			id_transaksi_log	= id_fopxxth; // dipakai untuk general
-			transaction_state   = fopxxth_data.transaction_state;
-			approval_state   	= fopxxth_data.approval_state;
-			is_nextprocess 		= fopxxth_data.is_nextprocess;
-
+			// set variable standar framework
+			siVarSet('fopxxth');
 			id_aakxxmh_kasbank_old = fopxxth_data.id_aakxxmh;
 			
 			// atur hak akses
@@ -377,8 +416,8 @@
 		} );
 		
 		tblfopxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_fopxxth = 0;
+			// reset variable standar framework
+			siVarReset('fopxxth');
 			id_aakxxmh_kasbank_old = 0;
 
 			// atur hak akses
@@ -622,12 +661,8 @@
 		} );
 
 		tblfopaktd.on( 'select', function( e, dt, type, indexes ) {
-			data_fopaktd 		= tblfopaktd.row( { selected: true } ).data().fopaktd;
-			id_fopaktd   		= data_fopaktd.id;
-			id_transaksi_d 		= id_fopaktd; // dipakai untuk general
-			id_transaksi_log 	= id_fopaktd; // dipakai untuk log
-
-			transaction_state_d   = data_fopaktd.transaction_state;
+			// set variable standar framework
+			siVarSetD('fopaktd');
 			id_aakxxmh_old   = data_fopaktd.id_aakxxmh;
 			
 			// atur hak akses
@@ -635,7 +670,8 @@
 		} );
 
 		tblfopaktd.on( 'deselect', function() {
-			id_fopaktd = 0;
+			// reset variable standar framework
+			siVarResetD('fopaktd');
 			id_aakxxmh_old = 0;
 			
 			// atur hak akses
@@ -643,6 +679,25 @@
 		} );
 
 		// END fopaktd
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblfopxxth.rows().deselect();
+				tblfopxxth.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFfopxxth').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
 		
 	} );// end of document.ready
 	

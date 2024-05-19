@@ -60,6 +60,16 @@
 			Field::inst( 'aakxxmh.nama' )
 		)
 		->leftJoin( 'aakxxmh','aakxxmh.id','=','fopxxth.id_aakxxmh' );
+
+	if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
+		$rowid = $_POST['rowid'];
+		$editor
+			->where( 'fopxxth.id', $rowid);
+	}else{
+		$editor
+			->where( 'fopxxth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'fopxxth.tanggal', $_POST['end_date'], '<=' );
+	}
 	
 	// do not erase
 	// function show / hide inactive document

@@ -61,6 +61,16 @@
 		)
 		->leftJoin( 'aakxxmh','aakxxmh.id','=','forxxth.id_aakxxmh' );
 	
+	if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
+		$rowid = $_POST['rowid'];
+		$editor
+			->where( 'forxxth.id', $rowid);
+	}else{
+		$editor
+			->where( 'forxxth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'forxxth.tanggal', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_forxxth'] == 0){
