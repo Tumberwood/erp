@@ -19,7 +19,7 @@
 	$morePages = 0;
 	// END definisi variable untuk fn_ajax_results.php
 	
-	$id = $_POST['id_transaksi_h'];
+	$id = $_POST['id_transaksi'];
 	$state = $_POST['state'];
 
 	// (ROW_NUMBER() OVER (ORDER BY a.id) * (ROW_NUMBER() OVER (ORDER BY a.id) - 1)) / 2 AS result
@@ -87,34 +87,28 @@
 		} // end if($state == 1)
 
 		if(!empty($qi_bro)){
-			$status_code  = '200';
+			$status_code  = 200;
 			$message = "Warehouse Transit (System) Berhasil Ditambahkan";
 			$type_message = "success";
 			// parameter lain
 		}else{
-			$status_code  = '500';
+			$status_code  = 500;
 			$message = "Warehouse Transit (System) Gagal Ditambahkan";
 			$type_message = 'error';
 			// parameter lain
 		}
 	}catch(PDOException $e){
-		$status_code  = '500';
+		$status_code  = 500;
 		$message      = 'Message Gagal! ' . $e->getMessage();
 		$type_message = 'error';
 	}
+	
 	// build response
 	$data = array(
 		'status_code'    => $status_code,
 		'message'        => $message,
-		'type_message'   => $type_message,
-		'parameter_lain' => $parameter_lain,
-	);
-	
-
-	$data = array(
-		'message'      	=> $message,
-		'type_message' 	=> $type_message
-	);
+		'type_message'   => $type_message
+	);	
 
 	// tampilkan results
     include( "../../../../usersc/helpers/fn_ajax_results.php" );
