@@ -156,7 +156,7 @@
 					d.show_deleted_gaplgtd = show_deleted_gaplgtd;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 0, "desc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
