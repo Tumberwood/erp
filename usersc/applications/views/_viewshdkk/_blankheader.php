@@ -142,19 +142,6 @@
 	// get tableRelation
 	tableRelation('_blankheader');
 
-	// BEGIN datepicker init
-	$('#periode').datepicker({
-		setDate: new Date(),
-		autoclose: true,
-		todayHighlight: true,
-		clearBtn: true,
-		format: "dd M yyyy",
-		minViewMode: 'month' 
-	});
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
-	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-	// END datepicker init
-
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -353,13 +340,8 @@
 		} );
 		
 		tbl_blankheader.on( 'select', function( e, dt, type, indexes ) {
-			_blankheader_data = tbl_blankheader.row( { selected: true } ).data()._blankheader;
-			id__blankheader   = _blankheader_data.id;
-			id_transaksi_h    = id__blankheader;                                                // dipakai untuk general
-			id_transaksi_log  = id__blankheader;                                                // dipakai untuk general
-			transaction_state = _blankheader_data.transaction_state;
-			approval_state    = _blankheader_data.approval_state;
-			is_nextprocess    = _blankheader_data.is_nextprocess;
+			// set variable standar framework
+			siVarSet('_blankheader');
 			
 			// atur hak akses
 			tbl_details = [tbl_blankdetail];
@@ -368,8 +350,8 @@
 		} );
 		
 		tbl_blankheader.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id__blankheader = 0;
+			// reset variable standar framework
+			siVarReset('_blankheader');
 
 			// atur hak akses
 			tbl_details = [tbl_blankdetail];
@@ -544,19 +526,16 @@
 		} );
 
 		tbl_blankdetail.on( 'select', function( e, dt, type, indexes ) {
-			data__blankdetail = tbl_blankdetail.row( { selected: true } ).data()._blankdetail;
-			id__blankdetail   = data__blankdetail.id;
-			id_transaksi_d    = id__blankdetail;                                                // dipakai untuk general
-			id_transaksi_log  = id__blankdetail;                                                // dipakai untuk log
-
-			transaction_state_d   = data__blankdetail.transaction_state;
+			// set variable standar framework
+			siVarSetD('_blankdetail');
 			
 			// atur hak akses
 			CekSelectDetailHD(tbl_blankheader, tbl_blankdetail );
 		} );
 
 		tbl_blankdetail.on( 'deselect', function() {
-			id__blankdetail = 0;
+			// reset variable standar framework
+			siVarResetD('_blankdetail');
 			
 			// atur hak akses
 			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );
