@@ -15,9 +15,9 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
-    $state          = $_POST['state'];
-    // print_r($state);
-    // print_r($_POST['id_transaksi_h']);
+    $approval_state          = $_POST['approval_state'];
+    // print_r($approval_state);
+    // print_r($_POST['id_transaksi']);
     
     try{
         $db->transaction();
@@ -29,14 +29,14 @@
                 'httgltd.kode as kode',
                 'httgltd.nama as nama'
             ] )
-            ->where('httgltd.id', $_POST['id_transaksi_h'] )
+            ->where('httgltd.id', $_POST['id_transaksi'] )
             ->exec();
         $rs_httgltd = $qs_httgltd->fetch();
 
         $where_kecuali = '';
 		$qs_kecuali = $db
             ->raw()
-            ->bind(':id_h', $_POST['id_transaksi_h'])
+            ->bind(':id_h', $_POST['id_transaksi'])
             ->exec('SELECT
                         a.id,
                         a.tanggal,
@@ -58,7 +58,7 @@
         }
         // print_r($where_kecuali);
 
-        if ($state == 1) {
+        if ($approval_state == 1) {
             
             // BEGIN non aktif
             $qd_terpilih = $db
@@ -229,7 +229,7 @@
                         )
                     SELECT
                         1,
-                        ' . $_POST['id_transaksi_h'] . ',
+                        ' . $_POST['id_transaksi'] . ',
                         3,
                         4,
                         hem.id,
@@ -254,7 +254,7 @@
                 ');
             // BEGIN non aktif
 
-        } else if($state == -1) {
+        } else {
             $qd_htl = $db
                 ->query('delete', 'httxxrd')
                 ->where('tanggal', $rs_httgltd["tanggal"])
@@ -282,12 +282,12 @@
             ->exec();
         }
 
-        //Update Approval state manual
+        //Update Approval approval_state manual
         $qu_httgltd = $db
             ->query('update', 'httgltd')
             ->set('transaction_state',1)
-            ->set('approval_state',$state)
-            ->where('id',$_POST['id_transaksi_h'])
+            ->set('approval_state',$approval_state)
+            ->where('id',$_POST['id_transaksi'])
             ->exec();
 
         $db->commit();

@@ -156,7 +156,7 @@
 					d.show_deleted_gaplgtd = show_deleted_gaplgtd;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 0, "desc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -285,6 +285,28 @@
 										id_gaplgtd    : id_transaksi_h,
 									},
 									success: function ( json ) {
+										if(json.data.status_code = 200){
+											// TODO, sistem approval belum final
+											// ini harus dicek apakah approval sudah final
+											// script _post_approve hanya dijalankan jika approval sudah final
+											url = "../../models/"+selected_folder+"/"+selected_folder+"_post_approve.php";
+											$.ajax( {
+												url: url,
+												dataType: 'json',
+												type: 'POST',
+												data: {
+													id_transaksi: id_transaksi_approve,
+													approval_state: -1
+												},
+												error: function (){
+													console.log('File ' + url + ' tidak ada');
+												},
+												success: function ( json ) {
+													console.log(json);
+												}
+											} );
+										}
+
 										tblgaplgtd.ajax.reload(null, false);
 									}
 								} );
@@ -307,6 +329,28 @@
 										id_gaplgtd    : id_transaksi_h,
 									},
 									success: function ( json ) {
+										if(json.data.status_code = 200){
+											// TODO, sistem approval belum final
+											// ini harus dicek apakah approval sudah final
+											// script _post_approve hanya dijalankan jika approval sudah final
+											url = "../../models/"+selected_folder+"/"+selected_folder+"_post_approve.php";
+											$.ajax( {
+												url: url,
+												dataType: 'json',
+												type: 'POST',
+												data: {
+													id_transaksi: id_transaksi_approve,
+													approval_state: -9
+												},
+												error: function (){
+													console.log('File ' + url + ' tidak ada');
+												},
+												success: function ( json ) {
+													console.log(json);
+												}
+											} );
+										}
+
 										tblgaplgtd.ajax.reload(null, false);
 									}
 								} );
