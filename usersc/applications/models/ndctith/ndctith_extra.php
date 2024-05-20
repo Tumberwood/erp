@@ -12,11 +12,11 @@
 					INSERT INTO
 						ndidctd (
 							id_ndixxth,
-							id_ndrxxtd
+							id_ndcrctd
 						)
 					SELECT
 						'.$id.',
-						id_ndrxxtd
+						id_ndcrctd
 					FROM ndodctd
 					WHERE 1
 						AND id_ndoxxth = :id_ndoxxth

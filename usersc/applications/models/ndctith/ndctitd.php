@@ -20,49 +20,49 @@
 	use 
 		Carbon\Carbon;
 	
-	if ( ! isset($_POST['id_ndixxth']) || ! is_numeric($_POST['id_ndixxth']) ) {
+	if ( ! isset($_POST['id_ndctith']) || ! is_numeric($_POST['id_ndctith']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'ndidctd' )
+		$editor = Editor::inst( $db, 'ndctitd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'ndidctd.id' ),
-				Field::inst( 'ndidctd.id_ndixxth' ),
-				Field::inst( 'ndidctd.id_ndrxxtd' )
+				Field::inst( 'ndctitd.id' ),
+				Field::inst( 'ndctitd.id_ndctith' ),
+				Field::inst( 'ndctitd.id_ndcrctd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'ndidctd.kode' ),
-				Field::inst( 'ndidctd.nama' ),
-				Field::inst( 'ndidctd.keterangan' ),
-				Field::inst( 'ndidctd.created_by' ),
-				Field::inst( 'ndidctd.transaction_state' ),
-				Field::inst( 'ndidctd.approval_state' ),
-				Field::inst( 'ndidctd.start_at' ),
-				Field::inst( 'ndidctd.finish_at' ),
-				Field::inst( 'ndidctd.is_defaultprogram' ),
+				Field::inst( 'ndctitd.kode' ),
+				Field::inst( 'ndctitd.nama' ),
+				Field::inst( 'ndctitd.keterangan' ),
+				Field::inst( 'ndctitd.created_by' ),
+				Field::inst( 'ndctitd.transaction_state' ),
+				Field::inst( 'ndctitd.approval_state' ),
+				Field::inst( 'ndctitd.start_at' ),
+				Field::inst( 'ndctitd.finish_at' ),
+				Field::inst( 'ndctitd.is_defaultprogram' ),
 
-				Field::inst( 'ndrxxtd.dokumen_nomor' ),
-				Field::inst( 'ndrxxtd.pengirim' ),
-				Field::inst( 'ndrxxtd.kepada' ),
-				Field::inst( 'ndrxxtd.tanggal_jam_terima' )
+				Field::inst( 'ndcrctd.dokumen_nomor' ),
+				Field::inst( 'ndcrctd.pengirim' ),
+				Field::inst( 'ndcrctd.kepada' ),
+				Field::inst( 'ndcrctd.tanggal_jam_terima' )
 					->getFormatter( 'Format::datetime', array(
 						'from' => 'Y-m-d H:i:s',
 						'to' =>   'd M Y H:i'
 					) )
 			)
-			->leftJoin( 'ndrxxtd','ndrxxtd.id','=','ndidctd.id_ndrxxtd' )
-			->where('ndidctd.id_ndixxth',$_POST['id_ndixxth']);
+			->leftJoin( 'ndcrctd','ndcrctd.id','=','ndctitd.id_ndcrctd' )
+			->where('ndctitd.id_ndctith',$_POST['id_ndctith']);
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_ndidctd'] == 0){
+		if ( $_POST['show_deleted_ndctitd'] == 0){
 			$editor
-				->where( 'ndidctd.transaction_state', -9, '<>');
+				->where( 'ndctitd.transaction_state', -9, '<>');
 		}
 		
-		include( "ndidctd_extra.php" );
+		include( "ndctitd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'ndidctd';
+		$nama_table = 'ndctitd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		
