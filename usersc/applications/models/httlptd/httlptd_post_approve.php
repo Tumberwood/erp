@@ -17,9 +17,9 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
-    $state          = $_POST['state'];
-    // print_r($state);
-    $id_httlptd = $_POST['id_transaksi_h'];
+    $approval_state          = $_POST['approval_state'];
+    // print_r($approval_state);
+    $id_httlptd = $_POST['id_transaksi'];
     
     try{
         $db->transaction();
@@ -55,7 +55,7 @@
 		
 		$tanggal = $tanggal_awal;
 
-		if($state == 1){
+		if($approval_state == 1){
 
 			//Jika Jenis == Harian
 			if ($jenis == 1) {
@@ -85,8 +85,8 @@
 							->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
 							->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
 							->set('kode', $rs_httlptd['kode'] )
-							->set('approval_state', $state )
-							->set('transaction_state', $state )
+							->set('approval_state', $approval_state )
+							->set('transaction_state', $approval_state )
 							->set('tanggal', $tanggal_ymd->format('Y-m-d') )
 							->set('keterangan', $rs_httlptd['keterangan'] )
 							->set('jenis', $jenis )
@@ -159,7 +159,7 @@
 				->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
 				->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
 				->set('kode', $rs_httlptd['kode'] )
-				->set('approval_state', $state )
+				->set('approval_state', $approval_state )
 				->set('transaction_state', 1 )
 				// ->set('tanggal', $tanggal->format('Y-m-d') )
 				->set('tanggal', $tanggal )
@@ -172,7 +172,7 @@
 				->exec();
 			}
 
-		}elseif($state == -1){
+		}elseif($approval_state == -1){
 			$qd_httxxrd = $db
 				->query('delete', 'httxxrd')
 				->where('id_transaksi', $id_httlptd )
@@ -185,10 +185,10 @@
 				->where('nama', "sisa saldo cuti" )
 				->exec();
 
-		}elseif($state == -9){
+		}elseif($approval_state == -9){
 			$qu_httxxrd = $db
 				->query('update', 'httxxrd')
-				->set('approval_state', $state)
+				->set('approval_state', $approval_state)
 				->where('id_transaksi', $id_httlptd )
 				->where('jenis', $jenis )
 				->exec();
@@ -206,11 +206,11 @@
 				->exec();
 		}
 
-        //Update Approval state manual
+        //Update Approval approval_state manual
         $qu_httgltd = $db
             ->query('update', 'httlptd')
-            ->set('approval_state',$state)
-            ->where('id',$_POST['id_transaksi_h'])
+            ->set('approval_state',$approval_state)
+            ->where('id',$_POST['id_transaksi'])
             ->exec();
 
         $db->commit();
