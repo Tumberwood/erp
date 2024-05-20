@@ -117,11 +117,23 @@
 				
 				if(action == 'create'){
 					tblwloznmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtwloznmh.field('wloznmh.kode').enable();
+						edtwloznmh.field('wloznmh.nama').enable();
+					}else{
+						edtwloznmh.field('wloznmh.kode').disable();
+						edtwloznmh.field('wloznmh.nama').disable();
+					}
 				}
 			});
 
 			edtwloznmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtwloznmh.on( 'preSubmit', function (e, data, action) {
@@ -248,21 +260,16 @@
 			} );
 			
 			tblwloznmh.on( 'select', function( e, dt, type, indexes ) {
-				wloznmh_data    		= tblwloznmh.row( { selected: true } ).data().wloznmh;
-				id_wloznmh      		= wloznmh_data.id;
-				id_transaksi_h 		= id_wloznmh; // dipakai untuk general
-				id_transaksi_log	= id_wloznmh; // dipakai untuk general
-				transaction_state   = wloznmh_data.transaction_state;
-				approval_state   	= wloznmh_data.approval_state;
-				is_nextprocess 		= wloznmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('wloznmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblwloznmh);
 			} );
 
 			tblwloznmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_wloznmh = 0;
+				// reset variable standar framework
+				siVarReset('wloznmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblwloznmh);

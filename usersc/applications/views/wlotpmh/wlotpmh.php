@@ -117,11 +117,23 @@
 				
 				if(action == 'create'){
 					tblwlotpmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edtwlotpmh.field('wlotpmh.kode').enable();
+						edtwlotpmh.field('wlotpmh.nama').enable();
+					}else{
+						edtwlotpmh.field('wlotpmh.kode').disable();
+						edtwlotpmh.field('wlotpmh.nama').disable();
+					}
 				}
 			});
 
 			edtwlotpmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtwlotpmh.on( 'preSubmit', function (e, data, action) {
@@ -248,21 +260,16 @@
 			} );
 			
 			tblwlotpmh.on( 'select', function( e, dt, type, indexes ) {
-				wlotpmh_data    		= tblwlotpmh.row( { selected: true } ).data().wlotpmh;
-				id_wlotpmh      		= wlotpmh_data.id;
-				id_transaksi_h 		= id_wlotpmh; // dipakai untuk general
-				id_transaksi_log	= id_wlotpmh; // dipakai untuk general
-				transaction_state   = wlotpmh_data.transaction_state;
-				approval_state   	= wlotpmh_data.approval_state;
-				is_nextprocess 		= wlotpmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('wlotpmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblwlotpmh);
 			} );
 
 			tblwlotpmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_wlotpmh = 0;
+				// reset variable standar framework
+				siVarReset('wlotpmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblwlotpmh);
