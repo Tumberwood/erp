@@ -7,10 +7,10 @@
 ?>
 
 <?php
-	$nama_tabel       = 'rbmxxth';
+	$nama_tabel       = 'dbmxxth';
     $nama_tabels_d 	= [];
-    $nama_tabels_d[0] = 'rbmittd';
-    $nama_tabels_d[1] = 'rbmwptd';
+    $nama_tabels_d[0] = 'dbmittd';
+    $nama_tabels_d[1] = 'dbmwptd';
     
 ?>
 
@@ -20,7 +20,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblrbmxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tbldbmxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -39,18 +39,18 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabrbmittd"> Items</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabrbmwptd"> Work Process</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabdbmittd"> Items</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabdbmwptd"> Work Process</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabrbmittd" class="tab-pane active">
+				<div role="tabpanel" id="tabdbmittd" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblrbmittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tbldbmittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_rbmxxth</th>
+										<th>id_dbmxxth</th>
 										<th>Item Code</th>
 										<th>Item Name</th>
 										<th>UoM</th>
@@ -62,14 +62,14 @@
 
 					</div>
 				</div>
-				<div role="tabpanel" id="tabrbmwptd" class="tab-pane">
+				<div role="tabpanel" id="tabdbmwptd" class="tab-pane">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblrbmwptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tbldbmwptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_rbmxxth</th>
+										<th>id_dbmxxth</th>
 										<th>Kode</th>
 										<th>Nama</th>
 										<th>Cycle Time</th>
@@ -103,15 +103,15 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/rbmxxth/fn/rbmxxth_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/dbmxxth/fn/dbmxxth_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	cekNotification();
 	// ------------- default variable, do not erase
-	var edtrbmxxth, tblrbmxxth, show_deleted_rbmxxth = 0, id_rbmxxth;
-	var edtrbmittd, tblrbmittd, show_deleted_rbmittd = 0, id_rbmittd;
-	var edtrbmwptd, tblrbmwptd, show_deleted_rbmwptd = 0, id_rbmwptd;
+	var edtdbmxxth, tbldbmxxth, show_deleted_dbmxxth = 0, id_dbmxxth;
+	var edtdbmittd, tbldbmittd, show_deleted_dbmittd = 0, id_dbmittd;
+	var edtdbmwptd, tbldbmwptd, show_deleted_dbmwptd = 0, id_dbmwptd;
 	// ------------- end of default variable
 
 	id_iimxxmh_old = 0, revisi_ke = 0;
@@ -119,20 +119,20 @@
 	id_rwpxxmh_old = 0;
 
 	// get tableRelation
-	tableRelation('rbmxxth');
+	tableRelation('dbmxxth');
 
 	$(document).ready(function() {
-		// BEGIN rbmxxth
+		// BEGIN dbmxxth
 
-		edtrbmxxth = new $.fn.dataTable.Editor( {
+		edtdbmxxth = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/rbmxxth/rbmxxth.php",
+				url: "../../models/dbmxxth/dbmxxth.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_rbmxxth = show_deleted_rbmxxth;
+					d.show_deleted_dbmxxth = show_deleted_dbmxxth;
 				}
 			},
-			table: "#tblrbmxxth",
+			table: "#tbldbmxxth",
 			fields: [ 
 				{
 					label: "kategori_dokumen",
@@ -150,24 +150,24 @@
 					type: "hidden"
 				},
 				{
-					label: "rbmxxth.start_at",
-					name: "rbmxxth.start_at",
+					label: "dbmxxth.start_at",
+					name: "dbmxxth.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "rbmxxth.finish_at",
-					name: "rbmxxth.finish_at",
+					label: "dbmxxth.finish_at",
+					name: "dbmxxth.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "rbmxxth",
+					def: "dbmxxth",
 					type: "hidden"
 				},	
 				{
-					label: "rbmxxth.transaction_state",
-					name: "rbmxxth.transaction_state",
+					label: "dbmxxth.transaction_state",
+					name: "dbmxxth.transaction_state",
 					type: "hidden",
 					def: 0
 				},
@@ -177,15 +177,15 @@
 				},
 				{
 					label: "Revision#",
-					name: "rbmxxth.revisi_ke"
+					name: "dbmxxth.revisi_ke"
 				},
 				{
 					label: "BOM Asal",
-					name: "rbmxxth.id_rbmxxth_asal"
+					name: "dbmxxth.id_dbmxxth_asal"
 				},
 				{
 					label: "Item <sup class='text-danger'>*<sup>",
-					name: "rbmxxth.id_iimxxmh",
+					name: "dbmxxth.id_iimxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -222,36 +222,36 @@
 				},
 				{
 					label: "Keterangan",
-					name: "rbmxxth.keterangan",
+					name: "dbmxxth.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 		
-		edtrbmxxth.on( 'preOpen', function( e, mode, action ) {
+		edtdbmxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtrbmxxth.field('rbmxxth.start_at').val(start_at);
+			edtdbmxxth.field('dbmxxth.start_at').val(start_at);
 
 			if(action == 'create'){
-				tblrbmxxth.rows().deselect();
+				tbldbmxxth.rows().deselect();
 
-				edtrbmxxth.field('kategori_dokumen').val('');
-				edtrbmxxth.field('kategori_dokumen_value').val('');
+				edtdbmxxth.field('kategori_dokumen').val('');
+				edtdbmxxth.field('kategori_dokumen_value').val('');
 			}
 		});
 
-		edtrbmxxth.on("open", function (e, mode, action) {
+		edtdbmxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 		
-		edtrbmxxth.on( 'preSubmit', function (e, data, action) {
+		edtdbmxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				
-				id_iimxxmh = edtrbmxxth.field('rbmxxth.id_iimxxmh').val();
+				id_iimxxmh = edtdbmxxth.field('dbmxxth.id_iimxxmh').val();
 				
 				validasiRequired(
-					edtrbmxxth,
-					'rbmxxth',
+					edtdbmxxth,
+					'dbmxxth',
 					{
 						'id_iimxxmh': id_iimxxmh
 					}
@@ -260,34 +260,34 @@
 				
 			}
 			
-			if ( edtrbmxxth.inError() ) {
+			if ( edtdbmxxth.inError() ) {
 				return false;
 			}
 		});
 
-		edtrbmxxth.on('initSubmit', function(e, action) {
+		edtdbmxxth.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtrbmxxth.field('rbmxxth.finish_at').val(finish_at);
+			edtdbmxxth.field('dbmxxth.finish_at').val(finish_at);
 		});
 		
-		edtrbmxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblrbmxxth.ajax.reload(null, false);
+		edtdbmxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbldbmxxth.ajax.reload(null, false);
 		} );
 
-		edtrbmxxth.on( 'close', function () {
-			edtrbmxxth.enable();
+		edtdbmxxth.on( 'close', function () {
+			edtdbmxxth.enable();
 		} );
 		
-		tblrbmxxth = $('#tblrbmxxth').DataTable( {
+		tbldbmxxth = $('#tbldbmxxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/rbmxxth/rbmxxth.php",
+				url: "../../models/dbmxxth/dbmxxth.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_rbmxxth = show_deleted_rbmxxth;
+					d.show_deleted_dbmxxth = show_deleted_dbmxxth;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -306,20 +306,20 @@
 				}
 			],
 			columns: [
-				{ data: "rbmxxth.id",visible:false },
-				{ data: "rbmxxth.kode" },
-				{ data: "rbmxxth.revisi_ke" },
+				{ data: "dbmxxth.id",visible:false },
+				{ data: "dbmxxth.kode" },
+				{ data: "dbmxxth.revisi_ke" },
 				{ data: "iimxxmh.nama" },
-				{ data: "rbmxxth.keterangan" }
+				{ data: "dbmxxth.keterangan" }
 			],
 			buttons: [
 
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_rbmxxth';
-					$table       = 'tblrbmxxth';
-					$edt         = 'edtrbmxxth';
-					$show_status = '_rbmxxth';
+					$id_table    = 'id_dbmxxth';
+					$table       = 'tbldbmxxth';
+					$edt         = 'edtdbmxxth';
+					$show_status = '_dbmxxth';
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -337,15 +337,15 @@
 					action: function (e, dt, node, config) {
 						var revisi_ke_new = parseInt(revisi_ke) + 1;
                         // Start in edit mode, and then change to create
-                        edtrbmxxth
-                            .edit(tblrbmxxth.rows({ selected: true }).indexes(), {
+                        edtdbmxxth
+                            .edit(tbldbmxxth.rows({ selected: true }).indexes(), {
                                 title: 'Create Revision',
                                 buttons: 'Create Revision'
                             })
-							.disable('rbmxxth.revisi_ke')
-							.set( 'rbmxxth.id_rbmxxth_asal', id_rbmxxth )
+							.disable('dbmxxth.revisi_ke')
+							.set( 'dbmxxth.id_dbmxxth_asal', id_dbmxxth )
 							.set( 'is_revisi', 1 )
-							.set( 'rbmxxth.revisi_ke', revisi_ke_new )
+							.set( 'dbmxxth.revisi_ke', revisi_ke_new )
                             .mode('create');
                     }
 				}
@@ -354,63 +354,63 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
-				if ( data.rbmxxth.transaction_state == -9 ) {
+				if ( data.dbmxxth.transaction_state == -9 ) {
 					$('td', row).addClass('text-danger');
-				}else if ( data.rbmxxth.transaction_state == 0 ) {
+				}else if ( data.dbmxxth.transaction_state == 0 ) {
 					$('td', row).addClass('text-warning');
 				}
 			}
 		} );
 
-		tblrbmxxth.searchPanes.container().appendTo('#sprbmxxth');
-		tblrbmxxth.searchBuilder.container().appendTo( '#sbrbmxxth' );
+		tbldbmxxth.searchPanes.container().appendTo('#spdbmxxth');
+		tbldbmxxth.searchBuilder.container().appendTo( '#sbdbmxxth' );
 		
-		tblrbmxxth.on( 'init', function () {
+		tbldbmxxth.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tblrbmittd, tblrbmwptd];
-			CekInitHeaderHD(tblrbmxxth, tbl_details);
+			tbl_details = [tbldbmittd, tbldbmwptd];
+			CekInitHeaderHD(tbldbmxxth, tbl_details);
 		} );
 		
-		tblrbmxxth.on( 'select', function( e, dt, type, indexes ) {
-			rbmxxth_data      = tblrbmxxth.row( { selected: true } ).data().rbmxxth;
-			id_rbmxxth        = rbmxxth_data.id;
-			id_transaksi_h    = id_rbmxxth;                                           // dipakai untuk general
-			id_transaksi_log  = id_rbmxxth;                                           // dipakai untuk general
-			transaction_state = rbmxxth_data.transaction_state;
-			approval_state    = rbmxxth_data.approval_state;
-			is_nextprocess    = rbmxxth_data.is_nextprocess;
-			id_iimxxmh_old    = rbmxxth_data.id_iimxxmh;
-			revisi_ke    = rbmxxth_data.revisi_ke;
+		tbldbmxxth.on( 'select', function( e, dt, type, indexes ) {
+			dbmxxth_data      = tbldbmxxth.row( { selected: true } ).data().dbmxxth;
+			id_dbmxxth        = dbmxxth_data.id;
+			id_transaksi_h    = id_dbmxxth;                                           // dipakai untuk general
+			id_transaksi_log  = id_dbmxxth;                                           // dipakai untuk general
+			transaction_state = dbmxxth_data.transaction_state;
+			approval_state    = dbmxxth_data.approval_state;
+			is_nextprocess    = dbmxxth_data.is_nextprocess;
+			id_iimxxmh_old    = dbmxxth_data.id_iimxxmh;
+			revisi_ke    = dbmxxth_data.revisi_ke;
 			// atur hak akses
-			tbl_details = [tblrbmittd, tblrbmwptd];
-			CekSelectHeaderHD(tblrbmxxth, tbl_details);
+			tbl_details = [tbldbmittd, tbldbmwptd];
+			CekSelectHeaderHD(tbldbmxxth, tbl_details);
 
 		} );
 		
-		tblrbmxxth.on( 'deselect', function () {
+		tbldbmxxth.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
-			id_rbmxxth = 0;
+			id_dbmxxth = 0;
 			id_iimxxmh_old = 0;
 			// atur hak akses
-			tbl_details = [tblrbmittd, tblrbmwptd];
-			CekDeselectHeaderHD(tblrbmxxth, tbl_details);
+			tbl_details = [tbldbmittd, tbldbmwptd];
+			CekDeselectHeaderHD(tbldbmxxth, tbl_details);
 		} );
 		
-		// END rbmxxth
+		// END dbmxxth
 
 
-		// BEGIN rbmittd
+		// BEGIN dbmittd
 
-		edtrbmittd = new $.fn.dataTable.Editor( {
+		edtdbmittd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/rbmxxth/rbmittd.php",
+				url: "../../models/dbmxxth/dbmittd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_rbmittd = show_deleted_rbmittd;
-					d.id_rbmxxth = id_rbmxxth;
+					d.show_deleted_dbmittd = show_deleted_dbmittd;
+					d.id_dbmxxth = id_dbmxxth;
 				}
 			},
-			table: "#tblrbmittd",
+			table: "#tbldbmittd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -418,35 +418,35 @@
 			},
 			fields: [ 
 				{
-					label: "rbmittd.start_at",
-					name: "rbmittd.start_at",
+					label: "dbmittd.start_at",
+					name: "dbmittd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "rbmittd.finish_at",
-					name: "rbmittd.finish_at",
+					label: "dbmittd.finish_at",
+					name: "dbmittd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "rbmittd",
+					def: "dbmittd",
 					type: "hidden"
 				},	
 				{
-					label: "rbmittd.transaction_state",
-					name: "rbmittd.transaction_state",
+					label: "dbmittd.transaction_state",
+					name: "dbmittd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
-					label: "id_rbmxxth",
-					name: "rbmittd.id_rbmxxth",
+					label: "id_dbmxxth",
+					name: "dbmittd.id_dbmxxth",
 					type: "hidden"
 				},	
 				{
 					label: "Raw Material",
-					name: "rbmittd.id_iimxxmh",
+					name: "dbmittd.id_iimxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -483,11 +483,11 @@
 				},
 				{
 					label: "Jumlah",
-					name: "rbmittd.jumlah_unit",
+					name: "dbmittd.jumlah_unit",
 				},
 				{
 					label: "UoM <sup class='text-danger'>*<sup>",
-					name: "rbmittd.id_iumxxmh_unit",
+					name: "dbmittd.id_iumxxmh_unit",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -524,77 +524,77 @@
 				},	
 				{
 					label: "Keterangan",
-					name: "rbmittd.keterangan",
+					name: "dbmittd.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 			
-		edtrbmittd.on( 'preOpen', function( e, mode, action ) {
-			edtrbmittd.field('rbmittd.id_rbmxxth').val(id_rbmxxth);
+		edtdbmittd.on( 'preOpen', function( e, mode, action ) {
+			edtdbmittd.field('dbmittd.id_dbmxxth').val(id_dbmxxth);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtrbmittd.field('rbmittd.start_at').val(start_at);
+			edtdbmittd.field('dbmittd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblrbmittd.rows().deselect();
+				tbldbmittd.rows().deselect();
 			}
 		});
 
-		edtrbmittd.on("open", function (e, mode, action) {
+		edtdbmittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 
-		edtrbmittd.dependent( 'rbmittd.id_iimxxmh', function ( val, data, callback ) {
-			id_iimxxmh_rm = edtrbmittd.field('rbmittd.id_iimxxmh').val();
+		edtdbmittd.dependent( 'dbmittd.id_iimxxmh', function ( val, data, callback ) {
+			id_iimxxmh_rm = edtdbmittd.field('dbmittd.id_iimxxmh').val();
 			return {}
 		}, {event: 'keyup change'});
 		
-		edtrbmittd.on( 'preSubmit', function (e, data, action) {
+		edtdbmittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				id_iimxxmh_rm = edtrbmittd.field('rbmittd.id_iimxxmh').val();
+				id_iimxxmh_rm = edtdbmittd.field('dbmittd.id_iimxxmh').val();
 				validasiRequired(
-					edtrbmittd,
-					'rbmittd',
+					edtdbmittd,
+					'dbmittd',
 					{
 						'id_iimxxmh': id_iimxxmh_rm
 					}
 				);
 			}
 			
-			if ( edtrbmittd.inError() ) {
+			if ( edtdbmittd.inError() ) {
 				return false;
 			}
 		});
 
-		edtrbmittd.on('initSubmit', function(e, action) {
+		edtdbmittd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtrbmittd.field('rbmittd.finish_at').val(finish_at);
+			edtdbmittd.field('dbmittd.finish_at').val(finish_at);
 		});
 			
-		edtrbmittd.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtdbmittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
-				id_last_insert = json.data[0].rbmittd.id;
-				konversiUom('rbmittd', id_last_insert);
-				tblrbmittd.rows().deselect();
+				id_last_insert = json.data[0].dbmittd.id;
+				konversiUom('dbmittd', id_last_insert);
+				tbldbmittd.rows().deselect();
 			}
 		} );
 
-		edtrbmittd.on( 'close', function () {
-			edtrbmittd.enable();
+		edtdbmittd.on( 'close', function () {
+			edtdbmittd.enable();
 		} );
 
-		tblrbmittd = $('#tblrbmittd').DataTable( {
+		tbldbmittd = $('#tbldbmittd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/rbmxxth/rbmittd.php",
+				url: "../../models/dbmxxth/dbmittd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_rbmittd = show_deleted_rbmittd;
-					d.id_rbmxxth = id_rbmxxth;
+					d.show_deleted_dbmittd = show_deleted_dbmittd;
+					d.id_dbmxxth = id_dbmxxth;
 				}
 			},
 			order: [[ 2, "desc" ]],
@@ -613,23 +613,23 @@
 				}
 			],
 			columns: [
-				{ data: "rbmittd.id",visible:false },
-				{ data: "rbmittd.id_rbmxxth",visible:false },
+				{ data: "dbmittd.id",visible:false },
+				{ data: "dbmittd.id_dbmxxth",visible:false },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.kode" },
 				{ 
-					data: "rbmittd.jumlah_unit" ,
+					data: "dbmittd.jumlah_unit" ,
 					...renderNumber(2)
 				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_rbmittd';
-					$table       = 'tblrbmittd';
-					$edt         = 'edtrbmittd';
-					$show_status = '_rbmittd';
+					$id_table    = 'id_dbmittd';
+					$table       = 'tbldbmittd';
+					$edt         = 'edtdbmittd';
+					$show_status = '_dbmittd';
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -645,53 +645,53 @@
 			}
 		} );
 
-		tblrbmittd.searchPanes.container().appendTo('#sprbmittd');
-		tblrbmittd.searchBuilder.container().appendTo( '#sbrbmittd' );
+		tbldbmittd.searchPanes.container().appendTo('#spdbmittd');
+		tbldbmittd.searchBuilder.container().appendTo( '#sbdbmittd' );
 
-		tblrbmittd.on( 'draw', function( e, settings ) { 
+		tbldbmittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblrbmxxth, tblrbmittd, 'rbmittd' );
-			CekDrawDetailHDFinal(tblrbmxxth);
+			CekDrawDetailHD(tbldbmxxth, tbldbmittd, 'dbmittd' );
+			CekDrawDetailHDFinal(tbldbmxxth);
 		} );
 
-		tblrbmittd.on( 'select', function( e, dt, type, indexes ) {
-			data_rbmittd 		= tblrbmittd.row( { selected: true } ).data().rbmittd;
-			id_rbmittd   		= data_rbmittd.id;
-			id_transaksi_d 		= id_rbmittd; // dipakai untuk general
-			id_transaksi_log 	= id_rbmittd; // dipakai untuk log
+		tbldbmittd.on( 'select', function( e, dt, type, indexes ) {
+			data_dbmittd 		= tbldbmittd.row( { selected: true } ).data().dbmittd;
+			id_dbmittd   		= data_dbmittd.id;
+			id_transaksi_d 		= id_dbmittd; // dipakai untuk general
+			id_transaksi_log 	= id_dbmittd; // dipakai untuk log
 
-			transaction_state_d   = data_rbmittd.transaction_state;
-			id_iimxxmh_rm_old   = data_rbmittd.id_iimxxmh;
-			id_iumxxmh_unit_old   = data_rbmittd.id_iumxxmh_unit;
+			transaction_state_d   = data_dbmittd.transaction_state;
+			id_iimxxmh_rm_old   = data_dbmittd.id_iimxxmh;
+			id_iumxxmh_unit_old   = data_dbmittd.id_iumxxmh_unit;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblrbmxxth, tblrbmittd );
+			CekSelectDetailHD(tbldbmxxth, tbldbmittd );
 		} );
 
-		tblrbmittd.on( 'deselect', function() {
-			id_rbmittd = 0;
+		tbldbmittd.on( 'deselect', function() {
+			id_dbmittd = 0;
 			id_iimxxmh_rm_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblrbmxxth, tblrbmittd );
+			CekDeselectDetailHD(tbldbmxxth, tbldbmittd );
 		} );
 
-		// END rbmittd
+		// END dbmittd
 
 
-		// BEGIN rbmwptd
+		// BEGIN dbmwptd
 
-		edtrbmwptd = new $.fn.dataTable.Editor( {
+		edtdbmwptd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/rbmxxth/rbmwptd.php",
+				url: "../../models/dbmxxth/dbmwptd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_rbmwptd = show_deleted_rbmwptd;
-					d.id_rbmxxth = id_rbmxxth;
+					d.show_deleted_dbmwptd = show_deleted_dbmwptd;
+					d.id_dbmxxth = id_dbmxxth;
 				}
 			},
-			table: "#tblrbmwptd",
+			table: "#tbldbmwptd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -699,35 +699,35 @@
 			},
 			fields: [ 
 				{
-					label: "rbmwptd.start_at",
-					name: "rbmwptd.start_at",
+					label: "dbmwptd.start_at",
+					name: "dbmwptd.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "rbmwptd.finish_at",
-					name: "rbmwptd.finish_at",
+					label: "dbmwptd.finish_at",
+					name: "dbmwptd.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "rbmwptd",
+					def: "dbmwptd",
 					type: "hidden"
 				},	
 				{
-					label: "rbmwptd.transaction_state",
-					name: "rbmwptd.transaction_state",
+					label: "dbmwptd.transaction_state",
+					name: "dbmwptd.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
-					label: "id_rbmxxth",
-					name: "rbmwptd.id_rbmxxth",
+					label: "id_dbmxxth",
+					name: "dbmwptd.id_dbmxxth",
 					type: "hidden"
 				},	
 				{
 					label: "Work Process <sup class='text-danger'>*<sup>",
-					name: "rbmwptd.id_rwpxxmh",
+					name: "dbmwptd.id_rwpxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -763,46 +763,46 @@
 				},
 				{
 					label: "Cycle Time",
-					name: "rbmwptd.cycletime"
+					name: "dbmwptd.cycletime"
 				},
 				{
 					label: "Keterangan",
-					name: "rbmwptd.keterangan",
+					name: "dbmwptd.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 
-		edtrbmwptd.on( 'preOpen', function( e, mode, action ) {
-			edtrbmwptd.field('rbmwptd.id_rbmxxth').val(id_rbmxxth);
+		edtdbmwptd.on( 'preOpen', function( e, mode, action ) {
+			edtdbmwptd.field('dbmwptd.id_dbmxxth').val(id_dbmxxth);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtrbmwptd.field('rbmwptd.start_at').val(start_at);
+			edtdbmwptd.field('dbmwptd.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblrbmwptd.rows().deselect();
+				tbldbmwptd.rows().deselect();
 			}
 		});
 
-		edtrbmwptd.on("open", function (e, mode, action) {
+		edtdbmwptd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 		});
 
-		edtrbmwptd.on( 'preSubmit', function (e, data, action) {
+		edtdbmwptd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				id_rwpxxmh = edtrbmwptd.field('rbmwptd.id_rwpxxmh').val();
+				id_rwpxxmh = edtdbmwptd.field('dbmwptd.id_rwpxxmh').val();
 				validasiRequired(
-					edtrbmwptd,
-					'rbmwptd',
+					edtdbmwptd,
+					'dbmwptd',
 					{
 						'id_rwpxxmh': id_rwpxxmh
 					}
 				);
 
-				cycletime = edtrbmwptd.field('rbmwptd.cycletime').val();
+				cycletime = edtdbmwptd.field('dbmwptd.cycletime').val();
 				validasiNumber(
-					edtrbmwptd,
-					'rbmwptd',
+					edtdbmwptd,
+					'dbmwptd',
 					{
 						'cycletime': cycletime,
 					},
@@ -811,35 +811,35 @@
 				);
 			}
 			
-			if ( edtrbmwptd.inError() ) {
+			if ( edtdbmwptd.inError() ) {
 				return false;
 			}
 		});
 
-		edtrbmwptd.on('initSubmit', function(e, action) {
+		edtdbmwptd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtrbmwptd.field('rbmwptd.finish_at').val(finish_at);
+			edtdbmwptd.field('dbmwptd.finish_at').val(finish_at);
 		});
 			
-		edtrbmwptd.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtdbmwptd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			// nothing to do
 		} );
 
-		edtrbmwptd.on( 'close', function () {
-			edtrbmwptd.enable();
+		edtdbmwptd.on( 'close', function () {
+			edtdbmwptd.enable();
 		} );
 
-		tblrbmwptd = $('#tblrbmwptd').DataTable( {
+		tbldbmwptd = $('#tbldbmwptd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/rbmxxth/rbmwptd.php",
+				url: "../../models/dbmxxth/dbmwptd.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_rbmwptd = show_deleted_rbmwptd;
-					d.id_rbmxxth = id_rbmxxth;
+					d.show_deleted_dbmwptd = show_deleted_dbmwptd;
+					d.id_dbmxxth = id_dbmxxth;
 				}
 			},
 			order: [[ 0, "asc" ]],
@@ -858,23 +858,23 @@
 				}
 			],
 			columns: [
-				{ data: "rbmwptd.id",visible:false },
-				{ data: "rbmwptd.id_rbmxxth",visible:false },
+				{ data: "dbmwptd.id",visible:false },
+				{ data: "dbmwptd.id_dbmxxth",visible:false },
 				{ data: "rwpxxmh.kode" },
 				{ data: "rwpxxmh.nama" },
 				{ 
-					data: "rbmwptd.cycletime",
+					data: "dbmwptd.cycletime",
 					...renderNumber(0)
 				},
-				{ data: "rbmwptd.keterangan" }
+				{ data: "dbmwptd.keterangan" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_rbmwptd';
-					$table       = 'tblrbmwptd';
-					$edt         = 'edtrbmwptd';
-					$show_status = '_rbmwptd';
+					$id_table    = 'id_dbmwptd';
+					$table       = 'tbldbmwptd';
+					$edt         = 'edtdbmwptd';
+					$show_status = '_dbmwptd';
 					$table_name  = $nama_tabels_d[1];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -890,35 +890,35 @@
 			}
 		} );
 
-		tblrbmwptd.searchPanes.container().appendTo('#sprbmwptd');
-		tblrbmwptd.searchBuilder.container().appendTo( '#sbrbmwptd' );
+		tbldbmwptd.searchPanes.container().appendTo('#spdbmwptd');
+		tbldbmwptd.searchBuilder.container().appendTo( '#sbdbmwptd' );
 
-		tblrbmwptd.on( 'draw', function( e, settings ) { 
+		tbldbmwptd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tblrbmxxth, tblrbmwptd, 'rbmwptd' );
-			CekDrawDetailHDFinal(tblrbmxxth);
+			CekDrawDetailHD(tbldbmxxth, tbldbmwptd, 'dbmwptd' );
+			CekDrawDetailHDFinal(tbldbmxxth);
 		} );
 
-		tblrbmwptd.on( 'select', function( e, dt, type, indexes ) {
-			data_rbmwptd 		= tblrbmwptd.row( { selected: true } ).data().rbmwptd;
-			id_rbmwptd   		= data_rbmwptd.id;
-			id_transaksi_d 		= id_rbmwptd; // dipakai untuk general
-			id_transaksi_log 	= id_rbmwptd; // dipakai untuk log
+		tbldbmwptd.on( 'select', function( e, dt, type, indexes ) {
+			data_dbmwptd 		= tbldbmwptd.row( { selected: true } ).data().dbmwptd;
+			id_dbmwptd   		= data_dbmwptd.id;
+			id_transaksi_d 		= id_dbmwptd; // dipakai untuk general
+			id_transaksi_log 	= id_dbmwptd; // dipakai untuk log
 
-			transaction_state_d   = data_rbmwptd.transaction_state;
-			id_rwpxxmh_old   = data_rbmwptd.id_rwpxxmh;
+			transaction_state_d   = data_dbmwptd.transaction_state;
+			id_rwpxxmh_old   = data_dbmwptd.id_rwpxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblrbmxxth, tblrbmwptd );
+			CekSelectDetailHD(tbldbmxxth, tbldbmwptd );
 		} );
 
-		tblrbmwptd.on( 'deselect', function() {
-			id_rbmwptd = 0;
+		tbldbmwptd.on( 'deselect', function() {
+			id_dbmwptd = 0;
 			id_rwpxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblrbmxxth, tblrbmwptd );
+			CekDeselectDetailHD(tbldbmxxth, tbldbmwptd );
 		} );
 
 	} );// end of document.ready

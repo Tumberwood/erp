@@ -20,33 +20,33 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'rbmxxth' )
+	$editor = Editor::inst( $db, 'dbmxxth' )
 		->debug(true)
 		->fields(
-			Field::inst( 'rbmxxth.id' ),
-			Field::inst( 'rbmxxth.id_rbmxxth_asal' )
+			Field::inst( 'dbmxxth.id' ),
+			Field::inst( 'dbmxxth.id_dbmxxth_asal' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'rbmxxth.id_iimxxmh' )
+			Field::inst( 'dbmxxth.id_iimxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'rbmxxth.id_iumxxmh_unit' )
+			Field::inst( 'dbmxxth.id_iumxxmh_unit' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'rbmxxth.kode' )
+			Field::inst( 'dbmxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'rbmxxth.nama' )
+			Field::inst( 'dbmxxth.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'rbmxxth.keterangan' ),
-			Field::inst( 'rbmxxth.created_by' ),
-			Field::inst( 'rbmxxth.transaction_state' ),
-			Field::inst( 'rbmxxth.approval_state' ),
-			Field::inst( 'rbmxxth.start_at' ),
-			Field::inst( 'rbmxxth.finish_at' ),
-			Field::inst( 'rbmxxth.is_defaultprogram' ),
-			Field::inst( 'rbmxxth.revisi_ke' ),
-			Field::inst( 'rbmxxth.tanggal' )
+			Field::inst( 'dbmxxth.keterangan' ),
+			Field::inst( 'dbmxxth.created_by' ),
+			Field::inst( 'dbmxxth.transaction_state' ),
+			Field::inst( 'dbmxxth.approval_state' ),
+			Field::inst( 'dbmxxth.start_at' ),
+			Field::inst( 'dbmxxth.finish_at' ),
+			Field::inst( 'dbmxxth.is_defaultprogram' ),
+			Field::inst( 'dbmxxth.revisi_ke' ),
+			Field::inst( 'dbmxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
 						return '';
@@ -61,19 +61,19 @@
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' )
 		)
-		->leftJoin( 'iimxxmh','iimxxmh.id','=','rbmxxth.id_iimxxmh' );
+		->leftJoin( 'iimxxmh','iimxxmh.id','=','dbmxxth.id_iimxxmh' );
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_rbmxxth'] == 0){
+	if ( $_POST['show_deleted_dbmxxth'] == 0){
 		$editor
-			->where( 'rbmxxth.transaction_state', -9, '<>');
+			->where( 'dbmxxth.transaction_state', -9, '<>');
 	}
 	
-	include( "rbmxxth_extra.php" );
+	include( "dbmxxth_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'rbmxxth';
+	$nama_table = 'dbmxxth';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	

@@ -5,15 +5,15 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			if($values['is_revisi'] == 1){
-				$id_rbmxxth_asal = $values['rbmxxth']['id_rbmxxth_asal'];
+				$id_dbmxxth_asal = $values['dbmxxth']['id_dbmxxth_asal'];
 				// duplicate detail
-				$qi_rbmittd = $editor->db()
+				$qi_dbmittd = $editor->db()
 					->raw()
-					->bind(':id_rbmxxth_asal', $id_rbmxxth_asal)
+					->bind(':id_dbmxxth_asal', $id_dbmxxth_asal)
 					->exec('
 						INSERT INTO
-							rbmittd (
-								id_rbmxxth,
+							dbmittd (
+								id_dbmxxth,
 								id_iimxxmh,
 								id_iumxxmh_unit,
 								id_iumxxmh_terkecil,
@@ -37,18 +37,18 @@
 							jumlah_terkecil_os,
 							jumlah_default,
 							jumlah_konversi
-						FROM rbmittd
+						FROM dbmittd
 						WHERE
-							id_rbmxxth = :id_rbmxxth_asal
+							id_dbmxxth = :id_dbmxxth_asal
 					');
 
-				$qi_rbmwptd = $editor->db()
+				$qi_dbmwptd = $editor->db()
 					->raw()
-					->bind(':id_rbmxxth_asal', $id_rbmxxth_asal)
+					->bind(':id_dbmxxth_asal', $id_dbmxxth_asal)
 					->exec('
 						INSERT INTO
-							rbmwptd (
-								id_rbmxxth,
+							dbmwptd (
+								id_dbmxxth,
 								id_rwpxxmh,
 								cycletime
 							)
@@ -56,9 +56,9 @@
 							'.$id.',
 							id_rwpxxmh,
 							cycletime
-						FROM rbmwptd
+						FROM dbmwptd
 						WHERE
-							id_rbmxxth = :id_rbmxxth_asal
+							id_dbmxxth = :id_dbmxxth_asal
 					');
 					
 			}

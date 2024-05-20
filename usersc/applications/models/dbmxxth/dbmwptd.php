@@ -20,43 +20,43 @@
 	use 
 		Carbon\Carbon;
 	
-	if ( ! isset($_POST['id_rbmxxth']) || ! is_numeric($_POST['id_rbmxxth']) ) {
+	if ( ! isset($_POST['id_dbmxxth']) || ! is_numeric($_POST['id_dbmxxth']) ) {
 		echo json_encode( [ "data" => [] ] );
 	}else{
-		$editor = Editor::inst( $db, 'rbmwptd' )
+		$editor = Editor::inst( $db, 'dbmwptd' )
 			->debug(true)
 			->fields(
-				Field::inst( 'rbmwptd.id' ),
-				Field::inst( 'rbmwptd.id_rbmxxth' ),
-				Field::inst( 'rbmwptd.id_rwpxxmh' ),
-				Field::inst( 'rbmwptd.kode' ),
-				Field::inst( 'rbmwptd.nama' ),
-				Field::inst( 'rbmwptd.keterangan' ),
-				Field::inst( 'rbmwptd.created_by' ),
-				Field::inst( 'rbmwptd.transaction_state' ),
-				Field::inst( 'rbmwptd.approval_state' ),
-				Field::inst( 'rbmwptd.start_at' ),
-				Field::inst( 'rbmwptd.finish_at' ),
-				Field::inst( 'rbmwptd.is_defaultprogram' ),
-				Field::inst( 'rbmwptd.cycletime' ),
+				Field::inst( 'dbmwptd.id' ),
+				Field::inst( 'dbmwptd.id_dbmxxth' ),
+				Field::inst( 'dbmwptd.id_rwpxxmh' ),
+				Field::inst( 'dbmwptd.kode' ),
+				Field::inst( 'dbmwptd.nama' ),
+				Field::inst( 'dbmwptd.keterangan' ),
+				Field::inst( 'dbmwptd.created_by' ),
+				Field::inst( 'dbmwptd.transaction_state' ),
+				Field::inst( 'dbmwptd.approval_state' ),
+				Field::inst( 'dbmwptd.start_at' ),
+				Field::inst( 'dbmwptd.finish_at' ),
+				Field::inst( 'dbmwptd.is_defaultprogram' ),
+				Field::inst( 'dbmwptd.cycletime' ),
 
 				Field::inst( 'rwpxxmh.kode' ),
 				Field::inst( 'rwpxxmh.nama' )
 			)
-			->leftJoin( 'rwpxxmh','rwpxxmh.id','=','rbmwptd.id_rwpxxmh' )
-			->where('rbmwptd.id_rbmxxth',$_POST['id_rbmxxth']);
+			->leftJoin( 'rwpxxmh','rwpxxmh.id','=','dbmwptd.id_rwpxxmh' )
+			->where('dbmwptd.id_dbmxxth',$_POST['id_dbmxxth']);
 		
 		// do not erase
 		// function show / hide inactive document
-		if ( $_POST['show_deleted_rbmwptd'] == 0){
+		if ( $_POST['show_deleted_dbmwptd'] == 0){
 			$editor
-				->where( 'rbmwptd.transaction_state', -9, '<>');
+				->where( 'dbmwptd.transaction_state', -9, '<>');
 		}
 		
-		include( "rbmwptd_extra.php" );
+		include( "dbmwptd_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'rbmwptd';
+		$nama_table = 'dbmwptd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
 		
