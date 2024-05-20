@@ -282,14 +282,6 @@
             ->exec();
         }
 
-        //Update Approval approval_state manual
-        $qu_httgltd = $db
-            ->query('update', 'httgltd')
-            ->set('transaction_state',1)
-            ->set('approval_state',$approval_state)
-            ->where('id',$_POST['id_transaksi'])
-            ->exec();
-
         $db->commit();
         $data = array(
             'message'=> 'Data Berhasil Di Insert' , 

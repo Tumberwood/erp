@@ -345,79 +345,6 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
-				
-				// BEGIN buttom Approval Set
-				{
-					extend: 'collection',
-					name: 'btnSetApprove',
-					text: '<span class="fa fa-check"></span>',
-					titleAttr: 'Approval',
-					className: 'btn btn-sm btn-outline',
-					autoClose: true,
-					buttons: [
-						{ 
-							text: '<i class="fa fa-check"></i>&nbsp;Approve',
-							name: 'btnApprove1',
-							className: 'btn btn-sm text-navy',
-							titleAttr: 'Approve',
-							action: function (e, dt, node, config) {
-								$.ajax( {
-									url: '../../models/htoxxth/htoxxth_post_approve.php',
-									dataType: 'json',
-									type: 'POST',
-									data: {
-										state           : 1,
-										id_transaksi_h  : id_transaksi_h
-									},
-									success: function ( json ) {
-										tblhtoxxth.ajax.reload(null, false);
-									}
-								} );
-							}
-						},
-						{ 
-							text: '<i class="fa fa-undo"></i>&nbsp;Cancel Approve',
-							name: 'btnCancelApprove1',
-							className: 'btn btn-sm',
-							titleAttr: 'Approve',
-							action: function ( e, dt, node, config ) {
-								$.ajax( {
-									url: '../../models/htoxxth/htoxxth_post_approve.php',
-									dataType: 'json',
-									type: 'POST',
-									data: {
-										state           : -1,
-										id_transaksi_h  : id_transaksi_h
-									},
-									success: function ( json ) {
-										tblhtoxxth.ajax.reload(null, false);
-									}
-								} );
-							}
-						},
-						{
-							text: '<i class="fa fa-remove"></i>&nbsp;Void',
-							name: 'btnVoid1',
-							className: 'btn btn-sm text-danger',
-							titleAttr: 'Void',
-							action: function ( e, dt, node, config ) {
-								$.ajax( {
-									url: '../../models/htoxxth/htoxxth_post_approve.php',
-									dataType: 'json',
-									type: 'POST',
-									data: {
-										state           : -9,
-										id_transaksi_h  : id_transaksi_h
-									},
-									success: function ( json ) {
-										tblhtoxxth.ajax.reload(null, false);
-									}
-								} );
-							}
-						}
-					]
-				}
-				// END buttom Approval Set
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -438,7 +365,6 @@
 			// atur hak akses
 			tbl_details = [tblhtoemtd];
 			CekInitHeaderHD(tblhtoxxth, tbl_details);
-			tblhtoxxth.button( 'btnSetApprove:name' ).disable();
 		} );
 		
 		tblhtoxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -454,36 +380,6 @@
 			// atur hak akses
 			tbl_details = [tblhtoemtd];
 			CekSelectHeaderHD(tblhtoxxth, tbl_details);
-			
-			// BEGIN approval button
-			if (transaction_state == 1) {
-				tblhtoxxth.button( 'btnSetApprove:name' ).enable();
-			} else {
-				tblhtoxxth.button( 'btnSetApprove:name' ).disable();
-			}
-			
-			if(approval_state == 1){
-				// approve
-				tblhtoxxth.button( 'btnApprove1:name' ).disable();
-				tblhtoxxth.button( 'btnCancelApprove1:name' ).enable();
-				tblhtoxxth.button( 'btnVoid1:name' ).disable();
-			}else if(approval_state == -1){
-				// cancel approve
-				tblhtoxxth.button( 'btnApprove1:name' ).enable();
-				tblhtoxxth.button( 'btnCancelApprove1:name' ).disable();
-				tblhtoxxth.button( 'btnVoid1:name' ).disable();
-			}else if(approval_state == -9){
-				// void
-				tblhtoxxth.button( 'btnApprove1:name' ).disable();
-				tblhtoxxth.button( 'btnCancelApprove1:name' ).disable();
-				tblhtoxxth.button( 'btnVoid1:name' ).disable();
-			}else{
-				// open
-				tblhtoxxth.button( 'btnApprove1:name' ).enable();
-				tblhtoxxth.button( 'btnCancelApprove1:name' ).disable();
-				tblhtoxxth.button( 'btnVoid1:name' ).enable();
-			}
-			// END approval button
 		} );
 		
 		tblhtoxxth.on( 'deselect', function () {
@@ -493,7 +389,6 @@
 			// atur hak akses
 			tbl_details = [tblhtoemtd];
 			CekDeselectHeaderHD(tblhtoxxth, tbl_details);
-			tblhtoxxth.button( 'btnSetApprove:name' ).disable();
 		} );
 		// END htoxxth
 

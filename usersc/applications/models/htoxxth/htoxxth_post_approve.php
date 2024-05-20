@@ -16,15 +16,15 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
-    $id_transaksi_h = $_POST['id_transaksi_h'];
-    $state = $_POST['state'];
+    $id_transaksi = $_POST['id_transaksi'];
+    $approval_state = $_POST['approval_state'];
 
     try{
         $db->transaction();
         // BEGIN ambil data htoemtd
         $qs_htoemtd = $db
             ->raw()
-            ->bind(':id_transaksi_h', $id_transaksi_h)
+            ->bind(':id_transaksi', $id_transaksi)
             ->exec('SELECT
                         htoemtd.id_hemxxmh AS id_hemxxmh,
                         htoxxth.id AS id_htoxxth,
@@ -44,12 +44,12 @@
                     LEFT JOIN hemjbmh ON hemjbmh.id_hemxxmh = htoemtd.id_hemxxmh
                     WHERE htoemtd.transaction_state = 1
                         AND htoxxth.transaction_state = 1
-                        AND htoxxth.id = :id_transaksi_h;
+                        AND htoxxth.id = :id_transaksi;
                     '
                     );
         $rs_htoemtd = $qs_htoemtd->fetchAll();
         // END ambil data htoemtd
-        if($state == 1){
+        if($approval_state == 1){
 
             foreach ($rs_htoemtd as $row_htoemtd) {
                 $durasi_lembur_menit = $row_htoemtd['durasi_lembur_jam'] * 60;
@@ -72,20 +72,13 @@
                     ->exec();
             }
         
-        }elseif($state == -1){
-            // print_r($id_transaksi_h);
+        } else {
+            // print_r($id_transaksi);
             $qd_htoxxrd = $db
                 ->query('delete', 'htoxxrd')
-                ->where('id_htoxxth', $id_transaksi_h )
+                ->where('id_htoxxth', $id_transaksi )
                 ->exec();
         }
-        
-        //Update Approval state manual
-        $qu_htoxxth = $db
-            ->query('update', 'htoxxth')
-            ->set('approval_state',$state)
-            ->where('id',$_POST['id_transaksi_h'])
-            ->exec();
 
         $db->commit();
         $data = array(
