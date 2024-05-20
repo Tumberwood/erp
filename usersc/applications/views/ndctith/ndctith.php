@@ -96,7 +96,7 @@
 	var edtndctitd, tblndctitd, show_deleted_ndctitd = 0, id_ndctitd;
 	// ------------- end of default variable
 
-	var id_ndoxxth_old = 0;
+	var id_ndctoth_old = 0;
 	var id_ndcrctd_old = 0;
 
 	// get tableRelation
@@ -152,18 +152,18 @@
 				},
 				{
 					label: "Transfer Out",
-					name: "ndctith.id_ndoxxth",
+					name: "ndctith.id_ndctoth",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/ndoxxth/ndoxxth_fn_opt.php",
+							url: "../../models/ndctoth/ndctoth_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_ndoxxth_old: id_ndoxxth_old,
+									id_ndctoth_old: id_ndctoth_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -211,14 +211,14 @@
 			if(action != 'remove'){
 
 				tanggal_jam_ti = edtndctith.field('ndctith.tanggal_jam_ti').val();
-				id_ndoxxth = edtndctith.field('ndctith.id_ndoxxth').val();
+				id_ndctoth = edtndctith.field('ndctith.id_ndctoth').val();
 
 				validasiRequired(
 					edtndctith,
 					'ndctith',
 					{
 						'tanggal_jam_ti': tanggal_jam_ti,
-						'id_ndoxxth': id_ndoxxth
+						'id_ndctoth': id_ndctoth
 					}
 				);
 
@@ -274,7 +274,7 @@
 			columns: [
 				{ data: "ndctith.id",visible:false },
 				{ data: "ndctith.kode" },
-				{ data: "ndoxxth.kode" },
+				{ data: "ndctoth.kode" },
 				{ data: "ndctith.tanggal_jam_ti" },
 				{ data: "users_pengirim.username" },
 				{ data: "users_penerima.username" },

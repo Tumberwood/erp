@@ -24,7 +24,7 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'ndctith.id' ),
-			Field::inst( 'ndctith.id_ndoxxth' )
+			Field::inst( 'ndctith.id_ndctoth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ndctith.id_users_penerima' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -54,12 +54,12 @@
 					'to' =>   'Y-m-d H:i:s'
 				) ),
 			
-			Field::inst( 'ndoxxth.kode' ),
+			Field::inst( 'ndctoth.kode' ),
 
 			Field::inst( 'users_pengirim.username' ),
 			Field::inst( 'users_penerima.username' )
 		)
-		->leftJoin( 'ndoxxth','ndoxxth.id','=','ndctith.id_ndoxxth' )
+		->leftJoin( 'ndctoth','ndctoth.id','=','ndctith.id_ndctoth' )
 		->leftJoin(
 			'activity_log_ml as activity_log_ml_c', 
 			'activity_log_ml_c.id_transaksi = ndctith.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "ndctith"', '', '' )
