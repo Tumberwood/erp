@@ -117,6 +117,15 @@
 			
 			if(action == 'create'){
 				tbl_blank.rows().deselect();
+			}else if(action == 'edit'){
+				
+				if(transaction_state == 0){
+					edt_blank.field('_blank.kode').enable();
+					edt_blank.field('_blank.nama').enable();
+				}else{
+					edt_blank.field('_blank.kode').disable();
+					edt_blank.field('_blank.nama').disable();
+				}
 			}
 		});
 
