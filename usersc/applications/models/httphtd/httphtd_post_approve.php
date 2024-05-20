@@ -15,7 +15,9 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
-    $state          = $_POST['state'];
+    //ginati approval_state
+    //id_transaksi diganti id_transaksi tanpa h
+    $approval_state          = $_POST['approval_state'];
 
     try{
         $db->transaction();
@@ -27,7 +29,7 @@
                 'httphtd.kode as kode',
                 'httphtd.nama as nama'
             ] )
-            ->where('httphtd.id', $_POST['id_transaksi_h'] )
+            ->where('httphtd.id', $_POST['id_transaksi'] )
             ->exec();
         $rs_httphtd = $qs_httphtd->fetch();
         
@@ -35,7 +37,7 @@
         $where_kecuali = '';
 		$qs_kecuali = $db
             ->raw()
-            ->bind(':id_h', $_POST['id_transaksi_h'])
+            ->bind(':id_h', $_POST['id_transaksi'])
             ->exec('SELECT
                         a.id,
                         a.tanggal,
@@ -55,7 +57,7 @@
         foreach ($rs_kecuali as $key => $kecuali) {
             $where_kecuali .= $kecuali['where_not_in'];
         }
-        if ($state == 1) {
+        if ($approval_state == 1) {
             // BEGIN non aktif
             $qd_terpilih = $db
                 ->query('delete', 'htssctd')
@@ -126,7 +128,7 @@
                 ');
             // END insert pengaju
 
-        } else if($state == -1) {
+        } else {
             $qd_pengganti = $db
                 ->raw()
                 ->bind(':tanggal', $rs_httphtd["tanggal"])
@@ -145,15 +147,6 @@
                 ->where('tanggal', $rs_httphtd["tanggal"])
             ->exec();
         }
-
-        
-            //Update Approval state manual
-            $qu_httphtd = $db
-                ->query('update', 'httphtd')
-                ->set('transaction_state',1)
-                ->set('approval_state',$state)
-                ->where('id',$_POST['id_transaksi_h'])
-                ->exec();
 
             $db->commit();
             $data = array(
