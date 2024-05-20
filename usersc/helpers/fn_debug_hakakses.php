@@ -29,17 +29,17 @@
         $is_debug_hakakses_hd = $rs_ggsxxsh['is_debug_hakakses_hd'];
 
         // check apakah query ada resultnya
-        if(!empty($rs_gtbrlsh)){
-            $status_code  = '200';
+        if(!empty($rs_ggsxxsh)){
+            $status_code  = 200;
             $message      = 'Message Berhasil';
             $type_message = 'success';
         }else{
-            $status_code  = '500';
+            $status_code  = 500;
             $message      = 'Message Gagal';
             $type_message = 'error';
         }
     }catch(PDOException $e){
-        $status_code  = '500';
+        $status_code  = 500;
         $message      = 'Message Gagal! ' . $e->getMessage();
         $type_message = 'error';
     }
