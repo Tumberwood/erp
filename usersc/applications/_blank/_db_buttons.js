@@ -1,7 +1,8 @@
 /**
- * Template Button yang bisa digunakan
  * Dapat di copy-paste ke halaman views, jika tidak ingin menggunakan generate button di helpers/button_fn_generate.php
+ * Jika tanpa generate button, maka hak akses button harus diatur sendiri di masing-masing halaman.
  * 
+ * Template Button yang bisa digunakan.
  * +----------------------------+-------------------------------------------------------------------------------------------+
  * | Button                     | Fungsi                                                                                    |
  * +----------------------------+-------------------------------------------------------------------------------------------+
@@ -122,7 +123,7 @@ buttons: [
                     className: 'btn btn-sm btn-outline',
                     titleAttr: 'Simple Filter',
                     action: function (e, dt, button, config) {
-                        $('#modalSF<?php echo _blank; ?>').modal('show');
+                        $('#modalSF_blank').modal('show');
                     }
                 },
                 { 
@@ -131,7 +132,7 @@ buttons: [
                     className: 'btn btn-sm btn-outline',
                     titleAttr: 'Filter',
                     action: function (e, dt, button, config) {
-                        $('#modalP<?php echo _blank; ?>').modal('show');
+                        $('#modalP_blank').modal('show');
                     }
                 },
                 { 
@@ -140,7 +141,7 @@ buttons: [
                     className: 'btn btn-sm btn-outline',
                     titleAttr: 'Search',
                     action: function (e, dt, button, config) {
-                        $('#modalQ<?php echo _blank; ?>').modal('show');
+                        $('#modalQ_blank').modal('show');
                     }
                 },
         ]  
@@ -192,7 +193,7 @@ buttons: [
                                 dataType: 'json',
                                 type: 'POST',
                                 data: {
-                                    table_name       : _blank,
+                                    table_name       : '_blank',
                                     id_transaksi     : new_id,
                                     transaction_state: 1
                                 },
@@ -235,7 +236,7 @@ buttons: [
                                                 data: {
                                                     state       : 1,
                                                     id_transaksi: new_id,
-                                                    table_name  : _blank,
+                                                    table_name  : '_blank',
                                                 },
                                                 success: function ( json ) {
                                                     toast_type = json.data.type_message;
@@ -329,7 +330,7 @@ buttons: [
                     dataType: 'json',
                     type: 'POST',
                     data: {
-                        table_name       : _blank,
+                        table_name       : '_blank',
                         id_transaksi     : id_transaksi_h,
                         transaction_state: 1
                     },
@@ -371,7 +372,7 @@ buttons: [
                                     data: {
                                         state       : 1,
                                         id_transaksi: id_transaksi_h,
-                                        table_name  : _blank,
+                                        table_name  : '_blank',
                                     },
                                     success: function ( json ) {
                                         toast_type = json.data.type_message;
@@ -483,7 +484,7 @@ buttons: [
                                 dataType: 'json',
                                 type: 'POST',
                                 data: {
-                                    table_name       : _blank,
+                                    table_name       : '_blank',
                                     id_transaksi     : new_id,
                                     transaction_state: 1
                                 },
@@ -524,7 +525,7 @@ buttons: [
                                                 data: {
                                                     state       : 1,
                                                     id_transaksi: new_id,
-                                                    table_name  : _blank,
+                                                    table_name  : '_blank',
                                                 },
                                                 success: function ( json ) {
                                                     toast_type = json.data.type_message;
@@ -568,7 +569,7 @@ buttons: [
                                         }
                                         // BEGIN jika perlu post confirm
                                             $.ajax( {
-                                                url: '../../models/_blank/blank_post_confirm.php',
+                                                url: '../../models/_blank/_blank_post_confirm.php',
                                                 dataType: 'json',
                                                 type: 'POST',
                                                 async: false,
@@ -643,7 +644,7 @@ buttons: [
                     dataType: 'json',
                     type: 'POST',
                     data: {
-                        table_name	 : _blank,
+                        table_name	 : '_blank',
                         id_transaksi : id_transaksi_h,
                         transaction_state : 9
                     },
@@ -704,7 +705,7 @@ buttons: [
                 type: 'POST',
                 async: false,
                 data: {
-                    table_name	 : _blank,
+                    table_name	 : '_blank',
                     id_transaksi : id_transaksi_log,
                 },
                 success: function(json) {
@@ -774,7 +775,7 @@ buttons: [
                 type: 'POST',
                 async: false,
                 data: {
-                    table_name	 : _blank,
+                    table_name	 : '_blank',
                     id_transaksi : id_transaksi_log_d,
                 },
                 success: function(json) {
@@ -844,7 +845,7 @@ buttons: [
                     dataType: 'json',
                     type: 'POST',
                     data: {
-                        table_name	 : _blank,
+                        table_name	 : '_blank',
                         id_transaksi : id_transaksi_h,
                         transaction_state : -9
                     },
@@ -880,7 +881,7 @@ buttons: [
                     dataType: 'json',
                     type: 'POST',
                     data: {
-                        table_name	        : _blank,
+                        table_name	        : '_blank',
                         id_transaksi        : id_transaksi_h,
                         transaction_state   : -93
                     },
@@ -916,7 +917,7 @@ buttons: [
                     dataType: 'json',
                     type: 'POST',
                     data: {
-                        table_name	        : _blank,
+                        table_name	        : '_blank',
                         id_transaksi        : id_transaksi_h,
                         transaction_state   : -92
                     },
