@@ -117,33 +117,33 @@ buttons: [
         className: 'btn btn-sm btn-outline',
         autoClose: true,
         buttons: [
-                { 
-                    text: '&nbsp;<i class="fa fa-filter"></i>&nbsp;Filter',
-                    name: 'btnSF',
-                    className: 'btn btn-sm btn-outline',
-                    titleAttr: 'Simple Filter',
-                    action: function (e, dt, button, config) {
-                        $('#modalSF_blank').modal('show');
-                    }
-                },
-                { 
-                    text: '&nbsp;<i class="fa fa-columns"></i>&nbsp;Search Panes',
-                    name: 'btnSP',
-                    className: 'btn btn-sm btn-outline',
-                    titleAttr: 'Filter',
-                    action: function (e, dt, button, config) {
-                        $('#modalP_blank').modal('show');
-                    }
-                },
-                { 
-                    text: '&nbsp;<i class="fa fa-search"></i>&nbsp;Search Builder',
-                    name: 'btnSB',
-                    className: 'btn btn-sm btn-outline',
-                    titleAttr: 'Search',
-                    action: function (e, dt, button, config) {
-                        $('#modalQ_blank').modal('show');
-                    }
-                },
+            { 
+                text: '&nbsp;<i class="fa fa-filter"></i>&nbsp;Filter',
+                name: 'btnSF',
+                className: 'btn btn-sm btn-outline',
+                titleAttr: 'Simple Filter',
+                action: function (e, dt, button, config) {
+                    $('#modalSF_blank').modal('show');
+                }
+            },
+            { 
+                text: '&nbsp;<i class="fa fa-columns"></i>&nbsp;Search Panes',
+                name: 'btnSP',
+                className: 'btn btn-sm btn-outline',
+                titleAttr: 'Filter',
+                action: function (e, dt, button, config) {
+                    $('#modalP_blank').modal('show');
+                }
+            },
+            { 
+                text: '&nbsp;<i class="fa fa-search"></i>&nbsp;Search Builder',
+                name: 'btnSB',
+                className: 'btn btn-sm btn-outline',
+                titleAttr: 'Search',
+                action: function (e, dt, button, config) {
+                    $('#modalQ_blank').modal('show');
+                }
+            },
         ]  
     },
     // Collection
