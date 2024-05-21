@@ -11,12 +11,13 @@
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'fopaktd';
 
-	// self view
+	// BEGIN single data view
 	if (isset($_GET['rowid']) && $_GET['rowid'] > 0) {
 		$rowid = $_GET['rowid'];
 	} else {
 		$rowid = 0;
 	}
+	// END single data view
 ?>
 
 <!-- begin content here -->
