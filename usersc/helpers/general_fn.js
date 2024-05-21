@@ -163,6 +163,18 @@ function edtFormButtonSaveConfirm(){
     }
 }
 
+function edtFormButtonSaveConfirmHD(){
+    if(transaction_state == 1){
+        $('div.DTE_Form_Buttons button:eq(2)').hide();
+    }else{
+        if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0 && arr_is_valid_cek_detail.includes(0) == false){
+            $('div.DTE_Form_Buttons button:eq(2)').show();
+        }else{
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
+        }
+    }
+}
+
 /**
  * Datatables Render transactionStatus
  * Digunakan untuk render field transaction_status
