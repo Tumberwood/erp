@@ -326,11 +326,11 @@
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
-				tblforxxth.rows().deselect();
-				tblforxxth.ajax.reload(function ( json ) {
+				tbl_blank_t.rows().deselect();
+				tbl_blank_t.ajax.reload(function ( json ) {
 				toastr.remove();
 				toastr["success"]("Load data berhasil","INFO")
-				$('#modalSFforxxth').modal('toggle');
+				$('#modalSF_blank_t').modal('toggle');
 			}, false);
 				return false;
 			}
