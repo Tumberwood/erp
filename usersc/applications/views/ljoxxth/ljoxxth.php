@@ -15,7 +15,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="modal" id="modalSFljoxxth" tabindex="-1" role="dialog" aria-hidden="true">
@@ -58,6 +58,7 @@
                                 <th>Plate No</th>
                                 <th>Driver</th>
                                 <th>Vehicle Type</th>
+                                <th>Progress</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -67,7 +68,7 @@
         </div>
     </div>
 
-	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabljoprtd"> Activity</a></li>
@@ -130,7 +131,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ljoxxth/fn/ljoxxth_fn.php'; ?>
 
@@ -149,20 +150,8 @@
 	// get tableRelation
 	tableRelation('ljoxxth');
 
-	// BEGIN datepicker init
-	$('#periode').datepicker({
-		setDate: new Date(),
-		autoclose: true,
-		todayHighlight: true,
-		clearBtn: true,
-		format: "dd M yyyy",
-		minViewMode: 'month' 
-	});
-	$('#start_date').datepicker('setDate',  awal_bulan_dmy);
-	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-	// END datepicker init
-
 	$(document).ready(function() {
+		$('#end_date').datepicker('setDate', akhir_bulan_dmy);
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		
@@ -348,11 +337,23 @@
 
 			if(action == 'create'){
 				tblljoxxth.rows().deselect();
+			}else if(action == 'edit'){
+				
+				if(transaction_state == 0){
+					edtljoxxth.field('ljoxxth.tanggal').enable();
+					edtljoxxth.field('ljoxxth.id_lacxxmh').enable();
+					edtljoxxth.field('ljoxxth.id_grlxxmh_expedition').enable();
+				}else{
+					edtljoxxth.field('ljoxxth.tanggal').disable();
+					edtljoxxth.field('ljoxxth.id_lacxxmh').disable();
+					edtljoxxth.field('ljoxxth.id_grlxxmh_expedition').disable();
+				}
 			}
 		});
 
 		edtljoxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtljoxxth.on( 'preSubmit', function (e, data, action) {
@@ -431,6 +432,7 @@
 				{ data: "ljoxxth.plat_no" },
 				{ data: "ljoxxth.supir_nama" },
 				{ data: "lvtxxmh.nama" },
+				{ data: "lprxxmh.nama" },
 				{ 
 					data: "ljoxxth.transaction_state" ,
 					...renderTransactionStatus()
@@ -475,18 +477,12 @@
 		} );
 		
 		tblljoxxth.on( 'select', function( e, dt, type, indexes ) {
-			ljoxxth_data = tblljoxxth.row( { selected: true } ).data().ljoxxth;
-			id_ljoxxth   = ljoxxth_data.id;
-			id_transaksi_h    = id_ljoxxth;                                                // dipakai untuk general
-			id_transaksi_log  = id_ljoxxth;                                                // dipakai untuk general
-			transaction_state = ljoxxth_data.transaction_state;
-			approval_state    = ljoxxth_data.approval_state;
-			is_nextprocess    = ljoxxth_data.is_nextprocess;
-
+			// set variable standar framework
+			siVarSet('ljoxxth');
 			id_grlxxmh_old    = ljoxxth_data.id_grlxxmh_expedition;
 			id_lacxxmh_old    = ljoxxth_data.id_lacxxmh;
 			id_lvtxxmh_old    = ljoxxth_data.id_lvtxxmh;
-			
+			is_master_table = 1;
 			// atur hak akses
 			tbl_details = [tblljoprtd,tblljodstd];
 			CekSelectHeaderHD(tblljoxxth, tbl_details);
@@ -494,8 +490,8 @@
 		} );
 		
 		tblljoxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_ljoxxth = 0;
+			// reset variable standar framework
+			siVarReset('ljoxxth');
 			id_grlxxmh_old = 0, id_lacxxmh_old = 0, id_lvtxxmh_old = 0;
 
 			// atur hak akses
@@ -661,9 +657,9 @@
 		});
 			
 		edtljoprtd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblljoprtd.rows().deselect();
+			tblljoxxth.rows().deselect();
+			tblljoxxth.ajax.reload(null, false);
 		} );
 
 		edtljoprtd.on( 'close', function () {
@@ -712,9 +708,10 @@
 
 		tblljoprtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblljoxxth, tblljoprtd, 'ljoprtd' );
-			CekDrawDetailHDFinal(tblljoxxth);
+			// cek_c_detail= 1;
+			// CekDrawDetailHD(tblljoxxth, tblljoprtd, 'ljoprtd' );
+			CekDrawDetailHD( tblljoprtd, 1);
+			// CekDrawDetailHDFinal(tblljoxxth);
 		} );
 
 		tblljoprtd.on( 'select', function( e, dt, type, indexes ) {
@@ -894,9 +891,9 @@
 		});
 			
 		edtljodstd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblljodstd.rows().deselect();
+			tblljoxxth.rows().deselect();
+			tblljoxxth.ajax.reload(null, false);
 		} );
 
 		edtljodstd.on( 'close', function () {
@@ -945,8 +942,9 @@
 
 		tblljodstd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblljoxxth, tblljodstd, 'ljodstd' );
+			// cek_c_detail= 1;
+			// CekDrawDetailHD(tblljoxxth, tblljodstd, 'ljodstd' );
+			CekDrawDetailHD(tblljodstd,1);
 			CekDrawDetailHDFinal(tblljoxxth);
 		} );
 
