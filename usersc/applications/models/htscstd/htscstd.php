@@ -160,8 +160,8 @@
 		
 		->leftJoin( 'hemxxmh as hemxxmh_pengganti','hemxxmh_pengganti.id','=','htscstd.id_hemxxmh_pengganti' )
 		->leftJoin( 'hemjbmh as hemjbmh_pengganti','hemjbmh_pengganti.id_hemxxmh','=','hemxxmh_pengganti.id' )
-		// ->where( 'htscstd.tanggal', $_POST['start_date'], '>=')
-		// ->where( 'htscstd.tanggal', $_POST['end_date'], '<=')
+		->where( 'htscstd.tanggal', $_POST['start_date'], '>=')
+		->where( 'htscstd.tanggal', $_POST['end_date'], '<=')
 		;
 	
 	// do not erase

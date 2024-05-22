@@ -113,15 +113,6 @@
 					'from' => 'd M Y H:i',
 					'to' =>   'Y-m-d H:i:s'
 				) ),
-			Field::inst( 'htssctd.tanggaljam_awal_istirahat_t1' )
-				->getFormatter( 'Format::datetime', array(
-					'from' => 'Y-m-d H:i:s',
-					'to' =>   'd M Y H:i'
-				) )
-				->setFormatter( 'Format::datetime', array(
-					'from' => 'd M Y H:i',
-					'to' =>   'Y-m-d H:i:s'
-				) ),
 			Field::inst( 'htssctd.tanggaljam_awal_istirahat' )
 				->getFormatter( 'Format::datetime', array(
 					'from' => 'Y-m-d H:i:s',
@@ -131,34 +122,7 @@
 					'from' => 'd M Y H:i',
 					'to' =>   'Y-m-d H:i:s'
 				) ),
-			Field::inst( 'htssctd.tanggaljam_awal_istirahat_t2' )
-				->getFormatter( 'Format::datetime', array(
-					'from' => 'Y-m-d H:i:s',
-					'to' =>   'd M Y H:i'
-				) )
-				->setFormatter( 'Format::datetime', array(
-					'from' => 'd M Y H:i',
-					'to' =>   'Y-m-d H:i:s'
-				) ),
-			Field::inst( 'htssctd.tanggaljam_akhir_istirahat_t1' )
-				->getFormatter( 'Format::datetime', array(
-					'from' => 'Y-m-d H:i:s',
-					'to' =>   'd M Y H:i'
-				) )
-				->setFormatter( 'Format::datetime', array(
-					'from' => 'd M Y H:i',
-					'to' =>   'Y-m-d H:i:s'
-				) ),
 			Field::inst( 'htssctd.tanggaljam_akhir_istirahat' )
-				->getFormatter( 'Format::datetime', array(
-					'from' => 'Y-m-d H:i:s',
-					'to' =>   'd M Y H:i'
-				) )
-				->setFormatter( 'Format::datetime', array(
-					'from' => 'd M Y H:i',
-					'to' =>   'Y-m-d H:i:s'
-				) ),
-			Field::inst( 'htssctd.tanggaljam_akhir_istirahat_t2' )
 				->getFormatter( 'Format::datetime', array(
 					'from' => 'Y-m-d H:i:s',
 					'to' =>   'd M Y H:i'
