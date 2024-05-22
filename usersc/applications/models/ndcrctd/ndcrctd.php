@@ -62,6 +62,13 @@
 		)
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ndcrctd.id_grlxxmh_expedisi' )
 		->leftJoin( 'ndcxxmh','ndcxxmh.id','=','ndcrctd.id_ndcxxmh' );
+
+	if($_POST['start_date'] != ''){
+		$editor->where( 'DATE(ndcrctd.tanggal_jam_terima)',$_POST['start_date'], '>=' );
+	}
+	if($_POST['end_date'] != ''){
+		$editor->where( 'DATE(ndcrctd.tanggal_jam_terima)', $_POST['end_date'], '<=' );
+	}
 	
 	// do not erase
 	// function show / hide inactive document

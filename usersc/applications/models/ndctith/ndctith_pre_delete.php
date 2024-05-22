@@ -39,12 +39,12 @@
                 ');
             
             if(!empty($qu_ndoxxth)){
-                $status_code  = '200';
+                $status_code  = 200;
                 $message = "Update Document Transfer Out Berhasil";
                 $type_message = "success";
                 // parameter lain
             }else{
-                $status_code  = '500';
+                $status_code  = 500;
                 $message = "Update Document Transfer Out Gagal!";
                 $type_message = 'error';
                 // parameter lain
@@ -54,7 +54,7 @@
 
 		
 	}catch(PDOException $e){
-		$status_code  = '500';
+		$status_code  = 500;
 		$message      = 'Message Gagal! ' . $e->getMessage();
 		$type_message = 'error';
 	}

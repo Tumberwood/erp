@@ -69,6 +69,7 @@
 			'activity_log_ml as activity_log_ml_c', 
 			'activity_log_ml_c.id_transaksi = prqxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "prqxxth"', '', '' );
 
+	// BEGIN where single data view
 	if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
 		$rowid = $_POST['rowid'];
 		$editor
@@ -78,6 +79,7 @@
 			->where( 'prqxxth.tanggal', $_POST['start_date'], '>=' )
 			->where( 'prqxxth.tanggal', $_POST['end_date'], '<=' );
 	}
+	// END where single data view
 
 	// do not erase
 	// function show / hide inactive document

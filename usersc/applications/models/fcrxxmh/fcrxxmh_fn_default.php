@@ -37,7 +37,7 @@
             $id_def   = $rs_def['id'];
             $nama_def = $rs_def['nama'];
 
-            $status_code  = '200';
+            $status_code  = 200;
             $message      = 'Get Data Default Currency Berhasil';
             $type_message = 'success';
 
@@ -46,13 +46,13 @@
             $id_def   = 0;
             $nama_def = "";
 
-            $status_code  = '500';
+            $status_code  = 500;
             $message      = 'Get Data Default Currency Gagal! Default Currency Belum Didefinisikan!';
             $type_message = 'error';
 
         }
     }catch(PDOException $e){
-        $status_code  = '500';
+        $status_code  = 500;
         $message      = 'Get Data Default Currency Gagal!  ' . $e->getMessage();
         $type_message = 'error';
     }

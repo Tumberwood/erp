@@ -24,7 +24,7 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
-                                <th>Keterangan</th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -79,6 +79,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/lexxxmh/fn/lexxxmh_fn.php'; ?>
 
@@ -205,6 +206,9 @@
 
 		edtgrlxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
 		});
 		
 		edtgrlxxmh.on( 'preSubmit', function (e, data, action) {
@@ -284,7 +288,10 @@
 				{ data: "grlxxmh.id",visible:false },
 				{ data: "grlxxmh.kode" },
 				{ data: "grlxxmh.nama" },
-				{ data: "grlxxmh.keterangan" }
+				{ 
+					data: "grlxxmh.transaction_state" ,
+					...renderTransactionStatus()
+				}
 			],
 			buttons: [
 
@@ -325,14 +332,8 @@
 		} );
 		
 		tblgrlxxmh.on( 'select', function( e, dt, type, indexes ) {
-			grlxxmh_data = tblgrlxxmh.row( { selected: true } ).data().grlxxmh;
-			id_grlxxmh   = grlxxmh_data.id;
-			id_transaksi_h    = id_grlxxmh;                                                // dipakai untuk general
-			id_transaksi_log  = id_grlxxmh;                                                // dipakai untuk general
-			transaction_state = grlxxmh_data.transaction_state;
-			approval_state    = grlxxmh_data.approval_state;
-			is_nextprocess    = grlxxmh_data.is_nextprocess;
-
+			// set variable standar framework
+			siVarSet('grlxxmh');
 			id_gctxxmh_old    = grlxxmh_data.id_gctxxmh;
 			
 			// atur hak akses
@@ -342,8 +343,8 @@
 		} );
 		
 		tblgrlxxmh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_grlxxmh = 0;
+			// reset variable standar framework
+			siVarReset('grlxxmh');
 
 			id_gctxxmh_old = 0;
 

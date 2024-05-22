@@ -24,11 +24,13 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'ljoxxth.id' ),
-			Field::inst( 'ljoxxth.id_grlxxmh_expedition' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ljoxxth.id_lacxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ljoxxth.id_lvtxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.id_lprxxmh_last' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ljoxxth.id_grlxxmh_expedition' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ljoxxth.kode' )
 				->setFormatter( function ( $val ) {
@@ -74,12 +76,14 @@
 
 			Field::inst( 'grlxxmh.nama' ),
 			Field::inst( 'lacxxmh.nama' ),
-			Field::inst( 'lvtxxmh.nama' )
+			Field::inst( 'lvtxxmh.nama' ),
+			Field::inst( 'lprxxmh.nama' )
 
 		)
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
-		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' );
+		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
+		->leftJoin( 'lprxxmh','lprxxmh.id','=','ljoxxth.id_lprxxmh_last' );
 		
 		if($_POST['start_date'] != ''){
 			$editor->where( 'ljoxxth.tanggal', $_POST['start_date'], '>=' );

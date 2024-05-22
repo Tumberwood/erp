@@ -405,7 +405,6 @@
                                                             if(is_need_approval == 1){
                                                                 // insert gaplgtd
                                                                 $.ajax( {
-                                                                    url: 'xxx.php',
                                                                     url: '../../../helpers/tr_fn_transaction_state_approval.php',
                                                                     dataType: 'json',
                                                                     type: 'POST',
@@ -563,7 +562,6 @@
                                                 if(is_need_approval == 1){
                                                     // insert gaplgtd
                                                     $.ajax( {
-                                                        url: 'xxx.php',
                                                         url: '../../../helpers/tr_fn_transaction_state_approval.php',
                                                         dataType: 'json',
                                                         type: 'POST',
@@ -732,7 +730,6 @@
                                                             if(is_need_approval == 1){
                                                                 // insert gaplgtd
                                                                 $.ajax( {
-                                                                    url: 'xxx.php',
                                                                     url: '../../../helpers/tr_fn_transaction_state_approval.php',
                                                                     dataType: 'json',
                                                                     type: 'POST',
@@ -1101,7 +1098,7 @@
                             titleAttr: 'Remove',
                             action: function ( e, dt, node, config ) {
                                 
-                                message_is_delete = "Apakah Anda Yakin Akan Menghapus Data? xxx";
+                                message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
                                 is_delete = confirm(message_is_delete);
 
                                 if(is_delete == true){
