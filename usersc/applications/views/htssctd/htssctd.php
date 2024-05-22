@@ -326,7 +326,85 @@
 							firstDay: 0
 						},
 						format: 'DD MMM YYYY HH:mm'
-					}
+					},
+					{
+						label: "Tanggal Jam Awal Istirahat T1",
+						name: "htssctd.tanggaljam_awal_istirahat_t1",
+						type: "datetime",
+						def: function () { 
+							return new Date(); 
+						},
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'DD MMM YYYY HH:mm'
+					},
+					{
+						label: "Tanggal Jam Awal Istirahat",
+						name: "htssctd.tanggaljam_awal_istirahat",
+						type: "datetime",
+						def: function () { 
+							return new Date(); 
+						},
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'DD MMM YYYY HH:mm'
+					},
+					{
+						label: "Tanggal Jam Awal Istirahat T2",
+						name: "htssctd.tanggaljam_awal_istirahat_t2",
+						type: "datetime",
+						def: function () { 
+							return new Date(); 
+						},
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'DD MMM YYYY HH:mm'
+					},
+					{
+						label: "Tanggal Jam Akhir Istirahat T1",
+						name: "htssctd.tanggaljam_akhir_istirahat_t1",
+						type: "datetime",
+						def: function () { 
+							return new Date(); 
+						},
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'DD MMM YYYY HH:mm'
+					},
+					{
+						label: "Tanggal Jam Akhir Istirahat",
+						name: "htssctd.tanggaljam_akhir_istirahat",
+						type: "datetime",
+						def: function () { 
+							return new Date(); 
+						},
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'DD MMM YYYY HH:mm'
+					},
+					{
+						label: "Tanggal Jam Akhir Istirahat T2",
+						name: "htssctd.tanggaljam_akhir_istirahat_t2",
+						type: "datetime",
+						def: function () { 
+							return new Date(); 
+						},
+						opts:{
+							minDate: new Date('1900-01-01'),
+							firstDay: 0
+						},
+						format: 'DD MMM YYYY HH:mm'
+					},
 				]
 			} );
 
