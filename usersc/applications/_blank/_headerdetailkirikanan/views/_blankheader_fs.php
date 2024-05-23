@@ -302,6 +302,7 @@
 				{ data: "_blankheader.keterangan" }
 			],
 			buttons: [
+				// btnSetTools
 				{
 					extend: 'collection',
 					name: 'btnSetTools',
@@ -364,6 +365,7 @@
 
 					]  
 				},
+				// btnSetTools2
 				{
 					extend: 'collection',
 					name: 'btnSetTools2',
@@ -401,6 +403,7 @@
 						},
 					]  
 				},
+				// btnSetAction
 				{
 					extend: 'collection',
 					name: 'btnSetAction',
@@ -855,6 +858,154 @@
 								}
 							]
 						},
+						// Remove
+						{
+							extend: 'remove', 
+							name: 'btnRemove',
+							editor: edt_blank, 
+							text: '<i class="fa fa-trash"></i>&nbsp;Delete(xH)',
+							className: 'btn btn-sm text-danger',
+							titleAttr: 'Remove',
+							formButtons: [
+								{
+									text: 'Cancel',
+									action: function () {
+										this.close();
+									}
+								},
+								'Delete'
+							]
+						},
+						// Close Transcation
+						{ 
+							text: '<i class="fa fa-window-close"></i>&nbsp;Close',
+							name: 'btnClose',
+							className: 'btn btn-sm text-warning',
+							titleAttr: 'Confirm',
+							action: function ( e, dt, node, config ) {
+
+								// jika draft akan dikonfirmasi
+								message_transaction_state = "Apakah Anda Yakin Akan Menutup Data?";
+								
+								is_close = confirm(message_transaction_state);
+								if(is_close == true){
+
+									$.ajax( {
+										url: '../../../helpers/tr_fn_transaction_state.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											table_name	 : '_blank',
+											id_transaksi : id_transaksi_h,
+											transaction_state : 9
+										},
+										success: function ( json ) {
+											toast_type   = json.data.type_message;
+											full_message = json.data.message;
+											toastr[toast_type](full_message, 'INFO');
+										}
+									} );
+
+									tbl_blank.ajax.reload(null, false);
+
+								}
+
+							}
+						},
+						// View Button
+						{
+							extend: "selected",
+							name: 'btnView',
+							text: '<i class="fa fa-window-maximize"></i>&nbsp;View Data',
+							className: 'btn btn-sm',
+							titleAttr: 'View Data',
+							action: function(e, dt, node, config) {
+								edt_blank.edit(tbl_blank.row({
+									selected: true
+								}).index(), {
+									title: 'View'
+								}).buttons(
+									{
+										text: 'Close',
+										action: function () {
+											this.close();
+										},
+										className: 'btn btn-warning'
+									}
+								);
+								edt_blank.disable();
+								e.preventDefault();
+							}
+						},
+						// Log View Header
+						{
+							extend: "selected",
+							name: 'btnLog',
+							text: '<i class="fa fa-history"></i>&nbsp;View Log',
+							className: 'btn btn-sm',
+							titleAttr: 'View Data Log',
+							action: function(e, dt, node, config) {
+								e.preventDefault();
+								$("#mdlLog").modal("show");
+
+								$.ajax({
+									url: '../../../helpers/fn_log_view.php',
+									dataType: 'json',
+									type: 'POST',
+									async: false,
+									data: {
+										table_name	 : '_blank',
+										id_transaksi : id_transaksi_log,
+									},
+									success: function(json) {
+										str_log = '';
+										log_data = json.data.rs_activity_log_ml;
+										$.each(log_data, function(index, value) {
+											
+											switch(log_data[index].kode) {
+												case 'CREATE':
+													badgeClass = 'warning';
+													break;
+												case 'EDIT':
+													badgeClass = 'info';
+													break;
+												case 'DELETE':
+													badgeClass = 'danger';
+													break;
+												case 'CONFIRM':
+													badgeClass = 'primary';
+													break;
+												case 'CLOSE':
+													badgeClass = 'danger';
+													break;
+												case 'APPROVE':
+													badgeClass = 'primary';
+													break;
+												case 'VOID':
+													badgeClass = 'danger';
+													break;
+												case 'INVALID CODE':
+													badgeClass = 'warning';
+													break;
+												default:
+													badgeClass = 'plain';
+											}
+
+											str_log =   str_log + 
+														'<span class=\"badge badge-' + 
+														badgeClass + '\">' + 
+														log_data[index].kode + 
+														'</span> by ' + 
+														log_data[index].username + 
+														' at ' + 
+														log_data[index].created_on + 
+														'</br>';
+										});
+										$("#contentLog").html(str_log);
+									}
+								});
+							}
+						}
 					]
 				}, 
 			],
