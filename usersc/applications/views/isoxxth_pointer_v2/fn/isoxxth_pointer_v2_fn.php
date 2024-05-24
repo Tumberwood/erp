@@ -121,6 +121,10 @@
             var simpanFoto = {};
             for (var color in countByColor) {
                 if (countByColor.hasOwnProperty(color)) {
+                    canvas.forEachObject(function(object) {
+                        canvas.remove(object);
+                    });
+
                     //Enable Save ketika sudah ada warna
                     $('#saveBtn').prop('disabled', false);
 
@@ -139,6 +143,38 @@
                     filteredCircles.forEach(function(circle) {
                         canvas.add(circle);
                     });
+
+                    // Create the fabric.Text object
+                    var totalText = new fabric.Text(`Total Circles: ${countByColor[color]}`, {
+                        left: 10,
+                        top: 10,
+                        fill: color
+                    });
+
+                    // Measure text width and height
+                    var textWidth = totalText.width;
+                    var textHeight = totalText.height;
+
+                    // Create a black background rectangle
+                    var backgroundRect = new fabric.Rect({
+                        left: 5,
+                        top: 5,
+                        width: textWidth + 5, // Adjust width based on text width and padding
+                        height: textHeight + 5, // Adjust height based on text height and padding
+                        fill: 'black',
+                        opacity: 0.8, // Adjust opacity if needed
+                        rx: 5, // Rounded corners
+                        ry: 5 // Rounded corners
+                    });
+
+                    // Add the background rectangle behind the text
+                    canvas.add(backgroundRect);
+
+                    // Add the text on top of the background rectangle
+                    canvas.add(totalText);
+
+                    // Bring the text to the front
+                    totalText.bringToFront();
 
                     // Convert canvas to image
                     var canvasDataUrl = canvas.toDataURL({
