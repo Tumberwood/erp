@@ -146,7 +146,7 @@ buttons: [
             },
         ]  
     },
-    // Collection
+    // btnSetAction Collection
     {
         extend: 'collection',
         name: 'btnSetAction',
