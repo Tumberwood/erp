@@ -128,6 +128,10 @@
             var simpanFoto = {};
             for (var color in countByColor) {
                 if (countByColor.hasOwnProperty(color)) {
+                    canvas.forEachObject(function(object) {
+                        canvas.remove(object);
+                    });
+
                     //Enable Save ketika sudah ada warna
                     $('#saveBtn').prop('disabled', false);
 
@@ -146,6 +150,13 @@
                     filteredCircles.forEach(function(circle) {
                         canvas.add(circle);
                     });
+                    
+                    var totalText = new fabric.Text(`Total Circles: ${countByColor[color]}`, {
+                        left: 10,
+                        top: 10,
+                        fill: color
+                    });
+                    canvas.add(totalText);
 
                     // Convert canvas to image
                     var canvasDataUrl = canvas.toDataURL({
