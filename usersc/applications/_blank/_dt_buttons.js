@@ -953,4 +953,30 @@ buttons: [
         titleAttr: 'No Action Needed',
         action: function () {}
     },
+
+    // button print
+    {
+        text: '<i class="fa fa-print"></i>',
+        name: 'btnPrint',
+        className: 'btn btn-outline',
+        titleAttr: 'Print Quotation',
+        action: function ( e, dt, node, config ) {
+            e.preventDefault(); 
+            var url = $(this).attr('href'); 
+            window.open('print_penawaran.php?id_blank='+id_blank, '_blank');
+        }
+    },
+
+    // custom button
+    {
+        text: '<i class="fa fa-icon">Title</i>',	// icon atau pakai title
+        name: 'btnCustom',							// name, dipakai untuk disable enable button. lihat bagian table init, select dan deselect
+        className: 'btn btn-outline',				// css class button
+        titleAttr: '',								// tooltips
+        action: function ( e, dt, node, config ) {
+            e.preventDefault(); 
+            // action here
+            // bebas mau melakukan apa
+        }
+    },
 ]
