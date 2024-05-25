@@ -19,9 +19,9 @@
             ->query('select', 'htssctd')
             ->get([
                 'id',
-                'TIME(htssctd.tanggaljam_awal_istirahat) as jam_istirahat_awal',
-                'TIME(htssctd.tanggaljam_awal) as jam_awal',
-                'TIME(htssctd.tanggaljam_akhir) as jam_akhir'
+                'TIME(htssctd.tanggaljam_awal_istirahat) as jam_istirahat_awal', //jam_istirahat_awal diperlukan karena ada data jam_awal dan akhir yang sama
+                'TIME(htssctd.tanggaljam_awal) as jam_awal', //ambil jam_awalnya
+                'TIME(htssctd.tanggaljam_akhir) as jam_akhir' //ambil jam_akhir
             ])
             ->where('htssctd.transaction_state', 1)
             ->where('htssctd.id_hemxxmh', $_POST['id_hemxxmh'] )

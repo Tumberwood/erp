@@ -37,12 +37,12 @@
 
         $rs_htscctd = $qs_htscctd->fetch();
         
-        $keterangan = $rs_htscctd['kode'] ." - ". $rs_htscctd['keterangan'];
-        $jenis = $rs_htscctd['jenis'];
-        $jam_awal_pengganti = $rs_htscctd['jam_awal_pengganti'];
-        $jam_akhir_pengganti = $rs_htscctd['jam_akhir_pengganti'];
+        $keterangan = $rs_htscctd['kode'] ." - ". $rs_htscctd['keterangan']; //keterangan concat dari kode tukar jadwal/replacement dengan keterangan
+        $jenis = $rs_htscctd['jenis']; //jenis tukar jadwal/replacement
+        $jam_awal_pengganti = $rs_htscctd['jam_awal_pengganti']; //jam_awal pengganti
+        $jam_akhir_pengganti = $rs_htscctd['jam_akhir_pengganti'];//jam_akhir pengganti
 
-        $jam_awal_istirahat_pengaju = $rs_htscctd['jam_awal_istirahat_pengaju'];
+        $jam_awal_istirahat_pengaju = $rs_htscctd['jam_awal_istirahat_pengaju']; //Jam_awal istirahat diperlukan untuk select master jadwal, dikarenakan schedule senin-kamis dan schedule jumat itu sama jam_awal dan akhirnya, beda di jam istirahat saja
         $jam_awal_istirahat_pengganti = $rs_htscctd['jam_awal_istirahat_pengganti'];
 
         $jam_awal_pengaju = $rs_htscctd['jam_awal_pengaju'];
@@ -56,10 +56,10 @@
                 // BEGIN non aktif
                 $qu_htssctd_pengaju = $db
                     ->query('update', 'htssctd')
-                    ->set('transaction_state', -9)
-                    ->set('keterangan', $keterangan)
+                    ->set('transaction_state', -9) //dinonaktifkan jadwal lama
+                    ->set('keterangan', $keterangan) //berikan keterangan biar tau kalo ini dari tukar jadwal
                     ->where('tanggal', $rs_htscctd['tanggal'])
-                    ->where('id_hemxxmh', $rs_htscctd['id_hemxxmh_pengaju'])
+                    ->where('id_hemxxmh', $rs_htscctd['id_hemxxmh_pengaju']) //jadawl pengaju
                 ->exec();
     
                 $qu_htssctd_pengganti = $db
