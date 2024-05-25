@@ -627,6 +627,8 @@
 
 		edtljoprtd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtljoprtd.on( 'preSubmit', function (e, data, action) {
@@ -841,6 +843,8 @@
 
 		edtljodstd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtljodstd.on( 'preSubmit', function (e, data, action) {
