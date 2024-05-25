@@ -17,15 +17,20 @@
         // ambil variable dari ajax data
         $jenis = $_POST['jenis'];   // 1: start | 2: finish
         if($jenis == 1){
+            $jenis_process = 'Start';
 
             $q_ljoprtd = $db
                 ->query('insert', 'ljoprtd')
                 ->set('id_ljoxxth', $_POST['id_ljoxxth'])
                 ->set('id_lprxxmh', 3 )
-                ->set('tanggaljam_start',$_POST['tanggaljam'])
+                ->set('tanggaljam_start', $_POST['tanggaljam'])
                 ->exec();
-        }else if($jenis == 2){
+            
+            $id_ljoprtd = $q_ljoprtd->insertId();
 
+        }else if($jenis == 2){
+            $jenis_process = 'Finish';
+            $id_ljoprtd = $_POST['id_ljoprtd'];
             $qs_ljoprtd = $db
                 ->query('select', 'ljoprtd' )
                 ->get([
@@ -48,7 +53,20 @@
                 ->exec();
         }else{
 
-        }        
+        }  
+        
+         // INSERT log
+         $db->insert( 'activity_log_ml', array(
+            'id_transaksi' 	=> $id_ljoprtd,
+            'kode' 			=> 'EDIT',
+            'nama' 			=> 'ljoprtd',
+            'keterangan' 	=> 'UPDATE Process ' . $jenis_process,
+            'created_by'   	=> $s_id_users,
+            'username'   	=> $s_username,
+            'start_on'   	=> $_POST['tanggaljam'],
+            'finish_on'   	=> $_POST['tanggaljam'],
+            'durasi_detik'  => 0
+        ) );
         
         // check apakah query ada resultnya
         if(!empty($q_ljoprtd)){

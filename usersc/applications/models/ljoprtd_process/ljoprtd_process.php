@@ -101,14 +101,10 @@
 			Field::inst( 'lvtxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' )
 		)
-		// ->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth','=','ljoxxth.id' )
 		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth = ljoxxth.id AND ljoprtd.id_lprxxmh = 3','','' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
-		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
-		
-		// ->where( 'ljoxxth.id_lprxxmh_last', 1 )
-		;
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' );
 	
 	// do not erase
 	// function show / hide inactive document

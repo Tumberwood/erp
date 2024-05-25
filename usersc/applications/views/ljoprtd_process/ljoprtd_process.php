@@ -285,7 +285,17 @@
 					label: "Keterangan",
 					name: "ljoxxth.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "Start",
+					name: "ljoprtd.tanggaljam_start",
+					type: "readonly"
+				},
+				{
+					label: "Finish",
+					name: "ljoprtd.tanggaljam_finish",
+					type: "readonly"
+				},
 			]
 		} );
 		
@@ -541,8 +551,8 @@
 									type: 'POST',
 									async: false,
 									data: {
-										table_name	 : 'ljoxxth',
-										id_transaksi : id_transaksi_log,
+										table_name	 : 'ljoprtd',
+										id_transaksi : id_ljoprtd
 									},
 									success: function(json) {
 										str_log = '';
