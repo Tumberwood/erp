@@ -977,6 +977,25 @@ buttons: [
             e.preventDefault(); 
             // action here
             // bebas mau melakukan apa
+            
+            // jika perlu ajax
+            $.ajax( {
+                url: 'path_to_file_model.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    param: param
+                },
+                success: function ( json ) {
+                    full_message = '';
+                    status_code  = json.data.status_code;
+                    full_message = full_message + json.data.message + '</br>';
+                    toast_type   = json.data.type_message;
+
+                    toastr[toast_type](full_message, 'INFO');
+                    tbl_blank.ajax.reload(null, false);
+                }
+            } );
         }
     },
 ]
