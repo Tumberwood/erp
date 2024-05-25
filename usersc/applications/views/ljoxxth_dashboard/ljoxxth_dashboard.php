@@ -94,14 +94,17 @@
                                 <th rowspan="2">Vehicle Type</th>
                                 <th rowspan="2">Driver</th>
                                 <th rowspan="2">Load</th>
-                                <th colspan="4" class="text-center">Time</th>
+								<th rowspan="2">Booking</th>
+                                <th rowspan="2">Arrival</th>
+                                <th colspan="2" class="text-center">Process</th>
+                                <th rowspan="2">Clearance</th>
+                                <th rowspan="2">Done</th>
                             </tr>
 							<tr>
-                                <th>Booking</th>
-                                <th>Arrival</th>
-                                <th>Clearance</th>
-                                <th>Done</th>
+                                <th>Start</th>
+                                <th>Finish</th>
                             </tr>
+
                         </thead>
                     </table>
 				</div>
@@ -182,6 +185,8 @@
 				{ data: "berat_muatan" },
 				{ data: "waktu_booking" },
 				{ data: "waktu_arrival" },
+				{ data: "waktu_process_start" },
+				{ data: "waktu_process_finish" },
 				{ data: "waktu_clearance" },
 				{ data: "waktu_done" }
 			],
