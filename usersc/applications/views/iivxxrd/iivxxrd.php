@@ -107,7 +107,7 @@
         // END datepicker init
 
 		$(document).ready(function() {
-			end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
+			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
 			//start datatables
 			tbliivxxrd = $('#tbliivxxrd').DataTable( {
