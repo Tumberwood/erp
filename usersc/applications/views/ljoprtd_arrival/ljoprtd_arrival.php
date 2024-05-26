@@ -52,16 +52,16 @@
                         <thead>
                             <tr>
 								<th>ID</th>
-                                <th>ID</th>
+                                <th>id_ljoprtd</th>
                                 <th>Kode</th>
                                 <th>Tanggal</th>
                                 <th>Activity</th>
                                 <th>Expedition</th>
                                 <th>Vehicle Type</th>
-                                <th>Start</th>
-                                <th>Finish</th>
-                                <th>Duration</th>
-                                <th>TX</th>
+                                <th>Plate</th>
+                                <th>Driver</th>
+                                <th>Date Time</th>
+                                <th>Progress</th>
                             </tr>
                         </thead>
                     </table>
@@ -341,9 +341,8 @@
 		});
 		
 		edtljoxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblljoxxth.rows().deselect();
+			tblljoxxth.ajax.reload(null, false);
 		} );
 
 		edtljoxxth.on( 'close', function () {
@@ -364,7 +363,7 @@
 					d.end_date = end_date;
 				}
 			},
-			order: [[ 1, "desc" ]],
+			order: [[ 9, "asc" ],[2, "asc"]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -376,27 +375,24 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1,7,8,9,10]
-				}
+					targets: [0,1,7,8,9, 10]
+				},
+      			{ 
+					type: nullTop, targets: 9
+				},
 			],
 			columns: [
-				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoxxth.id",visible:false },
+				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoxxth.kode" },
 				{ data: "ljoxxth.tanggal" },
 				{ data: "lacxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "lvtxxmh.nama" },
+				{ data: "ljoxxth.plat_no" },
+				{ data: "ljoxxth.supir_nama" },
 				{ data: "ljoprtd.tanggaljam_start" },
-				{ data: "ljoprtd.tanggaljam_finish" },
-				{ 
-					data: "ljoprtd.durasi_detik" ,
-					...renderNumber(0)
-				},
-				{ 
-					data: "ljoprtd.transaction_state" ,
-					...renderTransactionStatus()
-				}
+				{ data: "lprxxmh.nama" }
 			],
 			buttons: [
 				// btnSetTools
