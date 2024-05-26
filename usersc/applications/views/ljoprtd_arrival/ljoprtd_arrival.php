@@ -98,7 +98,7 @@
 	var kategori_dokumen = '', kategori_dokumen_value = '';
 	// ------------- end of default variable
 
-	id_lacxxmh_old = 0, id_lvtxxmh_old = 0, id_grlxxmh_old = 0;
+	id_lprxxmh_last = 0, id_lacxxmh_old = 0, id_lvtxxmh_old = 0, id_grlxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('ljoxxth');
@@ -286,7 +286,7 @@
 					type: "textarea"
 				}
 			]
-		} );
+		});
 		
 		edtljoxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -302,7 +302,7 @@
 			edtljoxxth.field('ljoxxth.id_lvtxxmh').disable();
 			
 		});
-
+		
 		edtljoxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 
@@ -771,10 +771,11 @@
 		tblljoxxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('ljoxxth');
+			id_lprxxmh_last = ljoxxth_data.id_lprxxmh_last
+
 			id_grlxxmh_old    = ljoxxth_data.id_grlxxmh_expedition;
 			id_lacxxmh_old    = ljoxxth_data.id_lacxxmh;
 			id_lvtxxmh_old    = ljoxxth_data.id_lvtxxmh;
-
 			ljoprtd_data = tblljoxxth.row( { selected: true } ).data().ljoprtd;
 			id_ljoprtd = ljoprtd_data.id;
 			
@@ -782,11 +783,18 @@
 			is_master_table = 1;
 			CekSelectHeaderH(tblljoxxth);
 
+			if(id_lprxxmh_last > 2){
+				tblljoxxth.button( 'btnEdit:name' )
+					.nodes()
+					.css( 'display', 'none' );
+			}
+
 		} );
 		
 		tblljoxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('ljoxxth');
+			id_lprxxmh_last = 0;
 			id_grlxxmh_old = 0, id_lacxxmh_old = 0, id_lvtxxmh_old = 0;
 			id_ljoprtd = 0;
 
