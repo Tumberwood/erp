@@ -238,7 +238,7 @@
 				{ 
 					data: "plat_no" ,
 					render: function (data, type, row) {
-						persen_id_lprxxmh_last = Math.ceil(row.id_lprxxmh_last / 6 * 100);
+						persen_id_lprxxmh_last = Math.ceil(row.c_ljoprtd / 6 * 100);
 
 						if(persen_id_lprxxmh_last <=30){
 							progressClass = 'progress-bar-danger';
@@ -247,7 +247,7 @@
 						}else if(persen_id_lprxxmh_last <100){
 							progressClass = 'progress-bar-success';
 						}else{
-							progressClass = '';
+							progressClass = 'progress-bar';
 						}
 					
 						progressBar = '<div class="progress progress-mini '+progressClass+'" style="width: '+persen_id_lprxxmh_last+'%" role="progressbar" aria-valuenow="'+persen_id_lprxxmh_last+'" aria-valuemin="0" aria-valuemax="100"></div>';
