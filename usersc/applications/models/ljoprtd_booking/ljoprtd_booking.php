@@ -99,14 +99,14 @@
 
 			Field::inst( 'lacxxmh.nama' ),
 			Field::inst( 'lvtxxmh.nama' ),
+			Field::inst( 'lprxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' )
 		)
-		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth','=','ljoxxth.id' )
-		// ->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth = ljoxxth.id AND ljoprtd.id_lprxxmh = 1','','' )
+		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth = ljoxxth.id AND ljoprtd.id_lprxxmh = 1','','' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
+		->leftJoin( 'lprxxmh','lprxxmh.id','=','ljoxxth.id_lprxxmh_last' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
-		// ->where( 'ljoxxth.id_lprxxmh_last', 1 )
 		;
 	
 	// do not erase

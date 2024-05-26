@@ -14,7 +14,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 
@@ -53,15 +53,13 @@
                         <thead>
                             <tr>
 								<th>ID</th>
-                                <th>ID</th>
+                                <th>ID_LJOPRTD</th>
                                 <th>Kode</th>
                                 <th>Tanggal</th>
                                 <th>Activity</th>
                                 <th>Expedition</th>
                                 <th>Vehicle Type</th>
-                                <th>Start</th>
-                                <th>Finish</th>
-                                <th>Duration</th>
+                                <th>Progress</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -71,7 +69,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabljodstd"> Destination</a></li>
@@ -87,7 +85,6 @@
 										<th>id_ljoxxth</th>
 										<th>Urutan</th>
 										<th>Tujuan</th>
-										<th>Keterangan</th>
 									</tr>
 								</thead>
 							</table>
@@ -396,23 +393,18 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1,7,8,9,10]
+					targets: [0,1,7,8]
 				}
 			],
 			columns: [
-				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoxxth.id",visible:false },
+				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoxxth.kode" },
 				{ data: "ljoxxth.tanggal" },
 				{ data: "lacxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "lvtxxmh.nama" },
-				{ data: "ljoprtd.tanggaljam_start" },
-				{ data: "ljoprtd.tanggaljam_finish" },
-				{ 
-					data: "ljoprtd.durasi_detik" ,
-					...renderNumber(0)
-				},
+				{ data: "lprxxmh.nama" },
 				{ 
 					data: "ljoprtd.transaction_state" ,
 					...renderTransactionStatus()
@@ -756,57 +748,74 @@
 								}
 							]
 						},
-						// Remove
-						{
-							extend: 'remove', 
-							name: 'btnRemove',
-							editor: edtljoxxth, 
-							text: '<i class="fa fa-trash"></i>&nbsp;Delete(xH)',
+						// Remove HD
+						{ 
+							text: '<i class="fa fa-trash"></i>&nbsp;Delete (xHD)',
+							name: 'btnRemoveHD',
 							className: 'btn btn-sm text-danger',
 							titleAttr: 'Remove',
-							formButtons: [
-								{
-									text: 'Cancel',
-									action: function () {
-										this.close();
-									}
-								},
-								'Delete'
-							]
-						},
-						
-						// Close Transcation
-						{ 
-							text: '<i class="fa fa-window-close"></i>&nbsp;Close',
-							name: 'btnClose',
-							className: 'btn btn-sm text-warning',
-							titleAttr: 'Confirm',
 							action: function ( e, dt, node, config ) {
-
-								// jika draft akan dikonfirmasi
-								message_transaction_state = "Apakah Anda Yakin Akan Menutup Data?";
 								
-								is_close = confirm(message_transaction_state);
-								if(is_close == true){
+								message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
+								is_delete = confirm(message_is_delete);
+
+								if(is_delete == true){
+									full_message = '';
 
 									$.ajax( {
 										url: '../../../helpers/tr_fn_transaction_state.php',
 										dataType: 'json',
 										type: 'POST',
 										data: {
-											table_name	 : 'ljoxxth',
-											id_transaksi : id_transaksi_h,
-											transaction_state : 9
+											table_name	        : 'ljoxxth',
+											id_transaksi        : id_transaksi_h,
+											transaction_state   : -93
 										},
 										success: function ( json ) {
+
 											toast_type   = json.data.type_message;
-											full_message = json.data.message;
+											full_message = full_message + json.data.message + '</br>';
 											toastr[toast_type](full_message, 'INFO');
+											tblljoxxth.ajax.reload(null, false);
+											tblljoxxth.rows().deselect();
+
 										}
 									} );
+								}
 
-									tblljoxxth.ajax.reload(null, false);
+							}
+						},
+						// Non Aktif HD
+						{ 
+							text: '<i class="fa fa-trash"></i>&nbsp;Delete (HD)',
+							name: 'btnNonAktifHD',
+							className: 'btn btn-sm text-danger',
+							titleAttr: 'Remove',
+							action: function ( e, dt, node, config ) {
+								
+								message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
+								is_delete = confirm(message_is_delete);
 
+								if(is_delete == true){
+									$.ajax( {
+										url: '../../../helpers/tr_fn_transaction_state.php',
+										dataType: 'json',
+										type: 'POST',
+										data: {
+											table_name	        : 'ljoxxth',
+											id_transaksi        : id_transaksi_h,
+											transaction_state   : -92
+										},
+										success: function ( json ) {
+
+											toast_type   = json.data.type_message;
+											full_message = json.data.message;
+											toastr[toast_type](full_message, 'INFO');                        
+											tblljoxxth.ajax.reload(null, false);
+											tblljoxxth.rows().deselect();
+
+										}
+									} );
 								}
 
 							}
@@ -1134,8 +1143,7 @@
 				{ data: "ljodstd.id",visible:false },
 				{ data: "ljodstd.id_ljoxxth",visible:false },
 				{ data: "ljodstd.urutan" },
-				{ data: "grlxxmh.nama" },
-				{ data: "ljodstd.keterangan" }
+				{ data: "grlxxmh.nama" }
 			],
 			buttons: [
 				// btnSetTools
