@@ -19,14 +19,37 @@
         if($jenis == 1){
             $jenis_process = 'Start';
 
+            $qs_ljoprtd_arrival = $db
+                ->query('select', 'ljoprtd' )
+                ->get([
+                    'ljoprtd.tanggaljam_finish as tanggaljam_finish_arrival'
+                ] )
+                ->where('ljoprtd.id_ljoxxth', $_POST['id_ljoxxth'] )
+                ->where('ljoprtd.id_lprxxmh', 2 )
+                ->exec();
+            $rs_ljoprtd_arrival = $qs_ljoprtd_arrival->fetch();
+            $tanggaljam_finish_arrival = $rs_ljoprtd_arrival['tanggaljam_finish_arrival'];
+
+			$cb_tanggaljam_finish_arrival = Carbon::parse($tanggaljam_finish_arrival);
+			$cb_tanggaljam_start_process  = Carbon::parse($_POST['tanggaljam']);
+			$durasi_tunggu_detik          = $cb_tanggaljam_finish_arrival->diffInSeconds($cb_tanggaljam_start_process);
+
             $q_ljoprtd = $db
                 ->query('insert', 'ljoprtd')
                 ->set('id_ljoxxth', $_POST['id_ljoxxth'])
                 ->set('id_lprxxmh', 3 )
                 ->set('tanggaljam_start', $_POST['tanggaljam'])
+                ->set('durasi_tunggu_detik', $durasi_tunggu_detik)
                 ->exec();
             
             $id_ljoprtd = $q_ljoprtd->insertId();
+
+            // update ljoxxth.id_lprxxmh_last
+            $qu_ljoxxth = $db
+                ->query('update', 'ljoxxth')
+                ->set('id_lprxxmh_last', 3)
+                ->where('id', $_POST['id_ljoxxth'] )
+                ->exec();
 
         }else if($jenis == 2){
             $jenis_process = 'Finish';
@@ -56,7 +79,7 @@
         }  
         
          // INSERT log
-         $db->insert( 'activity_log_ml', array(
+        $qi_activity_log_ml = $db->insert( 'activity_log_ml', array(
             'id_transaksi' 	=> $id_ljoprtd,
             'kode' 			=> 'EDIT',
             'nama' 			=> 'ljoprtd',
@@ -69,7 +92,7 @@
         ) );
         
         // check apakah query ada resultnya
-        if(!empty($q_ljoprtd)){
+        if(!empty($q_ljoprtd) && !empty($qi_activity_log_ml) ){
             $db->commit();
             $status_code  = '200';
             $message      = 'Update Process Berhasil';

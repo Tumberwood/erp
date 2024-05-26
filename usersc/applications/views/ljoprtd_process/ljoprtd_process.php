@@ -52,16 +52,18 @@
                         <thead>
                             <tr>
 								<th>ID</th>
-                                <th>ID</th>
+                                <th>id_ljoprtd</th>
                                 <th>Kode</th>
                                 <th>Tanggal</th>
                                 <th>Activity</th>
                                 <th>Expedition</th>
                                 <th>Vehicle Type</th>
+								<th>Plate</th>
+                                <th>Driver</th>
+                                <th>Waiting Time</th>
                                 <th>Start</th>
                                 <th>Finish</th>
                                 <th>Duration</th>
-                                <th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -376,26 +378,45 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1,7,8,9,10]
+					targets: [0,1,7,8,9,10,11]
 				}
 			],
 			columns: [
-				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoxxth.id",visible:false },
+				{ data: "ljoprtd.id",visible:false },
 				{ data: "ljoxxth.kode" },
 				{ data: "ljoxxth.tanggal" },
 				{ data: "lacxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "lvtxxmh.nama" },
+				{ data: "ljoxxth.plat_no" },
+				{ data: "ljoxxth.supir_nama" },
+				{ 
+					data: "ljoprtd.durasi_tunggu_detik" ,
+					render: function (data){
+						if(data){
+							waktu_tunggu = moment.duration(data, 'seconds');
+							waktu_tunggu_humanize = waktu_tunggu.format("d [days], h [hrs], m [min], s [sec]");
+							return waktu_tunggu_humanize;
+						}else{
+							return '';
+						}
+					}
+
+				},
 				{ data: "ljoprtd.tanggaljam_start" },
 				{ data: "ljoprtd.tanggaljam_finish" },
 				{ 
 					data: "ljoprtd.durasi_detik" ,
-					...renderNumber(0)
-				},
-				{ 
-					data: "ljoprtd.transaction_state" ,
-					...renderTransactionStatus()
+					render: function (data){
+						if(data){
+							waktu_process = moment.duration(data, 'seconds');
+							waktu_process_humanize = waktu_process.format("d [days], h [hrs], m [min], s [sec]");
+							return waktu_process_humanize;
+						}else{
+							return '';
+						}
+					}
 				}
 			],
 			buttons: [

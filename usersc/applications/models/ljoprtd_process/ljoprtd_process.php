@@ -96,6 +96,7 @@
 					'to' =>   'd M Y H:i'
 				) ),
 			Field::inst( 'ljoprtd.durasi_detik' ),
+			Field::inst( 'ljoprtd.durasi_tunggu_detik' ),
 
 			Field::inst( 'lacxxmh.nama' ),
 			Field::inst( 'lvtxxmh.nama' ),
@@ -104,7 +105,12 @@
 		->leftJoin( 'ljoprtd','ljoprtd.id_ljoxxth = ljoxxth.id AND ljoprtd.id_lprxxmh = 3','','' )
 		->leftJoin( 'lacxxmh','lacxxmh.id','=','ljoxxth.id_lacxxmh' )
 		->leftJoin( 'lvtxxmh','lvtxxmh.id','=','ljoxxth.id_lvtxxmh' )
-		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' );
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
+		->where( function ( $r ) {
+			$r
+				->where( 'ljoxxth.id_lprxxmh_last', 2 )
+				->or_where( 'ljoxxth.id_lprxxmh_last', 3 );
+		} );
 	
 	// do not erase
 	// function show / hide inactive document
