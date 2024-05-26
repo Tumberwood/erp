@@ -999,7 +999,7 @@
 				{
 					label: "id_ljoxxth",
 					name: "ljodstd.id_ljoxxth",
-					// type: "hidden"
+					type: "hidden"
 				},	
 				{
 					label: "Tujuan",
