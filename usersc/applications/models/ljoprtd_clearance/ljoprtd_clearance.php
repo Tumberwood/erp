@@ -107,7 +107,7 @@
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','ljoxxth.id_grlxxmh_expedition' )
 		->where( function ( $r ) {
 			$r
-				->where( 'ljoxxth.id_lprxxmh_last', 3)
+				->where( 'ljoxxth.id_lprxxmh_last', 4)
 				->or_where( 'ljoxxth.id_lprxxmh_last', 5);
 		} );
 	
