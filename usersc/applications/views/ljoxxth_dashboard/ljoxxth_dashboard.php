@@ -13,7 +13,7 @@
 
 <!-- begin content here -->
 <div class="row">
-	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
 		<div class="widget style1">
 			<div class="row">
 				<div class="col-4">
@@ -29,7 +29,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
 		<div class="widget style1">
 			<div class="row">
 				<div class="col-4">
@@ -45,8 +45,64 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-		
+	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+		<div class="row">
+			<div class="col-lg-2">
+				<div class="ibox">
+					<div class="ibox-content bg-danger">
+						<h5 class="m-b-md">Booking</h5>
+						<h2 class="" id="c_booking"></h2>
+						<small></small>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="ibox">
+					<div class="ibox-content bg-warning">
+						<h5 class="m-b-md">Arrival</h5>
+						<h2 class="" id="c_arrival"></h2>
+						<small></small>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="ibox">
+					<div class="ibox-content bg-warning">
+						<h5 class="m-b-md">Process</h5>
+						<h2 class="" id="c_process"></h2>
+						<small></small>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="ibox">
+					<div class="ibox-content bg-warning">
+						<h5 class="m-b-md">Document</h5>
+						<h2 class="" id="c_document"></h2>
+						<small></small>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="ibox">
+					<div class="ibox-content bg-warning">
+						<h5 class="m-b-md">Clearance</h5>
+						<h2 class="" id="c_clearance"></h2>
+						<small></small>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="ibox">
+					<div class="ibox-content bg-primary">
+						<h5 class="m-b-md">Done</h5>
+						<h2 class="" id="c_done"></h2>
+						<small></small>
+					</div>
+				</div>
+			</div>
+
+		</div>
 	</div>
 </div>
 
@@ -97,6 +153,7 @@
 								<th rowspan="2">Booking</th>
                                 <th rowspan="2">Arrival</th>
                                 <th colspan="2" class="text-center">Process</th>
+                                <th rowspan="2">Document</th>
                                 <th rowspan="2">Clearance</th>
                                 <th rowspan="2">Done</th>
                             </tr>
@@ -166,29 +223,138 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,4]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: [0,5,6,7,8,9,10,11,12,13]
 				}
 			],
 			columns: [
 				{ data: "id",visible:false },
 				{ data: "tanggal" },
-				{ data: "plat_no" },
+				{ 
+					data: "plat_no" ,
+					render: function (data, type, row) {
+						persen_id_lprxxmh_last = Math.ceil(row.id_lprxxmh_last / 6 * 100);
+
+						if(persen_id_lprxxmh_last <=30){
+							progressClass = 'progress-bar-danger';
+						}else if(persen_id_lprxxmh_last <=60){
+							progressClass = 'progress-bar-warning';
+						}else if(persen_id_lprxxmh_last <100){
+							progressClass = 'progress-bar-success';
+						}else{
+							progressClass = '';
+						}
+					
+						progressBar = '<div class="progress progress-mini '+progressClass+'" style="width: '+persen_id_lprxxmh_last+'%" role="progressbar" aria-valuenow="'+persen_id_lprxxmh_last+'" aria-valuemin="0" aria-valuemax="100"></div>';
+						return data + '</br>' + progressBar;
+						
+					}
+				},
 				{ data: "grlxxmh_expedition_nama" },
 				{ data: "lvtxxmh_nama" },
 				{ data: "supir_nama" },
 				{ data: "berat_muatan" },
-				{ data: "waktu_booking" },
-				{ data: "waktu_arrival" },
-				{ data: "waktu_process_start" },
-				{ data: "waktu_process_finish" },
-				{ data: "waktu_clearance" },
-				{ data: "waktu_done" }
+				{ 
+					data: "waktu_booking" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+
+				},
+				{ 
+					data: "waktu_arrival" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+
+				},
+				{ 
+					data: "waktu_process_start" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+
+				},
+				{ 
+					data: "waktu_process_finish" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+
+				},
+				{ 
+					data: "waktu_document" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+
+				},
+				{ 
+					data: "waktu_clearance" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+				},
+				{ 
+					data: "waktu_done" ,
+					render: function (data){
+						if(data){
+							dateTime = moment(data, 'DD MMM YYYY HH:mm');
+							dateOnly = dateTime.format('DD MMM YYYY');
+							timeOnly = dateTime.format('HH:mm');
+							return dateOnly + '</br> ' + timeOnly;
+						}else{
+							return '';
+						}
+					}
+				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -210,6 +376,9 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
+				
+
+
 				// if ( data.ljoxxth.transaction_state == -9 ) {
 				// 	$('td', row).addClass('text-danger');
 				// }else if ( data.ljoxxth.transaction_state == 0 ) {
