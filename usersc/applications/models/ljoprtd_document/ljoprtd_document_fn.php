@@ -51,13 +51,13 @@
         if(!empty($qi_ljoprtd) && !empty($qu_ljoxxth) && !empty($qi_activity_log_ml) ){
             $db->commit();
             $status_code  = '200';
-            $message      = 'Update Clearance Berhasil';
+            $message      = 'Update Document Berhasil';
             $type_message = 'success';
             // parameter lain
         }else{
             $db->rollback();
             $status_code  = '500';
-            $message      = 'Update Clearance Gagal';
+            $message      = 'Update Document Gagal';
             $type_message = 'error';
             // parameter lain
         }
@@ -65,12 +65,12 @@
     }catch(PDOException $e){
         $db->rollback();
         $status_code  = '500';
-        $message      = 'Update Clearance Gagal! ' . $e->getMessage();
+        $message      = 'Update Document Gagal! ' . $e->getMessage();
         $type_message = 'error';
     }catch (Exception $e) {
         $db->rollback();
         $status_code = 500;
-        $message = 'Update Clearance Gagal!, ' . $e->getMessage();
+        $message = 'Update Document Gagal!, ' . $e->getMessage();
         $type_message = 'error';
     }
     // build response
