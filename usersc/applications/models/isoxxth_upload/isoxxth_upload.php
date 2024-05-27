@@ -267,9 +267,8 @@
 									a.batch_number,
 									a.expired_date
 								FROM isoittd_upload a
-								LEFT JOIN isoittd_upload_fisik b ON b.id_isoittd_upload = a.id
 								LEFT JOIN isoxxth_upload  c ON c.id = a.id_isoxxth_upload
-								WHERE (b.fisik >= 0 OR a.is_skip = 1) AND b.transaction_state <> -9 AND a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
+								WHERE (a.fisik >= 0 OR a.is_skip = 1) AND a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
 								AND a.kode = :kode_item AND a.lpn = :lpn AND ifnull(a.batch_number, "") = :batch_number 
 								AND a.expired_date = :expired_date AND a.lokasi = :lokasi
 								GROUP BY a.id
