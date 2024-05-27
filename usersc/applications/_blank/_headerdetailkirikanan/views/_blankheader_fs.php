@@ -1448,7 +1448,7 @@
 			// atur hak akses
 			cek_c_detail= 1;
 			CekDrawDetailHD(tbl_blankdetail, 1 );
-			CekDrawDetailHDFinal(tbl_blankdetail);
+			CekDrawDetailHDFinal(tbl_blankheader);
 		} );
 
 		tbl_blankdetail.on( 'select', function( e, dt, type, indexes ) {
@@ -1464,7 +1464,7 @@
 			siVarReset('_blankdetail');
 			
 			// atur hak akses
-			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );
+			CekDeselectDetailHD( tbl_blankdetail );
 		} );
 		// END _blankdetail
 
