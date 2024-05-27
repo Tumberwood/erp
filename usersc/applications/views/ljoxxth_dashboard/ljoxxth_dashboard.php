@@ -408,13 +408,6 @@
 			},
 			rowCallback: function( row, data, index ) {
 				
-
-
-				// if ( data.ljoxxth.transaction_state == -9 ) {
-				// 	$('td', row).addClass('text-danger');
-				// }else if ( data.ljoxxth.transaction_state == 0 ) {
-				// 	$('td', row).addClass('text-warning');
-				// }
 			}
 		} );
 
@@ -427,21 +420,14 @@
 		} );
 		
 		tblljoxxth.on( 'select', function( e, dt, type, indexes ) {
-			ljoxxth_data    	= tblljoxxth.row( { selected: true } ).data().ljoxxth;
-			id_ljoxxth      	= ljoxxth_data.id;
-			id_transaksi_h 		= id_ljoxxth; // dipakai untuk general
-			id_transaksi_log	= id_ljoxxth; // dipakai untuk general
-			transaction_state   = ljoxxth_data.transaction_state;
-			approval_state   	= ljoxxth_data.approval_state;
-			is_nextprocess 		= ljoxxth_data.is_nextprocess;
+			siVarSet('ljoxxth');
 
 			// atur hak akses
 			CekSelectHeaderH(tblljoxxth);
 		} );
 
 		tblljoxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_ljoxxth = 0;
+			siVarReset('ljoxxth');
 
 			// atur hak akses
 			CekDeselectHeaderH(tblljoxxth);
