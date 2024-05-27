@@ -130,6 +130,12 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Auto Reload</label>
+										<div class="col-lg-5">
+											<input id="isAutoReload" type="checkbox" class="js-switch"/>
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -198,11 +204,36 @@
 	tableRelation('ljoxxth');
 
 	$(document).ready(function() {
+
+		$("#isAutoReload").change(function(){
+			if ($(this).prop("checked")) {
+				is_auto_reload = true;
+				$.ajax({
+					url: "../../models/isoxxth_upload/reload_interval_ms.php",
+					dataType: 'json',
+					type: 'POST',
+					success: function (json) {
+						var reload_interval_ms = json.data.reload_interval_ms;
+						setInterval(function () {
+							load_dashboard_logistic();							
+							tblljoxxth.ajax.reload(null, false);
+							console.log('reloaded');
+						}, reload_interval_ms);
+					}
+				});				
+			} else {
+				is_auto_reload = false;
+			}
+
+			console.log(is_auto_reload);
+		});
+
+		
 		
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');	
 
-		laod_dashboard_logistic();
+		load_dashboard_logistic();
 
 		tblljoxxth = $('#tblljoxxth').DataTable( {
 			dom: domPQ,
@@ -366,7 +397,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 					$arr_buttons_action 	= [];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -426,7 +457,7 @@
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 
-				laod_dashboard_logistic();
+				load_dashboard_logistic();
 				tblljoxxth.rows().deselect();
 				tblljoxxth.ajax.reload(function ( json ) {
 				toastr.remove();
