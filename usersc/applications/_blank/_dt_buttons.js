@@ -953,4 +953,49 @@ buttons: [
         titleAttr: 'No Action Needed',
         action: function () {}
     },
+
+    // button print
+    {
+        text: '<i class="fa fa-print"></i>',
+        name: 'btnPrint',
+        className: 'btn btn-outline',
+        titleAttr: 'Print Quotation',
+        action: function ( e, dt, node, config ) {
+            e.preventDefault(); 
+            var url = $(this).attr('href'); 
+            window.open('print_penawaran.php?id_blank='+id_blank, '_blank');
+        }
+    },
+
+    // custom button
+    {
+        text: '<i class="fa fa-icon">Title</i>',	// icon atau pakai title
+        name: 'btnCustom',							// name, dipakai untuk disable enable button. lihat bagian table init, select dan deselect
+        className: 'btn btn-outline',				// css class button
+        titleAttr: '',								// tooltips
+        action: function ( e, dt, node, config ) {
+            e.preventDefault(); 
+            // action here
+            // bebas mau melakukan apa
+            
+            // jika perlu ajax
+            $.ajax( {
+                url: 'path_to_file_model.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    param: param
+                },
+                success: function ( json ) {
+                    full_message = '';
+                    status_code  = json.data.status_code;
+                    full_message = full_message + json.data.message + '</br>';
+                    toast_type   = json.data.type_message;
+
+                    toastr[toast_type](full_message, 'INFO');
+                    tbl_blank.ajax.reload(null, false);
+                }
+            } );
+        }
+    },
 ]

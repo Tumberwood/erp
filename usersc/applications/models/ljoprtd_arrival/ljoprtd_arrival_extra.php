@@ -15,7 +15,7 @@
 			// script diletakkan disini
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
-			// INSERT ljoprtd jika belum ada
+			// BEGIN cek apakah sudah ada ljoprtd Arrival
 			$qs_ljoprtd = $editor->db()
 				->query('select', 'ljoprtd' )
 				->get([
@@ -26,18 +26,19 @@
 				->exec();
 			$rs_ljoprtd = $qs_ljoprtd->fetch();
 			$c_id_ljoprtd = $rs_ljoprtd['c_id_ljoprtd'];
+			// END cek apakah sudah ada ljoprtd Arrival
 
 			if($c_id_ljoprtd == 0){
-				// belum ada arrival, harus insert
-				$cb_start_at = Carbon::parse($values['ljoprtd']['start_at']);
-				$cb_finish_at = Carbon::parse($values['ljoprtd']['finish_at']);
+				// Jika belum ada arrival, harus insert
+				$cb_start_at = Carbon::parse($values['ljoxxth']['start_at']);
+				$cb_finish_at = Carbon::parse($values['ljoxxth']['finish_at']);
 				$durasi_detik = $cb_start_at->diffInSeconds($cb_finish_at);
 
 				$qi_ljoprtd = $editor->db()
 					->raw()
 					->bind(':id_ljoxxth', $id)
-					->bind(':tanggaljam_start', $values['ljoprtd']['start_at'])
-					->bind(':tanggaljam_finish', $values['ljoprtd']['finish_at'])
+					->bind(':tanggaljam_start', $values['ljoxxth']['start_at'])
+					->bind(':tanggaljam_finish', $values['ljoxxth']['finish_at'])
 					->bind(':durasi_detik', $durasi_detik)
 					->exec('
 						INSERT INTO

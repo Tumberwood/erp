@@ -54,6 +54,9 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="lvtxxmh.tinggi"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.insentif"></editor-field>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -66,7 +69,7 @@
                                 <th>Nama</th>
                                 <th>Berat Max</th>
                                 <th>Dimensi Max</th>
-                                <th>Keterangan</th>
+                                <th>Insentif</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -173,6 +176,10 @@
 					name: "lvtxxmh.tinggi"
 				},
 				{
+					label: "Insentif (Rp)",
+					name: "lvtxxmh.insentif"
+				},
+				{
 					label: "Keterangan",
 					name: "lvtxxmh.keterangan",
 					type: "textarea"
@@ -216,6 +223,7 @@
 				panjang          = edtlvtxxmh.field('lvtxxmh.panjang').val();
 				lebar            = edtlvtxxmh.field('lvtxxmh.lebar').val();
 				tinggi           = edtlvtxxmh.field('lvtxxmh.tinggi').val();
+				insentif         = edtlvtxxmh.field('lvtxxmh.insentif').val();
 
 				validasiRequired(
 					edtlvtxxmh,
@@ -254,7 +262,8 @@
 						'dimensi_maksimal': dimensi_maksimal,
 						'panjang': panjang,
 						'lebar': lebar,
-						'tinggi': tinggi
+						'tinggi': tinggi,
+						'insentif': insentif
 					},
 					0,
 					'>='
@@ -299,7 +308,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: [0,4,5,6]
 				}
 			],
 			columns: [
@@ -314,7 +323,10 @@
 					data: "lvtxxmh.dimensi_maksimal" ,
 					...renderNumber(2)
 				},
-				{ data: "lvtxxmh.keterangan" },
+				{ 
+					data: "lvtxxmh.insentif" ,
+					...renderNumber(2)
+				},
 				{ 
 					data: "lvtxxmh.transaction_state" ,
 					...renderTransactionStatus()

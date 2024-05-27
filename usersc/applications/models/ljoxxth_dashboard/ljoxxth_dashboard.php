@@ -30,6 +30,7 @@
 			->exec('
 				SELECT	
 					a.id as id,
+					a.id_lprxxmh_last as id_lprxxmh_last,
 					date_format(a.tanggal,"%d %b %Y") as tanggal,
 					a.plat_no,
 					c.nama AS grlxxmh_expedition_nama,
@@ -38,15 +39,28 @@
 					a.berat_muatan,
 					date_format(ljoprtd_booking.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_booking,
 					date_format(ljoprtd_arrival.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_arrival,
+					date_format(ljoprtd_process.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_process_start,
+					date_format(ljoprtd_process.tanggaljam_finish,"%d %b %Y %H:%i:%s") AS waktu_process_finish,
+					date_format(ljoprtd_document.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_document,
 					date_format(ljoprtd_clearance.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_clearance,
-					date_format(ljoprtd_done.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_done
+					date_format(ljoprtd_done.tanggaljam_start,"%d %b %Y %H:%i:%s") AS waktu_done,
+					ljoprtd_count.c_id as c_ljoprtd
 				FROM ljoxxth a
 				LEFT JOIN lvtxxmh b ON b.id = a.id_lvtxxmh
 				LEFT JOIN grlxxmh c ON c.id = a.id_grlxxmh_expedition
 				LEFT JOIN ljoprtd as ljoprtd_booking ON ljoprtd_booking.id_ljoxxth = a.id AND ljoprtd_booking.id_lprxxmh = 1
 				LEFT JOIN ljoprtd as ljoprtd_arrival ON ljoprtd_arrival.id_ljoxxth = a.id AND ljoprtd_arrival.id_lprxxmh = 2
+				LEFT JOIN ljoprtd as ljoprtd_process ON ljoprtd_process.id_ljoxxth = a.id AND ljoprtd_process.id_lprxxmh = 3
+				LEFT JOIN ljoprtd as ljoprtd_document ON ljoprtd_document.id_ljoxxth = a.id AND ljoprtd_document.id_lprxxmh = 4
 				LEFT JOIN ljoprtd as ljoprtd_clearance ON ljoprtd_clearance.id_ljoxxth = a.id AND ljoprtd_clearance.id_lprxxmh = 5
 				LEFT JOIN ljoprtd as ljoprtd_done ON ljoprtd_done.id_ljoxxth = a.id AND ljoprtd_done.id_lprxxmh = 8
+				LEFT JOIN (
+					SELECT
+						id_ljoxxth,
+						COUNT(id) as c_id
+					FROM ljoprtd
+					GROUP BY id_ljoxxth
+				) ljoprtd_count ON ljoprtd_count.id_ljoxxth = a.id
 				WHERE 1
 					AND tanggal BETWEEN :start_date AND :end_date
 			');

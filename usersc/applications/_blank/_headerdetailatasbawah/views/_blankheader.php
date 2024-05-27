@@ -124,7 +124,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
@@ -203,6 +203,7 @@
 
 		edt_blankheader.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edt_blankheader.on( 'preSubmit', function (e, data, action) {
@@ -428,6 +429,7 @@
 
 		edt_blankdetail.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edt_blankdetail.on( 'preSubmit', function (e, data, action) {
@@ -516,25 +518,24 @@
 
 		tbl_blankdetail.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tbl_blankheader, tbl_blankdetail, '_blankdetail' );
+			CekDrawDetailHD(tbl_blankdetail, 1 );
 			CekDrawDetailHDFinal(tbl_blankheader);
 		} );
 
 		tbl_blankdetail.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
-			siVarSet('_blankdetail');
+			siVarSetD('_blankdetail');
 			
 			// atur hak akses
-			CekSelectDetailHD(tbl_blankheader, tbl_blankdetail );
+			CekSelectDetailHD( tbl_blankdetail );
 		} );
 
 		tbl_blankdetail.on( 'deselect', function() {
 			// reset variable standar framework
-			siVarReset('_blankdetail');
+			siVarResetD('_blankdetail');
 			
 			// atur hak akses
-			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );
+			CekDeselectDetailHD( tbl_blankdetail );
 		} );
 		// END _blankdetail
 

@@ -127,7 +127,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/_blankheader/fn/_blankheader_fn.php'; ?>
 
@@ -138,6 +138,8 @@
 	var edt_blankheader, tbl_blankheader, show_deleted__blankheader = 0, id__blankheader;
 	var edt_blankdetail, tbl_blankdetail, show_deleted__blankdetail = 0, id__blankdetail;
 	// ------------- end of default variable
+
+	id_lacxxmh_old = 0, id_lvtxxmh_old = 0, id_grlxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('_blankheader');
@@ -208,6 +210,9 @@
 
 		edt_blankheader.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edt_blankheader.on( 'preSubmit', function (e, data, action) {
@@ -862,7 +867,7 @@
 						{
 							extend: 'remove', 
 							name: 'btnRemove',
-							editor: edt_blank, 
+							editor: edt_blankheader, 
 							text: '<i class="fa fa-trash"></i>&nbsp;Delete(xH)',
 							className: 'btn btn-sm text-danger',
 							titleAttr: 'Remove',
@@ -920,7 +925,7 @@
 							className: 'btn btn-sm',
 							titleAttr: 'View Data',
 							action: function(e, dt, node, config) {
-								edt_blank.edit(tbl_blank.row({
+								edt_blankheader.edit(tbl_blank.row({
 									selected: true
 								}).index(), {
 									title: 'View'
@@ -933,7 +938,7 @@
 										className: 'btn btn-warning'
 									}
 								);
-								edt_blank.disable();
+								edt_blankheader.disable();
 								e.preventDefault();
 							}
 						},
@@ -1281,273 +1286,8 @@
 										this.submit();
 									},
 									className: 'btn btn-primary m-r-xs'
-								},
-								{
-									text: 'Save & Confirm',
-									action: function (e, dt, node, config, cb){
-										this.submit(
-											function (json) {
-												new_id = json.data[0]._blankdetail.id;
-												full_message = '';
-												$.ajax( {
-													url: '../../../helpers/tr_fn_transaction_state.php',
-													dataType: 'json',
-													type: 'POST',
-													data: {
-														table_name       : '_blankdetail',
-														id_transaksi     : new_id,
-														transaction_state: 1
-													},
-													success: function ( json ) {
-														status_code  = json.data.status_code;
-														full_message = full_message + json.data.message + '</br>';
-														toast_type   = json.data.type_message;
-
-														if(status_code == 200){
-
-															if(is_need_generate_kode == 1){
-																$.ajax( {
-																	url: '../../../helpers/kode_fn_generate_confirm.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state                   : 1,
-																		nama_tabel              : _blankdetail,
-																		kategori_dokumen        : kategori_dokumen,
-																		kategori_dokumen_value  : kategori_dokumen_value,
-																		id_transaksi            : new_id
-																	},
-																	success: function ( json ) {
-																		toast_type   = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-
-															}
-
-															if(is_need_approval == 1){
-																// insert gaplgtd
-																$.ajax( {
-																	url: 'xxx.php',
-																	url: '../../../helpers/tr_fn_transaction_state_approval.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	//async: false,
-																	data: {
-																		state       : 1,
-																		id_transaksi: new_id,
-																		table_name  : '_blankdetail',
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															}
-
-															if(is_need_inventory == 1){
-																$.ajax( {
-																	url: '../../models/_blankdetail/_blankdetail_iv.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	//async: false,
-																	data: {
-																		state           : 1,
-																		id_transaksi_h  : new_id,
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															}
-
-															if(is_need_jurnal == 1){
-																$.ajax( {
-																	url: '../../models/_blankdetail/_blankdetail_jv.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state           : 1,
-																		id_transaksi_h  : new_id,
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															}
-
-															// BEGIN jika perlu post_confirm
-																$.ajax( {
-																	url: '../../models/_blankdetail/_blankdetail_post_confirm.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state           : 1,
-																		id_transaksi  : new_id
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	},
-																	error: function(xhr, status, error) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															// END jika perlu post_confirm
-														}else{
-															console.log('no');
-														}
-														toastr[toast_type](full_message, 'INFO');
-														tbl_blankdetail.ajax.reload(null, false);
-													}
-												} );  
-											}, 
-										);
-									},
-									className: 'btn btn-primary'
 								}
 							]
-						},
-						// Confirm
-						{ 
-							text: '<i class="fa fa-save"></i>&nbsp;Confirm',
-							name: 'btnConfirm',
-							className: 'btn btn-sm',
-							titleAttr: 'Confirm',
-							action: function ( e, dt, node, config ) {
-								// jika draft akan dikonfirmasi
-								message_transaction_state = "Apakah Anda Yakin Akan Konfimasi Data?";
-								is_confirmed = confirm(message_transaction_state);
-								if(is_confirmed == true){
-									full_message = '';
-									$.ajax( {
-										url: '../../../helpers/tr_fn_transaction_state.php',
-										dataType: 'json',
-										type: 'POST',
-										data: {
-											table_name       : '_blankdetail',
-											id_transaksi     : id_transaksi_h,
-											transaction_state: 1
-										},
-										success: function ( json ) {
-											status_code  = json.data.status_code;
-											full_message = full_message + json.data.message + '</br>';
-											toast_type   = json.data.type_message;
-
-											if(status_code == 200){
-
-												if(is_need_generate_kode == 1){
-													$.ajax( {
-														url: '../../../helpers/kode_fn_generate_confirm.php',
-														dataType: 'json',
-														type: 'POST',
-														async: false,
-														data: {
-															state                   : 1,
-															nama_tabel              : _blankdetail,
-															kategori_dokumen        : kategori_dokumen,
-															kategori_dokumen_value  : kategori_dokumen_value,
-															id_transaksi            : id_transaksi_h
-														},
-														success: function ( json ) {
-															toast_type   = json.data.type_message;
-															full_message = full_message + json.data.message + '</br>';
-														}
-													} );
-
-												}
-
-												if(is_need_approval == 1){
-													// insert gaplgtd
-													$.ajax( {
-														url: '../../../helpers/tr_fn_transaction_state_approval.php',
-														dataType: 'json',
-														type: 'POST',
-														//async: false,
-														data: {
-															state       : 1,
-															id_transaksi: id_transaksi_h,
-															table_name  : '_blankdetail',
-														},
-														success: function ( json ) {
-															toast_type = json.data.type_message;
-															full_message = full_message + json.data.message + '</br>';
-														}
-													} );
-												}
-
-												if(is_need_inventory == 1){
-													$.ajax( {
-														url: '../../models/_blankdetail/_blankdetail_iv.php',
-														dataType: 'json',
-														type: 'POST',
-														//async: false,
-														data: {
-															state           : 1,
-															id_transaksi_h  : id_transaksi_h,
-														},
-														success: function ( json ) {
-															toast_type = json.data.type_message;
-															full_message = full_message + json.data.message + '</br>';
-														}
-													} );
-												}
-
-												if(is_need_jurnal == 1){
-													$.ajax( {
-														url: '../../models/_blankdetail/_blankdetail_jv.php',
-														dataType: 'json',
-														type: 'POST',
-														async: false,
-														data: {
-															state           : 1,
-															id_transaksi_h  : id_transaksi_h,
-														},
-														success: function ( json ) {
-															toast_type = json.data.type_message;
-															full_message = full_message + json.data.message + '</br>';
-														}
-													} );
-												}
-
-												// BEGIN jika perlu post_confirm
-													$.ajax( {
-														url: '../../models/_blankdetail/_blankdetail_post_confirm.php',
-														dataType: 'json',
-														type: 'POST',
-														async: false,
-														data: {
-															state           : 1,
-															id_transaksi  : id_transaksi_h
-														},
-														success: function ( json ) {
-															toast_type = json.data.type_message;
-															full_message = full_message + json.data.message + '</br>';
-														},
-														error: function(xhr, status, error) {
-															toast_type = json.data.type_message;
-															full_message = full_message + json.data.message + '</br>';
-														}
-													} );
-												// END jika perlu post_confirm
-											}else{
-												console.log('no');
-											}
-											toastr[toast_type](full_message, 'INFO');
-											tbl_blankdetail.ajax.reload(null, false);
-										}
-
-									} );                                    
-
-								}
-
-							}
 						},
 						// Edit
 						{ 
@@ -1571,137 +1311,6 @@
 										this.submit();
 									},
 									className: 'btn btn-primary m-r-xs'
-								},
-								{
-									text: 'Save & Confirm',
-									action: function (e, dt, node, config, cb){
-										this.submit(
-											function (json) {
-												new_id = json.data[0]._blankdetail.id;
-												full_message = '';
-												$.ajax( {
-													url: '../../../helpers/tr_fn_transaction_state.php',
-													dataType: 'json',
-													type: 'POST',
-													data: {
-														table_name       : '_blankdetail',
-														id_transaksi     : new_id,
-														transaction_state: 1
-													},
-													success: function ( json ) {
-														status_code  = json.data.status_code;
-														full_message = full_message + json.data.message + '</br>';
-														toast_type   = json.data.type_message;
-
-														if(status_code == 200){
-															if(is_need_generate_kode == 1){
-																$.ajax( {
-																	url: '../../../helpers/kode_fn_generate_confirm.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state                   : 1,
-																		nama_tabel              : _blankdetail,
-																		kategori_dokumen        : kategori_dokumen,
-																		kategori_dokumen_value  : kategori_dokumen_value,
-																		id_transaksi            : new_id
-																	},
-																	success: function ( json ) {
-																		toast_type   = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-
-															}
-
-															if(is_need_approval == 1){
-																// insert gaplgtd
-																$.ajax( {
-																	url: '../../../helpers/tr_fn_transaction_state_approval.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	//async: false,
-																	data: {
-																		state       : 1,
-																		id_transaksi: new_id,
-																		table_name  : '_blankdetail',
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															}
-
-															if(is_need_inventory == 1){
-																$.ajax( {
-																	url: '../../models/_blankdetail/_blankdetail_iv.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	//async: false,
-																	data: {
-																		state           : 1,
-																		id_transaksi_h  : new_id,
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															}
-
-															if(is_need_jurnal == 1){
-																$.ajax( {
-																	url: '../../models/_blankdetail/_blankdetail_jv.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state           : 1,
-																		id_transaksi_h  : new_id,
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															}
-															// BEGIN jika perlu post confirm
-																$.ajax( {
-																	url: '../../models/_blankdetail/_blankdetail_post_confirm.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state           : 1,
-																		id_transaksi  : new_id
-																	},
-																	success: function ( json ) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	},
-																	error: function(xhr, status, error) {
-																		toast_type = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-															// END jika perlu post confirm
-														}else{
-															console.log('no');
-														}
-														toastr[toast_type](full_message, 'INFO');
-														tbl_blankdetail.ajax.reload(null, false);
-													}
-
-												} );  
-											}, 
-										);
-										
-										
-
-									},
-									className: 'btn btn-primary'
 								}
 							]
 						},
@@ -1709,7 +1318,7 @@
 						{
 							extend: 'remove', 
 							name: 'btnRemove',
-							editor: edt_blank, 
+							editor: edt_blankdetail, 
 							text: '<i class="fa fa-trash"></i>&nbsp;Delete(xH)',
 							className: 'btn btn-sm text-danger',
 							titleAttr: 'Remove',
@@ -1731,7 +1340,7 @@
 							className: 'btn btn-sm',
 							titleAttr: 'View Data',
 							action: function(e, dt, node, config) {
-								edt_blank.edit(tbl_blank.row({
+								edt_blankdetail.edit(tbl_blank.row({
 									selected: true
 								}).index(), {
 									title: 'View'
@@ -1744,7 +1353,7 @@
 										className: 'btn btn-warning'
 									}
 								);
-								edt_blank.disable();
+								edt_blankdetail.disable();
 								e.preventDefault();
 							}
 						},
@@ -1838,7 +1447,7 @@
 		tbl_blankdetail.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tbl_blankheader, tbl_blankdetail, '_blankdetail' );
+			CekDrawDetailHD(tbl_blankdetail, 1 );
 			CekDrawDetailHDFinal(tbl_blankheader);
 		} );
 
@@ -1847,7 +1456,7 @@
 			siVarSet('_blankdetail');
 			
 			// atur hak akses
-			CekSelectDetailHD(tbl_blankheader, tbl_blankdetail );
+			CekSelectDetailHD( tbl_blankdetail );
 		} );
 
 		tbl_blankdetail.on( 'deselect', function() {
@@ -1855,7 +1464,7 @@
 			siVarReset('_blankdetail');
 			
 			// atur hak akses
-			CekDeselectDetailHD(tbl_blankheader, tbl_blankdetail );
+			CekDeselectDetailHD( tbl_blankdetail );
 		} );
 		// END _blankdetail
 

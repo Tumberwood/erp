@@ -50,10 +50,29 @@
 			');
 
 		$rs_ljoxxth = $qs_ljoxxth->fetchAll();
+
+		$qs_ljoxxth_lprxxmh = $db
+			->raw()
+			->bind(':start_date', $start_date)
+			->bind(':end_date', $end_date)
+			->exec('
+				SELECT
+					ifnull(SUM(if(ljoxxth.id_lprxxmh_last = 1,1,0)),0) AS c_booking,
+					ifnull(SUM(if(ljoxxth.id_lprxxmh_last = 2,1,0)),0) AS c_arrival,
+					ifnull(SUM(if(ljoxxth.id_lprxxmh_last = 3,1,0)),0) AS c_process,
+					ifnull(SUM(if(ljoxxth.id_lprxxmh_last = 4,1,0)),0) AS c_document,
+					ifnull(SUM(if(ljoxxth.id_lprxxmh_last = 5,1,0)),0) AS c_clearance,
+					ifnull(SUM(if(ljoxxth.id_lprxxmh_last = 8,1,0)),0) AS c_done
+				FROM ljoxxth
+				WHERE 1
+					AND ljoxxth.tanggal BETWEEN :start_date AND :end_date
+			');
+		$rs_ljoxxth_lprxxmh = $qs_ljoxxth_lprxxmh->fetchAll();
 		
 		$data = array(
             "status_code" => 200,
-            "rs_ljoxxth" => $rs_ljoxxth
+            "rs_ljoxxth" => $rs_ljoxxth,
+            "rs_ljoxxth_lprxxmh" => $rs_ljoxxth_lprxxmh,
         );
 
     // tampilkan results

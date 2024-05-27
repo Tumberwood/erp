@@ -235,6 +235,8 @@
 	var today_sub_m_dmy		= moment().subtract(1, 'months').format('DD MMM YYYY');
 	var today_add_m_dmy		= moment().add(1, 'months').format('DD MMM YYYY');
 
+	var tanggaljam_hariini_dmy = moment().format("DD MMM YYYY HH:mm:ss");
+
 	// format database YYYY-MM-DD, dipakai di untuk model
 	var tanggal_hariini_ymd = moment().format('YYYY-MM-DD');
 	var awal_bulan_ymd 		= moment().startOf('month').format('YYYY-MM-DD');
@@ -243,6 +245,8 @@
 	var akhir_tahun_ymd 	= moment().endOf('month').format('YYYY-MM-DD');
 	var today_sub_m_ymd		= moment().subtract(1, 'months').format('YYYY-MM-DD');
 	var today_add_m_ymd		= moment().add(1, 'months').format('YYYY-MM-DD');
+
+	var tanggaljam_hariini_ymd = moment().format("YYYY-MM-DD HH:mm:ss");
 	// END variable terkait moment.js
 
 	// var imtxxmh_kode 		= 0; // untuk movement type

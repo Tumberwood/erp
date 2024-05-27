@@ -142,7 +142,7 @@ function CekBtnNoActionD(tbl_header){
  * CekInitHeaderH
  * Digunakan untuk inisiasi button table di halaman yang hanya berisi table header saja
  * btnSetAction : btnCreate | btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose | btnView | btnLog
- * @param {object} tbl_header 
+ * @param {Object} tbl_header 
  */
 function CekInitHeaderH(tbl_header){
     c_btnSetAction = 0;
@@ -266,7 +266,7 @@ function CekInitHeaderH(tbl_header){
  *      hak_u: hak update (edit)
  *      hak_d: hak delete (remove dan non aktif)
  *      hak_a: hak approve (approve dan void)
- * @param {object} tbl_header 
+ * @param {Object} tbl_header 
  */
 function CekSelectHeaderH(tbl_header){
     // debug purpose
@@ -473,7 +473,7 @@ function CekSelectHeaderH(tbl_header){
  * Dipanggil saat event tabel on deselect
  * Digunakan untuk
  *  - disable btnCreate | btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose | btnView | btnLog , di halaman yang hanya berisi table header saja
- * @param {object} tbl_header variable tabel header datatables
+ * @param {Object} tbl_header variable tabel header datatables
  */
 function CekDeselectHeaderH(tbl_header){
     c_btnSetAction = 0;
@@ -916,8 +916,8 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
  * Digunakan untuk 
  *  - enable atau disable btnEdit | btnRemove | btnConfirm | btnNonAktif | btnClose pada tabel header
  *  - enable atau disable btnEdit | btnRemove | btnNonAktif pada tabel detail
- * @param {object} tbl_header 
- * @param {object} tbl_details 
+ * @param {Object} tbl_header 
+ * @param {Object} tbl_details 
  */
 function CekDeselectHeaderHD(tbl_header, tbl_details){
     // debug purpose
@@ -1002,8 +1002,8 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
 
 /**
  * CekDrawDetailHD
- * @param {object} tbl_detail 
- * @param {number} is_wajib
+ * @param {Object} tbl_detail 
+ * @param {Number} is_wajib | apakah table detail wajib ada isinya minimal 1 baris data
  */
 // function CekDrawDetailHD(tbl_header, tbl_detail, nama_tabel ){
 function CekDrawDetailHD(tbl_detail, cek_c_detail){
@@ -1059,7 +1059,7 @@ function CekDrawDetailHD(tbl_detail, cek_c_detail){
 
 /**
  * CekDrawDetailHDFinal
- * @param {*} tbl_header 
+ * @param {Object} tbl_header 
  */
 function CekDrawDetailHDFinal(tbl_header){
     // BEGIN btnConfirm
@@ -1095,7 +1095,7 @@ function CekDrawDetailHDFinal(tbl_header){
 
 /**
  * CekSelectDetailHD
- * @param {*} tbl_detail 
+ * @param {Object} tbl_detail 
  */
 function CekSelectDetailHD( tbl_detail ){
 // function CekSelectDetailHD( tbl_detail ){
@@ -1184,7 +1184,7 @@ function CekSelectDetailHD( tbl_detail ){
 
 /**
  * CekDeselectDetailHD
- * @param {*} tbl_detail 
+ * @param {Object} tbl_detail 
  */
 function CekDeselectDetailHD( tbl_detail ){
     // debug purpose

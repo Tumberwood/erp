@@ -6,22 +6,23 @@
 
     $editor
 		->on('preCreate',function( $editor, $values ) {
+			// UPDATE last status menjadi Booking (1)
 			$editor
 				->field( 'ljoxxth.id_lprxxmh_last' )
 				->setValue( 1 );
 			
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
-			// INSERT ke ljoprtd
-			$cb_start_at = Carbon::parse($values['ljoprtd']['start_at']);
-			$cb_finish_at = Carbon::parse($values['ljoprtd']['finish_at']);
+			// INSERT activity Booking (1) ke ljoprtd
+			$cb_start_at = Carbon::parse($values['ljoxxth']['start_at']);
+			$cb_finish_at = Carbon::parse($values['ljoxxth']['finish_at']);
 			$durasi_detik = $cb_start_at->diffInSeconds($cb_finish_at);
 
 			$qi_ljoprtd = $editor->db()
 				->raw()
 				->bind(':id_ljoxxth', $id)
-				->bind(':tanggaljam_start', $values['ljoprtd']['start_at'])
-				->bind(':tanggaljam_finish', $values['ljoprtd']['finish_at'])
+				->bind(':tanggaljam_start', $values['ljoxxth']['start_at'])
+				->bind(':tanggaljam_finish', $values['ljoxxth']['finish_at'])
 				->bind(':durasi_detik', $durasi_detik)
 				->exec('
 					INSERT INTO

@@ -2,6 +2,7 @@
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/DataTables/datatables.min.js"></script>
 
 <!-- datatables 3rd party plugins -->
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/DataTables/absolute.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/DataTables/datatables.mark.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/DataTables/datetime-moment.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/DataTables/sum().js"></script>
@@ -66,6 +67,11 @@ var domPQ =
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'tr>>" +
 	"<'row'<'col-lg-5 col-md-5 col-sm-12 col-xs-12'i><'col-lg-7 col-md-7 col-sm-12 col-xs-12'p>>";
+
+// absolute sorting
+var nullTop = $.fn.dataTable.absoluteOrder( [
+    { value: null, position: 'top' }
+] );
 
 $.extend( true, $.fn.dataTable.defaults, {
 	dom: dom0,
