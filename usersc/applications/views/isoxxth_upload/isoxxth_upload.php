@@ -26,7 +26,14 @@
 						<i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">Template</span>
 					</button>
 				</div>
+				<br>
 				<form id="frmUpload" enctype="multipart/form-data">
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Kode</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+						</div>
+					</div>
 					<div class="form-group row">
 						<label class="col-lg-2 col-form-label">File Stok</label>
 						<div class="col-sm-4">
@@ -65,7 +72,40 @@
 		cekNotification();
 		// ------------- default variable, do not erase
 		var edt_blank, tbl_blank, show_deleted__blank = 0, id__blank;
+		var id_isoxxth_upload_filter = 0;
 		// ------------- end of default variable
+		
+		$("#selectKode").select2({
+			placeholder : "Select",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/isoxxth_upload/isoxxth_upload_parent_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_isoxxth_upload_old: id_isoxxth_upload_filter,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			}
+		});
 		
 		$(document).ready(function() {
 			var frmUpload = $("#frmUpload").submit(function(e) {
@@ -74,22 +114,17 @@
 
 				submitHandler: function(form) { 
 					
-					var notifyprogress;
+					var id_parent = $('#selectKode').val();
+					console.log(id_parent);
+
 					//stok
 					var fd_stok = new FormData();
 					var stok = $('#frmUploadStok')[0].files[0];
+					
 					// console.log(stok);
 					if (stok != undefined) {
 						fd_stok.append('filename',stok);
-
-						notifyprogress = $.notify({
-							message: 'Processing ...</br> Jangan tutup window sampai ada notifikasi hasil upload!'
-						},{
-							allow_dismiss: false,
-							type: 'danger',
-							delay: 0,
-							element: 'body'
-						});
+						fd_stok.append('id_parent',id_parent);
 						
 						$.ajax( {
 							url: "../../models/isoxxth_upload/isoxxth_upload.php",
@@ -100,19 +135,10 @@
 							contentType: false,
 							processData: false,
 							success: function ( json ) {
-								notifyprogress.close();
-								$.notify({
-									message: json.data.message
-								},{
-									type: json.data.type_message,
-									delay: 0,
-									showProgressbar: true, // To show a progress bar
-									template: 
-										'<div class="alert alert-{0} alert-dismissible" role="alert">' +
-											'<button type="button" class="close" data-notify="dismiss">×</button>' +
-											'<div data-notify="message">{2}</div>' +
-										'</div>'
-								});
+								
+								full_message = json.data.message + '</br>';
+								toast_type   = json.data.type_message;
+								toastr[toast_type](full_message, 'INFO');
 								$("#frmUploadStok").val('');
 							},
 							error: function (xhr, Status, err){

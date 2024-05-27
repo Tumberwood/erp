@@ -63,7 +63,7 @@
 			 * 7: uom = kode iumxxmh = PCS, BOX
 			 * 8: location : id_wloxxmh
 			 * 9 : lpn = 
-			 * 10: batch number = 
+			 * 10: batch_number number = 
 			 * 11: expr date
 			 * 
 			 * Buat kode header isoxxth_upload auto generate SOU/2403/0001
@@ -80,6 +80,14 @@
 			
 			$id_users = $hakakses['s_id_users'];
 			$username = $hakakses['s_username'];
+
+			$id_parent = 0;
+			if ($_SERVER["REQUEST_METHOD"] == "POST") {
+				if(isset($_POST['id_parent'])) {
+					$id_parent = $_POST['id_parent'];
+					// print_r($id_parent);
+				}
+			}
 			//Insert Header isoxxth_uplaod
 			// $qi_header = $db
 			// 	->raw()
@@ -121,8 +129,10 @@
 				->bind(':wh', $wh)
 				->bind(':tanggal', $tanggal)
 				->bind(':start_at', $start_at)
+				->bind(':id_parent', $id_parent)
 				->exec('INSERT INTO isoxxth_upload
 					(
+						id_isoxxth_upload_parent,
 						company,
 						cabang,
 						warehouse,
@@ -132,6 +142,7 @@
 						start_at
 					)
 					SELECT
+						:id_parent,
 						:comp,
 						:cab,
 						:wh,
@@ -181,12 +192,12 @@
 				$nama_item 		= strtoupper($sheetData[$i]['5']) ;
 				$qty 		= strtoupper($sheetData[$i]['6']) ;
 				$uom 		= strtoupper($sheetData[$i]['7']) ;
-				$loc 		= strtoupper($sheetData[$i]['8']) ;
+				$lokasi 		= strtoupper($sheetData[$i]['8']) ;
 				$lpn 		= strtoupper($sheetData[$i]['9']) ;
-				$batch 		= strtoupper($sheetData[$i]['10']) ;
+				$batch_number 		= strtoupper($sheetData[$i]['10']) ;
 
-				$exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data exp_date
-				$exp_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
+				$exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data expired_date
+				$expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
 
 				// //Insert Detail
 				// $qi_detail = $db
@@ -195,10 +206,10 @@
 				// 	->bind(':nama_item', $nama_item)
 				// 	->bind(':qty', $qty)
 				// 	->bind(':uom', $uom)
-				// 	->bind(':loc', $loc)
+				// 	->bind(':lokasi', $lokasi)
 				// 	->bind(':lpn', $lpn)
-				// 	->bind(':batch', $batch)
-				// 	->bind(':exp_date', $exp_date)
+				// 	->bind(':batch_number', $batch_number)
+				// 	->bind(':expired_date', $expired_date)
 				// 	->exec('INSERT INTO isoittd_upload
 				// 			(
 				// 				id_isoxxth_upload,
@@ -221,56 +232,158 @@
 				// 				b.id,
 				// 				c.id,
 				// 				:lpn,
-				// 				:batch,
-				// 				:exp_date
+				// 				:batch_number,
+				// 				:expired_date
 				// 			FROM iimxxmh AS a
 				// 			LEFT JOIN iumxxmh AS b ON b.kode = :uom
-				// 			LEFT JOIN wloxxmh AS c ON c.nama = :loc
+				// 			LEFT JOIN wloxxmh AS c ON c.nama = :lokasi
 				// 			WHERE a.nama = :nama_item
 				// 	'
 				// );
 
-				//Insert Detail
-				$qi_detail = $db
-					->raw()
-					->bind(':id_header', $id_header)
-					->bind(':kode_item', $kode_item)
-					->bind(':nama_item', $nama_item)
-					->bind(':qty', $qty)
-					->bind(':uom', $uom)
-					->bind(':loc', $loc)
-					->bind(':lpn', $lpn)
-					->bind(':batch', $batch)
-					->bind(':exp_date', $exp_date)
-					->exec('INSERT INTO isoittd_upload
-							(
-								id_isoxxth_upload,
-								transaction_state,
-								is_upload,
-								kode,
-								nama,
-								jumlah_terkecil,
-								satuan,
-								lokasi,
-								lpn,
-								batch_number,
-								expired_date
-							)
-							SELECT
-								:id_header,
-								1,
-								1,
-								:kode_item,
-								:nama_item,
-								:qty,
-								:uom,
-								:loc,
-								:lpn,
-								:batch,
-								:exp_date
-					'
-				);
-				$dataupload = $dataupload + 1;
+				//Jika id parent diisi, atau jika kode dipilih
+				if ($id_parent > 0) {
+					//select data kembar yang udah ada fisiknya
+					//dengan parameter kode item, lpn, batch_number number dan expired date
+					$qs_data_kembar = $db
+						->raw()
+						->bind(':kode_item', $kode_item)
+						->bind(':lpn', $lpn)
+						->bind(':batch_number', $batch_number)
+						->bind(':expired_date', $expired_date)
+						->bind(':lokasi', $lokasi)
+						->bind(':id_parent', $id_parent)
+						->exec('SELECT
+									"Solusi Indonesia",
+									"MKS",
+									"SPL Pramuka",
+									"2024-05-27",
+									a.kode,
+									a.nama,
+									a.jumlah_terkecil,
+									a.satuan,
+									a.lokasi,
+									a.lpn,
+									a.batch_number,
+									a.expired_date
+								FROM isoittd_upload a
+								LEFT JOIN isoittd_upload_fisik b ON b.id_isoittd_upload = a.id
+								LEFT JOIN isoxxth_upload  c ON c.id = a.id_isoxxth_upload
+								WHERE (b.fisik >= 0 OR a.is_skip = 1) AND b.transaction_state <> -9 AND a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
+								AND a.kode = :kode_item AND a.lpn = :lpn AND ifnull(a.batch_number, "") = :batch_number 
+								AND a.expired_date = :expired_date AND a.lokasi = :lokasi
+								GROUP BY a.id
+							'
+					);
+					$rs_data_kembar = $qs_data_kembar->fetch();
+					
+					//Jika tidak ditemukan, maka insert data uploadnya
+					if (empty($rs_data_kembar)) {
+						//Update data lama menjadi non aktif
+						$qu_data_kembar = $db
+							->raw()
+							->bind(':kode_item', $kode_item)
+							->bind(':lpn', $lpn)
+							->bind(':batch_number', $batch_number)
+							->bind(':expired_date', $expired_date)
+							->bind(':lokasi', $lokasi)
+							->bind(':id_parent', $id_parent)
+							->exec('UPDATE isoittd_upload a
+									LEFT JOIN isoxxth_upload  c ON c.id = a.id_isoxxth_upload
+									SET 
+										a.transaction_state = -9
+									WHERE a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
+									AND a.kode = :kode_item AND a.lpn = :lpn AND ifnull(a.batch_number, "") = :batch_number 
+									AND a.expired_date = :expired_date AND a.lokasi = :lokasi
+								'
+						);
+	
+						//Insert Detail
+						$qi_detail = $db
+							->raw()
+							->bind(':id_header', $id_header)
+							->bind(':kode_item', $kode_item)
+							->bind(':nama_item', $nama_item)
+							->bind(':qty', $qty)
+							->bind(':uom', $uom)
+							->bind(':lokasi', $lokasi)
+							->bind(':lpn', $lpn)
+							->bind(':batch_number', $batch_number)
+							->bind(':expired_date', $expired_date)
+							->exec('INSERT INTO isoittd_upload
+									(
+										id_isoxxth_upload,
+										transaction_state,
+										is_upload,
+										kode,
+										nama,
+										jumlah_terkecil,
+										satuan,
+										lokasi,
+										lpn,
+										batch_number,
+										expired_date
+									)
+									SELECT
+										:id_header,
+										1,
+										1,
+										:kode_item,
+										:nama_item,
+										:qty,
+										:uom,
+										:lokasi,
+										:lpn,
+										:batch_number,
+										:expired_date
+							'
+						);
+						$dataupload = $dataupload + 1;
+					}
+				} else {
+					//Jika tidak memilih kode SOU artinya data ini adalah parent nya
+					//Insert Detail
+					$qi_detail = $db
+						->raw()
+						->bind(':id_header', $id_header)
+						->bind(':kode_item', $kode_item)
+						->bind(':nama_item', $nama_item)
+						->bind(':qty', $qty)
+						->bind(':uom', $uom)
+						->bind(':lokasi', $lokasi)
+						->bind(':lpn', $lpn)
+						->bind(':batch_number', $batch_number)
+						->bind(':expired_date', $expired_date)
+						->exec('INSERT INTO isoittd_upload
+								(
+									id_isoxxth_upload,
+									transaction_state,
+									is_upload,
+									kode,
+									nama,
+									jumlah_terkecil,
+									satuan,
+									lokasi,
+									lpn,
+									batch_number,
+									expired_date
+								)
+								SELECT
+									:id_header,
+									1,
+									1,
+									:kode_item,
+									:nama_item,
+									:qty,
+									:uom,
+									:lokasi,
+									:lpn,
+									:batch_number,
+									:expired_date
+						'
+					);
+					$dataupload = $dataupload + 1;
+				}
 			}
 			
 			$end = date('Y-m-d H:i:s');
