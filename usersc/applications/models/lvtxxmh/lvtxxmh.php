@@ -44,7 +44,8 @@
 			Field::inst( 'lvtxxmh.dimensi_maksimal' ),
 			Field::inst( 'lvtxxmh.panjang' ),
 			Field::inst( 'lvtxxmh.lebar' ),
-			Field::inst( 'lvtxxmh.tinggi' )
+			Field::inst( 'lvtxxmh.tinggi' ),
+			Field::inst( 'lvtxxmh.insentif' )
 		);
 	
 	// do not erase
