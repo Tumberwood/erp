@@ -189,6 +189,9 @@
 		"hideMethod": "fadeOut"
 	}
 
+	var elem = document.querySelector('.js-switch');
+	var switchery = new Switchery(elem, { color: '#1AB394' });
+
 	// global variable
 	var hak_c               = <?php echo json_encode($hak_c) ?>;
 	var hak_u               = <?php echo json_encode($hak_u) ?>;

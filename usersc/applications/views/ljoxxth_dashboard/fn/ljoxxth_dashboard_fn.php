@@ -1,5 +1,5 @@
 <script>
-    function laod_dashboard_logistic (){
+    function load_dashboard_logistic (){
         $.ajax( {
             url: "../../models/ljoxxth_dashboard/ljoxxth_dashboard_fn_box.php",
             dataType: 'json',
