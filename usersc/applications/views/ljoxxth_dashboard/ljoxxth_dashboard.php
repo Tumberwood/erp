@@ -203,6 +203,9 @@
 	// get tableRelation
 	tableRelation('ljoxxth');
 
+	var elem = document.querySelector('.js-switch');
+	var switchery = new Switchery(elem, { color: '#1AB394' });
+
 	$(document).ready(function() {
 
 		$("#isAutoReload").change(function(){
