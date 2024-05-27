@@ -108,7 +108,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -260,6 +260,7 @@
 
 			edtgdnxxsh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-xl");
+				edtFormButtonSaveConfirm();
 			});
 
             edtgdnxxsh.on( 'preSubmit', function (e, data, action) {
@@ -405,21 +406,14 @@
 			} );
 			
 			tblgdnxxsh.on( 'select', function( e, dt, type, indexes ) {
-				gdnxxsh_data    		= tblgdnxxsh.row( { selected: true } ).data().gdnxxsh;
-				id_gdnxxsh      		= gdnxxsh_data.id;
-				id_transaksi_h 		= id_gdnxxsh; // dipakai untuk general
-				id_transaksi_log	= id_gdnxxsh; // dipakai untuk general
-				transaction_state   = gdnxxsh_data.transaction_state;
-				approval_state   	= gdnxxsh_data.approval_state;
-				is_nextprocess 		= gdnxxsh_data.is_nextprocess;
+				siVarSet('gdnxxsh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblgdnxxsh);
 			} );
 
 			tblgdnxxsh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gdnxxsh = '';
+				siVarReset('gdnxxsh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblgdnxxsh);
