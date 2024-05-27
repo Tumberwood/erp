@@ -1,0 +1,314 @@
+<?php
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+
+<?php
+	$nama_tabel    = 'isoittd_upload';
+	$nama_tabels_d = [];
+?>
+
+<div class="row">
+    <div class="col">
+        <div class="ibox collapsed" id="iboxfilter">
+            <div class="ibox-title">
+                <h5 class="text-navy">Filter</h5>&nbsp
+                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
+            </div>
+            <div class="ibox-content">
+                <form class="form-horizontal" id="frmisoittd_upload">
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Kode</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+						</div>
+					</div>
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- begin content here -->
+<div id="tabel_atas" style="display: none">
+	<div class="col">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<div class="table-responsive">
+						<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Kode SOU</th>
+									<th>Loc</th>
+									<th>LPN</th>
+									<th>SKU</th>
+									<th>Name</th>
+									<th>Batch</th>
+									<th>ED</th>
+									<th>UoM</th>
+									<th>Quantity</th>
+									<th>Fisik</th>
+									<th>Selisih</th>
+									<th>SKIP</th>
+									<!-- <th>Location Zone</th> -->
+								</tr>
+							</thead>
+						</table>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+?>
+
+<!-- BEGIN JS -->
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/isoittd_upload_r/fn/isoittd_upload_r_fn.php'; ?>
+
+<!-- BEGIN javascript here -->
+<script type="text/javascript">
+		cekNotification();
+		// ------------- default variable, do not erase
+		var edtisoittd_upload, tblisoittd_upload, show_deleted_isoittd_upload = 0, id_isoittd_upload;
+		// ------------- end of default variable
+		var id_isoxxth_upload_filter = 0;
+
+		$("#selectKode").select2({
+			placeholder : "Select",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/isoxxth_upload/isoxxth_upload_parent_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_isoxxth_upload_old: id_isoxxth_upload_filter,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			}
+		});
+		// get tableRelation
+		// tableRelation('isoittd_uploadheader');
+		
+		$(document).ready(function() {
+			
+			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
+				dom: domPQ,
+				searchPanes:{
+					layout: 'columns-4',
+				},
+				ajax: {
+					url: "../../models/isoittd_upload_r/isoittd_upload_r.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
+						d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
+					}
+				},
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [1,3,4]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: '_all'
+				}
+			],
+			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
+			responsive: false,
+			scrollX: true,
+			columns: [
+				{ data: "isoittd_upload.id",visible:false },
+				// { data: "wloxxmh.nama" },
+				{ data: "isoxxth_upload.kode" },
+				{ data: "isoittd_upload.lokasi" },
+				{ data: "isoittd_upload.lpn" },
+				// { data: "iimxxmh.kode" },
+				// { data: "iimxxmh.nama" },
+				{ data: "isoittd_upload.kode" },
+				{ data: "isoittd_upload.nama" },
+				{ data: "isoittd_upload.batch_number" },
+				{ data: "isoittd_upload.expired_date" },
+				// { data: "iumxxmh.kode" },
+				{ data: "isoittd_upload.satuan" },
+				{ 
+					data: "isoittd_upload.jumlah_terkecil" ,
+					...renderNumber()
+				},
+				{ 
+					data: "isoittd_upload.fisik",
+					...renderNumber()
+				},
+				{ 
+					data: "isoittd_upload.selisih",
+					...renderNumber()
+				},
+				{ 
+					data: "isoittd_upload.is_skip",
+					...renderYaTidak()
+				},
+				// { data: "wloznmh.nama" }, 
+			],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_isoittd_upload';
+						$table       = 'tblisoittd_upload';
+						$edt         = 'edtisoittd_upload';
+						$show_status = '_isoittd_upload';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_action 	= [];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+					?>
+					// END breaking generate button
+					{ 
+						text: '<span>Close</span>', 
+						name: 'btnCloseStock',
+						className: 'btn btn-primary',
+						titleAttr: 'Close Transaction Stock Opname',
+						action: function ( e, dt, node, config ) {
+							start_button = moment().format("YYYY-MM-DD HH:mm:ss");
+
+							$.ajax( {
+								url: '../../models/isoittd_upload_r/fn_button_close_stock.php',
+								dataType: 'json',
+								type: 'POST',
+								data: {
+									id_isoxxth_upload_filter: id_isoxxth_upload_filter,
+									start_button: start_button,
+								},
+								success: function ( json ) {
+									full_message = json.message + '</br>';
+									toast_type   = json.type_message;
+									toastr[toast_type](full_message, 'INFO');
+
+									tblisoittd_upload.rows().deselect();
+									tblisoittd_upload.ajax.reload(null,false);
+								}
+							});
+						}
+					},
+				],
+				initComplete: function() {
+					this.api().searchPanes.rebuildPane();
+				},
+				rowCallback: function( row, data, index ) {
+					if ( data.isoittd_upload.transaction_state == -9 ) {
+						$('td', row).addClass('text-danger');
+					}else if ( data.isoittd_upload.transaction_state == 0 ) {
+						$('td', row).addClass('text-warning');
+					}
+				}
+			} );
+
+			tblisoittd_upload.searchPanes.container().appendTo('#spisoittd_upload');
+			tblisoittd_upload.searchBuilder.container().appendTo( '#sbisoittd_upload' );
+			
+			tblisoittd_upload.on( 'init', function () {
+				// atur hak akses
+				CekInitHeaderH(tblisoittd_upload);
+			} );
+			
+			tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
+				// set variable standar framework
+				siVarSet('isoittd_upload');
+
+				// atur hak akses
+				CekSelectHeaderH(tblisoittd_upload);
+			} );
+
+			tblisoittd_upload.on( 'deselect', function () {
+				// reset variable standar framework
+				siVarReset('isoittd_upload');
+
+				// atur hak akses
+				CekDeselectHeaderH(tblisoittd_upload);
+			} );
+
+			// END isoittd_upload
+			
+			$("#frmisoittd_upload").submit(function(e) {
+				e.preventDefault();
+			}).validate({
+				rules: {
+					
+				},
+				submitHandler: function(frmisoittd_upload) {
+					
+					id_isoxxth_upload_filter  = $('#selectKode').val();
+					selectedOption = $('#selectKode').select2('data')[0];
+					if (selectedOption) {
+						selectedText = selectedOption.text;
+					}
+
+					if (id_isoxxth_upload_filter > 0) {
+						$('#tabel_atas').show();
+						
+						full_message = "Sedang Melakukan Load Data" + '</br>';
+						toast_type   = "success";
+						toastr[toast_type](full_message, 'INFO');
+
+						tblisoittd_upload.ajax.reload(function ( json ) {
+						}, false);
+						return false; 
+					}
+				}
+			});
+			
+		} );// end of document.ready
+	
+	</script>
+
+<!-- END javascript here -->
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
