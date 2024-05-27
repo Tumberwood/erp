@@ -24,6 +24,7 @@
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/notify/bootstrap-notify.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/selectize/selectize.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/quill/quill.min.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/switchery/switchery.js"></script>
 
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
