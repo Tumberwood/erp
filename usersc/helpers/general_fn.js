@@ -163,6 +163,12 @@ function edtFormButtonSaveConfirm(){
     }
 }
 
+/**
+ * edtFormButtonSaveConfirmHD
+ * Digunakan untuk show hide Form Button Save & Confirm pada menu Header Detail
+ * Rule:
+ *  transaction_state = 1, maka tombol di hide 
+ */
 function edtFormButtonSaveConfirmHD(){
     if(transaction_state == 1){
         $('div.DTE_Form_Buttons button:eq(2)').hide();
