@@ -43,7 +43,7 @@
 </div>
 
 <div class="row" id="showing" style="display: none">
-	<div class="col-lg-6">
+	<div class="col-6">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<h5>Row Data</h5>
@@ -56,6 +56,7 @@
 								<h6 class="no-margins text-center font-bold">
 									Target
 								</h6>
+								<div id="progress_rows"></div>
 							</div>
 						</div>
 					</div>
@@ -175,7 +176,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-6">
+	<div class="col-6">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<h5>Item Data</h5>
@@ -188,6 +189,7 @@
 								<h6 class="no-margins text-center font-bold">
 									Target
 								</h6>
+								<div id="progress_item"></div>
 							</div>
 						</div>
 					</div>
@@ -405,7 +407,23 @@
 						$('#terhitungRows').html(json.data.c_terhitung);
 						
 						$('#p_terhitungRows').empty();
-						$('#p_terhitungRows').html(json.data.terhitung);
+						persen_terhitung_rows = json.data.terhitung;
+						$('#p_terhitungRows').html(persen_terhitung_rows);
+						
+						persen_terhitung_rows_int = parseInt(persen_terhitung_rows);
+						
+						if(persen_terhitung_rows_int <= 30){
+							progressClassrows = 'progress-bar-danger';
+						}else if(persen_terhitung_rows_int <= 60){
+							progressClassrows = 'progress-bar-warning';
+						}else if(persen_terhitung_rows_int <= 100){
+							progressClassrows = 'progress-bar';
+						}else{
+							progressClassrows = 'progress-bar';
+						}
+						$('#progress_rows').html(
+							'<div class="progress progress-mini '+progressClassrows+'" style="width: '+persen_terhitung_rows+'" role="progressbar" aria-valuenow="'+persen_terhitung_rows+'" aria-valuemin="0" aria-valuemax="100"></div>'
+						);
 						
 						$('#p_not_terhitungRows').empty();
 						$('#p_not_terhitungRows').html(json.data.not_terhitung);
@@ -449,7 +467,23 @@
 						$('#terhitungItem').html(json.data2.c_terhitung);
 						
 						$('#p_terhitungItem').empty();
-						$('#p_terhitungItem').html(json.data2.terhitung);
+						persen_terhitung_item = json.data2.terhitung;
+						$('#p_terhitungItem').html(persen_terhitung_item);
+
+						persen_terhitung_item_int = parseInt(persen_terhitung_item);
+						
+						if(persen_terhitung_item_int <= 30){
+							progressClassItem = 'progress-bar-danger';
+						}else if(persen_terhitung_item_int <= 60){
+							progressClassItem = 'progress-bar-warning';
+						}else if(persen_terhitung_item_int <= 100){
+							progressClassItem = 'progress-bar';
+						}else{
+							progressClassItem = 'progress-bar';
+						}
+						$('#progress_item').html(
+							'<div class="progress progress-mini '+progressClassItem+'" style="width: '+persen_terhitung_item+'" role="progressbar" aria-valuenow="'+persen_terhitung_item+'" aria-valuemin="0" aria-valuemax="100"></div>'
+						);
 						
 						$('#p_not_terhitungItem').empty();
 						$('#p_not_terhitungItem').html(json.data2.not_terhitung);
@@ -496,7 +530,7 @@
 			//function autoreload data based on interval ms di ggsxxsh
 			autoReloadInterval(function () {
  	    		//tambahkan function reload tabel atau function generate card
-				generateCard();							
+				generateCard(id_isoxxth_upload_filter);
 				tblisoittd_upload.ajax.reload(null, false);
 				tblisoittd_upload_log.ajax.reload(null, false);
 				// console.log('reloaded');
