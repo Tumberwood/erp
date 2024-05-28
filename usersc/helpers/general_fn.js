@@ -867,10 +867,10 @@ function autoReloadInterval(content) {
             </div>
         </div>`;
 
-    // ini akan di append di .form-horizontal atau class form yang ada di filter biasanya
+    // ini akan di append di #frmFilter atau class form yang ada di filter biasanya
 
     //Cari modal-body pada form-horizontal, ini untuk case SF atau filter yang masuk di button
-    var modalBody = $(".form-horizontal").find(".modal-body");
+    var modalBody = $("#frmFilter").find(".modal-body");
 
     //jika ternyata ada modal body, atau filter ini yang masuk di button ljoxxth_dashboard.php
     if (modalBody.length > 0) {
@@ -878,7 +878,7 @@ function autoReloadInterval(content) {
         modalBody.append(autoReloadCheckbox);
     } else {
         // jika tidak ditemukan, maka akan di append di form-horizontal, seperti di dash_stock_opname.php
-        $(".form-horizontal").append(autoReloadCheckbox);
+        $("#frmFilter").append(autoReloadCheckbox);
     }
 
     //Panggil elem disini agar tidak perlu deklarasi lagi di viewnya, sekalian disini saja

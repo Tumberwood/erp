@@ -22,7 +22,7 @@
                 <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
             </div>
             <div class="ibox-content">
-                <form class="form-horizontal" id="frmisoittd_upload">
+                <form class="form-horizontal" id="frmFilter">
 					<div class="form-group row">
 						<label class="col-lg-2 col-md-2">Kode</label>
 						<div class="col-lg-4 col-sm-4">
@@ -650,13 +650,13 @@
 				CekDeselectHeaderH(tblisoittd_upload_log);
 			} );
 			
-			$("#frmisoittd_upload").submit(function(e) {
+			$("#frmFilter").submit(function(e) {
 				e.preventDefault();
 			}).validate({
 				rules: {
 					
 				},
-				submitHandler: function(frmisoittd_upload) {
+				submitHandler: function(frmFilter) {
 					
 					id_isoxxth_upload_filter  = $('#selectKode').val();
 					selectedOption = $('#selectKode').select2('data')[0];
