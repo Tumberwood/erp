@@ -13,13 +13,13 @@
 
 <!-- begin content here -->
 <div class="row">
-	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+	<div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
 		<div class="widget style1">
 			<div class="row">
-				<div class="col-4">
+				<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
 					<i class="fa fa-truck fa-5x text-danger"></i>
 				</div>
-				<div class="col-8">
+				<div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 					<span> Unloading </span>
 					<h2 class="font-bold" id="c_unloading"></h2>
 					<div class="progress progress-small">
@@ -29,13 +29,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+	<div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
 		<div class="widget style1">
 			<div class="row">
-				<div class="col-4">
+				<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
 					<i class="fa fa-truck fa-flip-horizontal fa-5x text-navy"></i>
 				</div>
-				<div class="col-8">
+				<div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 					<span> Loading </span>
 					<h2 class="font-bold" id="c_loading"></h2>
 					<div class="progress progress-small">
@@ -47,56 +47,56 @@
 	</div>
 	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
 		<div class="row">
-			<div class="col-lg-2">
+			<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 				<div class="ibox">
 					<div class="ibox-content bg-danger">
 						<h5 class="m-b-md">Booking</h5>
-						<h2 class="" id="c_booking"></h2>
+						<h2 class="font-bold" id="c_booking"></h2>
 						<small></small>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2">
+			<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 				<div class="ibox">
 					<div class="ibox-content bg-warning">
 						<h5 class="m-b-md">Arrival</h5>
-						<h2 class="" id="c_arrival"></h2>
+						<h2 class="font-bold" id="c_arrival"></h2>
 						<small></small>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2">
+			<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 				<div class="ibox">
 					<div class="ibox-content bg-warning">
 						<h5 class="m-b-md">Process</h5>
-						<h2 class="" id="c_process"></h2>
+						<h2 class="font-bold" id="c_process"></h2>
 						<small></small>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2">
+			<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 				<div class="ibox">
 					<div class="ibox-content bg-warning">
 						<h5 class="m-b-md">Document</h5>
-						<h2 class="" id="c_document"></h2>
+						<h2 class="font-bold" id="c_document"></h2>
 						<small></small>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2">
+			<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 				<div class="ibox">
 					<div class="ibox-content bg-warning">
 						<h5 class="m-b-md">Clearance</h5>
-						<h2 class="" id="c_clearance"></h2>
+						<h2 class="font-bold" id="c_clearance"></h2>
 						<small></small>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2">
+			<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 				<div class="ibox">
 					<div class="ibox-content bg-primary">
 						<h5 class="m-b-md">Done</h5>
-						<h2 class="" id="c_done"></h2>
+						<h2 class="font-bold" id="c_done"></h2>
 						<small></small>
 					</div>
 				</div>
@@ -203,6 +203,9 @@
 	// get tableRelation
 	tableRelation('ljoxxth');
 
+	var elem = document.querySelector('.js-switch');
+	var switchery = new Switchery(elem, { color: '#1AB394' });
+
 	$(document).ready(function() {
 
 		$("#isAutoReload").change(function(){
@@ -214,15 +217,14 @@
 					type: 'POST',
 					success: function (json) {
 						var reload_interval_ms = json.data.reload_interval_ms;
-						setInterval(function () {
+						autoReload = setInterval(function () {
 							load_dashboard_logistic();							
 							tblljoxxth.ajax.reload(null, false);
-							console.log('reloaded');
 						}, reload_interval_ms);
 					}
 				});				
 			} else {
-				is_auto_reload = false;
+				clearInterval(autoReload);
 			}
 
 			console.log(is_auto_reload);
@@ -416,21 +418,21 @@
 		
 		tblljoxxth.on( 'init', function () {
 			// atur hak akses
-			CekInitHeaderH(tblljoxxth);
+			// CekInitHeaderH(tblljoxxth);
 		} );
 		
 		tblljoxxth.on( 'select', function( e, dt, type, indexes ) {
-			siVarSet('ljoxxth');
+			// siVarSet('ljoxxth');
 
-			// atur hak akses
-			CekSelectHeaderH(tblljoxxth);
+			// // atur hak akses
+			// CekSelectHeaderH(tblljoxxth);
 		} );
 
 		tblljoxxth.on( 'deselect', function () {
-			siVarReset('ljoxxth');
+			// siVarReset('ljoxxth');
 
 			// atur hak akses
-			CekDeselectHeaderH(tblljoxxth);
+			// CekDeselectHeaderH(tblljoxxth);
 		} );
 
 		$("#frmFilter").submit(function(e) {
