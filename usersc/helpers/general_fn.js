@@ -905,7 +905,5 @@ function autoReloadInterval(content) {
             clearInterval(autoReload); 
             is_auto_reload = false;
         }
-
-        console.log(is_auto_reload);
     });
 }

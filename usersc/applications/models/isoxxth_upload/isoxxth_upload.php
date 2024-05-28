@@ -75,6 +75,9 @@
 			$wh 		= $sheetData['1']['2'] ;
 			$tanggal_excel = new Carbon($sheetData['1']['3']); //gunakan carbon untuk ambil data tanggal
 			$tanggal = $tanggal_excel->format('Y-m-d'); //format jadi 2023-09-12
+
+			$tanggal_upload_post =  new Carbon($_POST['tanggal_upload']);
+			$tanggal_upload = $tanggal_upload_post->format('Y-m-d');
 			
 			$start_at = date('Y-m-d H:i:s');
 			
@@ -128,6 +131,7 @@
 				->bind(':cab', $cab)
 				->bind(':wh', $wh)
 				->bind(':tanggal', $tanggal)
+				->bind(':tanggal_upload', $tanggal_upload)
 				->bind(':start_at', $start_at)
 				->bind(':id_parent', $id_parent)
 				->exec('INSERT INTO isoxxth_upload
@@ -137,6 +141,7 @@
 						cabang,
 						warehouse,
 						tanggal,
+						tanggal_upload,
 						transaction_state,
 						is_upload,
 						start_at
@@ -147,6 +152,7 @@
 						:cab,
 						:wh,
 						:tanggal,
+						:tanggal_upload,
 						1,
 						1,
 						:start_at
@@ -239,12 +245,27 @@
 				// 			LEFT JOIN wloxxmh AS c ON c.nama = :lokasi
 				// 			WHERE a.nama = :nama_item
 				// 	'
-				// );
+				// );	
 
 				//Jika id parent diisi, atau jika kode dipilih
 				if ($id_parent > 0) {
+
+					//nonaktifkan semua data item yang belum diisi fisiknya dan yang bukan skip, sesuai id parent
+					$qu_data_kembar = $db
+						->raw()
+						->bind(':id_parent', $id_parent)
+						->bind(':id_header', $id_header)
+						->exec('UPDATE isoittd_upload a
+								LEFT JOIN isoxxth_upload b ON b.id = a.id_isoxxth_upload
+								SET 
+									a.transaction_state = -9
+								WHERE a.fisik IS NULL AND a.is_skip = 0 AND (a.id_isoxxth_upload = :id_parent OR b.id_isoxxth_upload_parent = :id_parent) AND a.id_isoxxth_upload <> :id_header
+							'
+					);
+					
 					//select data kembar yang udah ada fisiknya
 					//dengan parameter kode item, lpn, batch_number number dan expired date
+					
 					$qs_data_kembar = $db
 						->raw()
 						->bind(':kode_item', $kode_item)
@@ -279,23 +300,23 @@
 					//Jika tidak ditemukan, maka insert data uploadnya
 					if (empty($rs_data_kembar)) {
 						//Update data lama menjadi non aktif
-						$qu_data_kembar = $db
-							->raw()
-							->bind(':kode_item', $kode_item)
-							->bind(':lpn', $lpn)
-							->bind(':batch_number', $batch_number)
-							->bind(':expired_date', $expired_date)
-							->bind(':lokasi', $lokasi)
-							->bind(':id_parent', $id_parent)
-							->exec('UPDATE isoittd_upload a
-									LEFT JOIN isoxxth_upload  c ON c.id = a.id_isoxxth_upload
-									SET 
-										a.transaction_state = -9
-									WHERE a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
-									AND a.kode = :kode_item AND a.lpn = :lpn AND ifnull(a.batch_number, "") = :batch_number 
-									AND a.expired_date = :expired_date AND a.lokasi = :lokasi
-								'
-						);
+						// $qu_data_kembar = $db
+						// 	->raw()
+						// 	->bind(':kode_item', $kode_item)
+						// 	->bind(':lpn', $lpn)
+						// 	->bind(':batch_number', $batch_number)
+						// 	->bind(':expired_date', $expired_date)
+						// 	->bind(':lokasi', $lokasi)
+						// 	->bind(':id_parent', $id_parent)
+						// 	->exec('UPDATE isoittd_upload a
+						// 			LEFT JOIN isoxxth_upload  c ON c.id = a.id_isoxxth_upload
+						// 			SET 
+						// 				a.transaction_state = -9
+						// 			WHERE a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
+						// 			AND a.kode = :kode_item AND a.lpn = :lpn AND ifnull(a.batch_number, "") = :batch_number 
+						// 			AND a.expired_date = :expired_date AND a.lokasi = :lokasi
+						// 		'
+						// );
 	
 						//Insert Detail
 						$qi_detail = $db

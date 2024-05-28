@@ -48,6 +48,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Kode SOU</th>
+									<th>Tanggal Upload</th>
 									<th>Loc</th>
 									<th>LPN</th>
 									<th>SKU</th>
@@ -151,7 +152,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,3,4]
+					targets: [1,2,3]
 				},
 				{
 					searchPanes:{
@@ -160,13 +161,14 @@
 					targets: '_all'
 				}
 			],
-			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
+			order: [[ 2, "asc" ]],
 			responsive: false,
 			scrollX: true,
 			columns: [
 				{ data: "isoittd_upload.id",visible:false },
 				// { data: "wloxxmh.nama" },
 				{ data: "isoxxth_upload.kode" },
+				{ data: "isoxxth_upload.tanggal_upload" },
 				{ data: "isoittd_upload.lokasi" },
 				{ data: "isoittd_upload.lpn" },
 				// { data: "iimxxmh.kode" },
@@ -219,14 +221,37 @@
 							start_button = moment().format("YYYY-MM-DD HH:mm:ss");
 
 							$.ajax( {
-								url: '../../models/isoittd_upload_r/fn_button_close_stock.php',
+								url: '../../models/isoittd_upload_r/fn_cek_fisik.php',
 								dataType: 'json',
 								type: 'POST',
 								data: {
 									id_isoxxth_upload_filter: id_isoxxth_upload_filter,
-									start_button: start_button,
 								},
 								success: function ( json ) {
+									c_no_fisik = json.data.c_belum_dihitung;
+									console.log(c_no_fisik);
+
+									if (c_no_fisik > 0) {
+										alert('Gagal Melakukan Close Transaksi !!! \nTerdapat '+c_no_fisik+' item yang fisiknya belum diisi !')
+									} else {
+										$.ajax( {
+											url: '../../models/isoittd_upload_r/fn_button_close_stock.php',
+											dataType: 'json',
+											type: 'POST',
+											data: {
+												id_isoxxth_upload_filter: id_isoxxth_upload_filter,
+												start_button: start_button,
+											},
+											success: function ( json ) {
+												full_message = json.message + '</br>';
+												toast_type   = json.type_message;
+												toastr[toast_type](full_message, 'INFO');
+
+												tblisoittd_upload.rows().deselect();
+												tblisoittd_upload.ajax.reload(null,false);
+											}
+										});
+									}
 									full_message = json.message + '</br>';
 									toast_type   = json.type_message;
 									toastr[toast_type](full_message, 'INFO');
@@ -247,6 +272,10 @@
 					}else if ( data.isoittd_upload.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
+
+					if ( data.isoittd_upload.fisik == null &&  data.isoittd_upload.is_skip == 0) {
+						$('td', row).addClass('bg-warning');
+					}
 				}
 			} );
 
@@ -260,7 +289,7 @@
 			
 			tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
 				// set variable standar framework
-				siVarSet('isoittd_upload');
+				// siVarSet('isoittd_upload');
 
 				// atur hak akses
 				CekSelectHeaderH(tblisoittd_upload);

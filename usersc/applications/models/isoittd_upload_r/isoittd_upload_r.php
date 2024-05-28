@@ -66,6 +66,19 @@
 							'from' => 'd M Y',
 							'to' =>   'Y-m-d'
 						) ),
+						
+					Field::inst( 'isoxxth_upload.tanggal_upload' )
+						->getFormatter( function ( $val, $data, $opts ) {
+							if ($val === '0000-00-00' || $val === null){
+								echo '';
+							}else{
+								return date( 'd M Y', strtotime( $val ) );
+							}
+						} )
+						->setFormatter( 'Format::datetime', array(
+							'from' => 'd M Y',
+							'to' =>   'Y-m-d'
+						) ),
 					Field::inst( 'isoxxth_upload.kode' ),
 					// Field::inst( 'iimxxmh.kode' ),
 					// Field::inst( 'iimxxmh.nama' ),
@@ -80,11 +93,15 @@
 				// ->leftJoin( 'iwhxxmh','iwhxxmh.id','=','isoxxth_upload.id_iwhxxmh' )
 				// ->leftJoin( 'wloxxmh','wloxxmh.id','=','isoittd_upload.id_wloxxmh' )
 				// ->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' )
-				->where( function ( $r ) {
-					$r
-						->where( 'isoxxth_upload.id', $_POST['id_isoxxth_upload_filter'])
-						->or_where('isoxxth_upload.id_isoxxth_upload_parent', $_POST['id_isoxxth_upload_filter'])
-						;
+
+				// ->where( 'isoxxth_upload.id', $_POST['id_isoxxth_upload_filter'])
+				->where( function ( $q ) {
+					$q
+						->where( function ( $r ) {
+							$r
+							->where( 'isoxxth_upload.id', $_POST['id_isoxxth_upload_filter'])
+							->or_where('isoxxth_upload.id_isoxxth_upload_parent', $_POST['id_isoxxth_upload_filter']);
+						} );
 				} )
 				;
 			
@@ -95,7 +112,7 @@
 					->where( 'isoittd_upload.transaction_state', -9, '<>');
 			}
 
-			include( "isoittd_upload_r_extra.php" );
+			// include( "isoittd_upload_r_extra.php" );
 
 			// BEGIN log
 			$nama_table = 'isoittd_upload';

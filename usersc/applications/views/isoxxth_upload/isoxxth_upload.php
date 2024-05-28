@@ -35,6 +35,14 @@
 						</div>
 					</div>
 					<div class="form-group row">
+						<label class="col-lg-2 col-form-label">Tanggal Upload</label>
+						<div class="col-sm-4">
+							<div class="input-group input-daterange" id="periode">
+								<input type="text" id="end_date" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
 						<label class="col-lg-2 col-form-label">File Stok</label>
 						<div class="col-sm-4">
 							<div class="input-group">
@@ -114,8 +122,9 @@
 
 				submitHandler: function(form) { 
 					
+					var tanggal_upload = $('#end_date').val();
 					var id_parent = $('#selectKode').val();
-					console.log(id_parent);
+					console.log(tanggal_upload);
 
 					//stok
 					var fd_stok = new FormData();
@@ -125,6 +134,7 @@
 					if (stok != undefined) {
 						fd_stok.append('filename',stok);
 						fd_stok.append('id_parent',id_parent);
+						fd_stok.append('tanggal_upload',tanggal_upload);
 						
 						$.ajax( {
 							url: "../../models/isoxxth_upload/isoxxth_upload.php",
