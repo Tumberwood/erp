@@ -403,6 +403,8 @@
 		];
 	} else {
 		$results['data'] = [];
+		$results['data3'] = [];
+		$results['data4'] = [];
 		$results['columns'] = [];
 	}
 

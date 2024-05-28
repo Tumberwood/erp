@@ -130,11 +130,12 @@
                 </form>
 				
 				<br>
-				<h5>Auto Reload</h5>
 				
-				<div class="switch">
-					<input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-					<label for="cmn-toggle-4"></label>
+				<div class="form-group row">
+					<label class="col-lg-2 col-form-label">Auto Reload</label>
+					<div class="col-lg-5">
+						<input id="isAutoReload" type="checkbox" class="js-switch"/>
+					</div>
 				</div>
             </div>
         </div>
@@ -371,11 +372,51 @@
 				<div class="row">
 					<div class="col-md-6">
 						<h5>Log By User</h5>
-						<div id="tabel_kiri"></div>
+							<div class="table-responsive">
+								<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>Item Code</th>
+											<th>Item Name</th>
+											<th>Sistem</th>
+											<th>Fisik</th>
+											<th>Selisih</th>
+										</tr>
+
+									</thead>
+								</table>
+							</div>
+						<!-- <div id="tabel_kiri"></div> -->
 					</div>
 					<div class="col-md-6">
 						<h5>Bottom 10 Items</h5>
-						<div id="tabel_atas"></div>
+							<div class="table-responsive">
+								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th class="text-center" rowspan="2" style="vertical-align: middle">User</th>
+											<th class="text-center" colspan="2">Count</th>
+											<th class="text-center" rowspan="2" style="vertical-align: middle">Lokasi</th>
+											<th class="text-center" rowspan="2" style="vertical-align: middle">Total Time</th>
+										</tr>
+										<tr>
+											<th class="text-center">Upload</th>
+											<th class="text-center">New</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th >User</th>
+											<th id="total_1"></th>
+											<th id="total_2"></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						
+						<!-- <div id="tabel_atas"></div> -->
 					</div>
 				</div>
 			</div>
@@ -395,14 +436,19 @@
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var tblhtsprrd, show_inactive_status_htsprrd = 0;
-		var edthtssctd, tblhtssctd, show_inactive_status_htssctd = 0, id_htssctd;
-		var edthtsprtd, tblhtsprtd, show_inactive_status_htsprtd = 0, id_htsprtd;
+		var edtisoittd_upload, tblisoittd_upload, show_deleted_isoittd_upload = 0, id_isoittd_upload;
+		var tblisoittd_upload_log;
 		// ------------- end of default variable
 		var notifyprogress = '';
 		var id_htsxxmh_old = 0;
 		var id_isoxxth_upload_filter = 0;
 		
+		// get tableRelation
+		tableRelation('isoittd_upload');
+		
+		var elem = document.querySelector('.js-switch');
+		var switchery = new Switchery(elem, { color: '#1AB394' });
+
 		$("#selectKode").select2({
 			placeholder : "Select",
 			allowClear: true,
@@ -435,7 +481,7 @@
 			}
 		});
 
-		function generateTable(id_isoxxth_upload_filter) {
+		function generateCard(id_isoxxth_upload_filter) {
 
 			$.ajax( {
 				url: "../../models/isoxxth_upload/dash_stock_opname.php",
@@ -532,170 +578,7 @@
 						$('#kurangItem').empty();
 						$('#kurangItem').html(json.data2.c_kurang);
 						
-						//Items
-						var str1 = '<table id="tblselisih" class="table table-striped table-bordered">';
-						
-						if ($.fn.dataTable.isDataTable('#tblselisih')) {
-							$('#tblselisih').DataTable().clear();
-							$('#tblselisih').DataTable().destroy();
-							$('#tblselisih tbody').empty();
-							$('#tblselisih thead').empty();
-						}
-						str1 += '<thead>';
-							
-							str1 += '<tr>';
-							$.each(json.columns, function (k, colObj) {
-								// BEGIN render column name
-								if (colObj.name == 'kode') {
-									str1 += '<th class="text-center">Item Code</th>';
-								} else if (colObj.name == 'nama') {
-									str1 += '<th class="text-center">Item Name</th>';
-								} else if (colObj.name == 's_jumlah_terkecil') {
-									str1 += '<th class="text-center">Sistem</th>';
-								} else if (colObj.name == 's_fisik') {
-									str1 += '<th class="text-center">Fisik</th>';
-								} else if (colObj.name == 's_selisih') {
-									str1 += '<th class="text-center">Selisih</th>';
-								}
-							});
-							str1 += '</tr>';
-							// END header baris 1
-						str1 = str1 + '</thead>';
-
-						$('#tabel_atas').html(str1);
-
-						$('#tblselisih').DataTable({
-							paging: false,          // Disable pagination
-							searching: false,       // Disable search
-							info: false,            // Disable "Showing X of Y entries" information
-							lengthChange: false,    // Disable "Show X entries" dropdown
-							responsive: false,
-							scrollX: true,
-							fixedHeader: {
-								header: false,
-								// footer: true
-							},
-							data: json.data3,
-							columns: json.columns,
-							order: [[ 4, "asc" ]],
-							buttons: [
-
-								// BEGIN breaking generate button
-								<?php
-									$id_table    = 'id_isoittd_upload';
-									$table       = 'tblisoittd_upload';
-									$edt         = 'edtisoittd_upload';
-									$show_status = '_isoittd_upload';
-									$table_name  = $nama_tabel;
-
-									$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-									$arr_buttons_tools2 	= [];
-									$arr_buttons_action 	= [];
-									include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-								?>
-								// END breaking generate button
-							],
-							columnDefs: [
-								{
-									targets: [2,3,4],
-									...renderNumber()
-								},
-							],
-							rowCallback: function (row, data, index) {
-
-							}
-						});
-						
-						var str2 = '<table id="tbluserlog" class="table table-striped table-bordered">';
-						
-						if ($.fn.dataTable.isDataTable('#tbluserlog')) {
-							$('#tbluserlog').DataTable().clear();
-							$('#tbluserlog').DataTable().destroy();
-							$('#tbluserlog tbody').empty();
-							$('#tbluserlog thead').empty();
-						}
-						str2 += '<thead>';
-							str2 += '<tr>';
-								str2 += '<th class="text-center" rowspan="2" style="vertical-align: middle">User</th>';
-								str2 += '<th class="text-center" colspan="2">Count</th>';
-								str2 += '<th class="text-center" rowspan="2" style="vertical-align: middle">Lokasi</th>';
-								str2 += '<th class="text-center" rowspan="2" style="vertical-align: middle">Total Time</th>';
-							str2 += '</tr>';
-							str2 += '<tr>';
-							$.each(json.columns2, function (k, colObj2) {
-								if (colObj2.name == 'c_upload') {
-									// Header for "Upload"
-									str2 += '<th class="text-center">Upload</th>';
-								} else if (colObj2.name == 'c_new') {
-									// Header for "New"
-									str2 += '<th class="text-center">New</th>';
-								}
-							});
-							str2 += '</tr>';
-						str2 += '</thead>';
-						str2 += '<tfoot>';
-							str2 += '<tr>';
-								str2 += '<th>User</th>';
-								str2 += '<th class="text-right fw-bold" id="ft_1"></th>';
-								str2 += '<th class="text-right fw-bold" id="ft_2"></th>';
-								str2 += '<th></th>';
-								str2 += '<th></th>';
-							str2 += '</tr>';
-						str2 += '</tfoot>';
-						
-						$('#tabel_kiri').html(str2);
-
-						$('#tbluserlog').DataTable({
-							paging: false,          // Disable pagination
-							searching: false,       // Disable search
-							info: false,            // Disable "Showing X of Y entries" information
-							lengthChange: false,    // Disable "Show X entries" dropdown
-							responsive: false,
-							scrollX: true,
-							fixedHeader: {
-								header: false,
-								// footer: true
-							},
-							data: json.data4,
-							columns: json.columns2,
-							buttons: [
-
-							// BEGIN breaking generate button
-							<?php
-								$id_table    = 'id_isoittd_upload';
-								$table       = 'tblisoittd_upload';
-								$edt         = 'edtisoittd_upload';
-								$show_status = '_isoittd_upload';
-								$table_name  = $nama_tabel;
-
-								$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-								$arr_buttons_tools2 	= [];
-								$arr_buttons_action 	= [];
-								include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-							?>
-							// END breaking generate button
-							],
-							columnDefs: [
-								{
-									targets: [1,2,3],
-									...renderNumber()
-								},
-							],
-							footerCallback: function ( row, data, start, end, display ) {
-								var api = this.api();
-								var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
-
-								for (var i = 1; i <= 2; i++) {
-									var columnIndex = i;
-									var sum_all = api.column(columnIndex).data().sum();
-									// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
-									// var sum = api.column(columnIndex, { page: 'current' }).data().sum();
-									$('#ft_' + columnIndex).html(numFormat(sum_all));
-
-									// console.log('Number of Pages: ' + api.page.info().pages);
-								}
-							}
-						});
+						//disini
 
 						if(notifyprogress != ''){
 							notifyprogress.close();
@@ -712,35 +595,179 @@
 		}
 
 		$(document).ready(function() {
-			var is_auto_reload = false;
-			var reloadIntervalId;
 
-			// ON OFF Reload
-			$("#cmn-toggle-4").change(function(){
+			$("#isAutoReload").change(function(){
 				if ($(this).prop("checked")) {
 					is_auto_reload = true;
-					autoReload(); 
+					$.ajax({
+						url: "../../../../usersc/helpers/reload_interval_ms.php",
+						dataType: 'json',
+						type: 'POST',
+						success: function (json) {
+							var reload_interval_ms = json.data.reload_interval_ms;
+							autoReload = setInterval(function () {
+								generateCard();							
+								tblisoittd_upload.ajax.reload(null, false);
+								tblisoittd_upload_log.ajax.reload(null, false);
+								// console.log('reloaded');
+							}, reload_interval_ms);
+						}
+					});				
 				} else {
-					clearInterval(reloadIntervalId); 
+					clearInterval(autoReload); 
 					is_auto_reload = false;
 				}
-			});
-			
-			function autoReload() {
-				// Auto Reload
-				$.ajax({
-					url: "../../models/isoxxth_upload/reload_interval_ms.php",
-					dataType: 'json',
-					type: 'POST',
-					success: function (json) {
-						var reload_interval_ms = json.data.reload_interval_ms;
 
-						reloadIntervalId = setInterval(function () {
-							generateTable(id_isoxxth_upload_filter);
-						}, reload_interval_ms);
+				console.log(is_auto_reload);
+			});
+
+			//Table Selisih
+			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
+				dom: dom0,
+				ajax: {
+					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					type: 'POST',
+					data: function (d){
+						d.id_isoxxth_upload = id_isoxxth_upload_filter;
+					},
+					dataSrc: 'data3'
+				},
+				order: [[ 4, "asc" ]],
+				responsive: false,
+				scrollX: true,
+				columns: [
+					{ data: "kode" },
+					{ data: "nama" },
+					{ 
+						data: "s_jumlah_terkecil",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_fisik",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_selisih",
+						...renderNumber() 
+					},
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_isoittd_upload';
+						$table       = 'tblisoittd_upload';
+						$edt         = 'edtisoittd_upload';
+						$show_status = '_isoittd_upload';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						// $arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= [];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+					?>
+					// END breaking generate button
+				],
+				rowCallback: function( row, data, index ) {
+					
+				}
+			} );
+
+			tblisoittd_upload.on( 'init', function () {
+				// atur hak akses
+				CekInitHeaderH(tblisoittd_upload);
+			} );
+			
+			tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
+				// atur hak akses
+				CekSelectHeaderH(tblisoittd_upload);
+			} );
+
+			tblisoittd_upload.on( 'deselect', function () {
+				// atur hak akses
+				CekDeselectHeaderH(tblisoittd_upload);
+			} );
+			
+			//Tabel Log by User
+			tblisoittd_upload_log = $('#tblisoittd_upload_log').DataTable( {
+				dom: dom0,
+				ajax: {
+					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					type: 'POST',
+					data: function (d){
+						d.id_isoxxth_upload = id_isoxxth_upload_filter;
+					},
+					dataSrc: 'data4'
+				},
+				order: [[ 4, "asc" ]],
+				responsive: false,
+				scrollX: true,
+				columns: [
+					{ data: "nama" },
+					{ 
+						data: "c_upload",
+						...renderNumber() 
+					},
+					{ 
+						data: "c_new",
+						...renderNumber() 
+					},
+					{ 
+						data: "lokasi",
+						...renderNumber() 
+					},
+					{ data: "total_time" },
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_isoittd_upload';
+						$table       = 'tblisoittd_upload_log';
+						$edt         = 'edtisoittd_upload';
+						$show_status = '_isoittd_upload';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						// $arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= [];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+					?>
+					// END breaking generate button
+				],
+				rowCallback: function( row, data, index ) {
+					
+				},
+				footerCallback: function ( row, data, start, end, display ) {
+					var api = this.api();
+					var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
+
+					for (var i = 1; i <= 2; i++) {
+						var columnIndex = i;
+						var sum_all = api.column(columnIndex).data().sum();
+						// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
+						var sum = api.column(columnIndex, { page: 'current' }).data().sum();
+						$('#total_' + columnIndex).html(numFormat(sum_all));
+
+						// console.log('Number of Pages: ' + api.page.info().pages);
 					}
-				});
-			}
+				}
+			} );
+
+			tblisoittd_upload_log.on( 'init', function () {
+				// atur hak akses
+				CekInitHeaderH(tblisoittd_upload_log);
+			} );
+			
+			tblisoittd_upload_log.on( 'select', function( e, dt, type, indexes ) {
+				// atur hak akses
+				CekSelectHeaderH(tblisoittd_upload_log);
+			} );
+
+			tblisoittd_upload_log.on( 'deselect', function () {
+				// atur hak akses
+				CekDeselectHeaderH(tblisoittd_upload_log);
+			} );
 			
 			$("#frmisoittd_upload").submit(function(e) {
 				e.preventDefault();
@@ -757,7 +784,9 @@
 					}
 
 					if (id_isoxxth_upload_filter > 0) {
-						generateTable(id_isoxxth_upload_filter);
+						generateCard(id_isoxxth_upload_filter);
+						tblisoittd_upload.ajax.reload(null, false);
+						tblisoittd_upload_log.ajax.reload(null, false);
 					}
 				}
 			});
