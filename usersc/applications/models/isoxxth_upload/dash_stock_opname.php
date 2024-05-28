@@ -76,7 +76,7 @@
                             COUNT(id) AS c_target,
                             target.id_isoxxth_upload
                         FROM isoittd_upload AS target
-                        WHERE target.id_isoxxth_upload = :id_isoxxth_upload
+                        WHERE target.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9
                     ) AS target ON target.id_isoxxth_upload = a.id
                     
                     -- is_upload = 1
@@ -85,7 +85,7 @@
                             COUNT(id) AS c_upload,
                             up.id_isoxxth_upload
                         FROM isoittd_upload AS up
-                        WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND up.is_upload = 1
+                        WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND up.is_upload = 1
                     ) AS upload ON upload.id_isoxxth_upload = a.id
                     
                     -- is_upload = 0 / Bukan Upload
@@ -94,7 +94,7 @@
                             COUNT(id) AS c_not_upload,
                             up.id_isoxxth_upload
                         FROM isoittd_upload AS up
-                        WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND up.is_upload IS NULL
+                        WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND up.is_upload IS NULL
                     ) AS not_upload ON not_upload.id_isoxxth_upload = a.id
                     
                     -- isoittd yang sudah terhitung
@@ -103,7 +103,7 @@
                             COUNT(id) AS c_terhitung,
                             hitung.id_isoxxth_upload
                         FROM isoittd_upload AS hitung
-                        WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND (fisik >= 0 OR is_skip = 1)
+                        WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND (fisik >= 0 OR is_skip = 1)
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
                     
                     -- fisik sesuai
@@ -112,7 +112,7 @@
                             COUNT(d.id) AS c_sesuai,
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
-                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih = 0
+                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND d.selisih = 0
                     ) AS sesuai ON sesuai.id_isoxxth_upload = a.id
                     
                     -- fisik lebih
@@ -121,7 +121,7 @@
                             COUNT(d.id) AS c_lebih,
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
-                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih > 0
+                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND d.selisih > 0
                     ) AS lebih ON lebih.id_isoxxth_upload = a.id
                     
                     -- fisik kurang
@@ -130,7 +130,7 @@
                             COUNT(d.id) AS c_kurang,
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
-                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.selisih < 0
+                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND d.selisih < 0
                     ) AS kurang ON kurang.id_isoxxth_upload = a.id
                     
                     -- fisik skip
@@ -139,7 +139,7 @@
                             COUNT(d.id) AS c_skip,
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
-                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND d.is_skip = 1
+                        WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND d.is_skip = 1
                     ) AS skip ON skip.id_isoxxth_upload = a.id
                     
                     WHERE a.id = :id_isoxxth_upload
@@ -205,7 +205,7 @@
                                 nama,
                                 target.id_isoxxth_upload
                             FROM isoittd_upload AS target
-                            WHERE target.id_isoxxth_upload = :id_isoxxth_upload
+                            WHERE target.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9
                             group BY nama
                         ) AS z
                     ) AS target ON target.id_isoxxth_upload = a.id
@@ -220,7 +220,7 @@
                                 COUNT(id) AS c_upload,
                                 up.id_isoxxth_upload
                             FROM isoittd_upload AS up
-                            WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND up.is_upload = 1
+                            WHERE up.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND up.is_upload = 1
                             group by nama
                         ) AS z
                     ) AS upload ON upload.id_isoxxth_upload = a.id
@@ -235,7 +235,7 @@
                                 COUNT(id) AS c_terhitung,
                                 hitung.id_isoxxth_upload
                             FROM isoittd_upload AS hitung
-                            WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload 
+                            WHERE hitung.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 
                             group by nama
                             HAVING SUM(fisik) >= 0
                         ) AS z
@@ -252,7 +252,7 @@
                                 d.nama,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
-                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
+                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 
                             group by nama
                             Having sum(d.selisih) = 0
                         ) AS z
@@ -269,7 +269,7 @@
                                 d.nama,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
-                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
+                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 
                             group by nama
                             Having sum(d.selisih) > 0
                         ) AS z
@@ -286,7 +286,7 @@
                                 d.nama,
                                 d.id_isoxxth_upload
                             FROM isoittd_upload AS d
-                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload 
+                            WHERE d.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 
                             group by nama
                             Having sum(d.selisih) < 0
                         ) AS z
@@ -343,7 +343,7 @@
                             GROUP BY created_by
                         ) AS jam ON jam.created_by = p.created_by
 
-                        WHERE a.id_isoxxth_upload = :id_isoxxth_upload
+                        WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9
                         GROUP BY p.created_by
                     )
                     SELECT
@@ -371,7 +371,7 @@
                         sum(a.fisik) AS s_fisik,
                         sum(a.selisih) AS s_selisih
                     FROM isoittd_upload AS a
-                    WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.fisik is not null
+                    WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9 AND a.fisik is not null
                     GROUP BY a.nama
                     having s_selisih < 0
                     ORDER BY s_selisih ASC
