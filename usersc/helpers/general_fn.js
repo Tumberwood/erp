@@ -839,3 +839,73 @@ function validasi_outstanding(edt, nama_tabel, id_transaksi, id_detail_item_befo
  * biasanya dipanggil di footerCallback
  */
 dtNumberFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
+
+/**
+ * 
+ * @param {content} = konten yang ingin direload, seperti:
+ * tblisoittd_upload.ajax.reload(null, false); atau function generateCard();
+ * 
+ * Cara menggunakan function autoReloadInterval()
+ * 
+ * autoReloadInterval(function () {
+ *      //tambahkan function reload tabel atau function generate card
+        generateCard();							
+        tblisoittd_upload.ajax.reload(null, false);
+        tblisoittd_upload_log.ajax.reload(null, false);
+        // console.log('reloaded');
+    });
+ */
+function autoReloadInterval(content) {
+
+    //Buat form cekbox switch auto reload dinamis, jadi tidak perlu lagi menambahkan html di filter
+    //ketika function autoReloadInterval() dipanggil, maka otomatis membuat form switch checkbox
+    var autoReloadCheckbox = `
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Auto Reload</label>
+            <div class="col-lg-5">
+                <input id="isAutoReload" type="checkbox" class="js-switch"/>
+            </div>
+        </div>`;
+
+    // ini akan di append di .form-horizontal atau class form yang ada di filter biasanya
+
+    //Cari modal-body pada form-horizontal, ini untuk case SF atau filter yang masuk di button
+    var modalBody = $(".form-horizontal").find(".modal-body");
+
+    //jika ternyata ada modal body, atau filter ini yang masuk di button ljoxxth_dashboard.php
+    if (modalBody.length > 0) {
+        // maka di append di modal body, atau di filter yang di dalam button
+        modalBody.append(autoReloadCheckbox);
+    } else {
+        // jika tidak ditemukan, maka akan di append di form-horizontal, seperti di dash_stock_opname.php
+        $(".form-horizontal").append(autoReloadCheckbox);
+    }
+
+    //Panggil elem disini agar tidak perlu deklarasi lagi di viewnya, sekalian disini saja
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, { color: '#1AB394' });
+
+    //ini function change, jika checkboxnya ter ceklis, maka akan di reload kontennya, jika tidak maka disable reload
+    $("#isAutoReload").change(function(){
+        if ($(this).prop("checked")) {
+            is_auto_reload = true;
+            $.ajax({
+                url: "../../../../usersc/helpers/reload_interval_ms.php",
+                dataType: 'json',
+                type: 'POST',
+                success: function (json) {
+                    var reload_interval_ms = json.data.reload_interval_ms;
+
+                    autoReload = setInterval(function () {
+                        content(); // Call the provided content function
+                    }, reload_interval_ms);
+                }
+            });				
+        } else {
+            clearInterval(autoReload); 
+            is_auto_reload = false;
+        }
+
+        console.log(is_auto_reload);
+    });
+}

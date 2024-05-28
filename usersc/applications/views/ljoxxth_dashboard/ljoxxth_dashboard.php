@@ -130,12 +130,6 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group row">
-										<label class="col-lg-2 col-form-label">Auto Reload</label>
-										<div class="col-lg-5">
-											<input id="isAutoReload" type="checkbox" class="js-switch"/>
-										</div>
-									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -203,35 +197,16 @@
 	// get tableRelation
 	tableRelation('ljoxxth');
 
-	var elem = document.querySelector('.js-switch');
-	var switchery = new Switchery(elem, { color: '#1AB394' });
-
 	$(document).ready(function() {
 
-		$("#isAutoReload").change(function(){
-			if ($(this).prop("checked")) {
-				is_auto_reload = true;
-				$.ajax({
-					url: "../../models/isoxxth_upload/reload_interval_ms.php",
-					dataType: 'json',
-					type: 'POST',
-					success: function (json) {
-						var reload_interval_ms = json.data.reload_interval_ms;
-						autoReload = setInterval(function () {
-							load_dashboard_logistic();							
-							tblljoxxth.ajax.reload(null, false);
-						}, reload_interval_ms);
-					}
-				});				
-			} else {
-				clearInterval(autoReload);
-			}
-
-			console.log(is_auto_reload);
+		//function autoreload data based on interval ms di ggsxxsh
+		autoReloadInterval(function () {
+			//tambahkan function reload tabel atau function generate card
+			load_dashboard_logistic();							
+			tblljoxxth.ajax.reload(null, false);
+			// console.log('reloaded');
 		});
 
-		
-		
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');	
 

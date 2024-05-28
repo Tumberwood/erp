@@ -130,13 +130,12 @@
                 </form>
 				
 				<br>
-				
-				<div class="form-group row">
+				<!-- <div class="form-group row">
 					<label class="col-lg-2 col-form-label">Auto Reload</label>
 					<div class="col-lg-5">
 						<input id="isAutoReload" type="checkbox" class="js-switch"/>
 					</div>
-				</div>
+				</div> -->
             </div>
         </div>
     </div>
@@ -445,9 +444,6 @@
 		
 		// get tableRelation
 		tableRelation('isoittd_upload');
-		
-		var elem = document.querySelector('.js-switch');
-		var switchery = new Switchery(elem, { color: '#1AB394' });
 
 		$("#selectKode").select2({
 			placeholder : "Select",
@@ -596,29 +592,13 @@
 
 		$(document).ready(function() {
 
-			$("#isAutoReload").change(function(){
-				if ($(this).prop("checked")) {
-					is_auto_reload = true;
-					$.ajax({
-						url: "../../../../usersc/helpers/reload_interval_ms.php",
-						dataType: 'json',
-						type: 'POST',
-						success: function (json) {
-							var reload_interval_ms = json.data.reload_interval_ms;
-							autoReload = setInterval(function () {
-								generateCard();							
-								tblisoittd_upload.ajax.reload(null, false);
-								tblisoittd_upload_log.ajax.reload(null, false);
-								// console.log('reloaded');
-							}, reload_interval_ms);
-						}
-					});				
-				} else {
-					clearInterval(autoReload); 
-					is_auto_reload = false;
-				}
-
-				console.log(is_auto_reload);
+			//function autoreload data based on interval ms di ggsxxsh
+			autoReloadInterval(function () {
+ 	    		//tambahkan function reload tabel atau function generate card
+				generateCard();							
+				tblisoittd_upload.ajax.reload(null, false);
+				tblisoittd_upload_log.ajax.reload(null, false);
+				// console.log('reloaded');
 			});
 
 			//Table Selisih
