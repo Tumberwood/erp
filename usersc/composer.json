@@ -3,6 +3,7 @@
         "phpoffice/phpspreadsheet": "^1.25",
         "mpdf/mpdf": "^8.1",
         "nesbot/carbon": "^2.64",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "mpdf/qrcode": "^1.2"
     }
 }
