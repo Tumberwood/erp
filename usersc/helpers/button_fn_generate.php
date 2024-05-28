@@ -842,14 +842,21 @@
                             className: 'btn btn-sm text-danger',
                             titleAttr: 'Remove',
                             formButtons: [
-                            {
-                                text: 'Cancel',
-                                action: function () {
-                                    this.close();
+                                {
+                                    text: 'Cancel',
+                                    action: function () {
+                                        this.close();
+                                    },
+                                    className: 'btn btn-warning m-r-xs'
+                                },
+                                {
+                                    text: 'Delete',
+                                    action: function () {
+                                        this.submit();
+                                    },
+                                    className: 'btn btn-danger'
                                 }
-                            },
-                            'Delete'
-                        ]
+                            ]
                         },
 <?php
                     }
