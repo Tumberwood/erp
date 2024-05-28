@@ -151,15 +151,17 @@
             
             if($id_transaksi_asal_d_before != $id_transaksi_asal_d_after){
                 // jika ada perubahan, maka dikembalikan ke null
-                $qu_detail_asal_before = $db
-                    ->raw()
-                    ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d_before)
-                    ->exec('
-                        UPDATE '.$tbl_name_asal_d.'
-                        SET is_nextprocess = null
-                        WHERE  1
-                            AND id = :id_transaksi_asal_d
-                    ');
+                // ini harus diubah. harus ada cek lagi selain di transaksi ini apakah dipakai di transaksi lain
+                // jika memang sudah tidak ada, baru dijadikan null
+                // $qu_detail_asal_before = $db
+                //     ->raw()
+                //     ->bind(':id_transaksi_asal_d', $id_transaksi_asal_d_before)
+                //     ->exec('
+                //         UPDATE '.$tbl_name_asal_d.'
+                //         SET is_nextprocess = null
+                //         WHERE  1
+                //             AND id = :id_transaksi_asal_d
+                //     ');
             }
 
             $qu_detail_asal = $db
