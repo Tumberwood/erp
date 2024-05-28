@@ -446,6 +446,9 @@
 		// get tableRelation
 		tableRelation('isoittd_upload');
 		
+		var elem = document.querySelector('.js-switch');
+		var switchery = new Switchery(elem, { color: '#1AB394' });
+
 		$("#selectKode").select2({
 			placeholder : "Select",
 			allowClear: true,
@@ -592,8 +595,6 @@
 		}
 
 		$(document).ready(function() {
-			var is_auto_reload = false;
-			var reloadIntervalId;
 
 			$("#isAutoReload").change(function(){
 				if ($(this).prop("checked")) {
@@ -604,7 +605,7 @@
 						type: 'POST',
 						success: function (json) {
 							var reload_interval_ms = json.data.reload_interval_ms;
-							reloadIntervalId = setInterval(function () {
+							autoReload = setInterval(function () {
 								generateCard();							
 								tblisoittd_upload.ajax.reload(null, false);
 								tblisoittd_upload_log.ajax.reload(null, false);
@@ -613,7 +614,7 @@
 						}
 					});				
 				} else {
-					clearInterval(reloadIntervalId); 
+					clearInterval(autoReload); 
 					is_auto_reload = false;
 				}
 
