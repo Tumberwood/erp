@@ -84,6 +84,7 @@
 								<th>Reset per</th>
 								<th>Karakter Pembagi</th>
 								<th>per Cabang</th>
+								<th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -386,7 +387,11 @@
 					{ 
 						data: "gdnxxsh.by_cabang" ,
 						...renderYaTidak()
-					}
+					},
+					{ 
+						data: "gdnxxsh.transaction_state" ,
+						...renderTransactionStatus()
+					},
 				],
 				buttons: [
 					// BEGIN breaking generate button
