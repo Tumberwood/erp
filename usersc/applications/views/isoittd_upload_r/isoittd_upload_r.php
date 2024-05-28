@@ -95,6 +95,8 @@
 		// ------------- end of default variable
 		var id_isoxxth_upload_filter = 0;
 
+		tableRelation('isoittd_upload');
+		
 		$("#selectKode").select2({
 			placeholder : "Select",
 			allowClear: true,
