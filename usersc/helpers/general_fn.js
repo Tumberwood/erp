@@ -840,6 +840,24 @@ function validasi_outstanding(edt, nama_tabel, id_transaksi, id_detail_item_befo
  */
 dtNumberFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
 
+
+// Fungsi Scroll kembali ke posisi terakhir sebelum Reload
+/**
+ * 
+ * @param {scrollPosition} Offset Page Y dan X
+ * 
+    var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    
+    tblisoittd_upload.ajax.reload(function() {
+        scrollToPosition(scrollPosition);
+    }, false);
+ */
+
+function scrollToPosition(scrollPosition) {
+    window.scrollTo(0, scrollPosition);
+}
+
+
 /**
  * 
  * @param {content} = konten yang ingin direload, seperti:
@@ -847,11 +865,19 @@ dtNumberFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display;
  * 
  * Cara menggunakan function autoReloadInterval()
  * 
- * autoReloadInterval(function () {
- *      //tambahkan function reload tabel atau function generate card
-        generateCard();							
-        tblisoittd_upload.ajax.reload(null, false);
-        tblisoittd_upload_log.ajax.reload(null, false);
+ *  autoReloadInterval(function () {
+        var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        console.log(scrollPosition);
+        //tambahkan function reload tabel atau function generate card
+        generateCard(id_isoxxth_upload_filter);
+        // Reload the tables and scroll to position afterward
+        tblisoittd_upload.ajax.reload(function() {
+            scrollToPosition(scrollPosition);
+        }, false);
+
+        tblisoittd_upload_log.ajax.reload(function() {
+            scrollToPosition(scrollPosition);
+        }, false);
         // console.log('reloaded');
     });
  */

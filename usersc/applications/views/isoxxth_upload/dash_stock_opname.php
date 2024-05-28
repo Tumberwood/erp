@@ -529,10 +529,18 @@
 
 			//function autoreload data based on interval ms di ggsxxsh
 			autoReloadInterval(function () {
+				var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+				// console.log(scrollPosition);
  	    		//tambahkan function reload tabel atau function generate card
 				generateCard(id_isoxxth_upload_filter);
-				tblisoittd_upload.ajax.reload(null, false);
-				tblisoittd_upload_log.ajax.reload(null, false);
+				// Reload the tables and scroll to position afterward
+				tblisoittd_upload.ajax.reload(function() {
+					scrollToPosition(scrollPosition);
+				}, false);
+
+				tblisoittd_upload_log.ajax.reload(function() {
+					scrollToPosition(scrollPosition);
+				}, false);
 				// console.log('reloaded');
 			});
 
