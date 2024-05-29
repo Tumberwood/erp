@@ -1,5 +1,5 @@
 <?php
-	include_once( "hakakses_s_fn.php" );
+	// include_once( "hakakses_s_fn.php" );
 	
 	// BEGIN definisi variable untuk fn_ajax_results.php
     $data      = array();
