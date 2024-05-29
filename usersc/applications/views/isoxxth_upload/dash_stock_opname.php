@@ -36,243 +36,387 @@
                     </div>
                 </form>
 				
-				<br>
             </div>
         </div>
     </div>
 </div>
+<hr>
 
 <div class="row" id="showing" style="display: none">
-	<div class="col-6">
-		<div class="ibox ">
-			<div class="ibox-content">
-				<h5>Row Data</h5>
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="targetRows" style="font-size: 40px"></h4>
-								<br>
-								<h6 class="no-margins text-center font-bold">
-									Target
-								</h6>
-								<div id="progress_rows"></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div id="uploadCarousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<div class="widget no-padding gray-bg">
-										<div class="p-m">
-											<div class="row">
-												<div class="col-12">
-													<h4 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h4>
-													<br>
-													<h6 class="no-margins text-center font-bold">Upload</h6>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="carousel-item">
-									<div class="widget no-padding gray-bg">
-										<div class="p-m">
-											<div class="row">
-												<div class="col-12">
-													<h4 class="text-center font-bold" id="c_not_uploadRows" style="font-size: 40px"></h4>
-													<br>
-													<h6 class="no-margins text-center font-bold">Diluar Upload</h6>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<a class="carousel-control-prev" href="#uploadCarousel" role="button" data-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control-next" href="#uploadCarousel" role="button" data-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-						</div>
-					</div>
 
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="terhitungRows" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_terhitungRows" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
-									Terhitung
-								</h5>
+	<!-- Mobile view -->
+	<div class="d-md-none">
+		<!-- Content visible only on mobile -->
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+				<a class="nav-link active" href="#tab1" data-toggle="tab" onclick="showTabContent('#tab1')">Row Data</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#tab2" data-toggle="tab" onclick="showTabContent('#tab2')">Item Data</a>
+			</li>
+			<!-- Add more tabs as needed -->
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="tab1">
+				<!-- Content for Tab 1 -->
+			</div>
+			<div class="tab-pane fade" id="tab2">
+				<!-- Content for Tab 2 -->
+			</div>
+			<!-- Add more tab content as needed -->
+		</div>
+	</div>
+	
+	<div class="col-lg-6">
+		<div id="kontenTab1">
+			<h3>Row Data</h3>
+			<!-- <div class="ibox "> -->
+				<div class="row m-r-n-xl">
+					<div class="col-3 m-r-n-xl" id="tooltipRows" data-toggle="tooltip">
+						<div class="ibox-content d-flex align-items-center justify-content-center" style="height: 256px; background-color: #bae1ff">
+							<div class="row">
+								<div class="col text-center">
+									<h4 class="font-bold" id="targetRows" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold">
+										Target
+									</h5>
+									<div id="progress_rows"></div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="not_terhitungRows" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_not_terhitungRows" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
-									Belum Terhitung
-								</h5>
+					<div class="col-5 m-l-sm">
+						<div class="ibox-content">
+							<h4>Upload</h4>
+							<div class="row">
+								<div class="col-6">
+									<h4 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h4>
+								</div>
+								<div class="col-6">
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="ibox-content">
+							<h4>Diluar Upload</h4>
+							<div class="row">
+								<div class="col-6">
+									<h4 class="text-center font-bold" id="c_not_uploadRows" style="font-size: 40px"></h4>
+								</div>
+								<div class="col-6">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 m-l-n-lg">
+						
+						<div class="ibox-content m-r-n-lg">
+							<h4>Terhitung</h4>
+							<div class="row">
+								<div class="col-6">
+									<h4 class="text-center font-bold" id="terhitungRows" style="font-size: 40px"></h4>
+								</div>
+								<div class="col-6">
+									<span class="label label-primary float-right" id="p_terhitungRows"></span>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="ibox-content m-r-n-lg">
+							<h4>Belum Terhitung</h4>
+							<div class="row">
+								<div class="col-6">
+									<h4 class="text-center font-bold" id="not_terhitungRows" style="font-size: 40px"></h4>
+								</div>
+								<div class="col-6">
+									<span class="label label-danger float-right" id="p_not_terhitungRows" ></span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<br>
 				
-				<h5>Detail Row Data</h5>
 				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
+					<!-- <div class="col-6">
+						<div class="ibox-content">
+							<h4>Sesuai</h4>
+							<div class="row">
+								<div class="col-6">
+									<h4 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h4>
+								</div>
+								<div class="col-6">
+									<span class="label label-primary float-right" id="p_sesuaiRows"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						
+						<div class="ibox-content">
+							<h4>Selisih Lebih</h4>
+							<div class="row">
+								<div class="col-6">
+									<h4 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h4>
+								</div>
+								<div class="col-6">
+									<span class="label label-warning float-right" id="p_lebihRows"></span>
+								</div>
+							</div>
+						</div>
+					</div> -->
+						
+					<div class="col-6">
+						<div class="widget navy-bg">
+							
 								<h4 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_sesuaiRows" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
+								<h5 class="no-margins text-center font-bold">
 									Sesuai
 								</h5>
-							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget yellow-bg no-padding">
-							<div class="p-m">
+					<div class="col-6">
+						<!-- <div class="widget yellow-bg m-l-n-lg"> -->
+						<div class="widget yellow-bg m-l-n-md">
+							
 								<h4 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_lebihRows" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
+								<h5 class="no-margins text-center font-bold">
 									Selisih Lebih
 								</h5>
-							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
+				</div>
+				<div class="row m-t-n-sm">
+				<!-- <div class="row m-t-n-md"> -->
+					<div class="col-6">
+						<div class="widget red-bg">
+							
 								<h4 class="text-center font-bold" id="kurangRows" style="font-size: 40px"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_kurangRows" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
+								<h5 class="no-margins text-center font-bold">
 									Selisih Kurang
 								</h5>
-							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget gray-bg no-padding">
-							<div class="p-m">
+					<div class="col-6">
+						<!-- <div class="widget gray-bg m-l-n-lg"> -->
+						<div class="widget gray-bg m-l-n-md">
+							
 								<h4 class="text-center font-bold" id="skipRows" style="font-size: 40px"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_skipRows" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
+								<h5 class="no-margins text-center font-bold">
 									Data Skip
 								</h5>
-							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			<!-- </div> -->
 		</div>
 	</div>
-	<div class="col-6">
-		<div class="ibox ">
-			<div class="ibox-content">
-				<h5>Item Data</h5>
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h4>
-								<br>
-								<h6 class="no-margins text-center font-bold">
-									Target
-								</h6>
-								<div id="progress_item"></div>
+	<div class="col-lg-6">
+		<div id="kontenTab2">
+			<h3>Item Data</h3>
+			<!-- <div class="ibox "> -->
+				<div class="row m-r-n-xl">
+					<div class="col-3 m-r-n-xl" id="tooltipItem" data-toggle="tooltip">
+						<div class="ibox-content d-flex align-items-center justify-content-center" style="height: 256px; background-color: #B5C0D0">
+							<div class="row">
+								<div class="col text-center">
+									<h4 class="font-bold" id="targetItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold">
+										Target
+									</h5>
+									<div id="progress_rows"></div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget no-padding gray-bg ">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h4>
-								<br>
-								<h6 class="no-margins text-center font-bold">
-									Total Upload
-								</h6>
+					<div class="col-3 m-r-n-xl" id="tooltipItem" data-toggle="tooltip">
+						<div class="ibox-content bg-muted d-flex align-items-center justify-content-center" style="height: 256px;">
+							<div class="row">
+								<div class="col text-center">
+									<h4 class="font-bold" id="c_uploadItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold">
+										Total Upload
+									</h5>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_terhitungItem" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
-									Terhitung
-								</h5>
+					<div class="col-6">
+						<div class="row">
+							<div class="col-12">
+								<div class="ibox-content m-r-n-xl">
+									<h4>Terhitung</h4>
+									<div class="row">
+										<div class="col-6">
+											<h4 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h4>
+										</div>
+										<div class="col-6">
+											<span class="label label-primary float-right" id="p_terhitungItem"></span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_not_terhitungItem" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
-									Belum Terhitung
-								</h5>
+						<div class="row">
+							<div class="col-12">
+								<div class="ibox-content m-r-n-xl">
+									<h4>Belum Terhitung</h4>
+									<div class="row">
+										<div class="col-6">
+											<h4 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h4>
+										</div>
+										<div class="col-6">
+											<span class="label label-danger float-right" id="p_not_terhitungItem" ></span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
+						
 					</div>
+						
+						
 				</div>
-				<br>
 				
-				<h5>Detail Item Data</h5>
 				<div class="row">
-					<div class="col-lg-3">
-						<div class="widget navy-bg no-padding">
-							<div class="p-m">
+					<div class="col-4">
+						<div class="widget navy-bg">
+							
 								<h4 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
+								<h5 class="no-margins text-center font-bold">
 									Sesuai
-									</h5>
-							</div>
+								</h5>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget yellow-bg no-padding">
-							<div class="p-m">
+					<div class="col-4">
+						<!-- <div class="widget yellow-bg m-l-n-lg"> -->
+						<div class="widget yellow-bg m-l-n-md">
+							
 								<h4 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
+								<h5 class="no-margins text-center font-bold">
 									Selisih Lebih
 								</h5>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="widget red-bg m-l-n-md m-r-sm">
+							
+								<h4 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
+								<h5 class="no-margins text-center font-bold">
+									Selisih Kurang
+								</h5>
+						</div>
+					</div>
+				</div>
+			<!-- </div> -->
+
+			<!-- <div class="ibox ">
+				<div class="ibox-content">
+					<h5>Item Data</h5>
+					<div class="row">
+						<div class="col-lg-3">
+							<div class="widget no-padding gray-bg ">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h4>
+									<br>
+									<h6 class="no-margins text-center font-bold">
+										Target
+									</h6>
+									<div id="progress_item"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="widget no-padding gray-bg ">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h4>
+									<br>
+									<h6 class="no-margins text-center font-bold">
+										Total Upload
+									</h6>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="widget navy-bg no-padding">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold text-center" id="p_terhitungItem" style="font-size: 20px"></h5>
+									<h6 class="no-margins text-center font-bold">
+										Terhitung
+									</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="widget red-bg no-padding">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold text-center" id="p_not_terhitungItem" style="font-size: 20px"></h5>
+									<h6 class="no-margins text-center font-bold">
+										Belum Terhitung
+									</h5>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="widget red-bg no-padding">
-							<div class="p-m">
-								<h4 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
-								<h6 class="no-margins text-center font-bold">
-									Selisih Kurang
-								</h5>
+					<br>
+					
+					<h5>Detail Item Data</h5>
+					<div class="row">
+						<div class="col-lg-3">
+							<div class="widget navy-bg no-padding">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h5>
+									<h6 class="no-margins text-center font-bold">
+										Sesuai
+										</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="widget yellow-bg no-padding">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h5>
+									<h6 class="no-margins text-center font-bold">
+										Selisih Lebih
+									</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="widget red-bg no-padding">
+								<div class="p-m">
+									<h4 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h4>
+									<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
+									<h6 class="no-margins text-center font-bold">
+										Selisih Kurang
+									</h5>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
+	
 	<div class="col">
 		<div class="ibox" id="tabel_item">
 			<div class="ibox-content">
 				<div class="row">
-					<div class="col-md-6">
+					<!-- <div class="col-md-6"> -->
+					<div class="col-6">
 						<h5>Log By User</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -290,7 +434,8 @@
 							</div>
 						<!-- <div id="tabel_kiri"></div> -->
 					</div>
-					<div class="col-md-6">
+					<!-- <div class="col-md-6"> -->
+					<div class="col-6">
 						<h5>Bottom 10 Items</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -325,8 +470,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 <!-- BEGIN JS -->
 <?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php'; ?>
@@ -416,14 +559,22 @@
 							progressClassrows = 'progress-bar-danger';
 						}else if(persen_terhitung_rows_int <= 60){
 							progressClassrows = 'progress-bar-warning';
-						}else if(persen_terhitung_rows_int <= 100){
-							progressClassrows = 'progress-bar';
+						}else if(persen_terhitung_rows_int < 100){
+							progressClassrows = 'progress-bar-success';
 						}else{
 							progressClassrows = 'progress-bar';
 						}
 						$('#progress_rows').html(
 							'<div class="progress progress-mini '+progressClassrows+'" style="width: '+persen_terhitung_rows+'" role="progressbar" aria-valuenow="'+persen_terhitung_rows+'" aria-valuemin="0" aria-valuemax="100"></div>'
 						);
+
+						var tooltipRows = document.getElementById('tooltipRows');
+
+						var titleText = 'Total Data by Rows = ' + json.data.c_target +
+										'\n Terhitung = ' + json.data.c_terhitung +
+										'\n Progress = ' + persen_terhitung_rows;
+
+						tooltipRows.setAttribute('title', titleText);
 						
 						$('#p_not_terhitungRows').empty();
 						$('#p_not_terhitungRows').html(json.data.not_terhitung);
@@ -476,8 +627,8 @@
 							progressClassItem = 'progress-bar-danger';
 						}else if(persen_terhitung_item_int <= 60){
 							progressClassItem = 'progress-bar-warning';
-						}else if(persen_terhitung_item_int <= 100){
-							progressClassItem = 'progress-bar';
+						}else if(persen_terhitung_item_int < 100){
+							progressClassItem = 'progress-bar-success';
 						}else{
 							progressClassItem = 'progress-bar';
 						}
@@ -524,9 +675,35 @@
 				}
 			} );
 		}
+		
+		function showTabContent(tabId) {
+			var tab1Content = document.getElementById('kontenTab1');
+			var tab2Content = document.getElementById('kontenTab2');
+			
+			if ($(window).width() < 768) { // Mobile view
+				// Hide tab 2 content when tab 1 is clicked
+				if (tabId === '#tab1') {
+					tab1Content.style.display = 'block';
+					tab2Content.style.display = 'none';
+				}
+				// Hide tab 1 content when tab 2 is clicked
+				else if (tabId === '#tab2') {
+					tab2Content.style.display = 'block';
+					tab1Content.style.display = 'none';
+				}
+			} else { // Desktop view
+				// Show both tab 1 and tab 2 content
+				tab1Content.style.display = 'block';
+				tab2Content.style.display = 'block';
+			}
+		}
 
 		$(document).ready(function() {
+			showTabContent('#tab1');
 
+			$(window).resize(function() {
+				showTabContent($('.nav-link.active').attr('href')); // Display content based on the active tab
+			});
 			//function autoreload data based on interval ms di ggsxxsh
 			autoReloadInterval(function () {
 				var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
@@ -691,7 +868,7 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblisoittd_upload_log);
 			} );
-			
+
 			$("#frmFilter").submit(function(e) {
 				e.preventDefault();
 			}).validate({
@@ -710,6 +887,8 @@
 						generateCard(id_isoxxth_upload_filter);
 						tblisoittd_upload.ajax.reload(null, false);
 						tblisoittd_upload_log.ajax.reload(null, false);
+						var ibox = $('#iboxfilter');
+        				ibox.find('.collapse-link').click();
 					}
 				}
 			});
