@@ -280,121 +280,125 @@
 
 						// Check if a file is selected
 						if (fileInput.files.length > 0) {
-							// console.log(fileInput.files.length);
-							// Get the first file
-							// var file = fileInput.files[0];
 							var file =  fileInput.files[fileInput.files.length - 1];
-							// console.log(file);
-							// console.log(file.name);
+							var maxWidth = 800; // Lebar maksimum gambar yang diinginkan
+							var maxHeight = 600; // Tinggi maksimum gambar yang diinginkan
+							var quality = 0.8; // Kualitas gambar (0-1)
 							
-							var reader = new FileReader();
-							// console.log(reader);
-							reader.onload = function (event) {
-								// console.log(file.name);
-								target_bg = event.target.result
-								// console.log(event);
-								// console.log(event.target);
-								replaceCanvasImage(target_bg);
+							resizeImage(file, maxWidth, maxHeight, quality)
+							.then(function(resizedImageBlob) {
+								var reader = new FileReader();
 
-								// Aktifkan elemen-elemen setelah file terpilih
-								$('#addCircleBtn').prop('disabled', false);
-								$('#moveCircleBtn').prop('disabled', false);
-								$('#deleteCircleBtn').prop('disabled', false);
-								$('#colorPicker').prop('disabled', false);
-								$('#pickColor').prop('disabled', false);
-								$('#circleSize').prop('disabled', false);
-								$('#analyzeBtn').prop('disabled', false);
-								
-								$('#addCircleBtn').on( "click", function() {
-									mode = 'add';
-								} );
+								reader.onload = function (event) {
+									// console.log(file.name);
+									target_bg = event.target.result
+									// console.log(event);
+									// console.log(event.target);
+									replaceCanvasImage(target_bg);
 
-								$('#deleteCircleBtn').on( "click", function() {
-									mode = 'delete';
-								} );
+									// Aktifkan elemen-elemen setelah file terpilih
+									$('#addCircleBtn').prop('disabled', false);
+									$('#moveCircleBtn').prop('disabled', false);
+									$('#deleteCircleBtn').prop('disabled', false);
+									$('#colorPicker').prop('disabled', false);
+									$('#pickColor').prop('disabled', false);
+									$('#circleSize').prop('disabled', false);
+									$('#analyzeBtn').prop('disabled', false);
+									
+									$('#addCircleBtn').on( "click", function() {
+										mode = 'add';
+									} );
 
-								$('#moveCircleBtn').on( "click", function() {
-									mode = 'move';
-								} );
+									$('#deleteCircleBtn').on( "click", function() {
+										mode = 'delete';
+									} );
 
-								canvas.on('mouse:down', function(options) {
-									if (mode == 'add') {
-										var pointer = canvas.getPointer(options.e);
-										addCircle(pointer.x, pointer.y);
-									} else if (mode == 'delete') {
-										var target = canvas.findTarget(options.e);
-										if (target && target.type === 'circle') {
-											removeCircle(target);
+									$('#moveCircleBtn').on( "click", function() {
+										mode = 'move';
+									} );
+
+									canvas.on('mouse:down', function(options) {
+										if (mode == 'add') {
+											var pointer = canvas.getPointer(options.e);
+											addCircle(pointer.x, pointer.y);
+										} else if (mode == 'delete') {
+											var target = canvas.findTarget(options.e);
+											if (target && target.type === 'circle') {
+												removeCircle(target);
+											}
+										} else if (mode == 'move') {
+											canvas.isDrawingMode = false;
+											canvas.selection = true;
 										}
-									} else if (mode == 'move') {
-										canvas.isDrawingMode = false;
-										canvas.selection = true;
-									}
-								});
-								
-								$('#analyzeBtn').on("click", function() {
-									toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
-
-									// Ensure hitungWarna is called only once
-									if (!hitungWarna.isRunning) {
-										hitungWarna.isRunning = true; // Set flag to indicate that hitungWarna is running
-
-										hitungWarna(target_bg, function(result) {
-											// Assign result to simpanFoto
-											simpanFoto = result;
-											// console.log(simpanFoto);
-
-											hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
-										});
-									}
-								});
-
-								$('#saveBtn').on("click", function() {
-									toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
-									$('.btn_hasil').prop('disabled', false); 
+									});
 									
-									// Disable all buttons when saved
-									$('#addCircleBtn').prop('disabled', true);
-									$('#moveCircleBtn').prop('disabled', true);
-									$('#deleteCircleBtn').prop('disabled', true);
-									$('#colorPicker').prop('disabled', true);
-									$('#pickColor').prop('disabled', true);
-									$('#circleSize').prop('disabled', true);
-									$('#analyzeBtn').prop('disabled', true);
-									$('#saveBtn').prop('disabled', true);
-									
-									canvas.off('mouse:down');
-									// console.log(simpanFoto); 
+									$('#analyzeBtn').on("click", function() {
+										toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
 
-									var formData = new FormData();
+										// Ensure hitungWarna is called only once
+										if (!hitungWarna.isRunning) {
+											hitungWarna.isRunning = true; // Set flag to indicate that hitungWarna is running
 
-									// Loop melalui setiap kunci (key) dalam simpanFoto
-									for (var key in simpanFoto) {
-										if (simpanFoto.hasOwnProperty(key)) {
-											// Menambahkan nilai simpanFoto ke FormData
-											formData.append('canvasImage', simpanFoto[key]);
-											formData.append('imageId', key);
-											
-											$.ajax({
-												url: "../../models/isoxxth_pointer/isoxxth_pointer_v2.php",
-												type: 'POST',
-												data: formData,
-												processData: false,
-												contentType: false,
-												success: function (json) {
-													var imageId = json.data.imageId;
-													// console.log(imageId);
-												},
-												error: function (xhr, status, error) {
-													console.error(xhr, status, error);
-												}
+											hitungWarna(target_bg, function(result) {
+												// Assign result to simpanFoto
+												simpanFoto = result;
+												// console.log(simpanFoto);
+
+												hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
 											});
 										}
-									}
-								});
+									});
 
-							};
-							reader.readAsDataURL(file);
+									$('#saveBtn').on("click", function() {
+										toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+										$('.btn_hasil').prop('disabled', false); 
+										
+										// Disable all buttons when saved
+										$('#addCircleBtn').prop('disabled', true);
+										$('#moveCircleBtn').prop('disabled', true);
+										$('#deleteCircleBtn').prop('disabled', true);
+										$('#colorPicker').prop('disabled', true);
+										$('#pickColor').prop('disabled', true);
+										$('#circleSize').prop('disabled', true);
+										$('#analyzeBtn').prop('disabled', true);
+										$('#saveBtn').prop('disabled', true);
+										
+										canvas.off('mouse:down');
+										// console.log(simpanFoto); 
+
+										var formData = new FormData();
+
+										// Loop melalui setiap kunci (key) dalam simpanFoto
+										for (var key in simpanFoto) {
+											if (simpanFoto.hasOwnProperty(key)) {
+												// Menambahkan nilai simpanFoto ke FormData
+												formData.append('canvasImage', simpanFoto[key]);
+												formData.append('imageId', key);
+												
+												$.ajax({
+													url: "../../models/isoxxth_pointer/isoxxth_pointer_v2.php",
+													type: 'POST',
+													data: formData,
+													processData: false,
+													contentType: false,
+													success: function (json) {
+														var imageId = json.data.imageId;
+														// console.log(imageId);
+													},
+													error: function (xhr, status, error) {
+														console.error(xhr, status, error);
+													}
+												});
+											}
+										}
+									});
+
+								};
+								reader.readAsDataURL(resizedImageBlob);
+							})
+							.catch(function(error) {
+								console.error('Error resizing image:', error);
+							});
 						}
 						return false; 
 					});

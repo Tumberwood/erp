@@ -239,4 +239,45 @@
         //show, berapa button yang tidak di hide
     }
 
+
+    // Fungsi resizeImage
+    function resizeImage(file, maxWidth, maxHeight, quality) {
+        return new Promise((resolve, reject) => {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var image = new Image();
+                image.src = event.target.result;
+                image.onload = function() {
+                    var width = image.width;
+                    var height = image.height;
+
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+                    }
+
+                    var canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(image, 0, 0, width, height);
+
+                    canvas.toBlob(function(blob) {
+                        resolve(blob);
+                    }, 'image/jpeg', quality);
+                };
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+
 </script>
