@@ -13,6 +13,34 @@
 ?>
 
 <!-- begin content here -->
+<style>
+    /* Default font size for desktop */
+    .ukuran {
+        font-size: 40px;
+    }
+
+    /* Media query for mobile devices */
+    @media only screen and (max-width: 600px) {
+        .ukuran {
+            font-size: 20px;
+        }
+    }
+
+    .ukuran_label {
+        font-size: 15px;
+    }
+
+    /* Media query for mobile devices */
+    @media only screen and (max-width: 600px) {
+        .ukuran_label {
+            font-size: 10px;
+        }
+    }
+
+    .card_item {
+        height: 100%;
+    }
+</style>
 
 <div class="row">
     <div class="col">
@@ -69,14 +97,16 @@
 	
 	<div class="col-lg-6">
 		<div id="kontenTab1">
+			<br>
 			<h3>Row Data</h3>
 			<!-- <div class="ibox "> -->
 				<div class="row m-r-n-xl">
 					<div class="col-3 m-r-n-xl" id="tooltipRows" data-toggle="tooltip">
-						<div class="ibox-content d-flex align-items-center justify-content-center" style="height: 256px; background-color: #bae1ff">
+						<div class="ibox-content card_item d-flex align-items-center justify-content-center" style="background-color: #bae1ff">
 							<div class="row">
 								<div class="col text-center">
-									<h4 class="font-bold" id="targetRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran font-bold" id="targetRows"></h4>
+									<!-- <h4 class="ukuran font-bold" id="">1695</h4> -->
 									<h5 class="no-margins font-bold">
 										Target
 									</h5>
@@ -90,7 +120,7 @@
 							<h4>Upload</h4>
 							<div class="row">
 								<div class="col-6">
-									<h4 class="text-center font-bold" id="c_uploadRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="c_uploadRows"></h4>
 								</div>
 								<div class="col-6">
 								</div>
@@ -102,7 +132,7 @@
 							<h4>Diluar Upload</h4>
 							<div class="row">
 								<div class="col-6">
-									<h4 class="text-center font-bold" id="c_not_uploadRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="c_not_uploadRows"></h4>
 								</div>
 								<div class="col-6">
 								</div>
@@ -115,10 +145,10 @@
 							<h4>Terhitung</h4>
 							<div class="row">
 								<div class="col-6">
-									<h4 class="text-center font-bold" id="terhitungRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="terhitungRows"></h4>
 								</div>
 								<div class="col-6">
-									<span class="label label-primary float-right" id="p_terhitungRows"></span>
+									<span class="label ukuran_label label-primary float-right" id="p_terhitungRows"></span>
 								</div>
 							</div>
 						</div>
@@ -128,10 +158,10 @@
 							<h4>Belum Terhitung</h4>
 							<div class="row">
 								<div class="col-6">
-									<h4 class="text-center font-bold" id="not_terhitungRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="not_terhitungRows"></h4>
 								</div>
 								<div class="col-6">
-									<span class="label label-danger float-right" id="p_not_terhitungRows" ></span>
+									<span class="label ukuran_label label-danger float-right" id="p_not_terhitungRows" ></span>
 								</div>
 							</div>
 						</div>
@@ -144,10 +174,10 @@
 							<h4>Sesuai</h4>
 							<div class="row">
 								<div class="col-6">
-									<h4 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="sesuaiRows"></h4>
 								</div>
 								<div class="col-6">
-									<span class="label label-primary float-right" id="p_sesuaiRows"></span>
+									<span class="label ukuran_label label-primary float-right" id="p_sesuaiRows"></span>
 								</div>
 							</div>
 						</div>
@@ -158,10 +188,10 @@
 							<h4>Selisih Lebih</h4>
 							<div class="row">
 								<div class="col-6">
-									<h4 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="lebihRows"></h4>
 								</div>
 								<div class="col-6">
-									<span class="label label-warning float-right" id="p_lebihRows"></span>
+									<span class="label ukuran_label label-warning float-right" id="p_lebihRows"></span>
 								</div>
 							</div>
 						</div>
@@ -170,22 +200,22 @@
 					<div class="col-6">
 						<div class="widget navy-bg">
 							
-								<h4 class="text-center font-bold" id="sesuaiRows" style="font-size: 40px"></h4>
+								<h4 class="ukuran text-center font-bold" id="sesuaiRows"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_sesuaiRows" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
+								<h6 class="no-margins text-center font-bold">
 									Sesuai
-								</h5>
+								</h6>
 						</div>
 					</div>
 					<div class="col-6">
 						<!-- <div class="widget yellow-bg m-l-n-lg"> -->
 						<div class="widget yellow-bg m-l-n-md">
 							
-								<h4 class="text-center font-bold" id="lebihRows" style="font-size: 40px"></h4>
+								<h4 class="ukuran text-center font-bold" id="lebihRows"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_lebihRows" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
+								<h6 class="no-margins text-center font-bold">
 									Selisih Lebih
-								</h5>
+								</h6>
 						</div>
 					</div>
 				</div>
@@ -194,22 +224,22 @@
 					<div class="col-6">
 						<div class="widget red-bg">
 							
-								<h4 class="text-center font-bold" id="kurangRows" style="font-size: 40px"></h4>
+								<h4 class="ukuran text-center font-bold" id="kurangRows"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_kurangRows" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
+								<h6 class="no-margins text-center font-bold">
 									Selisih Kurang
-								</h5>
+								</h6>
 						</div>
 					</div>
 					<div class="col-6">
 						<!-- <div class="widget gray-bg m-l-n-lg"> -->
 						<div class="widget gray-bg m-l-n-md">
 							
-								<h4 class="text-center font-bold" id="skipRows" style="font-size: 40px"></h4>
+								<h4 class="ukuran text-center font-bold" id="skipRows"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_skipRows" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
+								<h6 class="no-margins text-center font-bold">
 									Data Skip
-								</h5>
+								</h6>
 						</div>
 					</div>
 				</div>
@@ -218,14 +248,16 @@
 	</div>
 	<div class="col-lg-6">
 		<div id="kontenTab2">
+			<br>
 			<h3>Item Data</h3>
 			<!-- <div class="ibox "> -->
 				<div class="row m-r-n-xl">
-					<div class="col-3 m-r-n-xl" id="tooltipItem" data-toggle="tooltip">
-						<div class="ibox-content d-flex align-items-center justify-content-center" style="height: 256px; background-color: #B5C0D0">
+					<div class="col-4 m-r-n-xl" id="tooltipItem" data-toggle="tooltip">
+						<div class="ibox-content card_item d-flex align-items-center justify-content-center" style=" background-color: #B5C0D0">
 							<div class="row">
 								<div class="col text-center">
-									<h4 class="font-bold" id="targetItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran font-bold" id="targetItem"></h4>
+									<!-- <h4 class="ukuran font-bold" id="">1695</h4> -->
 									<h5 class="no-margins font-bold">
 										Target
 									</h5>
@@ -234,11 +266,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-3 m-r-n-xl" id="tooltipItem" data-toggle="tooltip">
-						<div class="ibox-content bg-muted d-flex align-items-center justify-content-center" style="height: 256px;">
+					<div class="col-4 m-r-n-xl" id="tooltipItem" data-toggle="tooltip">
+						<div class="ibox-content card_item bg-muted d-flex align-items-center justify-content-center" >
 							<div class="row">
 								<div class="col text-center">
-									<h4 class="font-bold" id="c_uploadItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran font-bold" id="c_uploadItem"></h4>
+									<!-- <h4 class="ukuran font-bold" id="">1695</h4> -->
 									<h5 class="no-margins font-bold">
 										Total Upload
 									</h5>
@@ -246,17 +279,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-6">
+					<div class="col-4">
 						<div class="row">
 							<div class="col-12">
 								<div class="ibox-content m-r-n-xl">
 									<h4>Terhitung</h4>
 									<div class="row">
 										<div class="col-6">
-											<h4 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h4>
+											<h4 class="ukuran text-center font-bold" id="terhitungItem"></h4>
 										</div>
 										<div class="col-6">
-											<span class="label label-primary float-right" id="p_terhitungItem"></span>
+											<span class="label ukuran_label label-primary float-right" id="p_terhitungItem"></span>
 										</div>
 									</div>
 								</div>
@@ -268,10 +301,10 @@
 									<h4>Belum Terhitung</h4>
 									<div class="row">
 										<div class="col-6">
-											<h4 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h4>
+											<h4 class="ukuran text-center font-bold" id="not_terhitungItem"></h4>
 										</div>
 										<div class="col-6">
-											<span class="label label-danger float-right" id="p_not_terhitungItem" ></span>
+											<span class="label ukuran_label label-danger float-right" id="p_not_terhitungItem" ></span>
 										</div>
 									</div>
 								</div>
@@ -287,32 +320,32 @@
 					<div class="col-4">
 						<div class="widget navy-bg">
 							
-								<h4 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h4>
+								<h4 class="ukuran text-center font-bold" id="sesuaiItem"></h4>
 								<h5 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
+								<h6 class="no-margins text-center font-bold">
 									Sesuai
-								</h5>
+								</h6>
 						</div>
 					</div>
 					<div class="col-4">
 						<!-- <div class="widget yellow-bg m-l-n-lg"> -->
-						<div class="widget yellow-bg m-l-n-md">
+						<div class="widget red-bg m-l-n-md">
 							
-								<h4 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
-									Selisih Lebih
-								</h5>
+								<h4 class="ukuran text-center font-bold" id="kurangItem"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Selisih Kurang
+								</h6>
 						</div>
 					</div>
 					<div class="col-4">
-						<div class="widget red-bg m-l-n-md m-r-sm">
+						<div class="widget yellow-bg m-l-n-md m-r-sm">
 							
-								<h4 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h4>
-								<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
-								<h5 class="no-margins text-center font-bold">
-									Selisih Kurang
-								</h5>
+								<h4 class="ukuran text-center font-bold" id="lebihItem"></h4>
+								<h5 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h5>
+								<h6 class="no-margins text-center font-bold">
+									Selisih Lebih
+								</h6>
 						</div>
 					</div>
 				</div>
@@ -325,7 +358,7 @@
 						<div class="col-lg-3">
 							<div class="widget no-padding gray-bg ">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="targetItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="targetItem"></h4>
 									<br>
 									<h6 class="no-margins text-center font-bold">
 										Target
@@ -337,7 +370,7 @@
 						<div class="col-lg-3">
 							<div class="widget no-padding gray-bg ">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="c_uploadItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="c_uploadItem"></h4>
 									<br>
 									<h6 class="no-margins text-center font-bold">
 										Total Upload
@@ -348,7 +381,7 @@
 						<div class="col-lg-3">
 							<div class="widget navy-bg no-padding">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="terhitungItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="terhitungItem"></h4>
 									<h5 class="no-margins font-bold text-center" id="p_terhitungItem" style="font-size: 20px"></h5>
 									<h6 class="no-margins text-center font-bold">
 										Terhitung
@@ -359,7 +392,7 @@
 						<div class="col-lg-3">
 							<div class="widget red-bg no-padding">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="not_terhitungItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="not_terhitungItem"></h4>
 									<h5 class="no-margins font-bold text-center" id="p_not_terhitungItem" style="font-size: 20px"></h5>
 									<h6 class="no-margins text-center font-bold">
 										Belum Terhitung
@@ -375,7 +408,7 @@
 						<div class="col-lg-3">
 							<div class="widget navy-bg no-padding">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="sesuaiItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="sesuaiItem"></h4>
 									<h5 class="no-margins font-bold text-center" id="p_sesuaiItem" style="font-size: 20px"></h5>
 									<h6 class="no-margins text-center font-bold">
 										Sesuai
@@ -386,7 +419,7 @@
 						<div class="col-lg-3">
 							<div class="widget yellow-bg no-padding">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="lebihItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="lebihItem"></h4>
 									<h5 class="no-margins font-bold text-center" id="p_lebihItem" style="font-size: 20px"></h5>
 									<h6 class="no-margins text-center font-bold">
 										Selisih Lebih
@@ -397,7 +430,7 @@
 						<div class="col-lg-3">
 							<div class="widget red-bg no-padding">
 								<div class="p-m">
-									<h4 class="text-center font-bold" id="kurangItem" style="font-size: 40px"></h4>
+									<h4 class="ukuran text-center font-bold" id="kurangItem"></h4>
 									<h5 class="no-margins font-bold text-center" id="p_kurangItem" style="font-size: 20px"></h5>
 									<h6 class="no-margins text-center font-bold">
 										Selisih Kurang
