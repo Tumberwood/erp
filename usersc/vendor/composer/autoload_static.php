@@ -43,6 +43,7 @@ class ComposerStaticInitfbe8e08b1a471a5f4a13d8d02dd19f01
         'M' => 
         array (
             'MyCLabs\\Enum\\' => 13,
+            'Mpdf\\QrCode\\' => 12,
             'Mpdf\\' => 5,
             'Matrix\\' => 7,
         ),
@@ -114,6 +115,10 @@ class ComposerStaticInitfbe8e08b1a471a5f4a13d8d02dd19f01
         'MyCLabs\\Enum\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
+        ),
+        'Mpdf\\QrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpdf/qrcode/src',
         ),
         'Mpdf\\' => 
         array (

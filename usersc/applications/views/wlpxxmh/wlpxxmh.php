@@ -46,7 +46,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wlpxxmh/fn/wlpxxmh_fn.php'; ?>
 
@@ -55,6 +55,8 @@
 	// ------------- default variable, do not erase
 	var edtwlpxxmh, tblwlpxxmh, show_deleted_wlpxxmh = 0, id_wlpxxmh;
 	// ------------- end of default variable
+
+	var selectedIds;
 
 	// get tableRelation
 	tableRelation('wlpxxmh');
@@ -213,6 +215,49 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-google"></i>',
+					name: 'btnCustom',
+					className: 'btn btn-outline',
+					titleAttr: 'Generate LPN',
+					action: function ( e, dt, node, config ) {
+						// e.preventDefault();
+						var lpnJumlah = prompt("Generate Berapa LPN?", 1);
+						console.log(lpnJumlah);
+						if( typeof parseInt(lpnJumlah) === "number" && parseInt(lpnJumlah) > 0 ){
+							console.log(1);
+							$.ajax( {
+								url: "../../models/wlpxxmh/wlpxxmh_fn_generate.php",
+								dataType: 'json',
+								type: 'POST',
+								data: {
+									lpnJumlah: parseInt(lpnJumlah)
+								},
+								success: function ( json ) {
+									full_message = '';
+									status_code  = json.data.status_code;
+									full_message = full_message + json.data.message + '</br>';
+									toast_type   = json.data.type_message;
+									toastr[toast_type](full_message, 'INFO');
+									tblwlpxxmh.ajax.reload(null, false);
+								}
+							} );
+						}
+						
+					}
+				},
+				{
+					text: '<i class="fa fa-print"></i>',
+					name: 'btnPrint',
+					className: 'btn btn-outline',
+					titleAttr: 'Print Quotation',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault();
+						var queryString = selectedIds.join(',');
+						var url = $(this).attr('href'); 
+						window.open('wlpxxmh_print.php?ids_wlpxxmh='+queryString, '_blank');
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -237,6 +282,12 @@
 		tblwlpxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('wlpxxmh');
+			
+			// ids_wlpxxmh = tblwlpxxmh.rows( {selected: true} ).data().length;
+			selectedIds = getSelectedRowIds();
+			console.log('Selected IDs:', selectedIds);
+
+			// console.log(ids_wlpxxmh);
 
 			// atur hak akses
 			CekSelectHeaderH(tblwlpxxmh);
@@ -245,6 +296,9 @@
 		tblwlpxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wlpxxmh');
+
+			var selectedIds = getSelectedRowIds();
+    		console.log('Selected IDs after deselect:', selectedIds);
 
 			// atur hak akses
 			CekDeselectHeaderH(tblwlpxxmh);

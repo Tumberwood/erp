@@ -53,7 +53,7 @@
 								<editor-field name="gdnxxsh.total_digit"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="gdnxxsh.reset_by"></editor-field>
+								<editor-field name="gdnxxsh.separator"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -61,7 +61,7 @@
 								<editor-field name="gdnxxsh.field_tanggal"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="gdnxxsh.separator"></editor-field>
+								<editor-field name="gdnxxsh.field_kode"></editor-field>
 							</div>
 						</div>
 
@@ -74,7 +74,7 @@
                             <tr>
 								<th>ID</th>
 								<th>Menu</th>
-								<th>Mode</th>
+								<th data-toggle="tooltip" data-placement="top" title="P: Prefix; Y: Tahun; M: Bulan; MR: Bulan Romawi; BR: Branch">Mode</th>
 								<th>Nama Tabel</th>
 								<th>Ketegori</th>
 								<th>Ketegori Value</th>
@@ -84,6 +84,7 @@
 								<th>Reset per</th>
 								<th>Karakter Pembagi</th>
 								<th>per Cabang</th>
+								<th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -163,12 +164,13 @@
 						name: "gdnxxsh.mode",
 						type: "select",
 						options: [
-							{ "label": "prefix/tahunbulan/nomorurut", "value": 1 },
-							{ "label": "P00001", "value": 2 },
-							{ "label": "Urut/Prefix/Suffix/Bulan Romawi/Tahun 4 Digit", "value": 3 },
-							{ "label": "Cabang/Prefix/Tahun/Bulan/nomorurut", "value": 4 }
-						]
-						
+							{ "label": "P/YYMM/1234", "value": 1 },
+							{ "label": "P1234", "value": 2 },
+							{ "label": "1234/P/S/MR/YYYY", "value": 3 },
+							{ "label": "BR/P/YY/MM/1234", "value": 4 },
+							{ "label": "PYY001234", "value": 5 }
+						],
+						fieldInfo: "P: Prefix; Y: Tahun; M: Bulan; MR: Bulan Romawi; BR: Branch"
 					},	
 					{
 						label: "Nama Tabel <sup class='text-danger'>*<sup>",
@@ -184,11 +186,11 @@
 						name: "gdnxxsh.kategori_dokumen_value"
 					}, 	
 					{
-						label: "Awalan",
+						label: "Prefix",
 						name: "gdnxxsh.prefix"
 					}, 	
 					{
-						label: "Akhiran",
+						label: "Suffix",
 						name: "gdnxxsh.suffix"
 					}, 	
 					{
@@ -199,43 +201,27 @@
 					{
 						label: "Reset per",
 						name: "gdnxxsh.reset_by",
-						type: "select",
-						def: "-",
-						options: [
-							{ "label": "Bulan", "value": "Bulan" },
-							{ "label": "Tahun", "value": "Tahun" },
-							{ "label": "-", "value": "" }
-						]
+						type: "hidden"
 					}, 	
 					{
 						label: "Field Tanggal",
 						name: "gdnxxsh.field_tanggal",
-						fieldInfo: "Kosongkan jika ingin menggunakan tanggal konfirmasi "
+						fieldInfo: "Kosongkan jika ingin menggunakan tanggal konfirmasi"
+					},
+					{
+						label: "Field Kode",
+						name: "gdnxxsh.field_kode",
+						def: 'kode',
 					},
 					{
 						label: "Karakter Pembagi",
 						name: "gdnxxsh.separator",
 						def: "/",
-					}, 	
-					{
-						label: "Dibagi per Perusahaan",
-						name: "gdnxxsh.by_company",
-						type: "radio",
-						def: 0,
-						options: [
-							{ "label": "Ya", "value": 1 },
-							{ "label": "Tidak", "value": 0 }
-						]
-					}, 	
+					}, 		
 					{
 						label: "Dibagi per Cabang",
 						name: "gdnxxsh.by_cabang",
-						type: "radio",
-						def: 0,
-						options: [
-							{ "label": "Ya", "value": 1 },
-							{ "label": "Tidak", "value": 0 }
-						]
+						type: "hidden"
 					}
 				]
 
@@ -261,7 +247,39 @@
 			edtgdnxxsh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-xl");
 				edtFormButtonSaveConfirm();
+
 			});
+
+			edtgdnxxsh.dependent( 'gdnxxsh.mode', function ( val, data, callback ) {
+				if(val == 1){
+					edtgdnxxsh.field('gdnxxsh.reset_by').val("Bulan");
+					edtgdnxxsh.field('gdnxxsh.by_cabang').val(0);
+					edtgdnxxsh.field('gdnxxsh.suffix').hide();
+					edtgdnxxsh.field('gdnxxsh.suffix').val("");
+				}else if(val == 2){
+					edtgdnxxsh.field('gdnxxsh.reset_by').val("");
+					edtgdnxxsh.field('gdnxxsh.by_cabang').val(0);
+					edtgdnxxsh.field('gdnxxsh.suffix').hide();
+					edtgdnxxsh.field('gdnxxsh.suffix').val("");
+				}else if(val == 3){
+					edtgdnxxsh.field('gdnxxsh.reset_by').val("Bulan");
+					edtgdnxxsh.field('gdnxxsh.by_cabang').val(0);
+					edtgdnxxsh.field('gdnxxsh.suffix').show();
+					edtgdnxxsh.field('gdnxxsh.suffix').val("");
+				}else if(val == 4){
+					edtgdnxxsh.field('gdnxxsh.reset_by').val("Bulan");
+					edtgdnxxsh.field('gdnxxsh.by_cabang').val(1);
+					edtgdnxxsh.field('gdnxxsh.suffix').hide();
+					edtgdnxxsh.field('gdnxxsh.suffix').val("");
+				}else if(val == 5){
+					edtgdnxxsh.field('gdnxxsh.reset_by').val("Tahun");
+					edtgdnxxsh.field('gdnxxsh.by_cabang').val(0);
+					edtgdnxxsh.field('gdnxxsh.suffix').hide();
+					edtgdnxxsh.field('gdnxxsh.suffix').val("");
+				}
+
+				return {}
+			}, {event: 'keyup change'});
 
             edtgdnxxsh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
@@ -346,13 +364,15 @@
 						data: "gdnxxsh.mode",
 						render: function (data){
 							if (data == 1){
-								return 'prefix/tahunbulan/nomorurut';
+								return 'P/YYMM/1234';
 							}else if(data == 2){
-								return 'P00001';
+								return 'P1234';
 							}else if(data == 3){
-								return 'Urut/Prefix/Suffix/Bulan Romawi/Tahun 4 Digit';
+								return '1234/P/S/MR/YYYY';
 							}else if(data == 4){
-								return 'Cabang/Prefix/Tahun/Bulan/nomorurut';
+								return 'BR/P/YY/MM/1234';
+							}else if(data == 5){
+								return 'PYY001234';
 							}
 						}
 					},
@@ -367,7 +387,11 @@
 					{ 
 						data: "gdnxxsh.by_cabang" ,
 						...renderYaTidak()
-					}
+					},
+					{ 
+						data: "gdnxxsh.transaction_state" ,
+						...renderTransactionStatus()
+					},
 				],
 				buttons: [
 					// BEGIN breaking generate button

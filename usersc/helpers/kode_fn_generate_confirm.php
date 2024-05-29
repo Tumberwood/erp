@@ -1,5 +1,5 @@
-
-<?php    
+<?php
+	// include_once( "hakakses_s_fn.php" );
 	
 	// BEGIN definisi variable untuk fn_ajax_results.php
     $data      = array();
@@ -202,49 +202,68 @@
 			$new_number  	= $rs_c_id_new['c_id_new'];
 			$tr_kode 		= str_pad($new_number,$total_digit,"0",STR_PAD_LEFT);
 
-			/* generate document number by mode */
+			/**
+			 * Generate document number by mode
+			 * P	: Prefix
+			 * Y	: Tahun
+			 * M	: Bulan
+			 * MR	: Bulan Romawi
+			 * BR	: Branch
+			 * Available Mode:
+			 * mode 1	: P/YYMM/1234 atau P/YY/1234	untuk default transaksi
+			 * mode 2	: P1234							untuk default master
+			 * mode 3	: 1234/P/S/MR/YYYY
+			 * mode 4	: BR/P/YY/MM/1234
+			 * mode 5	: PYY001234
+			 */
 			if ($mode == 1){
-				// mode 1	: 
-				// 	contoh reset bulan: PO/2201/0123	
-				// 	contoh reset tahun: PO/22/0123
-				
-				// parameter:
-				// - $reset_by
-				// - $prefix
-				// - $separator
-				// - $tahun
+				/**
+				 * Parameter
+				 * - $reset_by
+				 * - $prefix
+				 * - $separator
+				 * - $tahun
+				 */
 				if ($reset_by == "Tahun"){
-					// prefix/tahun + nomorurut
 					$formatted_kode = $prefix . $separator . $tahun . $tr_kode;
 				}else if ($reset_by == "Bulan"){
-					// prefix/tahunbulan/nomorurut
 					$formatted_kode = $prefix . $separator . $tahun . $bulan . $separator . $tr_kode;
 				}
 			}else if ($mode == 2){
-				// mode 2: 
-				//	contoh: P00001
-
-				// parameter:
-				// - $prefix
+				/**
+				 * Parameter
+				 * - $prefix
+				 */
 				$formatted_kode = $prefix . $tr_kode;
 			}else if ($mode == 3){
-				// mode 3: 
-				// 	contoh: 391/SPL/PNW/VIII/2019
-
-				// parameter:
-				// - $reset_by
-				// - $prefix
-				// - $suffix
-				// - $bulan
-				// - $separator
-				// - $tahun
+				/**
+				 * Parameter
+				 * - $reset_by
+				 * - $prefix
+				 * - $suffix
+				 * - $bulan
+				 * - $separator
+				 * - $tahun
+				 */
 				$formatted_kode = $tr_kode . $separator . $prefix . $separator . $suffix . $separator . $bulan . $separator. $tahun ;
 			}else if ($mode == 4){
-				/*
-					mode 4: 
-					Kode Cabang/Prefix/Tahun/Bulan/nomorurut
-				*/
-				$formatted_kode = $_SESSION['kodemhcabang'] . $separator . $prefix . $separator . $tahun . $separator . $bulan . $separator . $tr_kode;
+				/**
+				 * Parameter
+				 * - $s_id_gcpxxmh
+				 * - $separator
+				 * - $prefix
+				 * - $tahun
+				 * - $bulan
+				 */
+				
+				$formatted_kode = $s_id_gcpxxmh . $separator . $prefix . $separator . $tahun . $separator . $bulan . $separator . $tr_kode;
+			}else if ($mode == 5){
+				/**
+				 * Parameter
+				 * - $prefix
+				 * - $tahun
+				 */
+				$formatted_kode = $prefix . $tahun . $tr_kode;
 			}
 
 			// BEGIN update field kode

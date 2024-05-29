@@ -26,7 +26,10 @@
 		->fields(
 			Field::inst( 'gdnxxsh.id' ),
 			Field::inst( 'gdnxxsh.nama' ),
-			Field::inst( 'gdnxxsh.keterangan' ),
+			Field::inst( 'gdnxxsh.keterangan' )
+				->setFormatter( function ( $val, $data, $opts ) {
+					return implode(', ', $val);
+				}),
 			Field::inst( 'gdnxxsh.created_by' ),
 			Field::inst( 'gdnxxsh.transaction_state' ),
 			Field::inst( 'gdnxxsh.approval_state' ),
@@ -53,6 +56,8 @@
 			Field::inst( 'gdnxxsh.by_company' ),
 			Field::inst( 'gdnxxsh.by_cabang' ),
 			Field::inst( 'gdnxxsh.field_tanggal' ),
+			Field::inst( 'gdnxxsh.field_kode' ),
+
 			Field::inst( 'v_tablelist.nama' )
 			
 		)

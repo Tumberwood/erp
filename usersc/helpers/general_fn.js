@@ -536,7 +536,7 @@ function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
 }
 
 /**
- * 
+ * Digunakan untuk menghitung nilai-nilai di header
  * @param {*} edt 
  * @param {*} tabel_nama 
  * @param {*} id_iitxxmh 
