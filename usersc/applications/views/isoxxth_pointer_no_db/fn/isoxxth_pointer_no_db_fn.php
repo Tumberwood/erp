@@ -242,15 +242,16 @@
 
     // Fungsi resizeImage
     function resizeImage(file, maxWidth, maxHeight, quality) {
-        return new Promise((resolve, reject) => {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var image = new Image();
-                image.src = event.target.result;
-                image.onload = function() {
-                    var width = image.width;
-                    var height = image.height;
+        return new Promise((resolve, reject) => { //return Promise ini digunakan jika ada funtion tambahakn then() atau catch()
+            var reader = new FileReader(); //ini untuk membaca data URL dari gambar/objek 
+            reader.onload = function(event) { //load reader tadi dengan function event
+                var image = new Image(); //buat image baru
+                image.src = event.target.result; //src nya ini dari target result yang dari URL reader tadi yang udah berubah nama jadi event
+                image.onload = function() { //image nya di load
+                    var width = image.width; //buat variable width dari width asli gambar yang di load
+                    var height = image.height; //buat variable height dari height asli gambar yang di load
 
+                    //disini untuk penyesuaian gambar atau resize gambarnya
                     if (width > height) {
                         if (width > maxWidth) {
                             height *= maxWidth / width;
@@ -263,13 +264,16 @@
                         }
                     }
 
+                    //buat canvas baru dengan ukuran yang baru aja di resize diatas
                     var canvas = document.createElement('canvas');
                     canvas.width = width;
                     canvas.height = height;
 
+                    //gambar ulang disini gambarnya sesuai ukuran canvas tadi
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(image, 0, 0, width, height);
 
+                    //gambarnya diubah jadi blob
                     canvas.toBlob(function(blob) {
                         resolve(blob);
                     }, 'image/jpeg', quality);
