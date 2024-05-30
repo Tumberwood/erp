@@ -4,7 +4,7 @@
     
 
         $.ajax( {
-            url: "../../httxxrd_calendar/fn_load_calendar.php",
+            url: "../../httxxrd_calendar/httxxrd_calendar_fn_load_calendar.php",
             dataType: 'json',
             type: 'POST',
             data: {
@@ -53,7 +53,7 @@
 
                 // your event source
                 {
-                url: "../../httxxrd_calendar/fn_load_calendar.php",
+                url: "../../httxxrd_calendar/httxxrd_calendar_fn_load_calendar.php",
                 method: 'POST',
                 extraParams: {
                     custom_param1: 'something',

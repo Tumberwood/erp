@@ -90,7 +90,7 @@
 				events: function(info, successCallback, failureCallback) {
 					console.log(awal);
 					$.ajax( {
-						url: "../../models/httxxrd_calendar/fn_load_calendar.php",
+						url: "../../models/httxxrd_calendar/httxxrd_calendar_fn_load_calendar.php",
 						dataType: 'json',
 						type: 'POST',
 						data: {
