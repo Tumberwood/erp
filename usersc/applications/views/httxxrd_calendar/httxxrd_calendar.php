@@ -101,7 +101,12 @@
 				},
 				eventDidMount: function(info) {
 					// Menambahkan judul sebagai atribut title untuk tooltip bawaan	
-					info.el.setAttribute('title', info.event.title +'.\n\nKlik untuk melihat data transaksi dari event ini');
+					// info.el.setAttribute('title', info.event.title +'.\n\nKlik untuk melihat data transaksi dari event ini');
+					$(info.el).tooltip({
+						title: info.event.title,
+						html: true,
+						placement: 'top'
+					});
 				}
        	 	});
         	calendar.render();
