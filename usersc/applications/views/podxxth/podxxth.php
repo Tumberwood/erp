@@ -380,19 +380,6 @@
 	// get tableRelation
 	tableRelation('podxxth');
 
-	// BEGIN datepicker init
-	$('#periode').datepicker({
-		setDate: new Date(),
-		autoclose: true,
-		todayHighlight: true,
-		clearBtn: true,
-		format: "dd M yyyy",
-		minViewMode: 'month' 
-	});
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
-	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-	// END datepicker init
-
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
