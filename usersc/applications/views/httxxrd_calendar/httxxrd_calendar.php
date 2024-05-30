@@ -70,23 +70,6 @@
 					end: 'prevYear,prev,next,nextYear'
 				},
 				contentHeight: 400,
-				// eventClick: function(info) {
-				// 	alert('Event: ' + info.event.title);
-				// 	var keterangan = info.event.title.split(" ");
-				// 	console.log(keterangan);
-				// 	//extendedProps itu untuk keys yang dibuat manual, atau yang tidak ada di default FullCalendar
-				// 	//seperti id_transaksi itu aslinya tidak ada di FullCalendar, tapi saya tambahkan sendiri
-				// 	console.log(info.event.extendedProps.id_transaksi); 
-				// 	console.log(info.event.start); 
-				// 	console.log(info.event.end); 
-
-				// 	// Keterangan yang dipisah dengan spasi ke 2 akan menghasilkan kode cuti, seperti CB/(Dari Cuti Bersama) dan LP/ (dari Leave Permission)
-				// 	if (keterangan[2].startsWith("CB/")) {
-				// 		console.log("cuti"); // Logging "cuti" if condition is met
-				// 	} else {
-				// 		console.log("Report"); // Logging "Report" if condition is not met
-				// 	}
-				// },
 				events: function(info, successCallback, failureCallback) {
 					console.log(awal);
 					$.ajax( {
@@ -116,10 +99,10 @@
 						}
 					} );
 				},
-				// datesSet: function (dateInfo) {
-				// 	awal =  moment(dateInfo.view.activeStart).format("YYYY-MM-DD HH:mm:ss");
-				// 	akhir = moment(dateInfo.view.activeEnd).format("YYYY-MM-DD HH:mm:ss");
-				// },
+				eventDidMount: function(info) {
+					// Menambahkan judul sebagai atribut title untuk tooltip bawaan	
+					info.el.setAttribute('title', info.event.title +'.\n\nKlik untuk melihat data transaksi dari event ini');
+				}
        	 	});
         	calendar.render();
 
