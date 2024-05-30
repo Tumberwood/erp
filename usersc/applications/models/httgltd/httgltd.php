@@ -61,6 +61,11 @@
 		$editor
 			->where( 'httgltd.transaction_state', -9, '<>');
 	}
+
+	if ( isset($_POST['rowId']) && $_POST['rowId'] > 0){
+		$editor
+			->where( 'httgltd.id', $_POST['rowId']);
+	}
 	
 	include( "httgltd_extra.php" );
 

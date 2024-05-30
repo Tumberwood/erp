@@ -108,7 +108,12 @@
 		$editor
 			->where( 'httlptd.transaction_state', -9, '<>');
 	}
-	
+
+	if ( isset($_POST['rowId']) && $_POST['rowId'] > 0){
+		$editor
+			->where( 'httlptd.id', $_POST['rowId']);
+	}
+
 	include( "httlptd_extra.php" );
 
 	// BEGIN log
