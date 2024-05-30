@@ -10,6 +10,11 @@
 	$nama_tabel       = 'httgltd';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'httgltd_d';
+
+	$rowId = 0;
+	if (isset($_GET['rowId'])) {
+		$rowId = $_GET['rowId'];
+	}
 ?>
 
 <!-- begin content here -->
@@ -95,6 +100,10 @@
 	var id_transaksi_old = 0;
 	var is_default_old = 0;	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0;
 
+	//ini untuk single
+	var rowId = <?php echo $rowId; ?>;
+	// console.log(rowId);
+
 	// get tableRelation
 	tableRelation('httgltd');
 	var kategori_dokumen = "";
@@ -109,6 +118,7 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_httgltd = show_deleted_httgltd;
+					d.rowId = rowId;
 				}
 			},
 			table: "#tblhttgltd",
@@ -244,6 +254,7 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_httgltd = show_deleted_httgltd;
+					d.rowId = rowId;
 				}
 			},
 			order: [[ 1, "desc" ]],

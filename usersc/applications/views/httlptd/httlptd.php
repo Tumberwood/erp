@@ -9,6 +9,11 @@
 <?php
 	$nama_tabel    = 'httlptd';
 	$nama_tabels_d = [];
+	
+	$rowId = 0;
+	if (isset($_GET['rowId'])) {
+		$rowId = $_GET['rowId'];
+	}
 ?>
 
 <!-- begin content here -->
@@ -70,6 +75,10 @@
 		kategori_dokumen = "";
 		kategori_dokumen_value = "";
 
+		//ini untuk single
+		var rowId = <?php echo $rowId; ?>;
+		// console.log(rowId);
+		
 		// get tableRelation
 		tableRelation('httlptd');
 
@@ -81,6 +90,7 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_httlptd = show_deleted_httlptd;
+						d.rowId = rowId;
 					}
 				},
 				table: "#tblhttlptd",
@@ -417,6 +427,7 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_httlptd = show_deleted_httlptd;
+						d.rowId = rowId;
 					}
 				},
 				order: [[ 1, "desc" ]],
