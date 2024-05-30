@@ -101,7 +101,7 @@
 			<h3>Row Data</h3>
 			<!-- <div class="ibox "> -->
 				<div class="row m-r-n-xl">
-					<div class="col-3 m-r-n-xl" id="tooltipRows" data-toggle="tooltip">
+					<div class="col-3 m-r-n-xl" id="tooltipRows">
 						<div class="ibox-content card_item d-flex align-items-center justify-content-center" style="background-color: #bae1ff">
 							<div class="row">
 								<div class="col text-center">
@@ -604,10 +604,16 @@
 						var tooltipRows = document.getElementById('tooltipRows');
 
 						var titleText = 'Total Data by Rows = ' + json.data.c_target +
-										'\n Terhitung = ' + json.data.c_terhitung +
-										'\n Progress = ' + persen_terhitung_rows;
+										'<br> Terhitung = ' + json.data.c_terhitung +
+										'<br> Progress = ' + persen_terhitung_rows;
 
 						tooltipRows.setAttribute('title', titleText);
+						
+						$(tooltipRows).tooltip({
+							content: titleText,
+							html: true,
+							placement: 'top'
+						});
 						
 						$('#p_not_terhitungRows').empty();
 						$('#p_not_terhitungRows').html(json.data.not_terhitung);
