@@ -380,8 +380,8 @@ function isDefaultUpdate(tbl_name,id_transaksi_default,tbl){
  * bisa copy baris script ini ke dalam event postSubmit
  * 
         if (action != 'remove') {
-            id_last_insert = json.data[0].itoittd.id;
-            konversiUom(id_last_insert, 'itoittd');
+            id_last_insert = json.data[0]._blank.id;
+            konversiUom(id_last_insert, '_blank');
         }
  */
 function konversiUom(tbl_name, id_transaksi ){
