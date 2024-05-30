@@ -585,6 +585,8 @@
 		edtwroittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
 				tblwroittd.rows().deselect();
+				id_last_insert = json.data[0].wroittd.id;
+            	konversiUom('wroittd', id_last_insert );
 			}
 			
 			tblwroxxth.ajax.reload(null, false);
