@@ -239,7 +239,7 @@ function validasiEmail(edt, tabel, fields) {
  * Validasi
  *  Different
  * Kegunaan
- *  untuk validasi fields tidak boleh mempunyai data yang sama
+ *  untuk validasi 2 atau lebih fields tidak boleh mempunyai data yang sama
  * Cara Penggunaan:
  *  validasiDifferent(edt, tabel, fields)
  * Parameter
@@ -285,19 +285,32 @@ function validasiDifferent(edt, tbl_name, fields){
 }
 
 /**
- *  VALIDASI TANGGAL lebih besar atau kecil
-
-    CARANYA SAMA SEPERTI VALIDASI REQUIRED
+ * validasiValidTanggal 
+ * Digunakan untuk validasi apakah inputan tanggal sudah menggunakan format yang tepat
+ * Format Standar: "DD MM YYYY"
  */
-function validasiTanggal(edt, tbl_name, fields){
+function validasiTanggalValid(edt, tbl_name, fields){
 
-    tanggalsekarang    	= moment().format('YYYY-MM-DD');
     Object.keys(fields).forEach(field_name => {
+        
+        if( moment(fields[field_name], "DD MM YYYY", true).isValid() == false ){
 
-        if( fields[field_name] < tanggalsekarang ){
-            edt.field(tbl_name + '.' + field_name).error( 'Tanggal harus lebih besar dari sekarang!' );
+            edt.field(tbl_name + '.' + field_name).error('Format Tanggal Salah!');
         }
     });
+}
+
+/**
+ * Digunakan untuk validasi tanggal terhadap hari ini
+ * @param {Object} edt 
+ * @param {Object} tbl_name 
+ * @param {String} field 
+ * @param {String} sign 
+ */
+function validasiTanggalToday(edt, tbl_name, field, sign) {
+    if( field + " " + sign + " " +  tanggal_hariini_dmy ){
+        edt.field(tbl_name + '.' + field).error( 'Tanggal ' +field+ ' harus '+ sign +' ' + tanggal_hariini_dmy );
+    }
 }
 
 /**
