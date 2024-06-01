@@ -292,9 +292,8 @@ function validasiDifferent(edt, tbl_name, fields){
 function validasiTanggalValid(edt, tbl_name, fields){
 
     Object.keys(fields).forEach(field_name => {
-        
-        if( moment(fields[field_name], "DD MM YYYY", true).isValid() == false ){
-
+        console.log( );
+        if( moment(fields[field_name]).isValid() == false ){
             edt.field(tbl_name + '.' + field_name).error('Format Tanggal Salah!');
         }
     });
@@ -307,10 +306,17 @@ function validasiTanggalValid(edt, tbl_name, fields){
  * @param {String} field 
  * @param {String} sign 
  */
-function validasiTanggalToday(edt, tbl_name, field, sign) {
-    if( field + " " + sign + " " +  tanggal_hariini_dmy ){
-        edt.field(tbl_name + '.' + field).error( 'Tanggal ' +field+ ' harus '+ sign +' ' + tanggal_hariini_dmy );
+function validasiTanggalToday(edt, tbl_name, fields_name, field_value, sign) {
+    
+    momentDate1 = moment(field_value);
+    momentDate2 = moment(tanggal_hariini_dmy);
+
+    if ( momentDate1.isAfter(momentDate2) || momentDate1.isSame(momentDate2)) {
+        
+    } else {
+        edt.field(tbl_name + '.' + fields_name).error( 'Tanggal ' +fields_name+ ' harus '+ sign +' ' + tanggal_hariini_dmy );
     }
+
 }
 
 /**
@@ -327,24 +333,58 @@ function validasiTanggalToday(edt, tbl_name, field, sign) {
  * @param {Number} id_transaksi 
  * 
  */
-function validasiOutstanding(edt, tbl_name, id_transaksi) {
-    jumlah_unit_new = edt.field(tbl_name + '.jumlah_unit').val();
+// function validasiOutstanding(edt, tbl_name, id_transaksi) {
+//     jumlah_unit_new = edt.field(tbl_name + '.jumlah_unit').val();
+//     $.ajax( {
+//         url: '../../../helpers/fn_uom_konversi_get.php',
+//         dataType: 'json',
+//         type: 'POST',
+//         data: {
+//             tbl_name: tbl_name,
+//             id_transaksi: id_transaksi
+//         },
+//         success: function ( json ) {
+//             console.log(json);
+//             jumlah_terkecil_old = json.data.jumlah_terkecil;
+//             jumlah_terkecil_new = jumlah_unit_new * json.data.jumlah_konversi;
+            
+//         }
+//     } );
+
+// }
+
+/**
+ * 
+ * @param {Object} edt 
+ * @param {String} tbl_name 
+ * @param {Number} id_transaksi 
+ * @param {Number} id_transaksi_before 
+ * @param {String} tbl_name_before 
+ */
+function validasiOutstanding(edt, tbl_name, id_transaksi, id_transaksi_before, tbl_name_before) {
+    // jumlah_unit = (parseFloat(edt.field(tbl_name+'.jumlah_unit').val())).toFixed(2);
+    jumlah_unit = edt.field(tbl_name+'.jumlah_unit').val();
+
     $.ajax( {
-        url: '../../../helpers/fn_uom_konversi_get.php',
+        url: "../../../helpers/fn_select_jumlah_unit_os.php",
         dataType: 'json',
         type: 'POST',
+        async: false,
         data: {
-            tbl_name: tbl_name,
-            id_transaksi: id_transaksi
+            id_transaksi       : id_transaksi,
+            id_transaksi_before: id_transaksi_before,
+            tbl_name           : tbl_name,
+            tbl_name_before    : tbl_name_before,
+            jumlah_unit        : jumlah_unit,
         },
-        success: function ( json ) {
-            console.log(json);
-            jumlah_terkecil_old = json.data.jumlah_terkecil;
-            jumlah_terkecil_new = jumlah_unit_new * json.data.jumlah_konversi;
-            
+        success: function (json) {
+            limit_unit = 'Sisa Maksimal ' +json.data.sisa;
+            if (parseFloat(json.data.unit_now) > parseFloat(json.data.jumlah_unit_db)) {
+                edt.field(tbl_name+'.jumlah_unit').error( limit_unit );
+            }
         }
-    } );
 
+    } );
 }
 
 // BEGIN custom jquery-validation
