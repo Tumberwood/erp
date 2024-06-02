@@ -362,11 +362,10 @@ function validasiTanggalToday(edt, tbl_name, fields_name, field_value, sign) {
  * @param {String} tbl_name_before 
  */
 function validasiOutstanding(edt, tbl_name, id_transaksi, id_transaksi_before, tbl_name_before) {
-    // jumlah_unit = (parseFloat(edt.field(tbl_name+'.jumlah_unit').val())).toFixed(2);
     jumlah_unit = edt.field(tbl_name+'.jumlah_unit').val();
 
     $.ajax( {
-        url: "../../../helpers/fn_select_jumlah_unit_os.php",
+        url: "../../../helpers/fn_validasi_outstanding.php",
         dataType: 'json',
         type: 'POST',
         async: false,
@@ -379,7 +378,7 @@ function validasiOutstanding(edt, tbl_name, id_transaksi, id_transaksi_before, t
         },
         success: function (json) {
             limit_unit = 'Sisa Maksimal ' +json.data.sisa;
-            if (parseFloat(json.data.unit_now) > parseFloat(json.data.jumlah_unit_db)) {
+            if (parseFloat(json.data.unit_now) > parseFloat(json.data.jumlah_unit)) {
                 edt.field(tbl_name+'.jumlah_unit').error( limit_unit );
             }
         }
