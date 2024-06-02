@@ -14,7 +14,7 @@
 	 * 
 	 * Return:
 	 * 	sisa	: jumlah_unit yang masih bisa diinput
-	 * 	unit_now: jumlah_unit total yang sudah diinput
+	 * 	jumlah_unit_after: jumlah_unit total yang sudah diinput
 	 * 	
 	 */
 	include( "../../users/init.php" );
@@ -52,9 +52,9 @@
 				->exec();
 			$rs_transaksi = $qs_transaksi->fetch();
 
-			$jumlah_unit_transaksi_old = $rs_transaksi['jumlah_unit'];
+			$jumlah_unit_input_old = $rs_transaksi['jumlah_unit'];
 		} else {
-			$jumlah_unit_transaksi_old = 0;
+			$jumlah_unit_input_old = 0;
 		}
 		
         $qs_transaksi_before = $db
@@ -74,16 +74,16 @@
 		$jumlah_unit_next_before = $rs_transaksi_before['jumlah_unit_next'];
 		$jumlah_unit_before      = $rs_transaksi_before['jumlah_unit'];
 		
-		$unit_now = $jumlah_unit_input + $jumlah_unit_next_before - $jumlah_unit_transaksi_old;
-		$sisa     = $jumlah_unit_before - $jumlah_unit_next_before - $jumlah_unit_transaksi_old;
+		$jumlah_unit_after = $jumlah_unit_input + $jumlah_unit_next_before - $jumlah_unit_input_old;
+		$jumlah_unit_sisa  = $jumlah_unit_before - $jumlah_unit_next_before + $jumlah_unit_input_old;
 
 		$data = array(
-			"jumlah_unit_next"  => $jumlah_unit_next_before,
-			"jumlah_unit"       => $jumlah_unit_before,
-			"jumlah_unit_input" => $jumlah_unit_input,
-			"jumlah_unit_transaksi_old"   => $jumlah_unit_transaksi_old,
-			"unit_now"          => $unit_now,
-			"sisa"              => $sisa,
+			"jumlah_unit_next"      => $jumlah_unit_next_before,
+			"jumlah_unit"           => $jumlah_unit_before,
+			"jumlah_unit_input"     => $jumlah_unit_input,
+			"jumlah_unit_input_old" => $jumlah_unit_input_old,
+			"jumlah_unit_after"     => $jumlah_unit_after,
+			"jumlah_unit_sisa"		=> $jumlah_unit_sisa,
 		);
 
 		

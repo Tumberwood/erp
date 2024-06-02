@@ -377,9 +377,9 @@ function validasiOutstanding(edt, tbl_name, id_transaksi, id_transaksi_before, t
             jumlah_unit        : jumlah_unit,
         },
         success: function (json) {
-            limit_unit = 'Sisa Maksimal ' +json.data.sisa;
-            if (parseFloat(json.data.unit_now) > parseFloat(json.data.jumlah_unit)) {
-                edt.field(tbl_name+'.jumlah_unit').error( limit_unit );
+            jumlah_unit_sisa = 'Sisa Maksimal ' + json.data.jumlah_unit_sisa;
+            if (parseFloat(json.data.jumlah_unit_after) > parseFloat(json.data.jumlah_unit)) {
+                edt.field(tbl_name+'.jumlah_unit').error( jumlah_unit_sisa );
             }
         }
 
