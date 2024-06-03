@@ -118,6 +118,14 @@
 	if ( isset($_POST['rowId']) && $_POST['rowId'] > 0){
 		$editor
 			->where( 'httlptd.id', $_POST['rowId']);
+	} else {
+		//Jika bukan single, maka filter tanggal bisa jalan
+		if($_POST['start_date'] != ''){
+			$editor->where( 'httlptd.tanggal_awal',$_POST['start_date'], '>=' );
+		}
+		if($_POST['end_date'] != ''){
+			$editor->where( 'httlptd.tanggal_awal', $_POST['end_date'], '<=' );
+		}
 	}
 
 	include( "httlptd_extra.php" );

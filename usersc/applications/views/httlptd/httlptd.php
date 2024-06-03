@@ -21,6 +21,37 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				
+				<div class="modal" id="modalSFhttlptd" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblhttlptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -83,6 +114,9 @@
 		tableRelation('httlptd');
 
 		$(document).ready(function() {
+			start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			
 			// BEGIN httlptd
 			edthttlptd = new $.fn.dataTable.Editor( {
 				ajax: {
@@ -91,6 +125,8 @@
 					data: function (d){
 						d.show_deleted_httlptd = show_deleted_httlptd;
 						d.rowId = rowId;
+						d.start_date = start_date;
+						d.end_date = end_date;
 					}
 				},
 				table: "#tblhttlptd",
@@ -428,6 +464,8 @@
 					data: function (d){
 						d.show_deleted_httlptd = show_deleted_httlptd;
 						d.rowId = rowId;
+						d.start_date = start_date;
+						d.end_date = end_date;
 					}
 				},
 				order: [[ 1, "desc" ]],
@@ -488,7 +526,7 @@
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_tools2 	= [ 'sf','sp', 'sb'];
 						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
@@ -541,6 +579,25 @@
 			} );
 
 			// END httlptd
+
+			$("#frmFilter").submit(function(e) {
+				e.preventDefault();
+			}).validate({
+				rules: {
+				},
+				submitHandler: function(frmFilter) {
+					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+					tblhttlptd.rows().deselect();
+					tblhttlptd.ajax.reload(function ( json ) {
+					toastr.remove();
+					toastr["success"]("Load data berhasil","INFO")
+					$('#modalSFhttlptd').modal('toggle');
+				}, false);
+					return false;
+				}
+			});
 			
 		} );// end of document.ready
 	
