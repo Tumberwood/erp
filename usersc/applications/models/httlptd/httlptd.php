@@ -24,6 +24,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'httlptd.id' ),
+			Field::inst( 'httlptd.id_gcpxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gcpxxmh),
+			Field::inst( 'httlptd.id_gbrxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gbrxxmh),
 			Field::inst( 'httlptd.id_httlpmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'httlptd.id_hemxxmh' )
