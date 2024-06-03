@@ -24,6 +24,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'httlptd.id' ),
+			Field::inst( 'httlptd.id_gcpxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gcpxxmh),
+			Field::inst( 'httlptd.id_gbrxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gbrxxmh),
 			Field::inst( 'httlptd.id_httlpmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'httlptd.id_hemxxmh' )
@@ -112,6 +118,14 @@
 	if ( isset($_POST['rowId']) && $_POST['rowId'] > 0){
 		$editor
 			->where( 'httlptd.id', $_POST['rowId']);
+	} else {
+		//Jika bukan single, maka filter tanggal bisa jalan
+		if($_POST['start_date'] != ''){
+			$editor->where( 'httlptd.tanggal_awal',$_POST['start_date'], '>=' );
+		}
+		if($_POST['end_date'] != ''){
+			$editor->where( 'httlptd.tanggal_awal', $_POST['end_date'], '<=' );
+		}
 	}
 
 	include( "httlptd_extra.php" );

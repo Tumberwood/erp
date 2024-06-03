@@ -24,6 +24,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'htoxxth.id' ),
+			Field::inst( 'htoxxth.id_gcpxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gcpxxmh),
+			Field::inst( 'htoxxth.id_gbrxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gbrxxmh),
 			Field::inst( 'htoxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
