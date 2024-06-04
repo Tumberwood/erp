@@ -231,7 +231,7 @@
                         1,
                         ' . $_POST['id_transaksi'] . ',
                         3,
-                        4,
+                        3,
                         hem.id,
                         "'.$rs_httgltd["kode"].'",
                         "'.$rs_httgltd["tanggal"].'",
