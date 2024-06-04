@@ -62,7 +62,7 @@
 		var edtwloxxmh, tblwloxxmh, show_deleted_wloxxmh = 0, id_wloxxmh;
 		// ------------- end of default variable
 
-		var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0;
+		var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0;
 
 		// get tableRelation
 		tableRelation('wloxxmh');
@@ -254,6 +254,46 @@
 						}
 					},
 					{
+						label: "Kapasitas <sup class='text-danger'>*<sup>",
+						name: "wloxxmh.kapasitas"
+					},
+					{
+						label: "UoM Kapasitas <sup class='text-danger'>*<sup>",
+						name: "wloxxmh.id_iumxxmh_kapasitas",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_iumxxmh_old: id_iumxxmh_kapasitas_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
 						label: "Keterangan",
 						name: "wloxxmh.keterangan",
 						type: "textarea"
@@ -296,9 +336,11 @@
 
             edtwloxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					id_iwhxxmh = edtwloxxmh.field('wloxxmh.id_iwhxxmh').val();
-					kode       = edtwloxxmh.field('wloxxmh.kode').val();
-					nama       = edtwloxxmh.field('wloxxmh.nama').val();
+					id_iwhxxmh           = edtwloxxmh.field('wloxxmh.id_iwhxxmh').val();
+					kode                 = edtwloxxmh.field('wloxxmh.kode').val();
+					nama                 = edtwloxxmh.field('wloxxmh.nama').val();
+					kapasitas            = edtwloxxmh.field('wloxxmh.kapasitas').val();
+					id_iumxxmh_kapasitas = edtwloxxmh.field('wloxxmh.id_iumxxmh_kapasitas').val();
 
 					validasiRequired(
 						edtwloxxmh,
@@ -306,7 +348,8 @@
 						{
 							'id_iwhxxmh': id_iwhxxmh,
 							'kode': kode,
-							'nama': nama
+							'nama': nama,
+							'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas
 						}
 					);
 
@@ -325,6 +368,16 @@
 						'kode,nama,id_iwhxxmh',
 						'"'+kode+'","'+nama+'",'+id_iwhxxmh,
 						id_wloxxmh
+					);
+
+					validasiNumber(
+						edtwloxxmh,
+						'wloxxmh',
+						{
+							'kapasitas': kapasitas,
+						},
+						0,
+						'>='
 					);
 
 				}
@@ -422,10 +475,11 @@
 			tblwloxxmh.on( 'select', function( e, dt, type, indexes ) {
 				// set variable standar framework
 				siVarSet('wloxxmh');
-				id_iwhxxmh_old    = wloxxmh_data.id_iwhxxmh;
-				id_wloctmh_old    = wloxxmh_data.id_wloctmh;
-				id_wlotpmh_old    = wloxxmh_data.id_wlotpmh;
-				id_wloznmh_old    = wloxxmh_data.id_wloznmh;
+				id_iwhxxmh_old           = wloxxmh_data.id_iwhxxmh;
+				id_wloctmh_old           = wloxxmh_data.id_wloctmh;
+				id_wlotpmh_old           = wloxxmh_data.id_wlotpmh;
+				id_wloznmh_old           = wloxxmh_data.id_wloznmh;
+				id_iumxxmh_kapasitas_old = wloxxmh_data.id_iumxxmh_kapasitas;
 
 				// atur hak akses
 				CekSelectHeaderH(tblwloxxmh);
@@ -434,7 +488,7 @@
 			tblwloxxmh.on( 'deselect', function () {
 				// reset variable standar framework
 				siVarReset('wloxxmh');
-				id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0;
+				id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0 ;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblwloxxmh);
