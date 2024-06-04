@@ -905,3 +905,205 @@ function autoReloadInterval(content) {
         }
     });
 }
+
+/**
+ * Digunakan untuk melakukan action pada button confirm, termasuk rollback jika terjadi kesalahan
+ * Dipanggil dari helpers/button_fn_generate.php
+ * @param {String} tbl_name 
+ * @param {Object} tbl 
+ */
+async function fnConfirm(tbl_name, tbl){
+    var is_error = 0, is_update_transaction_state = 0, is_generate_kode = 0, is_inventory = 0, is_jurnal = 0, is_post_confirm = 0;
+    try {
+        full_message = '';
+
+        const checkFileExists = async (url) => {
+            try {
+                await $.ajax({
+                    url: url,
+                    type: 'HEAD'
+                });
+                return true;
+            } catch {
+                return false;
+            }
+        };
+
+        let json1 = await $.ajax( {
+            url: '../../../helpers/tr_fn_transaction_state.php',
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                table_name       : tbl_name,
+                id_transaksi     : id_transaksi_h,
+                transaction_state: 1
+            },
+            success: function ( json ) {
+                status_code  = json.data.status_code;
+                if(status_code == 500){
+                    is_error = 1;
+                }else{
+                    is_update_transaction_state = 1;
+                }
+                full_message = full_message + json.data.message + '</br>';
+                toast_type   = json.data.type_message;
+
+            }
+
+        } );  
+        
+        if(is_need_generate_kode == 1 && is_error == 0){
+            let json2 = await $.ajax( {
+                url: '../../../helpers/kode_fn_generate_confirm.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    state                   : 1,
+                    nama_tabel              : tbl_name,
+                    kategori_dokumen        : kategori_dokumen,
+                    kategori_dokumen_value  : kategori_dokumen_value,
+                    id_transaksi            : id_transaksi_h
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_generate_kode = 1;
+                    }
+                    toast_type   = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                }
+            } );
+
+        }
+
+        if(is_need_approval == 1 && is_error == 0 ){
+            // insert gaplgtd
+            let json3 = await $.ajax( {
+                url: '../../../helpers/tr_fn_transaction_state_approval.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    state       : 1,
+                    id_transaksi: id_transaksi_h,
+                    table_name  : tbl_name,
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_generate_kode = 1;
+                    }
+                    toast_type = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                }
+            } );
+        }
+
+        if(is_need_inventory == 1 && is_error == 0){
+            let json4 = await $.ajax( {
+                url: '../../models/'+ tbl_name + '/' + tbl_name +'_iv.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    state           : 1,
+                    id_transaksi_h  : id_transaksi_h,
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_inventory = 1;
+                    }
+                    toast_type = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                }
+            } );
+        }
+
+        if(is_need_jurnal == 1 && is_error == 0){
+            let json5 = await $.ajax( {
+                url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_jv.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    state           : 1,
+                    id_transaksi_h  : id_transaksi_h,
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_jurnal = 1;
+                    }
+                    toast_type = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                }
+            } );
+        }
+
+        // Cek keberadaan file sebelum melakukan AJAX request.
+        const fileExists = await checkFileExists('../../models/' + tbl_name + '/' + tbl_name + '_post_confirm.php');
+
+        if (fileExists && is_error == 0) {
+            let json6 = await $.ajax( {
+                url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_post_confirm.php',
+                dataType: 'json',
+                type: 'POST',
+                async: false,
+                data: {
+                    state           : 1,
+                    id_transaksi  : id_transaksi_h
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_post_confirm = 1;
+                    }
+                    toast_type = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                },
+                error: function(){
+                    console.error('File Not Exist');
+                },
+            } );
+        }
+
+        if(is_error == 1){
+            let json6 = await $.ajax( {
+                url: '../../../helpers/tr_fn_confirm_rollback.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    state       : 1,
+                    id_transaksi: id_transaksi_h,
+                    table_name  : tbl_name,
+                    is_error : is_error,
+                    is_update_transaction_state : is_update_transaction_state,
+                    is_generate_kode : is_generate_kode,
+                    is_inventory : is_inventory,
+                    is_jurnal : is_jurnal,
+                    is_post_confirm : is_post_confirm
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    toast_type = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                }
+            } );
+        }
+
+        toastr[toast_type](full_message, 'INFO');
+        tbl.ajax.reload(null, false);
+
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+}

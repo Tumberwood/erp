@@ -107,7 +107,7 @@
 					name: "iumxxmh.nama"
 				}, 	
 				{
-					label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
+					label: getTranslation('notes'),
 					name: "iumxxmh.keterangan",
 					type: "textarea"
 				}

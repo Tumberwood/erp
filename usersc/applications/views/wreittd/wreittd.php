@@ -52,7 +52,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wreittd/fn/wreittd_fn.php'; ?>
 
@@ -226,6 +226,11 @@
 					}
 				},
 				{
+					label: "wreittd.id_grlxxmh_supplier",
+					name: "wreittd.id_grlxxmh_supplier",
+					// type: "hidden"
+				},
+				{
 					label: "Item <sup class='text-danger'>*<sup>",
 					name: "wreittd.id_iimxxmh",
 					type: "select2",
@@ -362,6 +367,9 @@
 		edtwreittd.dependent( 'wreittd.id_wroxxth', function ( val, data, callback ) {
 			id_wroxxth = val;
 			wreittd_fn_wroiitd(id_wroxxth, id_iimxxmh);
+			autofillField('wroxxth', id_wroxxth, 'id_grlxxmh_supplier');
+			edtwreittd.field('wreittd.id_grlxxmh_supplier').val(autofillData.id_grlxxmh_supplier);
+			edtwreittd.field('wreittd.id_iimxxmh').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 

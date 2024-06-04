@@ -32,6 +32,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wloxxmh.id_wloznmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wloxxmh.id_iumxxmh_kapasitas' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wloxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -47,6 +49,8 @@
 			Field::inst( 'wloxxmh.start_at' ),
 			Field::inst( 'wloxxmh.finish_at' ),
 			Field::inst( 'wloxxmh.is_defaultprogram' ),
+
+			Field::inst( 'wloxxmh.kapasitas' ),
 			
 			Field::inst( 'iwhxxmh.nama' ),
 			Field::inst( 'wloctmh.nama' ),
@@ -56,7 +60,8 @@
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','wloxxmh.id_iwhxxmh' )
 		->leftJoin( 'wloctmh','wloctmh.id','=','wloxxmh.id_wloctmh' )
 		->leftJoin( 'wlotpmh','wlotpmh.id','=','wloxxmh.id_wlotpmh' )
-		->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' );
+		->leftJoin( 'wloznmh','wloznmh.id','=','wloxxmh.id_wloznmh' )
+		->leftJoin( 'iumxxmh','iumxxmh.id','=','wloxxmh.id_iumxxmh_kapasitas' );
 	
 	// do not erase
 	// function show / hide inactive document

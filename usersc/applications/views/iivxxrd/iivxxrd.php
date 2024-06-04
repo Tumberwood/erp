@@ -114,13 +114,13 @@
 						searchPanes:{
 							show: true,
 						},
-						targets: [1,2,3]
+						targets: [0,1,2]
 					},
 					{
 						searchPanes:{
 							show: false,
 						},
-						targets: [0]
+						targets: [3,4,5,6]
 					}
 				],
 				columns: [
