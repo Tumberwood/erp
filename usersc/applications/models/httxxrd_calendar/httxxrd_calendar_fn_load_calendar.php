@@ -33,11 +33,13 @@
         ->raw()
         ->exec('SELECT DISTINCT
                     a.id_transaksi,
-                    concat(httlpmh_kode, " - ", kode) as title,
-                    DATE_FORMAT(MIN(concat(tanggal, " ", ifnull(jam_awal, "00:00:00") )), "%Y-%m-%dT%T") as start,
-                    DATE_FORMAT(Max(CONCAT(tanggal, " ", IFNULL(jam_akhir, "00:00:00") )), "%Y-%m-%dT%T") AS end ,
-	                if(a.kode LIKE "CB/%", concat("../../views/httgltd/httgltd.php?rowId=", id_transaksi), concat("../../views/httlptd/httlptd.php?rowId=", id_transaksi) ) AS url
+                    concat(httlpmh_kode, " - ", a.kode) as title,
+                    if(a.jenis = 2, DATE_FORMAT(MIN(concat(tanggal, " ", ifnull(jam_awal, "00:00:00") )), "%Y-%m-%dT%T"), MIN(tanggal)) as start,
+                    if(a.jenis = 2, DATE_FORMAT(Max(CONCAT(tanggal, " ", IFNULL(jam_akhir, "00:00:00") )), "%Y-%m-%dT%T"), MAX(tanggal)) AS end ,
+	                if(a.kode LIKE "CB/%", concat("../../views/httgltd/httgltd.php?rowId=", id_transaksi), concat("../../views/httlptd/httlptd.php?rowId=", id_transaksi) ) AS url,
+	                b.warna as color
                 FROM httxxrd a
+                LEFT JOIN httlpmh b on b.id = a.id_httlpmh
                 WHERE a.id_httlpmh > 0
                 GROUP BY a.kode
         '

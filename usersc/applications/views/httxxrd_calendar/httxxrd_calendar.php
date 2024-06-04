@@ -59,6 +59,7 @@
 			var calendarEl = $('#calendar')[0];
         	var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'dayGridMonth',
+				eventColor: 'purple',
 				navLinks: true,
 				headerToolbar: {
 					center: 'title',
@@ -91,7 +92,9 @@
 									end: event.end,
 									//custom key variable untuk menyimpan id_transaksi
 									// id_transaksi: event.id_transaksi,
-									url: event.url
+									url: event.url,
+									color: event.color,
+									textColor: "white"
 								};
 							});
 							// Panggil successCallback dengan array events
