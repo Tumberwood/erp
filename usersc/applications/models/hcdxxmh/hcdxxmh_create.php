@@ -32,8 +32,8 @@
 
                 if ($fileName != "" || $fileName != null) {
                     //DIREKTORI
-                    $system_path = $abs_us_root.$us_url_root.'usersc/files/kandidat/';
-                    $web_path = $us_url_root.'usersc/files/kandidat/';
+                    $system_path = $abs_us_root.$us_url_root.'usersc/files/uploads/';
+                    $web_path = $us_url_root.'usersc/files/uploads/';
     
                     // Get the file extension
                     $extension = pathinfo($files_foto['name'], PATHINFO_EXTENSION);
@@ -68,8 +68,8 @@
 
                 if ($fileName != "" || $fileName != null) {
                     //DIREKTORI
-                    $system_path = $abs_us_root.$us_url_root.'usersc/files/kandidat/';
-                    $web_path = $us_url_root.'usersc/files/kandidat/';
+                    $system_path = $abs_us_root.$us_url_root.'usersc/files/uploads/';
+                    $web_path = $us_url_root.'usersc/files/uploads/';
     
                     // Get the file extension
                     $extension = pathinfo($files_cv['name'], PATHINFO_EXTENSION);
@@ -104,8 +104,8 @@
 
                 if ($fileName != "" || $fileName != null) {
                     //DIREKTORI
-                    $system_path = $abs_us_root.$us_url_root.'usersc/files/kandidat/';
-                    $web_path = $us_url_root.'usersc/files/kandidat/';
+                    $system_path = $abs_us_root.$us_url_root.'usersc/files/uploads/';
+                    $web_path = $us_url_root.'usersc/files/uploads/';
     
                     // Get the file extension
                     $extension = pathinfo($files_ktp['name'], PATHINFO_EXTENSION);
@@ -141,8 +141,8 @@
 
                 if ($fileName != "" || $fileName != null) {
                     //DIREKTORI
-                    $system_path = $abs_us_root.$us_url_root.'usersc/files/kandidat/';
-                    $web_path = $us_url_root.'usersc/files/kandidat/';
+                    $system_path = $abs_us_root.$us_url_root.'usersc/files/uploads/';
+                    $web_path = $us_url_root.'usersc/files/uploads/';
     
                     // Get the file extension
                     $extension = pathinfo($files_sim['name'], PATHINFO_EXTENSION);
@@ -266,6 +266,8 @@
             $qu_hcddcmh = $db
             ->query('insert', 'hcddcmh')
             ->set('id_hcdxxmh', $id_hcdxxmh)
+            ->set('id_files_ktp', $id_files_ktp)
+            ->set('id_files_sim', $id_files_sim)
             ->set('ktp_no', $ktp_no)
             ->set('id_gctxxmh_ktp', $id_gctxxmh_ktp)
             ->set('ktp_alamat', $ktp_alamat)

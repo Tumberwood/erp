@@ -235,7 +235,9 @@
     function confirmData(id_hcd) {
         $('#confirm').click(function() {
             confirmAlert = confirm('Apakah anda yakin untuk melakukan konfirmasi data kandidat?')
+            toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO");
             if (confirmAlert) {
+                
                 formData = appendAjax();
                 formData.append('id_hcd', id_hcd);
 
@@ -249,7 +251,8 @@
                     success: function ( json ) {
                         var response = JSON.parse(json);
                         // console.log(response);
-                        toastr[response.type_message](response.message,"INFO")
+				        toastr.remove();
+                        toastr[response.type_message](response.message,"INFO");
                         // id_hcdxxmh = response.id_hcdxxmh;
                         // window.location.reload();
                         // console.log('id_hcdxxmh ajax create = '+id_hcdxxmh);
