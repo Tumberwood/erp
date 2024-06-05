@@ -16,6 +16,66 @@
 	<div class="col">
 		<div class="ibox ">
 			<div class="ibox-content">
+				<div id="frmwloxxmh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.id_iwhxxmh"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.id_wloctmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.id_wlotpmh"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.id_wloznmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.kapasitas"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.id_iumxxmh_kapasitas"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.rack_name"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.bay_name"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.level_name"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.position_name"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.kode"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.keterangan"></editor-field>
+							</div>
+							<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<img src="../../../files/uploads/racking.jpg">
+							</div> -->
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblwloxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -64,6 +124,8 @@
 
 		var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0;
 
+		var id_wlotpmh, wloxxmh_kode, rack_name, bay_name, level_name, position_name;
+
 		// get tableRelation
 		tableRelation('wloxxmh');
 		
@@ -77,6 +139,7 @@
 						d.show_deleted_wloxxmh = show_deleted_wloxxmh;
 					}
 				},
+				template: "#frmwloxxmh",
 				table: "#tblwloxxmh",
 				fields: [ 
 					{
@@ -100,14 +163,6 @@
 						name: "wloxxmh.transaction_state",
                         type: "hidden",
 						def: 0
-					},	
-					{
-						label: "Kode <sup class='text-danger'>*<sup>",
-						name: "wloxxmh.kode"
-					}, 	
-					{
-						label: "Nama <sup class='text-danger'>*<sup>",
-						name: "wloxxmh.nama"
 					},	
 					{
 						label: "Warehouse<sup class='text-danger'>*<sup>",
@@ -294,6 +349,35 @@
 						}
 					},
 					{
+						label: "Rack / Block",
+						name: "wloxxmh.rack_name",
+						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+					},
+					{
+						label: "Bay",
+						name: "wloxxmh.bay_name",
+						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+					},
+					{
+						label: "Level",
+						name: "wloxxmh.level_name",
+						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+					},
+					{
+						label: "Position",
+						name: "wloxxmh.position_name",
+						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+					},
+					{
+						label: "Kode <sup class='text-danger'>*<sup>",
+						name: "wloxxmh.kode"
+					}, 	
+					{
+						label: "Nama <sup class='text-danger'>*<sup>",
+						name: "wloxxmh.nama",
+						type: "readonly"
+					},
+					{
 						label: "Keterangan",
 						name: "wloxxmh.keterangan",
 						type: "textarea"
@@ -323,32 +407,69 @@
 						edtwloxxmh.field('wloxxmh.id_iwhxxmh').disable();
 					}
 
-					
+					autofillField('iwhxxmh', id_iwhxxmh, 'kode');
+					iwhxxmh_kode = autofillData.kode;
+					wloxxmh_generate_nama();
+
 				}
 			});
 
 			edtwloxxmh.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
+				$(".modal-dialog").addClass("modal-xl");
 				
 				// enable disable tombol Save & Confirm
 				edtFormButtonSaveConfirm();
 			});
 
+			edtwloxxmh.dependent( 'wloxxmh.id_iwhxxmh', function ( val, data, callback ) {
+				id_iwhxxmh = val;
+				autofillField('iwhxxmh', id_iwhxxmh, 'kode');
+				iwhxxmh_kode = autofillData.kode;
+				wloxxmh_generate_nama();
+				return {}
+			}, {event: 'keyup change'});
+
+			edtwloxxmh.dependent( 'wloxxmh.rack_name', function ( val, data, callback ) {
+				rack_name = val;
+				wloxxmh_generate_nama();
+				return {}
+			}, {event: 'keyup change'});
+
+			edtwloxxmh.dependent( 'wloxxmh.bay_name', function ( val, data, callback ) {
+				bay_name = val;
+				wloxxmh_generate_nama();
+				return {}
+			}, {event: 'keyup change'});
+
+			edtwloxxmh.dependent( 'wloxxmh.level_name', function ( val, data, callback ) {
+				level_name = val;
+				wloxxmh_generate_nama();
+				return {}
+			}, {event: 'keyup change'});
+
+			edtwloxxmh.dependent( 'wloxxmh.position_name', function ( val, data, callback ) {
+				position_name = val;
+				wloxxmh_generate_nama();
+				return {}
+			}, {event: 'keyup change'});
+
             edtwloxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					id_iwhxxmh           = edtwloxxmh.field('wloxxmh.id_iwhxxmh').val();
-					kode                 = edtwloxxmh.field('wloxxmh.kode').val();
-					nama                 = edtwloxxmh.field('wloxxmh.nama').val();
+					// kode                 = edtwloxxmh.field('wloxxmh.kode').val();
+					// nama                 = edtwloxxmh.field('wloxxmh.nama').val();
 					kapasitas            = edtwloxxmh.field('wloxxmh.kapasitas').val();
 					id_iumxxmh_kapasitas = edtwloxxmh.field('wloxxmh.id_iumxxmh_kapasitas').val();
+					rack_name = edtwloxxmh.field('wloxxmh.rack_name').val();
+					bay_name = edtwloxxmh.field('wloxxmh.bay_name').val();
 
 					validasiRequired(
 						edtwloxxmh,
 						'wloxxmh',
 						{
 							'id_iwhxxmh': id_iwhxxmh,
-							'kode': kode,
-							'nama': nama,
+							// 'kode': kode,
+							// 'nama': nama,
 							'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas
 						}
 					);
@@ -360,15 +481,15 @@
 					 * 	kode, nama, warehouse
 					 * 	kode dan warehouse, atau nama dan warehouse
 					 */
-					validasiUnique(
-						action,
-						edtwloxxmh,
-						'wloxxmh',
-						'kode',
-						'kode,nama,id_iwhxxmh',
-						'"'+kode+'","'+nama+'",'+id_iwhxxmh,
-						id_wloxxmh
-					);
+					// validasiUnique(
+					// 	action,
+					// 	edtwloxxmh,
+					// 	'wloxxmh',
+					// 	'kode',
+					// 	'kode,nama,id_iwhxxmh',
+					// 	'"'+kode+'","'+nama+'",'+id_iwhxxmh,
+					// 	id_wloxxmh
+					// );
 
 					validasiNumber(
 						edtwloxxmh,
@@ -480,7 +601,7 @@
 				id_wlotpmh_old           = wloxxmh_data.id_wlotpmh;
 				id_wloznmh_old           = wloxxmh_data.id_wloznmh;
 				id_iumxxmh_kapasitas_old = wloxxmh_data.id_iumxxmh_kapasitas;
-
+				id_iwhxxmh               = wloxxmh_data.id_iwhxxmh;
 				// atur hak akses
 				CekSelectHeaderH(tblwloxxmh);
 			} );
@@ -488,7 +609,7 @@
 			tblwloxxmh.on( 'deselect', function () {
 				// reset variable standar framework
 				siVarReset('wloxxmh');
-				id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0 ;
+				id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0, id_iwhxxmh = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblwloxxmh);
