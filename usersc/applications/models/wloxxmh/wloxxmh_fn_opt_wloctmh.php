@@ -49,7 +49,7 @@
             ->query('select', 'wloxxmh')
             ->get([
                 'id as id',
-                'CONCAT(kode," - ",nama) as text'
+                'nama as text'
             ])
             ->where('id', $id_wloxxmh_old )
             ->exec();
@@ -64,7 +64,7 @@
         ->query('select', 'wloxxmh')
         ->get([
             'id as id',
-            'CONCAT(kode," - ",nama) as text'
+            'nama as text'
         ])
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_old, '<>' )
@@ -72,9 +72,7 @@
         ->where('id_wloctmh', $id_wloctmh, $w_wloctmh )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r
-                ->where('kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('nama', '%' . $q . '%', 'LIKE' );
+            $r->where('nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
