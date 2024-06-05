@@ -60,9 +60,6 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="wloxxmh.kode"></editor-field>
-							</div>
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wloxxmh.nama"></editor-field>
 							</div>
 						</div>
@@ -81,7 +78,6 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Warehouse</th>
                                 <th>Category</th>
@@ -369,10 +365,6 @@
 						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
 					},
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
-						name: "wloxxmh.kode"
-					}, 	
-					{
 						label: "Nama <sup class='text-danger'>*<sup>",
 						name: "wloxxmh.nama",
 						type: "readonly"
@@ -392,17 +384,14 @@
 				if(action == 'create'){
 					tblwloxxmh.rows().deselect();
 
-					edtwloxxmh.field('wloxxmh.kode').enable();
 					edtwloxxmh.field('wloxxmh.nama').enable();
 					edtwloxxmh.field('wloxxmh.id_iwhxxmh').enable();
 				}else if(action == 'edit'){
 					
 					if(transaction_state == 0){
-						edtwloxxmh.field('wloxxmh.kode').enable();
 						edtwloxxmh.field('wloxxmh.nama').enable();
 						edtwloxxmh.field('wloxxmh.id_iwhxxmh').enable();
 					}else{
-						edtwloxxmh.field('wloxxmh.kode').disable();
 						edtwloxxmh.field('wloxxmh.nama').disable();
 						edtwloxxmh.field('wloxxmh.id_iwhxxmh').disable();
 					}
@@ -456,21 +445,19 @@
             edtwloxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					id_iwhxxmh           = edtwloxxmh.field('wloxxmh.id_iwhxxmh').val();
-					// kode                 = edtwloxxmh.field('wloxxmh.kode').val();
-					// nama                 = edtwloxxmh.field('wloxxmh.nama').val();
+					nama                 = edtwloxxmh.field('wloxxmh.nama').val();
 					kapasitas            = edtwloxxmh.field('wloxxmh.kapasitas').val();
 					id_iumxxmh_kapasitas = edtwloxxmh.field('wloxxmh.id_iumxxmh_kapasitas').val();
-					rack_name = edtwloxxmh.field('wloxxmh.rack_name').val();
-					bay_name = edtwloxxmh.field('wloxxmh.bay_name').val();
+					rack_name            = edtwloxxmh.field('wloxxmh.rack_name').val();
+					bay_name             = edtwloxxmh.field('wloxxmh.bay_name').val();
 
 					validasiRequired(
 						edtwloxxmh,
 						'wloxxmh',
 						{
 							'id_iwhxxmh': id_iwhxxmh,
-							// 'kode': kode,
-							// 'nama': nama,
-							'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas
+							'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas,
+							'rack_name': rack_name
 						}
 					);
 
@@ -481,15 +468,15 @@
 					 * 	kode, nama, warehouse
 					 * 	kode dan warehouse, atau nama dan warehouse
 					 */
-					// validasiUnique(
-					// 	action,
-					// 	edtwloxxmh,
-					// 	'wloxxmh',
-					// 	'kode',
-					// 	'kode,nama,id_iwhxxmh',
-					// 	'"'+kode+'","'+nama+'",'+id_iwhxxmh,
-					// 	id_wloxxmh
-					// );
+					validasiUnique(
+						action,
+						edtwloxxmh,
+						'wloxxmh',
+						'nama',
+						'nama,id_iwhxxmh',
+						'"'+nama+'",'+id_iwhxxmh,
+						id_wloxxmh
+					);
 
 					validasiNumber(
 						edtwloxxmh,
@@ -546,7 +533,6 @@
 				],
 				columns: [
 					{ data: "wloxxmh.id",visible:false },
-					{ data: "wloxxmh.kode" },
 					{ data: "wloxxmh.nama" },
 					{ data: "iwhxxmh.nama" },
 					{ data: "wloctmh.nama" },
