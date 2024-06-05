@@ -42,10 +42,14 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wreittd.id_wlpxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'wreittd.id_iimxxmh' ),
-			Field::inst( 'wreittd.id_iumxxmh_unit' ),
-			Field::inst( 'wreittd.id_iumxxmh_terkecil' ),
-			Field::inst( 'wreittd.id_iumxxmh_default' ),
+			Field::inst( 'wreittd.id_iimxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wreittd.id_iumxxmh_unit' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wreittd.id_iumxxmh_terkecil' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wreittd.id_iumxxmh_default' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wreittd.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
