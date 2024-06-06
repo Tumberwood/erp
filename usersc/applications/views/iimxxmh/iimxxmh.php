@@ -10,6 +10,7 @@
 	$nama_tabel       = 'iimxxmh';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'iimummd';
+    $nama_tabels_d[1] = 'wimlotd';
 ?>
 
 <!-- begin content here -->
@@ -78,6 +79,7 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd"> UoM</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabwimlotd"> Loc Pref</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabiimummd" class="tab-pane active">
@@ -159,6 +161,22 @@
 					</div>
 				</div>
 
+				<div role="tabpanel" id="tabwimlotd" class="tab-pane">
+					<div class="panel-body">
+
+						<table id="tblwimlotd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>id_iimxxmh</th>
+									<th>Location</th>
+									<th>Order</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
@@ -181,7 +199,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iimxxmh/fn/iimxxmh_fn.php'; ?>
@@ -192,6 +210,7 @@
 	var edtiimxxmh, tbliimxxmh, show_deleted_iimxxmh = 0, id_iimxxmh;
 	var edtiimummd, tbliimummd, show_deleted_iimummd = 0, id_iimummd;
 	var edtiimummd_copyfrom;
+	var edtwimlotd, tblwimlotd, show_deleted_wimlotd = 0, id_wimlotd;
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
@@ -200,6 +219,7 @@
 	var is_default_old = 0;
 	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0;
 	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
+	var id_wloxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('iimxxmh');
@@ -640,7 +660,7 @@
 		
 		tbliimxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tbliimummd];
+			tbl_details = [tbliimummd, tblwimlotd];
 			CekInitHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnCopyFrom:name' ).disable();
@@ -657,7 +677,7 @@
 			id_iimxxmh_old = iimxxmh_data.id;
 			
 			// atur hak akses
-			tbl_details = [tbliimummd];
+			tbl_details = [tbliimummd, tblwimlotd];
 			CekSelectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnCopyFrom:name' ).enable();
@@ -670,7 +690,7 @@
 			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
-			tbl_details = [tbliimummd];
+			tbl_details = [tbliimummd, tblwimlotd];
 			CekDeselectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnCopyFrom:name' ).disable();
@@ -1145,9 +1165,8 @@
 		} );
 
 		tbliimummd.on( 'draw', function( e, settings ) { 
-			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tbliimxxmh, tbliimummd, 'iimummd' );
+			// atur hak akses			
+			CekDrawDetailHD( tbliimummd, 1 );
 			CekDrawDetailHDFinal(tbliimxxmh);
 
 		} );
@@ -1161,7 +1180,7 @@
 			is_iumxxmh_jual_old = iimummd_data.is_iumxxmh_jual;
 			
 			// atur hak akses
-			CekSelectDetailHD(tbliimxxmh, tbliimummd );
+			CekSelectDetailHD(tbliimummd );
 
 		} );
 
@@ -1172,11 +1191,237 @@
 			id_iumxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tbliimxxmh, tbliimummd );
+			CekDeselectDetailHD( tbliimummd );
 
 		} );
 
 		// END iimummd
+
+		// BEGIN wimlotd
+
+		edtwimlotd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/wimlotd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wimlotd = show_deleted_wimlotd;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tblwimlotd",
+			formOptions: {
+				main: {
+					focus: 5
+				}
+			},
+			fields: [ 
+				{
+					label: "wimlotd.start_at",
+					name: "wimlotd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "wimlotd.finish_at",
+					name: "wimlotd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "wimlotd",
+					type: "hidden"
+				},	
+				{
+					label: "wimlotd.transaction_state",
+					name: "wimlotd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_iimxxmh",
+					name: "wimlotd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Location",
+					name: "wimlotd.id_wloxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wloxxmh_old: id_wloxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Order <sup class='text-danger'>*<sup>",
+					name: "wimlotd.urutan"
+				}
+				
+			]
+		} );
+			
+		edtwimlotd.on( 'preOpen', function( e, mode, action ) {
+			edtwimlotd.field('wimlotd.id_iimxxmh').val(id_iimxxmh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimlotd.field('wimlotd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblwimlotd.rows().deselect();
+			}
+
+		});
+
+		edtwimlotd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-xl");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
+		});
+		
+		edtwimlotd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				// set variable
+				id_wloxxmh = edtwimlotd.field('wimlotd.id_wloxxmh').val();
+				urutan     = edtwimlotd.field('wimlotd.urutan').val();
+
+				validasiRequired(
+					edtwimlotd,
+					'wimlotd',
+					{
+						'id_wloxxmh': id_wloxxmh,
+						'urutan': urutan
+					}
+				);
+				
+				validasiNumber(
+					edtwimlotd,
+					'wimlotd',
+					{
+						'urutan': urutan
+					},
+					0,
+					'>'
+				);
+
+			}
+			
+			if ( edtwimlotd.inError() ) {
+				return false;
+			}
+		});
+
+		edtwimlotd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimlotd.field('wimlotd.finish_at').val(finish_at);
+		});
+			
+		edtwimlotd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblwimlotd.ajax.reload(null, false);			
+
+		} );
+
+		edtwimlotd.on( 'close', function () {
+			edtwimlotd.enable();
+		} );
+
+		tblwimlotd = $('#tblwimlotd').DataTable( {
+			ajax: {
+				url: "../../models/iimxxmh/wimlotd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wimlotd = show_deleted_wimlotd;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			columns: [
+				{ data: "wimlotd.id",visible:false },
+				{ data: "wimlotd.id_iimxxmh",visible:false },
+				{ data: "wloxxmh.nama" },
+				{ 
+					data: "wimlotd.urutan" ,
+					...renderNumber(0)
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_wimlotd';
+					$table       = 'tblwimlotd';
+					$edt         = 'edtwimlotd';
+					$show_status = '_wimlotd';
+					$table_name  = $nama_tabels_d[1];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblwimlotd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tblwimlotd, 1 );
+			CekDrawDetailHDFinal(tbliimxxmh);
+
+		} );
+
+		tblwimlotd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('wimlotd');
+			id_wloxxmh_old      = wimlotd_data.id_wloxxmh;
+			// atur hak akses
+			CekSelectDetailHD( tblwimlotd );
+
+		} );
+
+		tblwimlotd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('wimlotd');
+			id_wimlotd = 0;
+			id_wloxxmh_old = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblwimlotd );
+
+		} );
+
+		// END wimlotd
 
 	} );// end of document.ready
 	

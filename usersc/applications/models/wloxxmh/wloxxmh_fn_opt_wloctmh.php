@@ -30,15 +30,17 @@
 
     if(isset($_GET['id_iwhxxmh']) && !empty($_GET['id_iwhxxmh']) ){
         $id_iwhxxmh = $_GET['id_iwhxxmh'];
+        $w_iwhxxmh = '=';
     }else{
         $id_iwhxxmh = 0;
+        $w_iwhxxmh = '<>';
     }
     
     if(isset($_GET['ids_wloctmh']) && !empty($_GET['ids_wloctmh']) ){
         $id_wloctmh = $_GET['ids_wloctmh'];
         $w_wloctmh = '=';
     }else{
-        $id_wloctmh = -9;
+        $id_wloctmh = 0;
         $w_wloctmh = '<>';
     }
 
@@ -49,7 +51,7 @@
             ->query('select', 'wloxxmh')
             ->get([
                 'id as id',
-                'CONCAT(kode," - ",nama) as text'
+                'nama as text'
             ])
             ->where('id', $id_wloxxmh_old )
             ->exec();
@@ -64,17 +66,15 @@
         ->query('select', 'wloxxmh')
         ->get([
             'id as id',
-            'CONCAT(kode," - ",nama) as text'
+            'nama as text'
         ])
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_old, '<>' )
-        ->where('id_iwhxxmh', $id_iwhxxmh )
+        ->where('id_iwhxxmh', $id_iwhxxmh, $w_iwhxxmh )
         ->where('id_wloctmh', $id_wloctmh, $w_wloctmh )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r
-                ->where('kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('nama', '%' . $q . '%', 'LIKE' );
+            $r->where('nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
@@ -95,6 +95,10 @@
     $endCount  = $offset + $resultCount;
     $morePages = $endCount > $c_rs_opt;
     // END untuk keperluan paginasi select2
+
+    $data = array(
+        'id_wloctmh'=> $id_wloctmh
+    );
     
     // tampilkan results
     require_once( "../../../../usersc/helpers/fn_ajax_results.php" );

@@ -51,6 +51,26 @@
 			Field::inst( 'wloxxmh.is_defaultprogram' ),
 
 			Field::inst( 'wloxxmh.kapasitas' ),
+			Field::inst( 'wloxxmh.rack' ),
+			Field::inst( 'wloxxmh.rack_name' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
+			Field::inst( 'wloxxmh.bay' ),
+			Field::inst( 'wloxxmh.bay_name' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
+			Field::inst( 'wloxxmh.level' ),
+			Field::inst( 'wloxxmh.level_name' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
+			Field::inst( 'wloxxmh.position' ),
+			Field::inst( 'wloxxmh.position_name' )
+				->setFormatter( function ( $val ) {
+					return strtoupper($val);
+				} ),
 			
 			Field::inst( 'iwhxxmh.nama' ),
 			Field::inst( 'wloctmh.nama' ),
