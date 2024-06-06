@@ -36,6 +36,12 @@
     	font-weight: bold;
 	}
 
+   .center-container {
+      display: flex;
+      justify-content: center;
+   }
+
+
   </style>
       <main>
          <div class="row" style="background-color: white">
@@ -820,13 +826,16 @@
                                  </div>
                               </div>
                               <br>
-                              <div class="form-group">
-                                 <div class="checkbox i-checks">
-                                       <label>
-                                          <input type="checkbox" id="agreeCheckbox"><i></i> Dengan ini saya menyetujui memberikan data-data saya untuk digunakan dalam proses seleksi karyawan.
-                                       </label>
+                              <div class="center-container">
+                                 <div class="form-group">
+                                    <div class="checkbox i-checks">
+                                          <label>
+                                             <input type="checkbox" id="agreeCheckbox"><i></i> Dengan ini saya menyetujui memberikan data-data saya untuk digunakan dalam proses seleksi karyawan.
+                                          </label>
+                                    </div>
                                  </div>
                               </div>
+
                            </div>
                         </div>
                      </form>
