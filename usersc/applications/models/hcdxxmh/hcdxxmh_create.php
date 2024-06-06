@@ -301,71 +301,94 @@
             $qu_hcdjbmh->exec();
 
             //update id_hdc
-            $qu_hcdfmmd = $db
-                ->query('update', 'hcdfmmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            $tabel_d = [
+                'hcdfmmd',
+                'hcdedmd',
+                'hcdjbmd',
+                'hcdogmd',
+                'hcddhmd',
+                'hcdecmd',
+                'hcdtrmd',
+                'hcdlgmd',
+                'hcdrfmd',
+            ];
 
-            $qu_hcdedmd = $db
-                ->query('update', 'hcdedmd')
+            foreach ($tabel_d as $key => $tabel) {
+                $qu_detail = $db
+                ->query('update', $tabel)
                 ->set('id_hcdxxmh',$id_hcdxxmh)
                 ->where('id_hcdxxmh',$id_hcd)
                 ->exec();
+            }
 
-            $qu_hcdjbmd = $db
-                ->query('update', 'hcdjbmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcdfmmd = $db
+            //     ->query('update', 'hcdfmmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
-            $qu_hcdogmd = $db
-                ->query('update', 'hcdogmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcdedmd = $db
+            //     ->query('update', 'hcdedmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
-            $qu_hcddhmd = $db
-                ->query('update', 'hcddhmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcdjbmd = $db
+            //     ->query('update', 'hcdjbmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
-            $qu_hcdecmd = $db
-                ->query('update', 'hcdecmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcdogmd = $db
+            //     ->query('update', 'hcdogmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
-            $qu_hcdtrmd = $db
-                ->query('update', 'hcdtrmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcddhmd = $db
+            //     ->query('update', 'hcddhmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
-            $qu_hcdlgmd = $db
-                ->query('update', 'hcdlgmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcdecmd = $db
+            //     ->query('update', 'hcdecmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
-            $qu_hcdrfmd = $db
-                ->query('update', 'hcdrfmd')
-                ->set('id_hcdxxmh',$id_hcdxxmh)
-                ->where('id_hcdxxmh',$id_hcd)
-                ->exec();
+            // $qu_hcdtrmd = $db
+            //     ->query('update', 'hcdtrmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
+
+            // $qu_hcdlgmd = $db
+            //     ->query('update', 'hcdlgmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
+
+            // $qu_hcdrfmd = $db
+            //     ->query('update', 'hcdrfmd')
+            //     ->set('id_hcdxxmh',$id_hcdxxmh)
+            //     ->where('id_hcdxxmh',$id_hcd)
+            //     ->exec();
 
             $db->commit();
             echo json_encode(
                 array(
                         'message'=> 'Berhasil Menambahkan Data Kandidat' , 
                         'type_message'=>'success',
+                        'status_code'=>200,
                         'id_hcdxxmh'=> $id_hcdxxmh
                     )
             );
         }catch (PDOException $e){
             $db->rollback();
-            echo json_encode(array('message'=> 'Gagal Menambahkan Data Kandidat ' . $e , 'type_message'=>'danger','id_hcdxxmh'=> 0 ));
+            echo json_encode(array('message'=> 'Gagal Menambahkan Data Kandidat ' . $e , 'type_message'=>'danger', 'status_code'=>200,'id_hcdxxmh'=> 0 ));
         }
+
+        //tes rollback dan diberikan status_code 500
 
 ?>

@@ -21,7 +21,7 @@
                     return false; // Exit the loop early
                 }
             } else {
-                console.log(inputField.val());
+                // console.log(inputField.val());
                 if (inputField.val() === '' || inputField.val() == null) {
                     // console.log('kosong');
                     flag_fill = 0;
@@ -190,91 +190,151 @@
         return formData;
     }
 
-    function createHeader() {
-        $('#next_keluarga').click(function() {
-            $('#tab_keluarga a').tab('show');
-
-            // if (id_hcdxxmh == 0) {
-            //     // if (!validasi()) {
-            //     //     return false; // Prevent form submission
-            //     // }
-            //     formData = appendAjax();
-
-            //     $.ajax({
-            //         url: 'usersc/applications/models/hcdxxmh/hcdxxmh_create.php',
-            //         type: 'POST',
-            //         async: false,
-            //         data: formData,
-            //         processData: false,
-            //         contentType: false,
-            //         success: function ( json ) {
-            //             var response = JSON.parse(json);
-            //             // console.log(response);
-            //             // toastr[response.type_message](response.message,"INFO")
-            //             id_hcdxxmh = response.id_hcdxxmh;
-            //             // window.location.reload();
-            //             console.log('id_hcdxxmh ajax create = '+id_hcdxxmh);
-            //         }
-            //     });
-                
-            //     console.log('id_hcdxxmh post ajax = '+id_hcdxxmh);
-            //     if (id_hcdxxmh > 0) {
-            //         $('#confirm').show();
-            //         var familyData = family(id_hcdxxmh);
-            //         var educationData = education(id_hcdxxmh);
-            //         var jobsData = jobs(id_hcdxxmh);
-            //         var organisasiData = organisasi(id_hcdxxmh);
-            //         var penyakitData = penyakit(id_hcdxxmh);
-            //         var kontakDaruratData = kontakDarurat(id_hcdxxmh);
-            //         var pelatihanData = pelatihan(id_hcdxxmh);
-            //         var bahasaData = bahasa(id_hcdxxmh);
-            //         var referensiData = referensi(id_hcdxxmh);
-            //         confirmData(id_hcdxxmh);
-            //     }
-            // }
-      });
-    }
-
-    // $('.update_data').click(function() {
-    //     hcddcmh_ktp_no = $('#hcddcmh_ktp_no').val();
-    //     hcdxxmh_nama = $('#hcdxxmh_nama').val();
-    //     if (hcddcmh_ktp_no != '' && hcdxxmh_nama != '') {
-    //         $('#confirm').show();
-    //     }
-    // });
-    
     function confirmData(id_hcd) {
         $('#confirm').click(function() {
-            confirmAlert = confirm('Apakah anda yakin untuk melakukan konfirmasi data kandidat?')
-            toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO");
-            if (confirmAlert) {
-                
-                formData = appendAjax();
-                formData.append('id_hcd', id_hcd);
+            // console.log(nama_tabels_d);
+            $.ajax( {
+                url: 'usersc/applications/models/hcdxxmh/fn_cek_detail.php',
+                dataType: 'json',
+                async: false,
+                type: 'POST',
+                data: {
+                    id_hcd: id_hcd,
+                    nama_tabels_d: nama_tabels_d,
+                },
+                success: function ( json ) {
+                    c_detail = json.data.c_detail;
+                    // console.log(c_detail);
+                }
+            });
+            console.log('c_detail luar = '+c_detail);
 
-                $.ajax({
-                    url: 'usersc/applications/models/hcdxxmh/hcdxxmh_create.php',
-                    type: 'POST',
-                    async: false,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function ( json ) {
-                        var response = JSON.parse(json);
-                        // console.log(response);
-				        toastr.remove();
-                        toastr[response.type_message](response.message,"INFO");
-                        // id_hcdxxmh = response.id_hcdxxmh;
-                        // window.location.reload();
-                        // console.log('id_hcdxxmh ajax create = '+id_hcdxxmh);
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        window.location.reload();
+            var is_next_confirm = 0;
+            //untuk validasi angka
+            var arr_angka = [
+                $('#hcdcsmh_handphone'),
+                $('#hcddcmh_ktp_no'),
+            ];
+
+            validasiInput(arr_angka, function(isValid) {
+                if (isValid) {
+                is_next = 1;
+                } else {
+                is_next = 0;
+                }
+            }, 1);
+
+            //untuk validasi required
+            var arr_wajib = [
+                $('#hcdxxmh_nama'),
+                $('#hcdxxmh_gender'),
+                $('#hcdxxmh_tanggal_lahir'),
+                $('#selectid_gctxxmh_lahir'),
+                $('#hcdxxmh_agama'),
+                $('#hcdxxmh_perkawinan'),
+                $('#hcdmdmh_gol_darah'),
+                $('#hcdxxmh_id_files_foto'),
+                $('#hcdxxmh_id_files_cv'),
+                $('#hcdcsmh_alamat_tinggal'),
+                $('#kota_tinggal'),
+                $('#hcddcmh_ktp_alamat'),
+                $('#kota_ktp'),
+                $('#hcdcsmh_email_personal'),
+            ];
+
+            validasiInput(arr_wajib, function(isValid) {
+                if (isValid) {
+                    if (is_next == 1) {
+                        is_next = 2;
+                        // console.log('wkwkwk');
                     }
+                }
+            });
+
+            hcddcmh_is_npwp = $('#hcddcmh_is_npwp').val();
+
+            //jika ada npwp
+            if (hcddcmh_is_npwp == 1) {
+                //untuk validasi angka
+                var arr_angka = [
+                    $('#hcddcmh_npwp_no'),
+                ];
+
+                validasiInput(arr_angka, function(isValid) {
+                if (isValid) {
+                    is_next = 3;
+                } else {
+                    is_next = 2;
+                }
+                }, 1);
+
+                //untuk validasi required
+                var arr_wajib = [
+                    $('#hcddcmh_npwp_alamat'),
+                    $('#hcddcmh_id_gctxxmh_npwp'),
+                    $('#hcddcmh_id_gtxpkmh'),
+                ];
+
+                validasiInput(arr_wajib, function(isValid) {
+                if (isValid) {
+                    if (is_next == 3) {
+                        is_next = 4;
+                    }
+                }
                 });
-            } 
-            // if (!validasi()) {
-                //     return false; // Prevent form submission
-                // }
+
+                if (is_next == 4) {
+                    if (c_detail == 7) {
+                        is_next_confirm = 1;
+                    } else {
+                        toastr.remove();
+                        toastr["info"]("Mohon isi Data di tabel Keluarga, Pendidikan, Pekerjaan, Kontak Darurat, Pelatihan, Bahasa dan Referensi","INFO");
+                    }
+                }
+            } else {
+                // console.log(is_next);
+                //next = 2 karena ada 2 function yang berhasil di return atau 2 validasi
+                if (is_next == 2) {
+                    if (c_detail == 7) {
+                        is_next_confirm = 1;
+                    } else {
+                        toastr.remove();
+                        toastr["info"]("Mohon isi Data di tabel Keluarga, Pendidikan, Pekerjaan, Kontak Darurat, Pelatihan, Bahasa dan Referensi","INFO");
+                    }
+                }
+            }
+
+            if (is_next_confirm == 1) {
+                confirmAlert = confirm('Apakah anda yakin untuk melakukan konfirmasi data kandidat?')
+                if (confirmAlert) {
+                    toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO");
+                    
+                    formData = appendAjax();
+                    formData.append('id_hcd', id_hcd);
+
+                    $.ajax({
+                        url: 'usersc/applications/models/hcdxxmh/hcdxxmh_create.php',
+                        type: 'POST',
+                        async: false,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function ( json ) {
+                            var response = JSON.parse(json);
+                            // console.log(response);
+                            toastr.remove();
+                            toastr[response.type_message](response.message,"INFO");
+                            // id_hcdxxmh = response.id_hcdxxmh;
+                            // window.location.reload();
+                            // console.log('id_hcdxxmh ajax create = '+id_hcdxxmh);
+                            window.removeEventListener('beforeunload', confirmLeavePage);
+                            window.location.reload();
+                        }
+                    });
+                } 
+            } else {
+
+            }
             
         });
     }
@@ -418,6 +478,7 @@
 						type: "select",
 						placeholder : "Select",
 						options: [
+							{ "label": "Diri Sendiri", "value": "Diri Sendiri" },
 							{ "label": "Ayah", "value": "Ayah" },
 							{ "label": "Ibu", "value": "Ibu" },
 							{ "label": "Kakak", "value": "Kakak" },
@@ -540,6 +601,8 @@
 
             edthcdfmmd.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+                $('div.DTE_Form_Buttons button:eq(2)').hide();
+                $('div.DTE_Form_Buttons button:eq(2)').hide();
 			});
 			
 			edthcdfmmd.on( 'preSubmit', function (e, data, action) {
@@ -828,6 +891,7 @@
 
         edthcdedmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdedmd.on( 'preSubmit', function (e, data, action) {
@@ -1097,6 +1161,7 @@
 
         edthcdjbmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdjbmd.on( 'preSubmit', function (e, data, action) {
@@ -1290,6 +1355,7 @@
 
         edthcdogmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdogmd.on( 'preSubmit', function (e, data, action) {
@@ -1459,6 +1525,7 @@
 
         edthcddhmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcddhmd.on( 'preSubmit', function (e, data, action) {
@@ -1638,6 +1705,7 @@
 
         edthcdecmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdecmd.on( 'preSubmit', function (e, data, action) {
@@ -1873,6 +1941,7 @@
 
         edthcdtrmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdtrmd.dependent( 'hcdtrmd.bersertifikat', function ( val, data, callback ) {
@@ -2107,6 +2176,7 @@
 
         edthcdlgmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdlgmd.on( 'preSubmit', function (e, data, action) {
@@ -2278,6 +2348,7 @@
 
         edthcdrfmd.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            $('div.DTE_Form_Buttons button:eq(2)').hide();
         });
 
         edthcdrfmd.on( 'preSubmit', function (e, data, action) {
