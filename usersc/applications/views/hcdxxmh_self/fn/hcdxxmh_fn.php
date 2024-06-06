@@ -685,6 +685,9 @@
 					}
 				},
 				order: [[ 2, "desc" ]],
+                paging: false,
+                searching: false,
+            info: false,
 				columns: [
 					{ data: "hcdfmmd.id",visible:false },
 					{ data: "hcdfmmd.id_hcdxxmh",visible:false },
@@ -705,8 +708,8 @@
 						$show_status = '_hcdfmmd';
 						$table_name  = $nama_tabels_d[0];
 
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-						$arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+						$arr_buttons_tools 		= [];
+						$arr_buttons_action 	= ['create', 'edit', 'remove'];
 						$arr_buttons_tools2 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
@@ -959,6 +962,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdedmd.id",visible:false },
                 { data: "hcdedmd.id_hcdxxmh",visible:false },
@@ -978,8 +984,8 @@
                     $show_status = '_hcdedmd';
                     $table_name  = $nama_tabels_d[1];
 
-                    $arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-                    $arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+                    $arr_buttons_tools 		= [];
+                    $arr_buttons_action 	= ['create', 'edit', 'remove'];
                     $arr_buttons_tools2 	= [];
                     include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
                 ?>
@@ -1035,6 +1041,7 @@
                 }
             },
             table: "#tblhcdjbmd",
+			template: "#custom_job",
             formOptions: {
                 main: {
                     focus: 3
@@ -1216,6 +1223,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdjbmd.id",visible:false },
                 { data: "hcdjbmd.id_hcdxxmh",visible:false },
@@ -1242,8 +1252,8 @@
                     $show_status = '_hcdjbmd';
                     $table_name  = $nama_tabels_d[2];
 
-                    $arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-                    $arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+                    $arr_buttons_tools 		= [];
+                    $arr_buttons_action 	= ['create', 'edit', 'remove'];
                     $arr_buttons_tools2 	= [];
                     include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
                 ?>
@@ -1397,6 +1407,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdogmd.id",visible:false },
                 { data: "hcdogmd.id_hcdxxmh",visible:false },
@@ -1414,8 +1427,8 @@
                     $show_status = '_hcdogmd';
                     $table_name  = $nama_tabels_d[3];
 
-                    $arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-                    $arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+                    $arr_buttons_tools 		= [];
+                    $arr_buttons_action 	= ['create', 'edit', 'remove'];
                     $arr_buttons_tools2 	= [];
                     include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
                 ?>
@@ -1567,6 +1580,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcddhmd.id",visible:false },
                 { data: "hcddhmd.id_hcdxxmh",visible:false },
@@ -1584,8 +1600,8 @@
                     $show_status = '_hcddhmd';
                     $table_name  = $nama_tabels_d[4];
 
-                    $arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-                    $arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+                    $arr_buttons_tools 		= [];
+                    $arr_buttons_action 	= ['create', 'edit', 'remove'];
                     $arr_buttons_tools2 	= [];
                     include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
                 ?>
@@ -1763,6 +1779,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdecmd.id",visible:false },
                 { data: "hcdecmd.id_hcdxxmh",visible:false },
@@ -1780,8 +1799,8 @@
                     $show_status = '_hcdecmd';
                     $table_name  = $nama_tabels_d[5];
 
-                    $arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-                    $arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+                    $arr_buttons_tools 		= [];
+                    $arr_buttons_action 	= ['create', 'edit', 'remove'];
                     $arr_buttons_tools2 	= [];
                     include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
                 ?>
@@ -2017,6 +2036,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdtrmd.id",visible:false },
                 { data: "hcdtrmd.id_hcdxxmh",visible:false },
@@ -2035,8 +2057,8 @@
                     $show_status = '_hcdtrmd';
                     $table_name  = $nama_tabels_d[6];
 
-                    $arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-                    $arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+                    $arr_buttons_tools 		= [];
+                    $arr_buttons_action 	= ['create', 'edit', 'remove'];
                     $arr_buttons_tools2 	= [];
                     include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
                 ?>
@@ -2217,6 +2239,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdlgmd.id",visible:false },
                 { data: "hcdlgmd.id_hcdxxmh",visible:false },
@@ -2235,8 +2260,8 @@
                     $show_status = '_hcdlgmd';
                     $table_name  = $nama_tabels_d[7];
 
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-						$arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+						$arr_buttons_tools 		= [];
+						$arr_buttons_action 	= ['create', 'edit', 'remove'];
 						$arr_buttons_tools2 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
@@ -2390,6 +2415,9 @@
                 }
             },
             order: [[ 2, "desc" ]],
+            paging: false,
+            searching: false,
+            info: false,
             columns: [
                 { data: "hcdrfmd.id",visible:false },
                 { data: "hcdrfmd.id_hcdxxmh",visible:false },
@@ -2408,8 +2436,8 @@
                     $show_status = '_hcdrfmd';
                     $table_name  = $nama_tabels_d[8];
 
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];;
-						$arr_buttons_action 	= ['create', 'edit', 'nonaktif_d'];
+						$arr_buttons_tools 		= [];
+						$arr_buttons_action 	= ['create', 'edit', 'remove'];
 						$arr_buttons_tools2 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>

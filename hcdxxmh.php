@@ -31,8 +31,7 @@
       max-height: 200px;
     }
 
-	.fields-info {
-		color: blue;
+	.text-secondary {
 		font-size: 9px;
     	font-weight: bold;
 	}
@@ -273,7 +272,7 @@
                                     <div class="form-group">
                                        <label for="hcdcsmh_alamat_tinggal">Alamat Domisili<sup class='text-danger'>*</sup></label>
                                        <textarea class="form-control" name="hcdcsmh.alamat_tinggal" id="hcdcsmh_alamat_tinggal"></textarea>
-                                       <p class="fields-info">Isi dengan Alamat Tinggal Sekarang <br> <br>
+                                       <p class="text-secondary">Isi dengan Alamat Tinggal Sekarang <br> <br>
                                        Contoh: Perumahan Bumi Permai, Jalan Bengawan Solo 17, RT 09 RW 03, Kelurahan Kaliurang, Kecamatan Kebahagiaan, Kota Malang, Jawa Timur</p>
                                     </div>
                                  </div>
@@ -333,7 +332,7 @@
                                     <div class="form-group">
                                        <label for="hcddcmh_ktp_alamat">Alamat KTP<sup class='text-danger'>*</sup></label>
                                        <textarea class="form-control" name="hcddcmh.ktp_alamat" id="hcddcmh_ktp_alamat"></textarea>
-                                       <p class="fields-info">Isi dengan Alamat KTP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
+                                       <p class="text-secondary">Isi dengan Alamat KTP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
                                     </div>
                                  </div>
                                  <div class="col-lg-4">
@@ -388,7 +387,7 @@
                                        <div class="form-group">
                                           <label for="hcddcmh_npwp_alamat">Alamat NPWP<sup class='text-danger'>*</sup></label>
                                           <textarea class="form-control" name="hcddcmh.npwp_alamat" id="hcddcmh_npwp_alamat"></textarea>
-                                          <p class="fields-info" style="color: blue; font-size: 7px; font-weight: bold;">Isi dengan Alamat NPWP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
+                                          <p class="text-secondary text-secondary" style="font-size: 7px; font-weight: bold;">Isi dengan Alamat NPWP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
                                        </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -495,7 +494,7 @@
                                     <div class="form-group">
                                        <label for="hcdjbmh_intrv_self_1">Apakah anda pernah melamar di group perusahaan ini sebelumnya? Kapan dan sebagai apa?</label>
                                        <textarea class="form-control" name="hcdjbmh.intrv_self_1" id="hcdjbmh_intrv_self_1"></textarea>
-                                       <p class="fields-info"> Contoh: YA, Pada Tanggal 10 Juli 2023 sebagai Junior Web Developer. <br>
+                                       <p class="text-secondary"> Contoh: YA, Pada Tanggal 10 Juli 2023 sebagai Junior Web Developer. <br>
                                                          Contoh: TIDAK, Saya tidak pernah melamar di group perusahaan ini.
                                     </div>
                                  </div>
@@ -629,6 +628,50 @@
                               <hr>
                               <h3>Pekerjaan</h3>
                               <div class="panel-body">
+                                 <div id="custom_job">
+                                    <div class="panel-body">
+                                       <div class="row">
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.nama"></editor-field>
+                                          </div>
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.alamat"></editor-field>
+                                          </div>
+                                       </div>
+                                       <div class="row">
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.id_gctxxmh"></editor-field>
+                                          </div>
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.jenis"></editor-field>
+                                          </div>
+                                       </div>
+                                       <div class="row">
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.tanggal_awal"></editor-field>
+                                          </div>
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.tanggal_akhir"></editor-field>
+                                          </div>
+                                       </div>
+                                       <div class="row">
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.jabatan_awal"></editor-field>
+                                          </div>
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.jabatan_akhir"></editor-field>
+                                          </div>
+                                       </div>
+                                       <div class="row">
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.nama_atasan"></editor-field>
+                                          </div>
+                                          <div class="col-lg-6">
+                                             <editor-field name="hcdjbmd.gaji"></editor-field>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
                                  <div class="table-responsive">
                                     <table id="tblhcdjbmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                                        <thead>
@@ -770,7 +813,7 @@
                               
                               <div class="row">
                                  <div class="col-9 col-lg-11">
-                                    <button type="button" id="back_bahasa" class="btn btn-primary update_data">Back</button>
+                                    <button type="button" id="cancel_form" class="btn btn-danger update_data">Cancel</button>
                                  </div>
                                  <div class="col-3 col-lg-1">
                                     <button type="button" id="confirm" class="btn btn-warning">Confirm</button>
@@ -822,10 +865,6 @@
    var now = new Date();
    var nama_tabels_d = <?php echo json_encode($nama_tabels_d); ?>;
    // console.log(nama_tabels_d);
-
-   nama_tabels_d.forEach(detail => {
-      console.log(detail);
-   });
 
    $('#periode').datepicker({
 		setDate: new Date(),
@@ -944,6 +983,12 @@
       select2Kota($('#kota_ktp'), 0);
       select2Kota($('#hcddcmh_id_gctxxmh_npwp'), 0);
       select2Ptkp($('#hcddcmh_id_gtxpkmh'), 0);
+
+      $('#cancel_form').click(function() {
+         updateJson();
+         window.removeEventListener('beforeunload', confirmLeavePage);
+         window.location.reload();
+      });
       
       var familyData = family(id_hcdxxmh);
       var educationData = education(id_hcdxxmh);
