@@ -51,26 +51,26 @@
                            <!-- data-toggle="tab" -->
                            <ul class="nav nav-tabs" role="tablist">
                               <li class="nav-item" id="tab_personal">
-                                 <a class="nav-link active" href="#tabpersonal">Personal Data</a>
+                                 <a data-toggle="tab" class="nav-link active" href="#tabpersonal">Personal Data</a>
                               </li>
                               <li class="nav-item" id="tab_sosmed">
-                                 <a class="nav-link" href="#tabsosmed">Kontak & Sosmed</a>
+                                 <a data-toggle="tab" class="nav-link" href="#tabsosmed">Kontak & Sosmed</a>
                               </li>
                               <li class="nav-item" id="tab_dokumen">
-                                 <a class="nav-link" href="#tabdokumen">Dokumen</a>
+                                 <a data-toggle="tab" class="nav-link" href="#tabdokumen">Dokumen</a>
                               </li>
                               <li class="nav-item" id="tab_lain">
-                                 <a class="nav-link" href="#tablain">Lain-lain</a>
+                                 <a data-toggle="tab" class="nav-link" href="#tablain">Lain-lain</a>
                               </li>
-                              <li class="nav-item" id="tab_keluarga"><a class="nav-link" href="#tabhcdfmmd"> Keluarga</a></li>
-                              <li class="nav-item" id="tab_pendidikan"><a class="nav-link" href="#tabhcdedmd"> Pendidikan</a></li>
-                              <li class="nav-item" id="tab_job"><a class="nav-link" href="#tabhcdjbmd"> Pekerjaan</a></li>
-                              <li class="nav-item" id="tab_org"><a class="nav-link" href="#tabhcdogmd"> Organisasi</a></li>
-                              <li class="nav-item" id="tab_sakit"><a class="nav-link" href="#tabhcddhmd"> Riwayat Penyakit</a></li>
-                              <li class="nav-item" id="tab_kontak"><a class="nav-link" href="#tabhcdecmd"> Kontak Darurat</a></li>
-                              <li class="nav-item" id="tab_pelatihan"><a class="nav-link" href="#tabhcdtrmd"> Pelatihan</a></li>
-                              <li class="nav-item" id="tab_bahasa"><a class="nav-link" href="#tabhcdlgmd"> Bahasa</a></li>
-                              <li class="nav-item" id="tab_referensi"><a class="nav-link" href="#tabhcdrfmd"> Referensi</a></li>
+                              <li class="nav-item" id="tab_keluarga"><a data-toggle="tab" class="nav-link" href="#tabhcdfmmd"> Keluarga</a></li>
+                              <li class="nav-item" id="tab_pendidikan"><a data-toggle="tab" class="nav-link" href="#tabhcdedmd"> Pendidikan</a></li>
+                              <li class="nav-item" id="tab_job"><a data-toggle="tab" class="nav-link" href="#tabhcdjbmd"> Pekerjaan</a></li>
+                              <li class="nav-item" id="tab_org"><a data-toggle="tab" class="nav-link" href="#tabhcdogmd"> Organisasi</a></li>
+                              <li class="nav-item" id="tab_sakit"><a data-toggle="tab" class="nav-link" href="#tabhcddhmd"> Riwayat Penyakit</a></li>
+                              <li class="nav-item" id="tab_kontak"><a data-toggle="tab" class="nav-link" href="#tabhcdecmd"> Kontak Darurat</a></li>
+                              <li class="nav-item" id="tab_pelatihan"><a data-toggle="tab" class="nav-link" href="#tabhcdtrmd"> Pelatihan</a></li>
+                              <li class="nav-item" id="tab_bahasa"><a data-toggle="tab" class="nav-link" href="#tabhcdlgmd"> Bahasa</a></li>
+                              <li class="nav-item" id="tab_referensi"><a data-toggle="tab" class="nav-link" href="#tabhcdrfmd"> Referensi</a></li>
                            </ul>
 
                            <div class="tab-content">
