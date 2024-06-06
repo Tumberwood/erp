@@ -819,6 +819,14 @@
                                     <button type="button" id="confirm" class="btn btn-warning">Confirm</button>
                                  </div>
                               </div>
+                              <br>
+                              <div class="form-group">
+                                 <div class="checkbox i-checks">
+                                       <label>
+                                          <input type="checkbox" id="agreeCheckbox"><i></i> Dengan ini saya menyetujui memberikan data-data saya untuk digunakan dalam proses seleksi karyawan.
+                                       </label>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      </form>
@@ -988,6 +996,23 @@
          updateJson();
          window.removeEventListener('beforeunload', confirmLeavePage);
          window.location.reload();
+      });
+
+      
+      $('#confirm').prop('disabled', true); // Disable submit button initially
+
+      $('.i-checks').iCheck({
+         checkboxClass: 'icheckbox_square-green',
+         radioClass: 'iradio_square-green',
+         increaseArea: '20%'
+      });
+
+      $('#agreeCheckbox').on('ifChanged', function() {
+         if ($(this).is(':checked')) {
+            $('#confirm').prop('disabled', false);
+         } else {
+            $('#confirm').prop('disabled', true);
+         }
       });
       
       var familyData = family(id_hcdxxmh);
