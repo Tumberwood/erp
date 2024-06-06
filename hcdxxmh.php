@@ -106,20 +106,24 @@
                                     <div class="col-md-2">
                                        <div class="form-group">
                                           <label for="hcdxxmh_tanggal_lahir">Tanggal Lahir <sup class='text-danger'>*</sup></label>
-                                          <input type="date" class="form-control" name="hcdxxmh.tanggal_lahir" id="hcdxxmh_tanggal_lahir" value="DD MMM YYYY" min="1900-01-01" required>
+                                          <div class="input-group input-daterange" id="periode">
+                                             <input type="text" id="hcdxxmh_tanggal_lahir" class="form-control">
+                                          </div>
+                                          <!-- <input type="date" class="form-control" name="hcdxxmh.tanggal_lahir" id="hcdxxmh_tanggal_lahir" value="DD MMM YYYY" min="1900-01-01" required> -->
                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                        <div class="form-group">												
-                                          <label>Tempat Lahir</label>
-                                          <select class="form-control" id="selectid_gctxxmh_lahir" name="selectid_gctxxmh_lahir"></select>
+                                          <label>Tempat Lahir<sup class='text-danger'>*</sup></label>
+                                          <select class="form-control select2" id="selectid_gctxxmh_lahir" name="selectid_gctxxmh_lahir"></select>
+                                          <div class="invalid-feedback text-danger">Wajib diisi!</div>
                                        </div>
                                     </div>
                                  </div>
                                  <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="hcdxxmh_agama">Agama</label>
+                                          <label for="hcdxxmh_agama">Agama<sup class='text-danger'>*</sup></label>
                                           <select class="form-control" name="hcdxxmh.agama" id="hcdxxmh_agama" placeholder="Select">
                                              <option value="">Select</option>
                                              <option value="Islam">Islam</option>
@@ -131,9 +135,9 @@
                                           </select>
                                        </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="hcdxxmh_perkawinan">Status Perkawinan</label>
+                                          <label for="hcdxxmh_perkawinan">Status Perkawinan<sup class='text-danger'>*</sup></label>
                                           <select class="form-control" name="hcdxxmh.perkawinan" id="hcdxxmh_perkawinan" placeholder="Select">
                                              <option value="">Select</option>
                                              <option value="Lajang">Lajang</option>
@@ -144,15 +148,15 @@
                                           </select>
                                        </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                        <div class="form-group">
-                                          <label for="hcdxxmh_suku">Suku Bangsa</label>
+                                          <label for="hcdxxmh_suku">Suku Bangsa<sup class='text-danger'>*</sup></label>
                                           <input type="text" class="form-control" name="hcdxxmh.suku" id="hcdxxmh_suku">
                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
+                                    </div> -->
+                                    <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="hcdmdmh_gol_darah">Golongan Darah</label>
+                                          <label for="hcdmdmh_gol_darah">Golongan Darah<sup class='text-danger'>*</sup></label>
                                           <select class="form-control" name="hcdmdmh.gol_darah" id="hcdmdmh_gol_darah">
                                              <option value="">Select</option>
                                              <option value="A">A</option>
@@ -166,7 +170,7 @@
                                  <!-- <div class="row">
                                     <div class="col-md-3">
                                        <div class="form-group">
-                                          <label for="hcdxxmh_berat">Berat Badan (kg)</label>
+                                          <label for="hcdxxmh_berat">Berat Badan (kg)<sup class='text-danger'>*</sup></label>
                                           <input type="text" class="form-control" name="hcdxxmh.berat" id="hcdxxmh_berat">
                                        </div>
                                     </div>
@@ -201,7 +205,7 @@
                                  <div class="row">
                                     <div class="col-md-6">
                                        <div class="form-group">
-                                          <label for="hcdxxmh_id_files_foto">Foto</label>
+                                          <label for="hcdxxmh_id_files_foto">Foto <sup class='text-danger'>*</sup></label>
                                           <input type="file" class="form-control-file" name="hcdxxmh_id_files_foto" id="hcdxxmh_id_files_foto"
                                           onchange="previewImage(this, 'hcdxxmh_id_files_foto_preview')" accept="image/*" required>
                                           <div class="file-preview">
@@ -212,7 +216,7 @@
                                     </div>
                                     <div class="col-md-6">
                                        <div class="form-group">
-                                          <label for="hcdxxmh_id_files_cv">CV</label>
+                                          <label for="hcdxxmh_id_files_cv">CV <sup class='text-danger'>*</sup></label>
                                           <input type="file" class="form-control-file" name="hcdxxmh_id_files_cv" id="hcdxxmh_id_files_cv"
                                              onchange="previewFile(this, 'hcdxxmh_id_files_cv_preview')" accept=".jpg, .jpeg, .png, .pdf" required>
                                           <div class="file-preview">
@@ -289,7 +293,7 @@
                                     </div>
                                     <div class="col-md-3">
                                        <div class="form-group">
-                                          <label for="hcdcsmh_whatsapp">No WhatsApp<sup class="text-danger">*</sup></label>
+                                          <label for="hcdcsmh_whatsapp">No WhatsApp</label>
                                           <input type="text" class="form-control" name="hcdcsmh.whatsapp" id="hcdcsmh_whatsapp">
                                        </div>
                                     </div>
@@ -297,13 +301,13 @@
                                  <div class="row">
                                     <div class="col-md-3">
                                        <div class="form-group">
-                                          <label for="hcdcsmh_handphone">No Handphone</label>
+                                          <label for="hcdcsmh_handphone">No Handphone<sup class='text-danger'>*</sup></label>
                                           <input type="text" class="form-control" name="hcdcsmh.handphone" id="hcdcsmh_handphone">
                                        </div>
                                     </div>
                                     <div class="col-md-5">
                                        <div class="form-group">
-                                          <label for="hcdcsmh_alamat_tinggal">Alamat Tinggal</label>
+                                          <label for="hcdcsmh_alamat_tinggal">Alamat Domisili<sup class='text-danger'>*</sup></label>
                                           <textarea class="form-control" name="hcdcsmh.alamat_tinggal" id="hcdcsmh_alamat_tinggal"></textarea>
                                           <p class="fields-info">Isi dengan Alamat Tinggal Sekarang <br> <br>
                                           Contoh: Perumahan Bumi Permai, Jalan Bengawan Solo 17, RT 09 RW 03, Kelurahan Kaliurang, Kecamatan Kebahagiaan, Kota Malang, Jawa Timur</p>
@@ -311,8 +315,9 @@
                                     </div>
                                     <div class="col-md-4">
                                        <div class="form-group">												
-                                          <label>Kota Tinggal</label>
-                                          <select class="form-control" id="kota_tinggal" name="kota_tinggal"></select>
+                                          <label>Kota Domisili<sup class='text-danger'>*</sup></label>
+                                          <select class="form-control select2" id="kota_tinggal" name="kota_tinggal"></select>
+                                          <div class="invalid-feedback text-danger">Wajib diisi!</div>
                                        </div>
                                     </div>
                                  </div>
@@ -370,15 +375,16 @@
                                     </div>
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="hcddcmh_ktp_alamat">Alamat KTP</label>
+                                          <label for="hcddcmh_ktp_alamat">Alamat KTP<sup class='text-danger'>*</sup></label>
                                           <textarea class="form-control" name="hcddcmh.ktp_alamat" id="hcddcmh_ktp_alamat"></textarea>
                                           <p class="fields-info">Isi dengan Alamat KTP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                        <div class="form-group">												
-                                          <label>Kota KTP</label>
-                                          <select class="form-control" id="kota_ktp" name="kota_ktp"></select>
+                                          <label>Kota KTP<sup class='text-danger'>*</sup></label>
+                                          <select class="form-control select2" id="kota_ktp" name="kota_ktp"></select>
+                                          <div class="invalid-feedback text-danger">Wajib diisi!</div>
                                        </div>
                                     </div>
                                  </div>
@@ -403,7 +409,7 @@
                                     </div>
                                  </div>
                                  <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                        <div class="form-group">
                                           <label for="hcddcmh_is_npwp">Ber-NPWP</label>
                                           <select class="form-control" name="hcddcmh.is_npwp" id="hcddcmh_is_npwp">
@@ -418,27 +424,29 @@
                                     <div class="row">
                                        <div class="col-md-3">
                                           <div class="form-group">
-                                             <label for="hcddcmh_npwp_no">No NPWP</label>
+                                             <label for="hcddcmh_npwp_no">No NPWP<sup class='text-danger'>*</sup></label>
                                              <input type="text" class="form-control" name="hcddcmh.npwp_no" id="hcddcmh_npwp_no">
                                           </div>
                                        </div>
                                        <div class="col-md-4">
                                           <div class="form-group">
-                                             <label for="hcddcmh_npwp_alamat">Alamat NPWP</label>
+                                             <label for="hcddcmh_npwp_alamat">Alamat NPWP<sup class='text-danger'>*</sup></label>
                                              <textarea class="form-control" name="hcddcmh.npwp_alamat" id="hcddcmh_npwp_alamat"></textarea>
-                                             <p class="fields-info" style="color: red; font-size: 7px; font-weight: bold;">Isi dengan Alamat NPWP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
+                                             <p class="fields-info" style="color: blue; font-size: 7px; font-weight: bold;">Isi dengan Alamat NPWP dan Gunakan Format seperti mengisi Alamat Tinggal</p>
                                           </div>
                                        </div>
                                        <div class="col-md-3">
                                           <div class="form-group">
-                                             <label>Kota NPWP</label>
-                                             <select class="form-control" id="hcddcmh_id_gctxxmh_npwp" name="hcddcmh_id_gctxxmh_npwp"></select>
+                                             <label>Kota NPWP<sup class='text-danger'>*</sup></label>
+                                             <select class="form-control select2" id="hcddcmh_id_gctxxmh_npwp" name="hcddcmh_id_gctxxmh_npwp"></select>
+                                             <div class="invalid-feedback text-danger">Wajib diisi!</div>
                                           </div>
                                        </div>
                                        <div class="col-md-2">
                                           <div class="form-group">
-                                             <label>Status PTKP</label>
-                                             <select class="form-control" id="hcddcmh_id_gtxpkmh" name="hcddcmh_id_gtxpkmh"></select>
+                                             <label>Status PTKP<sup class='text-danger'>*</sup></label>
+                                             <select class="form-control select2" id="hcddcmh_id_gtxpkmh" name="hcddcmh_id_gtxpkmh"></select>
+                                             <div class="invalid-feedback text-danger">Wajib diisi!</div>
                                           </div>
                                        </div>
                                     </div>
@@ -884,12 +892,15 @@
                                     <div class="col-9 col-lg-11">
                                        <button type="button" id="back_bahasa" class="btn btn-primary update_data">Back</button>
                                     </div>
+                                    <div class="col-3 col-lg-1">
+                                       <button type="button" id="confirm" class="btn btn-warning">Confirm</button>
+                                    </div>
                                  </div>
                               </div> 
                            </div>
                         </div>
                      </form>
-                     <button type="button" id="confirm" class="btn btn-warning" style="display: none">Confirm</button>
+                     <!-- <button type="button" id="confirm" class="btn btn-warning" style="display: none">Confirm</button> -->
                      </div>
                   </div>
                </div>
@@ -931,6 +942,16 @@
    console.log('id_hcdxxmh awal = '+id_hcdxxmh);
    var now = new Date();
    console.log(now);
+
+   $('#periode').datepicker({
+		setDate: new Date(),
+		autoclose: true,
+		todayHighlight: true,
+		clearBtn: true,
+		format: "dd M yyyy",
+		minViewMode: 'month' 
+	});
+	$('#hcdxxmh_tanggal_lahir').datepicker('setDate', moment().format('DD MMM YYYY'));
 
    var timestamp = Math.floor(now.getTime() / 1000);
 
@@ -1041,6 +1062,7 @@
       select2Kota($('#selectid_gctxxmh_lahir'), 0);
       select2Kota($('#kota_ktp'), 0);
       select2Kota($('#hcddcmh_id_gctxxmh_npwp'), 0);
+      select2Ptkp($('#hcddcmh_id_gtxpkmh'), 0);
 
       $('#next_sosmed').click(function() {
          // Validasi
@@ -1048,37 +1070,144 @@
             $('#hcdxxmh_nama'),
             $('#hcdxxmh_gender'),
             $('#hcdxxmh_tanggal_lahir'),
+            $('#selectid_gctxxmh_lahir'),
+            $('#hcdxxmh_agama'),
+            $('#hcdxxmh_perkawinan'),
+            $('#hcdmdmh_gol_darah'),
+            $('#hcdxxmh_id_files_foto'),
+            $('#hcdxxmh_id_files_cv'),
          ];
+         
+         var is_next = 0;
          validasiInput(arr_personal, function(isValid) {
             if (isValid) {
-               $('#tab_sosmed a').tab('show'); // If validation passes, show the tab
+               is_next = 1;
             }
          });
+
+         // console.log(is_next);
+         if (is_next == 1) {
+            $('#tab_sosmed a').tab('show'); // If validation passes, show the tab
+         }
       });
       
       //end validasi
 
+      var is_next = 0;
       $('#next_dokumen').click(function() {
+
+         //untuk validasi angka
          var arr_angka = [
-            $('#hcdcsmh_whatsapp'),
+            $('#hcdcsmh_handphone'),
          ];
 
          validasiInput(arr_angka, function(isValid) {
             if (isValid) {
-               $('#tab_dokumen a').tab('show'); // If validation passes, show the tab
+               is_next = 1;
+               // $('#tab_dokumen a').tab('show'); // If validation passes, show the tab
+               // console.log(isValid);
+            } else {
+               is_next = 0;
             }
          }, 1);
+
+         //untuk validasi required
+         var arr_wajib = [
+            $('#hcdcsmh_alamat_tinggal'),
+            $('#kota_tinggal'),
+         ];
+
+         validasiInput(arr_wajib, function(isValid) {
+            if (isValid) {
+               if (is_next == 1) {
+                  is_next = 2;
+                  console.log('wkwkwk');
+               }
+               // console.log(isValid);
+            }
+         });
+         
+         console.log(is_next);
+         //next = 2 karena ada 2 function yang berhasil di return atau 2 validasi
+         if (is_next == 2) {
+            $('#tab_dokumen a').tab('show'); // If validation passes, show the tab
+            // console.log(1123);
+         }
       });
 
       $('#next_lain').click(function() {
+         
+         //untuk validasi angka
          var arr_angka = [
             $('#hcddcmh_ktp_no'),
          ];
+
          validasiInput(arr_angka, function(isValid) {
             if (isValid) {
-               $('#tab_lain a').tab('show'); // If validation passes, show the tab
+               is_next = 1;
+            } else {
+               is_next = 0;
             }
          }, 1);
+
+         //untuk validasi required
+         var arr_wajib = [
+            $('#hcddcmh_ktp_alamat'),
+            $('#kota_ktp'),
+         ];
+
+         validasiInput(arr_wajib, function(isValid) {
+            if (isValid) {
+               if (is_next == 1) {
+                  is_next = 2;
+                  console.log('wkwkwk');
+               }
+            }
+         });
+
+         hcddcmh_is_npwp = $('#hcddcmh_is_npwp').val();
+
+         //jika ada npwp
+         if (hcddcmh_is_npwp == 1) {
+            //untuk validasi angka
+            var arr_angka = [
+               $('#hcddcmh_npwp_no'),
+            ];
+
+            validasiInput(arr_angka, function(isValid) {
+               if (isValid) {
+                  is_next = 3;
+               } else {
+                  is_next = 2;
+               }
+            }, 1);
+
+            //untuk validasi required
+            var arr_wajib = [
+               $('#hcddcmh_npwp_alamat'),
+               $('#hcddcmh_id_gctxxmh_npwp'),
+               $('#hcddcmh_id_gtxpkmh'),
+            ];
+
+            validasiInput(arr_wajib, function(isValid) {
+               if (isValid) {
+                  if (is_next == 3) {
+                     is_next = 4;
+                  }
+               }
+            });
+
+            if (is_next == 4) {
+               $('#tab_lain a').tab('show'); // If validation passes, show the tab
+            }
+         } else {
+            console.log(is_next);
+            //next = 2 karena ada 2 function yang berhasil di return atau 2 validasi
+            if (is_next == 2) {
+               $('#tab_lain a').tab('show'); // If validation passes, show the tab
+            }
+         }
+
       });
 
 
@@ -1115,7 +1244,7 @@
          // hcddcmh_ktp_no = $('#hcddcmh_ktp_no').val();
          // hcdxxmh_nama = $('#hcdxxmh_nama').val();
          // if (hcddcmh_ktp_no != '' && hcdxxmh_nama != '') {
-         //       $('#confirm').show();
+               // $('#confirm').show();
          // }
       });
 
@@ -1134,6 +1263,10 @@
 
       $('#back_lain').click(function() {
          $('#tab_lain a').tab('show');
+      });
+
+      $('#back_keluarga').click(function() {
+         $('#tab_keluarga a').tab('show');
       });
 
       createHeader();

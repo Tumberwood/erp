@@ -1,12 +1,11 @@
 <script>
 
     function validasiInput(arr_inputan, callback, is_number) {
-        var isValid = true;
+        // var isValid = false;
         
         arr_inputan.forEach(inputField => {
             inputField = $(inputField); // Convert to jQuery object
             
-            console.log(is_number);
             if (is_number != undefined) {
                 if (isNaN(inputField.val()) || inputField.val() == '' || inputField.val() == null) {
                     inputField.addClass('is-invalid').focus();
@@ -16,47 +15,54 @@
                         var invalidFeedback = $('<div class="invalid-feedback text-danger">Inputan harus berupa Angka!</div>');
                         // Append it after the input field
                         inputField.after(invalidFeedback);
+                        inputField.next('.invalid-feedback').show();
                     }
-                    inputField.next('.invalid-feedback').show();
                     isValid = false;
                     return false; // Exit the loop early
                 }
             } else {
                 console.log(inputField.val());
-                if (inputField.val() == '' || inputField.val() == null) {
+                if (inputField.val() === '' || inputField.val() == null) {
+                    // console.log('kosong');
+                    flag_fill = 0;
                     inputField.addClass('is-invalid').focus();
-    
+
                     if (!inputField.next('.invalid-feedback').length) {
-                        // Create the invalid-feedback div
-                        var invalidFeedback = $('<div class="invalid-feedback text-danger">Wajib diisi!</div>');
-                        // Append it after the input field
-                        inputField.after(invalidFeedback);
+                        
+                        if (!inputField.hasClass('select2')) {
+                            // Create the invalid-feedback div
+                            var invalidFeedback = $('<div class="invalid-feedback text-danger">Wajib diisi!</div>');
+                            // Append it after the input field
+                            inputField.after(invalidFeedback);
+                            inputField.next('.invalid-feedback').show();
+                        }
                     }
-                    inputField.next('.invalid-feedback').show();
                     isValid = false;
                     return false; // Exit the loop early
                 }
             }
         });
+
+        // console.log(isValid);
         
         arr_inputan.forEach(inputField => {
             inputField = $(inputField); // Convert to jQuery object
             inputField.on('input', function() {
                 if (is_number != undefined) {
                     if (!isNaN(inputField.val())) {
-                        console.log('angkkka');
                         inputField.toggleClass('is-invalid', $(this).val() == '' || $(this).val() == null);
                         inputField.next('.invalid-feedback').toggle($(this).val() == '' || $(this).val() == null);
-                        isValid = true; // Set isValid to true when any input changes
+                        isValid = true;
                     }
                 } else {
-                    inputField.toggleClass('is-invalid', $(this).val() == '' || $(this).val() == null);
-                    inputField.next('.invalid-feedback').toggle($(this).val() == '' || $(this).val() == null);
-                    isValid = true; // Set isValid to true when any input changes
+                    if (inputField.val() != '' || inputField.val() != null) {
+                        inputField.toggleClass('is-invalid', $(this).val() == '' || $(this).val() == null);
+                        inputField.next('.invalid-feedback').toggle($(this).val() == '' || $(this).val() == null);
+                        isValid = true;
+                    }
                 }
             });
         });
-
         // Call the callback function with isValid as argument
         callback(isValid);
     }
@@ -65,13 +71,12 @@
     //ALERT KETIKA RELOAD 
     function confirmLeavePage(event) {
         event.preventDefault();
-        // event.returnValue = 'Are you sure you want to leave this page? Your progress will be lost.';
-        $(window).on('beforeunload', function() {
-            updateJson();
-        });
     }
 
     window.addEventListener('beforeunload', confirmLeavePage);
+    $(window).on('unload', function() {
+        updateJson();
+    });
 
     function updateJson() {
         var data = {
@@ -79,6 +84,7 @@
         };
         // Convert data to JSON format
         var jsonData = JSON.stringify(data);
+        console.log(jsonData);
         // Send data asynchronously using navigator.sendBeacon
         navigator.sendBeacon('usersc/applications/models/hcdxxmh/hcdxxmh_remove.php', jsonData);
     }
@@ -103,6 +109,11 @@
         var hcdxxmh_nama = $('#hcdxxmh_nama').val();
         var hcdxxmh_gender = $('#hcdxxmh_gender').val();
         var hcdxxmh_tanggal_lahir = $('#hcdxxmh_tanggal_lahir').val();
+        var tanggal_lahir = moment(hcdxxmh_tanggal_lahir, 'DD MMM YYYY');
+
+        // Format the parsed date into the desired format (YYYY-MM-DD)
+        var tanggal_lahir_ymd = tanggal_lahir.format('YYYY-MM-DD');
+
         var hcddcmh_asal_sekolah = $('#hcddcmh_asal_sekolah').val();
         var files_foto = $('#hcdxxmh_id_files_foto')[0].files[0];
         var files_cv = $('#hcdxxmh_id_files_cv')[0].files[0];
@@ -115,7 +126,7 @@
         //PERSONAL DATA
         formData.append('hcdxxmh_nama', hcdxxmh_nama);
         formData.append('hcdxxmh_gender', $('#hcdxxmh_gender').val());
-        formData.append('hcdxxmh_tanggal_lahir', $('#hcdxxmh_tanggal_lahir').val());
+        formData.append('hcdxxmh_tanggal_lahir', tanggal_lahir_ymd);
         formData.append('selectid_gctxxmh_lahir', $('#selectid_gctxxmh_lahir').val());
         formData.append('hcdxxmh_agama', $('#hcdxxmh_agama').val());
         formData.append('hcdxxmh_perkawinan', $('#hcdxxmh_perkawinan').val());
@@ -224,13 +235,13 @@
       });
     }
 
-    $('.update_data').click(function() {
-        hcddcmh_ktp_no = $('#hcddcmh_ktp_no').val();
-        hcdxxmh_nama = $('#hcdxxmh_nama').val();
-        if (hcddcmh_ktp_no != '' && hcdxxmh_nama != '') {
-            $('#confirm').show();
-        }
-    });
+    // $('.update_data').click(function() {
+    //     hcddcmh_ktp_no = $('#hcddcmh_ktp_no').val();
+    //     hcdxxmh_nama = $('#hcdxxmh_nama').val();
+    //     if (hcddcmh_ktp_no != '' && hcdxxmh_nama != '') {
+    //         $('#confirm').show();
+    //     }
+    // });
     
     function confirmData(id_hcd) {
         $('#confirm').click(function() {
