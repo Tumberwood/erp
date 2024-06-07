@@ -125,8 +125,8 @@
 	var edtwroittd, tblwroittd, show_deleted_wroittd = 0, id_wroittd;
 	// ------------- end of default variable
 
-	var id_iitxxmh_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
-	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
+	var id_grlxxmh_old = 0;
+	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_iumxxmh_unit  = 0;
 
 	// get tableRelation
 	tableRelation('wroxxth');
@@ -671,7 +671,6 @@
 		tblwroittd.on( 'deselect', function() {
 			siVarResetD('wroittd')
 			id_iimxxmh_old = 0;
-			id_prqittd_old = 0;
 			id_iumxxmh_unit_old= 0;
 			
 			// atur hak akses
