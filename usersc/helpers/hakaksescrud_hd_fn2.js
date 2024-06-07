@@ -404,19 +404,26 @@ function CekSelectHeaderH(tbl_header){
      *  hak_d = 1
      */
     if( is_nextprocess == 1 ){
-        tbl_header.button( 'btnRemove:name' )
+        tbl_header.button( 'btnNonAktif:name' )
             .nodes()
             .css( 'display', 'none' );
     }else{
-        if( transaction_state == 1 && hak_d == 1 && approval_state == 0 ){
+        if( transaction_state == 1 ){
             tbl_header.button( 'btnNonAktif:name' )
                 .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
+                .css( 'display', 'none' );            
         }else{
-            tbl_header.button( 'btnNonAktif:name' )
-                .nodes()
-                .css( 'display', 'none' );
+            if(hak_d == 1){
+                tbl_header.button( 'btnNonAktif:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }else{
+                tbl_header.button( 'btnNonAktif:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
+            }
+            
         }
     }
     // END btnNonAktif
