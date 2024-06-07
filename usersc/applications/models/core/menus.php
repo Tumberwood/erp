@@ -28,21 +28,7 @@
 				->set( Field::SET_CREATE )
 				->setValue('side'),
 			Field::inst( 'menus.parent' )
-				->setFormatter( Format::ifEmpty( 0 ) )
-				->options( Options::inst()
-					->table( 'menus' )
-					->value( 'id' )
-					->label( ['display_order','label'] )
-					->where( function ($q) {
-						$q
-							->where( 'dropdown', 1 )
-							->where( 'menu_title', 'side' );
-					})
-					->render( function ( $row ) {
-						return $row['display_order'] . ' - ' .$row['label'];
-					} )
-					->order( 'display_order,label' )
-				),
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'menus.dropdown' ),
 			Field::inst( 'menus.logged_in' ),
 			Field::inst( 'menus.display_order' ),

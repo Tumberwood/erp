@@ -59,7 +59,9 @@
         ->where( 'menus.menu_title', 'side' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r->where('menus.label', '%' . $q . '%', 'LIKE' );
+            $r
+                ->where('menus.label', '%' . $q . '%', 'LIKE' )
+                ->or_where('menus.display_order', '%' . $q . '%', 'LIKE' );
         } )
         ->order('menus.display_order, menus.label')
         ->limit($resultCount)
