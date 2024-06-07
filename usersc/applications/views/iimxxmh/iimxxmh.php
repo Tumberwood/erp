@@ -664,6 +664,7 @@
 			CekInitHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnCopyFrom:name' ).disable();
+			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
 		} );
 		
 		tbliimxxmh.on( 'select', function( e, dt, type, indexes ) {
@@ -681,6 +682,7 @@
 			CekSelectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnCopyFrom:name' ).enable();
+			tblwimlotd.button( 'btnGenerateLocPref:name' ).enable();
 
 		} );
 		
@@ -694,6 +696,7 @@
 			CekDeselectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnCopyFrom:name' ).disable();
+			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
 		} );
 
 		// END iimxxmh
@@ -1251,11 +1254,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/wloxxmh/wloxxmh_fn_opt.php",
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_wloctmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_wloxxmh_old: id_wloxxmh_old,
+									ids_wloctmh: 3,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1331,6 +1335,16 @@
 					'>'
 				);
 
+				validasiUnique(
+					action,
+					edtwimlotd,
+					'wimlotd',
+					'id_wloxxmh',
+					'id_iimxxmh, id_wloxxmh',
+					id_iimxxmh + ',' + id_wloxxmh,
+					id_wimlotd
+				);
+
 			}
 			
 			if ( edtwimlotd.inError() ) {
@@ -1361,7 +1375,7 @@
 					d.id_iimxxmh = id_iimxxmh;
 				}
 			},
-			order: [[ 2, "desc" ]],
+			order: [[ 2, "asc" ]],
 			columns: [
 				{ data: "wimlotd.id",visible:false },
 				{ data: "wimlotd.id_iimxxmh",visible:false },
@@ -1385,6 +1399,32 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
+				{
+					text: '<i class="fa fa-google"></i>', 
+					name: 'btnGenerateLocPref',
+					className: 'btn btn-outline',
+					titleAttr: '',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault();
+						alert('To Do')
+						// $.ajax( {
+						// 	url: "../../models/iimxxmh/wimlotd_fn_generate.php",
+						// 	dataType: 'json',
+						// 	type: 'POST',
+						// 	data: {
+						// 		param: param
+						// 	},
+						// 	success: function ( json ) {
+						// 		full_message = '';
+						// 		status_code  = json.data.status_code;
+						// 		full_message = full_message + json.data.message + '</br>';
+						// 		toast_type   = json.data.type_message;
+						// 		toastr[toast_type](full_message, 'INFO');
+						// 		tblwimlotd.ajax.reload(null, false);
+						// 	}
+						// } );
+					}
+				},
 				// END breaking generate button
 			],
 			initComplete: function() {
