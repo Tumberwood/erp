@@ -211,6 +211,7 @@
 	var edtiimummd, tbliimummd, show_deleted_iimummd = 0, id_iimummd;
 	var edtiimummd_copyfrom;
 	var edtwimlotd, tblwimlotd, show_deleted_wimlotd = 0, id_wimlotd;
+	var edtwimlotd_copyfrom;
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
@@ -663,7 +664,8 @@
 			tbl_details = [tbliimummd, tblwimlotd];
 			CekInitHeaderHD(tbliimxxmh, tbl_details);
 
-			tbliimummd.button( 'btnCopyFrom:name' ).disable();
+			tbliimummd.button( 'btnIimummdCopyFrom:name' ).disable();
+			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
 		} );
 		
@@ -681,7 +683,8 @@
 			tbl_details = [tbliimummd, tblwimlotd];
 			CekSelectHeaderHD(tbliimxxmh, tbl_details);
 
-			tbliimummd.button( 'btnCopyFrom:name' ).enable();
+			tbliimummd.button( 'btnIimummdCopyFrom:name' ).enable();
+			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).enable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).enable();
 
 		} );
@@ -695,7 +698,8 @@
 			tbl_details = [tbliimummd, tblwimlotd];
 			CekDeselectHeaderHD(tbliimxxmh, tbl_details);
 
-			tbliimummd.button( 'btnCopyFrom:name' ).disable();
+			tbliimummd.button( 'btnIimummdCopyFrom:name' ).disable();
+			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
 		} );
 
@@ -1153,9 +1157,9 @@
 				// END breaking generate button
 				{ 
 					extend: 'create',
-					name: 'btnCopyFrom', 
+					name: 'btnIimummdCopyFrom', 
 					editor: edtiimummd_copyfrom, 
-					text: '<i class="fa fa-google"></i>', 
+					text: '<i class="fa fa-copy"></i>', 
 					className: 'btn btn-outline', 
 					titleAttr: 'Copy From'
 				}
@@ -1366,6 +1370,87 @@
 			edtwimlotd.enable();
 		} );
 
+		edtwimlotd_copyfrom = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/wimlotd_fn_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tblwimlotd",
+			fields: [ 
+				{
+					label: "id_iimxxmh",
+					name: "wimlotd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From Item",
+					name: "id_iimxxmh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtwimlotd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtwimlotd_copyfrom.field('wimlotd.id_iimxxmh').val(id_iimxxmh);
+			
+			if(action == 'create'){
+				tblwimlotd.rows().deselect();
+			}
+		});
+
+		edtwimlotd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				id_iimxxmh_source = edtwimlotd_copyfrom.field('id_iimxxmh_source').val();
+				if(id_iimxxmh_source == null || id_iimxxmh_source == ''){
+					edtwimlotd_copyfrom.field('id_iimxxmh_source').error( 'Wajib diisi!' );
+				}
+				
+			}
+			
+			if ( edtwimlotd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtwimlotd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblwimlotd.ajax.reload(null, false);
+		} );
+
 		tblwimlotd = $('#tblwimlotd').DataTable( {
 			ajax: {
 				url: "../../models/iimxxmh/wimlotd.php",
@@ -1399,6 +1484,14 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
+				{ 
+					extend: 'create',
+					name: 'btnWimlotdCopyFrom', 
+					editor: edtwimlotd_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
 				{
 					text: '<i class="fa fa-google"></i>', 
 					name: 'btnGenerateLocPref',
