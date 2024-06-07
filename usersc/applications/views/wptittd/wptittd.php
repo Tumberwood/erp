@@ -68,7 +68,7 @@
 	var edtwptittd, tblwptittd, show_deleted_wptittd = 0, id_wptittd;
 	// ------------- end of default variable
 
-	var id_iimxxmh, id_iumxxmh_unit_old  = 0, wlpxxmh_kode, wloxxmh_nama_target;
+	var id_iimxxmh, id_iumxxmh_unit_old  = 0, wlpxxmh_kode, wloxxmh_nama_target, jumlah_unit_old = 0;
 	
 	// get tableRelation
 	tableRelation('wptittd');
@@ -112,8 +112,24 @@
 					name: "wptittd.wlpxxmh_kode"
 				},
 				{
+					label: "wptittd.id_iimxxmh",
+					name: "wptittd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "wptittd.id_iwhxxmh",
+					name: "wptittd.id_iwhxxmh",
+					type: "hidden"
+				},
+				{
+					label: "wptittd.id_wloxxmh",
+					name: "wptittd.id_wloxxmh",
+					type: "hidden"
+				},
+				{
 					label: "Detail",
-					name: "wptittd_details",
+					// name: "wptittd_details",
+					name: "wptittd.keterangan",
 					type: "textarea"
 				},
 				{
@@ -158,7 +174,7 @@
 					name: "wptittd.jumlah_unit"
 				},
 				{
-					label: "Location",
+					label: "Location <sup class='text-danger'>*<sup>",
 					name: "wloxxmh_nama_scan"
 				},
 			]
@@ -174,7 +190,7 @@
 				
 			}
 
-			edtwptittd.field('wptittd_details').disable();
+			edtwptittd.field('wptittd.keterangan').disable();
 			
 		});
 
@@ -215,6 +231,11 @@
 				wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
 				id_iumxxmh_unit = edtwptittd.field('wptittd.id_iumxxmh_unit').val();
 				jumlah_unit = edtwptittd.field('wptittd.jumlah_unit').val();
+				wloxxmh_nama_scan = edtwptittd.field('wloxxmh_nama_scan').val();
+
+				if(!wloxxmh_nama_scan || wloxxmh_nama_scan == ''){
+					edtwptittd.field('wloxxmh_nama_scan').error( 'Wajib diisi!' );
+				}
 
 				validasiRequired(
 					edtwptittd,
@@ -222,7 +243,7 @@
 					{
 						'wlpxxmh_kode'   : wlpxxmh_kode,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
-						'jumlah_unit'    : jumlah_unit
+						'jumlah_unit'    : jumlah_unit,
 					}
 				);
 
@@ -235,6 +256,17 @@
 					0,
 					'>'
 				);
+
+				outstandingItem();
+				// console.log('sisa = '+sisa); //10.00
+				jumlah_unit = parseFloat(jumlah_unit);
+				// console.log('jumlah_unit = '+jumlah_unit); //5
+				if (jumlah_unit > sisa) {
+					// console.log(11);
+					edtwptittd.field('wptittd.jumlah_unit').error( 'Jumlah Max: '+sisa );
+				} else {
+					// console.log(22);
+				}
 
 				// tidak bisa pakai ini harus hitung sendiri
 				// validasiOutstanding(
@@ -251,6 +283,15 @@
 		edtwptittd.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwptittd.field('wptittd.finish_at').val(finish_at);
+		});
+		
+		edtwptittd.on('postSubmit', function(e, json, data, action, xhr) {
+			if (action != 'remove') {
+				id_transaksi = json.data[0].wptittd.id;
+				konversiUom('wptittd', id_transaksi );
+				
+				tblwptittd.rows().deselect();
+			}
 		});
 
 		edtwptittd.on( 'close', function () {
@@ -339,6 +380,8 @@
 		tblwptittd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('wptittd');
+			id_iumxxmh_unit_old = wptittd_data.id_iumxxmh_unit;
+			jumlah_unit_old = wptittd_data.jumlah_unit;
 
 			// atur hak akses
 			CekSelectHeaderH(tblwptittd);
@@ -347,6 +390,8 @@
 		tblwptittd.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wptittd');
+			id_iumxxmh_unit_old = 0;
+			jumlah_unit_old = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblwptittd);

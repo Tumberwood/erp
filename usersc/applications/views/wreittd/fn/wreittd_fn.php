@@ -19,4 +19,24 @@
             } );
         }
     };
+    
+    function wlpxxmh_kode_validasi (){
+        if(wlpxxmh_kode != ""){
+            // cek apakah master LPN ada
+            $.ajax( {
+                url: "../../models/wreittd/wreittd_fn_wlpxxmh.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    wlpxxmh_kode: wlpxxmh_kode
+                },
+                success: function ( json ) {
+                    if(json.data.status_code == 500){
+                        edtwreittd.field('wreittd.wlpxxmh_kode').error( json.data.message );
+                    }
+                }
+            } );
+            
+        }
+    };
 </script>

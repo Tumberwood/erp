@@ -40,6 +40,7 @@
 				id_iimxxmh,
 				id_wloxxmh,
 				wlpxxmh_kode
+			having jumlah_terkecil > 0
 		');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 	if (!empty($rs_iivxxrd)) {

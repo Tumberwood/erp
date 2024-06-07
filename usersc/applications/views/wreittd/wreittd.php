@@ -358,6 +358,12 @@
 			edtFormButtonSaveConfirm();
 		});
 
+		// edtwreittd.dependent( 'wreittd.wlpxxmh_kode', function ( val, data, callback ) {
+			// wlpxxmh_kode = val;
+			// wlpxxmh_kode_validasi();
+		// 	return {}
+		// }, {event: 'change'});
+		
 		edtwreittd.dependent( 'wreittd.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
 			edtwreittd.field('wreittd.id_wloxxmh').input().val(null).trigger('change');
@@ -424,6 +430,18 @@
 						'expired_date'   : expired_date
 					}
 				)
+
+				validasiUnique(
+				    action,
+				    edtwreittd,
+				    'wreittd',
+				    'wlpxxmh_kode',
+				    'wlpxxmh_kode',
+				    '"'+wlpxxmh_kode+'"',
+				    id_wreittd
+				);
+
+				wlpxxmh_kode_validasi();
 
 				validasiTanggalToday(
 					edtwreittd, 'wreittd', 'expired_date', expired_date, '>='
