@@ -34,10 +34,14 @@
 			->where('wimlotd.id_iimxxmh',$_POST['id_iimxxmh']);
 		
 		$editor
-			->on('preCreate',function( $editor, $values ) {
+			->on('preCreate',function( $editor, $values ) use ( $s_id_users, $s_username) {
+				$start_at           = $values['start_at'];
+            	$finish_at          = $values['finish_at'];
+
 				$qs_wimlotd = $editor->db()
 					->raw()
 					->bind(':id_iimxxmh_source', $values['id_iimxxmh_source'])
+					->bind(':id_iimxxmh_target', $values['wimlotd']['id_iimxxmh'])
 					->exec('
 						INSERT INTO
 							wimlotd (
@@ -50,22 +54,19 @@
 							id_wloxxmh,
 							urutan
 						FROM wimlotd
-						WHERE 
-                            id_iimxxmh = :id_iimxxmh_source AND
-							id_iimxxmh NOT IN (
+						WHERE 1
+                            AND id_iimxxmh = :id_iimxxmh_source 
+							AND id_iimxxmh NOT IN (
 								SELECT
 									id_iimxxmh
 								FROM wimlotd
 								WHERE
-									id_iimxxmh = :id_iimxxmh_source
+									id_iimxxmh = :id_iimxxmh_target
 							)
 					');
-			});
 
-		// BEGIN log
-		// $nama_table = 'wimlotd';
-		// include( "../../../helpers/edt_log.php" );
-		// END log
+					General::logChange( $editor->db() , 'wimlotd', $s_id_users, $s_username, 'CREATE', $values['wimlotd']['id_iimxxmh'], 'Insert from generate', $start_at, $finish_at );
+			});
 		
 		$json = $editor
 			->process( $_POST )

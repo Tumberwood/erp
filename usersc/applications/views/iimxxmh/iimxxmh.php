@@ -212,6 +212,7 @@
 	var edtiimummd_copyfrom;
 	var edtwimlotd, tblwimlotd, show_deleted_wimlotd = 0, id_wimlotd;
 	var edtwimlotd_copyfrom;
+	var edtwimlotd_generate;
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
@@ -1035,6 +1036,16 @@
 			table: "#tbliimummd",
 			fields: [ 
 				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
 					label: "id_iimxxmh",
 					name: "iimummd.id_iimxxmh",
 					type: "hidden"
@@ -1080,6 +1091,8 @@
 			
 		edtiimummd_copyfrom.on( 'preOpen', function( e, mode, action ) {
 			edtiimummd_copyfrom.field('iimummd.id_iimxxmh').val(id_iimxxmh);
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiimummd_copyfrom.field('start_at').val(start_at);
 			
 			if(action == 'create'){
 				tbliimummd.rows().deselect();
@@ -1104,6 +1117,11 @@
 			if ( edtiimummd_copyfrom.inError() ) {
 				return false;
 			}
+		});
+
+		edtiimummd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiimummd_copyfrom.field('finish_at').val(finish_at);
 		});
 
 		edtiimummd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
@@ -1373,6 +1391,110 @@
 
 		edtwimlotd.on( 'close', function () {
 			edtwimlotd.enable();
+		} );
+
+
+		edtwimlotd_copyfrom = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/wimlotd_fn_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tblwimlotd",
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "id_iimxxmh",
+					name: "wimlotd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From Item",
+					name: "id_iimxxmh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtwimlotd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtwimlotd_copyfrom.field('wimlotd.id_iimxxmh').val(id_iimxxmh);
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimlotd_copyfrom.field('start_at').val(start_at);
+
+			if(action == 'create'){
+				tblwimlotd.rows().deselect();
+			}
+		});
+
+		edtwimlotd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+
+
+		edtwimlotd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				id_iimxxmh_source = edtwimlotd_copyfrom.field('id_iimxxmh_source').val();
+				if(id_iimxxmh_source == null || id_iimxxmh_source == ''){
+					edtwimlotd_copyfrom.field('id_iimxxmh_source').error( 'Wajib diisi!' );
+				}
+				
+			}
+			
+			if ( edtwimlotd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtwimlotd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimlotd_copyfrom.field('finish_at').val(finish_at);
+		});
+
+		edtwimlotd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblwimlotd.ajax.reload(null, false);
 		} );
 
 		

@@ -34,10 +34,14 @@
 			->where('iimummd.id_iimxxmh',$_POST['id_iimxxmh']);
 		
 		$editor
-			->on('preCreate',function( $editor, $values ) {
+			->on('preCreate',function( $editor, $values ) use ( $s_id_users, $s_username) {
+				$start_at           = $values['start_at'];
+            	$finish_at          = $values['finish_at'];
+
 				$qs_iimummd = $editor->db()
 					->raw()
 					->bind(':id_iimxxmh_source', $values['id_iimxxmh_source'])
+					->bind(':id_iimxxmh_target', $values['iimummd']['id_iimxxmh'])
 					->exec('
 						INSERT INTO
 							iimummd (
@@ -68,16 +72,18 @@
 							nw,
 							gw
 						FROM iimummd
-						WHERE 
-							id_iimxxmh = :id_iimxxmh_source AND
-							id_iimxxmh NOT IN (
+						WHERE 1
+							AND id_iimxxmh = :id_iimxxmh_source 
+							AND id_iimxxmh NOT IN (
 								SELECT
 									id_iimxxmh
 								FROM iimummd
 								WHERE 
-									id_iimxxmh = :id_iimxxmh_source
+									id_iimxxmh = :id_iimxxmh_target
 							)
 					');
+
+					General::logChange( $editor->db() , 'iimummd', $s_id_users, $s_username, 'CREATE', $values['iimummd']['id_iimxxmh'], 'Insert from generate', $start_at, $finish_at );
 
 			});
 		
