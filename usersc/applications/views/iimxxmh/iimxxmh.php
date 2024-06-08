@@ -1390,7 +1390,7 @@
 				{
 					label: "id_iimxxmh",
 					name: "id_iimxxmh",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "Rack",
