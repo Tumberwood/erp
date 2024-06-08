@@ -68,7 +68,15 @@
 							nw,
 							gw
 						FROM iimummd
-						WHERE id_iimxxmh = :id_iimxxmh_source
+						WHERE 
+							id_iimxxmh = :id_iimxxmh_source AND
+							id_iimxxmh NOT IN (
+								SELECT
+									id_iimxxmh
+								FROM iimummd
+								WHERE 
+									id_iimxxmh = :id_iimxxmh_source
+							)
 					');
 			});
 

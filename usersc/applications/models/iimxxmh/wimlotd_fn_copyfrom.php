@@ -50,7 +50,15 @@
 							id_wloxxmh,
 							urutan
 						FROM wimlotd
-						WHERE id_iimxxmh = :id_iimxxmh_source
+						WHERE 
+                            id_iimxxmh = :id_iimxxmh_source AND
+							id_iimxxmh NOT IN (
+								SELECT
+									id_iimxxmh
+								FROM wimlotd
+								WHERE
+									id_iimxxmh = :id_iimxxmh_source
+							)
 					');
 			});
 

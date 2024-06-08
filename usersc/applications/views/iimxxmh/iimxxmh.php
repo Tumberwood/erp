@@ -378,7 +378,7 @@
 					}
 				},
 				{
-					label: "Item Group 2 <sup class='text-danger'>*<sup>",
+					label: "Item Group 2",
 					name: "iimxxmh.id_iigx2mh",
 					type: "select2",
 					opts: {
@@ -415,7 +415,7 @@
 					}
 				},
 				{
-					label: "Item Brand",
+					label: "Item Brand <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.id_iibxxmh",
 					type: "select2",
 					opts: {
@@ -463,7 +463,7 @@
 					},
 				},	
 				{
-					label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
+					label: getTranslation('notes'),
 					name: "iimxxmh.keterangan",
 					type: "textarea"
 				}
@@ -1085,6 +1085,11 @@
 				tbliimummd.rows().deselect();
 			}
 		});
+
+		edtiimummd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+
 
 		edtiimummd_copyfrom.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
