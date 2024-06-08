@@ -1,7 +1,9 @@
 <?php
-	include( "../../../../users/init.php" );
-	include( "../../../../usersc/lib/DataTables.php" );
-	include( "../../../../usersc/helpers/datatables_fn_debug.php" );   
+	include_once( "../../../../users/init.php" );
+	include_once( "../../../../usersc/lib/DataTables.php" );
+	include_once( "../../../../usersc/vendor/autoload.php");
+	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
