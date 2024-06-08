@@ -47,7 +47,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/gaptpmh/fn/gaptpmh_fn.php'; ?>
 
@@ -109,9 +109,15 @@
 			edtgaptpmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtgaptpmh.field('gaptpmh.start_at').val(start_at);
-				
+
 				if(action == 'create'){
 					tblgaptpmh.rows().deselect();
+				}else if(action == 'edit'){
+					if(transaction_state == 0){
+						edtgaptpmh.field('gaptpmh.nama').enable();
+					}else{
+						edtgaptpmh.field('gaptpmh.nama').disable();
+					}
 				}
 			});
 
@@ -122,14 +128,12 @@
             edtgaptpmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					kode = edtgaptpmh.field('gaptpmh.kode').val();
 					nama = edtgaptpmh.field('gaptpmh.nama').val();
 
 					validasiRequired(
 						edtgaptpmh,
 						'gaptpmh',
 						{
-							'kode': kode,
 							'nama': nama
 						}
 					);
@@ -232,21 +236,16 @@
 			} );
 			
 			tblgaptpmh.on( 'select', function( e, dt, type, indexes ) {
-				gaptpmh_data      = tblgaptpmh.row( { selected: true } ).data().gaptpmh;
-				id_gaptpmh        = gaptpmh_data.id;
-				id_transaksi_h    = id_gaptpmh; // dipakai untuk general
-				id_transaksi_log  = id_gaptpmh; // dipakai untuk general
-				transaction_state = gaptpmh_data.transaction_state;
-				approval_state    = gaptpmh_data.approval_state;
-				is_nextprocess    = gaptpmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('gaptpmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblgaptpmh);
 			} );
 
 			tblgaptpmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_gaptpmh = 0;
+				// reset variable standar framework
+				siVarReset('gaptpmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblgaptpmh);
