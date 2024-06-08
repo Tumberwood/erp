@@ -79,7 +79,7 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd"> UoM</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabwimlotd"> Loc Pref</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabwimlotd"> Loc Pref &nbsp<small class="label label-info">WMS</small></a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabiimummd" class="tab-pane active">
@@ -1375,11 +1375,13 @@
 			edtwimlotd.enable();
 		} );
 
-		edtwimlotd_copyfrom = new $.fn.dataTable.Editor( {
+		
+		edtwimlotd_generate = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/iimxxmh/wimlotd_fn_copyfrom.php",
+				url: "../../models/iimxxmh/wimlotd_fn_generate.php",
 				type: 'POST',
 				data: function (d){
+					d.show_deleted_wimlotd = show_deleted_wimlotd;
 					d.id_iimxxmh = id_iimxxmh;
 				}
 			},
@@ -1387,31 +1389,37 @@
 			fields: [ 
 				{
 					label: "id_iimxxmh",
-					name: "wimlotd.id_iimxxmh",
-					type: "hidden"
+					name: "id_iimxxmh",
+					// type: "hidden"
 				},
 				{
-					label: "Copy From Item",
-					name: "id_iimxxmh_source",
+					label: "Rack",
+					name: "rack_name",
 					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Rack.",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
-						multiple: false,
+						multiple: true,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_rack.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iimxxmh_old: 0,
+									id_wloxxmh_rack_old: 0,
 									search: params.term || '',
 									page: params.page || 1
 								}
 									return query;
 							},
 							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
 								return {
-									results: data.results,
+									results: transformedResults,
 									pagination: {
 										more: true
 									}
@@ -1425,36 +1433,161 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				}
+				},
+				{
+					label: "Bay",
+					name: "bay_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Bay.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_bay.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wloxxmh_bay_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Level",
+					name: "level_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Level.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_level.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wloxxmh_level_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Position",
+					name: "position_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Position.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_position.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wloxxmh_position_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+
 			]
 		} );
 			
-		edtwimlotd_copyfrom.on( 'preOpen', function( e, mode, action ) {
-			edtwimlotd_copyfrom.field('wimlotd.id_iimxxmh').val(id_iimxxmh);
-			
-			if(action == 'create'){
-				tblwimlotd.rows().deselect();
-			}
+		edtwimlotd_generate.on( 'preOpen', function( e, mode, action ) {
+			edtwimlotd_generate.field('id_iimxxmh').val(id_iimxxmh);
 		});
 
-		edtwimlotd_copyfrom.on( 'preSubmit', function (e, data, action) {
+		edtwimlotd_generate.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+
+		edtwimlotd_generate.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				id_iimxxmh_source = edtwimlotd_copyfrom.field('id_iimxxmh_source').val();
-				if(id_iimxxmh_source == null || id_iimxxmh_source == ''){
-					edtwimlotd_copyfrom.field('id_iimxxmh_source').error( 'Wajib diisi!' );
-				}
+				
 				
 			}
 			
-			if ( edtwimlotd_copyfrom.inError() ) {
+			if ( edtwimlotd_generate.inError() ) {
 				return false;
 			}
 		});
 
-		edtwimlotd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+		edtwimlotd_generate.on( 'postSubmit', function (e, json, data, action, xhr) {
 			tblwimlotd.ajax.reload(null, false);
 		} );
+
 
 		tblwimlotd = $('#tblwimlotd').DataTable( {
 			ajax: {
@@ -1498,30 +1631,24 @@
 					titleAttr: 'Copy From'
 				},
 				{
+					extend: 'create',
+					name: 'btnGenerateLocPref', 
+					editor: edtwimlotd_generate, 
 					text: '<i class="fa fa-google"></i>', 
-					name: 'btnGenerateLocPref',
-					className: 'btn btn-outline',
-					titleAttr: '',
-					action: function ( e, dt, node, config ) {
-						e.preventDefault();
-						alert('To Do')
-						// $.ajax( {
-						// 	url: "../../models/iimxxmh/wimlotd_fn_generate.php",
-						// 	dataType: 'json',
-						// 	type: 'POST',
-						// 	data: {
-						// 		param: param
-						// 	},
-						// 	success: function ( json ) {
-						// 		full_message = '';
-						// 		status_code  = json.data.status_code;
-						// 		full_message = full_message + json.data.message + '</br>';
-						// 		toast_type   = json.data.type_message;
-						// 		toastr[toast_type](full_message, 'INFO');
-						// 		tblwimlotd.ajax.reload(null, false);
-						// 	}
-						// } );
-					}
+					className: 'btn btn-outline', 
+					titleAttr: 'Generate Location Preference'
+
+					// text: '<i class="fa fa-google"></i>', 
+					// name: 'btnGenerateLocPref',
+					// className: 'btn btn-outline',
+					// titleAttr: '',
+					// action: function ( e, dt, node, config ) {
+					// 	e.preventDefault();
+					// 	edtwimlotd_generate
+					// 		.title('Generate')
+					// 		.buttons('Save')
+					// 		.create();
+					// }
 				},
 				// END breaking generate button
 			],
