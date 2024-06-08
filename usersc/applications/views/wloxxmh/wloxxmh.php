@@ -73,6 +73,50 @@
 						</div>
 					</div>
 				</div>
+				<div id="frmwloxxmh_generate">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="id_iwhxxmh"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="id_wloctmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="id_wlotpmh"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="id_wloznmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="kapasitas"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="id_iumxxmh_kapasitas"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="rack_name"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="bay_name"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="level_name"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="position_name"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblwloxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -509,20 +553,21 @@
 					url: "../../models/wloxxmh/wloxxmh_fn_generate.php",
 					type: 'POST',
 					data: function (d){
-						// d.show_deleted_wloxxmh_generate = show_deleted_wloxxmh_generate;
+						
 					}
 				},
+				template: "#frmwloxxmh_generate",
 				table: "#tblwloxxmh",
 				fields: [ 
 					{
 						label: "start_at",
 						name: "start_at",
-						// type: "hidden"
+						type: "hidden"
 					},	
 					{
 						label: "finish_at",
 						name: "finish_at",
-						// type: "hidden"
+						type: "hidden"
 					},	
 					{
 						label: "Warehouse <sup class='text-danger'>*<sup>",
@@ -561,7 +606,7 @@
 						}
 					},
 					{
-						label: "Location Category",
+						label: "Location Category <sup class='text-danger'>*<sup>",
 						name: "id_wloctmh",
 						type: "select2",
 						opts: {
@@ -597,7 +642,7 @@
 						}
 					},
 					{
-						label: "Location Type",
+						label: "Location Type <sup class='text-danger'>*<sup>",
 						name: "id_wlotpmh",
 						type: "select2",
 						opts: {
@@ -709,24 +754,24 @@
 						}
 					},
 					{
-						label: "Rack / Block",
+						label: "Rack / Block <sup class='text-danger'>*<sup>",
 						name: "rack_name",
 						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
 					},
 					{
-						label: "Bay",
+						label: "Bay <sup class='text-danger'>*<sup>",
 						name: "bay_name",
-						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal 01-21 atau 01,03,05"
 					},
 					{
-						label: "Level",
+						label: "Level <sup class='text-danger'>*<sup>",
 						name: "level_name",
-						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal 01-04 atau 01,03"
 					},
 					{
-						label: "Position",
+						label: "Position <sup class='text-danger'>*<sup>",
 						name: "position_name",
-						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal L,R"
 					}
 				]
 			} );
@@ -741,9 +786,60 @@
 			
 			});
 
+			edtwloxxmh_generate.on( 'preSubmit', function (e, data, action) {
+				if(action != 'remove'){
+					id_iwhxxmh           = edtwloxxmh_generate.field('id_iwhxxmh').val();
+					id_wloctmh           = edtwloxxmh_generate.field('id_wloctmh').val();
+					id_wlotpmh           = edtwloxxmh_generate.field('id_wlotpmh').val();
+					kapasitas            = edtwloxxmh_generate.field('kapasitas').val();
+					id_iumxxmh_kapasitas = edtwloxxmh_generate.field('id_iumxxmh_kapasitas').val();
+					rack_name            = edtwloxxmh_generate.field('rack_name').val();
+					bay_name             = edtwloxxmh_generate.field('bay_name').val();
+					level_name           = edtwloxxmh_generate.field('level_name').val();
+					position_name        = edtwloxxmh_generate.field('position_name').val();
+
+					if(!id_iwhxxmh || id_iwhxxmh == ''){
+						edtwloxxmh_generate.field('id_iwhxxmh').error( 'Wajib diisi!' );
+					}
+					if(!id_wloctmh || id_wloctmh == ''){
+						edtwloxxmh_generate.field('id_wloctmh').error( 'Wajib diisi!' );
+					}
+					if(!id_wlotpmh || id_wlotpmh == ''){
+						edtwloxxmh_generate.field('id_wlotpmh').error( 'Wajib diisi!' );
+					}
+					if(!kapasitas || kapasitas == ''){
+						edtwloxxmh_generate.field('kapasitas').error( 'Wajib diisi!' );
+					}
+					if(!id_iumxxmh_kapasitas || id_iumxxmh_kapasitas == ''){
+						edtwloxxmh_generate.field('id_iumxxmh_kapasitas').error( 'Wajib diisi!' );
+					}
+					if(!rack_name || rack_name == ''){
+						edtwloxxmh_generate.field('rack_name').error( 'Wajib diisi!' );
+					}
+					if(!bay_name || bay_name == ''){
+						edtwloxxmh_generate.field('bay_name').error( 'Wajib diisi!' );
+					}
+					if(!level_name || level_name == ''){
+						edtwloxxmh_generate.field('level_name').error( 'Wajib diisi!' );
+					}
+					if(!position_name || position_name == ''){
+						edtwloxxmh_generate.field('position_name').error( 'Wajib diisi!' );
+					}
+
+				}
+				
+				if ( edtwloxxmh_generate.inError() ) {
+					return false;
+				}
+			});
+
 			edtwloxxmh_generate.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 				edtwloxxmh_generate.field('finish_at').val(finish_at);
+			});
+
+			edtwloxxmh_generate.on('postSubmit', function(e, json, data, action, xhr) {
+				tblwloxxmh.ajax.reload(null, false);
 			});
 
 			tblwloxxmh = $('#tblwloxxmh').DataTable( {
