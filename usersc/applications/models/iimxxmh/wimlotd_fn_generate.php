@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -15,10 +16,9 @@
 		DataTables\Editor\ValidateOptions,
 		DataTables\Editor\SearchPaneOptions,
 		DataTables\Editor\Query,
-		DataTables\Editor\Result;
-
-	use 
-		Carbon\Carbon;
+		DataTables\Editor\Result,
+		Carbon\Carbon,
+        SolusiIndonesia\Utilities\General;
 	
 	if ( ! isset($_POST['id_iimxxmh']) || ! is_numeric($_POST['id_iimxxmh']) ) {
 		echo json_encode( [ "data" => [] ] );
