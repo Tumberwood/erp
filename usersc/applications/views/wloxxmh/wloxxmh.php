@@ -347,22 +347,22 @@
 					{
 						label: "Rack / Block",
 						name: "wloxxmh.rack_name",
-						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+						fieldInfo: "Gunakan Huruf atau Angka, misal A atau AA atau 01"
 					},
 					{
 						label: "Bay",
 						name: "wloxxmh.bay_name",
-						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+						fieldInfo: "Gunakan Huruf atau Angka, misal A atau AA atau 01"
 					},
 					{
 						label: "Level",
 						name: "wloxxmh.level_name",
-						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+						fieldInfo: "Gunakan Huruf atau Angka, misal A atau AA atau 01"
 					},
 					{
 						label: "Position",
 						name: "wloxxmh.position_name",
-						fieldInfo: "Gunakan Huruf atau Angka, misal A, AA, 01"
+						fieldInfo: "Gunakan Huruf atau Angka, misal A atau AA atau 01"
 					},
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
@@ -504,6 +504,248 @@
 				edtwloxxmh.enable();
 			} );
 
+			edtwloxxmh_generate = new $.fn.dataTable.Editor( {
+				ajax: {
+					url: "../../models/wloxxmh/wloxxmh_fn_generate.php",
+					type: 'POST',
+					data: function (d){
+						// d.show_deleted_wloxxmh_generate = show_deleted_wloxxmh_generate;
+					}
+				},
+				table: "#tblwloxxmh",
+				fields: [ 
+					{
+						label: "start_at",
+						name: "start_at",
+						// type: "hidden"
+					},	
+					{
+						label: "finish_at",
+						name: "finish_at",
+						// type: "hidden"
+					},	
+					{
+						label: "Warehouse <sup class='text-danger'>*<sup>",
+						name: "id_iwhxxmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_iwhxxmh_old: id_iwhxxmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Location Category",
+						name: "id_wloctmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/wloctmh/wloctmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_wloctmh_old: id_wloctmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Location Type",
+						name: "id_wlotpmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/wlotpmh/wlotpmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_wlotpmh_old: id_wlotpmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Location Zone",
+						name: "id_wloznmh",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/wloznmh/wloznmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_wloznmh_old: id_wloznmh_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Kapasitas <sup class='text-danger'>*<sup>",
+						name: "kapasitas"
+					},
+					{
+						label: "UoM Kapasitas <sup class='text-danger'>*<sup>",
+						name: "id_iumxxmh_kapasitas",
+						type: "select2",
+						opts: {
+							placeholder : "Select",
+							allowClear: true,
+							multiple: false,
+							ajax: {
+								url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+								dataType: 'json',
+								data: function (params) {
+									var query = {
+										id_iumxxmh_old: id_iumxxmh_kapasitas_old,
+										search: params.term || '',
+										page: params.page || 1
+									}
+										return query;
+								},
+								processResults: function (data, params) {
+									return {
+										results: data.results,
+										pagination: {
+											more: true
+										}
+									};
+								},
+								cache: true,
+								minimumInputLength: 1,
+								maximum: 10,
+								delay: 500,
+								maximumSelectionLength: 5,
+								minimumResultsForSearch: -1,
+							},
+						}
+					},
+					{
+						label: "Rack / Block",
+						name: "rack_name",
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+					},
+					{
+						label: "Bay",
+						name: "bay_name",
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+					},
+					{
+						label: "Level",
+						name: "level_name",
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+					},
+					{
+						label: "Position",
+						name: "position_name",
+						fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal A atau AA, A , 01"
+					}
+				]
+			} );
+
+			edtwloxxmh_generate.on( 'preOpen', function( e, mode, action ) {
+				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtwloxxmh_generate.field('start_at').val(start_at);
+			} );
+
+			edtwloxxmh_generate.on("open", function (e, mode, action) {
+				$(".modal-dialog").addClass("modal-xl");
+			
+			});
+
+			edtwloxxmh_generate.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtwloxxmh_generate.field('finish_at').val(finish_at);
+			});
+
 			tblwloxxmh = $('#tblwloxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -558,6 +800,14 @@
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
+					{
+						extend: 'create',
+						name: 'btnGenerateLocation', 
+						editor: edtwloxxmh_generate, 
+						text: '<i class="fa fa-google"></i>', 
+						className: 'btn btn-outline', 
+						titleAttr: 'Generate Location'
+					},
 				],
 				initComplete: function() {
 					this.api().searchPanes.rebuildPane();
