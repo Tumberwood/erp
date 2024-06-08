@@ -223,9 +223,7 @@
 					action: function ( e, dt, node, config ) {
 						// e.preventDefault();
 						var lpnJumlah = prompt("Generate Berapa LPN?", 1);
-						console.log(lpnJumlah);
 						if( typeof parseInt(lpnJumlah) === "number" && parseInt(lpnJumlah) > 0 ){
-							console.log(1);
 							$.ajax( {
 								url: "../../models/wlpxxmh/wlpxxmh_fn_generate.php",
 								dataType: 'json',
@@ -282,13 +280,8 @@
 		tblwlpxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('wlpxxmh');
-			
-			// ids_wlpxxmh = tblwlpxxmh.rows( {selected: true} ).data().length;
 			selectedIds = getSelectedRowIds();
-			console.log('Selected IDs:', selectedIds);
-
-			// console.log(ids_wlpxxmh);
-
+			
 			// atur hak akses
 			CekSelectHeaderH(tblwlpxxmh);
 		} );
@@ -296,9 +289,7 @@
 		tblwlpxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wlpxxmh');
-
 			var selectedIds = getSelectedRowIds();
-    		console.log('Selected IDs after deselect:', selectedIds);
 
 			// atur hak akses
 			CekDeselectHeaderH(tblwlpxxmh);
