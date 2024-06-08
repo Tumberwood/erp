@@ -48,7 +48,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/licxxmh/fn/licxxmh_fn.php'; ?>
 
@@ -57,6 +57,9 @@
 	// ------------- default variable, do not erase
 	var edtlicxxmh, tbllicxxmh, show_deleted_licxxmh = 0, id_licxxmh;
 	// ------------- end of default variable
+
+	// get tableRelation
+	tableRelation('licxxmh');
 	
 	$(document).ready(function() {
 		//start datatables editor
