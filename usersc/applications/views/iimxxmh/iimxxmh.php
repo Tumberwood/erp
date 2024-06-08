@@ -1637,18 +1637,6 @@
 					text: '<i class="fa fa-google"></i>', 
 					className: 'btn btn-outline', 
 					titleAttr: 'Generate Location Preference'
-
-					// text: '<i class="fa fa-google"></i>', 
-					// name: 'btnGenerateLocPref',
-					// className: 'btn btn-outline',
-					// titleAttr: '',
-					// action: function ( e, dt, node, config ) {
-					// 	e.preventDefault();
-					// 	edtwimlotd_generate
-					// 		.title('Generate')
-					// 		.buttons('Save')
-					// 		.create();
-					// }
 				},
 				// END breaking generate button
 			],
