@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -78,7 +79,8 @@
 
 			Field::inst( 'users.fname' ),
 			
-			Field::inst( 'concat(hemxxmh.kode, " - ", hemxxmh.nama) as peg' ),
+			Field::inst( 'hemxxmh.kode' ),
+			Field::inst( 'hemxxmh.nama' ),
 			// Field::inst( 'hemxxmh.nama' )
 		)
 		// ->leftJoin( 
