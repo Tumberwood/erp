@@ -85,8 +85,7 @@
 <script type="text/javascript">
 	// ------------- default variable, do not erase
 	var edthttphtd, tblhttphtd, show_deleted_httphtd = 0, id_httphtd;
-	var edthttphtd_d, tblhttphtd_d, show_deleted_httphtd_d = 0, id_httphtd_d;
-	var edthttphtd_d_copyfrom;
+	var edthttphtd_d, tblhttphtd_d, show_deleted_httphtd_d = 0, id_httphtd_d;	
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_hetxxmh_old = 0, id_hosxxmh_old = 0, id_iigxxmh = 0, id_hevxxmh_old = 0, id_hodxxmh_old = 0, id_iibxxmh_old = 0, id_httphtd_old = 0;
@@ -311,7 +310,6 @@
 			tbl_details = [tblhttphtd_d];
 			CekInitHeaderHD(tblhttphtd, tbl_details);
 
-			tblhttphtd_d.button( 'btnCopyFrom:name' ).disable();
 		} );
 		
 		tblhttphtd.on( 'select', function( e, dt, type, indexes ) {
@@ -328,8 +326,6 @@
 			tbl_details = [tblhttphtd_d];
 			CekSelectHeaderHD(tblhttphtd, tbl_details);
 
-			tblhttphtd_d.button( 'btnCopyFrom:name' ).enable();
-
 		} );
 		
 		tblhttphtd.on( 'deselect', function () {
@@ -341,7 +337,6 @@
 			tbl_details = [tblhttphtd_d];
 			CekDeselectHeaderHD(tblhttphtd, tbl_details);
 
-			tblhttphtd_d.button( 'btnCopyFrom:name' ).disable();
 		} );
 
 		// END httphtd

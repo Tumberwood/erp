@@ -92,7 +92,6 @@
 	// ------------- default variable, do not erase
 	var edthttgltd, tblhttgltd, show_deleted_httgltd = 0, id_httgltd;
 	var edthttgltd_d, tblhttgltd_d, show_deleted_httgltd_d = 0, id_httgltd_d;
-	var edthttgltd_d_copyfrom;
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_hetxxmh_old = 0, id_hosxxmh_old = 0, id_iigxxmh = 0, id_hevxxmh_old = 0, id_hodxxmh_old = 0, id_iibxxmh_old = 0, id_httgltd_old = 0;
@@ -651,7 +650,7 @@
 
 		tblhttgltd_d.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			CekDrawDetailHD( tblhttgltd_d, 1 );
+			CekDrawDetailHD( tblhttgltd_d, 0 );
 			CekDrawDetailHDFinal(tblhttgltd);
 
 		} );
