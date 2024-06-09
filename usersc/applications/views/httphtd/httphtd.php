@@ -24,7 +24,6 @@
 							<th>Tanggal</th>
 							<th>Kode</th>
 							<th>Nama</th>
-							<th>Keterangan</th>
 							<th>TX</th>
 							<th>Approval</th>
 						</tr>
@@ -77,7 +76,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/httphtd/fn/httphtd_fn.php'; ?>
@@ -173,7 +172,7 @@
 			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edthttphtd.on( 'preSubmit', function (e, data, action) {
@@ -252,7 +251,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3,4]
+					targets: [1,2,3,4,5]
 				},
 				{
 					searchPanes:{
@@ -266,7 +265,6 @@
 				{ data: "httphtd.tanggal" },
 				{ data: "httphtd.kode" },
 				{ data: "httphtd.nama" },
-				{ data: "httphtd.keterangan" },
 				{ 
 					data: "httphtd.transaction_state" ,
 					...renderTransactionStatus()
@@ -288,7 +286,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -471,8 +469,7 @@
 		edthttphtd_d.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 
@@ -627,12 +624,8 @@
 			columns: [
 				{ data: "httphtd_d.id",visible:false },
 				{ data: "httphtd_d.id_httphtd",visible:false },
-				{ 
-					data: "httphtd_d.jenis"
-				},
-				{ 
-					data: "httphtd_d.nama"
-				},
+				{ data: "httphtd_d.jenis" },
+				{ data: "httphtd_d.nama" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -658,8 +651,7 @@
 
 		tblhttphtd_d.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhttphtd, tblhttphtd_d, 'httphtd_d' );
+			CekDrawDetailHD( tblhttphtd_d, 1 );
 			CekDrawDetailHDFinal(tblhttphtd);
 
 		} );
@@ -671,7 +663,7 @@
 			is_default_old      = httphtd_d_data.is_default;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblhttphtd, tblhttphtd_d );
+			CekSelectDetailHD( tblhttphtd_d );
 
 		} );
 
@@ -682,7 +674,7 @@
 			id_transaksi_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblhttphtd, tblhttphtd_d );
+			CekDeselectDetailHD( tblhttphtd_d );
 
 		} );
 
