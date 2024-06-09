@@ -1,19 +1,23 @@
 <?php
+
+	use 
+		SolusiIndonesia\Utilities\General;
+
     $editor
 		->on('preCreate',function( $editor, $values ) {
 			// script diletakkan disini
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
-			// script diletakkan disini
+			General::isNextProcess( $editor->db(), '', 'hovxxmh', 'hodxxmh', $id, 'CREATE', $values );
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// script diletakkan disini
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
-			// script diletakkan disini
+			General::isNextProcess( $editor->db(), '', 'hovxxmh', 'hodxxmh', $id, 'EDIT', $values );
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
-			// script diletakkan disini
+			General::isNextProcess( $editor->db(), '', 'hovxxmh', 'hodxxmh', $id, 'REMOVE', $values );
 		})
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
