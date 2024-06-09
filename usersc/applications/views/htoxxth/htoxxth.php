@@ -69,7 +69,7 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabhtoemtd_1"> Overtime Detail Employee</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabhtoemtd_1"> Employee</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabhtoemtd_1" class="tab-pane active">
@@ -133,7 +133,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htoxxth/fn/htoxxth_fn.php'; ?>
 
@@ -154,19 +154,6 @@
 
 	// get tableRelation
 	tableRelation('htoxxth');
-
-	// BEGIN datepicker init
-	$('#periode').datepicker({
-		setDate: new Date(),
-		autoclose: true,
-		todayHighlight: true,
-		clearBtn: true,
-		format: "dd M yyyy",
-		minViewMode: 'month' 
-	});
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
-	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-	// END datepicker init
 
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -248,6 +235,7 @@
 
 		edthtoxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edthtoxxth.on( 'preSubmit', function (e, data, action) {
@@ -275,9 +263,6 @@
 		});
 		
 		edthtoxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
 			tblhtoxxth.rows().deselect();
 			tblhtoxxth.ajax.reload(null, false);
 		} );
@@ -306,13 +291,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,4,5]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -368,13 +353,8 @@
 		} );
 		
 		tblhtoxxth.on( 'select', function( e, dt, type, indexes ) {
-			htoxxth_data = tblhtoxxth.row( { selected: true } ).data().htoxxth;
-			id_htoxxth   = htoxxth_data.id;
-			id_transaksi_h    = id_htoxxth;                                                // dipakai untuk general
-			id_transaksi_log  = id_htoxxth;                                                // dipakai untuk general
-			transaction_state = htoxxth_data.transaction_state;
-			approval_state    = htoxxth_data.approval_state;
-			is_nextprocess    = htoxxth_data.is_nextprocess;
+			// set variable standar framework
+			siVarSet('htoxxth');
 			tanggal    = htoxxth_data.tanggal;
 			
 			// atur hak akses
@@ -383,8 +363,8 @@
 		} );
 		
 		tblhtoxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_htoxxth = 0;
+			// reset variable standar framework
+			siVarReset('htoxxth');
 
 			// atur hak akses
 			tbl_details = [tblhtoemtd];
@@ -579,12 +559,13 @@
 
 		edthtoemtd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edthtoemtd.dependent( 'htoemtd.id_htotpmh', function ( val, data, callback ) {
-				get_htsxxmh();
-				return {}
-			}, {event: 'keyup change'});
+			get_htsxxmh();
+			return {}
+		}, {event: 'keyup change'});
 
 		edthtoemtd.dependent( 'htoemtd.id_hemxxmh', function ( val, data, callback ) {
 			get_htsxxmh();
@@ -670,10 +651,6 @@
 		});
 			
 		edthtoemtd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
-			
 			tblhtoemtd.ajax.reload(null, false);
 			tblhtoxxth.ajax.reload(null, false);
 		} );
@@ -767,32 +744,26 @@
 
 		tblhtoemtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhtoxxth, tblhtoemtd, 'htoemtd' );
+			CekDrawDetailHD( tblhtoemtd, 1 );
 			CekDrawDetailHDFinal(tblhtoxxth);
 		} );
 
 		tblhtoemtd.on( 'select', function( e, dt, type, indexes ) {
-			data_htoemtd = tblhtoemtd.row( { selected: true } ).data().htoemtd;
-			id_htoemtd   = data_htoemtd.id;
-			id_transaksi_d    = id_htoemtd;                                                // dipakai untuk general
-			id_transaksi_log  = id_htoemtd;                                                // dipakai untuk log
-
-			transaction_state_d   = data_htoemtd.transaction_state;
+			siVarSetD('htoemtd');
 			id_hemxxmh_old   = data_htoemtd.id_hemxxmh;
 			id_htotpmh_old   = data_htoemtd.id_htotpmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblhtoxxth, tblhtoemtd );
+			CekSelectDetailHD( tblhtoemtd );
 		} );
 
 		tblhtoemtd.on( 'deselect', function() {
-			id_htoemtd = 0;
+			siVarResetD('htoemtd');
 			id_hemxxmh_old = 0;
 			id_htotpmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblhtoxxth, tblhtoemtd );
+			CekDeselectDetailHD( tblhtoemtd );
 		} );
 		// END htoemtd
 
