@@ -1075,7 +1075,7 @@ function CekDrawDetailHDFinal(tbl_header){
     //  - transaction_state = 0 atau -1
     //  - approval_state = 0  
     //  - hak_c = 1
-    if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0 && arr_is_valid_cek_detail.includes(0) == false){
+    if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0 && arr_is_valid_cek_detail.length != 0 && arr_is_valid_cek_detail.includes(0) == false){
         final = 'Bisa Confirm';
         tbl_header.button( 'btnConfirm:name' )
             .nodes()
