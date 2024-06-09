@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -70,31 +71,10 @@
 		$editor
 			->where( 'hgtprth.transaction_state', -9,'<>');
 	}
-	
-	if ($_POST['status_approve'] == 0) {
-		$editor
-			->where( function ( $q ) {
-				$q->where( 'hgtprth.approval_state', '(0, -1)', 'IN', false);
-			} );
-	} else if($_POST['status_approve'] == 99) {
-		$editor
-			->where( function ( $q ) {
-				$q->where( 'hgtprth.approval_state', '(0, -1, -9, 1)', 'IN', false);
-			} );
-	} else {
-		$editor
-			->where( 'hgtprth.approval_state', $_POST['status_approve']);
-	}
 
-	if ( $_POST['start_date'] != null){
-		$editor
-			->where( 'hgtprth.tanggal', $_POST['start_date'], '>=');
-	}
-
-	if ( $_POST['end_date'] != null){
-		$editor
-			->where( 'hgtprth.tanggal', $_POST['end_date'], '<=');
-	}
+	$editor
+			->where( 'hgtprth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'hgtprth.tanggal', $_POST['end_date'], '<=' );
 
 	include( "hgtprth_extra.php" );
 
