@@ -1005,6 +1005,7 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
         CekBtnNoActionD(tbl_details[i]);
     }
     // END looping semua table detail
+    
 };
 
 /**
