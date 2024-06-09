@@ -345,7 +345,7 @@
 				approval_state   	= menus_extend_data.approval_state;
 				is_nextprocess 		= menus_extend_data.is_nextprocess;
 				
-				id_menus_old   = menus_data.id;
+				id_menus_old   = menus_data.parent;
 
 				// atur hak akses
 				CekSelectHeaderH(tblmenus);
