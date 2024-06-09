@@ -317,6 +317,7 @@
 		tblhgtprth.on( 'init', function () {
 			// atur hak akses
 			CekInitHeaderH(tblhgtprth);
+			tblhgtprth.button( 'btnGeneratePresensi:name' ).disable();
 		} );
 		
 		tblhgtprth.on( 'select', function( e, dt, type, indexes ) {
@@ -325,6 +326,7 @@
 			tanggal_select      		= hgtprth_data.tanggal;
 			// atur hak akses
 			CekSelectHeaderH(tblhgtprth);
+			tblhgtprth.button( 'btnGeneratePresensi:name' ).enable();
 		} );
 
 		tblhgtprth.on( 'deselect', function () {
@@ -334,6 +336,7 @@
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhgtprth);
+			tblhgtprth.button( 'btnGeneratePresensi:name' ).disable();
 		} );
 		
 		// BEGIN form filter
