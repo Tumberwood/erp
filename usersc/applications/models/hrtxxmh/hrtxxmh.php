@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -20,39 +21,39 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'htrxxmh' )
+	$editor = Editor::inst( $db, 'hrtxxmh' )
 		->debug(true)
 		->fields(
-			Field::inst( 'htrxxmh.id' ),
-			Field::inst( 'htrxxmh.kode' )
+			Field::inst( 'hrtxxmh.id' ),
+			Field::inst( 'hrtxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'htrxxmh.nama' )
+			Field::inst( 'hrtxxmh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'htrxxmh.keterangan' ),
-			Field::inst( 'htrxxmh.created_by' ),
-			Field::inst( 'htrxxmh.transaction_state' ),
-			Field::inst( 'htrxxmh.approval_state' ),
-			Field::inst( 'htrxxmh.start_at' ),
-			Field::inst( 'htrxxmh.finish_at' ),
-			Field::inst( 'htrxxmh.is_defaultprogram' ),
-			Field::inst( 'htrxxmh.is_nextprocess' )
+			Field::inst( 'hrtxxmh.keterangan' ),
+			Field::inst( 'hrtxxmh.created_by' ),
+			Field::inst( 'hrtxxmh.transaction_state' ),
+			Field::inst( 'hrtxxmh.approval_state' ),
+			Field::inst( 'hrtxxmh.start_at' ),
+			Field::inst( 'hrtxxmh.finish_at' ),
+			Field::inst( 'hrtxxmh.is_defaultprogram' ),
+			Field::inst( 'hrtxxmh.is_nextprocess' )
 		);
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_htrxxmh'] == 0){
+	if ( $_POST['show_deleted_hrtxxmh'] == 0){
 		$editor
-			->where( 'htrxxmh.transaction_state', -9, '<>');
+			->where( 'hrtxxmh.transaction_state', -9, '<>');
 	}
 	
-	include( "htrxxmh_extra.php" );
+	include( "hrtxxmh_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'htrxxmh';
+	$nama_table = 'hrtxxmh';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	

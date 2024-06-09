@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'htrxxmh';
+	$nama_tabel    = 'hrtxxmh';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,7 +17,7 @@
 		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblhtrxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblhrtxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -50,102 +50,102 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htrxxmh/fn/htrxxmh_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hrtxxmh/fn/hrtxxmh_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edthtrxxmh, tblhtrxxmh, show_deleted_htrxxmh = 0, id_htrxxmh;
+		var edthrtxxmh, tblhrtxxmh, show_deleted_hrtxxmh = 0, id_hrtxxmh;
 		// ------------- end of default variable
 		
 		// get tableRelation
-		tableRelation('htrxxmh');
+		tableRelation('hrtxxmh');
 
 		$(document).ready(function() {
-			// BEGIN htrxxmh
-			edthtrxxmh = new $.fn.dataTable.Editor( {
+			// BEGIN hrtxxmh
+			edthrtxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/htrxxmh/htrxxmh.php",
+					url: "../../models/hrtxxmh/hrtxxmh.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_htrxxmh = show_deleted_htrxxmh;
+						d.show_deleted_hrtxxmh = show_deleted_hrtxxmh;
 					}
 				},
-				table: "#tblhtrxxmh",
+				table: "#tblhrtxxmh",
 				fields: [ 
 					{
-						label: "htrxxmh.start_at",
-						name: "htrxxmh.start_at",
+						label: "hrtxxmh.start_at",
+						name: "hrtxxmh.start_at",
 						type: "hidden"
 					},	
 					{
-						label: "htrxxmh.finish_at",
-						name: "htrxxmh.finish_at",
+						label: "hrtxxmh.finish_at",
+						name: "hrtxxmh.finish_at",
 						type: "hidden"
 					},	
 					{
 						label: "nama_tabel",
 						name: "nama_tabel",
-						def: "htrxxmh",
+						def: "hrtxxmh",
 						type: "hidden"
 					},	
 					{
-						label: "htrxxmh.transaction_state",
-						name: "htrxxmh.transaction_state",
+						label: "hrtxxmh.transaction_state",
+						name: "hrtxxmh.transaction_state",
                         type: "hidden",
 						def: 0
 					},	
 					{
 						label: "Kode <sup class='text-danger'>*<sup>",
-						name: "htrxxmh.kode"
+						name: "hrtxxmh.kode"
 					}, 	
 					{
 						label: "Nama <sup class='text-danger'>*<sup>",
-						name: "htrxxmh.nama"
+						name: "hrtxxmh.nama"
 					}, 	
 					{
 						label: "Keterangan",
-						name: "htrxxmh.keterangan",
+						name: "hrtxxmh.keterangan",
 						type: "textarea"
 					}
 				]
 			} );
 
-			edthtrxxmh.on( 'preOpen', function( e, mode, action ) {
+			edthrtxxmh.on( 'preOpen', function( e, mode, action ) {
 				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthtrxxmh.field('htrxxmh.start_at').val(start_at);
+				edthrtxxmh.field('hrtxxmh.start_at').val(start_at);
 				
 				if(action == 'create'){
-					tblhtrxxmh.rows().deselect();
-					edthtrxxmh.field('htrxxmh.kode').enable();
-					edthtrxxmh.field('htrxxmh.nama').enable();
+					tblhrtxxmh.rows().deselect();
+					edthrtxxmh.field('hrtxxmh.kode').enable();
+					edthrtxxmh.field('hrtxxmh.nama').enable();
 				}else if(action == 'edit'){
 					if(transaction_state == 0){
-						edthtrxxmh.field('htrxxmh.kode').enable();
-						edthtrxxmh.field('htrxxmh.nama').enable();
+						edthrtxxmh.field('hrtxxmh.kode').enable();
+						edthrtxxmh.field('hrtxxmh.nama').enable();
 					}else{
-						edthtrxxmh.field('htrxxmh.kode').disable();
-						edthtrxxmh.field('htrxxmh.nama').disable();
+						edthrtxxmh.field('hrtxxmh.kode').disable();
+						edthrtxxmh.field('hrtxxmh.nama').disable();
 					}
 				}
 			});
 
-			edthtrxxmh.on("open", function (e, mode, action) {
+			edthrtxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
 
 				// enable disable tombol Save & Confirm
 				edtFormButtonSaveConfirm();
 			});
 
-            edthtrxxmh.on( 'preSubmit', function (e, data, action) {
+            edthrtxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					kode = edthtrxxmh.field('htrxxmh.kode').val();
-					nama = edthtrxxmh.field('htrxxmh.nama').val();
+					kode = edthrtxxmh.field('hrtxxmh.kode').val();
+					nama = edthrtxxmh.field('hrtxxmh.nama').val();
 
 					validasiRequired(
-						edthtrxxmh,
-						'htrxxmh',
+						edthrtxxmh,
+						'hrtxxmh',
 						{
 							'kode': kode,
 							'nama': nama
@@ -154,49 +154,49 @@
 
 					validasiUnique(
 						action,
-						edthtrxxmh,
-						'htrxxmh',
+						edthrtxxmh,
+						'hrtxxmh',
 						'kode',
 						'kode',
 						'"'+kode+'"',
-						id_htrxxmh
+						id_hrtxxmh
 					);
 
 					validasiUnique(
 						action,
-						edthtrxxmh,
-						'htrxxmh',
+						edthrtxxmh,
+						'hrtxxmh',
 						'nama',
 						'nama',
 						'"'+nama+'"',
-						id_htrxxmh
+						id_hrtxxmh
 					);
 				}
 				
-				if ( edthtrxxmh.inError() ) {
+				if ( edthrtxxmh.inError() ) {
 					return false;
 				}
 			});
 			
-			edthtrxxmh.on('initSubmit', function(e, action) {
+			edthrtxxmh.on('initSubmit', function(e, action) {
 				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthtrxxmh.field('htrxxmh.finish_at').val(finish_at);
+				edthrtxxmh.field('hrtxxmh.finish_at').val(finish_at);
 			});
 
-			edthtrxxmh.on( 'close', function () {
-				edthtrxxmh.enable();
+			edthrtxxmh.on( 'close', function () {
+				edthrtxxmh.enable();
 			} );
 
-			tblhtrxxmh = $('#tblhtrxxmh').DataTable( {
+			tblhrtxxmh = $('#tblhrtxxmh').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/htrxxmh/htrxxmh.php",
+					url: "../../models/hrtxxmh/hrtxxmh.php",
 					type: 'POST',
 					data: function (d){
-						d.show_deleted_htrxxmh = show_deleted_htrxxmh;
+						d.show_deleted_hrtxxmh = show_deleted_hrtxxmh;
 					}
 				},
 				order: [[ 1, "asc" ]],
@@ -215,22 +215,22 @@
 					}
 				],
 				columns: [
-					{ data: "htrxxmh.id",visible:false },
-					{ data: "htrxxmh.kode" },
-					{ data: "htrxxmh.nama" },
-					{ data: "htrxxmh.keterangan" },
+					{ data: "hrtxxmh.id",visible:false },
+					{ data: "hrtxxmh.kode" },
+					{ data: "hrtxxmh.nama" },
+					{ data: "hrtxxmh.keterangan" },
 					{ 
-						data: "htrxxmh.transaction_state" ,
+						data: "hrtxxmh.transaction_state" ,
 						...renderTransactionStatus()
 					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
 					<?php
-						$id_table    = 'id_htrxxmh';
-						$table       = 'tblhtrxxmh';
-						$edt         = 'edthtrxxmh';
-						$show_status = '_htrxxmh';
+						$id_table    = 'id_hrtxxmh';
+						$table       = 'tblhrtxxmh';
+						$edt         = 'edthrtxxmh';
+						$show_status = '_hrtxxmh';
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -244,39 +244,39 @@
 					this.api().searchPanes.rebuildPane();
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.htrxxmh.transaction_state == -9 ) {
+					if ( data.hrtxxmh.transaction_state == -9 ) {
 						$('td', row).addClass('text-danger');
-					}else if ( data.htrxxmh.transaction_state == 0 ) {
+					}else if ( data.hrtxxmh.transaction_state == 0 ) {
 						$('td', row).addClass('text-warning');
 					}
 				}
 			} );
 
-			tblhtrxxmh.searchPanes.container().appendTo('#sphtrxxmh');
-			tblhtrxxmh.searchBuilder.container().appendTo( '#sbhtrxxmh' );
+			tblhrtxxmh.searchPanes.container().appendTo('#sphrtxxmh');
+			tblhrtxxmh.searchBuilder.container().appendTo( '#sbhrtxxmh' );
 			
-			tblhtrxxmh.on( 'init', function () {
+			tblhrtxxmh.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tblhtrxxmh);
+				CekInitHeaderH(tblhrtxxmh);
 			} );
 			
-			tblhtrxxmh.on( 'select', function( e, dt, type, indexes ) {
+			tblhrtxxmh.on( 'select', function( e, dt, type, indexes ) {
 				// set variable standar framework
-				siVarSet('htrxxmh');
+				siVarSet('hrtxxmh');
 
 				// atur hak akses
-				CekSelectHeaderH(tblhtrxxmh);
+				CekSelectHeaderH(tblhrtxxmh);
 			} );
 
-			tblhtrxxmh.on( 'deselect', function () {
+			tblhrtxxmh.on( 'deselect', function () {
 				// reset variable standar framework
-				siVarReset('htrxxmh');
+				siVarReset('hrtxxmh');
 
 				// atur hak akses
-				CekDeselectHeaderH(tblhtrxxmh);
+				CekDeselectHeaderH(tblhrtxxmh);
 			} );
 
-			// END htrxxmh
+			// END hrtxxmh
 			
 		} );// end of document.ready
 	
