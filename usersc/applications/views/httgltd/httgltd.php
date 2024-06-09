@@ -82,7 +82,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/httgltd/fn/httgltd_fn.php'; ?>
@@ -102,7 +102,6 @@
 
 	//ini untuk single
 	var rowId = <?php echo $rowId; ?>;
-	// console.log(rowId);
 
 	// get tableRelation
 	tableRelation('httgltd');
@@ -181,9 +180,8 @@
 
 		edthttgltd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
-
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edthttgltd.on( 'preSubmit', function (e, data, action) {
@@ -299,7 +297,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -323,8 +321,6 @@
 			// atur hak akses
 			tbl_details = [tblhttgltd_d];
 			CekInitHeaderHD(tblhttgltd, tbl_details);
-
-			tblhttgltd_d.button( 'btnCopyFrom:name' ).disable();
 		} );
 		
 		tblhttgltd.on( 'select', function( e, dt, type, indexes ) {
@@ -340,8 +336,6 @@
 			// atur hak akses
 			tbl_details = [tblhttgltd_d];
 			CekSelectHeaderHD(tblhttgltd, tbl_details);
-
-			tblhttgltd_d.button( 'btnCopyFrom:name' ).enable();
 		} );
 		
 		tblhttgltd.on( 'deselect', function () {
@@ -352,8 +346,6 @@
 			// atur hak akses
 			tbl_details = [tblhttgltd_d];
 			CekDeselectHeaderHD(tblhttgltd, tbl_details);
-
-			tblhttgltd_d.button( 'btnCopyFrom:name' ).disable();
 		} );
 
 		// END httgltd
@@ -480,14 +472,11 @@
 
 		edthttgltd_d.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
-
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 
 		edthttgltd_d.dependent( 'httgltd_d.jenis', function ( val, data, callback ) {
-			console.log(val);
 			if (val !== '') {
 				edthttgltd_d.field('httgltd_d.id_transaksi').show();
 				var opt_custom;
@@ -579,9 +568,7 @@
 			if (val > 0) {
 				nama_tabel  = edthttgltd_d.field('httgltd_d.nama_tabel').val();
 				autofillField(nama_tabel, val, 'nama')
-				console.log(nama_tabel);
 				nama = autofillData.nama;
-				console.log('nama = ' +nama);
 				edthttgltd_d.field('httgltd_d.nama').val(nama);
 			}
 			return {}
@@ -637,12 +624,8 @@
 			columns: [
 				{ data: "httgltd_d.id",visible:false },
 				{ data: "httgltd_d.id_httgltd",visible:false },
-				{ 
-					data: "httgltd_d.jenis"
-				},
-				{ 
-					data: "httgltd_d.nama"
-				},
+				{ data: "httgltd_d.jenis" },
+				{ data: "httgltd_d.nama" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -668,8 +651,7 @@
 
 		tblhttgltd_d.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhttgltd, tblhttgltd_d, 'httgltd_d' );
+			CekDrawDetailHD( tblhttgltd_d, 1 );
 			CekDrawDetailHDFinal(tblhttgltd);
 
 		} );
@@ -681,7 +663,7 @@
 			is_default_old      = httgltd_d_data.is_default;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblhttgltd, tblhttgltd_d );
+			CekSelectDetailHD( tblhttgltd_d );
 
 		} );
 
@@ -692,7 +674,7 @@
 			id_transaksi_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblhttgltd, tblhttgltd_d );
+			CekDeselectDetailHD( tblhttgltd_d );
 
 		} );
 
