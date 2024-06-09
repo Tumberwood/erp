@@ -302,8 +302,6 @@
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 						$arr_buttons_tools2 	= ['sp', 'sb'];
 						$arr_buttons_action 	= [];
-						// $arr_buttons_approve 	= ['approve', 'cancel_approve', 'void','noapprove'];
-						$arr_buttons_approve 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 				],

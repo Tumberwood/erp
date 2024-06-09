@@ -148,7 +148,6 @@
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
 					$arr_buttons_action 	= [];
-					$arr_buttons_approve 	= ['approve', 'cancel_approve', 'void','noapprove'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -426,7 +425,6 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
-					$arr_buttons_approve 	= ['noapprove'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
