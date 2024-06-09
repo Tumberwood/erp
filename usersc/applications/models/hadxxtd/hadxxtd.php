@@ -94,9 +94,11 @@
 				->setFormatter( 'Format::datetime', array(
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
-				) ),
+				) ),			
 
-			Field::inst( 'concat(hemxxmh.kode," - ", hemxxmh.nama) as hemxxmh_data' ),
+			Field::inst( 'hemxxmh.kode' ),
+			Field::inst( 'hemxxmh.nama' ),
+
 			Field::inst( 'hodxxmh.nama' ),
 			Field::inst( 'hetxxmh.nama' ),
 

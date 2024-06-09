@@ -17,18 +17,18 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblhadxxtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblhadxxtd" class="table table-striped table-bordered table-hover" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Kode</th>
+                                <th>NRP</th>
                                 <th>Nama</th>
                                 <th>Department</th>
                                 <th>Jabatan</th>
                                 <th>Jenis</th>
                                 <th>Pelanggaran</th>
                                 <th>Tanggal Berlaku</th>
-                                <th>Keterangan</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -70,7 +70,7 @@
 	// get tableRelation
 	tableRelation('hadxxtd');
 	
-	var id_hemxxmh_old = 0, id_havxxmh_old =0, id_hadxxmh_old = 0;
+	var id_hemxxmh_old = 0, id_havxxmh_old = 0, id_hadxxmh_old = 0;
 	var id_hadxxmh_saran = 0;
 	
 	$(document).ready(function() {
@@ -376,13 +376,13 @@
 			columns: [
 				{ data: "hadxxtd.id",visible:false },
 				{ data: "hadxxtd.kode" },
-				{ data: "hemxxmh_data" },
+				{ data: "hemxxmh.kode" },
+				{ data: "hemxxmh.nama" },
 				{ data: "hodxxmh.nama" },
 				{ data: "hetxxmh.nama" },
 				{ data: "hadxxmh.nama" },
-				{ data: "hadxxtd.nama" },
+				{ data: "havxxmh.nama" },
 				{ data: "hadxxtd.tanggal_awal" },
-				{ data: "hadxxtd.keterangan" },
 				{ 
 					data: "hadxxtd.transaction_state" ,
 					...renderTransactionStatus()
@@ -428,6 +428,7 @@
 			// set variable standar framework
 			siVarSet('hadxxtd');
 			id_hadxxmh_old    		= hadxxtd_data.id_hadxxmh;
+			id_havxxmh_old    		= hadxxtd_data.id_havxxmh;
 			id_hemxxmh_old    		= hadxxtd_data.id_hemxxmh;
 
 			// atur hak akses
@@ -437,8 +438,7 @@
 		tblhadxxtd.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hadxxtd');
-			id_hadxxmh_old = 0;
-			id_hemxxmh_old = 0;
+			id_hadxxmh_old = 0, id_havxxmh_old = 0, id_hemxxmh_old = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhadxxtd);
