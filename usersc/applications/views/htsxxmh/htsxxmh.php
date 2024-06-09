@@ -61,7 +61,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htsxxmh/fn/htsxxmh_fn.php'; ?>
 
@@ -182,11 +182,23 @@
 				
 				if(action == 'create'){
 					tblhtsxxmh.rows().deselect();
+				}else if(action == 'edit'){
+					
+					if(transaction_state == 0){
+						edthtsxxmh.field('htsxxmh.kode').enable();
+						edthtsxxmh.field('htsxxmh.nama').enable();
+					}else{
+						edthtsxxmh.field('htsxxmh.kode').disable();
+						edthtsxxmh.field('htsxxmh.nama').disable();
+					}
 				}
 			});
 
 			edthtsxxmh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edthtsxxmh.on( 'preSubmit', function (e, data, action) {
@@ -267,7 +279,7 @@
 						searchPanes:{
 							show: false,
 						},
-						targets: [0]
+						targets: [0,4,5,6,7,8,9,10,11]
 					}
 				],
 				columns: [
@@ -336,21 +348,16 @@
 			} );
 			
 			tblhtsxxmh.on( 'select', function( e, dt, type, indexes ) {
-				htsxxmh_data    		= tblhtsxxmh.row( { selected: true } ).data().htsxxmh;
-				id_htsxxmh      		= htsxxmh_data.id;
-				id_transaksi_h 		= id_htsxxmh; // dipakai untuk general
-				id_transaksi_log	= id_htsxxmh; // dipakai untuk general
-				transaction_state   = htsxxmh_data.transaction_state;
-				approval_state   	= htsxxmh_data.approval_state;
-				is_nextprocess 		= htsxxmh_data.is_nextprocess;
+				// set variable standar framework
+				siVarSet('htsxxmh');
 
 				// atur hak akses
 				CekSelectHeaderH(tblhtsxxmh);
 			} );
 
 			tblhtsxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_htsxxmh = 0;
+				// reset variable standar framework
+				siVarReset('htsxxmh');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhtsxxmh);
