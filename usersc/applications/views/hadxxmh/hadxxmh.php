@@ -49,251 +49,248 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hadxxmh/fn/hadxxmh_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
-		// ------------- default variable, do not erase
-		var edthadxxmh, tblhadxxmh, show_deleted_hadxxmh = 0, id_hadxxmh;
-		// ------------- end of default variable
-		
-		// get tableRelation
-		tableRelation('hadxxmh');
+	// ------------- default variable, do not erase
+	var edthadxxmh, tblhadxxmh, show_deleted_hadxxmh = 0, id_hadxxmh;
+	// ------------- end of default variable
+	
+	// get tableRelation
+	tableRelation('hadxxmh');
 
-		$(document).ready(function() {
-			// BEGIN hadxxmh
-			edthadxxmh = new $.fn.dataTable.Editor( {
-				ajax: {
-					url: "../../models/hadxxmh/hadxxmh.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_hadxxmh = show_deleted_hadxxmh;
-					}
-				},
-				table: "#tblhadxxmh",
-				fields: [ 
-					{
-						label: "hadxxmh.start_at",
-						name: "hadxxmh.start_at",
-						type: "hidden"
-					},	
-					{
-						label: "hadxxmh.finish_at",
-						name: "hadxxmh.finish_at",
-						type: "hidden"
-					},	
-					{
-						label: "nama_tabel",
-						name: "nama_tabel",
-						def: "hadxxmh",
-						type: "hidden"
-					},	
-					{
-						label: "hadxxmh.transaction_state",
-						name: "hadxxmh.transaction_state",
-                        type: "hidden",
-						def: 0
-					},	
-					{
-						label: "Kode <sup class='text-danger'>*<sup>",
-						name: "hadxxmh.kode"
-					}, 	
-					{
-						label: "Nama <sup class='text-danger'>*<sup>",
-						name: "hadxxmh.nama"
-					}, 	
-					{
-						label: "Masa Berlaku (Hari) <sup class='text-danger'>*<sup>",
-						name: "hadxxmh.masa_berlaku_hari"
-					}, 	
-					{
-						label: "Keterangan",
-						name: "hadxxmh.keterangan",
-						type: "textarea"
-					}
-				]
-			} );
+	$(document).ready(function() {
+		// BEGIN hadxxmh
+		edthadxxmh = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/hadxxmh/hadxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_hadxxmh = show_deleted_hadxxmh;
+				}
+			},
+			table: "#tblhadxxmh",
+			fields: [ 
+				{
+					label: "hadxxmh.start_at",
+					name: "hadxxmh.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "hadxxmh.finish_at",
+					name: "hadxxmh.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "hadxxmh",
+					type: "hidden"
+				},	
+				{
+					label: "hadxxmh.transaction_state",
+					name: "hadxxmh.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "Kode <sup class='text-danger'>*<sup>",
+					name: "hadxxmh.kode"
+				}, 	
+				{
+					label: "Nama <sup class='text-danger'>*<sup>",
+					name: "hadxxmh.nama"
+				}, 	
+				{
+					label: "Masa Berlaku (Hari) <sup class='text-danger'>*<sup>",
+					name: "hadxxmh.masa_berlaku_hari"
+				}, 	
+				{
+					label: "Keterangan",
+					name: "hadxxmh.keterangan",
+					type: "textarea"
+				}
+			]
+		} );
 
-			edthadxxmh.on( 'preOpen', function( e, mode, action ) {
-				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthadxxmh.field('hadxxmh.start_at').val(start_at);
-				
-				if(action == 'create'){
-					tblhadxxmh.rows().deselect();
+		edthadxxmh.on( 'preOpen', function( e, mode, action ) {
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edthadxxmh.field('hadxxmh.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblhadxxmh.rows().deselect();
+				edthadxxmh.field('hadxxmh.kode').enable();
+				edthadxxmh.field('hadxxmh.nama').enable();
+			}else if(action == 'edit'){
+				if(transaction_state == 0){
 					edthadxxmh.field('hadxxmh.kode').enable();
 					edthadxxmh.field('hadxxmh.nama').enable();
-				}else if(action == 'edit'){
-					if(transaction_state == 0){
-						edthadxxmh.field('hadxxmh.kode').enable();
-						edthadxxmh.field('hadxxmh.nama').enable();
-					}else{
-						edthadxxmh.field('hadxxmh.kode').disable();
-						edthadxxmh.field('hadxxmh.nama').disable();
-					}
+				}else{
+					edthadxxmh.field('hadxxmh.kode').disable();
+					edthadxxmh.field('hadxxmh.nama').disable();
 				}
-			});
+			}
+		});
 
-			edthadxxmh.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
-			});
+		edthadxxmh.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
+		});
 
-            edthadxxmh.on( 'preSubmit', function (e, data, action) {
-				if(action != 'remove'){
+		edthadxxmh.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
 
-					kode = edthadxxmh.field('hadxxmh.kode').val();
-					nama = edthadxxmh.field('hadxxmh.nama').val();
-					masa_berlaku_hari = edthadxxmh.field('hadxxmh.masa_berlaku_hari').val();
+				kode = edthadxxmh.field('hadxxmh.kode').val();
+				nama = edthadxxmh.field('hadxxmh.nama').val();
+				masa_berlaku_hari = edthadxxmh.field('hadxxmh.masa_berlaku_hari').val();
 
-					validasiRequired(
-						edthadxxmh,
-						'hadxxmh',
-						{
-							'kode': kode,
-							'nama': nama,
-							'masa_berlaku_hari': masa_berlaku_hari,
-						}
-					);
-
-					validasiUnique(
-						action,
-						edthadxxmh,
-						'hadxxmh',
-						'kode',
-						'kode',
-						'"'+kode+'"',
-						id_hadxxmh
-					);
-
-					validasiUnique(
-						action,
-						edthadxxmh,
-						'hadxxmh',
-						'nama',
-						'nama',
-						'"'+nama+'"',
-						id_hadxxmh
-					);
-				}
-				
-				if ( edthadxxmh.inError() ) {
-					return false;
-				}
-			});
-			
-			edthadxxmh.on('initSubmit', function(e, action) {
-				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthadxxmh.field('hadxxmh.finish_at').val(finish_at);
-			});
-
-			edthadxxmh.on( 'close', function () {
-				edthadxxmh.enable();
-			} );
-
-			tblhadxxmh = $('#tblhadxxmh').DataTable( {
-				dom: domPQ,
-				searchPanes:{
-					layout: 'columns-4',
-				},
-				ajax: {
-					url: "../../models/hadxxmh/hadxxmh.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_hadxxmh = show_deleted_hadxxmh;
-					}
-				},
-				order: [[ 1, "asc" ]],
-				columnDefs:[
+				validasiRequired(
+					edthadxxmh,
+					'hadxxmh',
 					{
-						searchPanes:{
-							show: true,
-						},
-						targets: [1,2,3]
-					},
-					{
-						searchPanes:{
-							show: false,
-						},
-						targets: [0]
+						'kode': kode,
+						'nama': nama,
+						'masa_berlaku_hari': masa_berlaku_hari,
 					}
-				],
-				columns: [
-					{ data: "hadxxmh.id",visible:false },
-					{ data: "hadxxmh.kode" },
-					{ data: "hadxxmh.nama" },
-					{ 
-						data: "hadxxmh.masa_berlaku_hari" ,
-						...renderNumber()
-					},
-					{ data: "hadxxmh.keterangan" },
-					{ 
-						data: "hadxxmh.transaction_state" ,
-						...renderTransactionStatus()
-					}
-				],
-				buttons: [
-					// BEGIN breaking generate button
-					<?php
-						$id_table    = 'id_hadxxmh';
-						$table       = 'tblhadxxmh';
-						$edt         = 'edthadxxmh';
-						$show_status = '_hadxxmh';
-						$table_name  = $nama_tabel;
+				);
 
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
-						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
-						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-					?>
-					// END breaking generate button
-				],
-				initComplete: function() {
-					this.api().searchPanes.rebuildPane();
-				},
-				rowCallback: function( row, data, index ) {
-					if ( data.hadxxmh.transaction_state == -9 ) {
-						$('td', row).addClass('text-danger');
-					}else if ( data.hadxxmh.transaction_state == 0 ) {
-						$('td', row).addClass('text-warning');
-					}
+				validasiUnique(
+					action,
+					edthadxxmh,
+					'hadxxmh',
+					'kode',
+					'kode',
+					'"'+kode+'"',
+					id_hadxxmh
+				);
+
+				validasiUnique(
+					action,
+					edthadxxmh,
+					'hadxxmh',
+					'nama',
+					'nama',
+					'"'+nama+'"',
+					id_hadxxmh
+				);
+			}
+			
+			if ( edthadxxmh.inError() ) {
+				return false;
+			}
+		});
+		
+		edthadxxmh.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edthadxxmh.field('hadxxmh.finish_at').val(finish_at);
+		});
+
+		edthadxxmh.on( 'close', function () {
+			edthadxxmh.enable();
+		} );
+
+		tblhadxxmh = $('#tblhadxxmh').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-4',
+			},
+			ajax: {
+				url: "../../models/hadxxmh/hadxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_hadxxmh = show_deleted_hadxxmh;
 				}
-			} );
+			},
+			order: [[ 1, "asc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [1,2,5]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: '_all'
+				}
+			],
+			columns: [
+				{ data: "hadxxmh.id",visible:false },
+				{ data: "hadxxmh.kode" },
+				{ data: "hadxxmh.nama" },
+				{ 
+					data: "hadxxmh.masa_berlaku_hari" ,
+					...renderNumber()
+				},
+				{ data: "hadxxmh.keterangan" },
+				{ 
+					data: "hadxxmh.transaction_state" ,
+					...renderTransactionStatus()
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_hadxxmh';
+					$table       = 'tblhadxxmh';
+					$edt         = 'edthadxxmh';
+					$show_status = '_hadxxmh';
+					$table_name  = $nama_tabel;
 
-			tblhadxxmh.searchPanes.container().appendTo('#sphadxxmh');
-			tblhadxxmh.searchBuilder.container().appendTo( '#sbhadxxmh' );
-			
-			tblhadxxmh.on( 'init', function () {
-				// atur hak akses
-				CekInitHeaderH(tblhadxxmh);
-			} );
-			
-			tblhadxxmh.on( 'select', function( e, dt, type, indexes ) {
-				hadxxmh_data    		= tblhadxxmh.row( { selected: true } ).data().hadxxmh;
-				id_hadxxmh      		= hadxxmh_data.id;
-				id_transaksi_h 		= id_hadxxmh; // dipakai untuk general
-				id_transaksi_log	= id_hadxxmh; // dipakai untuk general
-				transaction_state   = hadxxmh_data.transaction_state;
-				approval_state   	= hadxxmh_data.approval_state;
-				is_nextprocess 		= hadxxmh_data.is_nextprocess;
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+				if ( data.hadxxmh.transaction_state == -9 ) {
+					$('td', row).addClass('text-danger');
+				}else if ( data.hadxxmh.transaction_state == 0 ) {
+					$('td', row).addClass('text-warning');
+				}
+			}
+		} );
 
-				// atur hak akses
-				CekSelectHeaderH(tblhadxxmh);
-			} );
+		tblhadxxmh.searchPanes.container().appendTo('#sphadxxmh');
+		tblhadxxmh.searchBuilder.container().appendTo( '#sbhadxxmh' );
+		
+		tblhadxxmh.on( 'init', function () {
+			// atur hak akses
+			CekInitHeaderH(tblhadxxmh);
+		} );
+		
+		tblhadxxmh.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSet('hadxxmh');
 
-			tblhadxxmh.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_hadxxmh = 0;
+			// atur hak akses
+			CekSelectHeaderH(tblhadxxmh);
+		} );
 
-				// atur hak akses
-				CekDeselectHeaderH(tblhadxxmh);
-			} );
+		tblhadxxmh.on( 'deselect', function () {
+			// reset variable standar framework
+			siVarReset('hadxxmh');
 
-			// END hadxxmh
-			
-		} );// end of document.ready
-	
-	</script>
+			// atur hak akses
+			CekDeselectHeaderH(tblhadxxmh);
+		} );
+
+		// END hadxxmh
+		
+	} );// end of document.ready
+
+</script>
 
 <!-- END javascript here -->
 
