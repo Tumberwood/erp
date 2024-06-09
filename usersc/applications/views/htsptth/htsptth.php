@@ -14,7 +14,7 @@
 ?>
 
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
@@ -24,8 +24,8 @@
                                 <th>ID</th>
                                 <th>Nama</th>
                                 <th>Jumlah Grup</th>
-                                <th>Keterangan</th>
                                 <th>Tukar Jadwal</th>
+                                <th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabhtststd"> Shift</a></li>
@@ -99,7 +99,8 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htsptth/fn/htsptth_fn.php'; ?>
 
@@ -119,7 +120,8 @@
 	var jumlah_grup;
 
 	$(document).ready(function() {
-		//start datatables editor
+		
+		// BEGIN htsptth
 		edthtsptth = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/htsptth/htsptth.php",
@@ -198,7 +200,8 @@
 		});
 
 		edthtsptth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-xl");
+			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edthtsptth.on( 'preSubmit', function (e, data, action) {
@@ -269,7 +272,6 @@
 			edthtsptth.enable();
 		} );
 		
-		//start datatables
 		tblhtsptth = $('#tblhtsptth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -307,7 +309,6 @@
 					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
 					class: "text-right"
 				},
-				{ data: "htsptth.keterangan" },
 				{ 
 					data: "htsptth.is_tukar",
 					render: function (data){
@@ -317,6 +318,10 @@
 							return 'Ya';
 						}
 					} 
+				},
+				{ 
+					data: "htsptth.transaction_state" ,
+					...renderTransactionStatus()
 				}
 			],
 			buttons: [
@@ -350,7 +355,7 @@
 		} );
 
 		tblhtsptth.searchPanes.container().appendTo('#sphtsptth');
-			tblhtsptth.searchBuilder.container().appendTo( '#sbhtsptth' );
+		tblhtsptth.searchBuilder.container().appendTo( '#sbhtsptth' );
 		
 		tblhtsptth.on( 'init', function () {
 			// atur hak akses
@@ -359,15 +364,7 @@
 		} );
 		
 		tblhtsptth.on( 'select', function( e, dt, type, indexes ) {
-			htsptth_data    		= tblhtsptth.row( { selected: true } ).data().htsptth;
-			id_htsptth      		= htsptth_data.id;
-			id_transaksi_h 		= id_htsptth; // dipakai untuk general
-			id_transaksi_log	= id_htsptth; // dipakai untuk general
-			transaction_state   = htsptth_data.transaction_state;
-			approval_state   	= htsptth_data.approval_state;
-			is_nextprocess 		= htsptth_data.is_nextprocess;
-			is_jurnal      		= htsptth_data.is_jurnal;
-			
+			siVarSet('htsptth');			
 			jumlah_grup = htsptth_data.jumlah_grup;
 			
 			// atur hak akses
@@ -377,17 +374,16 @@
 		} );
 		
 		tblhtsptth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_htsptth = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
-			id_fcrxxmh_old = 0;
+			siVarReset('htsptth');
+			id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
 			// atur hak akses
 			tbl_details = [tblhtststd, tblhtsemtd];
 			CekDeselectHeaderHD(tblhtsptth, tbl_details);
 		} );
 		
-// --------- start _detail --------------- //
+		// END htsptth
 
-		//start datatables editor
+		// BEGIN htststd
 		edthtststd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/htsptth/htststd.php",
@@ -494,6 +490,7 @@
 
 		edthtststd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edthtststd.on( 'preSubmit', function (e, data, action) {
@@ -627,39 +624,29 @@
 
 		tblhtststd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhtsptth, tblhtststd, 'htststd' );
+			CekDrawDetailHD( tblhtststd, 1 );
 			CekDrawDetailHDFinal(tblhtsptth);
 		} );
 
 		tblhtststd.on( 'select', function( e, dt, type, indexes ) {
-			data_htststd 		= tblhtststd.row( { selected: true } ).data().htststd;
-			id_htststd   		= data_htststd.id;
-			id_transaksi_d 		= id_htststd; // dipakai untuk general
-			id_transaksi_log 	= id_htststd; // dipakai untuk log
-
-			transaction_state_d   = data_htststd.transaction_state;
-			
+			siVarSetD('htststd');			
 			id_htsxxmh_old = data_htststd.id_htsxxmh;
-			
-			// atur hak akses
-			CekSelectDetailHD(tblhtsptth, tblhtststd );
+
+			CekSelectDetailHD( tblhtststd );
 		} );
 
 		tblhtststd.on( 'deselect', function() {
-			id_htststd = 0;
-			is_active_d = 0;
+			siVarResetD('htststd');
 			id_htsxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblhtsptth, tblhtststd );
+			CekDeselectDetailHD( tblhtststd );
+			
 		} );
 
-// --------- end _detail --------------- //		
+		// END htststd
 		
-// --------- start _detail --------------- //
-
-		//start datatables editor
+		// BEGIN htsemtd
 		edthtsemtd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/htsptth/htsemtd.php",
@@ -672,7 +659,7 @@
 			table: "#tblhtsemtd",
 			formOptions: {
 				main: {
-					focus: 3
+					focus: 5
 				}
 			},
 			fields: [ 
@@ -762,6 +749,7 @@
 
 		edthtsemtd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edthtsemtd.on( 'preSubmit', function (e, data, action) {
@@ -811,7 +799,6 @@
 			edthtsemtd.enable();
 		} );
 		
-		//start datatables
 		tblhtsemtd = $('#tblhtsemtd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -878,35 +865,30 @@
 
 		tblhtsemtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhtsptth, tblhtsemtd, 'htsemtd' );
+			CekDrawDetailHD( tblhtsemtd, 1 );
 			CekDrawDetailHDFinal(tblhtsptth);
+
 		} );
 
 		tblhtsemtd.on( 'select', function( e, dt, type, indexes ) {
-			data_htsemtd 		= tblhtsemtd.row( { selected: true } ).data().htsemtd;
-			id_htsemtd   		= data_htsemtd.id;
-			id_transaksi_d 		= id_htsemtd; // dipakai untuk general
-			id_transaksi_log 	= id_htsemtd; // dipakai untuk log
-
-			transaction_state_d   = data_htsemtd.transaction_state;
-			
+			siVarSetD('htsemtd');			
 			id_hemxxmh_old = data_htsemtd.id_hemxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblhtsptth, tblhtsemtd );
+			CekSelectDetailHD( tblhtsemtd );
 		} );
 
 		tblhtsemtd.on( 'deselect', function() {
-			id_htsemtd = 0;
-			is_active_d = 0;
+			siVarResetD('htsemtd');
 			id_hemxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblhtsptth, tblhtsemtd );
+			CekDeselectDetailHD( tblhtsemtd );
 		} );
 
-// --------- end _detail --------------- //		
+		// END htsemtd
+
+		
 	} );// end of document.ready
 	
 </script>
