@@ -23,7 +23,6 @@
                                 <th>ID</th>
                                 <th>Pelanggaran</th>
                                 <th>Saran Tindakan</th>
-                                <th>Keterangan</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -228,7 +227,6 @@
 					{ data: "havxxmh.id",visible:false },
 					{ data: "havxxmh.nama" },
 					{ data: "hadxxmh.nama" },
-					{ data: "havxxmh.keterangan" },
 					{ 
 						data: "havxxmh.transaction_state" ,
 						...renderTransactionStatus()
