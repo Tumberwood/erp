@@ -131,7 +131,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htscdtd_h/fn/htscdtd_h_fn.php'; ?>
 
@@ -226,7 +226,7 @@
 					}
 				},
 				{
-					label: "Tanggal Merah<sup class='text-danger'>*<sup>",
+					label: "Tanggal <sup class='text-danger'>*<sup>",
 					name: "htscdtd_h.tanggal_terpilih",
 					type: "datetime",
 					def: function () { 
@@ -237,7 +237,7 @@
 					},
 					format: 'DD MMM YYYY'
 				}, 	{
-					label: "Tukar Dengan Tanggal<sup class='text-danger'>*<sup>",
+					label: "Tukar Dengan Tanggal <sup class='text-danger'>*<sup>",
 					name: "htscdtd_h.tanggal_pengganti",
 					type: "datetime",
 					def: function () { 
@@ -266,6 +266,7 @@
 
 		edthtscdtd_h.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edthtscdtd_h.on( 'preSubmit', function (e, data, action) {
@@ -507,6 +508,7 @@
 
 		edthtscdtd_peg.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edthtscdtd_peg.on( 'preSubmit', function (e, data, action) {
@@ -596,8 +598,7 @@
 
 		tblhtscdtd_peg.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhtscdtd_h, tblhtscdtd_peg, 'htscdtd_peg' );
+			CekDrawDetailHD( tblhtscdtd_peg, 1 );
 			CekDrawDetailHDFinal(tblhtscdtd_h);
 		} );
 
@@ -607,7 +608,7 @@
 			id_hemxxmh_old 		= htscdtd_peg_data.id_hemxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblhtscdtd_h, tblhtscdtd_peg );
+			CekSelectDetailHD( tblhtscdtd_peg );
 		} );
 
 		tblhtscdtd_peg.on( 'deselect', function() {
@@ -616,7 +617,7 @@
 			id_hemxxmh_old = 0;
 
 			// atur hak akses
-			CekDeselectDetailHD(tblhtscdtd_h, tblhtscdtd_peg );
+			CekDeselectDetailHD( tblhtscdtd_peg );
 		} );
 		// END htscdtd_peg
 
