@@ -80,7 +80,7 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hemxxmh/fn/hemxxmh_fn.php'; ?>
 
@@ -98,7 +98,8 @@
 	var id_hpcxxmh_old = 0;
 
 	$(document).ready(function() {
-		//start datatables
+		// BEGIN hemxxmh
+
 		tblhemxxmh = $('#tblhemxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -165,7 +166,7 @@
 		} );
 
 		tblhemxxmh.searchPanes.container().appendTo('#sphemxxmh');
-			tblhemxxmh.searchBuilder.container().appendTo( '#sbhemxxmh' );
+		tblhemxxmh.searchBuilder.container().appendTo( '#sbhemxxmh' );
 		
 		tblhemxxmh.on( 'init', function () {
 			// atur hak akses
@@ -174,14 +175,7 @@
 		} );
 		
 		tblhemxxmh.on( 'select', function( e, dt, type, indexes ) {
-			hemxxmh_data    		= tblhemxxmh.row( { selected: true } ).data().hemxxmh;
-			id_hemxxmh      		= hemxxmh_data.id;
-			id_transaksi_h 		= id_hemxxmh; // dipakai untuk general
-			id_transaksi_log	= id_hemxxmh; // dipakai untuk general
-			transaction_state   = hemxxmh_data.transaction_state;
-			approval_state   	= hemxxmh_data.approval_state;
-			is_nextprocess 		= hemxxmh_data.is_nextprocess;
-			is_jurnal      		= hemxxmh_data.is_jurnal;
+			siVarSet('hemxxmh');
 			id_gpvxxmh_old      		= hemxxmh_data.id_gpvxxmh;
 			id_gbuxxmh_old      		= hemxxmh_data.id_gbuxxmh;
 			id_gctxxmh_old      		= hemxxmh_data.id_gctxxmh;
@@ -194,16 +188,15 @@
 		} );
 		
 		tblhemxxmh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_hemxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
+			siVarReset('hemxxmh');
+			id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_fpytmmh_old = 0
 			// atur hak akses
 			tbl_details = [tblhtpr_hemxxmh];
 			CekDeselectHeaderHD(tblhemxxmh, tbl_details);
 		} );
-		
-// --------- start _detail --------------- //
+		// END hemxxmh
 
-		//start datatables editor
+		// BEGIN htpr_hemxxmh
 		edthtpr_hemxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/htpr_hemxxmh/htpr_hemxxmh_d.php",
@@ -321,6 +314,7 @@
 
 		edthtpr_hemxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edthtpr_hemxxmh.on( 'preSubmit', function (e, data, action) {
@@ -373,7 +367,6 @@
 			edthtpr_hemxxmh.enable();
 		} );
 		
-		//start datatables
 		tblhtpr_hemxxmh = $('#tblhtpr_hemxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -441,32 +434,25 @@
 
 		tblhtpr_hemxxmh.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhemxxmh, tblhtpr_hemxxmh, 'htpr_hemxxmh' );
+			CekDrawDetailHD( tblhtpr_hemxxmh, 1 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
 		tblhtpr_hemxxmh.on( 'select', function( e, dt, type, indexes ) {
-			data_htpr_hemxxmh 		= tblhtpr_hemxxmh.row( { selected: true } ).data().htpr_hemxxmh;
-			id_htpr_hemxxmh   		= data_htpr_hemxxmh.id;
-			id_transaksi_d 		= id_htpr_hemxxmh; // dipakai untuk general
-			id_transaksi_log 	= id_htpr_hemxxmh; // dipakai untuk log
-
-			transaction_state_d   = data_htpr_hemxxmh.transaction_state;
+			siVarSetD('htpr_hemxxmh');
 			id_hpcxxmh_old      = hemxxmh_data.id_hpcxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblhemxxmh, tblhtpr_hemxxmh );
+			CekSelectDetailHD( tblhtpr_hemxxmh );
 		} );
 
 		tblhtpr_hemxxmh.on( 'deselect', function() {
-			id_htpr_hemxxmh = 0;
-			is_active_d = 0;
+			siVarResetD('htpr_hemxxmh');
 			id_hpcxxmh_old = 0;
 			id_gpvxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblhemxxmh, tblhtpr_hemxxmh );
+			CekDeselectDetailHD( tblhtpr_hemxxmh );
 		} );
 
 // --------- end _detail --------------- //		
