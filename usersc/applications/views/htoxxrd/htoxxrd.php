@@ -113,7 +113,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htoxxrd/fn/htoxxrd_fn.php'; ?>
 
@@ -127,21 +127,6 @@
 		
 		// get tableRelation
 		tableRelation('htoxxrd');
-
-		// BEGIN datepicker init
-		$('#periode').datepicker({
-			setDate: new Date(),
-			autoclose: true,
-			todayHighlight: true,
-			clearBtn: true,
-			format: "dd M yyyy",
-			minViewMode: 'month' 
-		});
-
-		$('#start_date').datepicker('setDate', awal_bulan_dmy);
-		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-		
-        // END datepicker init
 
 		//Select2 init
         $("#select_hemxxmh").select2({
@@ -338,21 +323,14 @@
 			} );
 			
 			tblhtoxxrd.on( 'select', function( e, dt, type, indexes ) {
-				htoxxrd_data    		= tblhtoxxrd.row( { selected: true } ).data().htoxxrd;
-				id_htoxxrd      		= htoxxrd_data.id;
-				id_transaksi_h 		= id_htoxxrd; // dipakai untuk general
-				id_transaksi_log	= id_htoxxrd; // dipakai untuk general
-				transaction_state   = htoxxrd_data.transaction_state;
-				approval_state   	= htoxxrd_data.approval_state;
-				is_nextprocess 		= htoxxrd_data.is_nextprocess;
+				siVarSet('htoxxrd');
 
 				// atur hak akses
 				CekSelectHeaderH(tblhtoxxrd);
 			} );
 
 			tblhtoxxrd.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_htoxxrd = 0;
+				siVarReset('htoxxrd');
 
 				// atur hak akses
 				CekDeselectHeaderH(tblhtoxxrd);
