@@ -4,28 +4,28 @@
 			// script diletakkan disini
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
-			$id_ndoxxth = $values['ndixxth']['id_ndoxxth'];
-			$qi_ndidctd = $editor->db()
+			$id_ndctoth = $values['ndctith']['id_ndctoth'];
+			$qi_ndctitd = $editor->db()
 				->raw()
-				->bind(':id_ndoxxth', $id_ndoxxth)
+				->bind(':id_ndctoth', $id_ndctoth)
 				->exec('
 					INSERT INTO
-						ndidctd (
-							id_ndixxth,
-							id_ndcrctd
+						ndctitd (
+							id_ndctith,
+							id_ndcxxmh
 						)
 					SELECT
 						'.$id.',
-						id_ndcrctd
-					FROM ndodctd
+						id_ndcxxmh
+					FROM ndctotd
 					WHERE 1
-						AND id_ndoxxth = :id_ndoxxth
+						AND id_ndctoth = :id_ndctoth
 				');
 
-			$qu_ndoxxth = $editor->db()
-				->query('update', 'ndoxxth')
+			$qu_ndctoth = $editor->db()
+				->query('update', 'ndctoth')
 				->set('is_nextprocess', 1 )
-				->where('id ', $id_ndoxxth )
+				->where('id ', $id_ndctoth )
 				->exec();
 
 		})
