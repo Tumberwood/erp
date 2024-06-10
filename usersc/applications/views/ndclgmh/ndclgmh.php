@@ -96,7 +96,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndclgmh/fn/ndclgmh_fn.php'; ?>
 
@@ -173,6 +173,7 @@
 
 		edtndclgmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtndclgmh.on( 'preSubmit', function (e, data, action) {
@@ -303,13 +304,7 @@
 		} );
 		
 		tblndclgmh.on( 'select', function( e, dt, type, indexes ) {
-			ndclgmh_data = tblndclgmh.row( { selected: true } ).data().ndclgmh;
-			id_ndclgmh   = ndclgmh_data.id;
-			id_transaksi_h    = id_ndclgmh;                                                // dipakai untuk general
-			id_transaksi_log  = id_ndclgmh;                                                // dipakai untuk general
-			transaction_state = ndclgmh_data.transaction_state;
-			approval_state    = ndclgmh_data.approval_state;
-			is_nextprocess    = ndclgmh_data.is_nextprocess;
+			siVarSet('ndclgmh');
 			
 			// atur hak akses
 			tbl_details = [tbl_blankdetail];
@@ -318,8 +313,7 @@
 		} );
 		
 		tblndclgmh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_ndclgmh = 0;
+			siVarReset('ndclgmh');
 
 			// atur hak akses
 			tbl_details = [tbl_blankdetail];
@@ -400,6 +394,7 @@
 
 		edt_blankdetail.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edt_blankdetail.on( 'preSubmit', function (e, data, action) {
@@ -509,28 +504,22 @@
 
 		tbl_blankdetail.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblndclgmh, tbl_blankdetail, '_blankdetail' );
+			CekDrawDetailHD( tbl_blankdetail, 1 );
 			CekDrawDetailHDFinal(tblndclgmh);
 		} );
 
 		tbl_blankdetail.on( 'select', function( e, dt, type, indexes ) {
-			data__blankdetail = tbl_blankdetail.row( { selected: true } ).data()._blankdetail;
-			id__blankdetail   = data__blankdetail.id;
-			id_transaksi_d    = id__blankdetail;                                                // dipakai untuk general
-			id_transaksi_log  = id__blankdetail;                                                // dipakai untuk log
-
-			transaction_state_d   = data__blankdetail.transaction_state;
+			siVarSetD('_blankdetail');
 			
 			// atur hak akses
-			CekSelectDetailHD(tblndclgmh, tbl_blankdetail );
+			CekSelectDetailHD( tbl_blankdetail );
 		} );
 
 		tbl_blankdetail.on( 'deselect', function() {
-			id__blankdetail = 0;
+			siVarResetD('_blankdetail');
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblndclgmh, tbl_blankdetail );
+			CekDeselectDetailHD( tbl_blankdetail );
 		} );
 		// END _blankdetail
 

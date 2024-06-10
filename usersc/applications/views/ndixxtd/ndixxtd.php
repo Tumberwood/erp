@@ -50,7 +50,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndixxtd/fn/ndixxtd_fn.php'; ?>
 
@@ -179,6 +179,7 @@
 
 			edtndixxtd.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+				edtFormButtonSaveConfirm();
 			});
 
             edtndixxtd.on( 'preSubmit', function (e, data, action) {
@@ -292,14 +293,7 @@
 			} );
 			
 			tblndixxtd.on( 'select', function( e, dt, type, indexes ) {
-				ndixxtd_data    		= tblndixxtd.row( { selected: true } ).data().ndixxtd;
-				id_ndixxtd      		= ndixxtd_data.id;
-				id_transaksi_h 		= id_ndixxtd; // dipakai untuk general
-				id_transaksi_log	= id_ndixxtd; // dipakai untuk general
-				transaction_state   = ndixxtd_data.transaction_state;
-				approval_state   	= ndixxtd_data.approval_state;
-				is_nextprocess 		= ndixxtd_data.is_nextprocess;
-
+				siVarSet('ndixxtd');
 				id_grlxxmh_expedisi_old	= ndixxtd_data.id_grlxxmh_expedisi;
 
 				// atur hak akses
@@ -307,8 +301,7 @@
 			} );
 
 			tblndixxtd.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_ndixxtd = 0;
+				siVarReset('ndixxtd');
 				id_grlxxmh_expedisi_old = 0;
 
 				// atur hak akses
