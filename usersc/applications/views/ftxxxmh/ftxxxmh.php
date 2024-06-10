@@ -81,7 +81,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ftxxxmh/fn/ftxxxmh_fn.php'; ?>
 
@@ -398,6 +398,7 @@
 
 		edtftxrtmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		
@@ -520,8 +521,7 @@
 
 		tblftxrtmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblftxxxmh, tblftxrtmd, 'ftxrtmd' );
+			CekDrawDetailHD( tblftxrtmd, 1 );
 			CekDrawDetailHDFinal(tblftxxxmh);
 		} );
 
@@ -529,14 +529,14 @@
 			siVarSetD(ftxrtmd);			
 			
 			// atur hak akses
-			CekSelectDetailHD(tblftxxxmh, tblftxrtmd );
+			CekSelectDetailHD( tblftxrtmd );
 		} );
 
 		tblftxrtmd.on( 'deselect', function() {
 			siVarResetD(ftxrtmd);
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblftxxxmh, tblftxrtmd );
+			CekDeselectDetailHD( tblftxrtmd );
 		} );
 
 		// END ftxrtmd
