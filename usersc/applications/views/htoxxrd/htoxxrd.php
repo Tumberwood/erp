@@ -12,49 +12,44 @@
 ?>
 
 <div class="row">
-    <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmhtoxxrd">
-                    <div class="form-group row">
-                        <label class="col-lg-2 col-form-label">Periode</label>
-                        <div class="col-lg-5">
-                            <div class="input-group input-daterange" id="periode">
-                                <input type="text" id="start_date" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" id="end_date" class="form-control">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-calendar"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">												
-                        <label class="col-sm-2 col-form-label">Employee</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="select_hemxxmh" name="select_hemxxmh"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div>
-                </form>
-                <div id="searchPanes1"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
 	<div class="col">
 		<div class="ibox ">
 			<div class="ibox-content">
+			<div class="modal" id="modalSFhtoxxrd" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">												
+                        				<label class="col-sm-2 col-form-label">Employee</label>
+                        				<div class="col-sm-4">
+                            				<select class="form-control" id="select_hemxxmh" name="select_hemxxmh"></select>
+                        				</div>
+                    				</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblhtoxxrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 						<thead>
@@ -286,7 +281,7 @@
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 						$arr_buttons_action 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
@@ -335,35 +330,30 @@
 				// atur hak akses
 				CekDeselectHeaderH(tblhtoxxrd);
 			} );
+			// END htoxxrd
 
-			$("#frmhtoxxrd").submit(function(e) {
+			// BEGIN form filter
+			$("#frmFilter").submit(function(e) {
 				e.preventDefault();
 			}).validate({
 				rules: {
-					
 				},
-				submitHandler: function(frmhtoxxrd) {
-					start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
-					end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
+				submitHandler: function(frmFilter) {
+					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					id_hemxxmh = $('#select_hemxxmh').val();
 
-					notifyprogress = $.notify({
-						message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-					},{
-						z_index: 9999,
-						allow_dismiss: false,
-						type: 'info',
-						delay: 0
-					});
-
+					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 					tblhtoxxrd.rows().deselect();
 					tblhtoxxrd.ajax.reload(function ( json ) {
-						notifyprogress.close();
-					}, false);
-					return false; 
+					toastr.remove();
+					toastr["success"]("Load data berhasil","INFO")
+					$('#modalSFhtoxxrd').modal('toggle');
+				}, false);
+					return false;
 				}
 			});
-			// END htoxxrd
+			// END form filter
 			
 		} );// end of document.ready
 	
