@@ -526,14 +526,14 @@
 		} );
 
 		tblftxrtmd.on( 'select', function( e, dt, type, indexes ) {
-			siVarSetD(ftxrtmd);			
+			siVarSetD('ftxrtmd');
 			
 			// atur hak akses
 			CekSelectDetailHD( tblftxrtmd );
 		} );
 
 		tblftxrtmd.on( 'deselect', function() {
-			siVarResetD(ftxrtmd);
+			siVarResetD('ftxrtmd');
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblftxrtmd );
