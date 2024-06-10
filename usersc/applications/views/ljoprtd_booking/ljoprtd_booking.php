@@ -1071,6 +1071,7 @@
 
 		edtljodstd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtljodstd.on( 'preSubmit', function (e, data, action) {
@@ -1400,14 +1401,13 @@
 
 		tblljodstd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblljodstd, 1 );
+			CekDrawDetailHD( tblljodstd, 1 );
 			CekDrawDetailHDFinal(tblljoxxth);
 		} );
 
 		tblljodstd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
-			siVarSet('ljodstd');
+			siVarSetD('ljodstd');
 			
 			// atur hak akses
 			CekSelectDetailHD( tblljodstd );
@@ -1415,7 +1415,7 @@
 
 		tblljodstd.on( 'deselect', function() {
 			// reset variable standar framework
-			siVarReset('ljodstd');
+			siVarResetD('ljodstd');
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblljodstd );

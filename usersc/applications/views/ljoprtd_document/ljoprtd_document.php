@@ -309,7 +309,7 @@
 			$(".modal-dialog").addClass("modal-lg");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirmHD();
+			edtFormButtonSaveConfirm();
 		});
 		
 		edtljoxxth.on( 'preSubmit', function (e, data, action) {
@@ -565,90 +565,6 @@
 								}
 
 							}
-						},
-						// Edit
-						{ 
-							extend: 'edit', 
-							name: 'btnEdit', 
-							editor: edtljoxxth,
-							text: '<i class="fa fa-edit"></i>&nbsp;Edit',
-							className: 'btn btn-sm',
-							titleAttr: 'Edit',
-							formButtons: [
-								{
-									text: 'Cancel',
-									action: function () {
-										this.close();
-									},
-									className: 'btn btn-warning m-r-xs'
-								},
-								{
-									text: 'Save',
-									action: function () {
-										this.submit();
-									},
-									className: 'btn btn-primary m-r-xs'
-								},
-								{
-									text: 'Save & Confirm',
-									action: function (e, dt, node, config, cb){
-										this.submit(
-											function (json) {
-												new_id = json.data[0].ljoxxth.id;
-												full_message = '';
-												$.ajax( {
-													url: '../../../helpers/tr_fn_transaction_state.php',
-													dataType: 'json',
-													type: 'POST',
-													data: {
-														table_name       : 'ljoxxth',
-														id_transaksi     : new_id,
-														transaction_state: 1
-													},
-													success: function ( json ) {
-														status_code  = json.data.status_code;
-														full_message = full_message + json.data.message + '</br>';
-														toast_type   = json.data.type_message;
-
-														if(status_code == 200){
-															if(is_need_generate_kode == 1){
-																$.ajax( {
-																	url: '../../../helpers/kode_fn_generate_confirm.php',
-																	dataType: 'json',
-																	type: 'POST',
-																	async: false,
-																	data: {
-																		state                   : 1,
-																		nama_tabel              : 'ljoxxth',
-																		kategori_dokumen        : kategori_dokumen,
-																		kategori_dokumen_value  : kategori_dokumen_value,
-																		id_transaksi            : new_id
-																	},
-																	success: function ( json ) {
-																		toast_type   = json.data.type_message;
-																		full_message = full_message + json.data.message + '</br>';
-																	}
-																} );
-
-															}
-															
-														}else{
-															console.log('no');
-														}
-														toastr[toast_type](full_message, 'INFO');
-														tblljoxxth.ajax.reload(null, false);
-													}
-
-												} );  
-											}, 
-										);
-										
-										
-
-									},
-									className: 'btn btn-primary'
-								}
-							]
 						},
 						// View Button
 						{
