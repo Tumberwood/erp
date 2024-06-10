@@ -13,53 +13,39 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmFilter">
-                    <div class="form-group row">
-						<label class="col-lg-2 col-form-label">Tanggal</label>
-                        <div class="col-lg-5">
-                            <div class="input-group input-daterange" id="periode">
-                                <input type="text" id="start_date" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" id="end_date" class="form-control">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-calendar"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-					<!-- <div class="form-group row">
-                        <label class="col-lg-2 col-form-label">Status Approval</label> -->
-                        <!-- <div class="col-lg-5">
-                            <select class="form-control" id="status_approve" name="status_approve">
-                                <option value="0">Open</option>
-                                <option value="1">Approve</option>
-                                <option value="99">All</option>
-                            </select>
-                        </div> -->
-                    <!-- </div> -->
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- begin content here -->
-<div class="row">
 	<div class="col">
 		<div class="ibox ">
 			<div class="ibox-content">
+				<div class="modal" id="modalSFhtsprrd" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblhtsprrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -101,283 +87,252 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htsprrd/fn/htsprrd_fn.php'; ?>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
-		// ------------- default variable, do not erase
-		var edthtsprrd, tblhtsprrd, show_deleted_htsprrd = 0, id_htsprrd;
-		// ------------- end of default variable
-		var id_users_old = 0;
-		var id_hemxxmh_old = 0;
-		// console.log(id_users_old);
+	// ------------- default variable, do not erase
+	var edthtsprrd, tblhtsprrd, show_deleted_htsprrd = 0, id_htsprrd;
+	// ------------- end of default variable
+	var id_users_old = 0;
+	var id_hemxxmh_old = 0;
+	// console.log(id_users_old);
 
-		// get tableRelation
-		tableRelation('htsprrd');
+	// get tableRelation
+	tableRelation('htsprrd');
+
+
+	$(document).ready(function() {
 		
-        var start_date = null;
-		var end_date   = null;
-		
-		// BEGIN datepicker init
-		$('#periode').datepicker({
-			setDate: new Date(),
-			autoclose: true,
-			todayHighlight: true,
-			clearBtn: true,
-			format: "dd M yyyy",
-			minViewMode: 'month' 
-		});
-		// $('#start_date').datepicker('setDate', awal_bulan_dmy);
-		$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
-		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-        // END datepicker init
-		// var status_approve = $('#status_approve').val();
+		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+		end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
 
-		$(document).ready(function() {
-			//start datatables editor
-			start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
-			end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
-
-			edthtsprrd = new $.fn.dataTable.Editor( {
-				ajax: {
-					url: "../../models/htsprrd/htsprrd.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_htsprrd = show_deleted_htsprrd;
-						d.start_date = start_date;
-						d.end_date = end_date;
-						// d.status_approve = status_approve;
-					}
-				},
-				table: "#tblhtsprrd",
-				fields: [ 
-					{
-						label: "htsprrd.start_at",
-						name: "htsprrd.start_at",
-						type: "hidden"
-					},	
-					{
-						label: "htsprrd.finish_at",
-						name: "htsprrd.finish_at",
-						type: "hidden"
-					},	
-					{
-						label: "nama_tabel",
-						name: "nama_tabel",
-						def: "htsprrd",
-						type: "hidden"
-					},	
-					{
-						label: "htsprrd.transaction_state",
-						name: "htsprrd.transaction_state",
-                        type: "hidden",
-						def: 0
-					},	
-					{
-						label: "Tanggal <sup class='text-danger'>*<sup>",
-						name: "htsprrd.tanggal",
-						type: "datetime",
-						def: function () { 
-							return new Date(); 
-						},
-						opts:{
-							minDate: new Date('1900-01-01'),
-							firstDay: 0
-						},
-						format: 'DD MMM YYYY'
-					}, 
-					{
-						label: "Keterangan",
-						name: "htsprrd.keterangan",
-                        type: "textarea"
-					},	
-				]
-			} );
-
-			edthtsprrd.on( 'preOpen', function( e, mode, action ) {
-				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthtsprrd.field('htsprrd.start_at').val(start_at);
-				
-				if(action == 'create'){
-					tblhtsprrd.rows().deselect();
+		// BEGIN htsprrd
+		edthtsprrd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/htsprrd/htsprrd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_htsprrd = show_deleted_htsprrd;
+					d.start_date = start_date;
+					d.end_date = end_date;
+					// d.status_approve = status_approve;
 				}
-			});
-
-			edthtsprrd.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
-			});
-
-            edthtsprrd.on( 'preSubmit', function (e, data, action) {
-				if(action != 'remove'){
-					tanggal = edthtsprrd.field('htsprrd.tanggal').val();
-
-					validasiRequired(
-						edthtsprrd,
-						'htsprrd',
-						{
-							'tanggal': tanggal,
-						}
-					);
-				}
-				
-				if ( edthtsprrd.inError() ) {
-					return false;
-				}
-			});
-			
-			edthtsprrd.on('initSubmit', function(e, action) {
-				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edthtsprrd.field('htsprrd.finish_at').val(finish_at);
-			});
-
-			edthtsprrd.on( 'postSubmit', function (e, json, data, action, xhr) {
-				tblhtsprrd.rows().deselect();
-				tblhtsprrd.ajax.reload(null, false);
-			} );
-			
-			edthtsprrd.on( 'close', function () {
-				edthtsprrd.enable();
-			} );
-
-			//start datatables
-			tblhtsprrd = $('#tblhtsprrd').DataTable( {
-				dom: domPQ,
-				searchPanes:{
-					layout: 'columns-4',
-				},
-				ajax: {
-					url: "../../models/htsprrd/htsprrd.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_htsprrd = show_deleted_htsprrd;
-						d.start_date = start_date;
-						d.end_date = end_date;
-						// d.status_approve = status_approve;
-					}
-				},
-				order: [[ 1, "desc" ]],
-				columnDefs:[
-					{
-						searchPanes:{
-							show: true,
-						},
-						targets: [1,2,3]
+			},
+			table: "#tblhtsprrd",
+			fields: [ 
+				{
+					label: "htsprrd.start_at",
+					name: "htsprrd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "htsprrd.finish_at",
+					name: "htsprrd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "htsprrd",
+					type: "hidden"
+				},	
+				{
+					label: "htsprrd.transaction_state",
+					name: "htsprrd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "Tanggal <sup class='text-danger'>*<sup>",
+					name: "htsprrd.tanggal",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
 					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				}, 
+				{
+					label: "Keterangan",
+					name: "htsprrd.keterangan",
+					type: "textarea"
+				},	
+			]
+		} );
+
+		edthtsprrd.on( 'preOpen', function( e, mode, action ) {
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edthtsprrd.field('htsprrd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblhtsprrd.rows().deselect();
+			}
+		});
+
+		edthtsprrd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirm();
+		});
+
+		edthtsprrd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				tanggal = edthtsprrd.field('htsprrd.tanggal').val();
+
+				validasiRequired(
+					edthtsprrd,
+					'htsprrd',
 					{
-						searchPanes:{
-							show: false,
-						},
-						targets: [0]
+						'tanggal': tanggal,
 					}
-				],
-				responsive: false,
-				scrollX: true,
-				columns: [
-					{ data: "htsprrd.id",visible:false },
-					{ data: "hemxxmh.kode" },
-					{ data: "hemxxmh.nama" },
-					{ data: "hetxxmh.nama" },
-					{ data: "htsprrd.tanggal" },
-					{ data: "htsprrd.st_jadwal" },
-					{ data: "htsprrd.clock_in" },
-					{ data: "htsprrd.clock_out" },
-					{ data: "htsprrd.st_clock_in" },
-					{ data: "htsprrd.st_clock_out" },
-					{ data: "htsprrd.status_presensi_in" },
-					{ data: "htsprrd.status_presensi_out" },
-					{ data: "htsprrd.keterangan" },
-					
-				],
-				buttons: [
-					// BEGIN breaking generate button
-					<?php
-						$id_table    = 'id_htsprrd';
-						$table       = 'tblhtsprrd';
-						$edt         = 'edthtsprrd';
-						$show_status = '_htsprrd';
-						$table_name  = $nama_tabel;
+				);
+			}
+			
+			if ( edthtsprrd.inError() ) {
+				return false;
+			}
+		});
+		
+		edthtsprrd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edthtsprrd.field('htsprrd.finish_at').val(finish_at);
+		});
 
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
-						$arr_buttons_action 	= [];
-						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-					?>
-				],
-				initComplete: function() {
-					this.api().searchPanes.rebuildPane();
-				},
-				rowCallback: function( row, data, index ) {
-					if ( data.htsprrd.transaction_state == -9 ) {
-						$('td', row).addClass('text-danger');
-					}else if ( data.htsprrd.transaction_state == 0 ) {
-						$('td', row).addClass('text-warning');
-					}
+		edthtsprrd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblhtsprrd.rows().deselect();
+			tblhtsprrd.ajax.reload(null, false);
+		} );
+		
+		edthtsprrd.on( 'close', function () {
+			edthtsprrd.enable();
+		} );
+
+		tblhtsprrd = $('#tblhtsprrd').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-4',
+			},
+			ajax: {
+				url: "../../models/htsprrd/htsprrd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_htsprrd = show_deleted_htsprrd;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
-			} );
+			},
+			order: [[ 1, "desc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [1,2,3]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: [0]
+				}
+			],
+			responsive: false,
+			scrollX: true,
+			columns: [
+				{ data: "htsprrd.id",visible:false },
+				{ data: "hemxxmh.kode" },
+				{ data: "hemxxmh.nama" },
+				{ data: "hetxxmh.nama" },
+				{ data: "htsprrd.tanggal" },
+				{ data: "htsprrd.st_jadwal" },
+				{ data: "htsprrd.clock_in" },
+				{ data: "htsprrd.clock_out" },
+				{ data: "htsprrd.st_clock_in" },
+				{ data: "htsprrd.st_clock_out" },
+				{ data: "htsprrd.status_presensi_in" },
+				{ data: "htsprrd.status_presensi_out" },
+				{ data: "htsprrd.keterangan" },
+				
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_htsprrd';
+					$table       = 'tblhtsprrd';
+					$edt         = 'edthtsprrd';
+					$show_status = '_htsprrd';
+					$table_name  = $nama_tabel;
 
-			tblhtsprrd.searchPanes.container().appendTo('#sphtsprrd');
-			tblhtsprrd.searchBuilder.container().appendTo( '#sbhtsprrd' );
-			
-			tblhtsprrd.on( 'init', function () {
-				// atur hak akses
-				CekInitHeaderH(tblhtsprrd);
-			} );
-			
-			tblhtsprrd.on( 'select', function( e, dt, type, indexes ) {
-				htsprrd_data    		= tblhtsprrd.row( { selected: true } ).data().htsprrd;
-				id_htsprrd      		= htsprrd_data.id;
-				id_transaksi_h 		= id_htsprrd; // dipakai untuk general
-				id_transaksi_log	= id_htsprrd; // dipakai untuk general
-				transaction_state   = htsprrd_data.transaction_state;
-				approval_state   	= htsprrd_data.approval_state;
-				is_nextprocess 		= htsprrd_data.is_nextprocess;
-				tanggal_select      		= htsprrd_data.tanggal;
-				// atur hak akses
-				CekSelectHeaderH(tblhtsprrd);
-			} );
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+				if ( data.htsprrd.transaction_state == -9 ) {
+					$('td', row).addClass('text-danger');
+				}else if ( data.htsprrd.transaction_state == 0 ) {
+					$('td', row).addClass('text-warning');
+				}
+			}
+		} );
 
-			tblhtsprrd.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_htsprrd = 0;
-				tanggal_select = null;
+		tblhtsprrd.searchPanes.container().appendTo('#sphtsprrd');
+		tblhtsprrd.searchBuilder.container().appendTo( '#sbhtsprrd' );
+		
+		tblhtsprrd.on( 'init', function () {
+			// atur hak akses
+			CekInitHeaderH(tblhtsprrd);
+		} );
+		
+		tblhtsprrd.on( 'select', function( e, dt, type, indexes ) {
+			siVarSet('htsprrd');
+			tanggal_select = htsprrd_data.tanggal;
+			// atur hak akses
+			CekSelectHeaderH(tblhtsprrd);
+		} );
 
-				// atur hak akses
-				CekDeselectHeaderH(tblhtsprrd);
-			} );
-			
+		tblhtsprrd.on( 'deselect', function () {
+			siVarReset('htsprrd');
+			tanggal_select = null;
+
+			// atur hak akses
+			CekDeselectHeaderH(tblhtsprrd);
+		} );
+		
+		// BEGIN form filter
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
 		}).validate({
 			rules: {
-				
 			},
 			submitHandler: function(frmFilter) {
-				start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
-				end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
-				// status_approve = $('#status_approve').val();
-
-				notifyprogress = $.notify({
-					message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-				},{
-					z_index: 9999,
-					allow_dismiss: false,
-					type: 'info',
-					delay: 0
-				});
-
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblhtsprrd.rows().deselect();
 				tblhtsprrd.ajax.reload(function ( json ) {
-					notifyprogress.close();
-				}, false);
-				return false; 
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFhtsprrd').modal('toggle');
+			}, false);
+				return false;
 			}
 		});
+		// END form filter
 
-		} );// end of document.ready
-	
-	</script>
+	} );// end of document.ready
+
+</script>
 
 <!-- END datatables here -->
 
