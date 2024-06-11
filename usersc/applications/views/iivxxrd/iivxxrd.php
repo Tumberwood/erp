@@ -83,113 +83,113 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
-		// ------------- default variable, do not erase
-		var tbliivxxrd, show_deleted_iivxxrd = 0;
-		// ------------- end of default variable
+	// ------------- default variable, do not erase
+	var tbliivxxrd, show_deleted_iivxxrd = 0;
+	// ------------- end of default variable
 
-		$(document).ready(function() {
-			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+	$(document).ready(function() {
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
-			//start datatables
-			tbliivxxrd = $('#tbliivxxrd').DataTable( {
-				dom: domPQ,
-				searchPanes:{
-					layout: 'columns-4',
-				},
-				ajax: {
-					url: "../../models/iivxxrd/iivxxrd.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_iivxxrd = show_deleted_iivxxrd;
-						d.end_date = end_date;
-					}
-				},
-				order: [[ 1, "asc" ]],
-				columnDefs:[
-					{
-						searchPanes:{
-							show: true,
-						},
-						targets: [0,1,2]
-					},
-					{
-						searchPanes:{
-							show: false,
-						},
-						targets: [3,4,5,6]
-					}
-				],
-				columns: [
-					{ data: "iwhxxmh_kode" },
-					{ data: "iimxxmh_kode" },
-					{ data: "iimxxmh_nama" },
-					{ data: "iumxxmh_terkecil_kode" },
-					{ 
-						data: "jumlah_terkecil",
-						...renderNumber(2)
-					},
-					{ data: "iumxxmh_default_kode" },
-					{ 
-						data: "jumlah_default",
-						...renderNumber(2)
-					}
-				],
-				buttons: [
-					// BEGIN breaking generate button
-					<?php
-						$id_table    = 'id_iivxxrd';
-						$table       = 'tbliivxxrd';
-						$edt         = 'edtiivxxrd';
-						$show_status = '_iivxxrd';
-						$table_name  = $nama_tabel;
-
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sf','sp', 'sb'];
-						$arr_buttons_action 	= [];
-						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-					?>
-					// END breaking generate button
-				],
-				initComplete: function() {
-					this.api().searchPanes.rebuildPane();
-				},
-				rowCallback: function( row, data, index ) {
-					
+		//start datatables
+		tbliivxxrd = $('#tbliivxxrd').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-4',
+			},
+			ajax: {
+				url: "../../models/iivxxrd/iivxxrd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iivxxrd = show_deleted_iivxxrd;
+					d.end_date = end_date;
 				}
-			} );
-
-			tbliivxxrd.searchPanes.container().appendTo('#spiivxxrd');
-			tbliivxxrd.searchBuilder.container().appendTo( '#sbiivxxrd' );
-		
-			// BEGIN form filter
-			$("#frmFilter").submit(function(e) {
-				e.preventDefault();
-			}).validate({
-				rules: {
+			},
+			order: [[ 1, "asc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [0,1,2]
 				},
-				submitHandler: function(frmFilter) {
-					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
-					tbliivxxrd.rows().deselect();
-					tbliivxxrd.ajax.reload(function ( json ) {
-					toastr.remove();
-					toastr["success"]("Load data berhasil","INFO")
-					$('#modalSFiivxxrd').modal('toggle');
-				}, false);
-					return false;
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: [3,4,5,6]
 				}
-			});
-			// END form filter
-			
-			
-		} );// end of document.ready
+			],
+			columns: [
+				{ data: "iwhxxmh_kode" },
+				{ data: "iimxxmh_kode" },
+				{ data: "iimxxmh_nama" },
+				{ data: "iumxxmh_terkecil_kode" },
+				{ 
+					data: "jumlah_terkecil",
+					...renderNumber(2)
+				},
+				{ data: "iumxxmh_default_kode" },
+				{ 
+					data: "jumlah_default",
+					...renderNumber(2)
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_iivxxrd';
+					$table       = 'tbliivxxrd';
+					$edt         = 'edtiivxxrd';
+					$show_status = '_iivxxrd';
+					$table_name  = $nama_tabel;
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+				
+			}
+		} );
+
+		tbliivxxrd.searchPanes.container().appendTo('#spiivxxrd');
+		tbliivxxrd.searchBuilder.container().appendTo( '#sbiivxxrd' );
 	
-	</script>
+		// BEGIN form filter
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tbliivxxrd.rows().deselect();
+				tbliivxxrd.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFiivxxrd').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
+		// END form filter
+		
+		
+	} );// end of document.ready
+
+</script>
 
 <!-- END datatables here -->
 

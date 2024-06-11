@@ -49,239 +49,239 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iitxxmh/fn/iitxxmh_fn.php'; ?>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
-		// ------------- default variable, do not erase
-		var edtiitxxmh, tbliitxxmh, show_deleted_iitxxmh = 0, id_iitxxmh;
-		// ------------- end of default variable
+	// ------------- default variable, do not erase
+	var edtiitxxmh, tbliitxxmh, show_deleted_iitxxmh = 0, id_iitxxmh;
+	// ------------- end of default variable
 
-		var id_ftxxxmh_old = 0;
-		
-		// get tableRelation
-		tableRelation('iitxxmh');
-
-		$(document).ready(function() {
-			// BEGIN iitxxmh
-			edtiitxxmh = new $.fn.dataTable.Editor( {
-				ajax: {
-					url: "../../models/iitxxmh/iitxxmh.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_iitxxmh = show_deleted_iitxxmh;
-					}
-				},
-				table: "#tbliitxxmh",
-				fields: [ 
-					{
-						label: "iitxxmh.start_at",
-						name: "iitxxmh.start_at",
-						type: "hidden"
-					},	
-					{
-						label: "iitxxmh.finish_at",
-						name: "iitxxmh.finish_at",
-						type: "hidden"
-					},	
-					{
-						label: "nama_tabel",
-						name: "nama_tabel",
-						def: "iitxxmh",
-						type: "hidden"
-					},	
-					{
-						label: "iitxxmh.transaction_state",
-						name: "iitxxmh.transaction_state",
-                        type: "hidden",
-						def: 0
-					},	
-					{
-						label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
-						name: "iitxxmh.nama"
-					}, 	
-					{
-						label: "Tax Type",
-						name: "iitxxmh.id_ftxxxmh",
-						type: "select2",
-						opts: {
-							placeholder : "Select",
-							allowClear: true,
-							multiple: false,
-							ajax: {
-								url: "../../models/ftxxxmh/ftxxxmh_fn_opt.php",
-								dataType: 'json',
-								data: function (params) {
-									var query = {
-										id_ftxxxmh_old: id_ftxxxmh_old,
-										search: params.term || '',
-										page: params.page || 1
-									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
-								},
-								cache: true,
-								minimumInputLength: 1,
-								maximum: 10,
-								delay: 500,
-								maximumSelectionLength: 5,
-								minimumResultsForSearch: -1,
-							},
-						}
-					},
-					{
-						label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
-						name: "iitxxmh.keterangan",
-						type: "textarea"
-					}
-				]
-			} );
-
-			edtiitxxmh.on( 'preOpen', function( e, mode, action ) {
-				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiitxxmh.field('iitxxmh.start_at').val(start_at);
-
-				if(action == 'create'){
-					tbliitxxmh.rows().deselect();
-
-					edtiitxxmh.field('iitxxmh.nama').enable();
-
-				}else if(action == 'edit'){
-					
-					if(transaction_state == 0){
-						edtiitxxmh.field('iitxxmh.nama').enable();
-					}else{
-						edtiitxxmh.field('iitxxmh.nama').disable();
-					}
-				}
-			});
-
-			edtiitxxmh.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
-
-				// enable disable tombol Save & Confirm
-				edtFormButtonSaveConfirm();
-			});
-
-            edtiitxxmh.on( 'preSubmit', function (e, data, action) {
-				if(action != 'remove'){
-
-					nama = edtiitxxmh.field('iitxxmh.nama').val();
-					validasiRequired(
-						edtiitxxmh, 
-						"iitxxmh", 
-						{
-							"nama": nama
-						}
-					)
-
-					validasiUnique(
-						action,
-						edtiitxxmh, 
-						'iitxxmh', 
-						'nama', 
-						'nama',
-						'"'+nama+'"',
-						id_iitxxmh
-					);
-				}
-				
-				if ( edtiitxxmh.inError() ) {
-					return false;
-				}
-			});
-			
-			edtiitxxmh.on('initSubmit', function(e, action) {
-				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiitxxmh.field('iitxxmh.finish_at').val(finish_at);
-			});
-
-			edtiitxxmh.on( 'close', function () {
-				edtiitxxmh.enable();
-			} );
-
-			tbliitxxmh = $('#tbliitxxmh').DataTable( {
-				ajax: {
-					url: "../../models/iitxxmh/iitxxmh.php",
-					type: 'POST',
-					data: function (d){
-						d.show_deleted_iitxxmh = show_deleted_iitxxmh;
-					}
-				},
-				order: [[ 1, "asc" ]],
-				columns: [
-					{ data: "iitxxmh.id",visible:false },
-					{ data: "iitxxmh.nama" },
-					{ data: "ftxxxmh.kode" },
-					{ data: "iitxxmh.keterangan" },
-					{ 
-						data: "iitxxmh.transaction_state" ,
-						...renderTransactionStatus()
-					}
-				],
-				buttons: [
-					// BEGIN breaking generate button
-					<?php
-						$id_table    = 'id_iitxxmh';
-						$table       = 'tbliitxxmh';
-						$edt         = 'edtiitxxmh';
-						$show_status = '_iitxxmh';
-						$table_name  = $nama_tabel;
-
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= [];
-						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'view', 'log','noaction'];
-						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-					?>
-					// END breaking generate button
-				],
-				initComplete: function() {
-				},
-				rowCallback: function( row, data, index ) {
-					if ( data.iitxxmh.transaction_state == -9 ) {
-						$('td', row).addClass('text-danger');
-					}else if ( data.iitxxmh.transaction_state == 0 ) {
-						$('td', row).addClass('text-warning');
-					}
-				}
-			} );
-
-			tbliitxxmh.on( 'init', function () {
-				// atur hak akses
-				CekInitHeaderH(tbliitxxmh);
-			} );
-			
-			tbliitxxmh.on( 'select', function( e, dt, type, indexes ) {
-				// set variable standar framework
-				siVarSet('iitxxmh');
-
-				// atur hak akses
-				CekSelectHeaderH(tbliitxxmh);
-			} );
-
-			tbliitxxmh.on( 'deselect', function () {
-				// reset variable standar framework
-				siVarReset('iitxxmh');
-
-				// atur hak akses
-				CekDeselectHeaderH(tbliitxxmh);
-			} );
-
-			// END iitxxmh
-			
-		} );// end of document.ready
+	var id_ftxxxmh_old = 0;
 	
-	</script>
+	// get tableRelation
+	tableRelation('iitxxmh');
+
+	$(document).ready(function() {
+		// BEGIN iitxxmh
+		edtiitxxmh = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iitxxmh/iitxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iitxxmh = show_deleted_iitxxmh;
+				}
+			},
+			table: "#tbliitxxmh",
+			fields: [ 
+				{
+					label: "iitxxmh.start_at",
+					name: "iitxxmh.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "iitxxmh.finish_at",
+					name: "iitxxmh.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "iitxxmh",
+					type: "hidden"
+				},	
+				{
+					label: "iitxxmh.transaction_state",
+					name: "iitxxmh.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
+					name: "iitxxmh.nama"
+				}, 	
+				{
+					label: "Tax Type",
+					name: "iitxxmh.id_ftxxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/ftxxxmh/ftxxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_ftxxxmh_old: id_ftxxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
+					name: "iitxxmh.keterangan",
+					type: "textarea"
+				}
+			]
+		} );
+
+		edtiitxxmh.on( 'preOpen', function( e, mode, action ) {
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiitxxmh.field('iitxxmh.start_at').val(start_at);
+
+			if(action == 'create'){
+				tbliitxxmh.rows().deselect();
+
+				edtiitxxmh.field('iitxxmh.nama').enable();
+
+			}else if(action == 'edit'){
+				
+				if(transaction_state == 0){
+					edtiitxxmh.field('iitxxmh.nama').enable();
+				}else{
+					edtiitxxmh.field('iitxxmh.nama').disable();
+				}
+			}
+		});
+
+		edtiitxxmh.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirm();
+		});
+
+		edtiitxxmh.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				nama = edtiitxxmh.field('iitxxmh.nama').val();
+				validasiRequired(
+					edtiitxxmh, 
+					"iitxxmh", 
+					{
+						"nama": nama
+					}
+				)
+
+				validasiUnique(
+					action,
+					edtiitxxmh, 
+					'iitxxmh', 
+					'nama', 
+					'nama',
+					'"'+nama+'"',
+					id_iitxxmh
+				);
+			}
+			
+			if ( edtiitxxmh.inError() ) {
+				return false;
+			}
+		});
+		
+		edtiitxxmh.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiitxxmh.field('iitxxmh.finish_at').val(finish_at);
+		});
+
+		edtiitxxmh.on( 'close', function () {
+			edtiitxxmh.enable();
+		} );
+
+		tbliitxxmh = $('#tbliitxxmh').DataTable( {
+			ajax: {
+				url: "../../models/iitxxmh/iitxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iitxxmh = show_deleted_iitxxmh;
+				}
+			},
+			order: [[ 1, "asc" ]],
+			columns: [
+				{ data: "iitxxmh.id",visible:false },
+				{ data: "iitxxmh.nama" },
+				{ data: "ftxxxmh.kode" },
+				{ data: "iitxxmh.keterangan" },
+				{ 
+					data: "iitxxmh.transaction_state" ,
+					...renderTransactionStatus()
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_iitxxmh';
+					$table       = 'tbliitxxmh';
+					$edt         = 'edtiitxxmh';
+					$show_status = '_iitxxmh';
+					$table_name  = $nama_tabel;
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'view', 'log','noaction'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+			},
+			rowCallback: function( row, data, index ) {
+				if ( data.iitxxmh.transaction_state == -9 ) {
+					$('td', row).addClass('text-danger');
+				}else if ( data.iitxxmh.transaction_state == 0 ) {
+					$('td', row).addClass('text-warning');
+				}
+			}
+		} );
+
+		tbliitxxmh.on( 'init', function () {
+			// atur hak akses
+			CekInitHeaderH(tbliitxxmh);
+		} );
+		
+		tbliitxxmh.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSet('iitxxmh');
+
+			// atur hak akses
+			CekSelectHeaderH(tbliitxxmh);
+		} );
+
+		tbliitxxmh.on( 'deselect', function () {
+			// reset variable standar framework
+			siVarReset('iitxxmh');
+
+			// atur hak akses
+			CekDeselectHeaderH(tbliitxxmh);
+		} );
+
+		// END iitxxmh
+		
+	} );// end of document.ready
+
+</script>
 
 <!-- END datatables here -->
 
