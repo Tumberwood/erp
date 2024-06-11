@@ -69,9 +69,12 @@
 	// ------------- end of default variable
 
 	var id_iimxxmh, id_iumxxmh_unit_old  = 0, wlpxxmh_kode, wloxxmh_nama_target, jumlah_unit_old = 0;
-	
 	// get tableRelation
 	tableRelation('wptittd');
+
+	var uniqueToken = '';
+	var sisa = 0;
+	var is_valid_lpn = 0;
 
 	$(document).ready(function() {
 		// BEGIN wptittd
@@ -122,9 +125,26 @@
 					type: "hidden"
 				},
 				{
-					label: "wptittd.id_wloxxmh",
-					name: "wptittd.id_wloxxmh",
+					label: "wptittd.id_wloxxmh_asal",
+					name: "wptittd.id_wloxxmh_asal",
 					type: "hidden"
+				},
+				{
+					label: "wptittd.id_wloxxmh_tujuan",
+					name: "wptittd.id_wloxxmh_tujuan",
+					type: "hidden"
+				},
+				{
+					label: "wptittd.id_wpttpmh",
+					name: "wptittd.id_wpttpmh",
+					type: "hidden",
+					def: 1
+				},
+				{
+					label: "wptittd.id_wjtxxmh",
+					name: "wptittd.id_wjtxxmh",
+					type: "hidden",
+					def: 4
 				},
 				{
 					label: "Detail",
@@ -183,47 +203,87 @@
 		edtwptittd.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwptittd.field('wptittd.start_at').val(start_at);
+
+			edtwptittd.field('wptittd.id_iumxxmh_unit').hide();
+			edtwptittd.field('wptittd.keterangan').hide();
+			edtwptittd.field('wptittd.jumlah_unit').hide();
+			edtwptittd.field('wloxxmh_nama_scan').hide();
 			
 			if(action == 'create'){
 				tblwptittd.rows().deselect();
 			}else if(action == 'edit'){
 				
 			}
-
-			edtwptittd.field('wptittd.keterangan').disable();
 			
+			uniqueToken = generateUniqueToken();
+    		console.log(uniqueToken)
+			$(window).on('unload', function() {
+				updateJson(uniqueToken);
+			});
+			edtwptittd.field('wptittd.keterangan').disable();
+
+			//cek setting wh
+			autofillField('ggswmsh', 1, 'is_ganti_lokasi_putaway');
+			is_ganti_lokasi_putaway = autofillData.is_ganti_lokasi_putaway;
 		});
 
 		edtwptittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			window.addEventListener('beforeunload', confirmLeavePage);
 
+			//ini tunggu load ajax dulu, agar datanya hidden terisi
+			//ini untuk keperluan insert booking is_fisik 0,
+			//kalau tidak pakai ini, nanti error insert data null semua karena ajax belum success tapi udah di insert datanya
+			$('div.DTE_Form_Buttons button:eq(1)').hide();
+
+			// enable disable tombol Save & Confirm
+			// edtFormButtonSaveConfirm();
+			
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+			$('div.DTE_Form_Buttons button:eq(3)').hide();
 		});
 
 		edtwptittd.dependent( 'wptittd.wlpxxmh_kode', function ( val, data, callback ) {
 			wlpxxmh_kode = val;
 			wlpxxmh_kode_validasi();
+			$('div.DTE_Form_Buttons button:eq(1)').hide();
+			// $(this).unbind('change');
+			return {}
+		}, {event: 'change'});
+
+		edtwptittd.dependent( 'wptittd.id_iumxxmh_unit', function ( val, data, callback ) {
+			if (val > 0) {
+				outstandingItem();
+			}
+			return {}
+		}, {event: 'change'});
+
+		edtwptittd.dependent( 'wptittd.jumlah_unit', function ( val, data, callback ) {
+			if (val > 0) {
+				outstandingItem();
+			}
 			return {}
 		}, {event: 'change'});
 
 		edtwptittd.dependent( 'wloxxmh_nama_scan', function ( val, data, callback ) {
 			if(val != ''){
 				wloxxmh_nama_scan = val;
-				if(wloxxmh_nama_scan != wloxxmh_nama_target){
-					edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
-					edtwptittd.field('wloxxmh_nama_scan').val('');
-					console.log('xx');
-				}else{
-					edtwptittd.field('wloxxmh_nama_scan').error( '' );
-					console.log('lokasi ok');
+				if (is_ganti_lokasi_putaway == 1) {
+					validasiLocation();
+				} else {
+					if(wloxxmh_nama_scan != wloxxmh_nama_target){
+						edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
+						edtwptittd.field('wloxxmh_nama_scan').val('');
+						console.log('xx');
+					}else{
+						edtwptittd.field('wloxxmh_nama_scan').error( '' );
+						console.log('lokasi ok');
+					}
 				}
 			}
-			
-			
 			return {}
-		}, {event: 'keyup change'});
+		}, {event: 'keyup'});
 
 		edtwptittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -260,11 +320,13 @@
 				outstandingItem();
 				// console.log('sisa = '+sisa); //10.00
 				jumlah_unit = parseFloat(jumlah_unit);
+				// console.log(sisa);
 				// console.log('jumlah_unit = '+jumlah_unit); //5
 				if (jumlah_unit > sisa) {
 					// console.log(11);
 					edtwptittd.field('wptittd.jumlah_unit').error( 'Jumlah Max: '+sisa );
 				} else {
+					edtwptittd.field('wptittd.jumlah_unit').error('');
 					// console.log(22);
 				}
 
@@ -287,8 +349,9 @@
 		
 		edtwptittd.on('postSubmit', function(e, json, data, action, xhr) {
 			if (action != 'remove') {
-				id_transaksi = json.data[0].wptittd.id;
-				konversiUom('wptittd', id_transaksi );
+				// console.log(json);
+				// id_transaksi = json.data[0].wptittd.id;
+				// konversiUom('wptittd', id_transaksi );
 				
 				tblwptittd.rows().deselect();
 			}
@@ -296,6 +359,9 @@
 
 		edtwptittd.on( 'close', function () {
 			edtwptittd.enable();
+			//delete iiv fisik 0 atau booking
+			window.removeEventListener('beforeunload', confirmLeavePage);
+			booking(3);
 		} );
 
 		tblwptittd = $('#tblwptittd').DataTable( {
@@ -327,14 +393,14 @@
 			],
 			columns: [
 				{ data: "wptittd.id",visible:false },
-				{ data: "wptittd.kode" },
+				{ data: "wptittd.kode" ,visible:false },
 				{ data: "wptittd.wlpxxmh_kode" },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.kode" },
 				{ 
 					data: "wptittd.jumlah_unit",
-					...renderNumber( 0, "")
+					...renderNumber( 2, "")
 				},
 				{ 
 					data: "wptittd.transaction_state" ,
@@ -342,19 +408,101 @@
 				}
 			],
 			buttons: [
-				// BEGIN breaking generate button
-				<?php
-					$id_table    = 'id_wptittd';
-					$table       = 'tblwptittd';
-					$edt         = 'edtwptittd';
-					$show_status = '_wptittd';
-					$table_name  = $nama_tabel;
+				{ 
+					extend: 'create',
+					name: 'btnCreate', 
+					editor: edtwptittd, 
+					text: '<i class="fa fa-plus"></i>&nbsp;Add New', 
+					className: 'btn btn-sm', 
+					titleAttr: 'Add New',
+					formButtons: [
+						{
+							text: 'Cancel',
+							name: 'btnCancel',
+							action: function () {
+								confirm_cancel = confirm('Apakah anda yakin?');
+								if (confirm_cancel) {
+									this.close();
+								}
+								// alert('tes');
+							},
+							className: 'btn btn-warning m-r-xs'
+						},
+						{
+							text: 'Load',
+							name: 'btnLoad',
+							action: function () {
+								// this.close();
+								// alert('Load');
+								// wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
+								
+								// // console.log(wlpxxmh_kode);
+								// validasiRequired(
+								// 	edtwptittd,
+								// 	'wptittd',
+								// 	{
+								// 		'wlpxxmh_kode'   : wlpxxmh_kode,
+								// 	}
+								// );
+								
+								// if ( edtwptittd.inError() ) {
+								// 	return false;
+								// } else {
+									
+								// }
+							},
+							className: 'btn btn-primary m-r-xs'
+						},
+						{
+							text: 'Start',
+							name: 'btnStart',
+							action: function () {
+								// this.close();
+								outstandingItem();
+								jumlah_unit = edtwptittd.field('wptittd.jumlah_unit').val();
 
-					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
-					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-				?>
+								// console.log('sisa = '+sisa); //10.00
+								jumlah_unit = parseFloat(jumlah_unit);
+								// console.log('jumlah_unit = '+jumlah_unit); //5
+								if (jumlah_unit > sisa) {
+									// console.log(11);
+									edtwptittd.field('wptittd.jumlah_unit').error( 'Jumlah Max: '+sisa );
+								} else {
+									edtwptittd.field('wptittd.jumlah_unit').error('');
+									
+									$('div.DTE_Form_Buttons button:eq(1)').hide();
+									$('div.DTE_Form_Buttons button:eq(2)').hide();
+									$('div.DTE_Form_Buttons button:eq(3)').show();
+									console.log('uniqueToken start' +uniqueToken);
+									booking(2);
+									edtwptittd.field('wloxxmh_nama_scan').show();
+									edtwptittd.field('wloxxmh_nama_scan').focus();
+								}
+
+								if ( edtwptittd.inError() ) {
+									return false;
+								}
+							},
+							className: 'btn btn-primary m-r-xs'
+						},
+						{
+							text: 'Finish',
+							action: function (e, dt, node, config, cb){
+								this.submit(
+									function (json) {
+										id_transaksi_h = json.data[0].wptittd.id;
+										fnConfirm('wptittd', tblwptittd );
+									}, 
+								);
+								
+								
+
+							},
+							className: 'btn btn-primary'
+						}
+					]
+				},
+                    // END 
 				// END breaking generate button
 			],
 			initComplete: function() {
@@ -381,7 +529,7 @@
 			// set variable standar framework
 			siVarSet('wptittd');
 			id_iumxxmh_unit_old = wptittd_data.id_iumxxmh_unit;
-			jumlah_unit_old = wptittd_data.jumlah_unit;
+			jumlah_unit_old = wptittd_data.jumlah_unit_default;
 
 			// atur hak akses
 			CekSelectHeaderH(tblwptittd);

@@ -465,8 +465,8 @@
 		edtwreittd.on('postSubmit', function(e, json, data, action, xhr) {
 			
 			if (action != 'remove') {
-				id_transaksi = json.data[0].wreittd.id;
-				konversiUom('wreittd', id_transaksi );
+				// id_transaksi = json.data[0].wreittd.id;
+				// konversiUom('wreittd', id_transaksi );
 				
 				tblwreittd.rows().deselect();
 			}

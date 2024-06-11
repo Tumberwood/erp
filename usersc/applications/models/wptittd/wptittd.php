@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -30,9 +31,15 @@
 			Field::inst( 'wptittd.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue($s_id_gbrxxmh),
+			Field::inst( 'wptittd.id_wjtxxmh' )  //Master job_type
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wptittd.id_wpttpmh' ) //Master Put Away, Seperti Normal, Marathon
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wptittd.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'wptittd.id_wloxxmh' )
+			Field::inst( 'wptittd.id_wloxxmh_asal' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wptittd.id_wloxxmh_tujuan' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wptittd.id_iimxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -91,10 +98,10 @@
 			->where( 'wptittd.transaction_state', -9, '<>');
 	}
 	
-	include( "wptittd_extra.php" );
-
+	
 	// BEGIN log
 	$nama_table = 'wptittd';
+	include( "wptittd_extra.php" );
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	
