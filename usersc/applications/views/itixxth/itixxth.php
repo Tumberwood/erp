@@ -17,6 +17,35 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
+				<div class="modal" id="modalSFitixxth" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblitixxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -82,7 +111,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/itixxth/fn/itixxth_fn.php'; ?>
 
@@ -93,13 +122,17 @@
 	var edtitiittd, tblitiittd, show_deleted_itiittd = 0, id_itiittd;
 	// ------------- end of default variable
 
-	var is_need_generate_kode = 1;
+	// get tableRelation
+	tableRelation('itixxth');	
 
 	var id_iwhxxmh_asal_old = 0, id_iwhxxmh_tujuan_old = 0, id_itoxxth_old = 0;
 	var id_iimxxmh, id_iumxxmh_unit_old = 0, jumlah_unit_old = 0; id_iimxxmh_old = 0;
 
 	$(document).ready(function() {
-		//start datatables editor
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		
+		// BEGIN itixxth
 		edtitixxth = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/itixxth/itixxth.php",
@@ -290,6 +323,7 @@
 
 		edtitixxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edtitixxth.dependent( 'itixxth.id_itoxxth', function ( val, data, callback ) {
@@ -363,7 +397,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			responsive: false,
@@ -413,7 +447,7 @@
 		} );
 
 		tblitixxth.searchPanes.container().appendTo('#spitixxth');
-			tblitixxth.searchBuilder.container().appendTo( '#sbitixxth' );
+		tblitixxth.searchBuilder.container().appendTo( '#sbitixxth' );
 		
 		tblitixxth.on( 'init', function () {
 			// atur hak akses
@@ -422,13 +456,7 @@
 		} );
 		
 		tblitixxth.on( 'select', function( e, dt, type, indexes ) {
-			itixxth_data    		= tblitixxth.row( { selected: true } ).data().itixxth;
-			id_itixxth      		= itixxth_data.id;
-			id_transaksi_h 		= id_itixxth; // dipakai untuk general
-			id_transaksi_log	= id_itixxth; // dipakai untuk general
-			transaction_state   = itixxth_data.transaction_state;
-			approval_state   	= itixxth_data.approval_state;
-			is_nextprocess 		= itixxth_data.is_nextprocess;
+			siVarSet('itixxth');
 			id_itoxxth_old		= itixxth_data.id_itoxxth;
 			ids_itoxxth		= itixxth_data.id_itoxxth;
 			
@@ -439,8 +467,7 @@
 		} );
 		
 		tblitixxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_itixxth = 0;
+			siVarReset('itixxth');
 			id_itoxxth_old = 0;
 			ids_itoxxth = 0;
 
@@ -448,10 +475,9 @@
 			tbl_details = [tblitiittd];
 			CekDeselectHeaderHD(tblitixxth, tbl_details);
 		} );
-		
-// --------- start _detail --------------- //
+		// END itixxth
 
-		//start datatables editor
+		// BEGIN itiittd
 		edtitiittd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/itixxth/itiittd.php",
@@ -590,6 +616,7 @@
 
 		edtitiittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtitiittd.dependent( 'itiittd.id_iimxxmh', function ( val, data, callback ) {
@@ -636,25 +663,17 @@
 		});
 			
 		edtitiittd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
-			if (action != 'remove') {
-				id_last_insert = json.data[0].itiittd.id;
-				konversiUom(id_last_insert, 'itiittd');
-			}
+			tblitixxth.rows().deselect();
+			tblitixxth.ajax.reload(null, false);
+			tblitiittd.rows().deselect();
+			tblitiittd.ajax.reload(null, false);
 		} );
 
 		edtitiittd.on( 'close', function () {
 			edtitiittd.enable();
 		} );
 		
-		//start datatables
 		tblitiittd = $('#tblitiittd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/itixxth/itiittd.php",
 				type: 'POST',
@@ -664,20 +683,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "itiittd.id",visible:false },
 				{ data: "itiittd.id_itixxth",visible:false },
@@ -704,45 +709,36 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
 			},
 			rowCallback: function( row, data, index ) {
 			}
 		} );
 
-		tblitiittd.searchPanes.container().appendTo('#spitiittd');
-		tblitiittd.searchBuilder.container().appendTo( '#sbitiittd' );
-
 		tblitiittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblitixxth, tblitiittd, 'itiittd' );
+			CekDrawDetailHD( tblitiittd, 1 );
 			CekDrawDetailHDFinal(tblitixxth);
 		} );
 
 		tblitiittd.on( 'select', function( e, dt, type, indexes ) {
-			data_itiittd 		= tblitiittd.row( { selected: true } ).data().itiittd;
-			id_itiittd   		= data_itiittd.id;
-			id_transaksi_d 		= id_itiittd; // dipakai untuk general
-			id_transaksi_log 	= id_itiittd; // dipakai untuk log
-
-			transaction_state_d   = data_itiittd.transaction_state;
+			siVarSetD('itiittd');
 			id_iimxxmh_old   = data_itiittd.id_iimxxmh;
 			id_iumxxmh_unit_old   = data_itiittd.id_iumxxmh_unit;
 			jumlah_unit_old   = data_itiittd.jumlah_unit;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblitixxth, tblitiittd );
+			CekSelectDetailHD( tblitiittd );
 		} );
 
 		tblitiittd.on( 'deselect', function() {
-			id_itiittd = 0;
+			siVarResetD('itiittd');
 			id_iimxxmh_old = 0;
 			jumlah_unit_old = 0;
 			id_iumxxmh_unit_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblitixxth, tblitiittd );
+			CekDeselectDetailHD( tblitiittd );
 		} );
 
 // --------- end _detail --------------- //		
