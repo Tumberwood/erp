@@ -72,7 +72,7 @@
                                             edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini tidak ditemukan dalam report inventory!' );
                                         }
                                         
-                                        console.log(is_valid_lpn);
+                                        // console.log(is_valid_lpn);
                                         if (is_valid_lpn == 1) {
                                             $('div.DTE_Form_Buttons button:eq(1)').hide();
                                             $('div.DTE_Form_Buttons button:eq(2)').show();
@@ -83,7 +83,7 @@
                                             edtwptittd.field('wptittd.jumlah_unit').show();
                                             edtwptittd.field('wptittd.jumlah_unit').focus();
 
-                                            console.log('uniqueToken load' +uniqueToken);
+                                            // console.log('uniqueToken load' +uniqueToken);
                                             booking(1);
                                         }
                                     }
@@ -132,21 +132,21 @@
 
                 id_iumxxmh_terkecil = json.data.id_iumxxmh_terkecil;
                 id_iumxxmh_default = json.data.id_iumxxmh_default;
-                console.log(id_iumxxmh_terkecil);
+                // console.log(id_iumxxmh_terkecil);
 
                 if (id_iumxxmh_unit == id_iumxxmh_terkecil) {
                     //terkecil tidak mungkin decimal atau 1,99
                     sisa = Math.round(json.data.jumlah_terkecil);
-                    console.log('terkecil');
-                    console.log(sisa);
+                    // console.log('terkecil');
+                    // console.log(sisa);
                 } else if (id_iumxxmh_unit == id_iumxxmh_default) {
                     sisa = parseFloat(json.data.jumlah_default).toFixed(2);
-                    console.log('def');
-                    console.log(sisa);
+                    // console.log('def');
+                    // console.log(sisa);
                 } else {
                     sisa = json.data.jumlah_konversi;
-                    console.log('konv');
-                    console.log(sisa);
+                    // console.log('konv');
+                    // console.log(sisa);
                 }
             }
         } );
@@ -166,7 +166,7 @@
         jumlah_unit = edtwptittd.field('wptittd.jumlah_unit').val();
         id_wloxxmh_asal = edtwptittd.field('wptittd.id_wloxxmh_asal').val();
         id_wloxxmh_tujuan = edtwptittd.field('wptittd.id_wloxxmh_tujuan').val();
-        console.log("state = "+state);
+        // console.log("state = "+state);
 
         $.ajax( {
             url: "../../models/wptittd/wptittd_iivxxrd_booking.php",
@@ -185,7 +185,7 @@
                 state: state,
             },
             success: function ( json ) {
-                console.log('oke');
+                // console.log('oke');
             }
         } );
     }
@@ -201,7 +201,7 @@
             },
             success: function ( json ) {
                 c_id = json.data.c_id;
-                console.log('ajax c_id = '+c_id);
+                // console.log('ajax c_id = '+c_id);
                 
                 if (c_id > 0) {
                     edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini sedang dipakai oleh user lain!' );
@@ -232,7 +232,7 @@
             },
             success: function ( json ) {
                 id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
-                console.log(id_wloxxmh_tujuan);
+                // console.log(id_wloxxmh_tujuan);
 
                 //ini code jika is_ganti_lokasi_putaway == 1
                 //cek apakah lokasi yang discan sama dengan yang di detail/keterangan
@@ -242,23 +242,23 @@
                         if(id_wloxxmh_tujuan == 0){
                             edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
                             edtwptittd.field('wloxxmh_nama_scan').val('');
-                            console.log('xx');
+                            // console.log('xx');
                         }else{
                             const confirm_loc = confirm('Apakah anda ingin mengganti lokasi simpan?');
                             if (confirm_loc) {
                                 edtwptittd.field('wloxxmh_nama_scan').error( '' );
-                                console.log('lokasi ok');
+                                // console.log('lokasi ok');
                                 edtwptittd.field('wptittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan);     
                             } else {
                                 edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
                                 edtwptittd.field('wloxxmh_nama_scan').val('');
-                                console.log('xx');
+                                // console.log('xx');
                             }
                         }
                 }else{
                     //meskipun kalo is_ganti_lokasi_putaway == 1 tapi nama scan sesui dengan yang detail maka pakai coding ini untuk OK
                     edtwptittd.field('wloxxmh_nama_scan').error( '' );
-                    console.log('lokasi ok');
+                    // console.log('lokasi ok');
                 }
             }
         } );
@@ -270,7 +270,7 @@
         };
         // Convert data to JSON format
         var jsonData = JSON.stringify(data);
-        console.log(jsonData);
+        // console.log(jsonData);
         // Send data asynchronously using navigator.sendBeacon
         navigator.sendBeacon('../..//models/wptittd/wptittd_fn_remove_booking.php', jsonData);
     }

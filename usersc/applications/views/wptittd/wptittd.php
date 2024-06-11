@@ -216,7 +216,7 @@
 			}
 			
 			uniqueToken = generateUniqueToken();
-    		console.log(uniqueToken)
+    		// console.log(uniqueToken)
 			$(window).on('unload', function() {
 				updateJson(uniqueToken);
 			});
@@ -275,10 +275,10 @@
 					if(wloxxmh_nama_scan != wloxxmh_nama_target){
 						edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
 						edtwptittd.field('wloxxmh_nama_scan').val('');
-						console.log('xx');
+						// console.log('xx');
 					}else{
 						edtwptittd.field('wloxxmh_nama_scan').error( '' );
-						console.log('lokasi ok');
+						// console.log('lokasi ok');
 					}
 				}
 			}
@@ -473,7 +473,7 @@
 									$('div.DTE_Form_Buttons button:eq(1)').hide();
 									$('div.DTE_Form_Buttons button:eq(2)').hide();
 									$('div.DTE_Form_Buttons button:eq(3)').show();
-									console.log('uniqueToken start' +uniqueToken);
+									// console.log('uniqueToken start' +uniqueToken);
 									booking(2);
 									edtwptittd.field('wloxxmh_nama_scan').show();
 									edtwptittd.field('wloxxmh_nama_scan').focus();
