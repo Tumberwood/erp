@@ -1277,7 +1277,7 @@
 			hitungDpp(edtpodittd, 'podittd');
 
 			id_prqittd = edtpodittd.field('podittd.id_prqittd').val();
-			// validasi_outstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
+			validasiOutstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -1379,7 +1379,7 @@
 				}
 
 				
-			validasi_outstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
+			validasiOutstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
 
 			}
 			
@@ -1395,9 +1395,6 @@
 			
 		edtpodittd.on( 'postSubmit', function (e, json, data, action, xhr) {
 			if (action != 'remove') {
-				// id_last_insert = json.data[0].podittd.id;
-				// id_transaksi_d = json.data[0].podittd.id;
-				// konversiUom('podittd', id_last_insert);
 				tblpodittd.rows().deselect();
 			}
 			
@@ -1492,10 +1489,10 @@
 
 		tblpodittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('podittd');
-			id_iimxxmh          = data_podittd.id_iimxxmh;
-			id_iimxxmh_old      = data_podittd.id_iimxxmh;
-			id_iumxxmh_unit_old = data_podittd.id_iumxxmh_unit;
-			id_prqittd_old      = data_podittd.id_prqittd;
+			id_iimxxmh          = podittd_data.id_iimxxmh;
+			id_iimxxmh_old      = podittd_data.id_iimxxmh;
+			id_iumxxmh_unit_old = podittd_data.id_iumxxmh_unit;
+			id_prqittd_old      = podittd_data.id_prqittd;
 
 			// atur hak akses
 			CekSelectDetailHD( tblpodittd );
@@ -1503,9 +1500,7 @@
 
 		tblpodittd.on( 'deselect', function() {
 			siVarResetD('podittd');
-			id_iimxxmh_old = 0;
-			id_prqittd_old = 0;
-			id_iumxxmh_unit_old= 0;
+			id_iimxxmh_old = 0, id_prqittd_old = 0, id_iumxxmh_unit_old= 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblpodittd );
