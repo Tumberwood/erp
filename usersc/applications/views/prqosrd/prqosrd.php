@@ -22,6 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Purchase Request</th>
+                                <th>Tanggal PO</th>
                                 <th>Purchase Order</th>
                                 <th>Item PR</th>
                                 <th>Item Code</th>
@@ -53,115 +54,116 @@
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/prqosrd/fn/prqosrd_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
-		// ------------- default variable, do not erase
-		var edtprqittd, tblprqittd, show_deleted_prqittd = 0, id_prqittd;
-		// ------------- end of default variable
-		
-		$(document).ready(function() {
-			
-			//start datatables
-			tblprqittd = $('#tblprqittd').DataTable( {
-				dom: domPQ,
-				searchPanes:{
-					layout: 'columns-4',
-				},
-				ajax: {
-					url: "../../models/prqosrd/prqosrd.php",
-					type: 'POST',
-					data: function (d){
-						
-					}
-				},
-				order: [[ 1, "asc" ]],
-				columnDefs:[
-					{
-						searchPanes:{
-							show: true,
-						},
-						targets: [1,2,3,5]
-					},
-					{
-						searchPanes:{
-							show: false,
-						},
-						targets: [0,4,6,7,8,9]
-					}
-				],
-				responsive: false,
-				scrollX: true,
-				columns: [
-					{ data: "id",visible:false },
-					{ data: "kode_pr" },
-					{ data: "kode_po" },
-					{ data: "item_pr" },
-					{ data: "item_code" },
-					{ data: "item_po" },
-					{ 
-						data: "qty_pr",
-						...renderNumber(0)
-					},
-					{ data: "uom_pr" },
-					{ 
-						data: "qty_po" ,
-						...renderNumber(0)
-					},
-					{ data: "uom_po" },
-				],
-				buttons: [
-					// BEGIN breaking generate button
-					<?php
-						$id_table    = 'id_prqittd';
-						$table       = 'tblprqittd';
-						$edt         = 'edtprqittd';
-						$show_status = '_prqittd';
-						$table_name  = $nama_tabel;
-
-						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
-						$arr_buttons_action 	= [];
-						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
-					?>
-					// END breaking generate button
-				],
-				initComplete: function() {
-					this.api().searchPanes.rebuildPane();
-				}
-			} );
-
-			tblprqittd.searchPanes.container().appendTo('#spprqittd');
-			tblprqittd.searchBuilder.container().appendTo( '#sbprqittd' );
-			
-			tblprqittd.on( 'init', function () {
-				// atur hak akses
-				CekInitHeaderH(tblprqittd);
-			} );
-			
-			tblprqittd.on( 'select', function( e, dt, type, indexes ) {
-				prqittd_data    		= tblprqittd.row( { selected: true } ).data();
-				id_prqittd      		= prqittd_data.id;
-				console.log(id_prqittd);
-
-				// atur hak akses
-				CekSelectHeaderH(tblprqittd);
-			} );
-
-			tblprqittd.on( 'deselect', function () {
-				// reload dipanggil di function CekDeselectHeader
-				id_prqittd = 0;
-
-				// atur hak akses
-				CekDeselectHeaderH(tblprqittd);
-			} );
-			
-		} );// end of document.ready
+	// ------------- default variable, do not erase
+	var edtprqittd, tblprqittd, show_deleted_prqittd = 0, id_prqittd;
+	// ------------- end of default variable
 	
-	</script>
+	$(document).ready(function() {
+		
+		//start datatables
+		tblprqittd = $('#tblprqittd').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-4',
+			},
+			ajax: {
+				url: "../../models/prqosrd/prqosrd.php",
+				type: 'POST',
+				data: function (d){
+					
+				}
+			},
+			order: [[ 1, "asc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [1,2,3,5]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: '_all'
+				}
+			],
+			responsive: false,
+			scrollX: true,
+			columns: [
+				{ data: "id",visible:false },
+				{ data: "kode_pr" },
+				{ data: "tanggal_po" },
+				{ data: "kode_po" },
+				{ data: "item_pr" },
+				{ data: "item_code" },
+				{ data: "item_po" },
+				{ 
+					data: "qty_pr",
+					...renderNumber(0)
+				},
+				{ data: "uom_pr" },
+				{ 
+					data: "qty_po" ,
+					...renderNumber(0)
+				},
+				{ data: "uom_po" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_prqittd';
+					$table       = 'tblprqittd';
+					$edt         = 'edtprqittd';
+					$show_status = '_prqittd';
+					$table_name  = $nama_tabel;
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			}
+		} );
+
+		tblprqittd.searchPanes.container().appendTo('#spprqittd');
+		tblprqittd.searchBuilder.container().appendTo( '#sbprqittd' );
+		
+		tblprqittd.on( 'init', function () {
+			// atur hak akses
+			CekInitHeaderH(tblprqittd);
+		} );
+		
+		tblprqittd.on( 'select', function( e, dt, type, indexes ) {
+			prqittd_data    		= tblprqittd.row( { selected: true } ).data();
+			id_prqittd      		= prqittd_data.id;
+			console.log(id_prqittd);
+
+			// atur hak akses
+			CekSelectHeaderH(tblprqittd);
+		} );
+
+		tblprqittd.on( 'deselect', function () {
+			// reload dipanggil di function CekDeselectHeader
+			id_prqittd = 0;
+
+			// atur hak akses
+			CekDeselectHeaderH(tblprqittd);
+		} );
+		
+	} );// end of document.ready
+
+</script>
 
 <!-- END javascript here -->
 
