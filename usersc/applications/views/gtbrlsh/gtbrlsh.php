@@ -24,7 +24,11 @@
                                 <th>Nama</th>
                                 <th>Header</th>
                                 <th>Detail</th>
-                                <th>Keterangan</th>
+                                <th>Master</th>
+                                <th>Approval</th>
+                                <th>Document No</th>
+                                <th>Jurnal</th>
+                                <th>Inventory</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -130,7 +134,7 @@
 					]
 				},
 				{
-					label: "Auto Generate Kode",
+					label: "Auto Generate No Dokumen",
 					name: "gtbrlsh.is_need_generate_kode",
 					type: "select",
 					placeholder : "Select",
@@ -252,7 +256,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,3,4,5]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -260,7 +264,26 @@
 				{ data: "gtbrlsh.nama" },
 				{ data: "gtbrlsh.tblheader" },
 				{ data: "gtbrlsh.tbldetails" },
-				{ data: "gtbrlsh.keterangan" },
+				{ 
+					data: "gtbrlsh.is_master_table" ,
+					...renderYaTidak()
+				},
+				{ 
+					data: "gtbrlsh.is_need_approval" ,
+					...renderYaTidak()
+				},
+				{ 
+					data: "gtbrlsh.is_need_generate_kode" ,
+					...renderYaTidak()
+				},
+				{ 
+					data: "gtbrlsh.is_need_jurnal" ,
+					...renderYaTidak()
+				},
+				{ 
+					data: "gtbrlsh.is_need_inventory" ,
+					...renderYaTidak()
+				},
 				{ 
 					data: "gtbrlsh.transaction_state" ,
 					...renderTransactionStatus()
