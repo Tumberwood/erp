@@ -332,7 +332,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/sqtxxth/fn/sqtxxth_fn.php'; ?>
 
@@ -349,19 +349,6 @@
 
 	// get tableRelation
 	tableRelation('sqtxxth');
-
-	// BEGIN datepicker init
-	$('#periode').datepicker({
-		setDate: new Date(),
-		autoclose: true,
-		todayHighlight: true,
-		clearBtn: true,
-		format: "dd M yyyy",
-		minViewMode: 'month' 
-	});
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
-	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-	// END datepicker init
 
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -666,6 +653,7 @@
 
 		edtsqtxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			edtFormButtonSaveConfirmHD();
 
 			$('#select_id_fcrxxmh').select2('open');
 			setTimeout(function() {
@@ -806,7 +794,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4,5]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -869,14 +857,7 @@
 		} );
 		
 		tblsqtxxth.on( 'select', function( e, dt, type, indexes ) {
-			sqtxxth_data      = tblsqtxxth.row( { selected: true } ).data().sqtxxth;
-			id_sqtxxth        = sqtxxth_data.id;
-			id_transaksi_h    = id_sqtxxth;                                           // dipakai untuk general
-			id_transaksi_log  = id_sqtxxth;                                           // dipakai untuk general
-			transaction_state = sqtxxth_data.transaction_state;
-			approval_state    = sqtxxth_data.approval_state;
-			is_nextprocess    = sqtxxth_data.is_nextprocess;
-			
+			siVarSet('sqtxxth');
 			id_grlxxmh_old = sqtxxth_data.id_grlxxmh_customer;
 			id_fpytmmh_old = sqtxxth_data.id_fpytmmh;
 			id_fcrxxmh_old = sqtxxth_data.id_fcrxxmh;
@@ -895,8 +876,7 @@
 		} );
 		
 		tblsqtxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_sqtxxth = 0;
+			siVarReset('sqtxxth');
 			id_grlxxmh_old = 0, id_fpytmmh_old = 0, id_fcrxxmh_old = 0;
 
 			// terkait footer
@@ -1092,6 +1072,7 @@
 
 		edtsqtittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtsqtittd.dependent( 'sqtittd.id_iimxxmh', function ( val, data, callback ) {
@@ -1212,8 +1193,6 @@
 			tblsqtxxth.ajax.reload(null, false);
 			tblsqtittd.ajax.reload(null, false);
 
-			// tblsqtittd.rows().deselect();
-			// tblsqtittd.ajax.reload(null, false);
 		} );
 
 		edtsqtittd.on( 'close', function () {
@@ -1291,40 +1270,48 @@
 
 		tblsqtittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblsqtxxth, tblsqtittd, 'sqtittd' );
+			CekDrawDetailHD( tblsqtittd, 1 );
 			CekDrawDetailHDFinal(tblsqtxxth);
 		} );
 
 		tblsqtittd.on( 'select', function( e, dt, type, indexes ) {
-			data_sqtittd 		= tblsqtittd.row( { selected: true } ).data().sqtittd;
-			id_sqtittd   		= data_sqtittd.id;
-			id_transaksi_d 		= id_sqtittd; // dipakai untuk general
-			id_transaksi_log_d 	= id_sqtittd; // dipakai untuk log
-
-			transaction_state_d   = data_sqtittd.transaction_state;
-
-			id_iumxxmh_unit_old = data_sqtittd.id_iumxxmh_unit;
-			id_iimxxmh          = data_sqtittd.id_iimxxmh;
-			id_iimxxmh_old = data_sqtittd.id_iimxxmh;
-			
+			siVarSetD('sqtittd');
+			id_iumxxmh_unit_old = sqtittd_data.id_iumxxmh_unit;
+			id_iimxxmh          = sqtittd_data.id_iimxxmh;
+			id_iimxxmh_old      = sqtittd_data.id_iimxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblsqtxxth, tblsqtittd );
+			CekSelectDetailHD( tblsqtittd );
 		} );
 
 		tblsqtittd.on( 'deselect', function() {
-			id_sqtittd = 0;
-			id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0;
+			siVarResetD('sqtittd');
+			id_iumxxmh_unit_old = 0, id_iimxxmh = 0, id_iimxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblsqtxxth, tblsqtittd );
+			CekDeselectDetailHD( tblsqtittd );
 		} );
 
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
 		}).validate({
 			rules: {
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
 			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
