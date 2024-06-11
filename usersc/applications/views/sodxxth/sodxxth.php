@@ -332,7 +332,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/sodxxth/fn/sodxxth_fn.php'; ?>
 
@@ -349,20 +349,7 @@
 
 	// get tableRelation
 	tableRelation('sodxxth');
-
-	// BEGIN datepicker init
-	$('#periode').datepicker({
-		setDate: new Date(),
-		autoclose: true,
-		todayHighlight: true,
-		clearBtn: true,
-		format: "dd M yyyy",
-		minViewMode: 'month' 
-	});
-	$('#start_date').datepicker('setDate', awal_bulan_dmy);
-	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
-	// END datepicker init
-
+	
 	$(document).ready(function() {
 		
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -653,6 +640,7 @@
 
 		edtsodxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			edtFormButtonSaveConfirmHD();
 
 			$('#select_id_fcrxxmh').select2('open');
 			setTimeout(function() {
@@ -760,7 +748,6 @@
 		});
 		
 		edtsodxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// tblsodxxth.rows().deselect();
 			tblsodxxth.ajax.reload(null, false);
 
 			edtsodxxth.field('sodxxth.diskon_final').val(diskon_final_h);
@@ -799,7 +786,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4,5]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -862,14 +849,7 @@
 		} );
 		
 		tblsodxxth.on( 'select', function( e, dt, type, indexes ) {
-			sodxxth_data      = tblsodxxth.row( { selected: true } ).data().sodxxth;
-			id_sodxxth        = sodxxth_data.id;
-			id_transaksi_h    = id_sodxxth;                                           // dipakai untuk general
-			id_transaksi_log  = id_sodxxth;                                           // dipakai untuk general
-			transaction_state = sodxxth_data.transaction_state;
-			approval_state    = sodxxth_data.approval_state;
-			is_nextprocess    = sodxxth_data.is_nextprocess;
-			
+			siVarSet('sodxxth');		
 			id_grlxxmh_old = sodxxth_data.id_grlxxmh_customer;
 			id_fpytmmh_old = sodxxth_data.id_fpytmmh;
 			id_fcrxxmh_old = sodxxth_data.id_fcrxxmh;
@@ -888,8 +868,7 @@
 		} );
 		
 		tblsodxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_sodxxth = 0;
+			siVarReset('sodxxth');
 			id_grlxxmh_old = 0, id_fpytmmh_old = 0, id_fcrxxmh_old = 0;
 
 			// terkait footer
@@ -1085,6 +1064,7 @@
 
 		edtsodittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtsodittd.dependent( 'sodittd.id_iimxxmh', function ( val, data, callback ) {
@@ -1205,8 +1185,6 @@
 			tblsodxxth.ajax.reload(null, false);
 			tblsodittd.ajax.reload(null, false);
 
-			// tblsodittd.rows().deselect();
-			// tblsodittd.ajax.reload(null, false);
 		} );
 
 		edtsodittd.on( 'close', function () {
@@ -1283,34 +1261,26 @@
 
 		tblsodittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblsodxxth, tblsodittd, 'sodittd' );
+			CekDrawDetailHD( tblsodittd, 1 );
 			CekDrawDetailHDFinal(tblsodxxth);
 		} );
 
 		tblsodittd.on( 'select', function( e, dt, type, indexes ) {
-			data_sodittd 		= tblsodittd.row( { selected: true } ).data().sodittd;
-			id_sodittd   		= data_sodittd.id;
-			id_transaksi_d 		= id_sodittd; // dipakai untuk general
-			id_transaksi_log_d 	= id_sodittd; // dipakai untuk log
-
-			transaction_state_d   = data_sodittd.transaction_state;
-
+			siVarSetD('sodittd');
 			id_iumxxmh_unit_old = data_sodittd.id_iumxxmh_unit;
 			id_iimxxmh          = data_sodittd.id_iimxxmh;
 			id_iimxxmh_old = data_sodittd.id_iimxxmh;
 			
-			
 			// atur hak akses
-			CekSelectDetailHD(tblsodxxth, tblsodittd );
+			CekSelectDetailHD( tblsodittd );
 		} );
 
 		tblsodittd.on( 'deselect', function() {
-			id_sodittd = 0;
+			siVarResetD('sodittd');
 			id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblsodxxth, tblsodittd );
+			CekDeselectDetailHD( tblsodittd );
 		} );
 
 		// END sodittd
@@ -1319,10 +1289,27 @@
 			e.preventDefault();
 		}).validate({
 			rules: {
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
 			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblsodxxth.rows().deselect();
 				tblsodxxth.ajax.reload(function ( json ) {
