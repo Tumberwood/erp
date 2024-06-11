@@ -363,6 +363,82 @@
                 
             }
         } // end of function isNextProcess
+
+        public static function konversiUom( $db, $nama_table, $id) {
+            
+            $qs_transaksi = $db
+                ->query('select', $nama_table )
+                ->get([
+                    'id_iimxxmh as id_iimxxmh',
+                    'id_iumxxmh_unit as id_iumxxmh_unit',
+                    'jumlah_unit as jumlah_unit'
+                ] )
+                ->where('id', $id )
+                ->exec();
+            $rs_transaksi = $qs_transaksi->fetch();
+
+            $id_iimxxmh         = $rs_transaksi['id_iimxxmh'];
+            $id_iumxxmh_unit    = $rs_transaksi['id_iumxxmh_unit'];
+            $jumlah_unit        = $rs_transaksi['jumlah_unit'];
+
+            // BEGIN get jumlah_konversi
+            $qs_jumlah_konversi = $db
+                ->query('select', 'iimummd')
+                ->get('jumlah_konversi')
+                ->where('id_iimxxmh',$id_iimxxmh)
+                ->where('id_iumxxmh',$id_iumxxmh_unit)
+                ->exec();
+            $rs_jumlah_konversi = $qs_jumlah_konversi->fetch();
+
+            $jumlah_konversi    = $rs_jumlah_konversi['jumlah_konversi'];
+            $jumlah_terkecil    = $jumlah_konversi * $jumlah_unit; //1 * 30
+            // END get jumlah_konversi
+
+            // BEGIN get UoM terkecil
+            $qs_iumxxmh_terkecil = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'id_iumxxmh as id_iumxxmh_terkecil'
+                ] )
+                ->where('iimummd.id_iimxxmh', $id_iimxxmh )
+                ->where('iimummd.is_terkecil', 1 )
+                ->exec();
+            $rs_iumxxmh_terkecil = $qs_iumxxmh_terkecil->fetch();
+
+            $id_iumxxmh_terkecil = $rs_iumxxmh_terkecil['id_iumxxmh_terkecil']; //pcs
+            // END get UoM terkecil
+
+            // BEGIN get UoM default
+            $qs_iumxxmh_default = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'id_iumxxmh as id_iumxxmh_default',
+                    'jumlah_konversi as jumlah_konversi_default'
+                ] )
+                ->where('iimummd.id_iimxxmh', $id_iimxxmh )
+                ->where('iimummd.is_default', 1 )
+                ->exec();
+            $rs_iumxxmh_default = $qs_iumxxmh_default->fetch();
+
+            $id_iumxxmh_default         = $rs_iumxxmh_default['id_iumxxmh_default'];
+            $jumlah_konversi_default    = $rs_iumxxmh_default['jumlah_konversi_default'];
+
+            $jumlah_default = $jumlah_konversi * $jumlah_unit / $jumlah_konversi_default;
+            // END get UoM default
+
+            // update
+            $qu_transaksi = $db
+                ->query('update', $nama_table)
+                ->set('id_iumxxmh_terkecil',$id_iumxxmh_terkecil)
+                ->set('id_iumxxmh_default',$id_iumxxmh_default)
+                ->set('jumlah_konversi',$jumlah_konversi)
+                ->set('jumlah_terkecil',$jumlah_terkecil) 
+                ->set('jumlah_default',$jumlah_default) 
+                ->set('jumlah_unit_os',$jumlah_unit) 
+                ->set('jumlah_terkecil_os',$jumlah_terkecil) 
+                ->where('id',$id)
+                ->exec();
+        }
         
     } // end of class General
 ?>
