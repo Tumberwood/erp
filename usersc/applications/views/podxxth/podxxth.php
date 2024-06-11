@@ -1486,8 +1486,7 @@
 
 		tblpodittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblpodxxth, tblpodittd, 'podittd' );
+			CekDrawDetailHD( tblpodittd, 1 );
 			CekDrawDetailHDFinal(tblpodxxth);
 		} );
 
@@ -1499,7 +1498,7 @@
 			id_prqittd_old      = data_podittd.id_prqittd;
 
 			// atur hak akses
-			CekSelectDetailHD(tblpodxxth, tblpodittd );
+			CekSelectDetailHD( tblpodittd );
 		} );
 
 		tblpodittd.on( 'deselect', function() {
@@ -1509,7 +1508,7 @@
 			id_iumxxmh_unit_old= 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblpodxxth, tblpodittd );
+			CekDeselectDetailHD( tblpodittd );
 		} );
 
 		// END podittd
