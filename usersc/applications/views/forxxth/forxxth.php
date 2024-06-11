@@ -127,7 +127,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/forxxth/fn/forxxth_fn.php'; ?>
 
@@ -276,6 +276,7 @@
 
 		edtforxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtforxxth.on( 'preSubmit', function (e, data, action) {
@@ -534,6 +535,7 @@
 
 		edtforaktd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtforaktd.on( 'preSubmit', function (e, data, action) {
@@ -655,8 +657,7 @@
 
 		tblforaktd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblforxxth, tblforaktd, 'foraktd' );
+			CekDrawDetailHD( tblforaktd, 1 );
 			CekDrawDetailHDFinal(tblforxxth);
 		} );
 
@@ -666,7 +667,7 @@
 			id_aakxxmh_old   = data_foraktd.id_aakxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblforxxth, tblforaktd );
+			CekSelectDetailHD( tblforaktd );
 		} );
 
 		tblforaktd.on( 'deselect', function() {
@@ -675,7 +676,7 @@
 			id_aakxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblforxxth, tblforaktd );
+			CekDeselectDetailHD( tblforaktd );
 		} );
 
 		// END foraktd

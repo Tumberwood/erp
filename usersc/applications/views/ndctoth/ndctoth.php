@@ -83,7 +83,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndctoth/fn/ndctoth_fn.php'; ?>
 
@@ -203,14 +203,8 @@
 		});
 
 		edtndctoth.on("open", function (e, mode, action) {
-			// BEGIN form setup
 			$(".modal-dialog").addClass("modal-lg");
-			if(is_master_table == 1){
-                $('div.DTE_Form_Buttons button:eq(2)').show();
-			}else{
-				$('div.DTE_Form_Buttons button:eq(2)').hide();
-			}
-			// END form setup
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtndctoth.on( 'preSubmit', function (e, data, action) {
@@ -324,14 +318,7 @@
 		} );
 		
 		tblndctoth.on( 'select', function( e, dt, type, indexes ) {
-			ndctoth_data = tblndctoth.row( { selected: true } ).data().ndctoth;
-			id_ndctoth   = ndctoth_data.id;
-			id_transaksi_h    = id_ndctoth;                                                // dipakai untuk general
-			id_transaksi_log  = id_ndctoth;                                                // dipakai untuk general
-			transaction_state = ndctoth_data.transaction_state;
-			approval_state    = ndctoth_data.approval_state;
-			is_nextprocess    = ndctoth_data.is_nextprocess;
-
+			siVarSet('ndctoth');
 			id_users_penerima_old    = ndctoth_data.id_users_penerima;
 			
 			// atur hak akses
@@ -341,8 +328,7 @@
 		} );
 		
 		tblndctoth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_ndctoth = 0;
+			siVarReset('ndctoth');
 
 			id_users_penerima_old = 0;
 
@@ -458,14 +444,8 @@
 		});
 
 		edtndctotd.on("open", function (e, mode, action) {
-			// BEGIN form setup
 			$(".modal-dialog").addClass("modal-lg");
-			if(is_master_table == 1){
-                $('div.DTE_Form_Buttons button:eq(2)').show();
-			}else{
-				$('div.DTE_Form_Buttons button:eq(2)').hide();
-			}
-			// END form setup
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtndctotd.dependent( 'ndctotd.id_ndcxxmh', function ( val, data, callback ) {
@@ -511,6 +491,8 @@
 		});
 			
 		edtndctotd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblndctoth.rows().deselect();
+			tblndctoth.ajax.reload(null, false);
 			tblndctotd.rows().deselect();
 			tblndctotd.ajax.reload(null, false);
 		} );
@@ -562,20 +544,12 @@
 		} );
 
 		tblndctotd.on( 'draw', function( e, settings ) { 
-			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblndctoth, tblndctotd, 'ndctotd' );
+			CekDrawDetailHD( tblndctotd, 1 );
 			CekDrawDetailHDFinal(tblndctoth);
 		} );
 
 		tblndctotd.on( 'select', function( e, dt, type, indexes ) {
-			data_ndctotd = tblndctotd.row( { selected: true } ).data().ndctotd;
-			id_ndctotd   = data_ndctotd.id;
-			id_transaksi_d    = id_ndctotd; // dipakai untuk general
-			id_transaksi_log  = id_ndctotd; // dipakai untuk log
-
-			transaction_state_d   = data_ndctotd.transaction_state;
-			
+			siVarSetD('ndctotd');
 			id_ndcxxmh_old   = data_ndctotd.id_ndcxxmh;
 			
 			// atur hak akses
@@ -583,7 +557,7 @@
 		} );
 
 		tblndctotd.on( 'deselect', function() {
-			id_ndctotd = 0;
+			siVarResetD('ndctotd');
 			id_ndcxxmh_old = 0;
 			// atur hak akses
 			CekDeselectDetailHD(tblndctoth, tblndctotd );

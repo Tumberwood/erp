@@ -138,7 +138,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/scuxxmh/fn/scuxxmh_fn.php'; ?>
 
@@ -383,7 +383,7 @@
 			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edtgrlxxmh.dependent( 'grlxxmh.id_gctxxmh', function ( val, data, callback ) {
@@ -644,43 +644,7 @@
 					label: "Provinsi <sup class='text-danger'>*<sup>",
 					name: "grllomd.id_gpvxxmh",
 					type: "readonly"
-				},
-				// {
-				// 	label: "Provinsi <sup class='text-danger'>*<sup>",
-				// 	name: "grllomd.id_gpvxxmh",
-				// 	type: "select2",
-				// 	opts: {
-				// 		placeholder : "Select",
-				// 		allowClear: true,
-				// 		multiple: false,
-				// 		ajax: {
-				// 			url: "../../models/core/gpvxxmh_fn_opt.php",
-				// 			dataType: 'json',
-				// 			data: function (params) {
-				// 				var query = {
-				// 					id_gpvxxmh_old: id_gpvxxmh_old,
-				// 					search: params.term || '',
-				// 					page: params.page || 1
-				// 				}
-				// 					return query;
-				// 			},
-				// 			processResults: function (data, params) {
-				// 				return {
-				// 					results: data.results,
-				// 					pagination: {
-				// 						more: true
-				// 					}
-				// 				};
-				// 			},
-				// 			cache: true,
-				// 			minimumInputLength: 1,
-				// 			maximum: 10,
-				// 			delay: 500,
-				// 			maximumSelectionLength: 5,
-				// 			minimumResultsForSearch: -1,
-				// 		},
-				// 	}
-				// }
+				}
 			]
 		} );
 			
@@ -697,6 +661,7 @@
 
 		edtgrllomd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtgrllomd.dependent( 'grllomd.id_gctxxmh', function ( val, data, callback ) {
@@ -795,8 +760,7 @@
 
 		tblgrllomd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblgrlxxmh, tblgrllomd, 'grllomd' );
+			CekDrawDetailHD( tblgrllomd, 1 );
 			CekDrawDetailHDFinal(tblgrlxxmh);
 		} );
 
@@ -807,7 +771,7 @@
 			id_gpvxxmh_old   = grllomd_data.id_gpvxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblgrlxxmh, tblgrllomd );
+			CekSelectDetailHD( tblgrllomd );
 		} );
 
 		tblgrllomd.on( 'deselect', function() {
@@ -817,7 +781,7 @@
 			id_gpvxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblgrlxxmh, tblgrllomd );
+			CekDeselectDetailHD( tblgrllomd );
 		} );
 		// END grllomd
 

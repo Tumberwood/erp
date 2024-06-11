@@ -309,7 +309,7 @@
 			$(".modal-dialog").addClass("modal-lg");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirmHD();
+			edtFormButtonSaveConfirm();
 		});
 		
 		edtljoxxth.on( 'preSubmit', function (e, data, action) {

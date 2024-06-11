@@ -162,7 +162,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/psuxxmh/fn/psuxxmh_fn.php'; ?>
 
@@ -406,7 +406,7 @@
 			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edtgrlxxmh.dependent( 'grlxxmh.id_gctxxmh', function ( val, data, callback ) {
@@ -721,6 +721,7 @@
 
 		edtgrlbnmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtgrlbnmd.on( 'preSubmit', function (e, data, action) {
@@ -794,7 +795,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1,4,5]
+					targets: '_all'
 				}
 			],
 			responsive: false,
@@ -835,8 +836,7 @@
 
 		tblgrlbnmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblgrlxxmh, tblgrlbnmd, 'grlbnmd' );
+			CekDrawDetailHD( tblgrlbnmd, 1 );
 			CekDrawDetailHDFinal(tblgrlxxmh);
 		} );
 
@@ -845,7 +845,7 @@
 			siVarSetD('grlbnmd');
 			id_fbnxxmh_old   = grlbnmd_data.id_fbnxxmh;
 			// atur hak akses
-			CekSelectDetailHD(tblgrlxxmh, tblgrlbnmd );
+			CekSelectDetailHD( tblgrlbnmd );
 		} );
 
 		tblgrlbnmd.on( 'deselect', function() {
@@ -854,7 +854,7 @@
 			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblgrlxxmh, tblgrlbnmd );
+			CekDeselectDetailHD( tblgrlbnmd );
 		} );
 
 		// END grlbnmd
@@ -935,6 +935,7 @@
 
 		edtgrlctmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtgrlctmd.on( 'preSubmit', function (e, data, action) {
@@ -1008,7 +1009,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1,4,5]
+					targets: '_all'
 				}
 			],
 			responsive: false,
@@ -1046,8 +1047,7 @@
 
 		tblgrlctmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblgrlxxmh, tblgrlctmd, 'grlctmd' );
+			CekDrawDetailHD( tblgrlctmd, 1 );
 			CekDrawDetailHDFinal(tblgrlxxmh);
 		} );
 
@@ -1056,7 +1056,7 @@
 			siVarSet('grlctmd');
 			id_fbnxxmh_old   = grlctmd_data.id_fbnxxmh;
 			// atur hak akses
-			CekSelectDetailHD(tblgrlxxmh, tblgrlctmd );
+			CekSelectDetailHD( tblgrlctmd );
 		} );
 
 		tblgrlctmd.on( 'deselect', function() {
@@ -1065,7 +1065,7 @@
 			id_fbnxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblgrlxxmh, tblgrlctmd );
+			CekDeselectDetailHD( tblgrlctmd );
 		} );
 
 		// END grlctmd

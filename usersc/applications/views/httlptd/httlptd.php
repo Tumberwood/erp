@@ -91,7 +91,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/httlptd/fn/httlptd_fn.php'; ?>
 
@@ -558,7 +558,6 @@
 		tblhttlptd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('httlptd');
-
 			id_hemxxmh_old = httlptd_data.id_hemxxmh;
 			id_httlpmh_old = httlptd_data.id_httlpmh;
 
@@ -569,7 +568,6 @@
 		tblhttlptd.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('httlptd');
-
 			id_hemxxmh_old = 0, id_httlpmh_old = 0;
 
 			// atur hak akses

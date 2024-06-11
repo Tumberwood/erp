@@ -62,7 +62,7 @@
 	tableRelation('licxxmh');
 	
 	$(document).ready(function() {
-		//start datatables editor
+		// BEGIN licxxmh
 		edtlicxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/licxxmh/licxxmh.php",
@@ -177,7 +177,6 @@
 			edtlicxxmh.enable();
 		} );
 
-		//start datatables
 		tbllicxxmh = $('#tbllicxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -266,6 +265,8 @@
 			// atur hak akses
 			CekDeselectHeaderH(tbllicxxmh);
 		} );
+
+		// END licxxmh
 		
 	} );// end of document.ready
 

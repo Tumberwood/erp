@@ -421,7 +421,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -709,32 +709,24 @@
 		} );
 
 		tblljoprtd.on( 'draw', function( e, settings ) { 
-			// atur hak akses
-			// cek_c_detail= 1;
-			// CekDrawDetailHD(tblljoxxth, tblljoprtd, 'ljoprtd' );
 			CekDrawDetailHD( tblljoprtd, 1);
-			// CekDrawDetailHDFinal(tblljoxxth);
+			CekDrawDetailHDFinal(tblljoxxth);
 		} );
 
 		tblljoprtd.on( 'select', function( e, dt, type, indexes ) {
-			data_ljoprtd = tblljoprtd.row( { selected: true } ).data().ljoprtd;
-			id_ljoprtd   = data_ljoprtd.id;
-			id_transaksi_d    = id_ljoprtd;                                                // dipakai untuk general
-			id_transaksi_log  = id_ljoprtd;                                                // dipakai untuk log
-			transaction_state_d   = data_ljoprtd.transaction_state;
-
-			id_lprxxmh_old    = data_ljoprtd.id_lprxxmh;
+			siVarSetD('ljoprtd');
+			id_lprxxmh_old    = ljoprtd_data.id_lprxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblljoxxth, tblljoprtd );
+			CekSelectDetailHD( tblljoprtd );
 		} );
 
 		tblljoprtd.on( 'deselect', function() {
-			id_ljoprtd = 0;
+			siVarResetD('ljoprtd');
 			id_lprxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblljoxxth, tblljoprtd );
+			CekDeselectDetailHD( tblljoprtd );
 		} );
 		// END ljoprtd
 
@@ -946,31 +938,22 @@
 
 		tblljodstd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			// cek_c_detail= 1;
-			// CekDrawDetailHD(tblljoxxth, tblljodstd, 'ljodstd' );
 			CekDrawDetailHD(tblljodstd,1);
 			CekDrawDetailHDFinal(tblljoxxth);
 		} );
 
 		tblljodstd.on( 'select', function( e, dt, type, indexes ) {
-			data_ljodstd = tblljodstd.row( { selected: true } ).data().ljodstd;
-			id_ljodstd   = data_ljodstd.id;
-			id_transaksi_d    = id_ljodstd;                                                // dipakai untuk general
-			id_transaksi_log  = id_ljodstd;                                                // dipakai untuk log
-
-			transaction_state_d   = data_ljodstd.transaction_state;
-
+			siVarResetD('ljodstd');
 			id_grlxxmh_old = data_ljodstd.id_grlxxmh;
-			
 			// atur hak akses
-			CekSelectDetailHD(tblljoxxth, tblljodstd );
+			CekSelectDetailHD( tblljodstd );
 		} );
 
 		tblljodstd.on( 'deselect', function() {
-			id_ljodstd = 0;
+			siVarResetD('ljodstd');
 			id_grlxxmh_old = 0;
 			// atur hak akses
-			CekDeselectDetailHD(tblljoxxth, tblljodstd );
+			CekDeselectDetailHD( tblljodstd );
 		} );
 		// END ljodstd
 

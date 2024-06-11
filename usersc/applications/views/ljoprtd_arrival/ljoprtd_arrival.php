@@ -307,7 +307,7 @@
 			$(".modal-dialog").addClass("modal-lg");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirmHD();
+			edtFormButtonSaveConfirm();
 		});
 		
 		edtljoxxth.on( 'preSubmit', function (e, data, action) {
@@ -772,7 +772,6 @@
 			// set variable standar framework
 			siVarSet('ljoxxth');
 			id_lprxxmh_last = ljoxxth_data.id_lprxxmh_last
-
 			id_grlxxmh_old    = ljoxxth_data.id_grlxxmh_expedition;
 			id_lacxxmh_old    = ljoxxth_data.id_lacxxmh;
 			id_lvtxxmh_old    = ljoxxth_data.id_lvtxxmh;

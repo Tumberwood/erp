@@ -35,11 +35,10 @@
 				"" as relasi,
 				SUM(IF(a.jumlah_terkecil>0,a.jumlah_terkecil,0)) AS jumlah_in,
 				SUM(IF(a.jumlah_terkecil<0,a.jumlah_terkecil,0)) AS jumlah_out,
-				b.kode AS iumxxmh_terkecil_kode,
+				a.iumxxmh_terkecil_kode,
 				MAX(a.confirmed_at) AS confirmed_at,
 				"" AS keterangan
 			FROM iivxxrd a
-			LEFT JOIN iumxxmh b ON b.id = a.id_iumxxmh_terkecil
 			WHERE
 				a.jumlah_terkecil <> 0 AND
 				a.tanggal < :start_date AND
@@ -75,12 +74,6 @@
 	$satuan = $rs_iivxxrd_awal[0]['iumxxmh_terkecil_kode'];
 	// END saldo awal
 
-	// CASE
-	// 				WHEN a.imtxxmh_kode = "301" THEN iwhxxmh_asal.kode
-	// 				WHEN a.imtxxmh_kode = "303" THEN iwhxxmh_tujuan.kode
-	// 				ELSE "SUP CUST"
-	// 			END as relasi,
-
 	// BEGIN mutasi
 	$qs_iivxxrd_mutasi = $db
 		->raw()
@@ -100,8 +93,6 @@
 				a.confirmed_at,
 				a.keterangan
 			FROM iivxxrd a
-			LEFT JOIN iwhxxmh AS iwhxxmh_asal ON (iwhxxmh_asal.id = a.id_iwhxxmh AND a.imtxxmh_kode = "301")
-			LEFT JOIN iwhxxmh AS iwhxxmh_tujuan ON (iwhxxmh_tujuan.id = a.id_iwhxxmh AND a.imtxxmh_kode = "303")
 			WHERE
 				a.jumlah_terkecil <> 0 AND 
 				(a.tanggal BETWEEN :start_date AND :end_date) AND

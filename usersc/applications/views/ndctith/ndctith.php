@@ -84,7 +84,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/ndctith/fn/ndctith_fn.php'; ?>
 
@@ -97,7 +97,7 @@
 	// ------------- end of default variable
 
 	var id_ndctoth_old = 0;
-	var id_ndcrctd_old = 0;
+	var id_ndcxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('ndctith');
@@ -205,6 +205,7 @@
 
 		edtndctith.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtndctith.on( 'preSubmit', function (e, data, action) {
@@ -319,14 +320,7 @@
 		} );
 		
 		tblndctith.on( 'select', function( e, dt, type, indexes ) {
-			ndctith_data = tblndctith.row( { selected: true } ).data().ndctith;
-			id_ndctith   = ndctith_data.id;
-			id_transaksi_h    = id_ndctith;                                                // dipakai untuk general
-			id_transaksi_log  = id_ndctith;                                                // dipakai untuk general
-			transaction_state = ndctith_data.transaction_state;
-			approval_state    = ndctith_data.approval_state;
-			is_nextprocess    = ndctith_data.is_nextprocess;
-
+			siVarSet('ndctith');
 			id_users_penerima_old    = ndctith_data.id_users_penerima;
 			
 			// atur hak akses
@@ -336,9 +330,7 @@
 		} );
 		
 		tblndctith.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_ndctith = 0;
-
+			siVarReset('ndctith');
 			id_users_penerima_old = 0;
 
 			// atur hak akses
@@ -400,11 +392,11 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/ndcrctd/ndcrctd_fn_opt.php",
+							url: "../../models/ndcxxmh/ndcxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_ndcrctd_old: id_ndcrctd_old,
+									id_ndcxxmh_old: id_ndcxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -453,6 +445,7 @@
 
 		edtndctitd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtndctitd.dependent( 'ndctitd.id_ndcrctd', function ( val, data, callback ) {
@@ -500,9 +493,8 @@
 		});
 			
 		edtndctitd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblndctith.rows().deselect();
+			tblndctith.ajax.reload(null, false);
 		} );
 
 		edtndctitd.on( 'close', function () {
@@ -540,7 +532,7 @@
 			columns: [
 				{ data: "ndctitd.id",visible:false },
 				{ data: "ndctitd.id_ndctith",visible:false },
-				{ data: "ndcrctd.dokumen_nomor" },
+				{ data: "ndcxxmh.dokumen_nomor" },
 				{ data: "ndcrctd.pengirim" },
 				{ data: "ndcrctd.kepada" },
 				{ data: "ndcrctd.tanggal_jam_terima" },
@@ -573,30 +565,23 @@
 
 		tblndctitd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblndctith, tblndctitd, 'ndctitd' );
+			CekDrawDetailHD( tblndctitd, 1 );
 			CekDrawDetailHDFinal(tblndctith);
 		} );
 
 		tblndctitd.on( 'select', function( e, dt, type, indexes ) {
-			data_ndctitd = tblndctitd.row( { selected: true } ).data().ndctitd;
-			id_ndctitd   = data_ndctitd.id;
-			id_transaksi_d    = id_ndctitd; // dipakai untuk general
-			id_transaksi_log  = id_ndctitd; // dipakai untuk log
-
-			transaction_state_d   = data_ndctitd.transaction_state;
-			
-			id_ndcrctd_old   = data_ndctitd.id_ndcrctd;
-			
+			siVarResetD('ndctitd');
+			id_ndcxxmh_old   = ndctitd_data.id_ndcxxmh;
+			console.log(id_ndcxxmh_old);
 			// atur hak akses
-			CekSelectDetailHD(tblndctith, tblndctitd );
+			CekSelectDetailHD( tblndctitd);
 		} );
 
 		tblndctitd.on( 'deselect', function() {
-			id_ndctitd = 0;
-			id_ndcrctd_old = 0;
+			siVarResetD('ndctitd');
+			id_ndcxxmh_old = 0;
 			// atur hak akses
-			CekDeselectDetailHD(tblndctith, tblndctitd );
+			CekDeselectDetailHD( tblndctitd );
 		} );
 		// END ndctitd
 

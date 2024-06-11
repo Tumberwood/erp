@@ -32,6 +32,7 @@
             ->bind(':tbl_name', $tbl_name)
             ->exec('
                 SELECT
+                    id,
                     is_master_table,
                     is_need_approval,
                     is_need_generate_kode,
@@ -48,6 +49,7 @@
             $status_code           = 200;
             $message               = 'Get Table Relation Berhasil';
             $type_message          = 'success';
+            $id_gtbrlsh            = $rs_gtbrlsh['id'];
             $is_master_table       = $rs_gtbrlsh['is_master_table'];
             $is_need_approval      = $rs_gtbrlsh['is_need_approval'] ;
             $is_need_generate_kode = $rs_gtbrlsh['is_need_generate_kode'];
@@ -70,7 +72,30 @@
                 $rs_gdnxxsh = $qs_gdnxxsh->fetch();
                 if($rs_gdnxxsh['c_gdnxxsh'] == 0){
                     $status_code           = 500;
-                    $message               = 'Get Table Relation Berhasil, Tetapi Format Kode Dokumen Belum Ada!';
+                    $message               = 'Transaksi Ini Membutuhkan Generate Nomor Dokumen, Tetapi Format Nomor Dokumen Belum Ada!';
+                    $type_message          = 'error';
+                }
+
+            }
+            // END cek is_need_generate_kode
+
+            // BEGIN cek is_need_approval
+            if($is_need_approval == 1){
+                $qs_gapxxsh = $db
+                    ->raw()
+                    ->bind(':id_gtbrlsh', $id_gtbrlsh)
+                    ->exec('
+                        SELECT
+                            count(*) as c_gapxxsh
+                        FROM gapxxsh
+                        WHERE 1
+                            AND id_gtbrlsh = :id_gtbrlsh
+                            AND transaction_state = 1
+                    ');
+                $rs_gapxxsh = $qs_gapxxsh->fetch();
+                if($rs_gapxxsh['c_gapxxsh'] == 0){
+                    $status_code           = 500;
+                    $message               = 'Transaksi Ini Membutuhkan Approval, Tetapi Aturan Approval Belum Ada!';
                     $type_message          = 'error';
                 }
 

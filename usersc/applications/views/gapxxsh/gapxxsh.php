@@ -83,7 +83,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/gapxxsh/fn/gapxxsh_fn.php'; ?>
 
@@ -207,42 +207,42 @@
 						},
 					}
 				},
-				{
-					label: "Group",
-					name: "gapxxsh.id_gtbrlsh_group",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/gtbrlsh/gtbrlsh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_gtbrlsh_group_old: id_gtbrlsh_group_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
-				},
+				// {
+				// 	label: "Group",
+				// 	name: "gapxxsh.id_gtbrlsh_group",
+				// 	type: "select2",
+				// 	opts: {
+				// 		placeholder : "Select",
+				// 		allowClear: true,
+				// 		multiple: false,
+				// 		ajax: {
+				// 			url: "../../models/gtbrlsh/gtbrlsh_fn_opt.php",
+				// 			dataType: 'json',
+				// 			data: function (params) {
+				// 				var query = {
+				// 					id_gtbrlsh_group_old: id_gtbrlsh_group_old,
+				// 					search: params.term || '',
+				// 					page: params.page || 1
+				// 				}
+				// 					return query;
+				// 			},
+				// 			processResults: function (data, params) {
+				// 				return {
+				// 					results: data.results,
+				// 					pagination: {
+				// 						more: true
+				// 					}
+				// 				};
+				// 			},
+				// 			cache: true,
+				// 			minimumInputLength: 1,
+				// 			maximum: 10,
+				// 			delay: 500,
+				// 			maximumSelectionLength: 5,
+				// 			minimumResultsForSearch: -1,
+				// 		},
+				// 	}
+				// },
 				{
 					label: "Keterangan",
 					name: "gapxxsh.keterangan",
@@ -266,6 +266,7 @@
 
 		edtgapxxsh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtgapxxsh.on( 'preSubmit', function (e, data, action) {
@@ -387,20 +388,14 @@
 		} );
 		
 		tblgapxxsh.on( 'select', function( e, dt, type, indexes ) {
-			gapxxsh_data      = tblgapxxsh.row( { selected: true } ).data().gapxxsh;
-			id_gapxxsh        = gapxxsh_data.id;
-			id_transaksi_h    = id_gapxxsh;	// dipakai untuk general
-			id_transaksi_log  = id_gapxxsh;	// dipakai untuk general
-			transaction_state = gapxxsh_data.transaction_state;
-			approval_state    = gapxxsh_data.approval_state;
-			is_nextprocess    = gapxxsh_data.is_nextprocess;
-
+			siVarSet('gapxxsh');
 			id_gaptpmh_old       = gapxxsh_data.id_gaptpmh;
 			id_gaptpmh           = gapxxsh_data.id_gaptpmh;
+			id_gtbrlsh_old       = gapxxsh_data.id_gtbrlsh;
 			id_gtbrlsh_group_old = gapxxsh_data.id_gtbrlsh_group;
-			id_gtbrlsh           = gapxxsh_data.id_gtbrlsh_group;
+			id_gtbrlsh           = gapxxsh_data.id_gtbrlsh;
 			jumlah_level         = gapxxsh_data.jumlah_level;
-			console.log(id_gtbrlsh);
+			
 			// atur hak akses
 			tbl_details = [tblgapdusd];
 			CekSelectHeaderHD(tblgapxxsh, tbl_details);
@@ -408,9 +403,8 @@
 		} );
 		
 		tblgapxxsh.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_gapxxsh = 0;
-			id_gaptpmh_old = 0, id_gtbrlsh_group_old = 0;
+			siVarReset('gapxxsh');
+			id_gaptpmh_old = 0, id_gtbrlsh_old = 0, id_gtbrlsh_group_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblgapdusd];
@@ -575,6 +569,7 @@
 
 		edtgapdusd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtgapdusd.dependent( 'gapdusd.id_tbl_group', function ( val, data, callback ) {
@@ -679,31 +674,25 @@
 
 		tblgapdusd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblgapxxsh, tblgapdusd, 'gapdusd' );
+			CekDrawDetailHD( tblgapdusd, 1 );
 			CekDrawDetailHDFinal(tblgapxxsh);
 		} );
 
 		tblgapdusd.on( 'select', function( e, dt, type, indexes ) {
-			data_gapdusd 		= tblgapdusd.row( { selected: true } ).data().gapdusd;
-			id_gapdusd   		= data_gapdusd.id;
-			id_transaksi_d 		= id_gapdusd; // dipakai untuk general
-			id_transaksi_log 	= id_gapdusd; // dipakai untuk log
-
-			transaction_state_d = data_gapdusd.transaction_state;
-			id_users_old        = data_gapdusd.id_users;
-			id_tbl_group_old    = data_gapdusd.id_tbl_group;
+			siVarSetD('gapdusd');
+			id_users_old        = gapdusd_data.id_users;
+			id_tbl_group_old    = gapdusd_data.id_tbl_group;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblgapxxsh, tblgapdusd );
+			CekSelectDetailHD( tblgapdusd );
 		} );
 
 		tblgapdusd.on( 'deselect', function() {
-			id_gapdusd = 0;
+			siVarResetD('apdusd');
 			id_users_old = 0, id_tbl_group_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblgapxxsh, tblgapdusd );
+			CekDeselectDetailHD( tblgapdusd );
 		} );
 
 		// END gapdusd

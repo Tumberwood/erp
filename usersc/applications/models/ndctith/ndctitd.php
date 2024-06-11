@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -28,7 +29,7 @@
 			->fields(
 				Field::inst( 'ndctitd.id' ),
 				Field::inst( 'ndctitd.id_ndctith' ),
-				Field::inst( 'ndctitd.id_ndcrctd' )
+				Field::inst( 'ndctitd.id_ndcxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'ndctitd.kode' ),
 				Field::inst( 'ndctitd.nama' ),
@@ -40,7 +41,7 @@
 				Field::inst( 'ndctitd.finish_at' ),
 				Field::inst( 'ndctitd.is_defaultprogram' ),
 
-				Field::inst( 'ndcrctd.dokumen_nomor' ),
+				Field::inst( 'ndcxxmh.dokumen_nomor' ),
 				Field::inst( 'ndcrctd.pengirim' ),
 				Field::inst( 'ndcrctd.kepada' ),
 				Field::inst( 'ndcrctd.tanggal_jam_terima' )
@@ -49,7 +50,8 @@
 						'to' =>   'd M Y H:i'
 					) )
 			)
-			->leftJoin( 'ndcrctd','ndcrctd.id','=','ndctitd.id_ndcrctd' )
+			->leftJoin( 'ndcxxmh','ndcxxmh.id','=','ndctitd.id_ndcxxmh' )
+			->leftJoin( 'ndcrctd','ndcrctd.id_ndcxxmh','=','ndcxxmh.id' )
 			->where('ndctitd.id_ndctith',$_POST['id_ndctith']);
 		
 		// do not erase

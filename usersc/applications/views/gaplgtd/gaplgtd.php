@@ -50,7 +50,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/gaplgtd/fn/gaplgtd_fn.php'; ?>
 
@@ -66,7 +66,8 @@
 	tableRelation('gaplgtd');
 
 	$(document).ready(function() {
-		//start datatables editor
+		
+		// BEGIN gaplgtd
 		edtgaplgtd = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/gaplgtd/gaplgtd.php",
@@ -121,6 +122,7 @@
 
 		edtgaplgtd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirm();
 		});
 
 		edtgaplgtd.on( 'preSubmit', function (e, data, action) {
@@ -143,7 +145,6 @@
 			edtgaplgtd.enable();
 		} );
 
-		//start datatables
 		tblgaplgtd = $('#tblgaplgtd').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -382,18 +383,10 @@
 		} );
 		
 		tblgaplgtd.on( 'select', function( e, dt, type, indexes ) {
-			gaplgtd_data      = tblgaplgtd.row( { selected: true } ).data().gaplgtd;
-			id_gaplgtd        = gaplgtd_data.id;
-			id_transaksi_h    = id_gaplgtd;	// dipakai untuk general
-			id_transaksi_log  = id_gaplgtd;	// dipakai untuk general
-			transaction_state = gaplgtd_data.transaction_state;
-			approval_state    = gaplgtd_data.approval_state;
-
+			siVarSet('gaplgtd');
 			selected_folder = gaplgtd_data.tbl_name;
-			
 			table_name_approve = gaplgtd_data.tbl_name;
 			id_transaksi_approve = gaplgtd_data.id_transaksi;
-
 
 			// atur hak akses
 			CekSelectHeaderH(tblgaplgtd);
@@ -426,8 +419,7 @@
 		} );
 
 		tblgaplgtd.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_gaplgtd = 0;
+			siVarReset('gaplgtd');
 
 			// atur hak akses
 			CekDeselectHeaderH(tblgaplgtd);

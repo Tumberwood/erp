@@ -130,7 +130,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/prqxxth/fn/prqxxth_fn.php'; ?>
 
@@ -242,13 +242,12 @@
 
 			if(action == 'create'){
 				tblprqxxth.rows().deselect();
-				// edtprqxxth.field('kategori_dokumen').val('');
-				// edtprqxxth.field('kategori_dokumen_value').val('');
 			}
 		});
 
 		edtprqxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtprqxxth.on( 'preSubmit', function (e, data, action) {
@@ -313,7 +312,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -376,7 +375,6 @@
 			// atur hak akses
 			tbl_details = [tblprqittd];
 			CekSelectHeaderHD(tblprqxxth, tbl_details);
-			// console.log(id_prqxxth);
 
 		} );
 		
@@ -508,6 +506,7 @@
 
 		edtprqittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtprqittd.on( 'preSubmit', function (e, data, action) {
@@ -610,19 +609,12 @@
 
 		tblprqittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblprqxxth, tblprqittd, 'prqittd' );
+			CekDrawDetailHD( tblprqittd, 1 );
 			CekDrawDetailHDFinal(tblprqxxth);
-			// console.log(id_prqxxth);
 		} );
 
 		tblprqittd.on( 'select', function( e, dt, type, indexes ) {
-			data_prqittd 		= tblprqittd.row( { selected: true } ).data().prqittd;
-			id_prqittd   		= data_prqittd.id;
-			id_transaksi_d 		= id_prqittd; // dipakai untuk general
-			id_transaksi_log_d 	= id_prqittd; // dipakai untuk log
-
-			transaction_state_d   = data_prqittd.transaction_state;
+			siVarSetD('prqittd');
 			id_iumxxmh_old   = data_prqittd.id_iumxxmh;
 			
 			// atur hak akses
@@ -630,7 +622,7 @@
 		} );
 
 		tblprqittd.on( 'deselect', function() {
-			id_prqittd = 0;
+			siVarResetD('prqittd');
 			id_iumxxmh_old = 0;
 			
 			// atur hak akses
@@ -643,6 +635,22 @@
 			e.preventDefault();
 		}).validate({
 			rules: {
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
 			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
