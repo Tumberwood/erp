@@ -267,6 +267,20 @@
 					required: true
 				}
 			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				},
+				select_id_iwhxxmh: {
+					required: "Warehouse Wajib Diisi!"
+				},
+				select_id_iimxxmh: {
+					required: "Item Wajib Diisi!"
+				}
+			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date   = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
