@@ -133,13 +133,13 @@
         if($qi_gaplgtd){
             $data = array(
                 'status_code'  => 200,
-                'message'      => 'Setting Approval Berhasil Dilakukan',
+                'message'      => 'Pengajuan Approval Berhasil Dilakukan',
                 'type_message' => 'success'
             );
         }else{
             $data = array(
                 'status_code'  => 500,
-                'message'      => 'Setting Approval Gagal Dilakukan!',
+                'message'      => 'Pengajuan Approval Gagal Dilakukan!',
                 'type_message' => 'error'
             );
         }
@@ -147,7 +147,7 @@
     }catch(PDOException $e){
         $data = array(
 		    'status_code'  => 500,
-            'message'      => 'Setting Approval Gagal Dilakukan! ' . $e->getMessage(),
+            'message'      => 'Pengajuan Approval Gagal Dilakukan! ' . $e->getMessage(),
             'type_message' => 'error'
         );
 		$db->rollback();
