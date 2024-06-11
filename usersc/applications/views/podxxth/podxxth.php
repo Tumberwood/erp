@@ -363,7 +363,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/podxxth/fn/podxxth_fn.php'; ?>
 
@@ -714,7 +714,8 @@
 
 		edtpodxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
-			
+			edtFormButtonSaveConfirmHD();
+
 			$('#select_id_fcrxxmh').select2('open');
 			setTimeout(function() {
 				$('#select_id_fcrxxmh').select2('close');
@@ -887,7 +888,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,5,6]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -951,13 +952,7 @@
 		} );
 		
 		tblpodxxth.on( 'select', function( e, dt, type, indexes ) {
-			podxxth_data      = tblpodxxth.row( { selected: true } ).data().podxxth;
-			id_podxxth        = podxxth_data.id;
-			id_transaksi_h    = id_podxxth;                                           // dipakai untuk general
-			id_transaksi_log  = id_podxxth;                                           // dipakai untuk general
-			transaction_state = podxxth_data.transaction_state;
-			approval_state    = podxxth_data.approval_state;
-			is_nextprocess    = podxxth_data.is_nextprocess;
+			siVarSet('podxxth');
 			id_iitxxmh_old    = podxxth_data.id_iitxxmh;
 			id_iitxxmh        = podxxth_data.id_iitxxmh;
 			id_fcrxxmh_old    = podxxth_data.id_fcrxxmh;
@@ -978,8 +973,7 @@
 		} );
 		
 		tblpodxxth.on( 'deselect', function () {
-			// reload dipanggil di function CekDeselectHeader
-			id_podxxth = 0;
+			siVarReset('podxxth');
 			id_grlxxmh_old = 0;
 			id_fpytmmh_old = 0;
 			id_fcrxxmh_old = 0;
@@ -1243,6 +1237,7 @@
 
 		edtpodittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtpodittd.dependent( 'podittd.id_prqittd', function ( val, data, callback ) {
@@ -1497,13 +1492,7 @@
 		} );
 
 		tblpodittd.on( 'select', function( e, dt, type, indexes ) {
-			data_podittd 		= tblpodittd.row( { selected: true } ).data().podittd;
-			id_podittd   		= data_podittd.id;
-			id_transaksi_d 		= id_podittd; // dipakai untuk general
-			id_transaksi_log 	= id_podittd; // dipakai untuk log
-
-			transaction_state_d = data_podittd.transaction_state;
-
+			siVarSetD('podittd');
 			id_iimxxmh          = data_podittd.id_iimxxmh;
 			id_iimxxmh_old      = data_podittd.id_iimxxmh;
 			id_iumxxmh_unit_old = data_podittd.id_iumxxmh_unit;
@@ -1514,7 +1503,7 @@
 		} );
 
 		tblpodittd.on( 'deselect', function() {
-			id_podittd = 0;
+			siVarResetD('podittd');
 			id_iimxxmh_old = 0;
 			id_prqittd_old = 0;
 			id_iumxxmh_unit_old= 0;
@@ -1529,10 +1518,27 @@
 			e.preventDefault();
 		}).validate({
 			rules: {
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
 			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblpodxxth.rows().deselect();
 				tblpodxxth.ajax.reload(function ( json ) {
