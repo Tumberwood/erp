@@ -14,6 +14,7 @@
 
     // ambil variable dari ajax data
     $wlpxxmh_kode = $_POST['wlpxxmh_kode'];
+    $uniqueToken = $_POST['uniqueToken'];
 
     $qs_iivxxrd = $db
         // ->query('select', 'iivxxrd' )
@@ -31,32 +32,29 @@
         
         ->raw()
         ->bind(':wlpxxmh_kode', $wlpxxmh_kode)
+        ->bind(':uniqueToken', $uniqueToken)
         ->exec('SELECT 
                     iivxxrd.id_iimxxmh as id_iimxxmh,
                     iivxxrd.iimxxmh_kode as iimxxmh_kode,
                     iivxxrd.iimxxmh_nama as iimxxmh_nama,
+                    iivxxrd.id_iumxxmh_unit as id_iumxxmh_unit,
+                    iivxxrd.id_iumxxmh_default as id_iumxxmh_default,
+                    iivxxrd.id_iumxxmh_terkecil as id_iumxxmh_terkecil,
                     iivxxrd.iumxxmh_unit_kode as iumxxmh_unit_kode,
-                    SUM(iivxxrd.jumlah_unit * iivxxrd.is_fisik) as s_jumlah_unit,
-                    SUM(iivxxrd.jumlah_unit * iivxxrd.is_fisik) - ifnull(s_unit, 0) AS sisa
+                    iivxxrd.iumxxmh_default_kode as iumxxmh_default_kode,
+                    SUM(iivxxrd.jumlah_default) as s_jumlah_unit,
+                    SUM(iivxxrd.jumlah_default) AS sisa_default,
+                    SUM(iivxxrd.jumlah_terkecil) AS sisa_terkecil
                     
                 FROM 
                     iivxxrd
-                LEFT JOIN (
-                    SELECT
-                        t.wlpxxmh_kode,
-                        SUM(t.jumlah_unit) AS s_unit
-                    FROM wptittd t
-                    WHERE t.wlpxxmh_kode = :wlpxxmh_kode AND t.transaction_state <> -9
-                )b ON b.wlpxxmh_kode = iivxxrd.wlpxxmh_kode
-                
                 WHERE 
                     iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
-                    AND iivxxrd.id_wloctmh = 1
+                    AND iivxxrd.id_wloctmh = 1 AND iivxxrd.keterangan <> :uniqueToken
                 GROUP BY
                     iivxxrd.id_iimxxmh,
                     iivxxrd.iimxxmh_kode,
-                    iivxxrd.iimxxmh_nama,
-                    iivxxrd.iumxxmh_unit_kode;
+                    iivxxrd.iimxxmh_nama;
     
         '
         );
@@ -71,8 +69,13 @@
         $iimxxmh_kode      = '';
         $iimxxmh_nama      = '';
         $s_jumlah_unit     = 0;
+        $id_iumxxmh_unit     = 0;
+        $id_iumxxmh_default     = 0;
+        $id_iumxxmh_terkecil     = 0;
         $iumxxmh_unit_kode = '';
-        $sisa = '';
+        $iumxxmh_default_kode = '';
+        $sisa_terkecil = '';
+        $sisa_default = '';
 
     }else{
         $status_code = 200;
@@ -83,8 +86,13 @@
         $iimxxmh_kode      = $rs_iivxxrd['iimxxmh_kode'];
         $iimxxmh_nama      = $rs_iivxxrd['iimxxmh_nama'];
         $s_jumlah_unit     = $rs_iivxxrd['s_jumlah_unit'];
+        $id_iumxxmh_unit     = $rs_iivxxrd['id_iumxxmh_unit'];
+        $id_iumxxmh_default     = $rs_iivxxrd['id_iumxxmh_default'];
+        $id_iumxxmh_terkecil     = $rs_iivxxrd['id_iumxxmh_terkecil'];
         $iumxxmh_unit_kode = $rs_iivxxrd['iumxxmh_unit_kode'];
-        $sisa = $rs_iivxxrd['sisa'];
+        $iumxxmh_default_kode = $rs_iivxxrd['iumxxmh_default_kode'];
+        $sisa_terkecil = $rs_iivxxrd['sisa_terkecil'];
+        $sisa_default = $rs_iivxxrd['sisa_default'];
         
     }
 
@@ -97,8 +105,13 @@
         'iimxxmh_kode'      => $iimxxmh_kode,
         'iimxxmh_nama'      => $iimxxmh_nama,
         's_jumlah_unit'     => $s_jumlah_unit,
+        'id_iumxxmh_unit'     => $id_iumxxmh_unit,
+        'id_iumxxmh_default'     => $id_iumxxmh_default,
+        'id_iumxxmh_terkecil'     => $id_iumxxmh_terkecil,
         'iumxxmh_unit_kode' => $iumxxmh_unit_kode,
-        'sisa' => $sisa,
+        'iumxxmh_default_kode' => $iumxxmh_default_kode,
+        'sisa_terkecil' => $sisa_terkecil,
+        'sisa_default' => $sisa_default,
     );
 
     // tampilkan results

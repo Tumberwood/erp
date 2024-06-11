@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -104,11 +105,11 @@
 			->where( 'wreittd.transaction_state', -9, '<>');
 	}
 	
-	include( "wreittd_extra.php" );
-
+	
 	//Extra kalkulasi jumlah_unit_os
 	$nama_table        = 'wreittd';
 	$nama_table_before = 'wroittd';
+	include( "wreittd_extra.php" );
 	include( "../../../helpers/fn_extra_transaksi_before.php" );
 
 	// BEGIN log
