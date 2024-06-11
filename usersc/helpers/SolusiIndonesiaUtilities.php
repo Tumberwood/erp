@@ -364,6 +364,15 @@
             }
         } // end of function isNextProcess
 
+        /**
+         * Digunakan untuk menghitung konversi UoM
+         * Function ini dipanggil di extra, postCreate, postEdit
+         * Parameter:
+         *  @param Object   $db database connection, biasanya diisi $editor->db()
+         *  @param String   $nama_table nama tabel database yang akan dihitung konversinya
+         *  @param Number   $id id transaksi yang akan dihitung konversinya
+         
+         */
         public static function konversiUom( $db, $nama_table, $id) {
             
             $qs_transaksi = $db
