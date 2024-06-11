@@ -272,7 +272,7 @@
 	// END default jquery-validator
 
 	// BEGIN datepicker init
-	$('.datepicker').datepicker({
+	$('#periode').datepicker({
 		setDate: new Date(),
 		autoclose: true,
 		todayHighlight: true,
