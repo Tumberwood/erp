@@ -38,16 +38,24 @@
                     iivxxrd.iimxxmh_kode as iimxxmh_kode,
                     iivxxrd.iimxxmh_nama as iimxxmh_nama,
                     iivxxrd.id_iumxxmh_unit as id_iumxxmh_unit,
-                    iivxxrd.id_iumxxmh_default as id_iumxxmh_default,
+                    def.id_iumxxmh id_iumxxmh_default, -- DEFAULT dari master
                     iivxxrd.id_iumxxmh_terkecil as id_iumxxmh_terkecil,
                     iivxxrd.iumxxmh_unit_kode as iumxxmh_unit_kode,
-                    iivxxrd.iumxxmh_default_kode as iumxxmh_default_kode,
-                    SUM(iivxxrd.jumlah_default) as s_jumlah_unit,
-                    SUM(iivxxrd.jumlah_default) AS sisa_default,
+                    m_def.kode as iumxxmh_default_kode,
+                    SUM(
+                        unit.jumlah_konversi * iivxxrd.jumlah_unit / def.jumlah_konversi
+                        ) AS s_jumlah_unit,
+                        
+                    SUM(
+                        unit.jumlah_konversi * iivxxrd.jumlah_unit / def.jumlah_konversi
+                        ) AS sisa_default,
                     SUM(iivxxrd.jumlah_terkecil) AS sisa_terkecil
                     
                 FROM 
                     iivxxrd
+                LEFT JOIN iimummd def ON def.id_iimxxmh = iivxxrd.id_iimxxmh AND def.is_default = 1
+                LEFT JOIN iimummd unit ON unit.id_iimxxmh = iivxxrd.id_iimxxmh AND unit.id_iumxxmh = iivxxrd.id_iumxxmh_unit
+                LEFT JOIN iumxxmh m_def ON m_def.id = def.id_iumxxmh
                 WHERE 
                     iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
                     AND iivxxrd.id_wloctmh = 1 AND iivxxrd.keterangan <> :uniqueToken
