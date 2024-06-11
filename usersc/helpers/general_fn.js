@@ -777,14 +777,6 @@ function defaultCurrency() {
         }
     } );
 }
-/**Validasi Outstanding
-    validasi_outstanding(edt, nama_tabel, id_transaksi, id_detail_item_before, nama_tabel_before) {
-    edt                     = editor                            = variable
-    nama_tabel              = nama tabel                        = string
-    id_transaksi            = id detail sekarang             = variable
-    id_detail_item_before   = id detail item transaksi before   = variable
-    nama_tabel_before       = nama tabel yang ingin di select   = string
-**/
 
 /**
  * 
