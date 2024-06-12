@@ -38,16 +38,16 @@
                             success: function ( json ) {
                                 id_iimxxmh = json.data.id_iimxxmh;
                                 edtwtrittd.field('wtrittd.id_iimxxmh').val(id_iimxxmh);
-                                edtwtrittd.field('wtrittd.jumlah_unit').val(parseFloat(json.data.sisa_default).toFixed(2));
+                                edtwtrittd.field('wtrittd.jumlah_unit').val(parseFloat(json.data.sisa_default));
                                 id_iumxxmh_unit_old = json.data.id_iumxxmh_default;
                                 edtwtrittd.field('wtrittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
 
                                 // get lokasi putaway
                                 wtrittd_details = wtrittd_details + json.data.iimxxmh_kode + ' - ';
                                 wtrittd_details = wtrittd_details + json.data.iimxxmh_nama + '\n';
-                                wtrittd_details = wtrittd_details + parseFloat(json.data.s_jumlah_unit).toFixed(2) + ' ';
+                                wtrittd_details = wtrittd_details + parseFloat(json.data.s_jumlah_unit) + ' ';
                                 wtrittd_details = wtrittd_details + json.data.iumxxmh_default_kode + '\n';
-                                wtrittd_details = wtrittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)).toFixed(2) + ' ';
+                                wtrittd_details = wtrittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)) + ' ';
                                 wtrittd_details = wtrittd_details + json.data.iumxxmh_default_kode + '\n';
                                 $.ajax( {
                                     url: "../../models/wtrittd/wtrittd_fn_wloxxmh.php",
@@ -148,7 +148,7 @@
                     // console.log('terkecil');
                     // console.log(sisa);
                 } else if (id_iumxxmh_unit == id_iumxxmh_default) {
-                    sisa = parseFloat(json.data.jumlah_default).toFixed(2);
+                    sisa = parseFloat(json.data.jumlah_default);
                     // console.log('def');
                     // console.log(sisa);
                 } else {
