@@ -451,5 +451,79 @@
                 ->exec();
         }
         
+        /**
+         * Digunakan untuk update nilai field terkait jumlah pada transaksi sebelumnya
+         * Misal saat melakukan Goods Receipt, akan meng-update field terkait jumlah pada Purchase Order
+         * Function ini dipanggil di extra, postCreate, postEdit, preRemove
+         * Terminology
+	     *  old		: data sebelum di create atau di edit 
+	     *  before	: transaksi sebelumnya
+         * Parameter:
+         *  @param Object   $db database connection, biasanya diisi $editor->db()
+         *  @param Number   $id_table id table transaksi
+         *  @param Object   $dt_values : diisi $values dari form datatables editor
+         *  @param String   $action CREATE | EDIT | DELETE | CONFIRM | APPROVE | GENERATE
+         *  @param String   $nama_table nama tabel database transaksi
+         *  @param String   $nama_table_before nama tabel database transaksi sebelumnya
+         */
+        public static function kalkulasiJumlahTransaksiBefore( $db, $id_table, $dt_values, $action, $nama_table, $nama_table_before ){
+            // ambil nilai jumlah konversi berdasarkan id_iimxxmh dan id_iumxxmh
+            $qs_iimummd = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'iimummd.jumlah_konversi as jumlah_konversi'
+                ] )
+                ->where('iimummd.id_iimxxmh', $dt_values[$nama_table]['id_iimxxmh'] )
+                ->where('iimummd.id_iumxxmh', $dt_values[$nama_table]['id_iumxxmh_unit'] )
+                ->exec();
+            $rs_iimummd = $qs_iimummd->fetch();
+            $jumlah_konversi = $rs_iimummd['jumlah_konversi'];
+            
+            $qs_table_before_old = $db
+                ->query('select', $nama_table_before )
+                ->get([
+                    $nama_table_before.'.jumlah_unit as jumlah_unit_old',
+                    $nama_table_before.'.jumlah_unit_next as jumlah_unit_next_old',
+                    $nama_table_before.'.jumlah_unit_os as jumlah_unit_os_old',
+                    $nama_table_before.'.jumlah_terkecil as jumlah_terkecil_old',
+                    $nama_table_before.'.jumlah_terkecil_next as jumlah_terkecil_next_old',
+                    $nama_table_before.'.jumlah_terkecil_os as jumlah_terkecil_os_old'
+                ] )
+                ->where($nama_table_before.'.id', $dt_values[$nama_table]['id_'.$nama_table_before] )
+                ->exec();
+            $rs_table_before_old = $qs_table_before_old->fetch();
+            
+            if($action == 'Create'){
+                $jumlah_unit_old = 0;
+            }elseif($action == 'Edit'){
+                $qs_table_old = $db
+                    ->query('select', $nama_table )
+                    ->get([
+                        $nama_table.'.jumlah_unit as jumlah_unit'
+                    ] )
+                    ->where($nama_table.'.id', $id_table )
+                    ->exec();
+                $rs_table_old = $qs_table_old->fetch();
+                $jumlah_unit_old = $rs_table_old['jumlah_unit'];
+            }elseif($action == 'Remove'){
+                $jumlah_unit_old = 0;
+            }
+    
+            $jumlah_unit_next_new     = $rs_table_before_old['jumlah_unit_next_old'] - $jumlah_unit_old + $dt_values[$nama_table]['jumlah_unit'];
+            $jumlah_unit_os_new       = $rs_table_before_old['jumlah_unit_old'] - $jumlah_unit_next_new;
+            
+            $jumlah_terkecil_next_new = $jumlah_unit_next_new * $jumlah_konversi;
+            $jumlah_terkecil_os_new   = $jumlah_unit_os_new * $jumlah_konversi;
+    
+            $qu_table_before = $db
+                ->query('update', $nama_table_before)
+                ->set('jumlah_unit_next', $jumlah_unit_next_new )
+                ->set('jumlah_unit_os', $jumlah_unit_os_new)
+                ->set('jumlah_terkecil_next', $jumlah_terkecil_next_new)
+                ->set('jumlah_terkecil_os', $jumlah_terkecil_os_new)
+                ->where('id', $dt_values[$nama_table]['id_'.$nama_table_before] )
+                ->exec();
+        }
+        
     } // end of class General
 ?>
