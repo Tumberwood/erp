@@ -40,13 +40,13 @@
 									</div>
 									<div class="form-group row">												
 										<label class="col-sm-2 col-form-label">Warehouse</label>
-										<div class="col-sm-4">
+										<div class="col-sm-6">
 											<select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh"></select>
 										</div>
 									</div>
 									<div class="form-group row">												
 										<label class="col-sm-2 col-form-label">Item</label>
-										<div class="col-sm-4">
+										<div class="col-sm-10">
 											<select class="form-control" id="select_id_iimxxmh" name="select_id_iimxxmh"></select>
 										</div>
 									</div>

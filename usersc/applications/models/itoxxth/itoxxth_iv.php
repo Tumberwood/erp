@@ -17,12 +17,15 @@
 	$c_rs_opt  = 0;
 	$morePages = 0;
 	// END definisi variable untuk fn_ajax_results.php
-	
-	$id    = $_POST['id_transaksi_h'];
-	$state = $_POST['state'];
 
 	try{
 		$db->transaction();
+
+		// ganti movement type sesuai jenis transaksi
+		$imtxxmh_kode = 301;
+		
+		$id    = $_POST['id_transaksi_h'];
+		$state = $_POST['state'];
 		
 		// BEGIN ambil data confirmed_at dari table activity_log_ml
 		$qs_activity_log_ml = $db
@@ -46,6 +49,7 @@
 				INSERT INTO iivxxrd (
 					id_transaksi_h,
 					id_transaksi_d,
+					id_gcpxxmh,
 					id_gbrxxmh,
 					id_iwhxxmh,
 					id_relasi_m,
@@ -57,9 +61,24 @@
 					keterangan,
 					confirmed_at,
 					created_by,
-					imtxxmh_kode,
+					gcpxxmh_kode,
+					gcpxxmh_nama,
+					gbrxxmh_kode,
+					gbrxxmh_nama,
+					iwhxxmh_kode,
+					iwhxxmh_nama,
 					relasi_m_kode,
 					relasi_m_nama,
+					iimxxmh_kode,
+					iimxxmh_nama,
+					iumxxmh_unit_kode,
+					iumxxmh_unit_nama,
+					iumxxmh_terkecil_kode,
+					iumxxmh_terkecil_nama,
+					iumxxmh_default_kode,
+					iumxxmh_default_nama,
+					imtxxmh_kode,
+					imtxxmh_movement_type,
 					tanggal,
 					is_fisik,
 					jumlah_unit,
@@ -68,33 +87,56 @@
 					jumlah_default
 				)
 				SELECT
-					a.id as id_transaksi_h,
-					b.id as id_transaksi_d,
-					a.id_gbrxxmh as id_gbrxxmh,
-					a.id_iwhxxmh_asal as id_iwhxxmh,
-					a.id_iwhxxmh_tujuan as id_relasi_m,
-					b.id_iimxxmh,
-					b.id_iumxxmh_unit,
-					b.id_iumxxmh_terkecil,
-					b.id_iumxxmh_default,
-					a.kode,
-					a.keterangan,
+					itoxxth.id as id_transaksi_h,
+					itoittd.id as id_transaksi_d,
+					itoxxth.id_gcpxxmh as id_gcpxxmh,
+					itoxxth.id_gbrxxmh as id_gbrxxmh,
+					itoxxth.id_iwhxxmh_asal as id_iwhxxmh,
+					itoxxth.id_iwhxxmh_tujuan as id_relasi_m,
+					itoittd.id_iimxxmh,
+					itoittd.id_iumxxmh_unit,
+					itoittd.id_iumxxmh_terkecil,
+					itoittd.id_iumxxmh_default,
+					itoxxth.kode,
+					itoxxth.keterangan,
 					"'.$confirmed_at.'",
-					a.created_by,
-					301 as imtxxmh_kode,
+					itoxxth.created_by,
+					gcpxxmh.kode,
+					gcpxxmh.nama,
+					gbrxxmh.kode,
+					gbrxxmh.nama,
+					iwhxxmh_asal.kode,
+					iwhxxmh_asal.nama,
 					iwhxxmh_tujuan.kode,
 					iwhxxmh_tujuan.nama,
-					a.tanggal,
+					iimxxmh.kode,
+					iimxxmh.nama,
+					iumxxmh_unit.kode,
+					iumxxmh_unit.nama,
+					iumxxmh_terkecil.kode,
+					iumxxmh_terkecil.nama,
+					iumxxmh_default.kode,
+					iumxxmh_default.nama,
+					'.$imtxxmh_kode.' as imtxxmh_kode,
+					imtxxmh.movement_type,
+					itoxxth.tanggal,
 					1 as is_fisik,
-					-b.jumlah_unit as jumlah_unit,
-					b.jumlah_konversi as jumlah_konversi,
-					-b.jumlah_terkecil as jumlah_terkecil,
-					-b.jumlah_default as jumlah_default
-				FROM itoxxth a
-				LEFT JOIN itoittd b ON b.id_itoxxth = a.id
-				LEFT JOIN iwhxxmh as iwhxxmh_asal ON iwhxxmh_asal.id = a.id_iwhxxmh_asal
-				LEFT JOIN iwhxxmh AS iwhxxmh_tujuan ON iwhxxmh_tujuan.id = a.id_iwhxxmh_tujuan
-				WHERE a.id = :id
+					-itoittd.jumlah_unit as jumlah_unit,
+					itoittd.jumlah_konversi as jumlah_konversi,
+					-itoittd.jumlah_terkecil as jumlah_terkecil,
+					-itoittd.jumlah_default as jumlah_default
+				FROM itoxxth
+				LEFT JOIN gcpxxmh ON gcpxxmh.id = itoxxth.id_gcpxxmh
+				LEFT JOIN gbrxxmh ON gbrxxmh.id = itoxxth.id_gbrxxmh
+				LEFT JOIN iwhxxmh AS iwhxxmh_asal ON iwhxxmh_asal.id = itoxxth.id_iwhxxmh_asal
+				LEFT JOIN iwhxxmh AS iwhxxmh_tujuan ON iwhxxmh_tujuan.id = itoxxth.id_iwhxxmh_tujuan
+				LEFT JOIN itoittd ON itoittd.id_itoxxth = itoxxth.id
+				LEFT JOIN iimxxmh ON iimxxmh.id = itoittd.id_iimxxmh
+				LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = itoittd.id_iumxxmh_unit
+				LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = itoittd.id_iumxxmh_terkecil
+				LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = itoittd.id_iumxxmh_default
+				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.'
+				WHERE itoxxth.id = :id
 			');
 
 		// DIKIRIM atau Masuk ke Gudang Transit (+)
@@ -105,6 +147,7 @@
 				INSERT INTO iivxxrd (
 					id_transaksi_h,
 					id_transaksi_d,
+					id_gcpxxmh,
 					id_gbrxxmh,
 					id_iwhxxmh,
 					id_relasi_m,
@@ -116,9 +159,24 @@
 					keterangan,
 					confirmed_at,
 					created_by,
-					imtxxmh_kode,
+					gcpxxmh_kode,
+					gcpxxmh_nama,
+					gbrxxmh_kode,
+					gbrxxmh_nama,
+					iwhxxmh_kode,
+					iwhxxmh_nama,
 					relasi_m_kode,
 					relasi_m_nama,
+					iimxxmh_kode,
+					iimxxmh_nama,
+					iumxxmh_unit_kode,
+					iumxxmh_unit_nama,
+					iumxxmh_terkecil_kode,
+					iumxxmh_terkecil_nama,
+					iumxxmh_default_kode,
+					iumxxmh_default_nama,
+					imtxxmh_kode,
+					imtxxmh_movement_type,
 					tanggal,
 					is_fisik,
 					jumlah_unit,
@@ -127,52 +185,89 @@
 					jumlah_default
 				)
 				SELECT
-					a.id as id_transaksi_h,
-					b.id as id_transaksi_d,
-					1 as id_gbrxxmh,
+					itoxxth.id as id_transaksi_h,
+					itoittd.id as id_transaksi_d,
+					itoxxth.id_gcpxxmh as id_gcpxxmh,
+					itoxxth.id_gbrxxmh as id_gbrxxmh,
 					iwhxxmh_transit.id as id_iwhxxmh,
 					iwhxxmh_asal.id as id_relasi_m,
-					b.id_iimxxmh,
-					b.id_iumxxmh_unit,
-					b.id_iumxxmh_terkecil,
-					b.id_iumxxmh_default,
-					a.kode,
-					a.keterangan,
+					itoittd.id_iimxxmh,
+					itoittd.id_iumxxmh_unit,
+					itoittd.id_iumxxmh_terkecil,
+					itoittd.id_iumxxmh_default,
+					itoxxth.kode,
+					itoxxth.keterangan,
 					"'.$confirmed_at.'",
-					a.created_by,
-					301 as imtxxmh_kode,
+					itoxxth.created_by,
+					gcpxxmh.kode,
+					gcpxxmh.nama,
+					gbrxxmh.kode,
+					gbrxxmh.nama,
+					iwhxxmh_transit.kode,
+					iwhxxmh_transit.nama,
 					iwhxxmh_asal.kode,
 					iwhxxmh_asal.nama,
-					a.tanggal,
+					iimxxmh.kode,
+					iimxxmh.nama,
+					iumxxmh_unit.kode,
+					iumxxmh_unit.nama,
+					iumxxmh_terkecil.kode,
+					iumxxmh_terkecil.nama,
+					iumxxmh_default.kode,
+					iumxxmh_default.nama,
+					'.$imtxxmh_kode.' as imtxxmh_kode,
+					imtxxmh.movement_type,
+					itoxxth.tanggal,
 					1 as is_fisik,
-					b.jumlah_unit as jumlah_unit,
-					b.jumlah_konversi as jumlah_konversi,
-					b.jumlah_terkecil as jumlah_terkecil,
-					b.jumlah_default as jumlah_default
-				FROM itoxxth a
-				LEFT JOIN itoittd b ON b.id_itoxxth = a.id
-				LEFT JOIN iwhxxmh AS iwhxxmh_asal ON iwhxxmh_asal.id = a.id_iwhxxmh_asal
-				LEFT JOIN iwhxxmh AS iwhxxmh_tujuan ON iwhxxmh_tujuan.id = a.id_iwhxxmh_tujuan
+					itoittd.jumlah_unit as jumlah_unit,
+					itoittd.jumlah_konversi as jumlah_konversi,
+					itoittd.jumlah_terkecil as jumlah_terkecil,
+					itoittd.jumlah_default as jumlah_default
+				FROM itoxxth
+				LEFT JOIN gcpxxmh ON gcpxxmh.id = itoxxth.id_gcpxxmh
+				LEFT JOIN gbrxxmh ON gbrxxmh.id = itoxxth.id_gbrxxmh
+				LEFT JOIN iwhxxmh AS iwhxxmh_asal ON iwhxxmh_asal.id = itoxxth.id_iwhxxmh_asal
+				LEFT JOIN iwhxxmh AS iwhxxmh_tujuan ON iwhxxmh_tujuan.id = itoxxth.id_iwhxxmh_tujuan
 				LEFT JOIN iwhxxmh AS iwhxxmh_transit ON iwhxxmh_transit.kode = CONCAT("WHTR ", iwhxxmh_asal.kode, " - ", iwhxxmh_tujuan.kode) OR iwhxxmh_transit.kode = CONCAT("WHTR ", iwhxxmh_tujuan.kode, " - ", iwhxxmh_asal.kode)
-				WHERE a.id = :id
+
+				LEFT JOIN itoittd ON itoittd.id_itoxxth = itoxxth.id
+				LEFT JOIN iimxxmh ON iimxxmh.id = itoittd.id_iimxxmh
+				LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = itoittd.id_iumxxmh_unit
+				LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = itoittd.id_iumxxmh_terkecil
+				LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = itoittd.id_iumxxmh_default
+				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.'
+				WHERE itoxxth.id = :id
 			');
 
-		$db->commit();
-		$message = 'Inventory Transfer Berhasil Dilakukan';
-		$type_message = 'success';
+		if(!empty($qi_asal) && !empty($qi_tujuan)){
+			$db->commit();
+			$status_code  = 200;
+			$message      = 'Inventory Transfer Berhasil Dilakukan';
+			$type_message = 'success';
+		}else{
+			$db->rollback();
+			$status_code  = 500;
+			$message      = 'Inventory Transfer Gagal Dilakukan!';
+			$type_message = 'error';
+		}
+
 
 	}catch(PDOException $e){
-		// rollback on error
 		$db->rollback();
-		echo json_encode(array('message'=>'Pesan Gagal', 'type_message'=>'danger' ));
-
-		$message = 'Inventory Transfer Gagal Dilakukan';
-		$type_message = 'danger';
+		$status_code  = 500;
+		$message      = 'Inventory Transfer Gagal Dilakukan! ' . $e->getMessage();
+		$type_message = 'error';
+	}catch (Exception $e) {
+		$db->rollback();
+		$status_code = 500;
+		$message = 'Inventory Transfer Gagal Dilakukan!, ' . $e->getMessage();
+		$type_message = 'error';
 	}
 
 	$data = array(
-		'message'      => $message,
-		'type_message' => $type_message
+		'status_code'    => $status_code,
+		'message'        => $message,
+		'type_message'   => $type_message,
 	);
 
 	// tampilkan results

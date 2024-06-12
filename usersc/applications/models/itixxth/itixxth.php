@@ -25,6 +25,9 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'itixxth.id' ),
+			Field::inst( 'itixxth.id_gcpxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gcpxxmh),
 			Field::inst( 'itixxth.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue($s_id_gbrxxmh),

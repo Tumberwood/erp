@@ -642,6 +642,7 @@
 		});
 			
 		edtitoittd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblitoxxth.ajax.reload(null, false);
 			tblitoittd.ajax.reload(null, false);
 		} );
 
@@ -700,8 +701,8 @@
 
 		tblitoittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('itoittd');
-			id_iimxxmh_old      = data_itoittd.id_iimxxmh;
-			id_iumxxmh_unit_old = data_itoittd.id_iumxxmh_unit;
+			id_iimxxmh_old      = itoittd_data.id_iimxxmh;
+			id_iumxxmh_unit_old = itoittd_data.id_iumxxmh_unit;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblitoittd );
