@@ -51,8 +51,7 @@
                         AND 
                             CASE 
                             WHEN wloxxmh.id_iumxxmh_kapasitas = 14 then iivxxrd.id_wloxxmh IS NULL
-                            WHEN wloxxmh.id_iumxxmh_kapasitas = 5 then iivxxrd.id_wloxxmh IS NULL
-                            ELSE ""
+                            ELSE 1
                         END
                         
                     ORDER BY wimlotd.urutan

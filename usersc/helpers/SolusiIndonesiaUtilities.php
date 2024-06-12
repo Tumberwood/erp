@@ -400,7 +400,9 @@
             $rs_jumlah_konversi = $qs_jumlah_konversi->fetch();
 
             $jumlah_konversi    = $rs_jumlah_konversi['jumlah_konversi'];
-            $jumlah_terkecil    = $jumlah_konversi * $jumlah_unit; //1 * 30
+            //ini dibuat round, karena terkecil itu harusnya tidak perlu koma, ada case jumlah terkecil koma
+            //seperti 0,63 box, 1 box = 24 pcs, hasil hitung jumlah terkecil jadi 15,12. Harusnya 15 saja
+            $jumlah_terkecil    = round($jumlah_konversi * $jumlah_unit); //1 * 30
             // END get jumlah_konversi
 
             // BEGIN get UoM terkecil
