@@ -6,13 +6,16 @@
     $debug = [];
     $results = array();
     $db->debug( function ( $mess ) use ( &$debug ) {
-        $debug[] = $mess;
+        // old version
+        // $debug[] = $mess;
+
+        if (is_array($mess)) {
+            $mess = print_r($mess, true);
+        }
+
+        $cleanMessage = str_replace(array("\r", "\n", "\t"), ' ', $mess);
+        $cleanMessage = preg_replace('/\s+/', ' ', $cleanMessage);
+        $debug[] = $cleanMessage;
     } );
 
-    // foreach ( $debug as $row ) {
-    //     $results['query'] = $row['query'];
-    //     $results['bindings'] = $row['bindings'];
-    // }
-
-    // echo json_encode($results);
 ?>
