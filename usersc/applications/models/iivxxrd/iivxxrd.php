@@ -43,6 +43,7 @@
 				id_gbrxxmh, 
 				id_iwhxxmh,
 				id_iimxxmh
+			HAVING jumlah_terkecil <> 0
 		');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 
