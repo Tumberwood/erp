@@ -68,6 +68,7 @@
 							<th data-i18n="name"></th>
 							<th data-i18n="type"></th>
 							<th data-i18n="category"></th>
+							<th data-i18n="group"></th>
 						</tr>
 					</thead>
 				</table>
@@ -612,13 +613,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3,4]
+					targets: [2,3,4,5]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: "_all"
 				}
 			],
 			columns: [
@@ -626,7 +627,8 @@
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iitxxmh.nama" },
-				{ data: "iicxxmh.nama" }
+				{ data: "iicxxmh.nama" },
+				{ data: "iigxxmh.nama" }
 			],
 			buttons: [
 
