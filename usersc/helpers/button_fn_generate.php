@@ -394,10 +394,21 @@
                                 // jika draft akan dikonfirmasi
                                 message_transaction_state = "Apakah Anda Yakin Akan Konfimasi Data?";
                                 
-                                is_confirmed = confirm(message_transaction_state);
-                                if(is_confirmed == true){
-                                    fnConfirm('<?php echo $table_name;?>', <?php echo $table;?> );
-                                }
+                                swal({
+                                    text: message_transaction_state,
+                                    icon: "info",
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true
+                                    },
+                                })
+                                .then((willConfirm) => {
+                                    if (willConfirm) {
+                                        fnConfirm('<?php echo $table_name;?>', <?php echo $table;?> );
+                                    }
+                                });
+
+                                
 
                             }
                         },
