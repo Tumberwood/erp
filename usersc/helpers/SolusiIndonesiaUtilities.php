@@ -400,9 +400,7 @@
             $rs_jumlah_konversi = $qs_jumlah_konversi->fetch();
 
             $jumlah_konversi    = $rs_jumlah_konversi['jumlah_konversi'];
-            //ini dibuat round, karena terkecil itu harusnya tidak perlu koma, ada case jumlah terkecil koma
-            //seperti 0,63 box, 1 box = 24 pcs, hasil hitung jumlah terkecil jadi 15,12. Harusnya 15 saja
-            $jumlah_terkecil    = $jumlah_konversi * $jumlah_unit; //1 * 30
+            $jumlah_terkecil    = $jumlah_konversi * $jumlah_unit;
             // END get jumlah_konversi
 
             // BEGIN get UoM terkecil
@@ -468,17 +466,33 @@
          *  @param String   $nama_table_before nama tabel database transaksi sebelumnya
          */
         public static function kalkulasiJumlahTransaksiBefore( $db, $id_table, $dt_values, $action, $nama_table, $nama_table_before ){
-            // ambil nilai jumlah konversi berdasarkan id_iimxxmh dan id_iumxxmh
-            $qs_iimummd = $db
+
+            // BEGIN get iimummd_default
+            $qs_iimummd_default = $db
                 ->query('select', 'iimummd' )
                 ->get([
-                    'iimummd.jumlah_konversi as jumlah_konversi'
+                    'iimummd.jumlah_konversi as jumlah_konversi_default_ke_terkecil',
+                    'iumxxmh.kode as iumxxmh_default_kode'
+                ] )
+                ->join('iumxxmh','iumxxmh.id = iimummd.id_iumxxmh','LEFT' )
+                ->where('iimummd.id_iimxxmh', $dt_values[$nama_table]['id_iimxxmh'] )
+                ->where('iimummd.is_default', 1 )
+                ->exec();
+            // END get iimummd_default
+            $rs_iimummd_default                  = $qs_iimummd_default->fetch();
+            $jumlah_konversi_default_ke_terkecil = $rs_iimummd_default['jumlah_konversi_default_ke_terkecil'];
+
+            // ambil nilai jumlah konversi berdasarkan id_iimxxmh dan id_iumxxmh
+            $qs_iimummd_terkecil = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'iimummd.jumlah_konversi as jumlah_konversi_terkecil'
                 ] )
                 ->where('iimummd.id_iimxxmh', $dt_values[$nama_table]['id_iimxxmh'] )
                 ->where('iimummd.id_iumxxmh', $dt_values[$nama_table]['id_iumxxmh_unit'] )
                 ->exec();
-            $rs_iimummd = $qs_iimummd->fetch();
-            $jumlah_konversi = $rs_iimummd['jumlah_konversi'];
+            $rs_iimummd_terkecil = $qs_iimummd_terkecil->fetch();
+            $jumlah_konversi_terkecil = $rs_iimummd_terkecil['jumlah_konversi_terkecil'];
             
             $qs_table_before_old = $db
                 ->query('select', $nama_table_before )
@@ -513,8 +527,11 @@
             $jumlah_unit_next_new     = $rs_table_before_old['jumlah_unit_next_old'] - $jumlah_unit_old + $dt_values[$nama_table]['jumlah_unit'];
             $jumlah_unit_os_new       = $rs_table_before_old['jumlah_unit_old'] - $jumlah_unit_next_new;
             
-            $jumlah_terkecil_next_new = $jumlah_unit_next_new * $jumlah_konversi;
-            $jumlah_terkecil_os_new   = $jumlah_unit_os_new * $jumlah_konversi;
+            $jumlah_terkecil_next_new = $jumlah_unit_next_new * $jumlah_konversi_terkecil;
+            $jumlah_terkecil_os_new   = $jumlah_unit_os_new * $jumlah_konversi_terkecil;
+
+            $jumlah_default_next_new = $jumlah_terkecil_next_new / $jumlah_konversi_default_ke_terkecil;
+            $jumlah_default_os_new   = $jumlah_terkecil_os_new / $jumlah_konversi_default_ke_terkecil;
     
             $qu_table_before = $db
                 ->query('update', $nama_table_before)
@@ -522,6 +539,8 @@
                 ->set('jumlah_unit_os', $jumlah_unit_os_new)
                 ->set('jumlah_terkecil_next', $jumlah_terkecil_next_new)
                 ->set('jumlah_terkecil_os', $jumlah_terkecil_os_new)
+                ->set('jumlah_default_next', $jumlah_default_next_new)
+                ->set('jumlah_default_os', $jumlah_default_os_new)
                 ->where('id', $dt_values[$nama_table]['id_'.$nama_table_before] )
                 ->exec();
         }
