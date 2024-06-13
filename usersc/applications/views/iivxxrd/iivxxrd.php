@@ -37,6 +37,13 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label">Warehouse</label>
+										<div class="col-sm-6">
+											<select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh"></select>
+										</div>
+									</div>
+
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -53,14 +60,14 @@
 							<th rowspan="2">Warehouse</th>
 							<th rowspan="2">Kode</th>
 							<th rowspan="2">Nama</th>
-							<th colspan="2">Terkecil</th>
-							<th colspan="2">Default</th>
+							<th colspan="2" class="text-center bg-beige">Terkecil</th>
+							<th colspan="2" class="text-center">Default</th>
 						</tr>
 						<tr>
-							<th>UoM</th>
 							<th>Jumlah</th>
 							<th>UoM</th>
 							<th>Jumlah</th>
+							<th>UoM</th>
 						</tr>
 					</thead>
 				</table>
@@ -91,9 +98,44 @@
 	var tbliivxxrd, show_deleted_iivxxrd = 0;
 	// ------------- end of default variable
 
+	var id_iwhxxmh = 0, id_iwhxxmh_old = 0;
+
 	$(document).ready(function() {
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
+		$("#select_id_iwhxxmh").select2({
+			dropdownParent: $("#modalSFiivxxrd"),
+			placeholder : "Select",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_iwhxxmh_old: id_iwhxxmh_old,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			},
+		});
+		
 		//start datatables
 		tbliivxxrd = $('#tbliivxxrd').DataTable( {
 			dom: domPQ,
@@ -106,6 +148,7 @@
 				data: function (d){
 					d.show_deleted_iivxxrd = show_deleted_iivxxrd;
 					d.end_date = end_date;
+					d.id_iwhxxmh = id_iwhxxmh;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -120,23 +163,26 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [3,4,5,6]
+					targets: '_all'
+				},
+				{ 
+					className: 'bg-beige', targets: [3,4]
 				}
 			],
 			columns: [
 				{ data: "iwhxxmh_kode" },
 				{ data: "iimxxmh_kode" },
 				{ data: "iimxxmh_nama" },
-				{ data: "iumxxmh_terkecil_kode" },
 				{ 
 					data: "jumlah_terkecil",
 					...renderNumber(2)
 				},
-				{ data: "iumxxmh_default_kode" },
+				{ data: "iumxxmh_terkecil_kode" },
 				{ 
 					data: "jumlah_default",
 					...renderNumber(2)
-				}
+				},
+				{ data: "iumxxmh_default_kode" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -170,10 +216,20 @@
 			e.preventDefault();
 		}).validate({
 			rules: {
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
 			},
-			submitHandler: function(frmFilter) {
-				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			messages: {
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
+			},
+			submitHandler: function(frmFilter) {			
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				id_iwhxxmh = $('#select_id_iwhxxmh').val();
+
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tbliivxxrd.rows().deselect();
 				tbliivxxrd.ajax.reload(function ( json ) {
