@@ -69,7 +69,8 @@
 		)
 		->leftJoin( 'iwhxxmh as iwhxxmh_asal','iwhxxmh_asal.id','=','itixxth.id_iwhxxmh_asal' )
 		->leftJoin( 'iwhxxmh as iwhxxmh_tujuan','iwhxxmh_tujuan.id','=','itixxth.id_iwhxxmh_tujuan' )
-		;
+		->where( 'itixxth.tanggal', $_POST['start_date'], '>=' )
+		->where( 'itixxth.tanggal', $_POST['end_date'], '<=' );
 	
 	// do not erase
 	// function show / hide inactive document

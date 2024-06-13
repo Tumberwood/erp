@@ -79,9 +79,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_itixxth</th>
+										<th>SKU</th>
 										<th>Item</th>
-										<th>UoM</th>
 										<th>Quantity</th>
+										<th>UoM</th>
 									</tr>
 								</thead>
 							</table>
@@ -139,6 +140,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_itixxth = show_deleted_itixxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			table: "#tblitixxth",
@@ -375,13 +378,15 @@
 		tblitixxth = $('#tblitixxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-6',
 			},
 			ajax: {
 				url: "../../models/itixxth/itixxth.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_itixxth = show_deleted_itixxth;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -390,7 +395,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,4,5,6]
 				},
 				{
 					searchPanes:{
@@ -427,7 +432,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -519,12 +524,12 @@
 				{
 					label: "id_itixxth",
 					name: "itiittd.id_itixxth",
-					// type: "hidden"
+					type: "hidden"
 				},	
 				{
 					label: "itiittd.id_itoittd",
 					name: "itiittd.id_itoittd",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "Item <sup class='text-danger'>*<sup>",
@@ -564,6 +569,10 @@
 					}
 				},	
 				{
+					label: "Quantity <sup class='text-danger'>*<sup>",
+					name: "itiittd.jumlah_unit"
+				},
+				{
 					label: "UoM <sup class='text-danger'>*<sup>",
 					name: "itiittd.id_iumxxmh_unit",
 					type: "select2",
@@ -599,10 +608,6 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},
-				{
-					label: "Quantity <sup class='text-danger'>*<sup>",
-					name: "itiittd.jumlah_unit"
 				}
 			]
 		} );
@@ -701,12 +706,13 @@
 			columns: [
 				{ data: "itiittd.id",visible:false },
 				{ data: "itiittd.id_itixxth",visible:false },
+				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
-				{ data: "iumxxmh.nama" },
 				{ 
 					data: "itiittd.jumlah_unit",
 					...renderNumber(0)
-				}
+				},
+				{ data: "iumxxmh.nama" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -718,6 +724,7 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2		= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
@@ -756,6 +763,42 @@
 			CekDeselectDetailHD( tblitiittd );
 		} );
 		// END of itiittd
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblitixxth.rows().deselect();
+				tblitixxth.ajax.reload(function ( json ) {
+					toastr.remove();
+					toastr["success"]("Load data berhasil","INFO")
+					$('#modalSFitixxth').modal('toggle');
+				}, false);
+				return false; 
+			}
+		});
 
 	} );// end of document.ready
 	
