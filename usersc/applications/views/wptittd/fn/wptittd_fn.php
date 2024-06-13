@@ -42,7 +42,7 @@
                                 wptittd_details = wptittd_details + json.data.iimxxmh_nama + '\n';
                                 wptittd_details = wptittd_details + json.data.s_jumlah_unit + ' ';
                                 wptittd_details = wptittd_details + json.data.iumxxmh_default_kode + '\n';
-                                wptittd_details = wptittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)).toFixed(2) + ' ';
+                                wptittd_details = wptittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)) + ' ';
                                 wptittd_details = wptittd_details + json.data.iumxxmh_default_kode + '\n';
                                 $.ajax( {
                                     url: "../../models/wptittd/wptittd_fn_wloxxmh.php",
@@ -140,7 +140,7 @@
                     // console.log('terkecil');
                     // console.log(sisa);
                 } else if (id_iumxxmh_unit == id_iumxxmh_default) {
-                    sisa = parseFloat(json.data.jumlah_default).toFixed(2);
+                    sisa = parseFloat(json.data.jumlah_default);
                     // console.log('def');
                     // console.log(sisa);
                 } else {

@@ -30,6 +30,7 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>LPN</th>
+                                <th>Lokasi Tujuan</th>
                                 <th>Item Code</th>
                                 <th>Item Name</th>
                                 <th>UoM</th>
@@ -395,6 +396,7 @@
 				{ data: "wptittd.id",visible:false },
 				{ data: "wptittd.kode" ,visible:false },
 				{ data: "wptittd.wlpxxmh_kode" },
+				{ data: "wloxxmh.nama" },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.kode" },

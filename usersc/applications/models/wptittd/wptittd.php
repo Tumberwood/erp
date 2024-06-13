@@ -85,11 +85,13 @@
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
+			Field::inst( 'wloxxmh.nama' ),
 
 			Field::inst( 'iumxxmh.kode' )
 		)
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wptittd.id_iimxxmh' )
-		->leftJoin( 'iumxxmh','iumxxmh.id','=','wptittd.id_iumxxmh_unit' );
+		->leftJoin( 'iumxxmh','iumxxmh.id','=','wptittd.id_iumxxmh_unit' )
+		->leftJoin( 'wloxxmh','wloxxmh.id','=','wptittd.id_wloxxmh_tujuan' );
 	
 	// do not erase
 	// function show / hide inactive document
