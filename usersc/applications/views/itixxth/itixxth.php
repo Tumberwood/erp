@@ -14,7 +14,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="modal" id="modalSFitixxth" tabindex="-1" role="dialog" aria-hidden="true">
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabitiittd_1"> Items</a></li>
@@ -125,7 +125,7 @@
 	// get tableRelation
 	tableRelation('itixxth');	
 
-	var id_iwhxxmh_asal_old = 0, id_iwhxxmh_tujuan_old = 0, id_itoxxth_old = 0;
+	var id_iwhxxmh_asal_old = 0, id_iwhxxmh_tujuan_old = 0, id_itoxxth_old = 0, id_itoxxth = 0;
 	var id_iimxxmh, id_iumxxmh_unit_old = 0, jumlah_unit_old = 0; id_iimxxmh_old = 0;
 
 	$(document).ready(function() {
@@ -372,7 +372,6 @@
 			edtitixxth.enable();
 		} );
 		
-		//start datatables
 		tblitixxth = $('#tblitixxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -406,8 +405,8 @@
 				{ data: "itixxth.id",visible:false },
 				{ data: "itixxth.tanggal" },
 				{ data: "itixxth.kode" },
-				{ data: "asal.nama" },
-				{ data: "tujuan.nama" },
+				{ data: "iwhxxmh_asal.nama" },
+				{ data: "iwhxxmh_tujuan.nama" },
 				{ 
 					data: "itixxth.transaction_state" ,
 					...renderTransactionStatus()
@@ -457,8 +456,8 @@
 		
 		tblitixxth.on( 'select', function( e, dt, type, indexes ) {
 			siVarSet('itixxth');
-			id_itoxxth_old		= itixxth_data.id_itoxxth;
-			ids_itoxxth		= itixxth_data.id_itoxxth;
+			id_itoxxth_old = itixxth_data.id_itoxxth;
+			id_itoxxth     = itixxth_data.id_itoxxth;
 			
 			// atur hak akses
 			tbl_details = [tblitiittd];
@@ -469,7 +468,7 @@
 		tblitixxth.on( 'deselect', function () {
 			siVarReset('itixxth');
 			id_itoxxth_old = 0;
-			ids_itoxxth = 0;
+			id_itoxxth = 0;
 
 			// atur hak akses
 			tbl_details = [tblitiittd];
@@ -520,8 +519,13 @@
 				{
 					label: "id_itixxth",
 					name: "itiittd.id_itixxth",
-					type: "hidden"
+					// type: "hidden"
 				},	
+				{
+					label: "itiittd.id_itoittd",
+					name: "itiittd.id_itoittd",
+					// type: "hidden"
+				},
 				{
 					label: "Item <sup class='text-danger'>*<sup>",
 					name: "itiittd.id_iimxxmh",
@@ -531,12 +535,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/itoxxth/iimxxmh_itoxxth_fn_opt.php",
+							url: "../../models/itoxxth/itoxxth_fn_opt_iimxxmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
-									ids_itoxxth: ids_itoxxth,
+									id_itoxxth: id_itoxxth,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -620,11 +624,18 @@
 		});
 
 		edtitiittd.dependent( 'itiittd.id_iimxxmh', function ( val, data, callback ) {
-			id_iimxxmh = edtitiittd.field('itiittd.id_iimxxmh').val();
+			id_iimxxmh = val;
+			itiittd_fn_itoittd(id_itoxxth, id_iimxxmh);
 			return {}
 		}, {event: 'keyup change'});
 		
 		edtitiittd.on( 'preSubmit', function (e, data, action) {
+			if(action == 'create'){
+				id_transaksi = 0;
+			}else{
+				id_transaksi = id_itiittd;
+			}
+
 			if(action != 'remove'){
 				id_iimxxmh = edtitiittd.field('itiittd.id_iimxxmh').val();
 				id_iumxxmh = edtitiittd.field('itiittd.id_iumxxmh_unit').val();
@@ -649,6 +660,10 @@
 					0,
 					'>'
 				);
+
+				validasiOutstanding(
+					edtitiittd, 'itiittd', id_transaksi, id_itoittd, 'itoittd'
+				)
 			
 			}
 			
@@ -663,7 +678,7 @@
 		});
 			
 		edtitiittd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblitixxth.rows().deselect();
+			// tblitixxth.rows().deselect();
 			tblitixxth.ajax.reload(null, false);
 			tblitiittd.rows().deselect();
 			tblitiittd.ajax.reload(null, false);
@@ -723,9 +738,9 @@
 
 		tblitiittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('itiittd');
-			id_iimxxmh_old   = data_itiittd.id_iimxxmh;
-			id_iumxxmh_unit_old   = data_itiittd.id_iumxxmh_unit;
-			jumlah_unit_old   = data_itiittd.jumlah_unit;
+			id_iimxxmh_old      = itiittd_data.id_iimxxmh;
+			id_iumxxmh_unit_old = itiittd_data.id_iumxxmh_unit;
+			jumlah_unit_old     = itiittd_data.jumlah_unit;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblitiittd );
@@ -740,8 +755,8 @@
 			// atur hak akses
 			CekDeselectDetailHD( tblitiittd );
 		} );
+		// END of itiittd
 
-// --------- end _detail --------------- //		
 	} );// end of document.ready
 	
 </script>

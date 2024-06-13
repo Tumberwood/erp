@@ -28,13 +28,13 @@
 			->debug(true)
 			->fields(
 				Field::inst( 'itiittd.id' ),
+				Field::inst( 'itiittd.id_itixxth' ),
+				Field::inst( 'itiittd.id_itoxxth' ),
+				Field::inst( 'itiittd.id_itoittd' ),
 				Field::inst( 'itiittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'itiittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'itiittd.id_iumxxmh_terkecil' )
-					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'itiittd.id_itixxth' ),
 				Field::inst( 'itiittd.kode' ),
 				Field::inst( 'itiittd.nama' ),
 				Field::inst( 'itiittd.keterangan' ),
@@ -45,6 +45,8 @@
 				Field::inst( 'itiittd.finish_at' ),
 				Field::inst( 'itiittd.is_defaultprogram' ),
 				Field::inst( 'itiittd.jumlah_unit' ),
+
+				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'iumxxmh.nama' )
 			)
