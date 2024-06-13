@@ -50,7 +50,15 @@
                         )
                         AND 
                             CASE 
-                            WHEN wloxxmh.id_iumxxmh_kapasitas = 14 then iivxxrd.id_wloxxmh IS NULL
+                            WHEN wloxxmh.id_iumxxmh_kapasitas = 14 then 
+                                wimlotd.id_wloxxmh NOT IN ( -- yang location tidak termasuk dalam select dibawah ini
+                                    SELECT -- select lokasi yang sudah masuk storage dan fisik 1 dan jumlah terkecil > 0
+                                        a.id_wloxxmh
+                                    FROM iivxxrd a
+                                    WHERE a.id_wloctmh = 3 AND a.is_fisik = 1 AND a.wlpxxmh_kode <> :wlpxxmh_kode
+                                    GROUP BY a.id_wloxxmh
+                                    HAVING SUM(a.jumlah_terkecil) > 0
+                                )
                             ELSE 1
                         END
                         
