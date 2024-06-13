@@ -101,3 +101,7 @@ table.dataTable td {
 .text-secondary {
   color: #009a4f !important;
 }
+
+.bg-beige {
+  background-color: #F5F5DC !important;
+}
