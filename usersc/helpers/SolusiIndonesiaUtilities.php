@@ -447,6 +447,7 @@
                 ->set('jumlah_default',$jumlah_default) 
                 ->set('jumlah_unit_os',$jumlah_unit) 
                 ->set('jumlah_terkecil_os',$jumlah_terkecil) 
+                ->set('jumlah_default_os',$jumlah_default) 
                 ->where('id',$id)
                 ->exec();
         }
