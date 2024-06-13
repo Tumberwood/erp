@@ -28,10 +28,10 @@
         $id_iimxxmh_old = 0;
     }
     
-    if($_GET['ids_itoxxth'] > 0){
-        $ids_itoxxth = $_GET['ids_itoxxth'];
+    if($_GET['id_itoxxth'] > 0){
+        $id_itoxxth = $_GET['id_itoxxth'];
     }else{
-        $ids_itoxxth = 0;
+        $id_itoxxth = 0;
     }
     
     if(isset($_GET['ids_iitxxmh']) && !empty($_GET['ids_iitxxmh']) ){
@@ -68,7 +68,7 @@
         ])
         ->join('itoittd','itoittd.id_iimxxmh = iimxxmh.id','LEFT' )
         ->where('iimxxmh.transaction_state',1)
-        ->where('itoittd.id_itoxxth', $ids_itoxxth)
+        ->where('itoittd.id_itoxxth', $id_itoxxth)
         ->where('itoittd.jumlah_terkecil_os', 0, '>')
         ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
         ->where('iimxxmh.id_iitxxmh', $id_iitxxmh, $w_iitp )
