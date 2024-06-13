@@ -15,8 +15,6 @@
 		DataTables\Editor\Result;
 
 	$results = [];
-
-	// $end_date = new Carbon($_POST['end_date']);
 	$end_date = $_POST['end_date'];
 
 	if( isset($_POST['id_iwhxxmh']) && $_POST['id_iwhxxmh'] > 0 ){
@@ -47,12 +45,6 @@
 				id_iimxxmh
 		');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
-
-	// if (!empty($rs_iivxxrd)) {
-	// 	echo json_encode( ['data' => $rs_iivxxrd]);
-	// }else{
-	// 	echo json_encode( [ "data" => [] ] );
-	// }
 
 	if (!empty($rs_iivxxrd)) {
 		$data = $rs_iivxxrd;
