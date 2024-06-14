@@ -4,7 +4,7 @@
      * Table terkait    : podxxth
      * Parameter        : 
      *  - id_podxxth_old   : data existing (untuk keperluan edit), dipakai di query self
-     *  - id_psuxxmh            : data id_psuxxmh
+     *  - id_grlxxmh_supplier            : data id_grlxxmh_supplier
      */        
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -29,10 +29,10 @@
         $id_podxxth_old = 0;
     }
 
-    if($_GET['id_psuxxmh'] > 0){
-        $id_psuxxmh = $_GET['id_psuxxmh'];
+    if($_GET['id_grlxxmh_supplier'] > 0){
+        $id_grlxxmh_supplier = $_GET['id_grlxxmh_supplier'];
     }else{
-        $id_psuxxmh = 0;
+        $id_grlxxmh_supplier = 0;
     }
 
     // BEGIN query self.
@@ -60,9 +60,8 @@
             'podxxth.kode as text'
         ])
         ->where('podxxth.transaction_state',1)
-        ->where('podxxth.approval_state',1)
-        // ->where('podxxth.id_psuxxmh', $id_psuxxmh)
-        ->where('podxxth.id_grlxxmh_supplier', $id_psuxxmh)
+        ->where('podxxth.approval_state', 9)
+        ->where('podxxth.id_grlxxmh_supplier', $id_grlxxmh_supplier)
         ->where('podxxth.id', $id_podxxth_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];

@@ -46,8 +46,9 @@
 				Field::inst( 'prcittd.is_defaultprogram' ),
 
 				Field::inst( 'prcittd.jumlah_unit' ),
+				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
-				Field::inst( 'iumxxmh_unit.nama' )
+				Field::inst( 'iumxxmh_unit.kode' )
 			)
 			->leftJoin( 'iumxxmh as iumxxmh_unit','iumxxmh_unit.id','=','prcittd.id_iumxxmh_unit' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','prcittd.id_iimxxmh' )
@@ -66,11 +67,6 @@
 		$nama_table = 'prcittd';
 		include( "../../../helpers/edt_log.php" );
 		// END log
-		
-		//Extra kalkulasi jumlah_unit_os
-		$nama_table_d = 'prcittd';
-		$nama_table_d_before = 'podittd';
-		include( "../../../helpers/fn_kalkulasi_jumlah_unit_os_extra.php" );
 		
 		$json = $editor
 			->process( $_POST )

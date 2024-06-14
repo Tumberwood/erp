@@ -25,8 +25,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'prcxxth.id' ),
+			Field::inst( 'prcxxth.id_gcpxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gcpxxmh),
 			Field::inst( 'prcxxth.id_gbrxxmh' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
+				->set( Field::SET_CREATE )
+				->setValue($s_id_gbrxxmh),
 			Field::inst( 'prcxxth.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth.id_grlxxmh_supplier' )
@@ -72,6 +76,18 @@
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','prcxxth.id_grlxxmh_supplier' )
 		;
 	
+		// BEGIN where single data view
+	// if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
+	// 	$rowid = $_POST['rowid'];
+	// 	$editor
+	// 		->where( 'prcxxth.id', $rowid);
+	// }else{
+	// 	$editor
+	// 		->where( 'prcxxth.tanggal', $_POST['start_date'], '>=' )
+	// 		->where( 'prcxxth.tanggal', $_POST['end_date'], '<=' );
+	// }
+	// END where single data view
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_prcxxth'] == 0){
