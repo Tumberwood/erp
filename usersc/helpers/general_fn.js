@@ -899,6 +899,23 @@ function autoReloadInterval(content) {
 }
 
 /**
+ * Digunakan untuk melakukan pengecekan apakah sebuah file atau url ada
+ * @param {String} url 
+ * @returns 
+ */
+const checkFileExists = async (url) => {
+    try {
+        await $.ajax({
+            url: url,
+            type: 'HEAD'
+        });
+        return true;
+    } catch {
+        return false;
+    }
+};
+
+/**
  * Digunakan untuk melakukan action pada button confirm, termasuk rollback jika terjadi kesalahan
  * Dipanggil dari helpers/button_fn_generate.php
  * @param {String} tbl_name 
@@ -908,18 +925,6 @@ async function fnConfirm(tbl_name, tbl){
     var is_error = 0, is_update_transaction_state = 0, is_generate_kode = 0, is_inventory = 0, is_jurnal = 0, is_post_confirm = 0;
     try {
         full_message = '';
-
-        const checkFileExists = async (url) => {
-            try {
-                await $.ajax({
-                    url: url,
-                    type: 'HEAD'
-                });
-                return true;
-            } catch {
-                return false;
-            }
-        };
 
         let json1 = await $.ajax( {
             url: '../../../helpers/tr_fn_transaction_state.php',
@@ -1040,8 +1045,7 @@ async function fnConfirm(tbl_name, tbl){
 
         // Cek keberadaan file sebelum melakukan AJAX request.
         const fileExists = await checkFileExists('../../models/' + tbl_name + '/' + tbl_name + '_post_confirm.php');
-
-        if (fileExists && is_error == 0) {
+        if (fileExists == true && is_error == 0) {
             let json6 = await $.ajax( {
                 url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_post_confirm.php',
                 dataType: 'json',
@@ -1067,6 +1071,7 @@ async function fnConfirm(tbl_name, tbl){
             } );
         }
 
+        // lakukan rollback jika ada error
         if(is_error == 1){
             let json6 = await $.ajax( {
                 url: '../../../helpers/tr_fn_confirm_rollback.php',
