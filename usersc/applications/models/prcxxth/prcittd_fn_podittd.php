@@ -16,7 +16,11 @@
         ->query('select', 'podittd' )
         ->get([
             'podittd.id as id_podittd',
-            'podittd.jumlah_konversi as jumlah_konversi'
+            'podittd.jumlah_konversi as jumlah_konversi',
+            'podittd.harga_unit as harga_unit',
+            'podittd.diskon_jenis as diskon_jenis',
+            'podittd.diskon_persen as diskon_persen',
+            'podittd.diskon_value as diskon_value'
         ] )
         ->where('podittd.id_podxxth', $_POST['id_podxxth'] )
         ->where('podittd.id_iimxxmh', $_POST['id_iimxxmh'] )

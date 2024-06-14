@@ -46,6 +46,13 @@
 				Field::inst( 'prcittd.is_defaultprogram' ),
 
 				Field::inst( 'prcittd.jumlah_unit' ),
+				Field::inst( 'prcittd.diskon_jenis' ),
+				Field::inst( 'prcittd.diskon_persen' ),
+				Field::inst( 'prcittd.diskon_value' ),
+				Field::inst( 'prcittd.diskon_final' ),
+				Field::inst( 'prcittd.subtotal' ),
+				Field::inst( 'prcittd.dpp' ),
+
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'iumxxmh_unit.kode' )

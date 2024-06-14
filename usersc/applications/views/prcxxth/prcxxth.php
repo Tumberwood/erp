@@ -597,6 +597,41 @@
 					type: "hidden"
 				},
 				{
+					label: "prcittd.harga_unit",
+					name: "prcittd.harga_unit",
+					// type: "hidden"
+				},
+				{
+					label: "prcittd.diskon_jenis",
+					name: "prcittd.diskon_jenis",
+					// type: "hidden"
+				},
+				{
+					label: "prcittd.diskon_persen",
+					name: "prcittd.diskon_persen",
+					// type: "hidden"
+				},
+				{
+					label: "prcittd.diskon_value",
+					name: "prcittd.diskon_value",
+					// type: "hidden"
+				},
+				{
+					label: "prcittd.diskon_final",
+					name: "prcittd.diskon_final",
+					// type: "hidden"
+				},
+				{
+					label: "prcittd.subtotal",
+					name: "prcittd.subtotal",
+					// type: "hidden"
+				},
+				{
+					label: "prcittd.dpp",
+					name: "prcittd.dpp",
+					// type: "hidden"
+				},
+				{
 					label: "Item <sup class='text-danger'>*<sup>",
 					name: "prcittd.id_iimxxmh",
 					type: "select2",
@@ -704,6 +739,41 @@
 			prcittd_fn_podittd(id_podxxth,id_iimxxmh)
 			return {}
 		}, {event: 'keyup change'});
+
+		edtprcittd.dependent( 'prcittd.harga_unit', function ( val, data, callback ) {
+			hitungSubtotalDetail(edtprcittd, 'prcittd');
+			hitungDpp(edtprcittd, 'prcittd');
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtprcittd.dependent( 'prcittd.jumlah_unit', function ( val, data, callback ) {
+			hitungSubtotalDetail(edtprcittd, 'prcittd');
+			hitungDpp(edtprcittd, 'prcittd');
+
+			return {}
+		}, {event: 'keyup change'});
+
+		edtprcittd.dependent( 'prcittd.diskon_jenis', function ( val, data, callback ) {
+			hitungDiskon(edtprcittd, 'prcittd');
+			hitungDpp(edtprcittd, 'prcittd');
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtprcittd.dependent( 'prcittd.diskon_persen', function ( val, data, callback ) {
+			if (val != null) {
+				hitungDiskon(edtprcittd, 'prcittd');
+				hitungDpp(edtprcittd, 'prcittd');
+			}
+			return {}
+		}, {event: 'keyup'});
+		
+		edtprcittd.dependent( 'prcittd.diskon_value', function ( val, data, callback ) {
+			if (val != null) {
+				hitungDiskon(edtprcittd, 'prcittd');
+				hitungDpp(edtprcittd, 'prcittd');
+			}
+			return {}
+		}, {event: 'keyup'});
 		
 		edtprcittd.on( 'preSubmit', function (e, data, action) {
 			if(action == 'create'){
@@ -754,6 +824,9 @@
 		});
 			
 		edtprcittd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			hitungSubtotalHeader(id_transaksi_h, 'prcittd', 'prcxxth');
+			hitungHeaderDetail('prcxxth', 'prcittd', id_transaksi_h);
+
 			tblprcxxth.ajax.reload(null, false);
 			tblprcittd.rows().deselect();
 			tblprcittd.ajax.reload(null, false);
