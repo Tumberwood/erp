@@ -544,6 +544,16 @@
                 ->where('id', $dt_values[$nama_table]['id_'.$nama_table_before] )
                 ->exec();
         }
+
+        /**
+         * Digunakan untuk menghitung nilai HPP berdasarkan metode average
+         * Function ini dipanggil di file _jv atau file model lain yang memperlukan perhitungan HPP
+         * Parameter
+         *  @param Number   $id_iimxxmh 
+         */
+        public static function hitungHPPAverage( $db, $id_iimxxmh ){
+            
+        }
         
     } // end of class General
 ?>
