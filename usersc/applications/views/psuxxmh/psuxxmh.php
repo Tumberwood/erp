@@ -762,6 +762,7 @@
 		});
 			
 		edtgrlbnmd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblgrlxxmh.ajax.reload(null, false);
 			tblgrlbnmd.rows().deselect();
 			tblgrlbnmd.ajax.reload(null, false);
 		} );
@@ -771,10 +772,6 @@
 		} );
 		
 		tblgrlbnmd = $('#tblgrlbnmd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-2',
-			},
 			ajax: {
 				url: "../../models/psuxxmh/psubnmd.php",
 				type: 'POST',
@@ -784,22 +781,7 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: '_all'
-				}
-			],
 			responsive: false,
-			// scrollX: true,
 			columns: [
 				{ data: "grlbnmd.id",visible:false },
 				{ data: "grlbnmd.id_grlxxmh",visible:false },
@@ -821,6 +803,7 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
@@ -830,9 +813,6 @@
 				this.api().searchPanes.rebuildPane();
 			}
 		} );
-
-		tblgrlbnmd.searchPanes.container().appendTo('#spgrlbnmd');
-		tblgrlbnmd.searchBuilder.container().appendTo( '#sbgrlbnmd' );
 
 		tblgrlbnmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
@@ -916,7 +896,7 @@
 					name: "grlctmd.email"
 				},
 				{
-					label: "Handphone",
+					label: "Telepon <sup class='text-danger'>*<sup>",
 					name: "grlctmd.handphone"
 				}
 			]
@@ -941,28 +921,19 @@
 		edtgrlctmd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				// nama = edtgrlctmd.field('grlctmd.nama').val();
-				// posisi = edtgrlctmd.field('grlctmd.posisi').val();
-				// email = edtgrlctmd.field('grlctmd.email').val();
-				// handphone = edtgrlctmd.field('grlctmd.handphone').val();
+				nama = edtgrlctmd.field('grlctmd.nama').val();
+				posisi = edtgrlctmd.field('grlctmd.posisi').val();
+				handphone = edtgrlctmd.field('grlctmd.handphone').val();
 
-				// validasiRequired(
-				// 	edtgrlctmd,
-				// 	'grlctmd',
-				// 	{
-				// 		'nama': nama,
-				// 		'posisi': posisi
-				// 	}
-				// );
-
-				// validasiEmail(
-				// 	edtgrlctmd,
-				// 	'grlctmd',
-				// 	{
-				// 		'email': email
-				// 	}
-				// );
-
+				validasiRequired(
+					edtgrlctmd,
+					'grlctmd',
+					{
+						'nama': nama,
+						'posisi': posisi,
+						'handphone': handphone
+					}
+				);
 			}
 			
 			if ( edtgrlctmd.inError() ) {
@@ -976,6 +947,7 @@
 		});
 			
 		edtgrlctmd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblgrlxxmh.ajax.reload(null, false);
 			tblgrlctmd.rows().deselect();
 			tblgrlctmd.ajax.reload(null, false);
 		} );
@@ -985,10 +957,6 @@
 		} );
 		
 		tblgrlctmd = $('#tblgrlctmd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-2',
-			},
 			ajax: {
 				url: "../../models/psuxxmh/psuctmd.php",
 				type: 'POST',
@@ -998,20 +966,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: '_all'
-				}
-			],
 			responsive: false,
 			// scrollX: true,
 			columns: [
@@ -1032,6 +986,7 @@
 					$table_name  = $nama_tabels_d[1];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
@@ -1041,9 +996,6 @@
 				this.api().searchPanes.rebuildPane();
 			}
 		} );
-
-		tblgrlctmd.searchPanes.container().appendTo('#spgrlctmd');
-		tblgrlctmd.searchBuilder.container().appendTo( '#sbgrlctmd' );
 
 		tblgrlctmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
