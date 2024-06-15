@@ -230,6 +230,7 @@
 							className: 'btn btn-sm text-navy',
 							titleAttr: 'Approve',
 							action: function (e, dt, node, config) {
+								full_message = '';
 								$.ajax( {
 									url: '../../../helpers/tr_fn_approve.php',
 									dataType: 'json',
@@ -241,28 +242,45 @@
 										id_gaplgtd    : id_transaksi_h,
 									},
 									success: function ( json ) {
-										if(json.data.status_code = 200){
-											// TODO, sistem approval belum final
-											// ini harus dicek apakah approval sudah final
-											// script _post_approve hanya dijalankan jika approval sudah final
-											url = "../../models/"+selected_folder+"/"+selected_folder+"_post_approve.php";
-											$.ajax( {
-												url: url,
-												dataType: 'json',
-												type: 'POST',
-												data: {
-													id_transaksi: id_transaksi_approve,
-													approval_state: 1
-												},
-												error: function (){
-													console.log('File ' + url + ' tidak ada');
-												},
-												success: function ( json ) {
-													console.log(json);
+										full_message = full_message + json.data.message + '</br>';
+                						toast_type   = json.data.type_message;
+										async function performCheckAndPostApprove(json) {
+											if (json.data.status_code === 200) {
+												// TODO, sistem approval belum final
+												// ini harus dicek apakah approval sudah final
+												// script _post_approve hanya dijalankan jika approval sudah final
+												let url = "../../models/" + selected_folder + "/" + selected_folder + "_post_approve.php";
+												try {
+													let isPostApproveExist = await checkFileExists(url);
+													if (isPostApproveExist) {
+														$.ajax({
+															url: url,
+															dataType: 'json',
+															type: 'POST',
+															data: {
+																id_transaksi: id_transaksi_approve,
+																approval_state: 1
+															},
+															error: function() {
+																console.log('File ' + url + ' tidak ada');
+															},
+															success: function(json) {
+																full_message = full_message + json.data.message + '</br>';
+                												toast_type   = json.data.type_message;
+															}
+														});
+													} else {
+														console.log('File ' + url + ' tidak ada');
+													}
+												} catch (error) {
+													console.error('Error checking file existence:', error);
 												}
-											} );
+											}
 										}
 
+										performCheckAndPostApprove(json);
+
+										toastr[toast_type](full_message, 'INFO');
 										tblgaplgtd.ajax.reload(null, false);
 
 									}

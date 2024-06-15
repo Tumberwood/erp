@@ -52,8 +52,6 @@
             'itoxxth.id as id',
             'CONCAT(itoxxth.kode) as text'
         ])
-        // ->join('itixxth','itixxth.id_itoxxth = itoxxth.id','LEFT' )
-        // ->where('itixxth.id',null)
         ->join('itoittd','itoittd.id_itoxxth = itoxxth.id','LEFT' )
         ->where('itoxxth.transaction_state',1)
         ->where('itoxxth.id', $id_itoxxth_old, '<>' )

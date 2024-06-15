@@ -22,16 +22,10 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    // if($_GET['id_iimxxmh_old'] > 0){
-    //     $id_iimxxmh_old = $_GET['id_iimxxmh_old'];
-    // }else{
-    //     $id_iimxxmh_old = 0;
-    // }
-
-    if($_GET['id_podittd_old'] > 0){
-        $id_podittd_old = $_GET['id_podittd_old'];
+    if($_GET['id_iimxxmh_old'] > 0){
+        $id_iimxxmh_old = $_GET['id_iimxxmh_old'];
     }else{
-        $id_podittd_old = 0;
+        $id_iimxxmh_old = 0;
     }
     
     if($_GET['id_podxxth'] > 0){
@@ -42,15 +36,14 @@
 
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id_podittd_old > 0){
+    if($id_iimxxmh_old > 0){
         $qs_iimxxmh_self = $db
             ->query('select', 'iimxxmh')
             ->get([
-                'podittd.id as id',
-                'CONCAT(iimxxmh.kode," - ",iimxxmh.nama) as text'
+                'id as id',
+                'CONCAT(kode," - ",nama) as text'
             ])
-            ->join('podittd','podittd.id_iimxxmh = iimxxmh.id','LEFT' )
-            ->where('podittd.id', $id_podittd_old )
+            ->where('id', $id_iimxxmh_old )
             ->exec();
         $rs_iimxxmh_self = $qs_iimxxmh_self->fetchAll();
     }else{
@@ -62,15 +55,14 @@
     $qs_iimxxmh_all = $db
         ->query('select', 'iimxxmh')
         ->get([
-            'podittd.id as id',
+            'iimxxmh.id as id',
             'CONCAT(iimxxmh.kode," - ",iimxxmh.nama) as text'
         ])
         ->join('podittd','podittd.id_iimxxmh = iimxxmh.id','LEFT' )
         ->where('iimxxmh.transaction_state',1)
+        ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
         ->where('podittd.id_podxxth', $id_podxxth)
-        // ->where('podittd.jumlah_terkecil_os', 0, '>')
-        ->where('podittd.jumlah_unit_os', 0, '>')
-        ->where('podittd.id', $id_podittd_old, '<>' )
+        ->where('podittd.jumlah_terkecil_os', 0, '>')
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

@@ -82,10 +82,20 @@
 										<th>id_itoxxth</th>
 										<th>SKU</th>
 										<th>Item</th>
-										<th>UoM</th>
 										<th>Quantity</th>
+										<th>UoM</th>
 									</tr>
 								</thead>
+								<tfoot>
+									<tr>
+										<th></th>
+										<th></th>
+										<th id="c_items"></th>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</tfoot>
 							</table>
 
 					</div>
@@ -344,7 +354,7 @@
 		tblitoxxth = $('#tblitoxxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-6',
 			},
 			ajax: {
 				url: "../../models/itoxxth/itoxxth.php",
@@ -362,13 +372,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,4,5,6]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			responsive: false,
@@ -665,11 +675,11 @@
 				{ data: "itoittd.id_itoxxth",visible:false },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
-				{ data: "iumxxmh_unit.nama" },
 				{ 
 					data: "itoittd.jumlah_unit",
 					...renderNumber(0)
-				}
+				},
+				{ data: "iumxxmh_unit.nama" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -681,6 +691,7 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2		= [];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
@@ -690,7 +701,13 @@
 				
 			},
 			rowCallback: function( row, data, index ) {
-			}
+			},
+			footerCallback: function ( row, data, start, end, display ) {
+				var api       = this.api(), data;
+				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display;
+				var c_items = api.column(0).data().count();
+				$( '#c_items' ).html( numFormat("Total Item(s): " + c_items) );
+			},
 		} );
 
 		tblitoittd.on( 'draw', function( e, settings ) { 

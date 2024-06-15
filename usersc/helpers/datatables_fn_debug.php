@@ -7,15 +7,15 @@
     $results = array();
     $db->debug( function ( $mess ) use ( &$debug ) {
         // old version
-        // $debug[] = $mess;
+        $debug[] = $mess;
 
-        if (is_array($mess)) {
-            $mess = print_r($mess, true);
-        }
+        // if (is_array($mess)) {
+        //     $mess = print_r($mess, true);
+        // }
 
-        $cleanMessage = str_replace(array("\r", "\n", "\t"), ' ', $mess);
-        $cleanMessage = preg_replace('/\s+/', ' ', $cleanMessage);
-        $debug[] = $cleanMessage;
+        // $cleanMessage = str_replace(array("\r", "\n", "\t"), ' ', $mess);
+        // $cleanMessage = preg_replace('/\s+/', ' ', $cleanMessage);
+        // $debug[] = $cleanMessage;
     } );
 
 ?>

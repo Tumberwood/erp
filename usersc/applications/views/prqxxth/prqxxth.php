@@ -547,9 +547,8 @@
 		});
 			
 		edtprqittd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			// tblprqxxth.rows().deselect();
+			tblprqxxth.ajax.reload(null, false);
 		} );
 
 		edtprqittd.on( 'close', function () {
@@ -615,7 +614,7 @@
 
 		tblprqittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('prqittd');
-			id_iumxxmh_old   = data_prqittd.id_iumxxmh;
+			id_iumxxmh_old   = prqittd_data.id_iumxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD(tblprqxxth, tblprqittd );
