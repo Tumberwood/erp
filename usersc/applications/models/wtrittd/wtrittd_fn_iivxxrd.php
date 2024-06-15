@@ -36,6 +36,8 @@
         ->bind(':wlpxxmh_kode', $wlpxxmh_kode)
         ->bind(':uniqueToken', $uniqueToken)
         ->exec('SELECT 
+                    iivxxrd.expired_date,
+                    iivxxrd.batch_number,
                     iivxxrd.id_iimxxmh as id_iimxxmh,
                     iivxxrd.iimxxmh_kode as iimxxmh_kode,
                     iivxxrd.iimxxmh_nama as iimxxmh_nama,
@@ -87,6 +89,8 @@
         $iumxxmh_default_kode = '';
         $sisa_terkecil = '';
         $sisa_default = '';
+        $batch_number = '';
+        $expired_date = '';
 
     }else{
         $status_code = 200;
@@ -104,6 +108,8 @@
         $iumxxmh_default_kode = $rs_iivxxrd['iumxxmh_default_kode'];
         $sisa_terkecil = $rs_iivxxrd['sisa_terkecil'];
         $sisa_default = $rs_iivxxrd['sisa_default'];
+        $batch_number = $rs_iivxxrd['batch_number'];
+        $expired_date = $rs_iivxxrd['expired_date'];
         
     }
 
@@ -123,6 +129,8 @@
         'iumxxmh_default_kode' => $iumxxmh_default_kode,
         'sisa_terkecil' => $sisa_terkecil,
         'sisa_default' => $sisa_default,
+        'batch_number' => $batch_number,
+        'expired_date' => $expired_date,
     );
 
     // tampilkan results

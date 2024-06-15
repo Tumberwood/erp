@@ -61,10 +61,10 @@
 							<th rowspan="2">Expired Date</th>
 						</tr>
 						<tr>
-							<th>UoM</th>
 							<th>Jumlah</th>
 							<th>UoM</th>
 							<th>Jumlah</th>
+							<th>UoM</th>
 						</tr>
 					</thead>
 				</table>
@@ -125,6 +125,9 @@
 						show: false,
 					},
 					targets:'_all'
+				},
+				{ 
+					className: 'bg-beige', targets: [4,5] //ini jumlah sama uom
 				}
 			],
 			columns: [
@@ -132,16 +135,16 @@
 				{ data: "wloxxmh_nama" },
 				{ data: "iimxxmh_kode" },
 				{ data: "iimxxmh_nama" },
-				{ data: "iumxxmh_terkecil_kode" },
 				{ 
-					data: "jumlah_terkecil",
-					...renderNumber(2)
+					data: "jumlah_terkecil", //4
+					...renderNumber(3)
 				},
-				{ data: "iumxxmh_default_kode" },
+				{ data: "iumxxmh_terkecil_kode" },//5
 				{ 
 					data: "jumlah_default",
-					...renderNumber(2)
+					...renderNumber(3)
 				},
+				{ data: "iumxxmh_default_kode" },
 				{ data: "wlpxxmh_kode" },
 				{ data: "batch_number" },
 				{ data: "expired_date" }

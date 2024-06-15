@@ -66,32 +66,30 @@
 			Field::inst( 'wtrittd.is_defaultprogram' ),
 			Field::inst( 'wtrittd.is_nextprocess' ),
 			Field::inst( 'wtrittd.is_gabung_lpn' ),
+			Field::inst( 'wtrittd.is_ikut_baru' ),
 
 			Field::inst( 'wtrittd.wlpxxmh_kode' ),
 			Field::inst( 'wtrittd.wlpxxmh_kode_tujuan' ),
 			Field::inst( 'wtrittd.jumlah_unit' ),
 			Field::inst( 'wtrittd.jumlah_konversi' ),
-			Field::inst( 'wtrittd.expired_date' )
-				->getFormatter( function ( $val, $data, $opts ) {
-					if ($val === '0000-00-00' || $val === null){
-						return '';
-					}else{
-						return date( 'd M Y', strtotime( $val ) );
-					}
-				} )
-				->setFormatter( 'Format::datetime', array(
-					'from' => 'd M Y',
-					'to' =>   'Y-m-d'
-				) ),
+			Field::inst( 'wtrittd.expired_date' ),
 			Field::inst( 'wtrittd.batch_number' ),
+
+			Field::inst( 'wtrittd.expired_date_tujuan' ),
+			Field::inst( 'wtrittd.batch_number_tujuan' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
+			Field::inst( 'tujuan.nama' ),
+			Field::inst( 'asal.nama' ),
 
 			Field::inst( 'iumxxmh.kode' )
 		)
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wtrittd.id_iimxxmh' )
-		->leftJoin( 'iumxxmh','iumxxmh.id','=','wtrittd.id_iumxxmh_unit' );
+		->leftJoin( 'iumxxmh','iumxxmh.id','=','wtrittd.id_iumxxmh_unit' )
+		->leftJoin( 'wloxxmh as tujuan','tujuan.id','=','wtrittd.id_wloxxmh_tujuan' )
+		->leftJoin( 'wloxxmh as asal','asal.id','=','wtrittd.id_wloxxmh_asal' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document

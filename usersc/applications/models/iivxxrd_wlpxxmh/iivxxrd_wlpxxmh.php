@@ -30,8 +30,8 @@
 				SUM(jumlah_default * is_fisik) as jumlah_default,
 				SUM(jumlah_terkecil * is_fisik) as jumlah_terkecil,
 				wlpxxmh_kode,
-				batch_number,
-				date_format(expired_date,"%d %b %Y") as expired_date
+				max(batch_number) batch_number,
+				max(date_format(expired_date,"%d %b %Y")) as expired_date
 			FROM iivxxrd
 			WHERE tanggal <= :end_date
 			GROUP BY 

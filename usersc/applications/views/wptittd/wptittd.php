@@ -479,6 +479,8 @@
 									booking(2);
 									edtwptittd.field('wloxxmh_nama_scan').show();
 									edtwptittd.field('wloxxmh_nama_scan').focus();
+									edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
+									edtwptittd.field('wptittd.jumlah_unit').disable();
 								}
 
 								if ( edtwptittd.inError() ) {

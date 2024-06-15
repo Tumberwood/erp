@@ -19,19 +19,25 @@
         ->raw()
         ->bind(':wloxxmh_nama_asal', $wloxxmh_nama_asal)
         ->exec('SELECT
-                    id AS id_loc
-                FROM wloxxmh a
-                WHERE a.nama = :wloxxmh_nama_asal AND transaction_state <> -9
+                    a.id_wloxxmh id_loc,
+                    a.id_iwhxxmh,
+	                SUM(a.jumlah_terkecil) s_terkecil
+                FROM iivxxrd a
+                LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh
+                WHERE b.nama = :wloxxmh_nama_asal AND a.is_fisik = 1
+                GROUP BY a.id_wloxxmh
+                HAVING s_terkecil > 0
         '
         );
     $rs_loc = $qs_loc->fetch();
 
     if(empty($rs_loc)){
         $status_code = 500;
-        $message = 'LPN yang dibooking Tidak Ada!';
+        $message = '';
         $type_message = 'error';
         
         $id_loc        = 0;
+        $id_iwhxxmh        = 0;
 
     }else{
         $status_code = 200;
@@ -39,6 +45,7 @@
         $type_message = 'success';
 
         $id_loc        = $rs_loc['id_loc'];
+        $id_iwhxxmh        = $rs_loc['id_iwhxxmh'];
         
     }
 
@@ -48,6 +55,7 @@
         'type_message'      => $type_message,
 
         'id_loc'        => $id_loc,
+        'id_iwhxxmh'        => $id_iwhxxmh,
     );
 
     // tampilkan results

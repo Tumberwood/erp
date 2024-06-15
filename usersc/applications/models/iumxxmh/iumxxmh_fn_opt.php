@@ -38,6 +38,8 @@
                 'CONCAT(kode," - ",nama) as text'
             ])
             ->where('id', $id_iumxxmh_old )
+            ->limit($resultCount)
+            ->offset($offset)
             ->exec();
         $rs_iumxxmh_self = $qs_iumxxmh_self->fetchAll();
     }else{

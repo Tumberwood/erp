@@ -39,6 +39,8 @@
                                 id_iimxxmh = json.data.id_iimxxmh;
                                 edtwtrittd.field('wtrittd.id_iimxxmh').val(id_iimxxmh);
                                 edtwtrittd.field('wtrittd.jumlah_unit').val(parseFloat(json.data.sisa_default));
+                                edtwtrittd.field('wtrittd.batch_number').val(json.data.batch_number);
+                                edtwtrittd.field('wtrittd.expired_date').val(json.data.expired_date);
                                 id_iumxxmh_unit_old = json.data.id_iumxxmh_default;
                                 edtwtrittd.field('wtrittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
 
@@ -49,51 +51,34 @@
                                 wtrittd_details = wtrittd_details + json.data.iumxxmh_default_kode + '\n';
                                 wtrittd_details = wtrittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)) + ' ';
                                 wtrittd_details = wtrittd_details + json.data.iumxxmh_default_kode + '\n';
-                                $.ajax( {
-                                    url: "../../models/wtrittd/wtrittd_fn_wloxxmh.php",
-                                    dataType: 'json',
-                                    type: 'POST',
-                                    data: {
-                                        wlpxxmh_kode: wlpxxmh_kode,
-                                        uniqueToken: uniqueToken,
-                                    },
-                                    success: function ( json ) {                      
-                                        wloxxmh_nama_target = json.data.wloxxmh_nama;
-                                        wtrittd_details = wtrittd_details + json.data.wloxxmh_nama;
-                                        id_iwhxxmh = json.data.id_iwhxxmh;
-                                        id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
+                                
+                                // edtwtrittd.field('wtrittd_details').val(wtrittd_details);
+                                edtwtrittd.field('wtrittd.keterangan').val(wtrittd_details);
 
-                                        edtwtrittd.field('wtrittd.id_iwhxxmh').val(id_iwhxxmh);
-                                        edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan);
-                                        // edtwtrittd.field('wtrittd_details').val(wtrittd_details);
-                                        edtwtrittd.field('wtrittd.keterangan').val(wtrittd_details);
+                                console.log(is_valid_lpn);
+                                if (id_iimxxmh > 0) {
+                                    lpnBooking();
+                                    // $('div.DTE_Form_Buttons button:eq(1)').click();
+                                } else {
+                                    edtwtrittd.field('wtrittd.wlpxxmh_kode').error( 'LPN ini tidak ditemukan dalam report inventory!' );
+                                    is_valid_lpn = 0;
+                                }
+                                
+                                // console.log(is_valid_lpn);
+                                if (is_valid_lpn == 1) {
+                                    $('div.DTE_Form_Buttons button:eq(1)').hide();
+                                    $('div.DTE_Form_Buttons button:eq(2)').show();
+                                    
+                                    edtwtrittd.field('wloxxmh_nama_asal').disable();
+                                    edtwtrittd.field('wtrittd.wlpxxmh_kode').disable();
+                                    edtwtrittd.field('wtrittd.id_iumxxmh_unit').show();
+                                    edtwtrittd.field('wtrittd.keterangan').show();
+                                    edtwtrittd.field('wtrittd.jumlah_unit').show();
+                                    edtwtrittd.field('wtrittd.jumlah_unit').focus();
 
-                                        console.log(is_valid_lpn);
-                                        if (id_iimxxmh > 0) {
-                                            lpnBooking();
-                                            // $('div.DTE_Form_Buttons button:eq(1)').click();
-                                        } else {
-                                            edtwtrittd.field('wtrittd.wlpxxmh_kode').error( 'LPN ini tidak ditemukan dalam report inventory!' );
-                                            is_valid_lpn = 0;
-                                        }
-                                        
-                                        // console.log(is_valid_lpn);
-                                        if (is_valid_lpn == 1) {
-                                            $('div.DTE_Form_Buttons button:eq(1)').hide();
-                                            $('div.DTE_Form_Buttons button:eq(2)').show();
-                                            
-                                            edtwtrittd.field('wloxxmh_nama_asal').disable();
-                                            edtwtrittd.field('wtrittd.wlpxxmh_kode').disable();
-                                            edtwtrittd.field('wtrittd.id_iumxxmh_unit').show();
-                                            edtwtrittd.field('wtrittd.keterangan').show();
-                                            edtwtrittd.field('wtrittd.jumlah_unit').show();
-                                            edtwtrittd.field('wtrittd.jumlah_unit').focus();
-
-                                            // console.log('uniqueToken load' +uniqueToken);
-                                            booking(1);
-                                        }
-                                    }
-                                } );
+                                    // console.log('uniqueToken load' +uniqueToken);
+                                    booking(1);
+                                }
                             }
                         } );
                     }
@@ -230,6 +215,8 @@
     function validasiLocation() {
         wloxxmh_nama_scan = edtwtrittd.field('wloxxmh_nama_scan').val();
         is_gabung_lpn = edtwtrittd.field('wtrittd.is_gabung_lpn').val();
+        id_iimxxmh = edtwtrittd.field('wtrittd.id_iimxxmh').val();
+        id_iumxxmh_unit = edtwtrittd.field('wtrittd.id_iumxxmh_unit').val();
         console.log('is_gabung_lpn = '+is_gabung_lpn);
 
         $.ajax( {
@@ -238,12 +225,16 @@
             type: 'POST',
             async: false,
             data: {
+                keterangan: uniqueToken,
+                id_iimxxmh: id_iimxxmh,
+                id_iumxxmh_unit: id_iumxxmh_unit,
                 is_gabung_lpn: is_gabung_lpn,
                 wloxxmh_nama_scan: wloxxmh_nama_scan,
                 wlpxxmh_kode: wlpxxmh_kode,
             },
             success: function ( json ) {
-                id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
+                status_code = json.data.status_code;
+                is_inventory = json.data.is_inventory;
                 // console.log(id_wloxxmh_tujuan);
 
                 //ini code jika is_ganti_lokasi_putaway == 1
@@ -251,20 +242,20 @@
                 if(wloxxmh_nama_scan != wloxxmh_nama_target){
                     //jika tidak sama maka akan ada confirm
 
-                        if(id_wloxxmh_tujuan == 0){
-                            edtwtrittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
+                        if (status_code == 500) {
+                            edtwtrittd.field('wloxxmh_nama_scan').error( json.data.message );
                             edtwtrittd.field('wloxxmh_nama_scan').val('');
-                            // console.log('xx');
-                        }else{
-                            const confirm_loc = confirm('Apakah anda ingin mengganti lokasi simpan?');
-                            if (confirm_loc) {
-                                edtwtrittd.field('wloxxmh_nama_scan').error( '' );
-                                // console.log('lokasi ok');
-                                edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan);     
+                            edtwtrittd.field('wtrittd.is_gabung_lpn').show();
+                        } else {
+                            id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
+                            edtwtrittd.field('wloxxmh_nama_scan').error( '' );
+                            // console.log('lokasi ok');
+                            edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan); 
+                            if (is_inventory == 1) {
+                                edtwtrittd.field('wtrittd.is_gabung_lpn').show();
                             } else {
-                                edtwtrittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
-                                edtwtrittd.field('wloxxmh_nama_scan').val('');
-                                // console.log('xx');
+                                edtwtrittd.field('wtrittd.is_gabung_lpn').hide();
+                                edtwtrittd.field('wtrittd.is_gabung_lpn').val(0);
                             }
                         }
                 }else{
@@ -300,13 +291,17 @@
             },
             success: function ( json ) {
                 id_loc = json.data.id_loc;
+                id_iwhxxmh = json.data.id_iwhxxmh;
                 // console.log('ajax id_loc = '+id_loc);
                 
                 if (id_loc > 0) {
                     edtwtrittd.field('wtrittd.id_wloxxmh_asal').val(id_loc);
                     edtwtrittd.field('wloxxmh_nama_asal').error( '' );
+                    edtwtrittd.field('wtrittd.id_iwhxxmh').val(id_iwhxxmh);
+                    edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val(id_loc);
+                    edtwtrittd.field('wtrittd.wlpxxmh_kode').focus();
                 } else {
-                    edtwtrittd.field('wloxxmh_nama_asal').error( 'Lokasi Tidak Ditemukan!' );
+                    edtwtrittd.field('wloxxmh_nama_asal').error( 'Lokasi Tidak Ditemukan di Inventory!' );
                     edtwtrittd.field('wloxxmh_nama_asal').val( '' );
                 }
             }
@@ -331,15 +326,18 @@
                     c_id = json.data.c_id;
                     console.log('ajax c_id = '+c_id);
                     
+                    batch_number_tujuan = json.data.batch_number;
+                    expired_date_tujuan = json.data.expired_date;
+                    id_iimxxmh_tujuan = json.data.id_iimxxmh;
+                    edtwtrittd.field('wtrittd.expired_date_tujuan').val(expired_date_tujuan);
+                    edtwtrittd.field('wtrittd.batch_number_tujuan').val(batch_number_tujuan);
                     if (c_id > 0) {
-                        batch_number_tujuan = json.data.batch_number;
-                        expired_date_tujuan = json.data.expired_date;
-                        id_iimxxmh_tujuan = json.data.id_iimxxmh;
 
                         if (id_iimxxmh_tujuan == id_iimxxmh) {
                             edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').error('');
                         } else {
-                            edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').error('Item LPN Tujuan tidak sama dengan LPN Asal');
+                            edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').error('Penggabungan hanya dapat dilakukan untuk item yang sama!');
+                            edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val( '' );
                         }
                     }else{
                         edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').error( json.data.message );

@@ -8,4 +8,8 @@
         edtwloxxmh.field('wloxxmh.nama').val(wloxxmh_nama);
     };
 
+    function validasiKapasitas(){
+        
+    }
+
 </script>

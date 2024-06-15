@@ -29,7 +29,10 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Kode</th>
-                                <th>LPN</th>
+                                <th>LPN Asal</th>
+                                <th>LPN Tujuan</th>
+                                <th>Lokasi Asal</th>
+                                <th>Lokasi Tujuan</th>
                                 <th>Item Code</th>
                                 <th>Item Name</th>
                                 <th>UoM</th>
@@ -214,6 +217,34 @@
 					label: "LPN Tujuan <sup class='text-danger'>*<sup>",
 					name: "wtrittd.wlpxxmh_kode_tujuan"
 				},
+				{
+					label: "Gabung ke LPN<sup class='text-danger'>*<sup>",
+					name: "wtrittd.is_ikut_baru",
+					type: 'radio',
+					def: 1,
+					options: [
+						{ label: 'Tujuan', value: 1 },
+						{ label: 'Asal', value: 2 },
+					]
+				},
+				{
+					label: "wtrittd.expired_date",
+					name: "wtrittd.expired_date"
+				},
+				{
+					label: "wtrittd.batch_number",
+					name: "wtrittd.batch_number",
+					type: "hidden"
+				},
+				{
+					label: "wtrittd.expired_date_tujuan",
+					name: "wtrittd.expired_date_tujuan"
+				},
+				{
+					label: "wtrittd.batch_number_tujuan",
+					name: "wtrittd.batch_number_tujuan",
+					type: "hidden"
+				},
 			]
 		} );
 
@@ -227,7 +258,9 @@
 			edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
 			edtwtrittd.field('wloxxmh_nama_scan').hide();
 			edtwtrittd.field('wtrittd.is_gabung_lpn').hide();
-			edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
+			edtwtrittd.field('wtrittd.is_ikut_baru').hide();
+			edtwtrittd.field('wtrittd.expired_date').hide();
+			edtwtrittd.field('wtrittd.expired_date_tujuan').hide();
 			
 			if(action == 'create'){
 				tblwtrittd.rows().deselect();
@@ -297,11 +330,18 @@
 			if (val == 0) {
 				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
 				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val('');
+
+				edtwtrittd.field('wtrittd.is_ikut_baru').hide();
+				// edtwtrittd.field('wtrittd.is_ikut_baru').val('');
+
 				edtwtrittd.field('wloxxmh_nama_scan').val('');
 				edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val('');
 			} else {
 				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').show();
 				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val();
+
+				edtwtrittd.field('wtrittd.is_ikut_baru').show();
+				edtwtrittd.field('wtrittd.is_ikut_baru').val();
 			}
 			return {}
 		}, {event: 'change'});
@@ -344,6 +384,8 @@
 				wloxxmh_nama_scan = edtwtrittd.field('wloxxmh_nama_scan').val();
 				wloxxmh_nama_asal = edtwtrittd.field('wloxxmh_nama_asal').val();
 				is_gabung_lpn = edtwtrittd.field('wtrittd.is_gabung_lpn').val();
+				is_ikut_baru = edtwtrittd.field('wtrittd.is_ikut_baru').val();
+				wlpxxmh_kode_tujuan = edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val();
 
 				if(!wloxxmh_nama_scan || wloxxmh_nama_scan == ''){
 					edtwtrittd.field('wloxxmh_nama_scan').error( 'Wajib diisi!' );
@@ -388,6 +430,16 @@
 
 				if (is_gabung_lpn == 1) {
 					validasiLpnTujuan();
+
+					validasiRequired(
+					edtwtrittd,
+						'wtrittd',
+						{
+							'is_ikut_baru'   : is_ikut_baru,
+							'wlpxxmh_kode_tujuan'   : wlpxxmh_kode_tujuan,
+						}
+					);
+
 				}
 
 				// tidak bisa pakai ini harus hitung sendiri
@@ -436,7 +488,7 @@
 					d.show_deleted_wtrittd = show_deleted_wtrittd;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 0, "desc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -455,6 +507,9 @@
 				{ data: "wtrittd.id",visible:false },
 				{ data: "wtrittd.kode" ,visible:false },
 				{ data: "wtrittd.wlpxxmh_kode" },
+				{ data: "wtrittd.wlpxxmh_kode_tujuan" },
+				{ data: "asal.nama" },
+				{ data: "tujuan.nama" },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.kode" },
@@ -535,10 +590,11 @@
 									$('div.DTE_Form_Buttons button:eq(3)').show();
 									// console.log('uniqueToken start' +uniqueToken);
 									booking(2);
-									edtwtrittd.field('wloxxmh_nama_scan').show();
 									edtwtrittd.field('wtrittd.is_gabung_lpn').show();
-									edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').show();
+									edtwtrittd.field('wloxxmh_nama_scan').show();
 									edtwtrittd.field('wloxxmh_nama_scan').focus();
+									edtwtrittd.field('wtrittd.id_iumxxmh_unit').disable();
+									edtwtrittd.field('wtrittd.jumlah_unit').disable();
 								}
 
 								if ( edtwtrittd.inError() ) {

@@ -33,7 +33,7 @@
 
     if(empty($rs_lpn)){
         $status_code = 500;
-        $message = 'LPN tidak terdaftar!';
+        $message = 'LPN tidak ada di lokasi tujuan!';
         $type_message = 'error';
         $c_id = 0;
         $id_iimxxmh = 0;
