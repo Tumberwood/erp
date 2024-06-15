@@ -31,6 +31,8 @@
 				Field::inst( 'prcittd.id_prcxxth' ),
 				Field::inst( 'prcittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'prcittd.id_podxxth' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.id_podittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.id_iumxxmh_unit' )
