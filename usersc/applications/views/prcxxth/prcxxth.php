@@ -462,6 +462,7 @@
 				}
 			},
 			order: [[ 1, "desc" ]],
+			orderFixed: [2, 'asc'],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -595,6 +596,11 @@
 					label: "prcittd.id_podittd",
 					name: "prcittd.id_podittd",
 					type: "hidden"
+				},
+				{
+					label: "prcittd.id_podxxth",
+					name: "prcittd.id_podxxth",
+					// type: "hidden"
 				},
 				{
 					label: "prcittd.harga_unit",

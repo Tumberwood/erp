@@ -13,6 +13,9 @@
                     id_podittd = json.data.rs_podittd.id_podittd;
                     edtprcittd.field('prcittd.id_podittd').val(id_podittd);
 
+                    id_podxxth = json.data.rs_podittd.id_podxxth;
+                    edtprcittd.field('prcittd.id_podxxth').val(id_podxxth);
+
                     harga_unit = json.data.rs_podittd.harga_unit;
                     edtprcittd.field('prcittd.harga_unit').val(harga_unit);
 

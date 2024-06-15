@@ -16,6 +16,7 @@
         ->query('select', 'podittd' )
         ->get([
             'podittd.id as id_podittd',
+            'podittd.id_podxxth as id_podxxth',
             'podittd.jumlah_konversi as jumlah_konversi',
             'podittd.harga_unit as harga_unit',
             'podittd.diskon_jenis as diskon_jenis',
