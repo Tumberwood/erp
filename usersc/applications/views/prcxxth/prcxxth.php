@@ -88,6 +88,7 @@
 								<th>Tanggal</th>
                                 <th>Kode</th>
 								<th>Supplier</th>
+								<th>Purchase Order</th>
 								<th>Warehouse</th>
                             </tr>
                         </thead>
@@ -400,6 +401,7 @@
 		});
 
 		edtprcxxth.dependent( 'prcxxth.id_grlxxmh_supplier', function ( val, data, callback ) {
+			edtprcxxth.field('prcxxth.id_podxxth').input().val(null).trigger('change');
 			id_grlxxmh_supplier = val;
 			return {}
 		}, {event: 'keyup change'});
@@ -482,6 +484,7 @@
 				{ data: "prcxxth.tanggal" },
 				{ data: "prcxxth.kode" },
 				{ data: "grlxxmh.nama" },
+				{ data: "podxxth.kode" },
 				{ data: "iwhxxmh.nama" }
 			],
 			buttons: [
