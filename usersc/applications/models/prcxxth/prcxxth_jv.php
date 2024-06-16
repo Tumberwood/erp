@@ -59,14 +59,16 @@
 					prcxxth.kode as kode,
 					prcxxth.created_by as created_by,
 					prcxxth.tanggal as tanggal,
-					prcxxth.keterangan as keterangan,
 					prcxxth.subtotal as subtotal,
-					prcxxth.dpp_final as total_nilai
+					prcxxth.dpp_final as total_nilai,
+					grlxxmh.nama as grlxxmh_nama
 				FROM prcxxth
+				LEFT JOIN grlxxmh ON grlxxmh.id = prcxxth.id_grlxxmh_supplier
 				WHERE 
 					prcxxth.id = :id_transaksi_h
 			');
 		$rs_header = $qs_prcxxth->fetch();
+		$keterangan = $rs_header['grlxxmh_nama'] . " - " . $rs_header['kode'];
 
 		// BEGIN generate kode JV
 		include_once("../../../../usersc/helpers/kode_fn_generate_jv.php");
@@ -80,7 +82,7 @@
 			->set('kode', $kode )
 			->set('created_by',$rs_header['created_by'])
 			->set('tanggal',$rs_header['tanggal'])
-			->set('keterangan',$rs_header['keterangan'])
+			->set('keterangan', $keterangan)
 			->set('jenis_transaksi',$jenis_transaksi)
 			->set('kode_transaksi',$rs_header['kode'])
 			->set('total_debit', $rs_header['total_nilai'])
@@ -132,7 +134,7 @@
 			->set('id_aakxxmh', $rs_ggsaksh['id_aakxxmh_hutang_sementara'])
 			->set('id_transaksi_d', 0 )
 			->set('created_by',$rs_header['created_by'])
-			->set('keterangan',$rs_header['keterangan'])
+			->set('keterangan',$keterangan)
 			->set('debit_kredit', 'Kredit')
 			->set('debit', 0)
 			->set('kredit', $rs_header['total_nilai'])
