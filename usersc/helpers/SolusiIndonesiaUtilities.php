@@ -546,13 +546,38 @@
         }
 
         /**
+         * Digunakan untuk mendapatkan nilai field terkait harga pada transaksi sebelumnya, dan di update ke tabel transaksi seteelahnya
+         */
+        public static function getHeaderHargaBefore( $db, $id_table, $nama_table_h, $nama_table_h_before ){
+            
+            $qu_harga_header = $db
+                ->raw()
+                ->bind(':id_table', $id_table)
+                ->exec('UPDATE '.$nama_table_h.' a
+                    LEFT JOIN '.$nama_table_h_before.' b ON b.id = a.id_'.$nama_table_h_before.'
+                    SET
+                        a.diskon_jenis = b.diskon_jenis,
+                        a.diskon_value = b.diskon_value,
+                        a.diskon_persen = b.diskon_persen,
+                        a.is_pajak = b.is_pajak,
+                        a.pajak_jenis = b.pajak_jenis,
+                        a.pajak_in_ex = b.pajak_in_ex,
+                        a.pajak_persen = b.pajak_persen
+                    WHERE
+                        a.id = :id_table');
+        }
+
+
+        //---------------------------------------------------------- TO DO
+
+        /**
          * Digunakan untuk menghitung nilai HPP berdasarkan metode average
          * Function ini dipanggil di file _jv atau file model lain yang memperlukan perhitungan HPP
          * Parameter
          *  @param Number   $id_iimxxmh 
          */
         public static function hitungHPPAverage( $db, $id_iimxxmh ){
-            
+            // TODO
         }
         
     } // end of class General

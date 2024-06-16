@@ -1,16 +1,22 @@
 <?php
+
+	use 
+		SolusiIndonesia\Utilities\General;
+
     $editor
 		->on('preCreate',function( $editor, $values ) {
 			// script diletakkan disini
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
-			// script diletakkan disini
+			// ambil data diskon, pajak dari podxxth
+			General::getHeaderHargaBefore( $editor->db(), $id, 'prcxxth', 'podxxth' );
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// script diletakkan disini
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
-			// script diletakkan disini
+			// ambil data diskon, pajak dari podxxth
+			General::getHeaderHargaBefore( $editor->db(), $id, 'prcxxth', 'podxxth' );
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini

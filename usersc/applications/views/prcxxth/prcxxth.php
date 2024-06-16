@@ -525,8 +525,8 @@
 		tblprcxxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('prcxxth');
-			id_grlxxmh_old      = prcxxth_data.id_grlxxmh;
-			id_grlxxmh_supplier = prcxxth_data.id_grlxxmh;
+			id_grlxxmh_old      = prcxxth_data.id_grlxxmh_supplier;
+			id_grlxxmh_supplier = prcxxth_data.id_grlxxmh_supplier;
 			id_podxxth_old      = prcxxth_data.id_podxxth;
 			id_podxxth          = prcxxth_data.id_podxxth;
 			id_iwhxxmh_old      = prcxxth_data.id_iwhxxmh;
