@@ -359,7 +359,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,5,6,7]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -428,7 +428,6 @@
 		tblfobxxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('fobxxth');
-
 			id_aakxxmh_asal_old = fobxxth_data.id_aakxxmh_asal;
 			id_aakxxmh_tujuan_old = fobxxth_data.id_aakxxmh_tujuan;
 
@@ -439,7 +438,6 @@
 		tblfobxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('fobxxth');
-
 			id_aakxxmh_asal_old = 0, id_aakxxmh_tujuan_old = 0;
 
 			// atur hak akses
