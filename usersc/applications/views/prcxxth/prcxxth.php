@@ -14,7 +14,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 
@@ -90,6 +90,7 @@
 								<th>Supplier</th>
 								<th>Purchase Order</th>
 								<th>Warehouse</th>
+								<th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -98,7 +99,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabprcittd"> Item</a></li>
@@ -470,7 +471,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,6]
 				},
 				{
 					searchPanes:{
@@ -485,7 +486,11 @@
 				{ data: "prcxxth.kode" },
 				{ data: "grlxxmh.nama" },
 				{ data: "podxxth.kode" },
-				{ data: "iwhxxmh.nama" }
+				{ data: "iwhxxmh.nama" },
+				{ 
+					data: "prcxxth.transaction_state" ,
+					...renderTransactionStatus()
+				}
 			],
 			buttons: [
 
@@ -503,6 +508,17 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-print"></i>',
+					name: 'btnPrintJurnal',
+					className: 'btn btn-sm btn-outline',
+					titleAttr: 'Print Jurnal',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						var url = $(this).attr('href'); 
+						window.open('prcxxth_jv_print.php?id_prcxxth='+id_prcxxth, '_blank');
+					}
+				}
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
