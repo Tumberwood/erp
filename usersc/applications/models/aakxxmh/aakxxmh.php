@@ -42,6 +42,8 @@
 			Field::inst( 'aakxxmh.start_at' ),
 			Field::inst( 'aakxxmh.finish_at' ),
 			Field::inst( 'aakxxmh.is_defaultprogram' ),
+			Field::inst( 'aakxxmh.is_nextprocess' ),
+
 			Field::inst( 'aakxxmh.is_parent' ),
 
 			Field::inst( 'aakxxmh_parent.kode' ),
