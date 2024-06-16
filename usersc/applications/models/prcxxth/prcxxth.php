@@ -70,10 +70,13 @@
 			Field::inst( 'prcxxth.supir_nama' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
-			Field::inst( 'grlxxmh.nama' )
+			Field::inst( 'grlxxmh.nama' ),
+			Field::inst( 'podxxth.kode' )
+
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','prcxxth.id_iwhxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','prcxxth.id_grlxxmh_supplier' )
+		->leftJoin( 'podxxth','podxxth.id','=','prcxxth.id_podxxth' )
 		;
 	
 		// BEGIN where single data view
