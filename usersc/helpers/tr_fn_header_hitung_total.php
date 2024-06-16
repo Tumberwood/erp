@@ -30,6 +30,10 @@
     try{
         $db->transaction();
 
+        /**
+         * ambil nilai sum dpp dari detail. 
+         * ini akan menjadi nilai subtotal pada header
+         */
         $qs_detail = $db
             ->raw()
             ->bind(':id_transaksi_h', $id_transaksi_h)
@@ -48,7 +52,9 @@
             ->bind(':id_transaksi_h', $id_transaksi_h)
             ->exec('
                 SELECT
-                    diskon_final,
+                    diskon_jenis,
+                    diskon_value,
+                    diskon_persen,
                     is_pajak,
                     pajak_in_ex,
                     pajak_persen
@@ -57,10 +63,20 @@
                     AND id = :id_transaksi_h
             ');
         $rs_header      = $qs_header->fetch();
-        $diskon_final_h = $rs_header['diskon_final'];
         $is_pajak       = $rs_header['is_pajak'];
         $pajak_in_ex    = $rs_header['pajak_in_ex'];
         $tarif          = $rs_header['pajak_persen'];
+
+        // hitung ulang nilai diskon_final
+        if($rs_header['diskon_jenis'] == 0){
+            $diskon_final_h = 0;
+        }elseif($rs_header['diskon_jenis'] == 1){
+            $diskon_final_h = ($rs_header['diskon_persen'] / 100 * $s_subtotal);
+        }elseif($rs_header['diskon_jenis'] == 2){
+            $diskon_final_h = $rs_header['diskon_value'];
+        }else{
+            // harusnya tidak masuk ke sini karena pilihan di form hanya 0|1|2
+        }
 
         $dpp_h = $s_subtotal - $diskon_final_h;
 
@@ -101,6 +117,7 @@
             // update header
             $qu_header = $db
                 ->raw()
+                ->bind(':diskon_final', $diskon_final_h)
                 ->bind(':dpp', $dpp_h)
                 ->bind(':dpp_final', $dpp_final)
                 ->bind(':pajak_final', $pajak_final)
@@ -109,10 +126,11 @@
                 ->exec('
                     UPDATE ' .$tbl_name_h. '
                     SET
-                        dpp         = :dpp,
-                        dpp_final   = :dpp_final,
-                        pajak_final = :pajak_final,
-                        grand_total = :grand_total
+                        diskon_final = :diskon_final,
+                        dpp          = :dpp,
+                        dpp_final    = :dpp_final,
+                        pajak_final  = :pajak_final,
+                        grand_total  = :grand_total
                     WHERE 1
                         AND id =:id_transaksi_h
                 ');
