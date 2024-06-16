@@ -153,6 +153,23 @@
 						},
 					}
 				},
+				{
+					label: "Saldo Awal",
+					name: "aakxxmh.saldo_awal"
+				},
+				{
+					label: "Tanggal Saldo Awal",
+					name: "aakxxmh.saldo_awal_tanggal",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},
 			]
 		} );
 
@@ -170,6 +187,14 @@
 				}else{
 					edtaakxxmh.field('aakxxmh.kode').disable();
 					edtaakxxmh.field('aakxxmh.nama').disable();
+				}
+
+				if(saldo_awal !=null && saldo_awal_tanggal != null ){
+					edtaakxxmh.field('aakxxmh.saldo_awal').disable();
+					edtaakxxmh.field('aakxxmh.saldo_awal_tanggal').disable();
+				}else{
+					edtaakxxmh.field('aakxxmh.saldo_awal').enable();
+					edtaakxxmh.field('aakxxmh.saldo_awal_tanggal').enable();
 				}
 			}
 		});
@@ -225,6 +250,11 @@
 		edtaakxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtaakxxmh.field('aakxxmh.finish_at').val(finish_at);
+		});
+
+		edtaakxxmh.on('postSubmit', function(e, json, data, action, xhr) {
+			tblaakxxmh.rows().deselect();
+			tblaakxxmh.ajax.reload(null, false);
 		});
 
 		edtaakxxmh.on( 'close', function () {
@@ -308,7 +338,9 @@
 			// set variable standar framework
 			siVarSet('aakxxmh');
 			id_aakxxmh_parent_old = aakxxmh_data.id_aakxxmh_parent;
-
+			saldo_awal = aakxxmh_data.saldo_awal;
+			saldo_awal_tanggal = aakxxmh_data.saldo_awal_tanggal;
+			
 			// atur hak akses
 			CekSelectHeaderH(tblaakxxmh);
 		} );
@@ -317,6 +349,7 @@
 			// reset variable standar framework
 			siVarReset('aakxxmh');
 			id_aakxxmh_parent_old = 0;
+			saldo_awal = null, saldo_awal_tanggal = null;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblaakxxmh);

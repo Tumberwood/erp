@@ -45,6 +45,19 @@
 			Field::inst( 'aakxxmh.is_nextprocess' ),
 
 			Field::inst( 'aakxxmh.is_parent' ),
+			Field::inst( 'aakxxmh.saldo_awal' ),
+			Field::inst( 'aakxxmh.saldo_awal_tanggal' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '0000-00-00' || $val === null){
+						return '';
+					}else{
+						return date( 'd M Y', strtotime( $val ) );
+					}
+				} )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y',
+					'to' =>   'Y-m-d'
+				) ),
 
 			Field::inst( 'aakxxmh_parent.kode' ),
 			Field::inst( 'aakxxmh_parent.nama' )
