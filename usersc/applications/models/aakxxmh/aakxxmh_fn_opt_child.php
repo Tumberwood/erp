@@ -3,8 +3,7 @@
      * Digunakan untuk populate options data branch / cabang
      * Table terkait    : aakxxmh
      * Parameter        : 
-     *  - id_aakxxmh_old     : data existing (untuk keperluan edit), dipakai di query self
-     *  - id_aatxxmh_x       : id_aakxxmh yang di exclude (untuk where NOT IN)
+     *  - id_aakxxmh_old       : data existing (untuk keperluan edit), dipakai di query self
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -28,8 +27,6 @@
     }else{
         $id_aakxxmh_old = 0;
     }
-
-    $id_aatxxmh_x = $_GET['id_aatxxmh_x'];
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
@@ -59,45 +56,32 @@
     // END query options self
 
     // BEGIN query options all except self
-    $sql = '
-   
-    ';
     $qs_aakxxmh_all = $db
-        ->raw()
-        ->bind(':resultCount', $resultCount, PDO::PARAM_INT)
-        ->bind(':offset', $offset, PDO::PARAM_INT)
-        ->bind(':transaction_state', 1)
-        ->bind(':id_aatxxmh_x', $id_aatxxmh_x)
-        ->bind(':is_parent', 0)
-        ->bind(':id_aakxxmh_old', $id_aakxxmh_old)
-        ->bind(':q',  '%' . $id_aakxxmh_old . '%')
-        ->exec('
-            SELECT
-                aakxxmh.id as id,
+        ->query('select', 'aakxxmh')
+        ->get([
+            'aakxxmh.id as id',
+            'IF(
+                aakxxmh.kode IS NULL, 
+                aakxxmh.nama,
                 IF(
-                    aakxxmh.kode IS NULL, 
-                    aakxxmh.nama,
-                    IF(
-                        aakxxmh.nama IS NULL, 
-                        aakxxmh.kode,
-                        CONCAT(aakxxmh.kode," - ",aakxxmh.nama)
-                    )
-                ) as text
-            FROM aakxxmh
-            WHERE 
-                aakxxmh.transaction_state = :transaction_state AND 
-                aakxxmh.is_parent = :is_parent AND
-                aakxxmh.id_aatxxmh NOT IN ( :id_aatxxmh_x ) AND
-                aakxxmh.id <> :id_aakxxmh_old AND
-                (
-                    aakxxmh.kode LIKE :q OR
-                    aakxxmh.nama LIKE :q 
+                    aakxxmh.nama IS NULL, 
+                    aakxxmh.kode,
+                    CONCAT(aakxxmh.kode," - ",aakxxmh.nama)
                 )
-            LIMIT :resultCount
-            OFFSET :offset
-        ');
-    echo $sql;
-
+            ) as text'
+        ])
+        ->where('aakxxmh.transaction_state',1)
+        ->where('aakxxmh.is_parent',0)
+        ->where('aakxxmh.id', $id_aakxxmh_old, '<>' )
+        ->where( function ( $r ) {
+            $q = $_GET['search'];
+            $r
+                ->where('aakxxmh.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('aakxxmh.nama', '%' . $q . '%', 'LIKE' );
+        } )
+        ->limit($resultCount)
+        ->offset($offset)
+        ->exec();
     $rs_aakxxmh_all = $qs_aakxxmh_all->fetchAll();
     // END query options all except self
     
