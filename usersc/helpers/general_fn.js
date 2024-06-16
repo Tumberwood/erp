@@ -434,7 +434,8 @@ function autofillField(tbl_name, id_transaksi, fields_name){
 }
 
 /**
- * Digunakan untuk menghitung nilai subtotal
+ * Digunakan untuk menghitung nilai subtotal pada table detail
+ * Rumus:
  * subtotal = jumlah_unit * harga_unit
  * @param {*} edt 
  * @param {*} tabel 
