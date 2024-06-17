@@ -22,6 +22,7 @@ i18next.init({
                 address: "Address",
                 branchCode: "Branch Code",
                 branchName: "Branch Name",
+                breakTime: "Break Time",
                 businessEntityCode: "Business Entity Code",
                 businessEntityName: "Business Entity Name",
                 buy: "Buy",
@@ -49,7 +50,7 @@ i18next.init({
                 state: "State",
                 symbol: "Symbol",
                 type: "Type",
-                
+                workingTime: "Working Time",
             }
         },
         id: {
@@ -57,6 +58,7 @@ i18next.init({
                 address: "Alamat",
                 branchCode: "Kode Cabang",
                 branchName: "Nama Cabang",
+                breakTime: "Waktu istirahat",
                 businessEntityCode: "Kode Badan Usaha",
                 businessEntityKode: "Nama Badan Usaha",
                 buy: "Beli",
@@ -84,6 +86,7 @@ i18next.init({
                 state: "Status",
                 symbol: "Simbol",
                 type: "Tipe",
+                workingTime: "Waktu Kerja",
             }
         }
     }

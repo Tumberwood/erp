@@ -16,18 +16,67 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div id="frmhtsxxmh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.kode"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.jam_awal"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.jam_akhir"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.jam_awal_istirahat"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.jam_akhir_istirahat"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.menit_toleransi_awal_in"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.menit_toleransi_akhir_in"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.menit_toleransi_awal_out"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.menit_toleransi_akhir_out"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="htsxxmh.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblhtsxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th rowspan="2">ID</th>
-                                <th rowspan="2">Kode</th>
-                                <th rowspan="2">Nama</th>
-                                <th colspan="2">Jam Kerja</th>
-                                <th colspan="2">Jam Istirahat</th>
+                                <th rowspan="2" data-i18n="code"></th>
+                                <th rowspan="2" data-i18n="name"></th>
+                                <th colspan="2" data-i18n="workingTime"></th>
+                                <th colspan="2" data-i18n="breakTime"></th>
                                 <th colspan="2">Menit Toleransi In</th>
                                 <th colspan="2">Menit Toleransi Out</th>
-                                <th rowspan="2">TX</th>
+                                <th rowspan="2" data-i18n="state"></th>
                             </tr>
 							<tr>
                                 <th>Awal</th>
@@ -62,6 +111,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/htsxxmh/fn/htsxxmh_fn.php'; ?>
 
@@ -85,6 +135,7 @@
 				}
 			},
 			table: "#tblhtsxxmh",
+			template: "#frmhtsxxmh",
 			fields: [ 
 				{
 					label: "htsxxmh.start_at",
@@ -109,11 +160,11 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
 					name: "htsxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",					
 					name: "htsxxmh.nama"
 				}, 	
 				{
@@ -169,7 +220,7 @@
 					name: "htsxxmh.menit_toleransi_akhir_out"
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "htsxxmh.keterangan",
 					type: "textarea"
 				}
@@ -195,7 +246,7 @@
 		});
 
 		edthtsxxmh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();
