@@ -1077,6 +1077,7 @@
 
 		edtsqtittd.dependent( 'sqtittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = edtsqtittd.field('sqtittd.id_iimxxmh').val();
+			edtsqtittd.field('sqtittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 
