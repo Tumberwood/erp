@@ -28,9 +28,10 @@
 			->debug(true)
 			->fields(
 				Field::inst( 'prqittd.id' ),
+				Field::inst( 'prqittd.id_prqxxth' ),
+				Field::inst( 'prqittd.id_iimxxmh' ),
 				Field::inst( 'prqittd.id_iumxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'prqittd.id_prqxxth' ),
 				Field::inst( 'prqittd.kode' ),
 				Field::inst( 'prqittd.nama' ),
 				Field::inst( 'prqittd.keterangan' ),
@@ -54,11 +55,12 @@
 				Field::inst( 'prqittd.is_defaultprogram' ),
 				Field::inst( 'prqittd.is_nextprocess' ),
 				Field::inst( 'prqittd.jumlah_unit' ),
+				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'iumxxmh.nama' )
 			)
+			->leftJoin( 'iimxxmh','iimxxmh.id','=','prqittd.id_iimxxmh' )
 			->leftJoin( 'iumxxmh','iumxxmh.id','=','prqittd.id_iumxxmh' )
-			->where('prqittd.id_prqxxth',$_POST['id_prqxxth'])
-			;
+			->where('prqittd.id_prqxxth',$_POST['id_prqxxth']);
 		
 		// do not erase
 		// function show / hide inactive document
