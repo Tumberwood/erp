@@ -21,12 +21,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
                                 <th>Jenis</th>
                                 <th>Jenis Jam</th>
                                 <th>Potong Cuti</th>
-                                <th>TX</th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -51,6 +51,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/httlpmh/fn/httlpmh_fn.php'; ?>
 
@@ -98,11 +99,11 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
 					name: "httlpmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "httlpmh.nama"
 				}, 	
 				{
@@ -138,7 +139,7 @@
 					]
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "httlpmh.keterangan",
 					type: "textarea"
 				}
@@ -257,7 +258,7 @@
 					d.show_deleted_httlpmh = show_deleted_httlpmh;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 0, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -269,7 +270,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -282,9 +283,9 @@
 						if (data == 1) {
 							return '<span class="badge badge-primary">Hari</span>';
 						} else if (data == 2) {
-							return '<span class="badge badge-primary">Jam</span>';
+							return '<span class="badge badge-warning">Jam</span>';
 						} else {
-							return '<span class="badge badge-warning">INVALID</span>';
+							return '<span class="badge badge-danger">INVALID</span>';
 						}
 					}
 				},
@@ -298,7 +299,7 @@
 						}else if(data == 3){
 							return '<span class="badge badge-primary">Awal dan Akhir</span>';
 						}else{
-							return '<span class="badge badge-warning">INVALID</span>';
+							return '<span class="badge badge-danger">INVALID</span>';
 						}
 					}
 				},
