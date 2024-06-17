@@ -343,7 +343,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4,5]
+					targets: '_all'
 				}
 			],
 			columns: [

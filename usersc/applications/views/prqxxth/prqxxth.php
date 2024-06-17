@@ -22,7 +22,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="modal" id="modalSFprqxxth" tabindex="-1" role="dialog" aria-hidden="true">
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd"> Item</a></li>
@@ -84,13 +84,18 @@
 							<table id="tblprqittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
-										<th>ID</th>
-										<th>id_prqxxth</th>
-										<th>Item</th>
-										<th>Quantity</th>
-										<th>UoM</th>
-										<th>Tanggal Dibutuhkan</th>
-										<th>Keterangan</th>
+										<th rowspan="2">ID</th>
+										<th rowspan="2">id_prqxxth</th>
+										<th colspan="2">Item</th>
+										<th rowspan="2">Quantity</th>
+										<th rowspan="2">UoM</th>
+										<th rowspan="2">Tanggal Dibutuhkan</th>
+										<th rowspan="2">Keterangan</th>
+									</tr>
+
+									<tr>
+										<th>Master</th>
+										<th>Non Master</th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -98,6 +103,7 @@
 										<th></th>
 										<th></th>
 										<th id="c_items"></th>
+										<th></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -142,7 +148,7 @@
 	var rowid = <?php echo $rowid; ?>;
 	// ------------- end of default variable
 	var id_hodxxmh_old = 0;
-	var id_iumxxmh_old = 0;
+	var id_iimxxmh_old = 0, id_iumxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('prqxxth');
@@ -437,7 +443,45 @@
 				},	
 				{
 					label: "Item <sup class='text-danger'>*<sup>",
-					name: "prqittd.nama"
+					name: "prqittd.id_iimxxmh",
+					fieldInfo: "Isi salah satu antara Item Non Master dengan Item",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: id_iimxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Item Non Master<sup class='text-danger'>*<sup>",
+					name: "prqittd.nama",
+					fieldInfo: "Isi salah satu antara Item Non Master dengan Item"
 				}, 	
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
@@ -512,14 +556,19 @@
 		edtprqittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				nama = edtprqittd.field('prqittd.nama').val();
+				id_iimxxmh = edtprqittd.field('prqittd.id_iimxxmh').val();
 				id_iumxxmh = edtprqittd.field('prqittd.id_iumxxmh').val();
 				jumlah_unit = edtprqittd.field('prqittd.jumlah_unit').val();
+
+				if( (!nama || nama == '' ) && (!id_iimxxmh || id_iimxxmh == '' ) || (nama !='' && id_iimxxmh != '' ) ){
+					edtprqittd.field('prqittd.nama').error( 'Wajib diisi salah satu!' );
+					edtprqittd.field('prqittd.id_iimxxmh').error( 'Wajib diisi salah satu!' );
+				}
 
 				validasiRequired(
 					edtprqittd,
 					'prqittd',
 					{
-						'nama': nama,
 						'id_iumxxmh': id_iumxxmh
 					}
 				);
@@ -568,6 +617,7 @@
 			columns: [
 				{ data: "prqittd.id",visible:false },
 				{ data: "prqittd.id_prqxxth",visible:false },
+				{ data: "iimxxmh.nama" },
 				{ data: "prqittd.nama" },
 				{ 
 					data: "prqittd.jumlah_unit",
@@ -614,18 +664,19 @@
 
 		tblprqittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('prqittd');
+			id_iimxxmh_old   = prqittd_data.id_iimxxmh;
 			id_iumxxmh_old   = prqittd_data.id_iumxxmh;
 			
 			// atur hak akses
-			CekSelectDetailHD(tblprqxxth, tblprqittd );
+			CekSelectDetailHD(tblprqittd );
 		} );
 
 		tblprqittd.on( 'deselect', function() {
 			siVarResetD('prqittd');
-			id_iumxxmh_old = 0;
+			id_iimxxmh_old = 0, id_iumxxmh_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tblprqxxth, tblprqittd );
+			CekDeselectDetailHD(tblprqittd );
 		} );
 
 		// END prqittd

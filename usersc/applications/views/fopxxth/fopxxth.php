@@ -284,13 +284,15 @@
 				
 				tanggal = edtfopxxth.field('fopxxth.tanggal').val();
 				id_aakxxmh = edtfopxxth.field('fopxxth.id_aakxxmh').val();
+				keterangan = edtfopxxth.field('fopxxth.keterangan').val();
 
 				validasiRequired(
 					edtfopxxth,
 					'fopxxth',
 					{
 						'tanggal': tanggal,
-						'id_aakxxmh': id_aakxxmh
+						'id_aakxxmh': id_aakxxmh,
+						'keterangan': keterangan
 					}
 				);
 
@@ -343,7 +345,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4,5]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -549,7 +551,8 @@
 					edtfopaktd,
 					'fopaktd',
 					{
-						'id_aakxxmh': id_aakxxmh
+						'id_aakxxmh': id_aakxxmh,
+						'amount': amount
 					}
 				);
 

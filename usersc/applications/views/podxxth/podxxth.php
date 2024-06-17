@@ -1263,6 +1263,7 @@
 		
 		edtpodittd.dependent( 'podittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = edtpodittd.field('podittd.id_iimxxmh').val();
+			edtpodittd.field('podittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 

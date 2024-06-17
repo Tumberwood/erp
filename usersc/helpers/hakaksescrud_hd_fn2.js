@@ -393,39 +393,44 @@ function CekSelectHeaderH(tbl_header){
 
     // BEGIN btnNonAktif
     /**
-     * ------------------------------------------------------------------------------
-     * Ini masih ada kurang pengecekan, 
-     * seharusnya ditambahkan jika data sudah pernah dipakai, maka tidak bisa di edit
-     * ------------------------------------------------------------------------------
-     * 
      * Aturan NonAktif
-     *  transaction_state = 1
-     *  approval_state = 0
-     *  hak_d = 1
+     *  is_nextprocess == 0 && transaction_state == 1 && hak_d == 1
+     *  
      */
-    if( is_nextprocess == 1 ){
+    if( (is_nextprocess == null || is_nextprocess == 0 ) && transaction_state == 1 && hak_d == 1){
+        tbl_header.button( 'btnNonAktif:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetAction = c_btnSetAction + 1;
+    }else{
         tbl_header.button( 'btnNonAktif:name' )
             .nodes()
             .css( 'display', 'none' );
-    }else{
-        if( transaction_state == 1 ){
-            tbl_header.button( 'btnNonAktif:name' )
-                .nodes()
-                .css( 'display', 'none' );            
-        }else{
-            if(hak_d == 1){
-                tbl_header.button( 'btnNonAktif:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetAction = c_btnSetAction + 1;
-            }else{
-                tbl_header.button( 'btnNonAktif:name' )
-                    .nodes()
-                    .css( 'display', 'none' );
-            }
-            
-        }
     }
+
+    // if( is_nextprocess == 1 ){
+    //     tbl_header.button( 'btnNonAktif:name' )
+    //         .nodes()
+    //         .css( 'display', 'none' );
+    // }else{
+    //     if( transaction_state == 1 ){
+    //         if(hak_d == 1){
+    //             tbl_header.button( 'btnNonAktif:name' )
+    //                 .nodes()
+    //                 .css( 'display', 'block' );
+    //             c_btnSetAction = c_btnSetAction + 1;
+    //         }else{
+    //             tbl_header.button( 'btnNonAktif:name' )
+    //                 .nodes()
+    //                 .css( 'display', 'none' );
+    //         }
+    //     }else{
+    //         // ini masih draft, sehingga tidak perlu non aktif, tapi remove
+    //         tbl_header.button( 'btnNonAktif:name' )
+    //             .nodes()
+    //             .css( 'display', 'none' );
+    //     }
+    // }
     // END btnNonAktif
 
     // BEGIN btnClose

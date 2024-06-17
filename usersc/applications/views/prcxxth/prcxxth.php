@@ -14,7 +14,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 
@@ -88,7 +88,9 @@
 								<th>Tanggal</th>
                                 <th>Kode</th>
 								<th>Supplier</th>
+								<th>Purchase Order</th>
 								<th>Warehouse</th>
+								<th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -97,7 +99,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabprcittd"> Item</a></li>
@@ -400,6 +402,7 @@
 		});
 
 		edtprcxxth.dependent( 'prcxxth.id_grlxxmh_supplier', function ( val, data, callback ) {
+			edtprcxxth.field('prcxxth.id_podxxth').input().val(null).trigger('change');
 			id_grlxxmh_supplier = val;
 			return {}
 		}, {event: 'keyup change'});
@@ -468,7 +471,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,6]
 				},
 				{
 					searchPanes:{
@@ -482,7 +485,12 @@
 				{ data: "prcxxth.tanggal" },
 				{ data: "prcxxth.kode" },
 				{ data: "grlxxmh.nama" },
-				{ data: "iwhxxmh.nama" }
+				{ data: "podxxth.kode" },
+				{ data: "iwhxxmh.nama" },
+				{ 
+					data: "prcxxth.transaction_state" ,
+					...renderTransactionStatus()
+				}
 			],
 			buttons: [
 
@@ -500,6 +508,17 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-print"></i>',
+					name: 'btnPrintJurnal',
+					className: 'btn btn-sm btn-outline',
+					titleAttr: 'Print Jurnal',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						var url = $(this).attr('href'); 
+						window.open('prcxxth_jv_print.php?id_prcxxth='+id_prcxxth, '_blank');
+					}
+				}
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -525,8 +544,8 @@
 		tblprcxxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('prcxxth');
-			id_grlxxmh_old      = prcxxth_data.id_grlxxmh;
-			id_grlxxmh_supplier = prcxxth_data.id_grlxxmh;
+			id_grlxxmh_old      = prcxxth_data.id_grlxxmh_supplier;
+			id_grlxxmh_supplier = prcxxth_data.id_grlxxmh_supplier;
 			id_podxxth_old      = prcxxth_data.id_podxxth;
 			id_podxxth          = prcxxth_data.id_podxxth;
 			id_iwhxxmh_old      = prcxxth_data.id_iwhxxmh;
