@@ -21,9 +21,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,6 +48,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hetxxmh/fn/hetxxmh_fn.php'; ?>
 
@@ -97,15 +98,15 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "hetxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "hetxxmh.nama"
 				}, 	
 				{
-					label: "Level",
+					label: getTranslation('level'),
 					name: "hetxxmh.id_hevxxmh",
 					type: "select2",
 					opts: {
@@ -141,7 +142,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "hetxxmh.keterangan",
 					type: "textarea"
 				}

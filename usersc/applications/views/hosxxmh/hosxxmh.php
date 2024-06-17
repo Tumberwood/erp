@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Department</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="section"></th>
+                                <th data-i18n="department"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -49,6 +49,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hosxxmh/fn/hosxxmh_fn.php'; ?>
 
@@ -98,15 +99,15 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') +" <sup class='text-danger'>*<sup>",
 					name: "hosxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('section') + " <sup class='text-danger'>*<sup>",
 					name: "hosxxmh.nama"
 				}, 	
 				{
-					label: "Department",
+					label: getTranslation('department') + " <sup class='text-danger'>*<sup>",
 					name: "hosxxmh.id_hodxxmh",
 					type: "select2",
 					opts: {
@@ -142,7 +143,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "hosxxmh.keterangan",
 					type: "textarea"
 				}
@@ -180,13 +181,15 @@
 
 				kode = edthosxxmh.field('hosxxmh.kode').val();
 				nama = edthosxxmh.field('hosxxmh.nama').val();
+				id_hodxxmh = edthosxxmh.field('hosxxmh.id_hodxxmh').val();
 
 				validasiRequired(
 					edthosxxmh,
 					'hosxxmh',
 					{
 						'kode': kode,
-						'nama': nama
+						'nama': nama,
+						'id_hodxxmh': id_hodxxmh
 					}
 				);
 
