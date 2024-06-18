@@ -90,12 +90,6 @@
 					id_wloxxmh,
 					wlpxxmh_kode
 				HAVING jumlah_terkecil > 0 
-				-- AND CONCAT(a.id_iimxxmh, a.batch_number, a.expired_date, a.wlpxxmh_kode, a.id_wloxxmh) 
-				-- 	NOT IN (
-				-- 		SELECT
-				-- 			CONCAT(c.id_iimxxmh, c.batch_number, c.expired_date, c.wlpxxmh_kode, c.id_wloxxmh) 
-				-- 		FROM iivxxrd_audit c
-				-- 	);
 		');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 	if (!empty($rs_iivxxrd)) {

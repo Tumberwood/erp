@@ -192,7 +192,7 @@
 						wloxxmh_nama = kontenData.wloxxmh_nama;
 						is_audit = kontenData.is_audit;
 						
-						if (is_audit == 0) {
+						// if (is_audit == 0) {
 							btnAudit = `<div class="form-group" id="radio${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">
 											<label>Status Audit:</label>
 											<div class="form-check">
@@ -210,9 +210,9 @@
 										</div>
 										<button class="btn btn-primary submit-button" data-insert="${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">Submit</button>
 							`;	
-						} else {
-							btnAudit = '';
-						}
+						// } else {
+						// 	btnAudit = '';
+						// }
 						console.log(kontenData);
 						genKonten = genKonten+ `
 							<div class="${class_col}">
