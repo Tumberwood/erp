@@ -17,7 +17,6 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-
 				<div class="modal" id="modalSFsodxxth" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content animated bounceInRight">
@@ -54,6 +53,11 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<editor-field name="sodxxth.tanggal"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="sodxxth.id_iitxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="sodxxth.id_grlxxmh_customer"></editor-field>
@@ -136,21 +140,20 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="table-responsive">
-                    <table id="tblsodxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nomor</th>
-                                <th>Tanggal</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Approval</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+				<!-- end Custom Form Datatables Editor -->
+				<table id="tblsodxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nomor</th>
+							<th>Tanggal</th>
+							<th>Customer</th>
+							<th>Type</th>
+							<th>Status</th>
+							<th>Approval</th>
+						</tr>
+					</thead>
+				</table>
             </div>
         </div>
     </div>
@@ -158,85 +161,96 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabsodittd"> Item</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabsodittd_1"> Item</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabsodittd_2"> Biaya</a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabsodittd" class="tab-pane active">
-					
-					<div id="frmsodittd">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.id_iimxxmh"></editor-field>
+				<div role="tabpanel" id="tabsodittd_1" class="tab-pane active">
+					<div class="panel-body">
+						<!-- start Custom Form Datatables Editor -->
+						<div id="frmsodittd">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-lg-6">
+										<editor-field name="sodittd.id_sqtittd"></editor-field>
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sqtittd_info"></editor-field>
+									</div>
+									
 								</div>
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.id_iumxxmh_unit"></editor-field>
+								<div class="row">
+									<div class="col-lg-6">
+										<editor-field name="sodittd.id_iimxxmh"></editor-field>
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.id_iumxxmh_unit"></editor-field>
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.jumlah_unit"></editor-field>
+								<div class="row">
+									<div class="col-lg-6">
+										<editor-field name="sodittd.jumlah_unit"></editor-field>
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.harga_unit"></editor-field>
+									</div>
 								</div>
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.harga_unit"></editor-field>
+								<div class="row">
+									<div class="col-lg-6">
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.subtotal"></editor-field>
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="row">
+									<div class="col-lg-6">
+										<editor-field name="sodittd.diskon_jenis"></editor-field>
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.diskon_persen"></editor-field>
+										<editor-field name="sodittd.diskon_value"></editor-field>
+									</div>
 								</div>
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.subtotal"></editor-field>
+								<div class="row">
+									<div class="col-lg-6">
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.diskon_final"></editor-field>
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.diskon_jenis"></editor-field>
+								<div class="row">
+									<div class="col-lg-6">
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.dpp"></editor-field>
+									</div>
 								</div>
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-									<editor-field name="sodittd.diskon_persen"></editor-field>
-									<editor-field name="sodittd.diskon_value"></editor-field>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="sodittd.diskon_final"></editor-field>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="sodittd.dpp"></editor-field>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="sodittd.keterangan"></editor-field>
+								<div class="row">
+									<div class="col-lg-6">
+										<editor-field name="sodittd.tanggal_dibutuhkan"></editor-field>
+									</div>
+									<div class="col-lg-6">
+										<editor-field name="sodittd.keterangan"></editor-field>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-
-					<div class="panel-body">
-						<div class="table-responsive">
+						<!-- end Custom Form Datatables Editor -->
+						
 							<table id="tblsodittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_sodxxth</th>
 										<th>Item Code</th>
-										<th>Item name</th>
+										<th>Item Name</th>
 										<th>UoM</th>
 										<th>Quantity</th>
 										<th>Price @</th>
 										<th>Subtotal</th>
 										<th>Discount</th>
 										<th>Total</th>
-										<th>Keterangan</th>
+										<th>Purchase Request</th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -307,8 +321,25 @@
 									</tr>
 								</tfoot>
 							</table>
-						</div> <!-- end of table -->
+						
 
+					</div>
+				</div>
+				<div role="tabpanel" id="tabsodittd_2" class="tab-pane">
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table id="tblsodittd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>id_sodxxth</th>
+										<th>Kode</th>
+										<th>Nama</th>
+										<th>Keterangan</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -342,26 +373,19 @@
 	var edtsodxxth, tblsodxxth, show_deleted_sodxxth = 0, id_sodxxth;
 	var edtsodittd, tblsodittd, show_deleted_sodittd = 0, id_sodittd;
 	// ------------- end of default variable
-	var id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, id_fpytmmh_def = 0;
-	var id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0;
 
-	var id_iitxxmh = 1;
+	var id_iitxxmh_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
+	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_sqtittd_old = 0, id_iumxxmh_unit  = 0;
 
 	// get tableRelation
 	tableRelation('sodxxth');
-	
+
 	$(document).ready(function() {
-		
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-		
+
 		// BEGIN sodxxth
 		edtsodxxth = new $.fn.dataTable.Editor( {
-			formOptions: {
-				main: {
-					focus: 3,
-				}
-			},
 			ajax: {
 				url: "../../models/sodxxth/sodxxth.php",
 				type: 'POST',
@@ -371,9 +395,19 @@
 					d.end_date = end_date;
 				}
 			},
-			table: "#tblsodxxth",
 			template: "#frmsodxxth",
+			table: "#tblsodxxth",
 			fields: [ 
+				{
+					label: "kategori_dokumen",
+					name: "kategori_dokumen",
+					type: "hidden"
+				},	
+				{
+					label: "kategori_dokumen_value",
+					name: "kategori_dokumen_value",
+					type: "hidden"
+				},	
 				{
 					label: "sodxxth.start_at",
 					name: "sodxxth.start_at",
@@ -395,64 +429,21 @@
 					name: "sodxxth.transaction_state",
 					type: "hidden",
 					def: 0
-				},		
-				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
-					name: "sodxxth.tanggal",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Customer <sup class='text-danger'>*<sup>",
-					name: "sodxxth.id_grlxxmh_customer",
+					label: "Type <sup class='text-danger'>*<sup>",
+					name: "sodxxth.id_iitxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/scuxxmh/scuxxmh_fn_opt.php",
+							url: "../../models/iitxxmh/iitxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_grlxxmh_old: id_grlxxmh_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
-				},
-				{
-					label: "Payment Terms <sup class='text-danger'>*<sup>",
-					name: "sodxxth.id_fpytmmh",
-					id: "select_id_fpytmmh",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/fpytmmh/fpytmmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_fpytmmh_old: id_fpytmmh_old,
-									id_fpytmmh_def: id_fpytmmh_def,
+									id_iitxxmh_old: id_iitxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -474,9 +465,79 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},	
-
-
+				},		
+				{
+					label: "Payment Terms <sup class='text-danger'>*<sup>",
+					name: "sodxxth.id_fpytmmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/fpytmmh/fpytmmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_fpytmmh_old: id_fpytmmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
+				{
+					label: "Customer <sup class='text-danger'>*<sup>",
+					name: "sodxxth.id_grlxxmh_customer",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/psuxxmh/psuxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_old: id_grlxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
 				{
 					label: "Currency <sup class='text-danger'>*<sup>",
 					name: "sodxxth.id_fcrxxmh",
@@ -529,9 +590,20 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},	
-
-				
+				},		
+				{
+					label: "Tanggal <sup class='text-danger'>*<sup>",
+					name: "sodxxth.tanggal",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},
 				{
 					label: "Subtotal",
 					name: "sodxxth.subtotal",
@@ -612,12 +684,12 @@
 					name: "sodxxth.grand_total",
 					type: "readonly"
 				},
-
+				
 				{
 					label: "Keterangan",
 					name: "sodxxth.keterangan",
 					type: "textarea"
-				}
+				},
 			]
 		} );
 
@@ -635,6 +707,8 @@
 
 			if(action == 'create'){
 				tblsodxxth.rows().deselect();
+				edtsodxxth.field('kategori_dokumen').val('');
+				edtsodxxth.field('kategori_dokumen_value').val('');
 			}
 		});
 
@@ -646,18 +720,14 @@
 			setTimeout(function() {
 				$('#select_id_fcrxxmh').select2('close');
 			}, 5);
-
 		});
-		
-		edtsodxxth.dependent( 'sodxxth.id_grlxxmh_customer', function ( val, data, callback ) {
-			id_grlxxmh_customer =  edtsodxxth.field('sodxxth.id_grlxxmh_customer').val();
-			if(id_grlxxmh_customer > 0){
-				autofillField('grlxxmh', id_grlxxmh_customer, 'id_fpytmmh');
-				id_fpytmmh_def = autofillData.id_fpytmmh;
-			}
+
+		edtsodxxth.dependent( 'sodxxth.id_iitxxmh', function ( val, data, callback ) {
+			id_iitxxmh = edtsodxxth.field('sodxxth.id_iitxxmh').val();
+			hitungHeader(edtsodxxth,'sodxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
-
+		
 		edtsodxxth.dependent( 'sodxxth.diskon_jenis', function ( val, data, callback ) {
 			if (val == 1) {
 				edtsodxxth.field('sodxxth.diskon_persen').show();
@@ -702,7 +772,7 @@
 		edtsodxxth.dependent( 'sodxxth.is_pajak', function ( val, data, callback ) {
 			/**
 			 * is_pajak: menentukan apakah PO tersebut kena pajak atau tidak
-			 * nantinya bisa diambilkan dari master supplier. 
+			 * nantinya bisa diambilkan dari master customer. 
 			 * tergantung bisnis prosesnya
 			 */
 			hitungHeader(edtsodxxth,'sodxxth', id_iitxxmh);
@@ -713,21 +783,53 @@
 			hitungHeader(edtsodxxth,'sodxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
-		
+
 		edtsodxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-				tanggal             = edtsodxxth.field('sodxxth.tanggal').val();
+
 				id_grlxxmh_customer = edtsodxxth.field('sodxxth.id_grlxxmh_customer').val();
+				id_fpytmmh    = edtsodxxth.field('sodxxth.id_fpytmmh').val();
+				id_fcrxxmh    = edtsodxxth.field('sodxxth.id_fcrxxmh').val();
+				id_iitxxmh    = edtsodxxth.field('sodxxth.id_iitxxmh').val();
+				tanggal       = edtsodxxth.field('sodxxth.tanggal').val();
+				diskon_jenis  = edtsodxxth.field('sodxxth.diskon_jenis').val();
+				diskon_persen = edtsodxxth.field('sodxxth.diskon_persen').val();
+				diskon_value  = edtsodxxth.field('sodxxth.diskon_value').val();
 
 				validasiRequired(
 					edtsodxxth,
 					'sodxxth',
 					{
-						'tanggal'            : tanggal,
 						'id_grlxxmh_customer': id_grlxxmh_customer,
+						'id_fpytmmh': id_fpytmmh,
+						'id_fcrxxmh': id_fcrxxmh,
+						'id_iitxxmh': id_iitxxmh,
+						'tanggal'   : tanggal
 					}
 				);
-				
+
+				if(diskon_jenis == 1){
+					validasiNumber(
+						edtsodxxth,
+						'sodxxth',
+						{
+							'diskon_persen': diskon_persen
+						},
+						0,
+						'>'
+					);
+				}else if(diskon_jenis == 2){
+					validasiNumber(
+						edtsodxxth,
+						'sodxxth',
+						{
+							'diskon_value': diskon_value
+						},
+						0,
+						'>'
+					);
+				}
+			
 			}
 			
 			if ( edtsodxxth.inError() ) {
@@ -738,7 +840,7 @@
 		edtsodxxth.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtsodxxth.field('sodxxth.finish_at').val(finish_at);
-
+			
 			diskon_final_h = edtsodxxth.field('sodxxth.diskon_final').val();
 			dpp_final_h    = edtsodxxth.field('sodxxth.dpp_final').val();
 			pajak_final_h  = edtsodxxth.field('sodxxth.pajak_final').val();
@@ -748,8 +850,6 @@
 		});
 		
 		edtsodxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblsodxxth.ajax.reload(null, false);
-
 			edtsodxxth.field('sodxxth.diskon_final').val(diskon_final_h);
 			edtsodxxth.field('sodxxth.dpp_final').val(dpp_final_h);
 			edtsodxxth.field('sodxxth.pajak_final').val(pajak_final_h);
@@ -775,12 +875,14 @@
 				}
 			},
 			order: [[ 1, "desc" ]],
+			responsive: false,
+			scrollX: true,
 			columnDefs:[
 				{
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,4]
 				},
 				{
 					searchPanes:{
@@ -794,6 +896,7 @@
 				{ data: "sodxxth.kode" },
 				{ data: "sodxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
+				{ data: "iitxxmh.nama" },
 				{ 
 					data: "sodxxth.transaction_state" ,
 					...renderTransactionStatus()
@@ -849,10 +952,12 @@
 		} );
 		
 		tblsodxxth.on( 'select', function( e, dt, type, indexes ) {
-			siVarSet('sodxxth');		
-			id_grlxxmh_old = sodxxth_data.id_grlxxmh_customer;
-			id_fpytmmh_old = sodxxth_data.id_fpytmmh;
-			id_fcrxxmh_old = sodxxth_data.id_fcrxxmh;
+			siVarSet('sodxxth');
+			id_iitxxmh_old    = sodxxth_data.id_iitxxmh;
+			id_iitxxmh        = sodxxth_data.id_iitxxmh;
+			id_fcrxxmh_old    = sodxxth_data.id_fcrxxmh;
+			id_fpytmmh_old    = sodxxth_data.id_fpytmmh;
+			id_grlxxmh_old    = sodxxth_data.id_grlxxmh_customer;
 
 			// terkait footer
 			diskon_final_h = sodxxth_data.diskon_final;
@@ -860,7 +965,7 @@
 			pajak_final_h  = sodxxth_data.pajak_final;
 			grand_total_h  = sodxxth_data.grand_total;
 			sodxxthUpdateFooter();
-			
+
 			// atur hak akses
 			tbl_details = [tblsodittd];
 			CekSelectHeaderHD(tblsodxxth, tbl_details);
@@ -869,7 +974,10 @@
 		
 		tblsodxxth.on( 'deselect', function () {
 			siVarReset('sodxxth');
-			id_grlxxmh_old = 0, id_fpytmmh_old = 0, id_fcrxxmh_old = 0;
+			id_grlxxmh_old = 0;
+			id_fpytmmh_old = 0;
+			id_fcrxxmh_old = 0;
+			id_iitxxmh_old = 0;
 
 			// terkait footer
 			diskon_final_h = 0;
@@ -894,8 +1002,8 @@
 					d.id_sodxxth = id_sodxxth;
 				}
 			},
-			table: "#tblsodittd",
 			template: "#frmsodittd",
+			table: "#tblsodittd",
 			formOptions: {
 				main: {
 					focus: 5,
@@ -931,19 +1039,19 @@
 					type: "hidden"
 				},	
 				{
-					label: "Item <sup class='text-danger'>*<sup>",
-					name: "sodittd.id_iimxxmh",
+					label: "Item PR<sup class='text-danger'>*<sup>",
+					name: "sodittd.id_sqtittd",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/sqtxxth/sqtittd_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_iimxxmh_old: id_iimxxmh_old,
+									id_sqtittd_old: id_sqtittd_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -967,6 +1075,48 @@
 					}
 				},
 				{
+					label: "Request Info",
+					name: "sqtittd_info",
+					type: "textarea"
+				},
+				{
+					label: "Item <sup class='text-danger'>*<sup>",
+					name: "sodittd.id_iimxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_iitxxmh.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: id_iimxxmh_old,
+									ids_iitxxmh: id_iitxxmh,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}, 	
+				{
 					label: "UoM <sup class='text-danger'>*<sup>",
 					name: "sodittd.id_iumxxmh_unit",
 					type: "select2",
@@ -986,6 +1136,14 @@
 								}
 									return query;
 							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
 							cache: true,
 							minimumInputLength: 1,
 							maximum: 10,
@@ -994,14 +1152,14 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},		
+				},	
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
 					name: "sodittd.jumlah_unit"
-				}, 
+				}, 	
 				{
-					label: "Price @ <sup class='text-danger'>*<sup>", 
-					name: "sodittd.harga_unit",
+					label: "Price <sup class='text-danger'>*<sup>",
+					name: "sodittd.harga_unit"
 				},
 				{
 					label: "Subtotal",
@@ -1036,6 +1194,19 @@
 					type: "readonly"
 				},
 				{
+					label: "Tanggal Dibutuhkan",
+					name: "sodittd.tanggal_dibutuhkan",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},
+				{
 					label: "Keterangan",
 					name: "sodittd.keterangan",
 					type: "textarea"
@@ -1057,6 +1228,8 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtsodittd.field('sodittd.start_at').val(start_at);
 			
+			edtsodittd.field('sqtittd_info').disable();
+			
 			if(action == 'create'){
 				tblsodittd.rows().deselect();
 			}
@@ -1067,8 +1240,30 @@
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
+		edtsodittd.dependent( 'sodittd.id_sqtittd', function ( val, data, callback ) {
+			// id_sqtittd = edtsodittd.field('sodittd.id_sqtittd').val();
+			// autofillField('sqtittd', id_sqtittd, 'jumlah_unit,tanggal_dibutuhkan,keterangan')
+
+			// // BEGIN generate sqtittd_info
+			// if (autofillData.tanggal_dibutuhkan == null){
+			// 	sqtittd_info_dibutuhkan = '';
+			// }else{
+			// 	sqtittd_info_dibutuhkan = '; Dibutuhkan: ' + moment(autofillData.tanggal_dibutuhkan).format("DD MMM YYYY");
+			// }
+			// if (autofillData.keterangan != ''){
+			// 	sqtittd_info_notes = '; Notes: ' + autofillData.keterangan;
+			// }else{
+			// 	sqtittd_info_notes = '';
+			// }
+			// // END generate sqtittd_info
+			// edtsodittd.field('sqtittd_info').val('Permintaan: ' + autofillData.jumlah_unit + sqtittd_info_dibutuhkan + sqtittd_info_notes);
+
+			return {}
+		}, {event: 'keyup change'});
+		
 		edtsodittd.dependent( 'sodittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = edtsodittd.field('sodittd.id_iimxxmh').val();
+			edtsodittd.field('sodittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 
@@ -1077,13 +1272,13 @@
 			hitungDpp(edtsodittd, 'sodittd');
 			return {}
 		}, {event: 'keyup change'});
-
+		
 		edtsodittd.dependent( 'sodittd.jumlah_unit', function ( val, data, callback ) {
 			hitungSubtotalDetail(edtsodittd, 'sodittd');
 			hitungDpp(edtsodittd, 'sodittd');
 			return {}
 		}, {event: 'keyup change'});
-
+		
 		edtsodittd.dependent( 'sodittd.diskon_jenis', function ( val, data, callback ) {
 			if (val == 1) {
 				edtsodittd.field('sodittd.diskon_persen').show();
@@ -1109,7 +1304,7 @@
 			hitungDpp(edtsodittd, 'sodittd');
 			return {}
 		}, {event: 'keyup change'});
-
+		
 		edtsodittd.dependent( 'sodittd.diskon_persen', function ( val, data, callback ) {
 			if (val != null) {
 				hitungDiskon(edtsodittd, 'sodittd');
@@ -1129,42 +1324,61 @@
 		edtsodittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				
-				id_iimxxmh = edtsodittd.field('sodittd.id_iimxxmh').val();
+				id_sqtittd      = edtsodittd.field('sodittd.id_sqtittd').val();
 				id_iumxxmh_unit = edtsodittd.field('sodittd.id_iumxxmh_unit').val();
+				id_iimxxmh      = edtsodittd.field('sodittd.id_iimxxmh').val();
 				jumlah_unit     = edtsodittd.field('sodittd.jumlah_unit').val();
 				harga_unit      = edtsodittd.field('sodittd.harga_unit').val();
+				diskon_jenis    = edtsodittd.field('sodittd.diskon_jenis').val();
+				diskon_persen    = edtsodittd.field('sodittd.diskon_persen').val();
+				diskon_value    = edtsodittd.field('sodittd.diskon_value').val();
 
 				validasiRequired(
 					edtsodittd,
 					'sodittd',
 					{
-						'id_iimxxmh': id_iimxxmh,
+						'id_sqtittd': id_sqtittd,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
-						'jumlah_unit': jumlah_unit,
-						'harga_unit': harga_unit
+						'id_iimxxmh': id_iimxxmh,
 					}
 				);
-
+				
 				validasiNumber(
 					edtsodittd,
 					'sodittd',
 					{
 						'jumlah_unit': jumlah_unit,
+						'harga_unit': harga_unit
 					},
 					0,
 					'>'
 				);
 
-				validasiNumber(
-					edtsodittd,
-					'sodittd',
-					{
-						'harga_unit': harga_unit,
-					},
-					0,
-					'>'
-				);
+				if(diskon_jenis == 1){
+					validasiNumber(
+						edtsodittd,
+						'sodittd',
+						{
+							'diskon_persen': diskon_persen
+						},
+						0,
+						'>'
+					);
+				}else if(diskon_jenis == 2){
+					validasiNumber(
+						edtsodittd,
+						'sodittd',
+						{
+							'diskon_value': diskon_value
+						},
+						0,
+						'>'
+					);
+				}
+
 				
+				validasiOutstanding(edtsodittd, 'sodittd', id_sodittd, id_sqtittd, 'sqtittd');
+
 			}
 			
 			if ( edtsodittd.inError() ) {
@@ -1178,19 +1392,21 @@
 		});
 			
 		edtsodittd.on( 'postSubmit', function (e, json, data, action, xhr) {
-
+			if (action != 'remove') {
+				tblsodittd.rows().deselect();
+			}
+			
 			hitungSubtotalHeader(id_transaksi_h, 'sodittd', 'sodxxth');
 			hitungHeaderDetail('sodxxth', 'sodittd', id_transaksi_h);
 			
 			tblsodxxth.ajax.reload(null, false);
 			tblsodittd.ajax.reload(null, false);
-
 		} );
 
 		edtsodittd.on( 'close', function () {
 			edtsodittd.enable();
 		} );
-			
+		
 		tblsodittd = $('#tblsodittd').DataTable( {
 			ajax: {
 				url: "../../models/sodxxth/sodittd.php",
@@ -1201,6 +1417,8 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
+			responsive: false,
+			scrollX: true,
 			columns: [
 				{ data: "sodittd.id",visible:false },
 				{ data: "sodittd.id_sodxxth",visible:false },
@@ -1209,25 +1427,26 @@
 				{ data: "iumxxmh.nama" },
 				{ 
 					data: "sodittd.jumlah_unit",
-					...renderNumber(0)
+					...renderNumber( 0, "")
 				},
 				{ 
 					data: "sodittd.harga_unit",
-					...renderNumber(2)
+					...renderNumber( 0, "")
 				},
 				{ 
 					data: "sodittd.subtotal",
-					...renderNumber(2)
+					...renderNumber( 0, "")
 				},
 				{ 
 					data: "sodittd.diskon_final",
-					...renderNumber(2)
+					...renderNumber( 0, "")
 				},
 				{ 
 					data: "sodittd.dpp",
-					...renderNumber(2)
+					...renderNumber( 0, "")
 				},
-				{ data: "sodittd.keterangan" }
+				{ data: "sqtxxth.kode" }
+
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -1239,13 +1458,16 @@
 					$table_name  = $nama_tabels_d[0];
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
+				
+			},
+			rowCallback: function( row, data, index ) {
 			},
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       	= this.api(), data;
@@ -1254,8 +1476,6 @@
 
 				$( '#c_item' ).html( "Total Item(s): " + c_item);
 				$( '#s_subtotal' ).html( dtNumberFormat(s_subtotal) );
-			},
-			rowCallback: function( row, data, index ) {
 			}
 		} );
 
@@ -1267,17 +1487,18 @@
 
 		tblsodittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('sodittd');
-			id_iumxxmh_unit_old = data_sodittd.id_iumxxmh_unit;
-			id_iimxxmh          = data_sodittd.id_iimxxmh;
-			id_iimxxmh_old = data_sodittd.id_iimxxmh;
-			
+			id_iimxxmh          = sodittd_data.id_iimxxmh;
+			id_iimxxmh_old      = sodittd_data.id_iimxxmh;
+			id_iumxxmh_unit_old = sodittd_data.id_iumxxmh_unit;
+			id_sqtittd_old      = sodittd_data.id_sqtittd;
+
 			// atur hak akses
 			CekSelectDetailHD( tblsodittd );
 		} );
 
 		tblsodittd.on( 'deselect', function() {
 			siVarResetD('sodittd');
-			id_iumxxmh_unit_old = 0, id_iimxxmh_old = 0;
+			id_iimxxmh_old = 0, id_sqtittd_old = 0, id_iumxxmh_unit_old= 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblsodittd );
@@ -1320,7 +1541,7 @@
 				return false;
 			}
 		});
-		
+
 	} );// end of document.ready
 	
 </script>

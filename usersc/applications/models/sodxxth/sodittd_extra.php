@@ -1,5 +1,4 @@
 <?php
-
 	use 
 		SolusiIndonesia\Utilities\General;
 
@@ -8,17 +7,19 @@
 			// script diletakkan disini
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
+			General::isNextProcess( $editor->db(), 'sqtxxth', 'sqtittd', 'sodittd', $id, 'CREATE', $values);
 			General::konversiUom( $editor->db(), 'sodittd', $id );
-			// General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Create', 'sodittd', 'sqtittd' );
+			General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Create', 'sodittd', 'sqtittd' );
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
-			// General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Create', 'sodittd', 'sqtittd' );
+			General::isNextProcess( $editor->db(), 'sqtxxth', 'sqtittd', 'sodittd', $id, 'EDIT', $values );
+			General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Edit', 'sodittd', 'sqtittd' );
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
-			General::konversiUom( $editor->db(), 'sodittd', $id );
+			
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
-			// script diletakkan disini
+			
 		})
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
