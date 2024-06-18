@@ -288,7 +288,10 @@ function renderYaTidak() {
  */
 
 function renderNumber(digit, prefix, suffix) {
-    
+    if (digit == null) {
+        digit = 0;
+    }
+
     if (prefix == null) {
         prefix = '';
     }
@@ -296,23 +299,22 @@ function renderNumber(digit, prefix, suffix) {
     if (suffix == null) {
         suffix = '';
     }
-    
-    if (digit == null) {
-        //ini ketika digit tidak diisi atau cuma ...renderNumber()
-        //maka render pakai yang ini,
-        //fungsinya untuk menghapus angka 0 dibelakang koma, seperti 24,000. Maka akan menjadi 24
-        return {
-            render: function (data){
-                return data.toString().replace(/\.?0+$/, '');
-            },
-            class: "text-right"
-        };
-    } else {
-        return {
-            render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
-            class: "text-right"
-        };
-    }
+
+    return {
+        render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
+        class: "text-right"
+    };
+
+    //maaf pak, untuk case jika digit dibelakang koma itu 0 maka akan dihilangkan angka 0 nya masih belum sesuai
+    //saya cancel, jadinya pakai ini render seperti dibawah ini.
+    //saya masukkan di function ini, rendernya tidak terbaca
+    // { 
+    //     data: "iivxxrd_audit.jumlah_default",
+    //     render: function (data){
+    //         return data.toString().replace(/\.?0+$/, '');
+    //     },
+    //     class: "text-right"
+    // },
 }
 
 /**
@@ -323,7 +325,7 @@ function renderNumber(digit, prefix, suffix) {
  *  table_name              : nama tabel pada database yang akan di update
  *  id_transaksi_default    : id_transaksi yang is_default = 1 
  *  tblname                 : nama variable tbl 
- * Cara menggunakan:
+ * Cara menggunakan:x
  * pada editor initSubmit
  * bisa copy baris script ini ke dalam event initSubmit
  * 

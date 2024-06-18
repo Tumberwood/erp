@@ -116,7 +116,10 @@
 					{ data: "iivxxrd_audit.iumxxmh_terkecil_kode" },//5
 					{ 
 						data: "iivxxrd_audit.jumlah_default",
-						...renderNumber()
+						render: function (data){
+							return data.toString().replace(/\.?0+$/, '');
+						},
+						class: "text-right"
 					},
 					{ data: "iivxxrd_audit.iumxxmh_default_kode" },
 					{ data: "iivxxrd_audit.wlpxxmh_kode" },
