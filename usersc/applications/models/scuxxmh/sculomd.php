@@ -47,7 +47,7 @@
 				Field::inst( 'gpvxxmh.nama' )
 			)
 			->leftJoin( 'gctxxmh','gctxxmh.id','=','grllomd.id_gctxxmh' )
-			->leftJoin( 'gpvxxmh','gpvxxmh.id','=','grllomd.id_gpvxxmh' )
+			->leftJoin( 'gpvxxmh','gpvxxmh.id','=','gctxxmh.id_gpvxxmh' )
 			->where('grllomd.id_grlxxmh',$_POST['id_grlxxmh'])
 			;
 		

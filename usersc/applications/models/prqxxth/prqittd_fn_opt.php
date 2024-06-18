@@ -62,16 +62,13 @@
         ->get([
             'prqittd.id as id',
             'IF(
-                prqxxth.kode IS NULL, 
-                prqittd.nama,
-                IF(
-                    prqittd.nama IS NULL, 
-                    prqxxth.kode,
-                    CONCAT(prqxxth.kode," - ",prqittd.nama)
-                )
+                prqittd.nama = "", 
+                CONCAT(prqxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama),
+                CONCAT(prqxxth.kode," - ",prqittd.nama)
             ) as text'
         ])
         ->join('prqxxth','prqxxth.id = prqittd.id_prqxxth','LEFT' )
+        ->join('iimxxmh','iimxxmh.id = prqittd.id_iimxxmh','LEFT' )
         ->where('prqxxth.transaction_state',1)
         ->where('prqxxth.approval_state',9)
         ->where('prqittd.id', $id_prqittd_old, '<>' )

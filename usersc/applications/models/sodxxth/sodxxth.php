@@ -20,17 +20,19 @@
 
 	use 
 		Carbon\Carbon;
-
+	
 	$editor = Editor::inst( $db, 'sodxxth' )
 		->debug(true)
 		->fields(
 			Field::inst( 'sodxxth.id' ),
 			Field::inst( 'sodxxth.id_gcpxxmh' )
 				->set( Field::SET_CREATE )
-				->setValue(1),
+				->setValue($s_id_gcpxxmh),
 			Field::inst( 'sodxxth.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
-				->setValue(1),
+				->setValue($s_id_gbrxxmh),
+			Field::inst( 'sodxxth.id_iitxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sodxxth.id_grlxxmh_customer' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sodxxth.id_fpytmmh' )
@@ -51,8 +53,6 @@
 			Field::inst( 'sodxxth.approval_state' ),
 			Field::inst( 'sodxxth.start_at' ),
 			Field::inst( 'sodxxth.finish_at' ),
-			Field::inst( 'sodxxth.is_defaultprogram' ),
-			Field::inst( 'sodxxth.is_nextprocess' ),
 			Field::inst( 'sodxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
@@ -65,7 +65,8 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
-
+			Field::inst( 'sodxxth.is_defaultprogram' ),
+			Field::inst( 'sodxxth.is_nextprocess' ),
 			Field::inst( 'sodxxth.subtotal' ),
 			Field::inst( 'sodxxth.diskon_jenis' ),
 			Field::inst( 'sodxxth.diskon_value' ),
@@ -81,14 +82,11 @@
 			Field::inst( 'sodxxth.pajak_final' ),
 			Field::inst( 'sodxxth.grand_total' ),
 
-			Field::inst( 'grlxxmh.nama' ),
-			
-			Field::inst( 'activity_log_ml_c.created_by' )
+			Field::inst( 'iitxxmh.nama' ),
+			Field::inst( 'grlxxmh.nama' )
 		)
+		->leftJoin( 'iitxxmh','iitxxmh.id','=','sodxxth.id_iitxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','sodxxth.id_grlxxmh_customer' )
-		->leftJoin( 
-			'activity_log_ml as activity_log_ml_c', 
-			'activity_log_ml_c.id_transaksi = sodxxth.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "sodxxth"', '', '' )
 		->where( 'sodxxth.tanggal', $_POST['start_date'], '>=' )
 		->where( 'sodxxth.tanggal', $_POST['end_date'], '<=' )
 		;
@@ -100,16 +98,7 @@
 			->where( 'sodxxth.transaction_state', -9, '<>');
 	}
 	
-	if($s_id_users > 100){
-		if($s_where_data_permission == 1){
-			$editor->where('activity_log_ml_c.created_by', $s_id_users);
-		}else{
-			
-		}
-	}
-
 	include( "sodxxth_extra.php" );
-
 
 	// BEGIN log
 	$nama_table = 'sodxxth';

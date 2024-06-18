@@ -14,10 +14,9 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-				<!-- start Custom Form Datatables Editor -->
 				<div id="custom_grlxxmh">
 					<div class="panel-body">
 						<div class="row">
@@ -75,15 +74,14 @@
 						</div>
 					</div>
 				</div>
-				<!-- end Custom Form Datatables Editor -->
 				<div class="table-responsive">
                     <table id="tblgrlxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Kota</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="cityName"></th>
                             </tr>
                         </thead>
                     </table>
@@ -92,7 +90,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabgrllomd_1"> Lokasi Kirim</a></li>
@@ -106,10 +104,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_grlxxmh</th>
-										<th>Nama</th>
-										<th>Alamat</th>
-										<th>Kota</th>
-										<th>Provinsi</th>
+										<th data-i18n="name"></th>
+										<th data-i18n="address"></th>
+										<th data-i18n="cityName"></th>
+										<th data-i18n="provinceName"></th>
 									</tr>
 								</thead>
 							</table>
@@ -139,6 +137,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/scuxxmh/fn/scuxxmh_fn.php'; ?>
 
@@ -198,16 +197,16 @@
 					def: 0
 				},	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "grlxxmh.nama"
 				},
 				{
-					label: "Alamat <sup class='text-danger'>*<sup>",
+					label: getTranslation('address') + " <sup class='text-danger'>*<sup>",
 					name: "grlxxmh.alamat",
 					type: "textarea"
 				},
 				{
-					label: "Kota <sup class='text-danger'>*<sup>",
+					label: getTranslation('cityName') + " <sup class='text-danger'>*<sup>",
 					name: "grlxxmh.id_gctxxmh",
 					type: "select2",
 					opts: {
@@ -243,12 +242,12 @@
 					}
 				},
 				{
-					label: "Provinsi <sup class='text-danger'>*<sup>",
+					label: getTranslation('provinceName') + "<sup class='text-danger'>*<sup>",
 					name: "grlxxmh.id_gpvxxmh",
 					type: "readonly"
 				},
 				{
-					label: "Badan Usaha <sup class='text-danger'>*<sup>",
+					label: getTranslation('businessEntityName') + "<sup class='text-danger'>*<sup>",
 					name: "grlxxmh.id_gbuxxmh",
 					type: "select2",
 					opts: {
@@ -284,7 +283,7 @@
 					}
 				},
 				{
-					label: "Syarat Bayar <sup class='text-danger'>*<sup>",
+					label: getTranslation('termOfPayment') + "<sup class='text-danger'>*<sup>",
 					name: "grlxxmh.id_fpytmmh",
 					type: "select2",
 					opts: {
@@ -320,7 +319,7 @@
 					}
 				},
 				{
-					label: "Telepon",
+					label: getTranslation('phone'),
 					name: "grlxxmh.telepon"
 				},
 				{
@@ -332,7 +331,7 @@
 					name: "grlxxmh.fax"
 				},
 				{
-					label: "Email",
+					label: getTranslation('email'),
 					name: "grlxxmh.email"
 				},
 				{
@@ -354,7 +353,7 @@
 					name: "grlxxmh.npwp"
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "grlxxmh.keterangan",
 					type: "textarea"
 				}
@@ -596,16 +595,16 @@
 					type: "hidden"
 				},	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "grllomd.nama"
 				}, 
 				{
-					label: "Alamat <sup class='text-danger'>*<sup>",
+					label: getTranslation('address') + "<sup class='text-danger'>*<sup>",
 					name: "grllomd.alamat",
 					type: "textarea"
 				},
 				{
-					label: "Kota <sup class='text-danger'>*<sup>",
+					label: getTranslation('cityName') + "<sup class='text-danger'>*<sup>",
 					name: "grllomd.id_gctxxmh",
 					type: "select2",
 					opts: {
@@ -641,7 +640,7 @@
 					}
 				},
 				{
-					label: "Provinsi <sup class='text-danger'>*<sup>",
+					label: getTranslation('provinceName'),
 					name: "grllomd.id_gpvxxmh",
 					type: "readonly"
 				}

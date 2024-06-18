@@ -35,17 +35,10 @@
             ->query('select', 'sqtittd')
             ->get([
                 'sqtittd.id as id',
-                'IF(
-                    sqtxxth.kode IS NULL, 
-                    sqtittd.nama,
-                    IF(
-                        sqtittd.nama IS NULL, 
-                        sqtxxth.kode,
-                        CONCAT(sqtxxth.kode," - ",sqtittd.nama)
-                    )
-                ) as text'
+                'CONCAT(sqtxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama) as text'
             ])
             ->join('sqtxxth','sqtxxth.id = sqtittd.id_sqtxxth','LEFT' )
+            ->join('iimxxmh','iimxxmh.id = sqtittd.id_iimxxmh','LEFT' )
             ->where('sqtittd.id', $id_sqtittd_old )            
             ->limit(1)
             ->offset($offset)
@@ -61,19 +54,12 @@
         ->query('select', 'sqtittd')
         ->get([
             'sqtittd.id as id',
-            'IF(
-                sqtxxth.kode IS NULL, 
-                sqtittd.nama,
-                IF(
-                    sqtittd.nama IS NULL, 
-                    sqtxxth.kode,
-                    CONCAT(sqtxxth.kode," - ",sqtittd.nama)
-                )
-            ) as text'
+            'CONCAT(sqtxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama) as text'
         ])
         ->join('sqtxxth','sqtxxth.id = sqtittd.id_sqtxxth','LEFT' )
+        ->join('iimxxmh','iimxxmh.id = sqtittd.id_iimxxmh','LEFT' )
         ->where('sqtxxth.transaction_state',1)
-        ->where('sqtxxth.approval_state',9)
+        // ->where('sqtxxth.approval_state',9)
         ->where('sqtittd.id', $id_sqtittd_old, '<>' )
         ->where('sqtittd.is_nextprocess', null)
         ->where( function ( $r ) {

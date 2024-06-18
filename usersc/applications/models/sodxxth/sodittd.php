@@ -31,6 +31,8 @@
 				Field::inst( 'sodittd.id_sodxxth' ),
 				Field::inst( 'sodittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'sodittd.id_sqtittd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sodittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sodittd.kode' ),
@@ -41,9 +43,19 @@
 				Field::inst( 'sodittd.approval_state' ),
 				Field::inst( 'sodittd.start_at' ),
 				Field::inst( 'sodittd.finish_at' ),
+				Field::inst( 'sodittd.tanggal_dibutuhkan' )
+					->getFormatter( function ( $val, $data, $opts ) {
+						if ($val === '0000-00-00' || $val === null){
+							echo '';
+						}else{
+							return date( 'd M Y', strtotime( $val ) );
+						}
+					} )
+					->setFormatter( 'Format::datetime', array(
+						'from' => 'd M Y',
+						'to' =>   'Y-m-d'
+					) ),
 				Field::inst( 'sodittd.is_defaultprogram' ),
-				Field::inst( 'sodittd.is_nextprocess' ),
-				
 				Field::inst( 'sodittd.jumlah_unit' ),
 				Field::inst( 'sodittd.harga_unit' ),
 				Field::inst( 'sodittd.subtotal' ),
@@ -52,16 +64,17 @@
 				Field::inst( 'sodittd.diskon_persen' ),
 				Field::inst( 'sodittd.diskon_final' ),
 				Field::inst( 'sodittd.dpp' ),
-				
 
 				Field::inst( 'iumxxmh.nama' ),
 				Field::inst( 'iimxxmh.kode' ),
-				Field::inst( 'iimxxmh.nama' )
+				Field::inst( 'iimxxmh.nama' ),
+				Field::inst( 'sqtxxth.kode' )
 			)
 			->leftJoin( 'iumxxmh','iumxxmh.id','=','sodittd.id_iumxxmh_unit' )
+			->leftJoin( 'sqtittd','sqtittd.id','=','sodittd.id_sqtittd' )
+			->leftJoin( 'sqtxxth','sqtxxth.id','=','sqtittd.id_sqtxxth' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','sodittd.id_iimxxmh' )
-			->where('sodittd.id_sodxxth',$_POST['id_sodxxth'])
-			;
+			->where('sodittd.id_sodxxth',$_POST['id_sodxxth']);
 		
 		// do not erase
 		// function show / hide inactive document
