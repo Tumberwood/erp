@@ -155,6 +155,7 @@
 					
 					// generateKonten();
 					$('.submit-button').on('click', function() {
+						var start_at = moment().format("YYYY-MM-DD HH:mm:ss");
 						var insertValue = $(this).attr('data-insert');
 						
 						var statusAuditValue = $(this).closest('.ibox-content').find('input[name^="statusAudit"]:checked').val();
@@ -166,6 +167,7 @@
 								type: 'POST',
 								async: false,
 								data: {
+									start_at: start_at,
 									insertValue: insertValue,
 									statusAuditValue: statusAuditValue,
 								},

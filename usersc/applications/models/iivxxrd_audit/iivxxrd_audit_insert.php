@@ -7,9 +7,11 @@
 	include_once( "../../../../usersc/helpers/datatables_fn_debug.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../../usersc/helpers/hakakses_s_fn.php" );
-	// include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 
     use Carbon\Carbon;
+	use
+        SolusiIndonesia\Utilities\General;
 	
 	use
 		DataTables\Editor,
@@ -25,12 +27,14 @@
 
 	$json['hakakses'] = $hakakses;
 	$s_id_users = $hakakses['s_id_users'];
+	$s_username = $hakakses['s_username'];
 
 	try{
 		$db->transaction();
 
 		// ganti movement type sesuai jenis transaksi
 		//Putaway
+		$start_at = $_POST['start_at'];
 		$insertValue    = $_POST['insertValue']; //concat id_iimxxmh, batch, ED, LPN, location
 		$statusAuditValue    = $_POST['statusAuditValue']; //concat id_iimxxmh, batch, ED, LPN, location
 		// echo $statusAuditValue;
@@ -130,6 +134,7 @@
 						AND CONCAT(a.id_iimxxmh,a.batch_number,a.expired_date,a.wlpxxmh_kode,a.id_wloxxmh) = :insertValue
 			'
 		);
+		$id_audit = $qi_iivxxrd->insertId();
 
 
 		if(!empty($qi_iivxxrd)){
@@ -137,6 +142,9 @@
 			$status_code  = 200;
 			$message      = 'Audit Inventory Berhasil Ditambahkan';
 			$type_message = 'success';
+
+			$finish_at = date("Y-m-d H:i:s");
+			General::logChange( $db , 'iivxxrd_audit', $s_id_users, $s_username, 'CREATE', $id_audit, $insertValue, $start_at , $finish_at );
 		}else{
 			$db->rollback();
 			$status_code  = 500;
