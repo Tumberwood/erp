@@ -49,8 +49,6 @@
                                 wtrittd_details = wtrittd_details + json.data.iimxxmh_nama + '\n';
                                 wtrittd_details = wtrittd_details + parseFloat(json.data.s_jumlah_unit) + ' ';
                                 wtrittd_details = wtrittd_details + json.data.iumxxmh_default_kode + '\n';
-                                wtrittd_details = wtrittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)) + ' ';
-                                wtrittd_details = wtrittd_details + json.data.iumxxmh_default_kode + '\n';
                                 
                                 // edtwtrittd.field('wtrittd_details').val(wtrittd_details);
                                 edtwtrittd.field('wtrittd.keterangan').val(wtrittd_details);
