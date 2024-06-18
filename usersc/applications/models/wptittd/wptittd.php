@@ -21,6 +21,9 @@
 	use 
 		Carbon\Carbon;
 	
+	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
+	
 	$editor = Editor::inst( $db, 'wptittd' )
 		->debug(true)
 		->fields(
@@ -91,7 +94,10 @@
 		)
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wptittd.id_iimxxmh' )
 		->leftJoin( 'iumxxmh','iumxxmh.id','=','wptittd.id_iumxxmh_unit' )
-		->leftJoin( 'wloxxmh','wloxxmh.id','=','wptittd.id_wloxxmh_tujuan' );
+		->leftJoin( 'wloxxmh','wloxxmh.id','=','wptittd.id_wloxxmh_tujuan' )
+		->where( 'DATE(wptittd.start_at)', $start_date, '>=' )
+		->where( 'DATE(wptittd.start_at)', $end_date, '<=' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document

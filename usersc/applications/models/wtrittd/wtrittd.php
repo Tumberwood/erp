@@ -21,6 +21,9 @@
 	use 
 		Carbon\Carbon;
 	
+	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
+
 	$editor = Editor::inst( $db, 'wtrittd' )
 		->debug(true)
 		->fields(
@@ -89,6 +92,8 @@
 		->leftJoin( 'iumxxmh','iumxxmh.id','=','wtrittd.id_iumxxmh_unit' )
 		->leftJoin( 'wloxxmh as tujuan','tujuan.id','=','wtrittd.id_wloxxmh_tujuan' )
 		->leftJoin( 'wloxxmh as asal','asal.id','=','wtrittd.id_wloxxmh_asal' )
+		->where( 'DATE(wtrittd.start_at)', $start_date, '>=' )
+		->where( 'DATE(wtrittd.start_at)', $end_date, '<=' )
 		;
 	
 	// do not erase
