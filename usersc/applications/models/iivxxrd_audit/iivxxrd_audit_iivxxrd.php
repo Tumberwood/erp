@@ -15,15 +15,32 @@
 		DataTables\Editor\Result;
 
 	$where = '';
-	if (isset($_POST['id_wlpxxmh_filter']) && $_POST['id_wlpxxmh_filter'] > 0) {
-		$id_wlpxxmh_filter = $_POST['id_wlpxxmh_filter'];
+	if (isset($_POST['wlpxxmh_filter']) && $_POST['wlpxxmh_filter'] != '') {
+		$qs_lpn = $db
+			->query('select', 'wlpxxmh' )
+			->get(['id'] )
+			->where('kode', $_POST['wlpxxmh_filter'] )
+			->exec();
+		$rs_lpn = $qs_lpn->fetch();
+		
+		$id_wlpxxmh_filter = $rs_lpn['id'];
 		$where = $where . ' AND b.id = '.$id_wlpxxmh_filter;
 	}
 
-	if (isset($_POST['id_wloxxmh_filter']) && $_POST['id_wloxxmh_filter'] > 0) {
-		$id_wloxxmh_filter = $_POST['id_wloxxmh_filter'];
+	if (isset($_POST['wloxxmh_filter']) && $_POST['wloxxmh_filter'] != '') {
+		$qs_loc = $db
+			->query('select', 'wloxxmh' )
+			->get(['id'] )
+			->where('nama', $_POST['wloxxmh_filter'] )
+			->exec();
+		$rs_loc = $qs_loc->fetch();
+		
+		$id_wloxxmh_filter = $rs_loc['id'];
 		$where = $where . ' AND a.id_wloxxmh = '.$id_wloxxmh_filter;
 	}
+
+	// echo $_POST['wloxxmh_filter'];
+	// echo $_POST['wlpxxmh_filter'];
 
 	$qs_iivxxrd = $db
 		->raw()

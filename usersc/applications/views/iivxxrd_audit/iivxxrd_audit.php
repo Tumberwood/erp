@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
+        <div class="ibox" id="iboxfilter">
             <div class="ibox-title">
                 <h5 class="text-navy">Filter</h5>&nbsp
                 <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
@@ -21,15 +21,13 @@
             <div class="ibox-content">
                 <form class="form-horizontal" id="frmFilter">
 					<div class="form-group row">
-						<label class="col-lg-2 col-md-2">LPN</label>
 						<div class="col-lg-4 col-sm-4">
-							<select class="form-control" id="selectLPN" name="selectLPN" multiple="multiple"></select>
+							<input type="text" class="form-control" id="lpnInput" placeholder="LPN">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-lg-2 col-md-2">Location</label>
 						<div class="col-lg-4 col-sm-4">
-							<select class="form-control" id="selectLocation" name="selectLocation" multiple="multiple"></select>
+							<input type="text" class="form-control" id="locationInput" placeholder="Location">
 						</div>
 					</div>
                     <div class="form-group row">
@@ -46,29 +44,6 @@
 
 <div class="row" id="konten">
 </div>
-	
-<!-- begin content here -->
-<!-- <div class="row">
-	<div class="col">
-		<div class="ibox ">
-			<div class="ibox-content">
-				<div class="table-responsive">
-                    <table id="tbliivxxrd_audit" class="table table-striped table-bordered table-hover nowrap" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
-                            </tr>
-                        </thead>
-                    </table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->
 
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
@@ -94,76 +69,11 @@
 		// ------------- default variable, do not erase
 		var edtiivxxrd_audit, tbliivxxrd_audit, show_deleted_iivxxrd_audit = 0, id_iivxxrd_audit;
 		// ------------- end of default variable
-		var id_wlpxxmh_filter = 0;
-		var id_wloxxmh_filter = 0;
+		var wlpxxmh_filter = '0';
+		var wloxxmh_filter = '0';
 
 		// get tableRelation
 		tableRelation('iivxxrd_audit');
-
-		$("#selectLPN").select2({
-			placeholder : "Select",
-			allowClear: true,
-			multiple: false,
-			ajax: {
-				url: "../../models/iivxxrd_audit/wlpxxmh_fn_opt_iiv.php",
-				dataType: 'json',
-				data: function (params) {
-					var query = {
-						id_wlpxxmh_old: id_wlpxxmh_filter,
-						search: params.term || '',
-						page: params.page || 1
-					}
-						return query;
-				},
-				processResults: function (data, params) {
-					return {
-						results: data.results,
-						pagination: {
-							more: true
-						}
-					};
-				},
-				cache: true,
-				minimumInputLength: 1,
-				maximum: 10,
-				delay: 500,
-				maximumSelectionLength: 5,
-				minimumResultsForSearch: -1,
-			}
-		});
-		
-		$("#selectLocation").select2({
-			placeholder : "Select",
-			allowClear: true,
-			multiple: false,
-			ajax: {
-				url: "../../models/iivxxrd_audit/wloxxmh_fn_opt_iiv.php",
-				dataType: 'json',
-				data: function (params) {
-					var query = {
-						id_wloxxmh_old: id_wloxxmh_filter,
-						search: params.term || '',
-						page: params.page || 1
-					}
-						return query;
-				},
-				processResults: function (data, params) {
-					return {
-						results: data.results,
-						pagination: {
-							more: true
-						}
-					};
-				},
-				cache: true,
-				minimumInputLength: 1,
-				maximum: 10,
-				delay: 500,
-				maximumSelectionLength: 5,
-				minimumResultsForSearch: -1,
-			}
-		});
-		
 		
 		function generateKonten() {
 			$.ajax( {
@@ -172,8 +82,8 @@
 				type: 'POST',
 				async: false,
 				data: {
-					id_wlpxxmh_filter: id_wlpxxmh_filter,
-					id_wloxxmh_filter: id_wloxxmh_filter,
+					wlpxxmh_filter: wlpxxmh_filter,
+					wloxxmh_filter: wloxxmh_filter,
 				},
 				success: function ( json ) {
 					console.log(json.data);
@@ -217,21 +127,9 @@
 						genKonten = genKonten+ `
 							<div class="${class_col}">
 								<div class="ibox">
-									<div class="ibox-title">
-										<h5>${wloxxmh_nama}<br>(${kontenData.wlpxxmh_kode})</h5>
-										<div class="ibox-tools">
-											<a class="collapse-link">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a class="fullscreen-link">
-												<i class="fa fa-expand"></i>
-											</a>
-											<a class="close-link">
-												<i class="fa fa-times"></i>
-											</a>
-										</div>
-									</div>
 									<div class="ibox-content">
+										<h3>${wloxxmh_nama} (${kontenData.wlpxxmh_kode})</h3>
+										<br>
 										<p>
 											<b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
 										</p>
@@ -239,7 +137,6 @@
 											Batch Number : ${kontenData.batch_number}
 											<br>
 											Expired Date : ${kontenData.expired_date}
-											<br>
 											<br>
 											
 											Jumlah Terkecil : ${kontenData.jumlah_terkecil.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
@@ -279,10 +176,10 @@
 									}
 								}
 							} );
-							if (status_code == 200) {
-								$(this).hide();
-								$('#radio'+insertValue).hide();
-							}
+							// if (status_code == 200) {
+							// 	$(this).hide();
+							// 	$('#radio'+insertValue).hide();
+							// }
 						} else {
 							alert('Please select a Status Audit value.');
 						}
@@ -293,101 +190,6 @@
 		}
 
 		$(document).ready(function() {
-
-			// BEGIN iivxxrd_audit
-			edtiivxxrd_audit = new $.fn.dataTable.Editor( {
-				ajax: {
-					url: "../../models/iivxxrd_audit/iivxxrd_audit.php",
-					type: 'POST',
-					data: function (d){
-						d.id_wlpxxmh_filter = id_wlpxxmh_filter;
-						d.id_wloxxmh_filter = id_wloxxmh_filter;
-					},
-				},
-				fields: [ 
-					{
-						label: "iivxxrd_audit.start_at",
-						name: "iivxxrd_audit.start_at",
-						type: "hidden"
-					},	
-					{
-						label: "iivxxrd_audit.finish_at",
-						name: "iivxxrd_audit.finish_at",
-						type: "hidden"
-					},	
-					{
-						label: "nama_tabel",
-						name: "nama_tabel",
-						def: "iivxxrd_audit",
-						type: "hidden"
-					},	
-					{
-						label: "iivxxrd_audit.transaction_state",
-						name: "iivxxrd_audit.transaction_state",
-                        type: "hidden",
-						def: 0
-					},
-					{
-						label: "Status Audit",
-						name: "iivxxrd_audit.status_audit",
-						type: "radio",
-						options: [
-							{ "label": "OK", "value": 1 },
-							{ "label": "Tidak OK", "value": 0 }
-						]
-					},
-					{
-						label: "Keterangan",
-						name: "iivxxrd_audit.keterangan",
-						type: "textarea"
-					}
-				]
-			} );
-
-			edtiivxxrd_audit.on( 'preOpen', function( e, mode, action ) {
-				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiivxxrd_audit.field('iivxxrd_audit.start_at').val(start_at);
-				console.log(buttonInsert);
-				
-				if(action == 'create'){
-					tbliivxxrd_audit.rows().deselect();
-				}
-			});
-
-			edtiivxxrd_audit.on("open", function (e, mode, action) {
-				$(".modal-dialog").addClass("modal-lg");
-
-				// enable disable tombol Save & Confirm
-				edtFormButtonSaveConfirm();
-			});
-
-            edtiivxxrd_audit.on( 'preSubmit', function (e, data, action) {
-				if(action != 'remove'){
-
-					status_audit = edtiivxxrd_audit.field('iivxxrd_audit.status_audit').val();
-
-					validasiRequired(
-						edtiivxxrd_audit,
-						'iivxxrd_audit',
-						{
-							'status_audit': status_audit,
-						}
-					);
-				}
-				
-				if ( edtiivxxrd_audit.inError() ) {
-					return false;
-				}
-			});
-			
-			edtiivxxrd_audit.on('initSubmit', function(e, action) {
-				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-				edtiivxxrd_audit.field('iivxxrd_audit.finish_at').val(finish_at);
-			});
-
-			edtiivxxrd_audit.on( 'close', function () {
-				edtiivxxrd_audit.enable();
-			} );
 			
 			$("#frmFilter").submit(function(e) {
 				e.preventDefault();
@@ -397,10 +199,11 @@
 				},
 				submitHandler: function(frmFilter) {
 					
-					id_wlpxxmh_filter  = $('#selectLPN').val();
-					id_wloxxmh_filter  = $('#selectLocation').val();
-					if (id_wlpxxmh_filter > 0 || id_wloxxmh_filter > 0) {
+					wlpxxmh_filter  = $('#lpnInput').val();
+					wloxxmh_filter  = $('#locationInput').val();
+					if (wlpxxmh_filter != '' || wloxxmh_filter != '') {
 						generateKonten();
+						$('#iboxfilter').addClass('collapsed');
 					} else {
 						alert('harus isi salah satu');
 						return false;
