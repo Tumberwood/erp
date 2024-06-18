@@ -144,8 +144,8 @@ function siVarResetD(tbl_name){
     window['id_' + tbl_name]   = 0;
     id_transaksi_d             = 0;
     id_transaksi_log           = 0;
-    transaction_state_d         = 0;
-    is_nextprocess_d             = 0;
+    transaction_state_d        = 0;
+    is_nextprocess_d           = 0;
 
 }
 
@@ -445,6 +445,7 @@ function autofillField(tbl_name, id_transaksi, fields_name){
 }
 
 /**
+ * hitungSubtotalDetail
  * Digunakan untuk menghitung nilai subtotal pada table detail
  * Rumus:
  * subtotal = jumlah_unit * harga_unit
@@ -466,6 +467,7 @@ function hitungSubtotalDetail(edt, tabel){
 }
 
 /**
+ * hitungSubtotalHeader
  * Digunakan untuk menghitung nilai subtotal pada header
  * Subtotal header dihitung dari SUM subtotal pada detail
  * Subtotal header akan diolah lagi dengan data-data header:
@@ -492,6 +494,7 @@ function hitungSubtotalHeader(id_transaksi_h, tabel_detail, tabel_header){
 }  
 
 /**
+ * hitungDiskon
  * Digunakan untuk menghitung diskon di detail atau di header
  * Ada 2 macam diskon, dalam persen dan dalam value
  * jenis_diskon:
@@ -525,6 +528,7 @@ function hitungDiskon(edt, tabel){
 }
 
 /**
+ * hitungHeaderDetail
  * Digunakan untuk menghitung nilai-nilai di header, saat transaksi detail di submit
  * Dipanggil saat postSubmit editor detail
  * @param {*} id_transaksi_h
@@ -548,6 +552,7 @@ function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
 }
 
 /**
+ * hitungHeader
  * Digunakan untuk menghitung nilai-nilai di header
  * @param {*} edt 
  * @param {*} tabel_nama 
@@ -629,6 +634,7 @@ function hitungHeader(edt, tabel_nama, id_iitxxmh) {
 }
 
 /**
+ * hitungDpp
  * Digunakan untuk menghitung nilai dpp pada tabel detail
  * dpp = subtotal - diskon_final
  * @param {*} edt 
@@ -727,16 +733,6 @@ function hitungPajak(edt, tabel, id_iitxxmh) {
         edt.field(tabel+'.grand_total').val(dpp);
         edt.field(tabel+'.pajak_in_ex').hide();
     }
-}
-
-/**
- * 
- * @param {Object} edt 
- * @param {Object} tbl 
- * @param {Number} id_transaksi 
- */
-function hitungOutstanding(edt, tabel, id_transaksi) {
-    
 }
 
 /**
