@@ -137,7 +137,7 @@
 				{ data: "iimxxmh_nama" },
 				{ 
 					data: "jumlah_terkecil", //4
-					...renderNumber(3)
+					...renderNumber(0)
 				},
 				{ data: "iumxxmh_terkecil_kode" },//5
 				{ 
