@@ -60,7 +60,7 @@
             'iumxxmh.kode as text'
         ])
         ->join('iumxxmh','iumxxmh.id = iimummd.id_iumxxmh','LEFT')
-        ->where('iimummd.transaction_state',1)
+        ->where('iimummd.transaction_state',-9, '<>')
         ->where('iumxxmh.transaction_state',1)
         ->where('iimummd.id_iimxxmh', $id_iimxxmh)
         ->where('iumxxmh.id', $id_iumxxmh_unit_old, '<>' )
