@@ -334,7 +334,7 @@
 				edtwtrittd.field('wtrittd.is_ikut_baru').hide();
 				// edtwtrittd.field('wtrittd.is_ikut_baru').val('');
 
-				edtwtrittd.field('wloxxmh_nama_scan').val('');
+				// edtwtrittd.field('wloxxmh_nama_scan').val('');
 				edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val('');
 			} else {
 				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').show();
