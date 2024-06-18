@@ -39,16 +39,31 @@
 			Field::inst( 'iivxxrd_audit.approval_state' ),
 			Field::inst( 'iivxxrd_audit.start_at' ),
 			Field::inst( 'iivxxrd_audit.finish_at' ),
+			Field::inst( 'iivxxrd_audit.iwhxxmh_kode' ),
+			Field::inst( 'iivxxrd_audit.wloxxmh_nama' ),
+			Field::inst( 'iivxxrd_audit.iimxxmh_kode' ),
+			Field::inst( 'iivxxrd_audit.iimxxmh_nama' ),
+			Field::inst( 'iivxxrd_audit.jumlah_terkecil' ),
+			Field::inst( 'iivxxrd_audit.iumxxmh_terkecil_kode' ),
+			Field::inst( 'iivxxrd_audit.jumlah_default' ),
+			Field::inst( 'iivxxrd_audit.iumxxmh_default_kode' ),
+			Field::inst( 'iivxxrd_audit.wlpxxmh_kode' ),
+			Field::inst( 'iivxxrd_audit.batch_number' ),
+			Field::inst( 'iivxxrd_audit.expired_date' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '0000-00-00' || $val === null){
+						echo '';
+					}else{
+						return date( 'd M Y', strtotime( $val ) );
+					}
+				} )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y',
+					'to' =>   'Y-m-d'
+				) ),
 			Field::inst( 'iivxxrd_audit.status_audit' ),
 			Field::inst( 'iivxxrd_audit.is_defaultprogram' )
 		);
-	
-	if($_POST['start_date'] != ''){
-		$editor->where( 'iivxxrd_audit.tanggal',$_POST['start_date'], '>=' );
-	}
-	if($_POST['end_date'] != ''){
-		$editor->where( 'iivxxrd_audit.tanggal', $_POST['end_date'], '<=' );
-	}
 
 	// do not erase
 	// function show / hide inactive document

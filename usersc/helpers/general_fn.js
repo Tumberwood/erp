@@ -288,10 +288,7 @@ function renderYaTidak() {
  */
 
 function renderNumber(digit, prefix, suffix) {
-    if (digit == null) {
-        digit = 0;
-    }
-
+    
     if (prefix == null) {
         prefix = '';
     }
@@ -299,11 +296,23 @@ function renderNumber(digit, prefix, suffix) {
     if (suffix == null) {
         suffix = '';
     }
-
-    return {
-        render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
-        class: "text-right"
-    };
+    
+    if (digit == null) {
+        //ini ketika digit tidak diisi atau cuma ...renderNumber()
+        //maka render pakai yang ini,
+        //fungsinya untuk menghapus angka 0 dibelakang koma, seperti 24,000. Maka akan menjadi 24
+        return {
+            render: function (data){
+                return data.toString().replace(/\.?0+$/, '');
+            },
+            class: "text-right"
+        };
+    } else {
+        return {
+            render: $.fn.dataTable.render.number(',', '.', digit, prefix, suffix),
+            class: "text-right"
+        };
+    }
 }
 
 /**
