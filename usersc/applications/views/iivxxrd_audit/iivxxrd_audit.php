@@ -105,13 +105,14 @@
 						// if (is_audit == 0) {
 							btnAudit = `<div class="form-group" id="radio${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">
 											<label>Status Audit:</label>
-											<div class="form-check">
+											<br>
+											<div class="form-check form-check-inline justify-content-end">
 												<input class="form-check-input" type="radio" name="statusAudit${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}" id="option1${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}" value="1">
 												<label class="form-check-label" for="option1${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">
 													OK
 												</label>
 											</div>
-											<div class="form-check">
+											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio" name="statusAudit${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}" id="option0${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}" value="0">
 												<label class="form-check-label" for="option0${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">
 													Tidak OK
