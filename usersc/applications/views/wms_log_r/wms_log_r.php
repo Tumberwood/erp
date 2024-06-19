@@ -77,7 +77,6 @@
 						d.show_deleted_wms_log_r = show_deleted_wms_log_r;
 					}
 				},
-				order: [[ 1, "asc" ]],
 				columnDefs:[
 					{
 						searchPanes:{
