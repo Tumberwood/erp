@@ -502,11 +502,9 @@
 
 		edtiimxxmh.dependent( 'iimxxmh.id_iitxxmh', function ( val, data, callback ) {
 			if (val == 1) {
-				edtiimxxmh.field('iimxxmh.id_iicxxmh').label("Item Category <sup class='text-danger'>*<sup>");
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
 			} else {
-				edtiimxxmh.field('iimxxmh.id_iicxxmh').label("Item Category");
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
 			}
@@ -525,6 +523,7 @@
 				kode = edtiimxxmh.field('iimxxmh.kode').val();
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
 				id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
+				id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
 
 				validasiRequired(
 					edtiimxxmh,
@@ -532,12 +531,12 @@
 					{
 						'kode': kode,
 						'nama': nama,
-						'id_iitxxmh': id_iitxxmh
+						'id_iitxxmh': id_iitxxmh,
+						'id_iicxxmh': id_iicxxmh
 					}
 				);
 
 				if (id_iitxxmh == 1) {
-					id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
 					id_iigxxmh = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
 					id_iibxxmh = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
 					
@@ -545,7 +544,6 @@
 						edtiimxxmh, 
 						"iimxxmh", 
 						{
-							"id_iicxxmh": id_iicxxmh, 
 							"id_iigxxmh": id_iigxxmh, 
 							"id_iibxxmh": id_iibxxmh
 						}

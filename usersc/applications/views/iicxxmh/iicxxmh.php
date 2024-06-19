@@ -17,12 +17,13 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
+
 				<div class="table-responsive">
                     <table id="tbliicxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
-								<th>ID</th>
-								<th data-i18n="code"></th>
+                                <th>ID</th>
+                                <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
                                 <th data-i18n="notes"></th>
                                 <th data-i18n="state"></th>
@@ -48,8 +49,8 @@
 									<tr>
 										<th>ID</th>
 										<th>id_iicxxmh</th>
-										<th>Kode</th>
-										<th>Nama</th>
+										<th>Persediaan</th>
+										<th>Biaya</th>
 									</tr>
 								</thead>
 							</table>
@@ -91,7 +92,7 @@
 	var edtiicxxmh_aakxxmh, tbliicxxmh_aakxxmh, show_deleted_iicxxmh_aakxxmh = 0, id_iicxxmh_aakxxmh;
 	// ------------- end of default variable
 
-	var id_aakxxmh_persediaan_old  = 0;
+	var id_aakxxmh_persediaan_old  = 0, id_aakxxmh_biaya_old = 0;
 
 	// get tableRelation
 	tableRelation('iicxxmh');
@@ -107,6 +108,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_iicxxmh = show_deleted_iicxxmh;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			table: "#tbliicxxmh",
@@ -219,14 +222,34 @@
 		} );
 		
 		tbliicxxmh = $('#tbliicxxmh').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-4',
+			},
 			ajax: {
 				url: "../../models/iicxxmh/iicxxmh.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_iicxxmh = show_deleted_iicxxmh;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 1, "desc" ]],
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [1,2,3]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: '_all'
+				}
+			],
 			columns: [
 				{ data: "iicxxmh.id",visible:false },
 				{ data: "iicxxmh.kode" },
@@ -238,6 +261,7 @@
 				}
 			],
 			buttons: [
+
 				// BEGIN breaking generate button
 				<?php
 					$id_table    = 'id_iicxxmh';
@@ -247,13 +271,14 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= [];
-					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h','view', 'log','noaction'];
+					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
 			],
 			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
 				if ( data.iicxxmh.transaction_state == -9 ) {
@@ -263,6 +288,9 @@
 				}
 			}
 		} );
+
+		tbliicxxmh.searchPanes.container().appendTo('#spiicxxmh');
+		tbliicxxmh.searchBuilder.container().appendTo( '#sbiicxxmh' );
 		
 		tbliicxxmh.on( 'init', function () {
 			// atur hak akses
@@ -370,6 +398,42 @@
 						},
 					}
 				},
+				{
+					label: "Akun Biaya",
+					name: "iicxxmh_aakxxmh.id_aakxxmh_biaya",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_biaya.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_biaya_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 			
@@ -393,14 +457,12 @@
 			if(action != 'remove'){
 
 				id_aakxxmh_persediaan = edtiicxxmh_aakxxmh.field('iicxxmh_aakxxmh.id_aakxxmh_persediaan').val();
+				id_aakxxmh_biaya = edtiicxxmh_aakxxmh.field('iicxxmh_aakxxmh.id_aakxxmh_biaya').val();
 
-				validasiRequired(
-					edtiicxxmh_aakxxmh,
-					'iicxxmh_aakxxmh',
-					{
-						'id_aakxxmh_persediaan': id_aakxxmh_persediaan
-					}
-				);
+				if( (!id_aakxxmh_persediaan || id_aakxxmh_persediaan == '') && (!id_aakxxmh_biaya || id_aakxxmh_biaya == '') ){
+					edtiicxxmh_aakxxmh.field('iicxxmh_aakxxmh.id_aakxxmh_persediaan').error( 'Wajib diisi salah satu!' );
+					edtiicxxmh_aakxxmh.field('iicxxmh_aakxxmh.id_aakxxmh_biaya').error( 'Wajib diisi salah satu!' );
+				}
 
 			}
 			
@@ -415,9 +477,7 @@
 		});
 			
 		edtiicxxmh_aakxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tbliicxxmh.ajax.reload(null, false);
 		} );
 
 		edtiicxxmh_aakxxmh.on( 'close', function () {
@@ -437,8 +497,8 @@
 			columns: [
 				{ data: "iicxxmh_aakxxmh.id",visible:false },
 				{ data: "iicxxmh_aakxxmh.id_iicxxmh",visible:false },
-				{ data: "aakxxmh_persediaan.kode" },
-				{ data: "aakxxmh_persediaan.nama" }
+				{ data: "aakxxmh_persediaan" },
+				{ data: "aakxxmh_biaya" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -466,20 +526,13 @@
 			// atur hak akses
 			CekDrawDetailHD( tbliicxxmh_aakxxmh, 1 );
 			CekDrawDetailHDFinal(tbliicxxmh);
-			c_rows = tbliicxxmh_aakxxmh.rows().count();
-			
-			if(c_rows == 1){
-				tbliicxxmh_aakxxmh.button( 'btnCreate:name' ).disable();
-			}else{
-				tbliicxxmh_aakxxmh.button( 'btnCreate:name' ).enable();
-			}
-			
 		} );
 
 		tbliicxxmh_aakxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSetD('iicxxmh_aakxxmh');
 			id_aakxxmh_persediaan_old  = iicxxmh_aakxxmh_data.id_aakxxmh_persediaan;
+			id_aakxxmh_biaya_old  = iicxxmh_aakxxmh_data.id_aakxxmh_biaya;
 			
 			// atur hak akses
 			CekSelectDetailHD( tbliicxxmh_aakxxmh );
@@ -488,12 +541,32 @@
 		tbliicxxmh_aakxxmh.on( 'deselect', function() {
 			// reset variable standar framework
 			siVarResetD('iicxxmh_aakxxmh');
-			id_aakxxmh_persediaan_old  = 0;
+			id_aakxxmh_persediaan_old  = 0, id_aakxxmh_biaya_old  = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tbliicxxmh_aakxxmh );
 		} );
 		// END iicxxmh_aakxxmh
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tbliicxxmh.rows().deselect();
+				tbliicxxmh.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFiicxxmh').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
+
 	} );// end of document.ready
 	
 </script>

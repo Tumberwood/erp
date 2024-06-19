@@ -55,6 +55,7 @@
                                 <th>ID</th>
                                 <th>Tanggal</th>
                                 <th>Kode</th>
+                                <th>Department</th>
                                 <th>Account Code</th>
                                 <th>Account Name</th>
                                 <th>TX</th>
@@ -124,7 +125,7 @@
 	var edtigiittd, tbligiittd, show_deleted_igiittd = 0, id_igiittd;
 	// ------------- end of default variable
 
-	var id_aakxxmh_old = 0;
+	var id_hodxxmh_old = 0, id_aakxxmh_old = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0;
 
 	// get tableRelation
@@ -186,6 +187,42 @@
 						firstDay: 0
 					},
 					format: 'DD MMM YYYY'
+				},
+				{
+					label: "Department",
+					name: "igixxth.id_hodxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hodxxmh/hodxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hodxxmh_old: id_hodxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
 				},
 				{
 					label: "Account",
@@ -316,6 +353,7 @@
 				{ data: "igixxth.id",visible:false },
 				{ data: "igixxth.tanggal" },
 				{ data: "igixxth.kode" },
+				{ data: "hodxxmh.nama" },
 				{ data: "aakxxmh.kode" },
 				{ data: "aakxxmh.nama" },
 				{ 
@@ -364,6 +402,7 @@
 		tbligixxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('igixxth');
+			id_hodxxmh_old = igixxth_data.id_hodxxmh;
 			id_aakxxmh_old = igixxth_data.id_aakxxmh;
 			
 			// atur hak akses
@@ -375,7 +414,7 @@
 		tbligixxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('igixxth');
-			id_aakxxmh_old = 0;
+			id_hodxxmh_old = 0, id_aakxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tbligiittd];

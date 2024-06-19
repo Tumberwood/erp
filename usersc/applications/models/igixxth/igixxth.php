@@ -33,6 +33,8 @@
 				->setValue($s_id_gbrxxmh),
 			Field::inst( 'igixxth.id_aakxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'igixxth.id_hodxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'igixxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -61,9 +63,13 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
+
+			Field::inst( 'hodxxmh.nama' ),
+			
 			Field::inst( 'aakxxmh.kode' ),
 			Field::inst( 'aakxxmh.nama' )
 		)
+		->leftJoin( 'hodxxmh','hodxxmh.id','=','igixxth.id_hodxxmh' )
 		->leftJoin( 'aakxxmh','aakxxmh.id','=','igixxth.id_aakxxmh' );
 	
 	if($_POST['start_date'] != ''){
