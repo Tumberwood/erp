@@ -145,6 +145,7 @@
 
 			$finish_at = date("Y-m-d H:i:s");
 			General::logChange( $db , 'iivxxrd_audit', $s_id_users, $s_username, 'CREATE', $id_audit, $insertValue, $start_at , $finish_at );
+			General::logChange( $db , 'iivxxrd_audit', $s_id_users, $s_username, 'CONFIRM', $id_audit, $insertValue, $start_at , $finish_at );
 		}else{
 			$db->rollback();
 			$status_code  = 500;

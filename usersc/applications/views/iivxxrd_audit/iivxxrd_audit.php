@@ -71,6 +71,7 @@
 		// ------------- end of default variable
 		var wlpxxmh_filter = '0';
 		var wloxxmh_filter = '0';
+		var start_at = '';
 
 		// get tableRelation
 		tableRelation('iivxxrd_audit');
@@ -156,7 +157,6 @@
 					
 					// generateKonten();
 					$('.submit-button').on('click', function() {
-						var start_at = moment().format("YYYY-MM-DD HH:mm:ss");
 						var insertValue = $(this).attr('data-insert');
 						
 						var statusAuditValue = $(this).closest('.ibox-content').find('input[name^="statusAudit"]:checked').val();
@@ -207,6 +207,9 @@
 					if (wlpxxmh_filter != '' || wloxxmh_filter != '') {
 						generateKonten();
 						$('#iboxfilter').addClass('collapsed');
+
+						//start at itu saat submit filter
+						start_at = moment().format("YYYY-MM-DD HH:mm:ss");
 					} else {
 						alert('harus isi salah satu');
 						return false;
