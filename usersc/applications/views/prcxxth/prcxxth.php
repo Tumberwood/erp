@@ -53,9 +53,6 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.tanggal"></editor-field>
 							</div>
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth.id_iwhxxmh"></editor-field>
-							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -63,6 +60,11 @@
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.id_podxxth"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth.id_iwhxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -157,7 +159,7 @@
 	var edtprcittd, tblprcittd, show_deleted_prcittd = 0, id_prcittd;
 	// ------------- end of default variable
 
-	var id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_podxxth_old = 0, id_iwhxxmh_old = 0, id_podxxth = 0;
+	var id_iitxxmh = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_podxxth_old = 0, id_iwhxxmh_old = 0, id_podxxth = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0;
 
 	// get tableRelation
@@ -178,7 +180,7 @@
 					d.end_date = end_date;
 				}
 			},
-			template: "#frmprcxxth",
+			// template: "#frmprcxxth",
 			table: "#tblprcxxth",
 			fields: [ 
 				{
@@ -307,7 +309,7 @@
 				{
 					label: "prcxxth.id_iitxxmh",
 					name: "prcxxth.id_iitxxmh",
-					type: "hidden"
+					// type: "hidden"
 				},
 
 				{
@@ -376,7 +378,7 @@
 					name: "prcxxth.referensi_nomor"
 				},
 				{
-					label: "Supir <sup class='text-danger'>*<sup>",
+					label: "Supir",
 					name: "prcxxth.supir_nama"
 				},
 				{
@@ -406,27 +408,57 @@
 			id_grlxxmh_supplier = val;
 			return {}
 		}, {event: 'keyup change'});
+
+		edtprcxxth.dependent( 'prcxxth.id_podxxth', function ( val, data, callback ) {
+			id_podxxth = val;
+			autofillField('podxxth', id_podxxth, 'id_iitxxmh');
+			id_iitxxmh = autofillData.id_iitxxmh;
+			edtprcxxth.field('prcxxth.id_iitxxmh').val(id_iitxxmh);
+
+			// jika non inventory, tidak perlu isi warehouse
+			if(id_iitxxmh == 2 || id_iitxxmh == 3){
+				edtprcxxth.field('prcxxth.id_iwhxxmh').hide();
+				edtprcxxth.field('prcxxth.referensi_nomor').hide();
+				edtprcxxth.field('prcxxth.supir_nama').hide();
+			}else{
+				edtprcxxth.field('prcxxth.id_iwhxxmh').show();
+				edtprcxxth.field('prcxxth.referensi_nomor').show();
+				edtprcxxth.field('prcxxth.supir_nama').show();
+			}
+			
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtprcxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				tanggal         = edtprcxxth.field('prcxxth.tanggal').val();
-				id_iwhxxmh      = edtprcxxth.field('prcxxth.id_iwhxxmh').val();
-				id_grlxxmh_supplier      = edtprcxxth.field('prcxxth.id_grlxxmh_supplier').val();
-				id_podxxth      = edtprcxxth.field('prcxxth.id_podxxth').val();
-				referensi_nomor = edtprcxxth.field('prcxxth.referensi_nomor').val();
+				tanggal             = edtprcxxth.field('prcxxth.tanggal').val();
+				id_iwhxxmh          = edtprcxxth.field('prcxxth.id_iwhxxmh').val();
+				id_grlxxmh_supplier = edtprcxxth.field('prcxxth.id_grlxxmh_supplier').val();
+				id_podxxth          = edtprcxxth.field('prcxxth.id_podxxth').val();
+				referensi_nomor     = edtprcxxth.field('prcxxth.referensi_nomor').val();
 
 				validasiRequired(
 					edtprcxxth, 
 					"prcxxth", 
 					{
 						"tanggal": tanggal, 
-						"id_iwhxxmh": id_iwhxxmh, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
-						"id_podxxth": id_podxxth,
-						"referensi_nomor": referensi_nomor
+						"id_podxxth": id_podxxth
 					}
 				);
+
+				if(id_iitxxmh == 1 ){
+					validasiRequired(
+						edtprcxxth, 
+						"prcxxth", 
+						{
+							"id_iwhxxmh": id_iwhxxmh,
+							"referensi_nomor": referensi_nomor
+						}
+					);
+				
+				}
 
 			}
 			
