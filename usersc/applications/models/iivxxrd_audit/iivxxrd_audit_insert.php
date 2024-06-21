@@ -98,107 +98,200 @@
 
 		// ganti movement type sesuai jenis transaksi
 		//Putaway
+		$is_iiv_valid = $_POST['is_iiv_valid'];
 		$start_at = $_POST['start_at'];
 		$insertValue    = $_POST['insertValue']; //concat id_iimxxmh, batch, ED, LPN, location
 		$statusAuditValue    = $_POST['statusAuditValue']; //concat id_iimxxmh, batch, ED, LPN, location
 		// echo $statusAuditValue;
 		// echo $insertValue;
 
-		//Lokasi Tujuan diminuskan
-		$qi_iivxxrd = $db
-			->raw()
-			->bind(':statusAuditValue', $statusAuditValue)
-			->bind(':insertValue', $insertValue)
-			->bind(':s_id_users', $s_id_users)
-			->exec('INSERT INTO iivxxrd_audit (
-						transaction_state,
-						id_gcpxxmh,
-						id_gbrxxmh,
-						id_iwhxxmh,
-						id_wloctmh,
-						id_wloxxmh,
-						id_iimxxmh,
-						id_iumxxmh_unit,
-						id_iumxxmh_terkecil,
-						id_iumxxmh_default,
-						keterangan,
-						created_by,
-						gcpxxmh_kode,
-						gcpxxmh_nama,
-						gbrxxmh_kode,
-						gbrxxmh_nama,
-						iwhxxmh_kode,
-						iwhxxmh_nama,
-						wloxxmh_kode,
-						wloxxmh_nama,
-						iimxxmh_kode,
-						iimxxmh_nama,
-						iumxxmh_unit_kode,
-						iumxxmh_unit_nama,
-						iumxxmh_terkecil_kode,
-						iumxxmh_terkecil_nama,
-						iumxxmh_default_kode,
-						iumxxmh_default_nama,
-						jumlah_unit,
-						jumlah_konversi,
-						jumlah_terkecil,
-						jumlah_default,
-						wlpxxmh_kode,
-						expired_date,
-						batch_number,
-						status_audit
-					)
-					SELECT
-						1,
-						id_gcpxxmh,
-						id_gbrxxmh,
-						id_iwhxxmh,
-						id_wloctmh,
-						id_wloxxmh,
-						id_iimxxmh,
-						id_iumxxmh_unit,
-						id_iumxxmh_terkecil,
-						id_iumxxmh_default,
-						a.keterangan,
-						:s_id_users,
-						gcpxxmh_kode,
-						gcpxxmh_nama,
-						gbrxxmh_kode,
-						gbrxxmh_nama,
-						iwhxxmh_kode,
-						iwhxxmh_nama,
-						wloxxmh_kode,
-						wloxxmh_nama,
-						iimxxmh_kode,
-						iimxxmh_nama,
-						iumxxmh_unit_kode,
-						iumxxmh_unit_nama,
-						iumxxmh_terkecil_kode,
-						iumxxmh_terkecil_nama,
-						iumxxmh_default_kode,
-						iumxxmh_default_nama,
-						SUM(a.jumlah_unit) jumlah_unit,
-						jumlah_konversi,
-						SUM(a.jumlah_terkecil) jumlah_terkecil,
-						SUM(a.jumlah_default) jumlah_default,
-						a.wlpxxmh_kode,
-						expired_date,
-						batch_number,
-						:statusAuditValue
-					FROM iivxxrd a
-					LEFT JOIN wlpxxmh b ON b.kode = a.wlpxxmh_kode
-					WHERE a.is_fisik = 1
-					GROUP BY 
-						id_gbrxxmh, 
-						id_iwhxxmh,
-						id_iimxxmh,
-						id_wloxxmh,
-						wlpxxmh_kode
-					HAVING jumlah_terkecil > 0 
-						AND CONCAT(a.id_iimxxmh,a.batch_number,a.expired_date,a.wlpxxmh_kode,a.id_wloxxmh) = :insertValue
-			'
-		);
-		$id_audit = $qi_iivxxrd->insertId();
+		if ($is_iiv_valid == 1) {
+			//Lokasi Tujuan diminuskan
+			$qi_iivxxrd = $db
+				->raw()
+				->bind(':statusAuditValue', $statusAuditValue)
+				->bind(':insertValue', $insertValue)
+				->bind(':s_id_users', $s_id_users)
+				->exec('INSERT INTO iivxxrd_audit (
+							transaction_state,
+							id_gcpxxmh,
+							id_gbrxxmh,
+							id_iwhxxmh,
+							id_wloctmh,
+							id_wloxxmh,
+							id_iimxxmh,
+							id_iumxxmh_unit,
+							id_iumxxmh_terkecil,
+							id_iumxxmh_default,
+							keterangan,
+							created_by,
+							gcpxxmh_kode,
+							gcpxxmh_nama,
+							gbrxxmh_kode,
+							gbrxxmh_nama,
+							iwhxxmh_kode,
+							iwhxxmh_nama,
+							wloxxmh_kode,
+							wloxxmh_nama,
+							iimxxmh_kode,
+							iimxxmh_nama,
+							iumxxmh_unit_kode,
+							iumxxmh_unit_nama,
+							iumxxmh_terkecil_kode,
+							iumxxmh_terkecil_nama,
+							iumxxmh_default_kode,
+							iumxxmh_default_nama,
+							jumlah_unit,
+							jumlah_konversi,
+							jumlah_terkecil,
+							jumlah_default,
+							wlpxxmh_kode,
+							expired_date,
+							batch_number,
+							status_audit
+						)
+						SELECT
+							1,
+							id_gcpxxmh,
+							id_gbrxxmh,
+							id_iwhxxmh,
+							id_wloctmh,
+							id_wloxxmh,
+							id_iimxxmh,
+							id_iumxxmh_unit,
+							id_iumxxmh_terkecil,
+							id_iumxxmh_default,
+							a.keterangan,
+							:s_id_users,
+							gcpxxmh_kode,
+							gcpxxmh_nama,
+							gbrxxmh_kode,
+							gbrxxmh_nama,
+							iwhxxmh_kode,
+							iwhxxmh_nama,
+							wloxxmh_kode,
+							wloxxmh_nama,
+							iimxxmh_kode,
+							iimxxmh_nama,
+							iumxxmh_unit_kode,
+							iumxxmh_unit_nama,
+							iumxxmh_terkecil_kode,
+							iumxxmh_terkecil_nama,
+							iumxxmh_default_kode,
+							iumxxmh_default_nama,
+							SUM(a.jumlah_unit) jumlah_unit,
+							jumlah_konversi,
+							SUM(a.jumlah_terkecil) jumlah_terkecil,
+							SUM(a.jumlah_default) jumlah_default,
+							a.wlpxxmh_kode,
+							expired_date,
+							batch_number,
+							:statusAuditValue
+						FROM iivxxrd a
+						LEFT JOIN wlpxxmh b ON b.kode = a.wlpxxmh_kode
+						WHERE a.is_fisik = 1
+						GROUP BY 
+							id_gbrxxmh, 
+							id_iwhxxmh,
+							id_iimxxmh,
+							id_wloxxmh,
+							wlpxxmh_kode
+						HAVING jumlah_terkecil > 0 
+							AND CONCAT(a.id_iimxxmh, "," ,a.batch_number, "," ,a.expired_date, "," ,a.wlpxxmh_kode, "," ,a.id_wloxxmh) = :insertValue
+				'
+			);
+			$id_audit = $qi_iivxxrd->insertId();
+		} else {
+			$valData = explode(',', $insertValue); // Convert string to array using comma as delimiter
+
+			$wlpxxmh_kode = '';
+
+			//ini LPN
+			if ($valData[3] != '') {
+				$wlpxxmh_kode = $valData[3];
+			}
+
+			$wloxxmh_nama = '';
+			$iwhxxmh_nama = '';
+			$iwhxxmh_kode = '';
+			$wloxxmh_kode = '';
+			$id_iwhxxmh = 0;
+			$id_wloxxmh = 0;
+
+			//Ini Location
+			if ($valData[4] > 0) {
+				$id_wloxxmh = $valData[4];
+
+				$qs_loc = $db
+					->query('select', 'wloxxmh' )
+					->get([
+						'wloxxmh.kode AS wloxxmh_kode',
+						'wloxxmh.nama AS wloxxmh_nama',
+						'iwhxxmh.kode AS iwhxxmh_kode',
+						'iwhxxmh.nama AS iwhxxmh_nama',
+						'id_iwhxxmh'	
+
+					] )
+					->join('iwhxxmh','iwhxxmh.id = wloxxmh.id_iwhxxmh','LEFT' )
+					->where('wloxxmh.id', $id_wloxxmh)
+					->exec();
+					
+				$rs_loc = $qs_loc->fetch();
+
+				$wloxxmh_nama = $rs_loc['wloxxmh_nama'];
+				$iwhxxmh_nama = $rs_loc['iwhxxmh_nama'];
+				$iwhxxmh_kode = $rs_loc['iwhxxmh_kode'];
+				$wloxxmh_kode = $rs_loc['wloxxmh_kode'];
+				$id_iwhxxmh = $rs_loc['id_iwhxxmh'];
+			}
+
+			$qi_iivxxrd = $db
+				->raw()
+				->bind(':statusAuditValue', $statusAuditValue)
+				->bind(':wloxxmh_nama', $wloxxmh_nama)
+				->bind(':iwhxxmh_nama', $iwhxxmh_nama)
+				->bind(':iwhxxmh_kode', $iwhxxmh_kode)
+				->bind(':wloxxmh_kode', $wloxxmh_kode)
+				->bind(':id_iwhxxmh', $id_iwhxxmh)
+				->bind(':id_wloxxmh', $id_wloxxmh)
+				->bind(':wlpxxmh_kode', $wlpxxmh_kode)
+				->bind(':s_id_users', $s_id_users)
+				->exec('INSERT INTO iivxxrd_audit (
+							transaction_state,
+							id_iwhxxmh,
+							id_wloxxmh,
+							created_by,
+							iwhxxmh_kode,
+							iwhxxmh_nama,
+							wloxxmh_kode,
+							wloxxmh_nama,
+							wlpxxmh_kode,
+							jumlah_unit,
+							jumlah_konversi,
+							jumlah_terkecil,
+							jumlah_default,
+							status_audit
+						)
+						SELECT
+							1,
+							:id_iwhxxmh,
+							:id_wloxxmh,
+							:s_id_users,
+							:iwhxxmh_kode,
+							:iwhxxmh_nama,
+							:wloxxmh_kode,
+							:wloxxmh_nama,
+							:wlpxxmh_kode,
+							0,
+							0,
+							0,
+							0,
+							:statusAuditValue
+				'
+			);
+			$id_audit = $qi_iivxxrd->insertId();
+
+		}
 
 
 		if(!empty($qi_iivxxrd)){
