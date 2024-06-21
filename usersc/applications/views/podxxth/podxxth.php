@@ -183,20 +183,18 @@
 									<div class="col-lg-6">
 										<editor-field name="podittd.id_iimxxmh"></editor-field>
 									</div>
-									<div class="col-lg-6">
-										<editor-field name="podittd.id_iumxxmh_unit"></editor-field>
-									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6">
 										<editor-field name="podittd.jumlah_unit"></editor-field>
 									</div>
 									<div class="col-lg-6">
-										<editor-field name="podittd.harga_unit"></editor-field>
+										<editor-field name="podittd.id_iumxxmh_unit"></editor-field>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6">
+										<editor-field name="podittd.harga_unit"></editor-field>
 									</div>
 									<div class="col-lg-6">
 										<editor-field name="podittd.subtotal"></editor-field>
@@ -376,6 +374,7 @@
 
 	var id_iitxxmh_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
+	var jumlah_buy = 0;
 
 	// get tableRelation
 	tableRelation('podxxth');
@@ -1125,7 +1124,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
+							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd_buy.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -1262,7 +1261,7 @@
 		}, {event: 'keyup change'});
 		
 		edtpodittd.dependent( 'podittd.id_iimxxmh', function ( val, data, callback ) {
-			id_iimxxmh = edtpodittd.field('podittd.id_iimxxmh').val();
+			id_iimxxmh = val;
 			edtpodittd.field('podittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
@@ -1337,7 +1336,7 @@
 					edtpodittd,
 					'podittd',
 					{
-						'id_prqittd': id_prqittd,
+						// 'id_prqittd': id_prqittd,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
 						'id_iimxxmh': id_iimxxmh,
 					}
@@ -1377,7 +1376,7 @@
 				}
 
 				
-				validasiOutstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
+				// validasiOutstanding(edtpodittd, 'podittd', id_podittd, id_prqittd, 'prqittd');
 
 			}
 			
