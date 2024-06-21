@@ -15,27 +15,32 @@
 		DataTables\Editor\Result;
 
 	$where = '';
-	if (isset($_POST['wlpxxmh_filter']) && $_POST['wlpxxmh_filter'] != '') {
+	$wloxxmh_nama = '';
+	$wlpxxmh_kode = '';
+	$id_wloxxmh_filter = 0;
+	if (isset($_POST['id_wlpxxmh_filter']) && $_POST['id_wlpxxmh_filter'] > 0) {
+		$id_wlpxxmh_filter = $_POST['id_wlpxxmh_filter'];
 		$qs_lpn = $db
 			->query('select', 'wlpxxmh' )
-			->get(['id'] )
-			->where('kode', $_POST['wlpxxmh_filter'] )
+			->get(['kode'] )
+			->where('id', $id_wlpxxmh_filter)
 			->exec();
 		$rs_lpn = $qs_lpn->fetch();
-		
-		$id_wlpxxmh_filter = $rs_lpn['id'];
+		$wlpxxmh_kode = $rs_lpn['kode'];
+
 		$where = $where . ' AND b.id = '.$id_wlpxxmh_filter;
 	}
 
-	if (isset($_POST['wloxxmh_filter']) && $_POST['wloxxmh_filter'] != '') {
+	if (isset($_POST['id_wloxxmh_filter']) && $_POST['id_wloxxmh_filter'] > 0) {
+		$id_wloxxmh_filter = $_POST['id_wloxxmh_filter'];
 		$qs_loc = $db
 			->query('select', 'wloxxmh' )
-			->get(['id'] )
-			->where('nama', $_POST['wloxxmh_filter'] )
+			->get(['nama'] )
+			->where('id', $id_wloxxmh_filter)
 			->exec();
 		$rs_loc = $qs_loc->fetch();
-		
-		$id_wloxxmh_filter = $rs_loc['id'];
+		$wloxxmh_nama = $rs_loc['nama'];
+
 		$where = $where . ' AND a.id_wloxxmh = '.$id_wloxxmh_filter;
 	}
 
@@ -45,6 +50,7 @@
 	$qs_iivxxrd = $db
 		->raw()
 		->exec('SELECT
+					1 is_iiv_valid,
 					id_transaksi_h,
 					id_transaksi_d,
 					id_gcpxxmh,
@@ -112,7 +118,20 @@
 	if (!empty($rs_iivxxrd)) {
 		echo json_encode( ['data' => $rs_iivxxrd]);
 	}else{
-		echo json_encode( [ "data" => [] ] );
+		$rs_iivxxrd_custom = [
+			[
+				'is_audit' => 0,
+				'is_iiv_valid' => 0,
+				'id_iimxxmh' => 0,
+				'batch_number' => '',
+				'expired_date_ymd' => '',
+				'wlpxxmh_kode' => $wlpxxmh_kode,
+				'id_wloxxmh' => $id_wloxxmh_filter,
+				'wloxxmh_nama' => $wloxxmh_nama,
+			]
+		];
+
+		echo json_encode( [ "data" => $rs_iivxxrd_custom] );
 	}
 	
 ?>

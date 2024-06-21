@@ -94,7 +94,7 @@
 						searchPanes:{
 							show: true,
 						},
-						targets: [1,2,3,9,10,11]
+						targets: [1,2,9]
 					},
 					{
 						searchPanes:{
