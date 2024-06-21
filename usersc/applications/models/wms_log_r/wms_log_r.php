@@ -40,7 +40,7 @@
 				WHERE a.kode = "CREATE"
 					AND a.nama IN ("wreittd", "wptittd", "wtrittd", "iivxxrd_audit")
 				GROUP BY a.id_transaksi, a.nama
-				ORDER BY a.start_on
+				ORDER BY a.start_on DESC
 		');
 	$rs_wms_log_r = $qs_wms_log_r->fetchAll();
 	if (!empty($rs_wms_log_r)) {
