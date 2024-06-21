@@ -28,7 +28,7 @@
 
 		// ganti movement type sesuai jenis transaksi
 		//Putaway
-		$imtxxmh_kode = 307;
+		$imtxxmh_kode = 311;
 
 		$id    = $_POST['id_transaksi_h'];
 		$state = $_POST['state'];
