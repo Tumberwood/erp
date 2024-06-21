@@ -449,6 +449,171 @@
                 ->where('id',$id)
                 ->exec();
         }
+
+        /**
+         * konversiUom2
+         * Sama seperti konversiUom, hanya tidak meng-update field terkait jumlah_unit
+         */
+        public static function konversiUom2( $db, $nama_table, $id) {
+            
+            $qs_transaksi = $db
+                ->query('select', $nama_table )
+                ->get([
+                    'id_iimxxmh as id_iimxxmh',
+                    'id_iumxxmh_unit as id_iumxxmh_unit',
+                    'jumlah_unit as jumlah_unit'
+                ] )
+                ->where('id', $id )
+                ->exec();
+            $rs_transaksi = $qs_transaksi->fetch();
+
+            $id_iimxxmh         = $rs_transaksi['id_iimxxmh'];
+            $id_iumxxmh_unit    = $rs_transaksi['id_iumxxmh_unit'];
+            $jumlah_unit        = $rs_transaksi['jumlah_unit'];
+
+            // BEGIN get jumlah_konversi
+            $qs_jumlah_konversi = $db
+                ->query('select', 'iimummd')
+                ->get('jumlah_konversi')
+                ->where('id_iimxxmh',$id_iimxxmh)
+                ->where('id_iumxxmh',$id_iumxxmh_unit)
+                ->exec();
+            $rs_jumlah_konversi = $qs_jumlah_konversi->fetch();
+
+            $jumlah_konversi    = $rs_jumlah_konversi['jumlah_konversi'];
+            $jumlah_terkecil    = $jumlah_konversi * $jumlah_unit;
+            // END get jumlah_konversi
+
+            // BEGIN get UoM terkecil
+            $qs_iumxxmh_terkecil = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'id_iumxxmh as id_iumxxmh_terkecil'
+                ] )
+                ->where('iimummd.id_iimxxmh', $id_iimxxmh )
+                ->where('iimummd.is_terkecil', 1 )
+                ->exec();
+            $rs_iumxxmh_terkecil = $qs_iumxxmh_terkecil->fetch();
+
+            $id_iumxxmh_terkecil = $rs_iumxxmh_terkecil['id_iumxxmh_terkecil']; //pcs
+            // END get UoM terkecil
+
+            // BEGIN get UoM default
+            $qs_iumxxmh_default = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'id_iumxxmh as id_iumxxmh_default',
+                    'jumlah_konversi as jumlah_konversi_default'
+                ] )
+                ->where('iimummd.id_iimxxmh', $id_iimxxmh )
+                ->where('iimummd.is_default', 1 )
+                ->exec();
+            $rs_iumxxmh_default = $qs_iumxxmh_default->fetch();
+
+            $id_iumxxmh_default         = $rs_iumxxmh_default['id_iumxxmh_default'];
+            $jumlah_konversi_default    = $rs_iumxxmh_default['jumlah_konversi_default'];
+
+            $jumlah_default = $jumlah_konversi * $jumlah_unit / $jumlah_konversi_default;
+            // END get UoM default
+
+            // update
+            $qu_transaksi = $db
+                ->query('update', $nama_table)
+                ->set('id_iumxxmh_terkecil',$id_iumxxmh_terkecil)
+                ->set('id_iumxxmh_default',$id_iumxxmh_default)
+                ->set('jumlah_konversi',$jumlah_konversi)
+                ->set('jumlah_terkecil',$jumlah_terkecil) 
+                ->set('jumlah_default',$jumlah_default) 
+                ->set('jumlah_terkecil_os',$jumlah_terkecil)                 
+                ->where('id',$id)
+                ->exec();
+        }
+
+        /**
+         * Digunakan untuk menghitung konversi ke UoM Beli
+         * Saat ini hanya digunakan di prc
+         */
+        public static function konversiBuy($db, $nama_table, $id){
+            $qs_transaksi = $db
+                ->query('select', $nama_table )
+                ->get([
+                    'id_iimxxmh as id_iimxxmh',
+                    'id_iumxxmh_unit as id_iumxxmh_unit',
+                    'jumlah_unit as jumlah_unit',
+                    'harga_unit as harga_unit',
+                    'diskon_jenis as diskon_jenis',
+                    'diskon_persen as diskon_persen',
+                    'diskon_value as diskon_value'
+                ] )
+                ->where('id', $id )
+                ->exec();
+            $rs_transaksi = $qs_transaksi->fetch();
+
+            $id_iimxxmh      = $rs_transaksi['id_iimxxmh'];
+            $id_iumxxmh_unit = $rs_transaksi['id_iumxxmh_unit'];
+            $jumlah_unit     = $rs_transaksi['jumlah_unit'];
+            $harga_unit      = $rs_transaksi['harga_unit'];
+            $diskon_jenis    = $rs_transaksi['diskon_jenis'];
+            $diskon_persen   = $rs_transaksi['diskon_persen'];
+            $diskon_value    = $rs_transaksi['diskon_value'];
+
+            // BEGIN get jumlah_konversi_unit_terkecil
+            $qs_jumlah_konversi_unit_terkecil = $db
+                ->query('select', 'iimummd')
+                ->get('jumlah_konversi')
+                ->where('id_iimxxmh',$id_iimxxmh)
+                ->where('id_iumxxmh',$id_iumxxmh_unit)
+                ->exec();
+            $rs_jumlah_konversi_unit_terkecil = $qs_jumlah_konversi_unit_terkecil->fetch();
+
+            $jumlah_konversi_unit_terkecil    = $rs_jumlah_konversi_unit_terkecil['jumlah_konversi'];
+            $jumlah_terkecil    = $jumlah_konversi_unit_terkecil * $jumlah_unit;
+            // END get jumlah_konversi_unit_terkecil
+
+            // BEGIN get jumlah_konversi_buy_terkecil
+            $qs_jumlah_konversi_buy_terkecil = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'iimummd.jumlah_konversi as jumlah_konversi_beli_terkecil',
+                    'iimummd.id_iumxxmh as id_iumxxmh_beli'
+                ] )
+                ->where('id_iimxxmh',$id_iimxxmh)
+                ->where('is_iumxxmh_beli', 1)
+                ->exec();
+            $rs_jumlah_konversi_buy_terkecil = $qs_jumlah_konversi_buy_terkecil->fetch();
+            if(!empty($rs_jumlah_konversi_buy_terkecil)){
+                // jika uom beli didefinisikan
+                $jumlah_konversi_beli_terkecil   = $rs_jumlah_konversi_buy_terkecil['jumlah_konversi_beli_terkecil'];
+                $jumlah_buy = $jumlah_unit * $jumlah_konversi_unit_terkecil / $jumlah_konversi_beli_terkecil;
+            }else{
+                // jika uom beli tidak didefinisikan, maka menggunakan jumlah_unit
+                $jumlah_buy = $jumlah_unit;
+            }
+
+            $subtotal   = $harga_unit * $jumlah_buy;
+            if($diskon_jenis == 'persen'){
+                $diskon_final = $diskon_persen / 100 * $subtotal;
+            }else{
+                $diskon_final = $diskon_value;
+            }
+            $dpp = $subtotal - $diskon_final;
+            // END get jumlah_konversi_buy_terkecil
+
+            // update transaksi
+            $qu_transaksi = $db
+                ->query('update', $nama_table)
+                ->set('subtotal',$subtotal)
+                ->set('diskon_final',$diskon_final)
+                ->set('dpp',$dpp)
+                ->where('id',$id)
+                ->exec();
+
+            $results = array(
+                "jumlah_buy" => $jumlah_buy,
+                "diskon_final" => $diskon_final,
+                "dpp" => $dpp
+            );
+        }
         
         /**
          * Digunakan untuk update nilai field terkait jumlah pada transaksi sebelumnya
@@ -543,6 +708,86 @@
                 ->set('jumlah_default_os', $jumlah_default_os_new)
                 ->where('id', $dt_values[$nama_table]['id_'.$nama_table_before] )
                 ->exec();
+        }
+
+        public static function kalkulasiJumlahTransaksiBefore2( $db, $id_table, $dt_values, $action, $nama_table, $nama_table_before ){
+
+            // ambil nilai jumlah konversi berdasarkan id_iimxxmh dan id_iumxxmh
+            $qs_iimummd_terkecil = $db
+                ->query('select', 'iimummd' )
+                ->get([
+                    'iimummd.jumlah_konversi as jumlah_konversi_terkecil'
+                ] )
+                ->where('iimummd.id_iimxxmh', $dt_values[$nama_table]['id_iimxxmh'] )
+                ->where('iimummd.id_iumxxmh', $dt_values[$nama_table]['id_iumxxmh_unit'] )
+                ->exec();
+            $rs_iimummd_terkecil = $qs_iimummd_terkecil->fetch();
+            $jumlah_konversi_terkecil = $rs_iimummd_terkecil['jumlah_konversi_terkecil'];
+            $jumlah_terkecil_new = $dt_values[$nama_table]['jumlah_unit'] * $jumlah_konversi_terkecil;
+                        
+            $qs_table_before_old = $db
+                ->raw()
+                ->bind(':id_table_before', $dt_values[$nama_table]['id_'.$nama_table_before])
+                ->exec('SELECT ' . 
+                        $nama_table_before.'.jumlah_unit as jumlah_unit_old,'.
+                        $nama_table_before.'.jumlah_terkecil as jumlah_terkecil_old,'.
+                        $nama_table_before.'.jumlah_terkecil_next as jumlah_terkecil_next_old,'.
+                        $nama_table_before.'.jumlah_terkecil_os as jumlah_terkecil_os_old 
+                    FROM '.$nama_table_before .'
+                    WHERE 1
+                        AND '.$nama_table_before.'.id = :id_table_before
+                ');
+            $rs_table_before_old = $qs_table_before_old->fetch();
+            
+            /**
+             * ambil data sebelum create atau edit
+             * jika action == 'create', maka $jumlah_terkecil__old = 0
+             * jika action == 'edit', maka $jumlah_terkecil__old di select dari table saat preEdit
+             */
+            // 
+            if($action == 'Create'){
+                $jumlah_terkecil_old = 0;
+            }elseif($action == 'Edit'){
+                $qs_table_old = $db
+                    ->raw()
+                    ->bind(':id_table', $id_table)
+                    ->exec('SELECT
+                            id_iumxxmh_unit,
+                            jumlah_unit,
+                            jumlah_terkecil
+                        FROM '.$nama_table.' 
+                        LEFT JOIN iimummd ON iimummd.id_iumxxmh = ' . $nama_table.'.id_iumxxmh_unit AND iimummd.id_iimxxmh = ' . $nama_table.'.id_iimxxmh
+                        WHERE 1
+                            AND ' . $nama_table . '.id = :id_table
+                    ');
+                
+                $rs_table_old = $qs_table_old->fetch();
+                $id_iumxxmh_unit_old = $rs_table_old['id_iumxxmh_unit'];
+                $jumlah_terkecil_old = $rs_table_old['jumlah_terkecil'];
+            }elseif($action == 'Remove'){
+                $jumlah_terkecil_old = 0;
+            }
+
+            // hasil perhitungan untuk di update ke table before
+            $jumlah_terkecil_next_new = $rs_table_before_old['jumlah_terkecil_next_old'] - $jumlah_terkecil_old + $jumlah_terkecil_new;
+            $jumlah_terkecil_os_new = $rs_table_before_old['jumlah_terkecil_old'] - $jumlah_terkecil_next_new;
+    
+            $qu_table_before = $db
+                ->query('update', $nama_table_before)
+                ->set('jumlah_terkecil_next', $jumlah_terkecil_next_new)
+                ->set('jumlah_terkecil_os', $jumlah_terkecil_os_new)
+                ->where('id', $dt_values[$nama_table]['id_'.$nama_table_before] )
+                ->exec();
+            
+            $results = array(
+                "jumlah_konversi_terkecil" => $jumlah_konversi_terkecil,
+                "jumlah_terkecil_new" => $jumlah_terkecil_new,
+                "rs_table_before_old" => $rs_table_before_old,
+                "jumlah_terkecil_old" => $jumlah_terkecil_old,
+                "jumlah_terkecil_next_new" => $jumlah_terkecil_next_new,
+                "jumlah_terkecil_os_new" => $jumlah_terkecil_os_new
+            );
+            // print_r($results); 
         }
 
         /**

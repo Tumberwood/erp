@@ -181,8 +181,9 @@
 		
 
 	}else{
+		// selain persediaan, tidak perlu inventory. Message di blank kan
 		$status_code  = '200';
-		$message      = 'Inventory Tidak Diperlukan';
+		$message      = '';
 		$type_message = 'success';
 	}
 

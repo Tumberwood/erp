@@ -31,6 +31,8 @@
 				Field::inst( 'podittd.id_podxxth' ),
 				Field::inst( 'podittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'podittd.id_iumxxmh_buy' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'podittd.id_prqittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'podittd.id_iimxxmh' )
@@ -57,7 +59,9 @@
 					) ),
 				Field::inst( 'podittd.is_defaultprogram' ),
 				Field::inst( 'podittd.jumlah_unit' ),
+				Field::inst( 'podittd.jumlah_buy' ),
 				Field::inst( 'podittd.harga_unit' ),
+				Field::inst( 'podittd.harga_buy' ),
 				Field::inst( 'podittd.subtotal' ),
 				Field::inst( 'podittd.diskon_jenis' ),
 				Field::inst( 'podittd.diskon_value' ),
