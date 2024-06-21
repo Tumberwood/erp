@@ -91,6 +91,7 @@
 						targets: '_all'
 					}
 				],
+				order: [[ 4, "desc" ]],
 				columns: [
 					{ data: "id",visible:false },
 					{ data: "id_transaksi",visible:false },
