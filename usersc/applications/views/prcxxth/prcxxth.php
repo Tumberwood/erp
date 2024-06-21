@@ -109,6 +109,26 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabprcittd" class="tab-pane active">
 					<div class="panel-body">
+						<div id="frmprcittd">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="prcittd.id_iimxxmh"></editor-field>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="prcittd.jumlah_unit"></editor-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="prcittd.id_iumxxmh_unit"></editor-field>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="prcittd.keterangan"></editor-field>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="table-responsive">
 							<table id="tblprcittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
@@ -180,7 +200,7 @@
 					d.end_date = end_date;
 				}
 			},
-			// template: "#frmprcxxth",
+			template: "#frmprcxxth",
 			table: "#tblprcxxth",
 			fields: [ 
 				{
@@ -309,7 +329,7 @@
 				{
 					label: "prcxxth.id_iitxxmh",
 					name: "prcxxth.id_iitxxmh",
-					// type: "hidden"
+					type: "hidden"
 				},
 
 				{
@@ -651,42 +671,42 @@
 				{
 					label: "prcittd.id_podxxth",
 					name: "prcittd.id_podxxth",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.harga_unit",
 					name: "prcittd.harga_unit",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.diskon_jenis",
 					name: "prcittd.diskon_jenis",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.diskon_persen",
 					name: "prcittd.diskon_persen",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.diskon_value",
 					name: "prcittd.diskon_value",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.diskon_final",
 					name: "prcittd.diskon_final",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.subtotal",
 					name: "prcittd.subtotal",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "prcittd.dpp",
 					name: "prcittd.dpp",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "Item <sup class='text-danger'>*<sup>",
