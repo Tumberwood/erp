@@ -23,6 +23,7 @@
                                 <th>ID</th>
                                 <th>id_transaksi</th>
                                 <th>Activity</th>
+                                <th>Kode</th>
                                 <th>Username</th>
                                 <th>Start</th>
                                 <th>Finish</th>
@@ -91,13 +92,27 @@
 						targets: '_all'
 					}
 				],
-				order: [[ 4, "desc" ]],
+				order: [[ 5, "desc" ]],
 				columns: [
 					{ data: "id",visible:false },
 					{ data: "id_transaksi",visible:false },
 					{ data: "activity" },
+					{ data: "kode_transaksi" },
 					{ data: "username" },
-					{ data: "start_on" },
+					{
+						data: "start_on",
+						render: function(data, type, row) {
+							if (type === 'sp') {
+								return moment(data).format('DD MMM YYYY');
+							} else {
+								return data;
+							}
+						},
+						searchPanes: {
+							orthogonal: 'sp',
+							show: true
+						}
+					},
 					{ data: "finish_on" },
 					{ data: "durasi" },
 				],

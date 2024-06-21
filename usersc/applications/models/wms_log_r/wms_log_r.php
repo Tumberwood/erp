@@ -27,6 +27,40 @@
 						ELSE ""
 					END
 					activity,
+               		CASE 
+						WHEN a.nama = "wreittd" then (
+                            select
+                                kode
+                            from wreittd
+                            where id = a.id_transaksi
+                        )
+						WHEN a.nama = "wptittd" then (
+                            select
+                                kode
+                            from wptittd
+                            where id = a.id_transaksi
+                        )
+						WHEN a.nama = "wtrittd" then (
+                            select
+                                kode
+                            from wtrittd
+                            where id = a.id_transaksi
+                        )
+						WHEN a.nama = "wtrittd" then (
+                            select
+                                kode
+                            from wtrittd
+                            where id = a.id_transaksi
+                        )
+						WHEN a.nama = "iivxxrd_audit" then (
+                            select
+                                kode
+                            from iivxxrd_audit
+                            where id = a.id_transaksi
+                        )
+						ELSE ""
+					END
+					kode_transaksi,
 					a.username,
 					DATE_FORMAT(a.start_on, "%d %b %Y %H:%i:%s") AS start_on,
 					DATE_FORMAT(b.finish_on, "%d %b %Y %H:%i:%s") AS finish_on,
