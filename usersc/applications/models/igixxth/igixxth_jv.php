@@ -4,6 +4,9 @@
      * Sumber data:
      * igixxth  : debit
      * igiittd  : kredit
+	 * Jurnal
+	 * 	Biaya
+	 * 		Persediaan
      */
 
 	include_once( "../../../../users/init.php" );
@@ -27,7 +30,7 @@
 	
 	$id_transaksi_h = $_POST['id_transaksi_h'];
 	$state          = $_POST['state'];
-	$jenis_transaksi = 'Other Payment';
+	$jenis_transaksi = 'Goods Issue';
 
 	try{
 		$db->transaction();
@@ -46,7 +49,7 @@
 					igixxth.created_by as created_by,
 					igixxth.tanggal as tanggal,
 					igixxth.keterangan as keterangan,
-					-- igixxth.amount as total_nilai
+					igixxth.amount as total_nilai
 				FROM igixxth
 				WHERE 
 					igixxth.id = :id_transaksi_h
@@ -77,59 +80,109 @@
 		// detail
 		// select debit
 		$qs_debit = $db
-			->query('select', 'igiittd')
-			->get('igiittd.id_aakxxmh as id_aakxxmh')
-			->get('igiittd.id as id_transaksi_h')
-			->get('igiittd.created_by as created_by')
-			->get('igiittd.keterangan as keterangan')
-			->get('igiittd.amount as debit')
-			->where('igiittd.id_igixxth', $id_transaksi_h )
+			->query('select', 'igixxth' )
+			->get([
+				'igixxth.id_aakxxmh as id_aakxxmh',
+				'igixxth.id as id_transaksi_h',
+				'igixxth.created_by as created_by',
+				'igixxth.keterangan as keterangan',
+				'igixxth.amount as debit'
+			] )
+			->where('igixxth.id', $id_transaksi_h )
 			->exec();
-		$rs_debit = $qs_debit->fetchAll();
+		$rs_debit = $qs_debit->fetch();
+		
+		$qi_debit = $db
+			->query('insert', 'aglaktd')
+			->set('id_aglxxth', $last_id)
+			->set('id_aakxxmh',$rs_debit['id_aakxxmh'])
+			->set('id_transaksi_d',$rs_debit['id_transaksi_h'])
+			->set('created_by',$rs_debit['created_by'])
+			->set('keterangan',$rs_debit['keterangan'])
+			->set('debit_kredit', 'Debit')
+			->set('debit', $rs_debit['debit']   )
+			->set('kredit', 0)
+			->exec();
 
-		foreach ($rs_debit as $row_debit) {
-			$qi_debit = $db
+
+		// kredit
+
+		// get setting akun persediaan
+		$qs_ggsaksh = $db
+			->query('select', 'ggsaksh' )
+			->get([
+				'ggsaksh.aakxxmh_persediaan as aakxxmh_persediaan'
+			] )
+			->limit(1)
+			->exec();
+		$rs_ggsaksh       = $qs_ggsaksh->fetch();
+		$tabel_persediaan = $rs_ggsaksh['aakxxmh_persediaan'];
+		
+		$qs_kredit = $db
+			->raw()
+			->bind(':id_transaksi_h', $id_transaksi_h)
+			->exec('SELECT
+					aakxxmh.id as id_aakxxmh,
+					SUM(igiittd.hpp) as kredit
+
+				FROM igiittd
+				LEFT JOIN iimxxmh ON iimxxmh.id = igiittd.id_iimxxmh
+				LEFT JOIN '.$tabel_persediaan.'_aakxxmh ON '.$tabel_persediaan.'_aakxxmh.id_'.$tabel_persediaan.' = iimxxmh.id_'.$tabel_persediaan.'
+				LEFT JOIN aakxxmh ON aakxxmh.id = '.$tabel_persediaan.'_aakxxmh.id_aakxxmh_persediaan
+				WHERE igiittd.id_igixxth = :id_transaksi_h
+				GROUP BY '.$tabel_persediaan.'_aakxxmh.id_aakxxmh_persediaan
+			');
+		$rs_kredit = $qs_kredit->fetchAll();
+
+		foreach ($rs_kredit as $row_kredit) {
+			// insert kredit
+			$qi_kredit = $db
 				->query('insert', 'aglaktd')
 				->set('id_aglxxth', $last_id)
-				->set('id_aakxxmh',$row_debit['id_aakxxmh'])
-				->set('id_transaksi_d',$row_debit['id_transaksi_h'])
-				->set('created_by',$row_debit['created_by'])
-				->set('keterangan',$row_debit['keterangan'])
-				->set('debit_kredit', 'Debit')
-				->set('debit', $row_debit['debit']   )
-				->set('kredit', 0)
+				->set('id_aakxxmh',$row_kredit['id_aakxxmh'])
+				->set('id_transaksi_d', 0 )
+				->set('created_by',$rs_header['created_by'])
+				->set('keterangan',$rs_header['keterangan'])
+				->set('debit_kredit', 'Kredit')
+				->set('debit', 0)
+				->set('kredit', $row_kredit['kredit'])
 				->exec();
 		}
 
-		// insert kredit
-		$qi_kredit = $db
-			->query('insert', 'aglaktd')
-			->set('id_aglxxth', $last_id)
-			->set('id_aakxxmh',$rs_header['id_aakxxmh'])
-			->set('id_transaksi_d', 0 )
-			->set('created_by',$rs_header['created_by'])
-			->set('keterangan',$rs_header['keterangan'])
-			->set('debit_kredit', 'Kredit')
-			->set('debit', 0)
-			->set('kredit', $rs_header['total_nilai'])
-			->exec();
+		
 
-		// commit transaction
-		$db->commit();
-		$message = $jenis_transaksi . ' Berhasil Dibukukan';
-		$type_message = 'success';
+		// check apakah query ada resultnya
+		if(!empty($qi_debit) && !empty($qi_kredit) ){
+			$db->commit();
+			$status_code  = '200';
+			$message      = $jenis_transaksi . ' Berhasil Dibukukan';
+			$type_message = 'success';
+			// parameter lain
+		}else{
+			$db->rollback();
+			$status_code  = '500';
+			$message      = $jenis_transaksi . ' Gagal Dibukukan';
+			$type_message = 'error';
+			// parameter lain
+		}
 		
 	}catch(PDOException $e){
-		// rollback on error
 		$db->rollback();
-		$message = $jenis_transaksi. ' Gagal Dibukukan';
-		$type_message = 'danger';
-		
+		$status_code  = '500';
+		$message      = $jenis_transaksi . ' Gagal Dibukukan' . $e->getMessage();
+		$type_message = 'error';
+	}catch (Exception $e) {
+		$db->rollback();
+		$status_code = 500;
+		$message = $jenis_transaksi . ' Gagal Dibukukan' . $e->getMessage();
+		$type_message = 'error';
 	}
 
+	// build response
 	$data = array(
-		'message'      => $message,
-		'type_message' => $type_message
+		'status_code'    => $status_code,
+		'message'        => $message,
+		'type_message'   => $type_message
 	);
 
     // tampilkan results
