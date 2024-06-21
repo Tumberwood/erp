@@ -320,41 +320,9 @@ function validasiTanggalToday(edt, tbl_name, fields_name, field_value, sign) {
 }
 
 /**
- * Digunakan untuk mendapatkan data transaksi terkait jumlah dari tabel transaksi asal, dan digunakan untuk meelakukan pengecekan outstanding. 
- * - id_iumxxmh_terkecil
- * - id_iumxxmh_default
- * - jumlah_konversi
- * - jumlah_terkecil
- * - jumlah_default
- * - jumlah_unit
- * 
- * @param {Object} edt 
- * @param {String} tbl_name 
- * @param {Number} id_transaksi 
- * 
- */
-// function validasiOutstanding(edt, tbl_name, id_transaksi) {
-//     jumlah_unit_new = edt.field(tbl_name + '.jumlah_unit').val();
-//     $.ajax( {
-//         url: '../../../helpers/fn_uom_konversi_get.php',
-//         dataType: 'json',
-//         type: 'POST',
-//         data: {
-//             tbl_name: tbl_name,
-//             id_transaksi: id_transaksi
-//         },
-//         success: function ( json ) {
-//             console.log(json);
-//             jumlah_terkecil_old = json.data.jumlah_terkecil;
-//             jumlah_terkecil_new = jumlah_unit_new * json.data.jumlah_konversi;
-            
-//         }
-//     } );
-
-// }
-
-/**
- * 
+ * validasiOutstanding
+ * Digunakan untuk melakukan validasi jumlah terkecil yang bisa dibuat untuk transaksi lagi
+ * Dipanggil pada editor preSubmit
  * @param {Object} edt 
  * @param {String} tbl_name 
  * @param {Number} id_transaksi 
