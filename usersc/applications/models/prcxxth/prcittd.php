@@ -48,6 +48,7 @@
 				Field::inst( 'prcittd.is_defaultprogram' ),
 
 				Field::inst( 'prcittd.jumlah_unit' ),
+				Field::inst( 'prcittd.harga_unit' ),
 				Field::inst( 'prcittd.diskon_jenis' ),
 				Field::inst( 'prcittd.diskon_persen' ),
 				Field::inst( 'prcittd.diskon_value' ),
