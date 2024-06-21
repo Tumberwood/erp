@@ -32,6 +32,70 @@
 	try{
 		$db->transaction();
 
+		function integerToRoman($integer){
+			// Convert the integer into an integer (just to make sure)
+			$integer = intval($integer);
+			$result = '';
+		
+			// Create a lookup array that contains all of the Roman numerals.
+			$lookup = array(
+				'M' => 1000,
+				'CM' => 900,
+				'D' => 500,
+				'CD' => 400,
+				'C' => 100,
+				'XC' => 90,
+				'L' => 50,
+				'XL' => 40,
+				'X' => 10,
+				'IX' => 9,
+				'V' => 5,
+				'IV' => 4,
+				'I' => 1);
+		
+			foreach($lookup as $roman => $value){
+				// Determine the number of matches
+				$matches = intval($integer/$value);
+		
+				// Add the same number of characters to the string
+				$result .= str_repeat($roman,$matches);
+		
+				// Set the integer to be the remainder of the integer and the value
+				$integer = $integer % $value;
+			}
+		
+			// The Roman numeral should be built, return it
+			return $result;
+		}
+
+		$nama_tabel = "iivxxrd_audit";
+		$qs_gdnxxsh = $db
+			->raw()
+			->exec('
+				SELECT
+					*
+				FROM 
+					gdnxxsh
+				WHERE 
+					nama_tabel = "iivxxrd_audit"'
+			);
+		$rs_gdnxxsh = $qs_gdnxxsh->fetch();
+		$prefix                 = $rs_gdnxxsh['prefix'];
+		$total_digit            = $rs_gdnxxsh['total_digit'];
+		$separator              = $rs_gdnxxsh['separator'];
+
+		$nama_field_tanggal = 'activity_log_ml.created_on';
+		$field_tanggal 		= date('Y-m-d');
+		$field_tanggal_dt	= strtotime($field_tanggal);
+		$tahun = substr($field_tanggal,2,2);
+		$bulan = substr($field_tanggal,5,2);
+
+		// BEGIN generate WHERE
+		
+		$tanggal = $field_tanggal;
+		$where = " WHERE activity_log_ml.kode = 'CONFIRM' AND activity_log_ml.nama = '" . $nama_tabel . "' ";
+		$where = $where . " AND YEAR(".$nama_field_tanggal.") = YEAR('" . $tanggal . "') AND MONTH(".$nama_field_tanggal.") = MONTH('" . $tanggal . "') ";
+
 		// ganti movement type sesuai jenis transaksi
 		//Putaway
 		$start_at = $_POST['start_at'];
@@ -146,6 +210,33 @@
 			$finish_at = date("Y-m-d H:i:s");
 			General::logChange( $db , 'iivxxrd_audit', $s_id_users, $s_username, 'CREATE', $id_audit, $insertValue, $start_at , $finish_at );
 			General::logChange( $db , 'iivxxrd_audit', $s_id_users, $s_username, 'CONFIRM', $id_audit, $insertValue, $start_at , $finish_at );
+
+			$id_transaksi = $id_audit;
+			$qs_c_id_new = $db
+				->raw()
+				->exec('
+					SELECT
+						count(activity_log_ml.id) as c_id_new
+					FROM '.$nama_tabel.'
+					LEFT JOIN activity_log_ml ON
+						activity_log_ml.id_transaksi = '.$nama_tabel.'.id 
+						AND  activity_log_ml.kode = "CONFIRM" 
+						AND activity_log_ml.nama = "'.$nama_tabel.'" 
+					' 
+					. $where 
+
+				);
+			$rs_c_id_new 	= $qs_c_id_new->fetch();
+			$new_number  	= $rs_c_id_new['c_id_new'];
+			$tr_kode 		= str_pad($new_number,$total_digit,"0",STR_PAD_LEFT);
+
+			$formatted_kode = $prefix . $separator . $tahun . $bulan . $separator . $tr_kode;
+			
+			$result = $db
+				->query('update', $nama_tabel)
+				->set('kode',$formatted_kode)
+				->where('id',$id_transaksi)
+				->exec();
 		}else{
 			$db->rollback();
 			$status_code  = 500;
