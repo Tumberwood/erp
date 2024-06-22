@@ -16,6 +16,47 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div id="frmgtbrlsh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.tblheader"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.tbldetails"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.is_master_table"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.is_need_approval"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.is_need_generate_kode"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.is_need_jurnal"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.is_need_inventory"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="gtbrlsh.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblgtbrlsh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -78,6 +119,7 @@
 				}
 			},
 			table: "#tblgtbrlsh",
+			template: "#frmgtbrlsh",
 			fields: [ 
 				{
 					label: "gtbrlsh.start_at",
@@ -188,7 +230,7 @@
 		});
 
 		edtgtbrlsh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirm();
 		});
 
