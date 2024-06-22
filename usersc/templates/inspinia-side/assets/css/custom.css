@@ -36,6 +36,11 @@
   padding-bottom: 4px;
 }
 
+/* melebarkan side bar*/
+body.canvas-menu.mini-navbar nav.navbar-static-side {
+  width: 280px;
+}
+
 table.dataTable tbody th, table.dataTable tbody td {
   padding: 4px 6px; /* e.g. change 8x to 4px here */
 }
