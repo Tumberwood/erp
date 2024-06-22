@@ -507,7 +507,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('sdlxxth_jv_print.php?id_sdlxxth='+id_sdlxxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Sales Delivery&id_transaksi='+id_sdlxxth, '_blank');
 					}
 				}
 			],

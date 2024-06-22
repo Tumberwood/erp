@@ -421,7 +421,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('igixxth_jv_print.php?id_igixxth='+id_igixxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Goods Issue&id_transaksi='+id_igixxth, '_blank');
 					}
 				}
 			],

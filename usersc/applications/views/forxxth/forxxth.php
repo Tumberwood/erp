@@ -381,7 +381,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('forxxth_jv_print.php?id_forxxth='+id_forxxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Other Receipt&id_transaksi='+id_forxxth, '_blank');
 					}
 				}
 			],
