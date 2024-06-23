@@ -25,11 +25,7 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'gapxxsh.id' ),
-			Field::inst( 'gapxxsh.id_gtbrlsh' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'gapxxsh.id_gaptpmh' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'gapxxsh.id_gtbrlsh_group' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'gapxxsh.kode' )
 				->setFormatter( function ( $val ) {
@@ -48,14 +44,9 @@
 			Field::inst( 'gapxxsh.is_defaultprogram' ),
 			Field::inst( 'gapxxsh.jumlah_level' ),
 
-			Field::inst( 'gtbrlsh.nama' ),
-			Field::inst( 'gtbrlsh.tblheader' ),
-			Field::inst( 'gaptpmh.nama' ),
-			Field::inst( 'gtbrlsh_grup.nama' )
+			Field::inst( 'gaptpmh.nama' )
 		)
-		->leftJoin( 'gtbrlsh','gtbrlsh.id','=','gapxxsh.id_gtbrlsh' )
-		->leftJoin( 'gaptpmh','gaptpmh.id','=','gapxxsh.id_gaptpmh' )
-		->leftJoin( 'gtbrlsh as gtbrlsh_grup','gtbrlsh_grup.id','=','gapxxsh.id_gtbrlsh_group' );
+		->leftJoin( 'gaptpmh','gaptpmh.id','=','gapxxsh.id_gaptpmh' );
 	
 	// do not erase
 	// function show / hide inactive document

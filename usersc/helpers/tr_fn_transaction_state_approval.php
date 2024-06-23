@@ -1,10 +1,6 @@
 <?php
 	/**
-     * Digunakan untuk meng-update approval_state
-     * 1    : Approve
-     * -1   : Cancel Approve
-     * -9   : Void
-     * 9    : Final Approve
+     * Digunakan untuk insert ke tabel Approval List (gaplgtd) berdasarkan Approval Setting (gapxxsh, gaplgtd, gapdusd)
      */
     
 	require_once( "../../users/init.php" );
@@ -38,11 +34,11 @@
                 SELECT
                     gtbrlsh.nama as gtbrlsh_nama,
                     gapxxsh.id as id_gapxxsh,
-                    gapxxsh.jumlah_level as jumlah_level,
-                    gaptpmh.nama as gaptpmh_nama
+                    gapxxsh.id_gaptpmh as id_gaptpmh,
+                    gapxxsh.jumlah_level as jumlah_level
                 FROM gtbrlsh
-                JOIN gapxxsh ON gapxxsh.id_gtbrlsh = gtbrlsh.id
-                JOIN gaptpmh ON gaptpmh.id = gapxxsh.id_gaptpmh
+                LEFT JOIN gaptbtd ON gaptbtd.id_gtbrlsh = gtbrlsh.id
+                LEFT JOIN gapxxsh ON gapxxsh.id = gaptbtd.id_gapxxsh
                 WHERE 
                     tblheader = :table_name
             ');
@@ -50,15 +46,22 @@
         $gtbrlsh_nama = $rs_gtbrlsh['gtbrlsh_nama'];
         $id_gapxxsh   = $rs_gtbrlsh['id_gapxxsh'];
         $jumlah_level = $rs_gtbrlsh['jumlah_level'];
-        $gaptpmh_nama = $rs_gtbrlsh['gaptpmh_nama'];
+        $id_gaptpmh = $rs_gtbrlsh['id_gaptpmh'];
         // END ambil aturan approval
 
-        if($gaptpmh_nama == 'Amount'){
-            $field_amount = ',grand_total ';
+        /**
+         * generate field untuk di select di $qs_transaksi jika approval type = amount
+         * jika jika approval type = level, maka tidak perlu
+         */
+        if($id_gaptpmh == 2){
+            $field_amount = 'grand_total ';
         }else{
             $field_amount = '';
         }
    
+        /**
+         * ambil id_users_pengaju untuk di insert ke gaplgtd
+         */
         $qs_log = $db
             ->raw()
             ->bind(':id_transaksi', $id_transaksi)
@@ -76,6 +79,10 @@
             ');
         $rs_log     = $qs_log->fetch();
 
+        /**
+         * ambil kode transaksi [dan grand_total] untuk di insert ke gaplgtd
+         * grand_total optional, hanya untuk yang approval_type (gaptpmh) = Amount
+         */
         $qs_transaksi = $db
             ->raw()
             ->bind(':id_transaksi', $id_transaksi)
@@ -89,16 +96,17 @@
                     id = :id_transaksi
             ');
         $rs_transaksi = $qs_transaksi->fetch();
-        
-        $kode = $rs_transaksi['kode'];
 
         // bagian ini mungkin bisa diubah masuk ke table gapxxsh atau gapdusd
-        if($gaptpmh_nama == 'Amount'){
+        if($id_gaptpmh == 'Amount'){
             $tr_amount = $rs_transaksi['grand_total'];
         }else{
             $tr_amount = 0;
         }
         
+        /**
+         * ambil id_users yang harus melakukan approval
+         */
         $qs_gapdusd = $db
             ->raw()
             ->bind(':id_gapxxsh', $id_gapxxsh)
@@ -112,47 +120,54 @@
                     AND id_gapxxsh = :id_gapxxsh
                     AND :tr_amount BETWEEN gaptpmh_value_fr AND IFNULL(gaptpmh_value_to,999999999999999999.99)
             ');
-        $rs_gapdusd = $qs_gapdusd->fetch();
-        
-        $qi_gaplgtd = $db
-            ->query('insert', 'gaplgtd')
-            ->set('id_users', $rs_gapdusd['id_users'] )
-            ->set('id_users_pengaju', $rs_log['id_users_pengaju'])
-            ->set('id_transaksi', $id_transaksi )
-            ->set('kode', $kode)
-            ->set('nama', $gtbrlsh_nama)
-            ->set('start_at', date('Y-m-d H:i:s'))
-            ->set('tbl_name', $table_name)
-            ->set('level_ke', $rs_gapdusd['level_ke'] )
-            ->set('dt_pengajuan', $rs_log['created_on'] )
-            ->set('transaction_state', 1 )
-            ->exec();
-                
-        $db->commit();
+        $rs_gapdusd = $qs_gapdusd->fetchAll();
 
-        if($qi_gaplgtd){
-            $data = array(
-                'status_code'  => 200,
-                'message'      => 'Pengajuan Approval Berhasil Dilakukan',
-                'type_message' => 'success'
-            );
+        foreach ($rs_gapdusd as $row_gapdusd) {
+            $qi_gaplgtd = $db
+                ->query('insert', 'gaplgtd')
+                ->set('id_users', $row_gapdusd['id_users'] )
+                ->set('id_users_pengaju', $rs_log['id_users_pengaju'])
+                ->set('id_transaksi', $id_transaksi )
+                ->set('kode', $rs_transaksi['kode'])
+                ->set('nama', $gtbrlsh_nama)
+                ->set('start_at', date('Y-m-d H:i:s'))
+                ->set('tbl_name', $table_name)
+                ->set('level_ke', $row_gapdusd['level_ke'] )
+                ->set('dt_pengajuan', $rs_log['created_on'] )
+                ->set('transaction_state', 1 )
+                ->exec();
+        }
+
+        if(!empty($qi_gaplgtd)){
+            $db->commit();
+            $status_code  = '200';
+            $message      = 'Pengajuan Approval Berhasil Dilakukan';
+            $type_message = 'success';
         }else{
-            $data = array(
-                'status_code'  => 500,
-                'message'      => 'Pengajuan Approval Gagal Dilakukan!',
-                'type_message' => 'error'
-            );
+            $db->rollback();
+            $status_code  = '500';
+            $message      = 'Pengajuan Approval Gagal Dilakukan';
+            $type_message = 'error';
         }
         
     }catch(PDOException $e){
-        $data = array(
-		    'status_code'  => 500,
-            'message'      => 'Pengajuan Approval Gagal Dilakukan! ' . $e->getMessage(),
-            'type_message' => 'error'
-        );
-		$db->rollback();
+        $db->rollback();
+        $status_code  = '500';
+        $message      = 'Pengajuan Approval Gagal Dilakukan! ' . $e->getMessage();
+        $type_message = 'error';
+    }catch (Exception $e) {
+        $db->rollback();
+        $status_code = 500;
+        $message = 'Pengajuan Approval Gagal Dilakukan!, ' . $e->getMessage();
+        $type_message = 'error';
+    }
 
-	}
+    // build response
+    $data = array(
+        'status_code'    => $status_code,
+        'message'        => $message,
+        'type_message'   => $type_message
+    );
 
     // tampilkan results
     require_once( "fn_ajax_results.php" );

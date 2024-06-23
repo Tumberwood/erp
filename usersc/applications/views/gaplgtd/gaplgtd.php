@@ -25,6 +25,7 @@
                                 <th>Nama</th>
                                 <th>Diajukan Oleh</th>
                                 <th>Diajukan Pada</th>
+                                <th>Ditujukan Kepada</th>
                                 <th>TX</th>
                                 <th>Approval</th>
                             </tr>
@@ -163,13 +164,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,5]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4,5,6]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -190,6 +191,7 @@
 				{ data: "gaplgtd.nama" },
 				{ data: "users_pengaju.username" },
 				{ data: "gaplgtd.dt_pengajuan" },
+				{ data: "users_penyetuju.username" },
 				{ 
 					data: "gaplgtd.transaction_state" ,
 					...renderTransactionStatus()
