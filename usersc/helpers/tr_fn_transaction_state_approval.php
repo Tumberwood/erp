@@ -1,6 +1,10 @@
 <?php
 	/**
      * Digunakan untuk insert ke tabel Approval List (gaplgtd) berdasarkan Approval Setting (gapxxsh, gaplgtd, gapdusd)
+     * id_gaptpmh
+     * 1: Level         : hanya berdasarkan urutan, tanpa membedakan Divisi atau Department
+     * 2: Amount        : berdasarkan grand_total
+     * 3: Level Group   : berdasarkan urutan, dengan memperhatikan Divisi atau Department
      */
     
 	require_once( "../../users/init.php" );
@@ -26,12 +30,16 @@
     try{
         $db->transaction();
         
-        // BEGIN ambil aturan approval
+        /**
+         * Ambil aturan approval berdasarkan apa
+         */
         $qs_gtbrlsh = $db
             ->raw()
             ->bind(':table_name', $table_name)
             ->exec('SELECT
+                    gtbrlsh.id as id_gtbrlsh,
                     gtbrlsh.nama as gtbrlsh_nama,
+                    gtbrlsh.tblheader as gtbrlsh_tblheader,
                     gapxxsh.id as id_gapxxsh,
                     gapxxsh.id_gaptpmh as id_gaptpmh,
                     gapxxsh.jumlah_level as jumlah_level
@@ -41,21 +49,68 @@
                 WHERE 
                     tblheader = :table_name
             ');
-        $rs_gtbrlsh   = $qs_gtbrlsh->fetch();
-        $gtbrlsh_nama = $rs_gtbrlsh['gtbrlsh_nama'];
-        $id_gapxxsh   = $rs_gtbrlsh['id_gapxxsh'];
-        $jumlah_level = $rs_gtbrlsh['jumlah_level'];
-        $id_gaptpmh = $rs_gtbrlsh['id_gaptpmh'];
+        $rs_gtbrlsh        = $qs_gtbrlsh->fetch();
+        $gtbrlsh_nama      = $rs_gtbrlsh['gtbrlsh_nama'];
+        $gtbrlsh_tblheader = $rs_gtbrlsh['gtbrlsh_tblheader'];
+        $id_gapxxsh        = $rs_gtbrlsh['id_gapxxsh'];
+        $jumlah_level      = $rs_gtbrlsh['jumlah_level'];
+        $id_gaptpmh        = $rs_gtbrlsh['id_gaptpmh'];
+        $id_gtbrlsh        = $rs_gtbrlsh['id_gtbrlsh'];
         // END ambil aturan approval
 
         /**
          * generate field untuk di select di $qs_transaksi jika approval type = amount
          * jika jika approval type = level, maka tidak perlu
          */
-        if($id_gaptpmh == 2){
+        $field_amount = '';
+        $tr_amount = '';
+        $field_group = '';
+        $where_group_nama = '';
+
+        if($id_gaptpmh == 1){
+            
+        }elseif($id_gaptpmh == 2){
             $field_amount = ',grand_total ';
+            $tr_amount = $rs_transaksi['grand_total'];
+
+        }elseif($id_gaptpmh == 3){
+            /**
+             * perlu mendapatkan department atau divisi mana yang harus approve
+             * contoh dari 
+             *  prqxxth, ada id_hodxxmh
+             *  maka harus dicari di table gapdusd yang group nya d
+             */
+            $qs_gapdusd = $db
+                ->query('select', 'gapdusd' )
+                ->get([
+                    'gapdusd.tblheader as tblheader',
+                    'gapdusd.tbl_group_nama as tbl_group_nama'
+                ] )
+                ->join('gaptbtd','gaptbtd.id_gapxxsh = gapdusd.id_gapxxsh','LEFT' )
+                ->where('gaptbtd.id_gtbrlsh', $id_gtbrlsh )
+                ->exec();
+            $rs_gapdusd = $qs_gapdusd->fetch();
+
+            // ambil data Divisi atau Department dari table transaksi
+            $qs_transaksi_group = $db
+                ->raw()
+                ->bind(':id_transaksi', $id_transaksi)
+                ->exec('SELECT
+                        id_'.$rs_gapdusd['tblheader'].',
+                        '.$rs_gapdusd['tblheader'].'.nama as tbl_group_nama
+                    FROM '.$table_name.'
+                    LEFT JOIN '.$rs_gapdusd['tblheader'].' ON '.$rs_gapdusd['tblheader'].'.id = '.$table_name.'.id_'.$rs_gapdusd['tblheader'].' 
+                    WHERE 
+                        '.$table_name.'.id = :id_transaksi
+                ');
+            $rs_transaksi_group = $qs_transaksi_group->fetch();
+
+            // generate where_group_nama
+            $where_group_nama = 'AND gapdusd.tblheader = "' . $rs_gapdusd['tblheader'] . '" AND gapdusd.tbl_group_nama = "' . $rs_transaksi_group['tbl_group_nama'] .'"';
+
+
         }else{
-            $field_amount = '';
+
         }
    
         /**
@@ -88,19 +143,13 @@
                     kode 
                 '
                     .$field_amount.
-                'FROM '.$table_name.'
+                    // $field_group.
+                ' FROM '.$table_name.'
                 WHERE 
                     id = :id_transaksi
             ');
         $rs_transaksi = $qs_transaksi->fetch();
-
-        // bagian ini mungkin bisa diubah masuk ke table gapxxsh atau gapdusd
-        if($id_gaptpmh == 2){
-            $tr_amount = $rs_transaksi['grand_total'];
-        }else{
-            $tr_amount = 0;
-        }
-        
+      
         /**
          * ambil id_users yang harus melakukan approval
          */
@@ -113,6 +162,7 @@
                     level_ke
                 FROM gapdusd
                 WHERE 1
+                    '.$where_group_nama.'
                     AND id_gapxxsh = :id_gapxxsh
                     AND :tr_amount BETWEEN gaptpmh_value_fr AND IFNULL(gaptpmh_value_to,999999999999999999.99)
             ');

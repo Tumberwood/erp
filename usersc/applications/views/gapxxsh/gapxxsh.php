@@ -50,7 +50,8 @@
 										<th>id_gapxxsh</th>
 										<th>User</th>
 										<th>Level</th>
-										<th>Group Data</th>
+										<th>Group</th>
+										<th>Nama Group</th>
 										<th>Batas Bawah</th>
 										<th>Batas Atas (<=)</th>
 									</tr>
@@ -110,8 +111,8 @@
 	// ------------- end of default variable
 
 	var id_gtbrlsh = 0, id_gaptpmh_old = 0, jumlah_level_max = 0;
-	var id_users_old = 0, id_tbl_group_old = 0;
-	var id_gtbrlsh_old = 0;
+	var id_users_old = 0, tblheader;
+	var id_gtbrlsh_old = 0, tbl_group_nama_old = '';
 
 	// get tableRelation
 	tableRelation('gapxxsh');
@@ -440,7 +441,7 @@
 				}, 	
 				{
 					label: "Group",
-					name: "gapdusd.tbl_header",
+					name: "gapdusd.tblheader",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -451,6 +452,43 @@
 						{ label: "Division", value: "hovxxmh" },
 						{ label: "Department", value: "hodxxmh" }
 					]
+				},
+				{
+					label: "Group Data",
+					name: "gapdusd.tbl_group_nama",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/gapxxsh/gapdusd_fn_opt_tblheader.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									tblheader: tblheader,
+									tbl_group_nama_old: tbl_group_nama_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
 				},
 				{
 					label: "Level",
@@ -501,6 +539,12 @@
 			$(".modal-dialog").addClass("modal-lg");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
+
+		edtgapdusd.dependent( 'gapdusd.tblheader', function ( val, data, callback ) {
+			tblheader = val;
+			console.log(tblheader);
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtgapdusd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -599,7 +643,8 @@
 				{ data: "gapdusd.id_gapxxsh",visible:false },
 				{ data: "users.username" },
 				{ data: "gapdusd.level_ke" },
-				{ data: "gapdusd.tbl_header" },
+				{ data: "gtbrlsh.nama" },
+				{ data: "gapdusd.tbl_group_nama" },
 				{ 
 					data: "gapdusd.gaptpmh_value_fr" ,
 					...renderNumber(0)
@@ -644,7 +689,7 @@
 		tblgapdusd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('gapdusd');
 			id_users_old        = gapdusd_data.id_users;
-			id_tbl_group_old    = gapdusd_data.id_tbl_group;
+			tbl_group_nama_old  = gapdusd_data.tbl_group_nama;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblgapdusd );
@@ -652,7 +697,7 @@
 
 		tblgapdusd.on( 'deselect', function() {
 			siVarResetD('apdusd');
-			id_users_old = 0, id_tbl_group_old = 0;
+			id_users_old = 0, tbl_group_nama_old = '';
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblgapdusd );
