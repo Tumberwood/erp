@@ -30,8 +30,7 @@
         $qs_gtbrlsh = $db
             ->raw()
             ->bind(':table_name', $table_name)
-            ->exec('
-                SELECT
+            ->exec('SELECT
                     gtbrlsh.nama as gtbrlsh_nama,
                     gapxxsh.id as id_gapxxsh,
                     gapxxsh.id_gaptpmh as id_gaptpmh,
@@ -54,7 +53,7 @@
          * jika jika approval type = level, maka tidak perlu
          */
         if($id_gaptpmh == 2){
-            $field_amount = 'grand_total ';
+            $field_amount = ',grand_total ';
         }else{
             $field_amount = '';
         }
@@ -67,8 +66,7 @@
             ->bind(':id_transaksi', $id_transaksi)
             ->bind(':kode', 'CONFIRM')
             ->bind(':table_name', $table_name)
-            ->exec('
-                SELECT
+            ->exec('SELECT
                     created_by as id_users_pengaju,
                     created_on
                 FROM activity_log_ml
@@ -86,8 +84,7 @@
         $qs_transaksi = $db
             ->raw()
             ->bind(':id_transaksi', $id_transaksi)
-            ->exec('
-                SELECT
+            ->exec('SELECT
                     kode 
                 '
                     .$field_amount.
@@ -98,7 +95,7 @@
         $rs_transaksi = $qs_transaksi->fetch();
 
         // bagian ini mungkin bisa diubah masuk ke table gapxxsh atau gapdusd
-        if($id_gaptpmh == 'Amount'){
+        if($id_gaptpmh == 2){
             $tr_amount = $rs_transaksi['grand_total'];
         }else{
             $tr_amount = 0;
@@ -111,8 +108,7 @@
             ->raw()
             ->bind(':id_gapxxsh', $id_gapxxsh)
             ->bind(':tr_amount', $tr_amount)
-            ->exec('
-                SELECT 
+            ->exec('SELECT 
                     id_users,
                     level_ke
                 FROM gapdusd
