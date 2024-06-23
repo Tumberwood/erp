@@ -81,19 +81,20 @@
 
             // BEGIN cek is_need_approval
             if($is_need_approval == 1){
-                $qs_gapxxsh = $db
+                $qs_gaptbtd = $db
                     ->raw()
                     ->bind(':id_gtbrlsh', $id_gtbrlsh)
                     ->exec('
                         SELECT
-                            count(*) as c_gapxxsh
-                        FROM gapxxsh
+                            count(*) as c_gaptbtd
+                        FROM gaptbtd
+                        LEFT JOIN gapxxsh ON gapxxsh.id = gaptbtd.id_gapxxsh
                         WHERE 1
-                            AND id_gtbrlsh = :id_gtbrlsh
-                            AND transaction_state = 1
+                            AND gaptbtd.id_gtbrlsh = :id_gtbrlsh
+                            AND gapxxsh.transaction_state = 1
                     ');
-                $rs_gapxxsh = $qs_gapxxsh->fetch();
-                if($rs_gapxxsh['c_gapxxsh'] == 0){
+                $rs_gaptbtd = $qs_gaptbtd->fetch();
+                if($rs_gaptbtd['c_gaptbtd'] == 0){
                     $status_code           = 500;
                     $message               = 'Transaksi Ini Membutuhkan Approval, Tetapi Aturan Approval Belum Ada!';
                     $type_message          = 'error';
