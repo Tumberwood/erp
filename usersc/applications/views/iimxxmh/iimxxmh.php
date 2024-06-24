@@ -48,6 +48,17 @@
 							<div class="col-lg-6">
 								<editor-field name="iimxxmh.id_iibxxmh"></editor-field>
 							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.movement_method"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.is_batch_number"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.is_expired_date"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
@@ -465,6 +476,38 @@
 					},
 				},	
 				{
+					label: "Movement Method<sup class='text-danger'>*<sup>",
+					name: "iimxxmh.movement_method",
+					type: "select",
+					placeholder : "Select",
+					def: 1,
+					options: [
+						{ "label": "FEFO", "value": 1 },
+						{ "label": "FIFO", "value": 2 },
+						{ "label": "LIFO", "value": 3 },
+					]
+				},
+				{
+					label: "Wajib Batch Number",
+					name: "iimxxmh.is_batch_number",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Wajib Expired Date",
+					name: "iimxxmh.is_expired_date",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
 					label: getTranslation('notes'),
 					name: "iimxxmh.keterangan",
 					type: "textarea"
@@ -524,6 +567,7 @@
 				nama = edtiimxxmh.field('iimxxmh.nama').val();
 				id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
 				id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
+				movement_method = edtiimxxmh.field('iimxxmh.movement_method').val();
 
 				validasiRequired(
 					edtiimxxmh,
@@ -532,7 +576,8 @@
 						'kode': kode,
 						'nama': nama,
 						'id_iitxxmh': id_iitxxmh,
-						'id_iicxxmh': id_iicxxmh
+						'id_iicxxmh': id_iicxxmh,
+						'movement_method': movement_method,
 					}
 				);
 
