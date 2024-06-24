@@ -21,6 +21,8 @@
                     c.id_iumxxmh_unit,
                     a.jumlah_unit unit_before,
                     c.jumlah_unit unit_now,
+                    e.id_iumxxmh id_iumxxmh_terkecil,
+                    f.id_iumxxmh id_iumxxmh_default,
                     if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi) AS jumlah_terkecil,
                     if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)
                     / (f.jumlah_konversi) AS jumlah_default,
@@ -40,6 +42,8 @@
     // echo $rs_os_self['unit_now'];
     $qu_os_self = $editor->db()
         ->query('update', $nama_table)
+        ->set('id_iumxxmh_terkecil',$id_iumxxmh_terkecil)
+        ->set('id_iumxxmh_default',$id_iumxxmh_default)
         ->set('jumlah_konversi',$rs_os_self['jumlah_konversi'])
         ->set('jumlah_unit_os',$rs_os_self['unit_now'])
         ->set('jumlah_terkecil',$rs_os_self['jumlah_terkecil'])
