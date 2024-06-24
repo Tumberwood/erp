@@ -62,7 +62,7 @@
 				LEFT JOIN iumxxmh d ON d.id = uo.id_iumxxmh
 				LEFT JOIN (
 					SELECT
-						re.jumlah_terkecil,
+						sum(re.jumlah_terkecil) jumlah_terkecil,
 						re.id_wroittd,
 						ml.id_transaksi,
 						max(ml.finish_on) finish_on
