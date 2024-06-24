@@ -110,3 +110,8 @@ table.dataTable td {
 .bg-beige {
   background-color: #F5F5DC !important;
 }
+
+.modal-xxxl {
+  max-width: 1250px;
+  top: -10px;
+}

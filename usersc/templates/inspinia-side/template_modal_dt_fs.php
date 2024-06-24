@@ -1,9 +1,6 @@
 <?php $c_tabel_detail = count($nama_tabels_d);?>
 <style>
-	.modal-xxxl {
-		max-width: 1250px;
-		top: -10px;
-	}
+	
 </style>
 
 <div class="modal fade" id="modalP<?php echo $nama_tabel; ?>">
