@@ -138,8 +138,8 @@
 					{ data: "jumlah_unit_ro", ...renderNumber(2) },
 					{ data: "jumlah_unit_re", ...renderNumber(2) },
 					{ data: "sisa", ...renderNumber(2) },
-					{ data: "confirm_ro" },
-					{ data: "confirm_re" },
+					{ data: "confirm_ro",visible:false },
+					{ data: "confirm_re",visible:false },
 					{ data: "pemenuhan" },
 				],
 				buttons: [

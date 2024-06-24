@@ -47,11 +47,12 @@
 						CONCAT(
 						IF(TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) >= 86400, CONCAT(FLOOR(TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) / 86400), "d "), ""),
 						IF(TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) % 86400 >= 3600, CONCAT(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) % 86400) / 3600), "h "), "")
-					),
+						),
 						CONCAT(
-							if(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) >= 3600, concat(FLOOR(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) / 3600), "h "), ""),
-							if(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) >= 60, concat(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 3600) / 60), "m "), ""),
-							(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 60), "s"
+							IF(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) >= 86400, CONCAT(FLOOR(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) / 86400), "d "), ""),
+							IF(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 86400 >= 3600, CONCAT(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 86400) / 3600), "h "), ""),
+							IF(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 3600 >= 60, CONCAT(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 3600) / 60), "m "), ""),
+							CONCAT(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 60, "s")
 						)
 					) AS pemenuhan
 				FROM wroxxth a
