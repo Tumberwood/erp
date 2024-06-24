@@ -13,7 +13,8 @@
 	 */
 
 	// get data
-	$id_fopxxth = $_GET['id_fopxxth'];
+	$id_transaksi    = $_GET['id_transaksi'];
+	$jenis_transaksi = $_GET['jenis_transaksi'];
 
 	$qs_aglxxth = $db
 		->query('select', 'aglxxth' )
@@ -23,11 +24,12 @@
 			'aglxxth.keterangan as keterangan',
 			'aglxxth.tanggal as tanggal',
 			'aglxxth.jenis_transaksi as jenis_transaksi',
+			'aglxxth.kode_transaksi as kode_transaksi',
 			'aglxxth.total_debit as total_debit',
 			'aglxxth.total_kredit as total_kredit'
 		] )
-		->where('aglxxth.id_transaksi_h', $id_fopxxth )
-		->where('aglxxth.jenis_transaksi', 'Other Payment' )
+		->where('aglxxth.id_transaksi_h', $id_transaksi )
+		->where('aglxxth.jenis_transaksi', $jenis_transaksi )
 		->exec();
 	$rs_aglxxth = $qs_aglxxth->fetch();
 
@@ -70,25 +72,37 @@
 			<htmlpageheader name="myheader">
 				<table width="100%">
 					<tr>
-						<td colspan="6" class="text-center"><h3>Jurnal</h3></td>
+						<td colspan="12" class="text-center"><h3>Rincian Jurnal</h3></td>
 					</tr>
 					<tr>
-						<td width="14%">Tanggal</td>
+						<td width="9%">Tanggal</td>
 						<td width="1%">:</td>
-						<td width="20%">'.$tanggal->format('d M Y').'</td>
+						<td width="15%">'.$tanggal->format('d M Y').'</td>
+                        <td width="2%"></td>
 
-						<td width="10%">Kode</td>
+						<td width="14%">Jenis Transaksi</td>
 						<td width="1%">:</td>
-						<td>'.$rs_aglxxth['kode'].'</td>
+						<td width="15%">'.$rs_aglxxth['jenis_transaksi'].'</td>
+                        <td width="2%"></td>
+
+						<td width="10%">Keterangan</td>
+						<td width="1%">:</td>
+						<td width="14%"></td>
+                        <td width="16%"></td>
+
 					</tr>
 					<tr>
-						<td>Jenis Transaksi</td>
+						<td>No Jurnal</td>
 						<td>:</td>
-						<td>'.$rs_aglxxth['jenis_transaksi'].'</td>
+						<td>'.$rs_aglxxth['kode'].'</td>
+                        <td></td>
 
-						<td width="10%">Deskripsi</td>
-						<td width="1%">:</td>
-						<td>'.$rs_aglxxth['keterangan'].'</td>
+                        <td>No Transaksi</td>
+						<td>:</td>
+						<td>'.$rs_aglxxth['kode_transaksi'].'</td>
+                        <td></td>
+
+						<td colspan="4">'.$rs_aglxxth['keterangan'].'</td>
 					</tr>
 				</table>
 			</htmlpageheader>

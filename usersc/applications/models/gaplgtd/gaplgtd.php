@@ -50,8 +50,10 @@
 					'to' =>   'd M Y H:i:s'
 				) ),
 
+			Field::inst( 'users_penyetuju.username' ),
 			Field::inst( 'users_pengaju.username' )
 		)
+		->leftJoin( 'users as users_penyetuju','users_penyetuju.id','=','gaplgtd.id_users' )
 		->leftJoin( 'users as users_pengaju','users_pengaju.id','=','gaplgtd.id_users_pengaju' );
 	
 	// do not erase

@@ -383,7 +383,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('fopxxth_jv_print.php?id_fopxxth='+id_fopxxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Other Payment&id_transaksi='+id_fopxxth, '_blank');
 					}
 				}
 			],

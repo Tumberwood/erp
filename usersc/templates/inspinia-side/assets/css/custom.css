@@ -26,7 +26,7 @@
 
 #searchInput {
   border-radius: 5px; 
-  width: 200px; 
+  width: 260px; 
   margin-left: 7px;
 }
 
@@ -34,6 +34,11 @@
 {
   padding-top: 6px; 
   padding-bottom: 4px;
+}
+
+/* melebarkan side bar*/
+body.canvas-menu.mini-navbar nav.navbar-static-side {
+  width: 280px;
 }
 
 table.dataTable tbody th, table.dataTable tbody td {

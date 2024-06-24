@@ -24,8 +24,6 @@
 	$id = $_POST['id_transaksi'];
 	$state = $_POST['state'];
 
-	// (ROW_NUMBER() OVER (ORDER BY a.id) * (ROW_NUMBER() OVER (ORDER BY a.id) - 1)) / 2 AS result
-
 	try{
 		
 		if($state == 1){

@@ -31,6 +31,8 @@
 			Field::inst( 'igixxth.id_gbrxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue($s_id_gbrxxmh),
+			Field::inst( 'igixxth.id_iwhxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'igixxth.id_aakxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'igixxth.id_hodxxmh' )

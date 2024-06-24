@@ -53,8 +53,8 @@
                                 <th>Kode Item</th>
                                 <th>Nama Item</th>
                                 <th>UoM</th>
-                                <th>Jumlah Unit RO</th>
-                                <th>Jumlah Unit RE</th>
+                                <th>Receive Order</th>
+                                <th>Receive Entry</th>
                                 <th>Sisa</th>
                                 <th>Tanggal RO</th>
                                 <th>Tanggal RE</th>

@@ -568,7 +568,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('prcxxth_jv_print.php?id_prcxxth='+id_prcxxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Goods Receive&id_transaksi='+id_prcxxth, '_blank');
 					}
 				}
 			],

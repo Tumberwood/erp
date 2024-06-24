@@ -401,7 +401,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('fobxxth_jv_print.php?id_fobxxth='+id_fobxxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Overbook&id_transaksi='+id_fobxxth, '_blank');
 					}
 				}
 			],

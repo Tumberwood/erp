@@ -823,6 +823,13 @@
          */
         public static function hitungHPPAverage( $db, $id_iimxxmh ){
             // TODO
+            $qs_iivxxrd = $db
+                ->query('select', 'iivxxrd' )
+                ->get([
+                    'SUM(iivxxrd.jumlah_terkecil * iivxxrd.hpp) / SUM(iivxxrd.jumlah_terkecil) as hpp'
+                ] )
+                ->where('iivxxrd.id_iimxxmh', $id_iimxxmh )
+                ->exec();
         }
         
     } // end of class General

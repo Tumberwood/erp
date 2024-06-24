@@ -1029,28 +1029,6 @@ async function fnConfirm(tbl_name, tbl){
             } );
         }
 
-        if(is_need_jurnal == 1 && is_error == 0){
-            let json5 = await $.ajax( {
-                url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_jv.php',
-                dataType: 'json',
-                type: 'POST',
-                data: {
-                    state           : 1,
-                    id_transaksi_h  : id_transaksi_h,
-                },
-                success: function ( json ) {
-                    status_code  = json.data.status_code;
-                    if(status_code == 500){
-                        is_error = 1;
-                    }else{
-                        is_jurnal = 1;
-                    }
-                    toast_type = json.data.type_message;
-                    full_message = full_message + json.data.message + '</br>';
-                }
-            } );
-        }
-
         // Cek keberadaan file sebelum melakukan AJAX request.
         const fileExists = await checkFileExists('../../models/' + tbl_name + '/' + tbl_name + '_post_confirm.php');
         if (fileExists == true && is_error == 0) {
@@ -1076,6 +1054,28 @@ async function fnConfirm(tbl_name, tbl){
                 error: function(){
                     console.error('File Not Exist');
                 },
+            } );
+        }
+        
+        if(is_need_jurnal == 1 && is_error == 0){
+            let json5 = await $.ajax( {
+                url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_jv.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    state           : 1,
+                    id_transaksi_h  : id_transaksi_h,
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_jurnal = 1;
+                    }
+                    toast_type = json.data.type_message;
+                    full_message = full_message + json.data.message + '</br>';
+                }
             } );
         }
 
