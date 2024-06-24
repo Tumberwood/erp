@@ -110,7 +110,7 @@
 	$nama_table        = 'wreittd';
 	$nama_table_before = 'wroittd';
 	include( "wreittd_extra.php" );
-	include( "../../../helpers/fn_extra_transaksi_before.php" );
+	// include( "../../../helpers/fn_extra_transaksi_before.php" );
 
 	// BEGIN log
 	$nama_table = 'wreittd';
