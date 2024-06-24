@@ -61,6 +61,7 @@
             'CONCAT(iimxxmh.kode," - ",iimxxmh.nama) as text'
         ])
         ->join('iimxxmh','iimxxmh.id = wroittd.id_iimxxmh','LEFT' )
+        ->where('wroittd.jumlah_terkecil_os', 0, '>')
         ->where('wroittd.transaction_state',1)
         ->where('wroittd.id_iimxxmh', $id_iimxxmh_old, '<>' )
         ->where('wroittd.id_wroxxth', $id_wroxxth, $w_iitp )

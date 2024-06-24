@@ -56,6 +56,35 @@
     }
     // END query options self
 
+    $qs_os_nol = $db
+        ->raw()
+        ->exec('SELECT
+                    a.id,
+                    SUM(b.jumlah_terkecil_os) AS os
+                FROM wroxxth a
+                LEFT JOIN wroittd b ON b.id_wroxxth = a.id
+                WHERE a.transaction_state = 1 AND b.transaction_state <> -9
+                GROUP BY a.id
+                HAVING os = 0
+        '
+        );
+
+    $rs_os_nol = $qs_os_nol->fetchAll();
+    $id_array = [];
+
+    if (!empty($rs_os_nol)) {
+        //yang item OS = 0 semua, maka tidak perlu dimunculkan headernya
+        foreach ($rs_os_nol as $row) {
+            $id_array[] = $row['id'];
+        }
+    
+        $id_string = '(' . implode(',', $id_array) . ')';
+    } else {
+        $id_string = '(-9)';
+    }
+
+    // echo $id_string;
+    
     // BEGIN query options all except self
     $qs_wroxxth_all = $db
         ->query('select', 'wroxxth')
@@ -73,6 +102,7 @@
         ])
         ->join('grlxxmh','grlxxmh.id = wroxxth.id_grlxxmh_supplier','LEFT' )
         ->where('wroxxth.transaction_state',1)
+        ->where('wroxxth.id', $id_string, 'NOT IN', false )
         ->where('wroxxth.id', $id_wroxxth_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
