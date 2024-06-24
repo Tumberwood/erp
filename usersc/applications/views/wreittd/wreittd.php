@@ -382,6 +382,21 @@
 		edtwreittd.dependent( 'wreittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = val;
 			wreittd_fn_wroiitd(id_wroxxth, id_iimxxmh);
+			autofillField('iimxxmh', id_iimxxmh, 'is_batch_number, is_expired_date');
+			is_batch_number = autofillData.is_batch_number;
+			is_expired_date = autofillData.is_expired_date;
+
+			if (is_batch_number == 1) {
+				edtwreittd.field('wreittd.batch_number').label("Batch Number <sup class='text-danger'>*<sup>")
+			} else {
+				edtwreittd.field('wreittd.batch_number').label("Batch Number")
+			}
+
+			if (is_expired_date == 1) {
+				edtwreittd.field('wreittd.expired_date').label("Expired Date <sup class='text-danger'>*<sup>")
+			} else {
+				edtwreittd.field('wreittd.expired_date').label("Expired Date")
+			}
 			return {}
 		}, {event: 'keyup change'});
 
@@ -401,6 +416,7 @@
 				id_iumxxmh_unit = edtwreittd.field('wreittd.id_iumxxmh_unit').val();
 				jumlah_unit     = edtwreittd.field('wreittd.jumlah_unit').val();
 				expired_date     = edtwreittd.field('wreittd.expired_date').val();
+				batch_number     = edtwreittd.field('wreittd.batch_number').val();
 
 				validasiRequired(
 					edtwreittd,
@@ -450,6 +466,29 @@
 				validasiOutstanding(
 					edtwreittd, 'wreittd', id_transaksi, id_wroittd, 'wroittd'
 				)
+				autofillField('iimxxmh', id_iimxxmh, 'is_batch_number, is_expired_date');
+				is_batch_number = autofillData.is_batch_number;
+				is_expired_date = autofillData.is_expired_date;
+
+				if (is_batch_number == 1) {
+					validasiRequired(
+						edtwreittd,
+						'wreittd',
+						{
+							'batch_number'   : batch_number,
+						}
+					);
+				}
+
+				if (is_expired_date == 1) {
+					validasiRequired(
+						edtwreittd,
+						'wreittd',
+						{
+							'expired_date'   : expired_date,
+						}
+					);
+				}
 			}
 			
 			if ( edtwreittd.inError() ) {
