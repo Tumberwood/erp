@@ -42,8 +42,8 @@
     // echo $rs_os_self['unit_now'];
     $qu_os_self = $editor->db()
         ->query('update', $nama_table)
-        ->set('id_iumxxmh_terkecil',$id_iumxxmh_terkecil)
-        ->set('id_iumxxmh_default',$id_iumxxmh_default)
+        ->set('id_iumxxmh_terkecil',$rs_os_self['id_iumxxmh_terkecil'])
+        ->set('id_iumxxmh_default',$rs_os_self['id_iumxxmh_default'])
         ->set('jumlah_konversi',$rs_os_self['jumlah_konversi'])
         ->set('jumlah_unit_os',$rs_os_self['unit_now'])
         ->set('jumlah_terkecil',$rs_os_self['jumlah_terkecil'])
