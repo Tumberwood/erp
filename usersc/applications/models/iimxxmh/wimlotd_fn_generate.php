@@ -39,6 +39,7 @@
                 $w_bay_name = '';
                 $w_level_name = '';
                 $w_position_name = '';
+                $max_urutan = 0;
                 $params = [];
 
                 if (!empty($values['rack_name'])) {
@@ -85,7 +86,7 @@
                     $w_position_name = '';
                 }
 
-                // NON IN
+                // select existing wimlotd.id_wloxxmh berdasarkan id_iimxxmh
                 $qs_wimlotd = $editor->db()
                     ->query('select', 'wimlotd' )
                     ->get([
@@ -96,6 +97,7 @@
                 $rs_wimlotd = $qs_wimlotd->fetchAll();
                 
                 if (!empty($rs_wimlotd)) {
+                    // jika sudah ada, ambil urutan max
                     $qs_wimlotd_max_urutan = $editor->db()
                         ->query('select', 'wimlotd' )
                         ->get([
