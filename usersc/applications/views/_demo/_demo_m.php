@@ -299,10 +299,13 @@
 					name: "_demo_m.id_files",
 					type: "upload",
 					fieldInfo: "Upload fie format png, jpg, atau jpeg",
-					// display: function ( fileId, counter ) {
-					// 	return '<img src="'+edt_demo_m.file( 'files', fileId ).web_path+'"/>';
-					// },
-					noFileText: 'Belum ada lampiran'
+					display: function(id) {
+						if (id > 0) {
+							return '<img src="'+edt_demo_m.file( 'files', id ).web_path+'"/>';
+						} else {
+							return 'Belum ada gambar';
+						}
+					}
 				},
 				{
 					label: "Show Hide Field",
