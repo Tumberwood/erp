@@ -227,8 +227,6 @@
 	var edtwimlotd_generate;
 	// ------------- end of default variable
 
-	var a;
-
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
 	
 	var id_iumxxmh_old = 0;
@@ -540,7 +538,7 @@
 			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edtiimxxmh.dependent( 'iimxxmh.id_iitxxmh', function ( val, data, callback ) {
