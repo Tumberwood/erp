@@ -49,7 +49,7 @@
         ->set('jumlah_terkecil',$rs_os_self['jumlah_terkecil'])
         ->set('jumlah_terkecil_os',$rs_os_self['jumlah_terkecil'])
         ->set('jumlah_default',$rs_os_self['jumlah_default'])
-        ->set('jumlah_default_os',$rs_os_self['jumlah_default'])
+        // ->set('jumlah_default_os',$rs_os_self['jumlah_default'])
         ->where('id',$id)
         ->exec();
 
