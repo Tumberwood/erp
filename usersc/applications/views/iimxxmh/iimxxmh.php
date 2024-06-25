@@ -963,9 +963,7 @@
 
 		edtiimummd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
-
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtiimummd.on( 'preSubmit', function (e, data, action) {
@@ -1401,9 +1399,7 @@
 
 		edtwimlotd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
-
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtwimlotd.on( 'preSubmit', function (e, data, action) {
