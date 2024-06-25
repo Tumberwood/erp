@@ -44,6 +44,7 @@
 			Field::inst( 'wplxxth.start_at' ),
 			Field::inst( 'wplxxth.finish_at' ),
 			Field::inst( 'wplxxth.is_defaultprogram' ),
+			Field::inst( 'wplxxth.is_crossdocking' ),
 			Field::inst( 'wplxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){

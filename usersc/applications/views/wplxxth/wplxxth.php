@@ -57,6 +57,7 @@
                                 <th>Kode DO</th>
                                 <th>Tanggal</th>
                                 <th>Picking Method</th>
+                                <th>Cross Docking</th>
                             </tr>
                         </thead>
                     </table>
@@ -307,6 +308,16 @@
 					}
 				},
 				{
+					label: "Cross Docking?",
+					name: "wplxxth.is_crossdocking",
+					type: "select",
+					def: 1,
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
 					label: "Keterangan",
 					name: "wplxxth.keterangan",
 					type: "textarea"
@@ -408,6 +419,10 @@
 				{ data: "wdoxxth.kode" },
 				{ data: "wplxxth.tanggal" },
 				{ data: "wpmxxmh.nama" },
+				{ 
+					data: "wplxxth.is_crossdocking",
+					...renderYaTidak()
+				},
 			],
 			buttons: [
 
