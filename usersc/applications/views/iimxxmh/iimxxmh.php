@@ -227,6 +227,8 @@
 	var edtwimlotd_generate;
 	// ------------- end of default variable
 
+	var a;
+
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
 	
 	var id_iumxxmh_old = 0;
@@ -491,7 +493,6 @@
 					label: "Wajib Batch Number <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.is_batch_number",
 					type: "select",
-					placeholder : "Select",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
@@ -501,7 +502,6 @@
 					label: "Wajib Expired Date <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.is_expired_date",
 					type: "select",
-					placeholder : "Select",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
@@ -572,8 +572,8 @@
 		edtiimxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edtiimxxmh.field('iimxxmh.kode').val();
-				nama = edtiimxxmh.field('iimxxmh.nama').val();
+				kode       = edtiimxxmh.field('iimxxmh.kode').val();
+				nama       = edtiimxxmh.field('iimxxmh.nama').val();
 				id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
 				id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
 
@@ -599,13 +599,19 @@
 						edtiimxxmh, 
 						"iimxxmh", 
 						{
-							"id_iigxxmh": id_iigxxmh, 
+							"id_iigxxmh": id_iigxxmh,
 							"id_iibxxmh": id_iibxxmh,
 							'movement_method': movement_method,
-							"is_batch_number": is_batch_number,
-							"is_expired_date": is_expired_date
 						}
 					);
+
+					// if(!is_batch_number){
+					// 	edtiimxxmh.field('iimxxmh.is_batch_number').error( 'Wajib Diisi!' );
+					// }
+
+					// if(!is_expired_date){
+					// 	edtiimxxmh.field('iimxxmh.is_expired_date').error( 'Wajib Diisi!' );
+					// }
 				}
 
 				validasiUnique(
@@ -638,6 +644,14 @@
 		edtiimxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiimxxmh.field('iimxxmh.finish_at').val(finish_at);
+
+			id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
+			if (id_iitxxmh != 1) {
+				
+				edtiimxxmh.field('iimxxmh.movement_method').val(0);
+				edtiimxxmh.field('iimxxmh.is_batch_number').val(0);
+				edtiimxxmh.field('iimxxmh.is_expired_date').val(0);
+			}
 		});
 		
 		edtiimxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
