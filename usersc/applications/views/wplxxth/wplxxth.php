@@ -10,6 +10,7 @@
 	$nama_tabel       = 'wplxxth';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'wplittd';
+    $nama_tabels_d[1] = 'wpllptd';
 ?>
 
 <!-- begin content here -->
@@ -70,7 +71,7 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabwplittd_1"> Item</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabwplittd_2"> Tab 2</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabwpllptd"> LPN</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabwplittd_1" class="tab-pane active">
@@ -102,29 +103,41 @@
 
 					</div>
 				</div>
-				<div role="tabpanel" id="tabwplittd_2" class="tab-pane">
+				<div role="tabpanel" id="tabwpllptd" class="tab-pane">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblwplittd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblwpllptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
-										<th>ID</th>
-										<th>id_wdoxxth</th>
-										<th>Item Code</th>
-										<th>Item Name</th>
+										<th rowspan="2">ID</th>
+										<th rowspan="2">id_wdoxxth</th>
+										<th rowspan="2">LPN</th>
+										<th rowspan="2">Item Code</th>
+										<th rowspan="2">Item Name</th>
+										<th colspan="2">Terkecil</th>
+										<th colspan="2">Default</th>
+										<th rowspan="2">Batch Number</th>
+										<th rowspan="2">Expired Date</th>
+									</tr>
+									<tr>
+										<th>Jumlah</th>
 										<th>UoM</th>
-										<th>Quantity</th>
+										<th>Jumlah</th>
+										<th>UoM</th>
 									</tr>
 								</thead>
 								<tfoot>
-									<tr>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th id="c_item"></th>
-										<th></th>
-										<th></th>
-									</tr>
+									<th></th>
+									<th></th>
+									<th>Total</th>
+									<th></th>
+									<th></th>
+									<th id="s_5"></th>
+									<th></th>
+									<th id="s_7"></th>
+									<th></th>
+									<th></th>
+									<th></th>
 								</tfoot>
 							</table>
 						</div>
@@ -161,12 +174,15 @@
 	// ------------- default variable, do not erase
 	var edtwplxxth, tblwplxxth, show_deleted_wplxxth = 0, id_wplxxth;
 	var edtwplittd, tblwplittd, show_deleted_wplittd = 0, id_wplittd;
+	var edtwpllptd, tblwpllptd, show_deleted_wpllptd = 0, id_wpllptd;
 	// ------------- end of default variable
 
 	// get tableRelation
 	tableRelation('wplxxth');
 	var id_wdoxxth_old = 0, id_wdoxxth = 0;
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0;
+	
+	uniqueToken = '';
 
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -440,6 +456,76 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-google"></i>',
+					name: 'btnGenerateLPN',
+					className: 'btn btn-xs btn-outline',
+					titleAttr: 'Generate LPN',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						var date = new Date().getTime();
+						var timestamp = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
+						console.log(uniqueToken);
+						toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+
+						$.ajax( {
+							url: "../../models/wplxxth/wplxxth_fn_gen_lpn.php",
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+								uniqueToken: uniqueToken,
+								timestamp: timestamp
+							},
+							success: function ( json ) {
+								status_code = json.data.status_code;
+								if (status_code == 200) {
+									toastr[json.data.type_message](json.data.message,"INFO");
+
+									tblwplxxth.ajax.reload(function ( json ) {
+									}, false);
+									tblwpllptd.ajax.reload(function ( json ) {
+									}, false);
+								}
+							}
+						} );
+					}
+				},
+				{
+					text: '<i class="fa fa-refresh"></i>',
+					name: 'btnReset',
+					className: 'btn btn-xs btn-outline',
+					titleAttr: 'Reset',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						var date = new Date().getTime();
+						var timestamp = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
+						console.log(uniqueToken);
+						toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+						
+						$.ajax( {
+							url: "../../models/wplxxth/wplxxth_fn_reset_lpn.php",
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+								uniqueToken: uniqueToken,
+								timestamp: timestamp
+							},
+							success: function ( json ) {
+								status_code = json.data.status_code;
+								if (status_code == 200) {
+									toastr[json.data.type_message](json.data.message,"INFO");
+
+									tblwplxxth.ajax.reload(function ( json ) {
+									}, false);
+									tblwpllptd.ajax.reload(function ( json ) {
+									}, false);
+								}
+							}
+						} );
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -458,8 +544,13 @@
 		
 		tblwplxxth.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tblwplittd];
+			tbl_details = [tblwplittd, tblwpllptd];
 			CekInitHeaderHD(tblwplxxth, tbl_details);
+			tblwplxxth.button('btnGenerateLPN:name').disable();
+			tblwplxxth.button('btnReset:name').disable();
+			tblwplxxth.button('btnReset:name')
+				.nodes()
+				.css( 'display', 'none' );
 		} );
 		
 		tblwplxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -468,23 +559,59 @@
 			
 			id_wdoxxth_old      = wplxxth_data.id_wdoxxth;
 			id_wdoxxth      = wplxxth_data.id_wdoxxth;
+			is_generate_lpn      = wplxxth_data.is_generate_lpn;
 			id_wpmxxmh_old      = wplxxth_data.id_wpmxxmh;
 			// atur hak akses
-			tbl_details = [tblwplittd];
+			tbl_details = [tblwplittd, tblwpllptd];
 			CekSelectHeaderHD(tblwplxxth, tbl_details);
+			uniqueToken = 'wplxxth_id_'+id_transaksi_h;
 
+			if (is_generate_lpn == 1) {
+				tblwplxxth.button('btnReset:name')
+					.nodes()
+					.css( 'display', 'block' );
+				tblwplxxth.button('btnGenerateLPN:name')
+					.nodes()
+					.css( 'display', 'none' );
+				tblwplxxth.button('btnGenerateLPN:name').disable();
+				tblwplxxth.button('btnReset:name').enable();
+				tblwplittd.button('btnCreate:name').disable();
+				tblwplittd.button('btnRemove:name').disable();
+			} else {
+				tblwplxxth.button('btnReset:name')
+					.nodes()
+					.css( 'display', 'none' );
+				tblwplxxth.button('btnGenerateLPN:name')
+					.nodes()
+					.css( 'display', 'block' );
+				tblwplxxth.button('btnGenerateLPN:name').enable();
+				tblwplxxth.button('btnReset:name').disable();
+				tblwplittd.button('btnCreate:name').enable();
+				tblwplittd.button('enable:name').disable();
+			}
 		} );
 		
 		tblwplxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wplxxth');
+			is_generate_lpn = 0;
 			id_wdoxxth = 0;
 			id_wdoxxth_old = 0;
 			id_wpmxxmh_old = 0;
+			uniqueToken = '';
 
 			// atur hak akses
-			tbl_details = [tblwplittd];
+			tbl_details = [tblwplittd, tblwpllptd];
 			CekDeselectHeaderHD(tblwplxxth, tbl_details);
+			tblwplxxth.button('btnGenerateLPN:name').disable();
+			tblwplxxth.button('btnReset:name').disable();
+
+			tblwplxxth.button('btnReset:name')
+				.nodes()
+				.css( 'display', 'none' );
+			tblwplxxth.button('btnGenerateLPN:name')
+				.nodes()
+				.css( 'display', 'block' );
 		} );
 		// END wplxxth
 
@@ -638,7 +765,8 @@
 
 		edtwplittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
-			$('div.DTE_Form_Buttons button:eq(2)').hide();
+			$('div.DTE_Form_Buttons button:eq(2)').nodes()
+        	.css( 'display', 'none' );
 		});
 		
 		edtwplittd.dependent( 'wplittd.id_wdoittd', function ( val, data, callback ) {
@@ -725,7 +853,7 @@
 					d.id_wplxxth = id_wplxxth;
 				}
 			},
-			order: [[ 2, "desc" ]],
+			order: [[ 2, "asc" ]],
 			columns: [
 				{ data: "wplittd.id",visible:false },
 				{ data: "wplittd.id_wplxxth",visible:false },
@@ -782,6 +910,14 @@
 			id_iimxxmh          = wplittd_data.id_iimxxmh;
 			id_iimxxmh_old      = wplittd_data.id_iimxxmh;
 			id_iumxxmh_unit_old = wplittd_data.id_iumxxmh_unit;
+			
+			if (is_generate_lpn == 1) {
+				tblwplittd.button('btnEdit:name').disable();
+				tblwplittd.button('btnRemove:name').disable();
+			} else {
+				tblwplittd.button('btnEdit:name').enable();
+				tblwplittd.button('enable:name').disable();
+			}
 		} );
 
 		tblwplittd.on( 'deselect', function() {
@@ -792,6 +928,105 @@
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblwplittd );
+		} );
+		// END wplittd
+		
+		tblwpllptd = $('#tblwpllptd').DataTable( {
+			ajax: {
+				url: "../../models/wplxxth/wpllptd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wpllptd = show_deleted_wpllptd;
+					d.id_wplxxth = id_wplxxth;
+				}
+			},
+			responsive: false,
+			order: [[ 2, "desc" ]],
+			columns: [
+				{ data: "wpllptd.id",visible:false },
+				{ data: "wpllptd.id_wplxxth",visible:false },
+				{ data: "wpllptd.wlpxxmh_kode" },
+				{ data: "iimxxmh.kode" },
+				{ data: "iimxxmh.nama" },
+				{ 
+					data: "wpllptd.jumlah_terkecil",
+					...renderNumber( 0, "")
+				},
+				{ data: "uom_terkecil.kode" },
+				{ 
+					data: "wpllptd.jumlah_default",
+					...renderNumber(2)
+				},
+				{ data: "uom_default.kode" },
+				{ data: "wpllptd.batch_number" },
+				{ data: "wpllptd.expired_date" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_wpllptd';
+					$table       = 'tblwpllptd';
+					$edt         = 'edtwpllptd';
+					$show_status = '_wpllptd';
+					$table_name  = $nama_tabels_d[1];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			},
+			footerCallback: function ( row, data, start, end, display ) {
+				var api = this.api();
+				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
+				
+				for (var i = 5; i <= 7; i+=2) {
+					if (i == 7) {
+						numFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
+					}
+					var columnIndex = i;
+					var sum_all = api.column(columnIndex).data().sum();
+					// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
+					var sum = api.column(columnIndex, { page: 'current' }).data().sum();
+					$('#s_' + columnIndex).html(numFormat(sum_all));
+
+					// console.log('Number of Pages: ' + api.page.info().pages);
+				}
+			}
+		} );
+
+		tblwpllptd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tblwpllptd, 1 );
+			CekDrawDetailHDFinal(tblwplxxth);
+		} );
+
+		tblwpllptd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('wpllptd');
+			
+			// atur hak akses
+			CekSelectDetailHD( tblwpllptd );
+
+			id_iimxxmh          = wpllptd_data.id_iimxxmh;
+			id_iimxxmh_old      = wpllptd_data.id_iimxxmh;
+			id_iumxxmh_unit_old = wpllptd_data.id_iumxxmh_unit;
+		} );
+
+		tblwpllptd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('wpllptd');
+			id_iimxxmh_old = 0;
+			id_iumxxmh_unit_old= 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblwpllptd );
 		} );
 		// END wplittd
 
