@@ -467,14 +467,14 @@
 					label: "Images",
 					name: "files[].id",
 					type: "uploadMany",
-					display: function ( fileId, counter ) {
-						if (fileId == 0){
-							return 'Belum ada lampiran';
-						}else{
-							return '<a href="'+edtiimxxmh.file( 'files', fileId ).web_path+'" target="_blank">'+ edtiimxxmh.file( 'files', fileId ).filename + '</a>'; 
+					display: function ( id_files, counter ) {
+						if (id_files > 0) {
+							return '<img src="'+edtiimxxmh.file( 'files', id_files ).web_path+'"/>';
+						} else {
+							return 'Belum ada gambar';
 						}
 					},
-				},	
+				},
 				{
 					label: "Movement Method <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.movement_method",

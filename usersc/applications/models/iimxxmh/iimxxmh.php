@@ -77,16 +77,28 @@
 				->link( 'files.id', 'filestr.id_files' )
 				->fields(
 					Field::inst( 'id' )
-						->upload( Upload::inst( $abs_us_root.$us_url_root. '/usersc/uploads/__ID__.__EXTN__' )
+						->upload( Upload::inst( $abs_us_root.$us_url_root. '/usersc/files/iimxxmh/__ID__.__EXTN__' )
 							->db( 'files', 'id', array(
 								'filename'    => Upload::DB_FILE_NAME,
 								'filesize'    => Upload::DB_FILE_SIZE,
 								'web_path'    => Upload::DB_WEB_PATH,
 								'system_path' => Upload::DB_SYSTEM_PATH,
-								'extn' 		  => Upload::DB_EXTN
+								'extn' 		  => Upload::DB_EXTN,
+								'tbl_nama' 	  => 'iimxxmh'
 							) )
+							->dbClean( 'filestr.id_files', function ( $files ) use ($db) { 
+								for ( $i=0, $ien=count($files) ; $i<$ien ; $i++ ) {
+									if( $files[$i]['tbl_nama'] == 'iimxxmh'){
+										$qd_files = $db
+											->query('delete', 'files')
+											->where('id', $files[$i]['id'])
+											->exec();
+										unlink( $files[$i]['system_path'] );
+									}
+								}
+							})
 							->validator( Validate::fileSize( 1000000, 'Ukuran file lampiran maksimal 1mb' ) )
-							->validator( Validate::fileExtensions( array( 'pdf', 'png', 'jpg', 'jpeg' ), "Hanya diperbolehkan jenis pdf, png, jpg, atau jpeg" ) )
+							->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg' ), "Hanya diperbolehkan jenis png, jpg, atau jpeg" ) )
 						),
 					Field::inst( 'web_path' )
 				)
