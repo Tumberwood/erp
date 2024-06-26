@@ -77,7 +77,7 @@
 				->link( 'files.id', 'filestr.id_files' )
 				->fields(
 					Field::inst( 'id' )
-						->upload( Upload::inst( $abs_us_root.$us_url_root. '/usersc/files/iimxxmh/__ID__.__EXTN__' )
+						->upload( Upload::inst( $abs_us_root.$us_url_root. 'usersc/files/iimxxmh/__ID__.__EXTN__' )
 							->db( 'files', 'id', array(
 								'filename'    => Upload::DB_FILE_NAME,
 								'filesize'    => Upload::DB_FILE_SIZE,
