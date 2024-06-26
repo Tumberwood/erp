@@ -476,7 +476,7 @@
 					},
 				},	
 				{
-					label: "Movement Method<sup class='text-danger'>*<sup>",
+					label: "Movement Method <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.movement_method",
 					type: "select",
 					placeholder : "Select",
@@ -488,20 +488,18 @@
 					]
 				},
 				{
-					label: "Wajib Batch Number",
+					label: "Wajib Batch Number <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.is_batch_number",
 					type: "select",
-					placeholder : "Select",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
 					]
 				},
 				{
-					label: "Wajib Expired Date",
+					label: "Wajib Expired Date <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.is_expired_date",
 					type: "select",
-					placeholder : "Select",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
@@ -540,16 +538,25 @@
 			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edtiimxxmh.dependent( 'iimxxmh.id_iitxxmh', function ( val, data, callback ) {
 			if (val == 1) {
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
+
+				edtiimxxmh.field('iimxxmh.movement_method').show();
+				edtiimxxmh.field('iimxxmh.is_batch_number').show();
+				edtiimxxmh.field('iimxxmh.is_expired_date').show();
+		
 			} else {
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
+
+				edtiimxxmh.field('iimxxmh.movement_method').hide();
+				edtiimxxmh.field('iimxxmh.is_batch_number').hide();
+				edtiimxxmh.field('iimxxmh.is_expired_date').hide();
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -563,11 +570,10 @@
 		edtiimxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edtiimxxmh.field('iimxxmh.kode').val();
-				nama = edtiimxxmh.field('iimxxmh.nama').val();
+				kode       = edtiimxxmh.field('iimxxmh.kode').val();
+				nama       = edtiimxxmh.field('iimxxmh.nama').val();
 				id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
 				id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
-				movement_method = edtiimxxmh.field('iimxxmh.movement_method').val();
 
 				validasiRequired(
 					edtiimxxmh,
@@ -576,23 +582,34 @@
 						'kode': kode,
 						'nama': nama,
 						'id_iitxxmh': id_iitxxmh,
-						'id_iicxxmh': id_iicxxmh,
-						'movement_method': movement_method,
+						'id_iicxxmh': id_iicxxmh
 					}
 				);
 
 				if (id_iitxxmh == 1) {
-					id_iigxxmh = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
-					id_iibxxmh = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
+					id_iigxxmh      = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
+					id_iibxxmh      = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
+					movement_method = edtiimxxmh.field('iimxxmh.movement_method').val();
+					is_batch_number = edtiimxxmh.field('iimxxmh.is_batch_number').val();
+					is_expired_date = edtiimxxmh.field('iimxxmh.is_expired_date').val();
 					
 					validasiRequired(
 						edtiimxxmh, 
 						"iimxxmh", 
 						{
-							"id_iigxxmh": id_iigxxmh, 
-							"id_iibxxmh": id_iibxxmh
+							"id_iigxxmh": id_iigxxmh,
+							"id_iibxxmh": id_iibxxmh,
+							'movement_method': movement_method,
 						}
 					);
+
+					// if(!is_batch_number){
+					// 	edtiimxxmh.field('iimxxmh.is_batch_number').error( 'Wajib Diisi!' );
+					// }
+
+					// if(!is_expired_date){
+					// 	edtiimxxmh.field('iimxxmh.is_expired_date').error( 'Wajib Diisi!' );
+					// }
 				}
 
 				validasiUnique(
@@ -625,6 +642,14 @@
 		edtiimxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiimxxmh.field('iimxxmh.finish_at').val(finish_at);
+
+			id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
+			if (id_iitxxmh != 1) {
+				
+				edtiimxxmh.field('iimxxmh.movement_method').val(0);
+				edtiimxxmh.field('iimxxmh.is_batch_number').val(0);
+				edtiimxxmh.field('iimxxmh.is_expired_date').val(0);
+			}
 		});
 		
 		edtiimxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
@@ -938,9 +963,7 @@
 
 		edtiimummd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
-
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtiimummd.on( 'preSubmit', function (e, data, action) {
@@ -1376,9 +1399,7 @@
 
 		edtwimlotd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
-
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtwimlotd.on( 'preSubmit', function (e, data, action) {
@@ -1430,8 +1451,8 @@
 		});
 			
 		edtwimlotd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblwimlotd.ajax.reload(null, false);			
-
+			tblwimlotd.ajax.reload(null, false);
+			tbliimxxmh.ajax.reload(null, false);
 		} );
 
 		edtwimlotd.on( 'close', function () {
@@ -1540,6 +1561,7 @@
 
 		edtwimlotd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
 			tblwimlotd.ajax.reload(null, false);
+			tbliimxxmh.ajax.reload(null, false);
 		} );
 
 		
@@ -1753,6 +1775,7 @@
 
 		edtwimlotd_generate.on( 'postSubmit', function (e, json, data, action, xhr) {
 			tblwimlotd.ajax.reload(null, false);
+			tbliimxxmh.ajax.reload(null, false);
 		} );
 
 

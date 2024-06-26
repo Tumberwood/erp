@@ -11,51 +11,47 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="row">
-    <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmhtssctd">
-                    <div class="form-group row">
-                        <label class="col-lg-2 col-form-label">Periode</label>
-                        <div class="col-lg-5">
-                            <div class="input-group input-daterange" id="periode">
-                                <input type="text" id="start_date" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" id="end_date" class="form-control">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-calendar"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-					<div class="form-group row">
-						<label class="col-lg-2 col-md-2">Pegawai</label>
-						<div class="col-lg-4 col-sm-4">
-							<select class="form-control" id="selectPegawai" name="selectPegawai" multiple="multiple"></select>
-						</div>
-					</div>
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div>
-                </form>
-                <div id="searchPanes1"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+			<div class="modal" id="modalSFhtssctd" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-2 col-md-2">Pegawai</label>
+										<div class="col-lg-4 col-sm-4">
+											<select class="form-control" id="selectPegawai" name="selectPegawai" multiple="multiple"></select>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblhtssctd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -116,6 +112,7 @@
 	tableRelation('htssctd');
 	
 	$("#selectPegawai").select2({
+		dropdownParent: $("#modalSFhtssctd"),
 		placeholder : "Select",
 		allowClear: true,
 		multiple: false,
@@ -124,11 +121,11 @@
 			dataType: 'json',
 			data: function (params) {
 				var query = {
-					id_hemxxmh_old: id_hemxxmh_filter,
+					id_hemxxmh_old: id_hemxxmh_old,
 					search: params.term || '',
 					page: params.page || 1
 				}
-					return query;
+				return query;
 			},
 			processResults: function (data, params) {
 				return {
@@ -144,7 +141,7 @@
 			delay: 500,
 			maximumSelectionLength: 5,
 			minimumResultsForSearch: -1,
-		}
+		},
 	});
 	
 	$(document).ready(function() {
@@ -428,7 +425,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -458,7 +455,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -487,7 +484,6 @@
 		tblhtssctd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('htssctd');
-
 			id_hemxxmh_old = htssctd_data.id_hemxxmh;
 
 			// atur hak akses
@@ -503,38 +499,48 @@
 			CekDeselectHeaderH(tblhtssctd);
 		} );
 
-		$("#frmhtssctd").submit(function(e) {
+		// BEGIN form filter
+		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
 		}).validate({
 			rules: {
-				
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
 			},
-			submitHandler: function(frmhtssctd) {
-				
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				if( $('#selectPegawai').val() > 0){
 					id_hemxxmh_filter  = $('#selectPegawai').val();
 				}else{
 					id_hemxxmh_filter = '';
 				}
 
-				start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
-				end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
-				
-				notifyprogress = $.notify({
-					message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-				},{
-					z_index: 9999,
-					allow_dismiss: false,
-					type: 'info',
-					delay: 0
-				});
-
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblhtssctd.rows().deselect();
 				tblhtssctd.ajax.reload(function ( json ) {
-					notifyprogress.close();
-				}, false);
-				return false; 
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFhtssctd').modal('toggle');
+			}, false);
+				return false;
 			}
 		});
+		// END form filter
 
 		// END htssctd
 		

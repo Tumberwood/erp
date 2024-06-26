@@ -37,8 +37,8 @@
             $id_wloctmh           = $values['id_wloctmh'];
             $id_wlotpmh           = $values['id_wlotpmh'];
             
-            if($values['id_wlotpmh'] > 0){
-                $id_wloznmh = $values['id_wlotpmh'];
+            if($values['id_wloznmh'] > 0){
+                $id_wloznmh = $values['id_wloznmh'];
             }else{
                 $id_wloznmh = 0;
             }
@@ -107,6 +107,8 @@
                                 $id_wloxxmh = $qi_wloxxmh->insertId();
             
                                 General::logChange( $editor->db() , 'wloxxmh', $s_id_users, $s_username, 'CREATE', $id_wloxxmh, 'Insert from generate', $start_at, $finish_at );
+
+                                General::logChange( $editor->db() , 'wloxxmh', $s_id_users, $s_username, 'CONFIRM', $id_wloxxmh, 'Confirm from generate', $start_at, $finish_at );
 
                             }
                             

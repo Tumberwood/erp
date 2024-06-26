@@ -1,15 +1,28 @@
-<?php
-	include_once( "../../../../users/init.php" );
-	include_once( "../../../../usersc/lib/DataTables.php" );
-	include_once( "../../../../usersc/vendor/autoload.php");
-	include_once( "../../../helpers/hakakses_s_fn.php" );
-	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
+<?php 
+    require_once( "../../../../users/init.php" );
+    require_once( "../../../../usersc/lib/DataTables.php" );
+    require_once( "../../../../usersc/helpers/datatables_fn_debug.php" );
+	require_once( "../../../../usersc/vendor/autoload.php");
+	require_once( "../../../helpers/hakakses_s_fn.php" );
 
-	$id_users    = $_POST['id_users'];
-	$id_udpxxsh = $_POST['id_udpxxsh'];
+	use Carbon\Carbon;
 
-	try{
+    // BEGIN definisi variable untuk fn_ajax_results.php
+    $data      = array();
+    $rs_opt    = array();
+    // END definisi variable untuk fn_ajax_results.php
+
+    try{
 		$db->transaction();
+		
+		$id_users    = $_POST['id_users'];
+		$id_udpxxsh = $_POST['id_udpxxsh'];
+
+		$c_newpage = 0;
+		$c_delpage = 0;
+		$check = 1;
+		$messsage_newpage = '';
+		$messsage_delpage = '';
 
 		// cek user_permission_matches
 		$rq_user_permission_matches = $db
@@ -49,15 +62,20 @@
 			->where( 'pages_extend.is_crud', 1)
 			->exec();
 		$rss_permission_page_matches = $rs_permission_page_matches->fetchAll();
-		
-		// INSERT data pages baru
-		foreach ($rss_permission_page_matches as $row) {
-			$qi_ucudasd = $db
-				->query('insert', 'ucudasd')
-				->set('id_udpxxsh',$id_udpxxsh)
-				->set('id_users', $id_users)
-				->set('id_pages', $row['page_id'])
-				->exec();
+
+		if(count($rss_permission_page_matches) > 0){
+			// INSERT data pages baru
+			foreach ($rss_permission_page_matches as $row) {
+				$qi_ucudasd = $db
+					->query('insert', 'ucudasd')
+					->set('id_udpxxsh',$id_udpxxsh)
+					->set('id_users', $id_users)
+					->set('id_pages', $row['page_id'])
+					->exec();
+			}
+
+			$c_newpage = count($rss_permission_page_matches);
+			$messsage_newpage = ' ' . $c_newpage . ' pages baru berhasil ditambahkan.';
 		}
 
 		// cek apakah ada id_pages di ucudasd yang sudah tidak ada lagi di table pages
@@ -70,28 +88,63 @@
 			->exec();
 		$rss_null_pages = $qs_null_pages->fetchAll();
 
-		foreach ($rss_null_pages as $row) {
-			$qd_null_pages = $db
-				->query('delete', 'ucudasd')
-				->where( 'ucudasd.id_udpxxsh', $id_udpxxsh)
-				->where( 'ucudasd.id_pages', $row['id_pages_null'])
-				->exec();
+		if(count($rss_null_pages) > 0){
+			foreach ($rss_null_pages as $row) {
+				$qd_null_pages = $db
+					->query('delete', 'ucudasd')
+					->where( 'ucudasd.id_udpxxsh', $id_udpxxsh)
+					->where( 'ucudasd.id_pages', $row['id_pages_null'])
+					->exec();
+			}
+
+			$c_delpage = count($rss_null_pages);
+			$messsage_delpage = ' ' . $c_delpage . ' pages baru berhasil dihapus.';
 		}
-		
-		$db->commit();
-		echo json_encode(array(
-			'debug'=> $debug,
-			'message'=>'Regenerate Berhasil', 
-			'type_message'=>'success' 
-		));
-		
+
+		if( $c_newpage > 0 ){
+			// jika ada yang harus ditambahkan
+			if( empty($qi_ucudasd) ){
+				$check = 0;
+			}
+		}
+
+		if( $c_delpage > 0 ){
+			// jika ada yang harus ditambahkan
+			if( empty($qd_null_pages) ){
+				$check = 0;
+			}
+		}
+
+		if( $check == 1){
+			$db->commit();
+			$status_code  = '200';
+			$message      = 'Regenerate Pages Berhasil.' . $messsage_newpage . $messsage_delpage;
+			$type_message = 'success';
+		}else{
+			$db->rollback();
+			$status_code  = '500';
+			$message      = 'Regenerate Pages Gagal';
+			$type_message = 'error';
+		}
 	}catch(PDOException $e){
 		$db->rollback();
-		echo json_encode(array(
-			'debug'=> $debug,
-			'message'=>'Regenerate Gagal: ' . $e->getMessage() , 
-			'type_message'=>'danger' 
-		));
+		$status_code  = '500';
+		$message      = 'Regenerate Pages Gagal! ' . $e->getMessage();
+		$type_message = 'error';
+	}catch (Exception $e) {
+		$db->rollback();
+		$status_code = 500;
+		$message = 'Regenerate Pages Gagal!, ' . $e->getMessage();
+		$type_message = 'error';
 	}
+	// build response
+	$data = array(
+		'status_code'    => $status_code,
+		'message'        => $message,
+		'type_message'   => $type_message
+	);
+
+    // tampilkan results
+    require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
 
 ?>
