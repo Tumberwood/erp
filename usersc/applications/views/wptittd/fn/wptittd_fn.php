@@ -70,6 +70,7 @@
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {
                                             edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini tidak ditemukan dalam report inventory!' );
+                                            is_valid_lpn = 0;
                                         }
                                         
                                         // console.log(is_valid_lpn);
@@ -77,6 +78,10 @@
                                             $('div.DTE_Form_Buttons button:eq(1)').hide();
                                             $('div.DTE_Form_Buttons button:eq(2)').show();
                                             
+                                            edtwptittd.field('wptittd.id_iumxxmh_unit').error('');
+                                            edtwptittd.field('wptittd.jumlah_unit').error('');
+                                            edtwptittd.field('wloxxmh_nama_scan').error('');
+
                                             edtwptittd.field('wptittd.wlpxxmh_kode').disable();
                                             edtwptittd.field('wptittd.id_iumxxmh_unit').show();
                                             edtwptittd.field('wptittd.keterangan').show();
