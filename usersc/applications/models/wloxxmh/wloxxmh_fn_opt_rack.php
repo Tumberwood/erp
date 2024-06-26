@@ -49,12 +49,12 @@
         ->get([
             'distinct rack_name as text'
         ])
-        ->order('kode')
+        ->order('rack_name')
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_rack_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r->where('nama', '%' . $q . '%', 'LIKE' );
+            $r->where('rack_name', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)

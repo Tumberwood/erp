@@ -49,12 +49,12 @@
         ->get([
             'distinct position_name as text'
         ])
-        ->order('kode')
+        ->order('position_name')
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_position_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r->where('nama', '%' . $q . '%', 'LIKE' );
+            $r->where('position_name', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)

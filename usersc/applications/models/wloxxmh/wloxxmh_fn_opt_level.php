@@ -49,12 +49,12 @@
         ->get([
             'distinct level_name as text'
         ])
-        ->order('kode')
+        ->order('level_name')
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_level_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r->where('nama', '%' . $q . '%', 'LIKE' );
+            $r->where('level_name', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)

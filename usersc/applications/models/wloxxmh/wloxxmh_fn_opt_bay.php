@@ -49,12 +49,12 @@
         ->get([
             'distinct bay_name as text'
         ])
-        ->order('kode')
+        ->order('bay_name')
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_bay_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
-            $r->where('nama', '%' . $q . '%', 'LIKE' );
+            $r->where('bay_name', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
