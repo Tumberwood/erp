@@ -173,7 +173,7 @@
 							is_audit = kontenData.is_audit;
 							
 							// if (is_audit == 0) {
-								btnAudit = `<div class="form-group" id="radio${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">
+								btnAudit = `<div class="form-group m-t-n-sm" id="radio${kontenData.id_iimxxmh}${kontenData.batch_number}${kontenData.expired_date_ymd}${kontenData.wlpxxmh_kode}${kontenData.id_wloxxmh}">
 												<label>Status Audit:</label>
 												<br>
 												<div class="form-check form-check-inline justify-content-end">
@@ -195,7 +195,7 @@
 								kontenValid = `<p>
 												<b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
 											</p>
-											<p>
+											<p class="m-t-n-sm">
 												Batch Number : ${kontenData.batch_number}
 												<br>
 												Expired Date : ${kontenData.expired_date}
