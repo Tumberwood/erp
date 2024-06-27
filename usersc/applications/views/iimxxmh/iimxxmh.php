@@ -48,8 +48,13 @@
 							<div class="col-lg-6">
 								<editor-field name="iimxxmh.id_iibxxmh"></editor-field>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-lg-6">
 								<editor-field name="iimxxmh.movement_method"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="iimxxmh.movement_method2"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -488,6 +493,18 @@
 					]
 				},
 				{
+					label: "Movement Method 2<sup class='text-danger'>*<sup>",
+					name: "iimxxmh.movement_method2",
+					type: "select",
+					placeholder : "Select",
+					def: 2,
+					options: [
+						{ "label": "FEFO", "value": 1 },
+						{ "label": "FIFO", "value": 2 },
+						{ "label": "LIFO", "value": 3 },
+					]
+				},
+				{
 					label: "Wajib Batch Number <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.is_batch_number",
 					type: "select",
@@ -590,6 +607,7 @@
 					id_iigxxmh      = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
 					id_iibxxmh      = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
 					movement_method = edtiimxxmh.field('iimxxmh.movement_method').val();
+					movement_method2 = edtiimxxmh.field('iimxxmh.movement_method2').val();
 					is_batch_number = edtiimxxmh.field('iimxxmh.is_batch_number').val();
 					is_expired_date = edtiimxxmh.field('iimxxmh.is_expired_date').val();
 					
@@ -600,12 +618,13 @@
 							"id_iigxxmh": id_iigxxmh,
 							"id_iibxxmh": id_iibxxmh,
 							'movement_method': movement_method,
+							'movement_method2': movement_method2,
 						}
 					);
 
-					// if(!is_batch_number){
-					// 	edtiimxxmh.field('iimxxmh.is_batch_number').error( 'Wajib Diisi!' );
-					// }
+					if(movement_method == movement_method2){
+						edtiimxxmh.field('iimxxmh.movement_method2').error( 'Movement Method kedua tidak boleh sama dengan Movement Method pertama' );
+					}
 
 					// if(!is_expired_date){
 					// 	edtiimxxmh.field('iimxxmh.is_expired_date').error( 'Wajib Diisi!' );

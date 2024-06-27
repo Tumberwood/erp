@@ -56,6 +56,7 @@
 			Field::inst( 'iimxxmh.finish_at' ),
 			Field::inst( 'iimxxmh.is_defaultprogram' ),
 			Field::inst( 'iimxxmh.movement_method' ),
+			Field::inst( 'iimxxmh.movement_method2' ),
 			Field::inst( 'iimxxmh.is_batch_number' ),
 			Field::inst( 'iimxxmh.is_expired_date' ),
 
