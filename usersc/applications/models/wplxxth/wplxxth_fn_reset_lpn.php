@@ -55,10 +55,22 @@
 				->exec('UPDATE wplxxth a
 						SET 
 							reset_on = :timestamp,
-							a.is_generate_lpn = 0,
-							a.subtotal_jumlah_terkecil = 0,
-							a.subtotal_jumlah_default = 0
+							a.is_generate_lpn = 0
 						WHERE a.id = :id_transaksi_h
+						;
+				
+				'
+			);
+
+			$qu_wpxxth = $db
+				->raw()
+				->bind(':id_transaksi_h', $id_transaksi_h)
+				->exec('UPDATE wplittd a
+						SET 
+							subtotal_jumlah_terkecil = 0,
+							subtotal_jumlah_unit = 0,
+							subtotal_jumlah_default = 0
+						WHERE a.id_wplxxth = :id_transaksi_h
 						;
 				
 				'

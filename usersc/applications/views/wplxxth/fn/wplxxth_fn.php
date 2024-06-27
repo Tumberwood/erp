@@ -31,6 +31,9 @@
     //         }
     //     } );
     // }
-
+    
+    function confirmLeavePage(event) {
+        event.preventDefault();
+    }
     
 </script>

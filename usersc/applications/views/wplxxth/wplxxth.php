@@ -112,6 +112,7 @@
 										<th rowspan="2">ID</th>
 										<th rowspan="2">id_wdoxxth</th>
 										<th rowspan="2">LPN</th>
+										<th rowspan="2">Location</th>
 										<th rowspan="2">Item Code</th>
 										<th rowspan="2">Item Name</th>
 										<th colspan="2">Terkecil</th>
@@ -132,9 +133,10 @@
 									<th>Total</th>
 									<th></th>
 									<th></th>
-									<th id="s_5"></th>
 									<th></th>
-									<th id="s_7"></th>
+									<th id="s_6"></th>
+									<th></th>
+									<th id="s_8"></th>
 									<th></th>
 									<th></th>
 									<th></th>
@@ -185,6 +187,8 @@
 	uniqueToken = '';
 
 	$(document).ready(function() {
+		window.addEventListener('beforeunload', confirmLeavePage);
+
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
@@ -481,11 +485,10 @@
 								status_code = json.data.status_code;
 								if (status_code == 200) {
 									toastr[json.data.type_message](json.data.message,"INFO");
-
-									tblwplxxth.ajax.reload(function ( json ) {
-									}, false);
-									tblwpllptd.ajax.reload(function ( json ) {
-									}, false);
+									
+									tblwplxxth.ajax.reload(null, false);
+									tblwpllptd.ajax.reload(null, false);
+									tblwplxxth.rows().deselect();
 								}
 							}
 						} );
@@ -517,10 +520,9 @@
 								if (status_code == 200) {
 									toastr[json.data.type_message](json.data.message,"INFO");
 
-									tblwplxxth.ajax.reload(function ( json ) {
-									}, false);
-									tblwpllptd.ajax.reload(function ( json ) {
-									}, false);
+									tblwplxxth.ajax.reload(null, false);
+									tblwpllptd.ajax.reload(null, false);
+									tblwplxxth.rows().deselect();
 								}
 							}
 						} );
@@ -551,6 +553,7 @@
 			tblwplxxth.button('btnReset:name')
 				.nodes()
 				.css( 'display', 'none' );
+			tblwplxxth.button('btnEdit:name').disable();
 		} );
 		
 		tblwplxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -577,6 +580,7 @@
 				tblwplxxth.button('btnReset:name').enable();
 				tblwplittd.button('btnCreate:name').disable();
 				tblwplittd.button('btnRemove:name').disable();
+				tblwplxxth.button('btnEdit:name').disable();
 			} else {
 				tblwplxxth.button('btnReset:name')
 					.nodes()
@@ -588,6 +592,7 @@
 				tblwplxxth.button('btnReset:name').disable();
 				tblwplittd.button('btnCreate:name').enable();
 				tblwplittd.button('enable:name').disable();
+				tblwplxxth.button('btnEdit:name').enable();
 			}
 		} );
 		
@@ -612,6 +617,7 @@
 			tblwplxxth.button('btnGenerateLPN:name')
 				.nodes()
 				.css( 'display', 'block' );
+			tblwplxxth.button('btnEdit:name').disable();
 		} );
 		// END wplxxth
 
@@ -941,11 +947,12 @@
 				}
 			},
 			responsive: false,
-			order: [[ 2, "desc" ]],
+			order: [[ 1, "asc" ]],
 			columns: [
 				{ data: "wpllptd.id",visible:false },
 				{ data: "wpllptd.id_wplxxth",visible:false },
 				{ data: "wpllptd.wlpxxmh_kode" },
+				{ data: "wloxxmh.nama" },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ 
@@ -986,8 +993,8 @@
 				var api = this.api();
 				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 				
-				for (var i = 5; i <= 7; i+=2) {
-					if (i == 7) {
+				for (var i = 6; i <= 8; i+=2) {
+					if (i == 8) {
 						numFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
 					}
 					var columnIndex = i;
