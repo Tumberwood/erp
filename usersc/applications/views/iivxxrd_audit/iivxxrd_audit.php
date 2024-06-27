@@ -209,12 +209,16 @@
 								kontenValid = '<p>Data Tidak Ditemukan!</p>';
 							}
 							console.log(kontenData);
+							if (kontenData.wlpxxmh_kode != '' && wloxxmh_nama != '') {
+								conct = '-';
+							} else {
+								conct = '';
+							}
 							genKonten = genKonten+ `
 								<div class="${class_col}">
 									<div class="ibox">
 										<div class="ibox-content">
-											<h3>${wloxxmh_nama} (${kontenData.wlpxxmh_kode})</h3>
-											<br>
+											<h3>${kontenData.wlpxxmh_kode} ${conct} ${wloxxmh_nama}</h3>
 											${kontenValid}
 											${btnAudit}
 										</div>
