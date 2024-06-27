@@ -51,7 +51,7 @@
 					a.wlpxxmh_kode = :wlpxxmh_kode AND
 					a.wloxxmh_nama = :wloxxmh_nama AND
 					a.is_fisik > 0
-				GROUP BY a.wlpxxmh_kode
+				GROUP BY a.wlxxmh_kode
 				ORDER BY a.tanggal asc, a.confirmed_at
 			');
 		$rs_iivxxrd_awal = $qs_iivxxrd_awal->fetchAll();

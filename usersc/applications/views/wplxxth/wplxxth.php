@@ -185,9 +185,10 @@
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0;
 	
 	uniqueToken = '';
+	var c_id = 0;
 
 	$(document).ready(function() {
-		window.addEventListener('beforeunload', confirmLeavePage);
+		cekBelumConfirm();
 
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -485,7 +486,7 @@
 								status_code = json.data.status_code;
 								if (status_code == 200) {
 									toastr[json.data.type_message](json.data.message,"INFO");
-									
+									cekBelumConfirm();
 									tblwplxxth.ajax.reload(null, false);
 									tblwpllptd.ajax.reload(null, false);
 									tblwplxxth.rows().deselect();
@@ -519,7 +520,7 @@
 								status_code = json.data.status_code;
 								if (status_code == 200) {
 									toastr[json.data.type_message](json.data.message,"INFO");
-
+									cekBelumConfirm();
 									tblwplxxth.ajax.reload(null, false);
 									tblwpllptd.ajax.reload(null, false);
 									tblwplxxth.rows().deselect();

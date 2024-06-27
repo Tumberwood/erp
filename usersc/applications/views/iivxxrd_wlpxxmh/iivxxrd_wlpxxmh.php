@@ -48,25 +48,47 @@
 				</div>
 
 				<table id="tbliivxxrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-					<thead>
-						<tr>
-							<th rowspan="2">Warehouse</th>
-							<th rowspan="2">Location</th>
-							<th rowspan="2">Kode</th>
-							<th rowspan="2">Nama</th>
-							<th colspan="2">Terkecil</th>
-							<th colspan="2">Default</th>
-							<th rowspan="2">LPN</th>
-							<th rowspan="2">Batch Number</th>
-							<th rowspan="2">Expired Date</th>
-						</tr>
-						<tr>
-							<th>Jumlah</th>
-							<th>UoM</th>
-							<th>Jumlah</th>
-							<th>UoM</th>
-						</tr>
-					</thead>
+				<thead>
+					<tr>
+						<th style="vertical-align: middle" rowspan="3">Warehouse</th>
+						<th style="vertical-align: middle" rowspan="3">Location</th>
+						<th style="vertical-align: middle" rowspan="3">Kode</th>
+						<th style="vertical-align: middle" rowspan="3">Nama</th>
+						<th colspan="4" class="text-center bg-success">On Hand</th>
+						<th colspan="4" class="text-center bg-warning">Reserved</th>
+						<th colspan="4" class="text-center bg-primary">Avalaible</th>
+						<th style="vertical-align: middle" rowspan="3">LPN</th>
+						<th style="vertical-align: middle" rowspan="3">Batch Number</th>
+						<th style="vertical-align: middle" rowspan="3">Expired Date</th>
+					</tr>
+					<tr>
+						<th colspan="2">Terkecil</th>
+						<th colspan="2">Default</th>
+
+						<th colspan="2">Terkecil</th>
+						<th colspan="2">Default</th>
+
+						<th colspan="2">Terkecil</th>
+						<th colspan="2">Default</th>
+					</tr>
+					<tr>
+						<th>Jumlah</th>
+						<th>UoM</th>
+						<th>Jumlah</th>
+						<th>UoM</th>
+
+						<th>Jumlah</th>
+						<th>UoM</th>
+						<th>Jumlah</th>
+						<th>UoM</th>
+
+						<th>Jumlah</th>
+						<th>UoM</th>
+						<th>Jumlah</th>
+						<th>UoM</th>
+					</tr>
+				</thead>
+
 				</table>
 			</div>
 		</div>
@@ -112,6 +134,8 @@
 					d.end_date = end_date;
 				}
 			},
+			responsive: false,
+			scrollX: true,
 			order: [[ 1, "asc" ]],
 			columnDefs:[
 				{
@@ -127,7 +151,7 @@
 					targets:'_all'
 				},
 				{ 
-					className: 'bg-beige', targets: [4,5] //ini jumlah sama uom
+					className: 'bg-beige', targets: [4,5,8,9,12,13] //ini jumlah sama uom
 				}
 			],
 			columns: [
@@ -145,6 +169,31 @@
 					...renderNumber(3)
 				},
 				{ data: "iumxxmh_default_kode" },
+
+				//Reserved
+				{ 
+					data: "jumlah_terkecil_booking",
+					...renderNumber(0)
+				},
+				{ data: "iumxxmh_terkecil_kode" },
+				{ 
+					data: "jumlah_default_booking",
+					...renderNumber(3)
+				},
+				{ data: "iumxxmh_default_kode" },
+
+				//Avalaible
+				{ 
+					data: "jumlah_terkecil_ava",
+					...renderNumber(0)
+				},
+				{ data: "iumxxmh_terkecil_kode" },
+				{ 
+					data: "jumlah_default_ava",
+					...renderNumber(3)
+				},
+				{ data: "iumxxmh_default_kode" },
+
 				{ data: "wlpxxmh_kode" },
 				{ data: "batch_number" },
 				{ data: "expired_date" }
