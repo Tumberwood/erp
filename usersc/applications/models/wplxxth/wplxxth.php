@@ -29,6 +29,11 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wplxxth.id_wdoxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wplxxth.id_iwhxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wplxxth.id_wloxxmh_out' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'wplxxth.id_grlxxmh_customer' ),
 			Field::inst( 'wplxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);

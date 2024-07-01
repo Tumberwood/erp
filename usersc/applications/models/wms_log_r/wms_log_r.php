@@ -25,6 +25,7 @@
 							WHEN a.nama = "wptittd" then "Putaway"
 							WHEN a.nama = "wtrittd" then "Item Transfer"
 							WHEN a.nama = "iivxxrd_audit" then "Audit LPN & Lokasi"
+							WHEN a.nama = "wpclptd" then "Detail Picking"
 							ELSE ""
 						END
 						activity,
@@ -59,6 +60,12 @@
 								from iivxxrd_audit
 								where id = a.id_transaksi
 							)
+							WHEN a.nama = "wpclptd" then (
+								select
+									kode
+								from wpclptd
+								where id = a.id_transaksi
+							)
 							ELSE ""
 						END
 						kode_transaksi,
@@ -69,7 +76,7 @@
 					FROM activity_log_ml AS a
 					LEFT JOIN activity_log_ml AS b ON a.id_transaksi = b.id_transaksi AND b.kode = "CONFIRM" AND b.nama = a.nama
 					WHERE a.kode = "CREATE"
-						AND a.nama IN ("wreittd", "wptittd", "wtrittd", "iivxxrd_audit")
+						AND a.nama IN ("wreittd", "wptittd", "wtrittd", "iivxxrd_audit", "wpclptd")
 					GROUP BY a.id_transaksi, a.nama
 					ORDER BY a.start_on DESC
 				)

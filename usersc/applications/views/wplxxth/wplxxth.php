@@ -181,7 +181,7 @@
 
 	// get tableRelation
 	tableRelation('wplxxth');
-	var id_wdoxxth_old = 0, id_wdoxxth = 0;
+	var id_wdoxxth_old = 0, id_wdoxxth = 0, id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0;
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0;
 	
 	uniqueToken = '';
@@ -328,6 +328,81 @@
 						},
 					}
 				},
+				
+				{
+					label: "Warehouse<sup class='text-danger'>*<sup>",
+					name: "wplxxth.id_iwhxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iwhxxmh_old: id_iwhxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Location<sup class='text-danger'>*<sup>",
+					name: "wplxxth.id_wloxxmh_out",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_wloctmh.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wloxxmh_old: id_wloxxmh_old,
+									ids_wloctmh: 2,
+									id_iwhxxmh: id_iwhxxmh,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
 					label: "Cross Docking?",
 					name: "wplxxth.is_crossdocking",
@@ -342,7 +417,12 @@
 					label: "Keterangan",
 					name: "wplxxth.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "wplxxth.id_grlxxmh_customer",
+					name: "wplxxth.id_grlxxmh_customer",
+					type: "hidden"
+				},
 			]
 		} );
 		
@@ -366,6 +446,19 @@
 			}, 5);
 		});
 		
+		edtwplxxth.dependent( 'wplxxth.id_wdoxxth', function ( val, data, callback ) {
+			autofillField('wdoxxth', val, 'id_grlxxmh_customer');
+			id_grlxxmh_customer = autofillData.id_grlxxmh_customer;
+			edtwplxxth.field('wplxxth.id_grlxxmh_customer').val(id_grlxxmh_customer);
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtwplxxth.dependent( 'wplxxth.id_iwhxxmh', function ( val, data, callback ) {
+			id_iwhxxmh = val;
+			edtwplxxth.field('wplxxth.id_wloxxmh_out').input().val(null).trigger('change');
+			return {}
+		}, {event: 'keyup change'});
+
 		edtwplxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
@@ -565,42 +658,50 @@
 			id_wdoxxth      = wplxxth_data.id_wdoxxth;
 			is_generate_lpn      = wplxxth_data.is_generate_lpn;
 			id_wpmxxmh_old      = wplxxth_data.id_wpmxxmh;
+			id_iwhxxmh_old = wplxxth_data.id_iwhxxmh;
+			id_wloxxmh_old = wplxxth_data.id_wloxxmh_out;
 			// atur hak akses
 			tbl_details = [tblwplittd, tblwpllptd];
 			CekSelectHeaderHD(tblwplxxth, tbl_details);
 			uniqueToken = 'wplxxth_id_'+id_transaksi_h;
 
-			if (is_generate_lpn == 1) {
-				tblwplxxth.button('btnReset:name')
-					.nodes()
-					.css( 'display', 'block' );
-				tblwplxxth.button('btnGenerateLPN:name')
-					.nodes()
-					.css( 'display', 'none' );
+			
+			if (transaction_state == 1 || transaction_state == -9) {
 				tblwplxxth.button('btnGenerateLPN:name').disable();
-				tblwplxxth.button('btnReset:name').enable();
-				tblwplittd.button('btnCreate:name').disable();
-				tblwplittd.button('btnRemove:name').disable();
-				tblwplxxth.button('btnEdit:name').disable();
-			} else {
-				tblwplxxth.button('btnReset:name')
-					.nodes()
-					.css( 'display', 'none' );
-				tblwplxxth.button('btnGenerateLPN:name')
-					.nodes()
-					.css( 'display', 'block' );
-				tblwplxxth.button('btnGenerateLPN:name').enable();
 				tblwplxxth.button('btnReset:name').disable();
-				tblwplittd.button('btnCreate:name').enable();
-				tblwplittd.button('enable:name').disable();
-				tblwplxxth.button('btnEdit:name').enable();
+			} else {
+				if (is_generate_lpn == 1) {
+					tblwplxxth.button('btnReset:name')
+						.nodes()
+						.css( 'display', 'block' );
+					tblwplxxth.button('btnGenerateLPN:name')
+						.nodes()
+						.css( 'display', 'none' );
+					tblwplxxth.button('btnGenerateLPN:name').disable();
+					tblwplxxth.button('btnReset:name').enable();
+					tblwplittd.button('btnCreate:name').disable();
+					tblwplittd.button('btnRemove:name').disable();
+					tblwplxxth.button('btnEdit:name').disable();
+				} else {
+					tblwplxxth.button('btnReset:name')
+						.nodes()
+						.css( 'display', 'none' );
+					tblwplxxth.button('btnGenerateLPN:name')
+						.nodes()
+						.css( 'display', 'block' );
+					tblwplxxth.button('btnGenerateLPN:name').enable();
+					tblwplxxth.button('btnReset:name').disable();
+					tblwplittd.button('btnCreate:name').enable();
+					tblwplittd.button('btnRemove:name').disable();
+					tblwplxxth.button('btnEdit:name').enable();
+				}
 			}
 		} );
 		
 		tblwplxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wplxxth');
-			is_generate_lpn = 0;
+			is_generate_lpn = 0, id_iwhxxmh_old = 0, id_wloxxmh_old = 0;
 			id_wdoxxth = 0;
 			id_wdoxxth_old = 0;
 			id_wpmxxmh_old = 0;
@@ -923,7 +1024,7 @@
 				tblwplittd.button('btnRemove:name').disable();
 			} else {
 				tblwplittd.button('btnEdit:name').enable();
-				tblwplittd.button('enable:name').disable();
+				tblwplittd.button('btnRemove:name').disable();
 			}
 		} );
 

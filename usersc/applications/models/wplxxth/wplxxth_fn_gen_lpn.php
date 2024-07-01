@@ -193,6 +193,7 @@
 					$qi_lpn_d = $db
 						->query('insert', 'wpllptd')
 						->set('id_wplxxth',$id_transaksi_h)
+						->set('id_wjtxxmh',1)
 						->set('id_wplittd',$id_wplittd)
 						->set('id_iimxxmh',$iiv['id_iimxxmh'])
 						->set('id_wloxxmh',$iiv['id_wloxxmh'])
@@ -200,13 +201,17 @@
 						->set('id_iumxxmh_unit',$iiv['id_iumxxmh_unit'])
 						->set('id_iumxxmh_terkecil',$iiv['id_iumxxmh_terkecil'])
 						->set('id_iumxxmh_default',$iiv['id_iumxxmh_default'])
+						->set('jumlah_konversi',$iiv['jumlah_konversi'])
 						->set('jumlah_unit',$jumlah_unit_insert)
 						->set('jumlah_terkecil',$jumlah_terkecil_insert)
+						->set('jumlah_terkecil_os',$jumlah_terkecil_insert)
 						->set('jumlah_default',$jumlah_default_insert)
 						->set('wlpxxmh_kode',$iiv['wlpxxmh_kode'])
+						->set('wloxxmh_nama',$iiv['wloxxmh_nama'])
 						->set('batch_number',$iiv['batch_number'])
 						->set('expired_date',$iiv['expired_date'])
 					->exec();
+					$id_lpn_d = $qi_lpn_d->insertId();
 
 					//Update subtotal detail items
 					$qu_wplittd = $db
@@ -230,6 +235,7 @@
 					$qi_booking_iiv = $db
 						->query('insert', 'iivxxrd')
 						->set('id_transaksi_h',$id_transaksi_h)
+						->set('id_transaksi_d',$id_lpn_d)
 						->set('id_wloctmh',$iiv['id_wloctmh'])
 						->set('wlpxxmh_kode',$iiv['wlpxxmh_kode'])
 						->set('id_iwhxxmh',$iiv['id_iwhxxmh'])
