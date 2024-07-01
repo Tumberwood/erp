@@ -24,6 +24,8 @@
                                 <th>id_transaksi</th>
                                 <th>Activity</th>
                                 <th>Kode</th>
+                                <th>Warehouse</th>
+                                <th>Location</th>
                                 <th>Username</th>
                                 <th>Start</th>
                                 <th>Finish</th>
@@ -92,12 +94,14 @@
 						targets: '_all'
 					}
 				],
-				order: [[ 5, "desc" ]],
+				order: [[ 7, "desc" ]],
 				columns: [
 					{ data: "id",visible:false },
 					{ data: "id_transaksi",visible:false },
 					{ data: "activity" },
 					{ data: "kode_transaksi" },
+					{ data: "iwhxxmh_kode" },
+					{ data: "wloxxmh_nama" },
 					{ data: "username" },
 					{
 						data: "start_on",
