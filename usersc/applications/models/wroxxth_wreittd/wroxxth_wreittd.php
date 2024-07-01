@@ -44,16 +44,8 @@
 					DATE_FORMAT(e.finish_on, "%d %b %Y %H:%i:%s") confirm_re,
 					NOW() today,
 					if(e.finish_on is null,
-						CONCAT(
-						IF(TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) >= 86400, CONCAT(FLOOR(TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) / 86400), "d "), ""),
-						IF(TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) % 86400 >= 3600, CONCAT(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, NOW()) % 86400) / 3600), "h "), "")
-						),
-						CONCAT(
-							IF(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) >= 86400, CONCAT(FLOOR(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) / 86400), "d "), ""),
-							IF(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 86400 >= 3600, CONCAT(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 86400) / 3600), "h "), ""),
-							IF(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 3600 >= 60, CONCAT(FLOOR((TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 3600) / 60), "m "), ""),
-							CONCAT(TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on) % 60, "s")
-						)
+						TIMESTAMPDIFF(SECOND, g.finish_on, NOW()),
+						TIMESTAMPDIFF(SECOND, g.finish_on, e.finish_on)
 					) AS pemenuhan
 				FROM wroxxth a
 				LEFT JOIN wroittd b ON b.id_wroxxth = a.id

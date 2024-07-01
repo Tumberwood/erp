@@ -114,7 +114,18 @@
 						}
 					},
 					{ data: "finish_on" },
-					{ data: "durasi" },
+					{ 
+						data: "durasi",
+						render: function (data){
+							if(data){
+								waktu_tunggu = moment.duration(data, 'seconds');
+								waktu_tunggu_humanize = waktu_tunggu.format("d [days], h [hrs], m [min], s [sec]");
+								return waktu_tunggu_humanize;
+							}else{
+								return '';
+							}
+						}
+					},
 				],
 				buttons: [
 					// BEGIN breaking generate button

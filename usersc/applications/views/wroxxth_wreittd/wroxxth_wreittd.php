@@ -136,7 +136,18 @@
 					{ data: "jumlah_unit_ro", ...renderNumber(2) },
 					{ data: "jumlah_unit_re", ...renderNumber(2) },
 					{ data: "sisa", ...renderNumber(2) },
-					{ data: "pemenuhan" },
+					{ 
+						data: "pemenuhan",
+						render: function (data){
+							if(data){
+								waktu_tunggu = moment.duration(data, 'seconds');
+								waktu_tunggu_humanize = waktu_tunggu.format("d [days], h [hrs], m [min], s [sec]");
+								return waktu_tunggu_humanize;
+							}else{
+								return '';
+							}
+						} 
+					},
 				],
 				buttons: [
 					// BEGIN breaking generate button

@@ -64,11 +64,7 @@
 					a.username,
 					DATE_FORMAT(a.start_on, "%d %b %Y %H:%i:%s") AS start_on,
 					DATE_FORMAT(b.finish_on, "%d %b %Y %H:%i:%s") AS finish_on,
-					CONCAT(
-						if(TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) >= 3600, concat(FLOOR(TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) / 3600), "h "), ""),
-						if(TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) >= 60, concat(FLOOR((TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) % 3600) / 60), "m "), ""),
-						(TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) % 60), "s"
-					) AS durasi
+					TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) AS durasi
 				FROM activity_log_ml AS a
 				LEFT JOIN activity_log_ml AS b ON a.id_transaksi = b.id_transaksi AND b.kode = "CONFIRM" AND b.nama = a.nama
 				WHERE a.kode = "CREATE"
