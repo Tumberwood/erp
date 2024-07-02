@@ -174,13 +174,14 @@
 
     function validasiJumlah(itemId) {
         var inputJumlah = $('#input_jumlah' + itemId);
+        var valJumlah = inputJumlah.val();
         var qtyInput = parseFloat(inputJumlah.val(), 10); // Parse qtyInput as integer
         var defVal = parseFloat($('#uom_select' + itemId + ' option:selected').attr('data-defVal'), 10); // Parse defVal as integer
 
         console.log('qtyInput:', qtyInput); // Check the value of qtyInput
         console.log('defVal:', defVal);     // Check the value of defVal
 
-        if (isNaN(qtyInput)) {
+        if (isNaN(valJumlah)) {
             inputJumlah.addClass('is-invalid').next('.invalid-feedback').remove();
             inputJumlah.after('<div class="invalid-feedback">Inputan wajib angka!</div>');
             $('#dispatch' + itemId).hide();
