@@ -39,7 +39,8 @@
 			Field::inst( 'wlpxxmh.approval_state' ),
 			Field::inst( 'wlpxxmh.start_at' ),
 			Field::inst( 'wlpxxmh.finish_at' ),
-			Field::inst( 'wlpxxmh.is_defaultprogram' )
+			Field::inst( 'wlpxxmh.is_defaultprogram' ),
+			Field::inst( 'wlpxxmh.is_nextprocess' ),
 		);
 	
 	// do not erase

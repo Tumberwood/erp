@@ -190,6 +190,11 @@
 					name: "wreittd.wlpxxmh_kode"
 				}, 	
 				{
+					label: "wreittd.id_wlpxxmh",
+					name: "wreittd.id_wlpxxmh",
+					type: "hidden"
+				}, 	
+				{
 					label: "Receive Order <sup class='text-danger'>*<sup>",
 					name: "wreittd.id_wroxxth",
 					type: "select2",
@@ -400,6 +405,11 @@
 			return {}
 		}, {event: 'keyup change'});
 
+		edtwreittd.dependent( 'wreittd.wlpxxmh_kode', function ( val, data, callback ) {
+			findIdLpn(val);
+			return {}
+		}, {event: 'keyup change'});
+		
 		edtwreittd.on( 'preSubmit', function (e, data, action) {
 
 			if(action == 'create'){

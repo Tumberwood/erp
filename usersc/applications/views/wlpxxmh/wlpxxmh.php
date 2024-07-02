@@ -22,6 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>LPN</th>
+                                <th>Status</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -196,9 +197,21 @@
 				{ data: "wlpxxmh.id",visible:false },
 				{ data: "wlpxxmh.kode" },
 				{ 
+					data: "wlpxxmh.is_nextprocess" ,
+					render: function (data) {
+						if (data == 1){
+							return '<span class="badge badge-primary">In Use</span>';
+						}else if (data == 0){
+							return '<span class="badge badge-plain">Open</span>';
+						}else{
+							return '<span class="badge badge-plain">Open</span>';
+						}
+					}
+				},
+				{ 
 					data: "wlpxxmh.transaction_state" ,
 					...renderTransactionStatus()
-				}
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
