@@ -106,6 +106,7 @@
 						LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 						LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
 						WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
+						AND b.id_iwhxxmh = c.id_iwhxxmh
 						AND (
 								(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
 								OR
@@ -258,6 +259,8 @@
 						->set('iumxxmh_unit_nama',$iiv['iumxxmh_unit_nama'])
 						->set('tanggal',$iiv['tanggal'])
 						->set('is_fisik',0)
+						->set('imtxxmh_kode',211)
+						->set('imtxxmh_movement_type','Picking List')
 						->set('iumxxmh_terkecil_kode',$iiv['iumxxmh_terkecil_kode'])
 						->set('iumxxmh_terkecil_nama',$iiv['iumxxmh_terkecil_nama'])
 						->set('iumxxmh_default_kode',$iiv['iumxxmh_default_kode'])

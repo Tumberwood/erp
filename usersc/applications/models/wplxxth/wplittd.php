@@ -45,6 +45,7 @@
 				Field::inst( 'wplittd.finish_at' ),
 				Field::inst( 'wplittd.is_defaultprogram' ),
 				Field::inst( 'wplittd.jumlah_unit' ),
+				Field::inst( 'wplittd.subtotal_jumlah_unit' ),
 				
 				Field::inst( 'iumxxmh.nama' ),
 				Field::inst( 'iimxxmh.kode' ),

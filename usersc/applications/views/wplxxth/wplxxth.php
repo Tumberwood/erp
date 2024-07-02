@@ -85,7 +85,8 @@
 											<th>Item Code</th>
 											<th>Item Name</th>
 											<th>UoM</th>
-											<th>Quantity</th>
+											<th>Qty DO</th>
+											<th>Qty PL</th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -94,6 +95,7 @@
 											<th></th>
 											<th></th>
 											<th id="c_item"></th>
+											<th></th>
 											<th></th>
 											<th></th>
 										</tr>
@@ -377,6 +379,8 @@
 							url: "../../models/wloxxmh/wloxxmh_fn_opt_wloctmh.php",
 							dataType: 'json',
 							data: function (params) {
+								id_iwhxxmh = edtwplxxth.field('wplxxth.id_iwhxxmh').val();
+								console.log(id_iwhxxmh);
 								var query = {
 									id_wloxxmh_old: id_wloxxmh_old,
 									ids_wloctmh: 2,
@@ -455,7 +459,12 @@
 		
 		edtwplxxth.dependent( 'wplxxth.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
-			edtwplxxth.field('wplxxth.id_wloxxmh_out').input().val(null).trigger('change');
+			id_wloxxmh_old = 0;
+
+			if (id_wloxxmh_old == 0) {
+				edtwplxxth.field('wplxxth.id_wloxxmh_out').val('');
+			}
+			console.log('id_iwhxxmh = '+id_iwhxxmh);
 			return {}
 		}, {event: 'keyup change'});
 
@@ -465,6 +474,8 @@
 				id_wdoxxth = edtwplxxth.field('wplxxth.id_wdoxxth').val();
 				tanggal = edtwplxxth.field('wplxxth.tanggal').val();
 				id_wpmxxmh = edtwplxxth.field('wplxxth.id_wpmxxmh').val();
+				id_iwhxxmh = edtwplxxth.field('wplxxth.id_iwhxxmh').val();
+				id_wloxxmh_out = edtwplxxth.field('wplxxth.id_wloxxmh_out').val();
 
 				validasiRequired(
 					edtwplxxth,
@@ -473,6 +484,8 @@
 						'id_wdoxxth': id_wdoxxth,
 						'tanggal': tanggal,
 						'id_wpmxxmh': id_wpmxxmh,
+						'id_iwhxxmh': id_iwhxxmh,
+						'id_wloxxmh_out': id_wloxxmh_out,
 					}
 				);
 
@@ -702,6 +715,7 @@
 			// reset variable standar framework
 			siVarReset('wplxxth');
 			is_generate_lpn = 0, id_iwhxxmh_old = 0, id_wloxxmh_old = 0;
+			id_iwhxxmh = 0;
 			id_wdoxxth = 0;
 			id_wdoxxth_old = 0;
 			id_wpmxxmh_old = 0;
@@ -971,7 +985,11 @@
 				{ 
 					data: "wplittd.jumlah_unit",
 					...renderNumber( 0, "")
-				}
+				},
+				{ 
+					data: "wplittd.subtotal_jumlah_unit",
+					...renderNumber( 0, "")
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button

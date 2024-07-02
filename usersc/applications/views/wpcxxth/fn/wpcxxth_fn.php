@@ -1,4 +1,8 @@
 <script>
+    function confirmLeavePage(event) {
+        event.preventDefault();
+    }
+
     function generateKonten() {
         $('#konten').empty();
 
@@ -12,6 +16,8 @@
             },
             success: function ( json ) {
                 dataKonten = json.data;
+                window.addEventListener('beforeunload', confirmLeavePage);
+
                 if (dataKonten.length >= 2 && dataKonten.length < 3) {
                     class_col = "col-lg-6";
                 } else if (dataKonten.length > 3) {
@@ -21,11 +27,26 @@
                 }
 
                 genKonten = '';
-                dataKonten.sort((a, b) => a.jumlah_terkecil_next - b.jumlah_terkecil_next);
+                dataKonten.sort((a, b) => a.status_picking - b.status_picking);
                 dataKonten.forEach(kontenData => {
                     wloxxmh_nama = kontenData.wloxxmh_nama;
+                    status_picking = kontenData.status_picking;
                     id_wjtxxmh = kontenData.id_wjtxxmh;
                     wloxxmh_out_nama = kontenData.wloxxmh_out_nama;
+
+                    if (status_picking == 1) {
+                        textColor = '';
+                        displayInputan = '';
+                        statusPickingText = 'Open';
+                    } else if (status_picking == 2) {
+                        textColor = 'text-warning';
+                        displayInputan = '';
+                        statusPickingText = 'Parsial';
+                    } else {
+                        textColor = 'text-navy';
+                        displayInputan = 'style="display: none"';
+                        statusPickingText = 'Full';
+                    }
 
                     if (id_wjtxxmh == 2) {
                         btnSubmit = `<button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>`;
@@ -39,7 +60,7 @@
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <div class="quantity-input">
-                                            <input type="text" id="locAsal${kontenData.id}" onchange="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location">
+                                            <input type="text" id="locAsal${kontenData.id}" onchange="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +94,7 @@
                                 <div class="d-flex align-items-center justify-content-between m-t-n-sm">
                                     <div class="d-flex align-items-center">
                                         <div class="quantity-input">
-                                            <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Outbound Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
+                                            <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
                                         </div>
                                     </div>
                                 </div>
@@ -88,12 +109,16 @@
                                     <br>
                                     Expired Date : ${kontenData.expired_date}
                                     <br>
-                                    Outbound Location : ${kontenData.wloxxmh_out_nama}
+                                    Dispatch Location : ${kontenData.wloxxmh_out_nama}
+                                    <br>
+                                    Status Picking : <b>${statusPickingText}</b>
                                     <br>
                                     
-                                    Jumlah Terkecil : ${kontenData.jumlah_terkecil_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
+                                    Jumlah PL : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
                                     <br>
-                                    Jumlah Default : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                    Jumlah PC : ${kontenData.jumlah_p.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                    <br>
+                                    Jumlah Sisa : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
                                 </p>`
                     ;
                     
@@ -105,7 +130,7 @@
                     genKonten = genKonten+ `
                         <div class="${class_col}">
                             <div class="ibox">
-                                <div class="ibox-content">
+                                <div class="ibox-content ${textColor}">
                                     <h3>${kontenData.wlpxxmh_kode} ${conct} ${wloxxmh_nama}</h3>
                                     ${kontenValid}
                                     ${btnAudit}
@@ -121,6 +146,14 @@
     }
     
     function validasiLocation(itemId, iwloxxmh_nama) {
+        // Disable all elements starting with 'locAsal' except for $('#locAsal' + itemId)
+        $('[id^=locAsal]').each(function() {
+            var currentId = $(this).attr('id');
+            if (currentId !== 'locAsal' + itemId) {
+                $(this).prop('disabled', true);
+            }
+        });
+        
         var inputLocation = $('#locAsal' + itemId);
         var inputValue = inputLocation.val();
         start_at = moment().format('YYYY-MM-DD HH:mm:ss');	
@@ -266,7 +299,7 @@
 
     function confirmData() {
         console.log(wloxxmh_out_nama);
-        confirmDispatch = prompt('Enter Outbound Location');
+        confirmDispatch = prompt('Enter Dispatch Location');
 
         if(confirmDispatch == wloxxmh_out_nama) {
             confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
@@ -284,12 +317,14 @@
                     status_code = json.data.status_code;
                     if (status_code == 200) {
                         toastr[json.data.type_message](json.data.message,"INFO");
-                        generateKonten();
+                        // generateKonten();
+                        window.removeEventListener('beforeunload', confirmLeavePage);
+                        location.reload();
                     }
                 }
             } );
         } else {
-            toastr["warning"]("Outbound Location Tidak Sesuai!","WARNING");
+            toastr["warning"]("Dispatch Location Tidak Sesuai!","WARNING");
         }
     }
 </script>

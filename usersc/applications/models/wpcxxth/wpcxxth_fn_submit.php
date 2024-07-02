@@ -40,6 +40,7 @@
 		$finish_at    = $_POST['finish_at'];
 		$nama_table = "wpclptd";
 		$nama_table_before = "wpllptd";
+		$imtxxmh_kode = 213;
 
 		$qi_lpn_picking = $db
             ->raw()
@@ -138,6 +139,7 @@
 			$qi_iivxxrd = $db
 				->raw()
 				->bind(':id', $id)
+				->bind(':imtxxmh_kode', $imtxxmh_kode)
 				->exec('
 					INSERT INTO iivxxrd (
 						id_transaksi_h,
@@ -202,8 +204,8 @@
 						d.nama AS iimxxmh_nama,
 						iumxxmh_unit.kode AS iumxxmh_unit_kode,
 						iumxxmh_unit.nama AS iumxxmh_unit_nama,
-						"",
-						"",
+						:imtxxmh_kode,
+						g.movement_type,
 						curdate(),
 						0,
 						iumxxmh_terkecil.kode AS iumxxmh_terkecil_kode,
@@ -226,6 +228,7 @@
 					LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 					LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh_asal
+					LEFT JOIN imtxxmh g ON g.kode = :imtxxmh_kode
 					WHERE a.id = :id
 			');
 

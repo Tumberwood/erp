@@ -19,6 +19,9 @@
 	$qs_wpllptd = $db
 		->raw()
 		->exec('SELECT
+					a.jumlah_unit AS jumlah_pl,
+					unit.kode AS uom_pl,
+					ifnull(s_card, 0) AS jumlah_p,
 					a.id,
 					a.id_wloxxmh,
 					a.id_iwhxxmh,
@@ -42,15 +45,24 @@
 					a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
 					def.kode AS iumxxmh_default_kode,
 					d.nama AS wloxxmh_out_nama,
-					ifnull(e.urutan, 99999999) AS urutan,
+					ifnull(e.urutan, 0) AS urutan,
+					a.status_picking,
 					c.id_wjtxxmh
 				FROM wpllptd a
 				LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
 				LEFT JOIN iumxxmh terkecil ON terkecil.id = a.id_iumxxmh_terkecil
 				LEFT JOIN iumxxmh def ON def.id = a.id_iumxxmh_default
+				LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 				LEFT JOIN wpcxxth c ON c.id = a.id_wpcxxth
 				LEFT JOIN wloxxmh d ON d.id = c.id_wloxxmh_out
 				LEFT JOIN wimlotd e ON e.id_iimxxmh = a.id_iimxxmh AND e.id_wloxxmh = a.id_wloxxmh
+				LEFT JOIN (
+					SELECT
+						id_wpllptd,
+						SUM(jumlah_default) AS s_card
+					FROM wpclptd
+					GROUP BY id_wpllptd
+				) f ON f.id_wpllptd = a.id
 				WHERE 
 					-- a.jumlah_terkecil_os > 0 AND
 					a.id_wpcxxth = '.$id_wpcxxth_old .'
