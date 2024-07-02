@@ -13,9 +13,14 @@
 		DataTables\Editor,
 		DataTables\Editor\Query,
 		DataTables\Editor\Result;
+	
+	$start_date = new Carbon($_POST['start_date']);
+	$end_date = new Carbon($_POST['end_date']);
 
 	$qs_wms_log_r = $db
 		->raw()
+		->bind(':start_date',$start_date)
+		->bind(':end_date',$end_date)
 		->exec('WITH log AS (
 					SELECT
 						a.id AS id,
@@ -77,6 +82,7 @@
 					LEFT JOIN activity_log_ml AS b ON a.id_transaksi = b.id_transaksi AND b.kode = "CONFIRM" AND b.nama = a.nama
 					WHERE a.kode = "CREATE"
 						AND a.nama IN ("wreittd", "wptittd", "wtrittd", "iivxxrd_audit", "wpclptd")
+						AND DATE(a.start_on) BETWEEN :start_date AND :end_date
 					GROUP BY a.id_transaksi, a.nama
 					ORDER BY a.start_on DESC
 				)
