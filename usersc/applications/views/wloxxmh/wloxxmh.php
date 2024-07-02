@@ -902,7 +902,23 @@
 					editor: edtwloxxmh_generate, 
 					text: '<i class="fa fa-google"></i>', 
 					className: 'btn btn-outline', 
-					titleAttr: 'Generate Location'
+					titleAttr: 'Generate Location',
+					formButtons: [
+						{
+							text: 'Cancel',
+							action: function () {
+								this.close();
+							},
+							className: 'btn btn-warning m-r-xs'
+						},
+						{
+							text: 'Save',
+							action: function () {
+								this.submit();
+							},
+							className: 'btn btn-primary m-r-xs'
+						},
+					]
 				},
 			],
 			initComplete: function() {
