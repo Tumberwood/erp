@@ -38,15 +38,64 @@
     </div>
 </div>
 
-<div class="row" id="konten">
-</div>
 
-<div class="ibox">
-	<div class="row">
-		<div class="col-8 col-lg-11">
+<div class="ibox" id="tableLPN" style="display: none">
+	<div class="ibox-content">
+		
+		<div class="modal" id="modalLPN" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content animated bounceInRight">
+					<div class="modal-header">
+						<h4 class="modal-title">Picking</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row" id="konten">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-4 col-lg-1">
-			<button class="btn btn-warning submit-button" id="confirmBtn" style="display: none" onClick="confirmData()">Confirm</button>
+	
+		<div class="table-responsive">
+			<table id="tblwpcxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>id_wdoxxth</th>
+						<th>status_picking_number</th>
+						<th>LPN</th>
+						<th>Location</th>
+						<th>Item Code</th>
+						<th>Item Name</th>
+						<th>UoM</th>
+						<th>Jumlah PL</th>
+						<th>Jumlah Pick</th>
+						<th>Jumlah Sisa</th>
+						<th>Status Picking</th>
+						<th>Batch Number</th>
+						<th>Expired Date</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th>Total</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th id="s_8"></th>
+					<th id="s_9"></th>
+					<th id="s_10"></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tfoot>
+			</table>
 		</div>
 	</div>
 </div>
@@ -76,9 +125,11 @@
 		// ------------- default variable, do not erase
 		var edtwpcxxth, tblwpcxxth, show_deleted_wpcxxth = 0, id_wpcxxth;
 		// ------------- end of default variable
+		var id_wpllptd = 0;
 		var id_wpcxxth_old = 0;
 		var selectedValues = 0;
 		var start_at = "";
+		var wloxxmh_out_nama = "";
 		var finish_at = "";
 		var confirm_at = "";
 
@@ -118,29 +169,167 @@
 		});
 
 		$(document).ready(function() {
+
+			tblwpcxxth = $('#tblwpcxxth').DataTable( {
+				ajax: {
+					url: "../../models/wpcxxth/wpcxxth_iivxxrd_table.php",
+					type: 'POST',
+					data: function (d){
+						d.id_wpcxxth_old = id_wpcxxth_old;
+					}
+				},
+				order: [[ 2, "asc" ]],
+				columns: [
+					{ data: "id",visible:false },
+					{ data: "id_wpcxxth",visible:false },
+					{ 
+						data: "status_picking",visible:false },
+					{ data: "wlpxxmh_kode",visible:false },
+					{ data: "wloxxmh_nama",visible:false },
+					{ data: "iimxxmh_kode" },
+					{ data: "iimxxmh_nama" },
+					{ data: "uom_pl" },
+					{ 
+						data: "jumlah_pl",
+						...renderNumber( 0, "")
+					},
+					{ 
+						data: "jumlah_p",
+						...renderNumber( 0, "")
+					},
+					{ 
+						data: "jumlah_default_os",
+						...renderNumber( 0, "")
+					},
+					{
+						data: "status_picking",
+						render: function (data) {
+							if (data == 1){
+								return '<span class="badge badge-lain">Open</span>';
+							}else if (data == 2){
+								return '<span class="badge badge-warning">Parsial</span>';
+							}else if(data == 3){
+								return '<span class="badge badge-primary">Full</span>';
+							} else {
+								return '<span class="badge badge-plain">INVALID DATA</span>';
+							}
+						}
+					},
+					{ data: "batch_number" },
+					{ data: "expired_date" },
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_wpcxxth';
+						$table       = 'tblwpcxxth';
+						$edt         = 'edtwpcxxth';
+						$show_status = '_wpcxxth';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= [];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+					?>
+					// END breaking generate button
+					{ 
+						text: '<i class="fa fa-save"></i>&nbsp;Confirm',
+						name: 'btnConfirmPicking',
+						className: 'btn btn-warning',
+						titleAttr: 'Confirm',
+						action: function ( e, dt, node, config ) {
+							var rowData = dt.row(0).data();
+            
+							if (rowData) {
+								wloxxmh_out_nama = rowData.wloxxmh_out_nama;
+								// console.log('wloxxmh_out_nama from first row:', wloxxmh_out_nama);
+								confirmData();
+							} else {
+								alert('No data available in the table.');
+							}
+						}
+					},
+				],
+				initComplete: function() {
+					this.api().searchPanes.rebuildPane();
+				},
+				rowCallback: function( row, data, index ) {
+				},
+				footerCallback: function ( row, data, start, end, display ) {
+					var api = this.api();
+					var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
+					
+					for (var i = 8; i <= 10; i++) {
+						var columnIndex = i;
+						var sum_all = api.column(columnIndex).data().sum();
+						// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
+						var sum = api.column(columnIndex, { page: 'current' }).data().sum();
+						$('#s_' + columnIndex).html(numFormat(sum_all));
+
+						// console.log('Number of Pages: ' + api.page.info().pages);
+					}
+				}
+			} );
+
+			tblwpcxxth.on( 'init', function () {
+				// atur hak akses
+				// CekInitHeaderH(tblwpcxxth);
+				cekDetailSubmit();
+			} );
+
+			tblwpcxxth.on( 'draw', function () {
+				// atur hak akses
+				// CekInitHeaderH(tblwpcxxth);
+				cekDetailSubmit();
+				cekDetailSubmit();
+			} );
+			
+			tblwpcxxth.on( 'select', function( e, dt, type, indexes ) {
+				var selectedRowData = tblwpcxxth.rows({ selected: true }).data()[0];
+				if (selectedRowData) {
+					// console.log('Selected ID:', selectedRowData.id);
+					id_wpllptd = selectedRowData.id;
+					$('#modalLPN').modal('toggle');
+					generateKonten();
+					setTimeout(function() {
+						$(`#locAsal${id_wpllptd}`).focus();
+					}, 800);
+				}
+			} );
+
+			tblwpcxxth.on( 'deselect', function () {
+				id_wpllptd = 0;
+				$('#konten').empty();
+				// siVarReset('wpcxxth');
+
+				// atur hak akses
+				// CekDeselectHeaderH(tblwpcxxth);
+			} );
+			// tblwpcxxth.searchPanes.container().appendTo('#spwpcxxth');
+			// tblwpcxxth.searchBuilder.container().appendTo( '#sbwpcxxth' );
+			// END wpcxxth
+			
 			$('#selectKode').change(function() {
 				// Get selected values
 				selectedValues = $(this).val();
 				
+				$('#selectKode').prop('disabled', true);
 				// Log selected values
 				id_wpcxxth_old  = $('#selectKode').val();
-				generateKonten();
+				tblwpcxxth.ajax.reload(null, false);
+				//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
+				isPickingUsed(id_wpcxxth_old, 1);
+				$('#tableLPN').show();
+				// generateKonten();
 				$('#iboxfilter').addClass('collapsed');
+				
+				//event jika direload, maka flag used jadi 0 lagi
+				$(window).on('unload', function() {
+					isPickingUsed(id_wpcxxth_old, 0);
+				});
 			});
 
-			// $("#frmFilter").submit(function(e) {
-			// 	e.preventDefault();
-			// }).validate({
-			// 	rules: {
-					
-			// 	},
-			// 	submitHandler: function(frmFilter) {
-					
-			// 	}
-			// });
-
-			// END wpcxxth
-			
 		} );// end of document.ready
 	
 	</script>

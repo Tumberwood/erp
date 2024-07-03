@@ -92,7 +92,6 @@
 				->raw()
 				->bind(':id_picking', $id_picking)
 				->exec('SELECT
-							CONCAT(b.kode, "/", LPAD(COUNT(a.id), 4, "0") ) AS kode_d,
 							b.id_wplxxth
 						FROM wpclptd a
 						LEFT JOIN wpcxxth b ON b.id = a.id_wpcxxth
@@ -100,14 +99,7 @@
 				'
 			);
 			$rs_kode = $qs_kode->fetch();
-			$kode_d = $rs_kode['kode_d'];
 			$id_wplxxth = $rs_kode['id_wplxxth'];
-			
-			$qu_wpclptd = $db
-				->query('update', 'wpclptd')
-				->set('kode',$kode_d)
-				->where('id',$id)
-				->exec();
 
 			$qu_wpxxth = $db
 				->raw()
@@ -232,7 +224,8 @@
 					WHERE a.id = :id
 			');
 
-			General::logChange( $db , 'wpclptd', $s_id_users, $s_username, 'CREATE', $id, $kode_d, $start_at , $finish_at );
+			General::logChange( $db , 'wpclptd', $s_id_users, $s_username, 'CREATE', $id, "", $start_at , $finish_at );
+			General::logChange( $db , 'wpclptd', $s_id_users, $s_username, 'CONFIRM', $id, "", $start_at , $finish_at );
 			
 			$db->commit();
 			$status_code  = 200;

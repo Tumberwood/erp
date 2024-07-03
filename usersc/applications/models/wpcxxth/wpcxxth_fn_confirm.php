@@ -37,17 +37,26 @@
 		$confirm_at    = $_POST['confirm_at'];
 		$imtxxmh_kode = 213;
 
-		$qs_kode = $db
+		$qs_pick_h = $db
 			->raw()
 			->bind(':id_picking', $id_picking)
 			->exec('SELECT
-						b.id_wplxxth
+						b.kode,
+						b.id_wplxxth,
+						b.id_wloxxmh_out,
+						b.id_wjtxxmh,
+						b.id_grlxxmh_customer
 					FROM wpcxxth b
 					WHERE b.id = :id_picking
 			'
 		);
-		$rs_kode = $qs_kode->fetch();
-		$id_wplxxth = $rs_kode['id_wplxxth'];
+		$rs_pick_h = $qs_pick_h->fetch();
+
+		$kode_awal = $rs_pick_h['kode'];
+		$id_wplxxth = $rs_pick_h['id_wplxxth'];
+		$id_wloxxmh_out = $rs_pick_h['id_wloxxmh_out'];
+		$id_wjtxxmh = $rs_pick_h['id_wjtxxmh'];
+		$id_grlxxmh_customer = $rs_pick_h['id_grlxxmh_customer'];
 
 		//hapus booking picking list per header PL
 		$qd_booking_lpn_pickingList = $db
@@ -56,21 +65,84 @@
 			->where('id_transaksi_h',$id_wplxxth)
 			->exec();
 		
-		//delete iiv booking untuk wpcxxth yang pernah diconfirm sebelumnya
-		//untuk menghindari insert ganda
+		//delete iiv booking per item tadi
 		$qu_iivxxrd = $db
 			->query('delete', 'iivxxrd')
 			->where('id_transaksi_h',$id_picking)
 			->where('keterangan',"wpcxxth_".$id_picking)
 			->exec();
 
+		//insert WPC baru setiap confirm
+		$qi_wpcxxth_baru = $db
+			->query('insert', 'wpcxxth')
+			->set('id_wplxxth',$id_wplxxth)
+			->set('id_wpcxxth',$id_picking)
+			->set('id_wloxxmh_out',$id_wloxxmh_out)
+			->set('id_wjtxxmh',$id_wjtxxmh)
+			->set('id_grlxxmh_customer',$id_grlxxmh_customer)
+			->exec();
+		$id_wpcxxth_baru = $qi_wpcxxth_baru->insertId();
+		
+		$qs_kode_h = $db
+			->raw()
+			->bind(':kode_awal', $kode_awal)
+			->bind(':id_picking', $id_picking)
+			->exec('SELECT
+						CONCAT(:kode_awal, "/C", COUNT(b.id) ) AS kode_h,
+						b.id_wplxxth
+					FROM wpcxxth b
+					WHERE b.id_wpcxxth = :id_picking
+			'
+		);
+		$rs_kode_h = $qs_kode_h->fetch();
+		$kode_h = $rs_kode_h['kode_h'];
+
+		//update kode Pc baru dengant tambahan /C1, C2 ...
+		$qu_kode_h = $db
+			->query('update', 'wpcxxth')
+			->set('kode',$kode_h)
+			->where('id',$id_wpcxxth_baru)
+			->exec();
+
+		//select picking d
+		$qs_pick_d = $db
+			->raw()
+			->bind(':id_picking', $id_picking)
+			->exec('SELECT
+						ROW_NUMBER() OVER(ORDER BY a.id) AS s_id,
+						LPAD(ROW_NUMBER() OVER(ORDER BY a.id), 4, 0) AS kode_d,
+						a.id
+					FROM wpclptd a
+					LEFT JOIN wpcxxth b ON b.id = a.id_wpcxxth
+					WHERE a.id_wpcxxth = :id_picking;
+		
+			'
+		);
+		$rs_pick_d = $qs_pick_d->fetchAll();
+		
+		//update kode picking d
+		foreach ($rs_pick_d as $key => $pick_d) {
+			$kode_d = $kode_h . "/" . $pick_d['kode_d'];
+			$id_d = $pick_d['id'];
+
+			$qu_wpclptd = $db
+				->query('update', 'wpclptd')
+				->set('id_wpcxxth',$id_wpcxxth_baru)
+				->set('kode',$kode_d)
+				->where('id',$id_d)
+				->exec();
+		}
+			
+
 		//insert booking minus
 		$qi_iivxxrd = $db
 			->raw()
-			->bind(':id_picking', $id_picking)
+			->bind(':id_wpcxxth_baru', $id_wpcxxth_baru)
 			->bind(':imtxxmh_kode', $imtxxmh_kode)
 			->exec('
 				INSERT INTO iivxxrd (
+					id_gcpxxmh,
+					id_gbrxxmh,
 					id_transaksi_h,
 					id_transaksi_d,
 					id_wloctmh,
@@ -110,6 +182,8 @@
 					batch_number
 				)
 				SELECT
+					h.id_gcpxxmh,
+					e.id_gbrxxmh,
 					a.id_wpcxxth AS id_transaksi_h,
 					a.id AS id_transaksi_d,
 					f.id_wloctmh,
@@ -158,16 +232,19 @@
 				LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 				LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh_asal
 				LEFT JOIN imtxxmh g ON g.kode = :imtxxmh_kode
-				WHERE b.id = :id_picking
+				LEFT JOIN gbrxxmh h ON h.id = e.id_gbrxxmh
+				WHERE b.id = :id_wpcxxth_baru
 		');
 
 		//insert booking ke dispatch
 		$qi_iivxxrd = $db
 			->raw()
-			->bind(':id_picking', $id_picking)
+			->bind(':id_wpcxxth_baru', $id_wpcxxth_baru)
 			->bind(':imtxxmh_kode', $imtxxmh_kode)
 			->exec('
 				INSERT INTO iivxxrd (
+					id_gcpxxmh,
+					id_gbrxxmh,
 					id_transaksi_h,
 					id_transaksi_d,
 					id_wloctmh,
@@ -207,6 +284,8 @@
 					batch_number
 				)
 				SELECT
+					h.id_gcpxxmh,
+					e.id_gbrxxmh,
 					a.id_wpcxxth AS id_transaksi_h,
 					a.id AS id_transaksi_d,
 					f.id_wloctmh,
@@ -255,27 +334,28 @@
 				LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 				LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh_tujuan
 				LEFT JOIN imtxxmh g ON g.kode = :imtxxmh_kode
-				WHERE b.id = :id_picking
+				LEFT JOIN gbrxxmh h ON h.id = e.id_gbrxxmh
+				WHERE b.id = :id_wpcxxth_baru
 		');
 
 		if(!empty($qi_iivxxrd)){
 			//insert semua detail picking ke activity_log confirm
-			$qs_picking = $db
-				->query('select', 'wpclptd' )
-				->get([
-					'id',
-					'kode'
-				] )
-				->where('id_wpcxxth', $id_picking )
-				->exec();
-			$rs_picking = $qs_picking->fetchAll();
+			// $qs_picking = $db
+			// 	->query('select', 'wpclptd' )
+			// 	->get([
+			// 		'id',
+			// 		'kode'
+			// 	] )
+			// 	->where('id_wpcxxth', $id_picking )
+			// 	->exec();
+			// $rs_picking = $qs_picking->fetchAll();
 
-			foreach ($rs_picking as $key => $pick) {
-				$id = $pick['id'];
-				$kode_d = $pick['kode'];
+			// foreach ($rs_picking as $key => $pick) {
+			// 	$id = $pick['id'];
+			// 	$kode_d = $pick['kode'];
 
-				General::logChange( $db , 'wpclptd', $s_id_users, $s_username, 'CONFIRM', $id, $kode_d, $start_at , $confirm_at );
-			}
+			// 	General::logChange( $db , 'wpclptd', $s_id_users, $s_username, 'CONFIRM', $id, $kode_d, $start_at , $confirm_at );
+			// }
 
 			General::logChange( $db , 'wpcxxth', $s_id_users, $s_username, 'CONFIRM', $id_picking, 'Confirm Picking id='.$id_picking, $start_at , $confirm_at );
 			

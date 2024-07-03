@@ -7,12 +7,12 @@
         $('#konten').empty();
 
         $.ajax( {
-            url: "../../models/wpcxxth/wpcxxth_iivxxrd.php",
+            url: "../../models/wpcxxth/wpcxxth_iivxxrd_card.php",
             dataType: 'json',
             type: 'POST',
             async: false,
             data: {
-                id_wpcxxth_old: id_wpcxxth_old,
+                id_wpllptd: id_wpllptd,
             },
             success: function ( json ) {
                 dataKonten = json.data;
@@ -35,17 +35,25 @@
                     wloxxmh_out_nama = kontenData.wloxxmh_out_nama;
 
                     if (status_picking == 1) {
-                        textColor = '';
                         displayInputan = '';
                         statusPickingText = 'Open';
+                        displayText = 'style="display: none"';
+                        h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
                     } else if (status_picking == 2) {
-                        textColor = 'text-warning';
                         displayInputan = '';
+                        displayText = 'style="display: none"';
                         statusPickingText = 'Parsial';
-                    } else {
-                        textColor = 'text-navy';
+                        h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                    } else if (status_picking == 3) {
                         displayInputan = 'style="display: none"';
+                        displayText = '';
                         statusPickingText = 'Full';
+                        h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
+                    } else {
+                        displayInputan = '';
+                        statusPickingText = '';
+                        displayText = 'style="display: none"';
+                        h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
                     }
 
                     if (id_wjtxxmh == 2) {
@@ -56,22 +64,50 @@
                         btnSubmit = `<button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>`;
                     }
                     
+                    kontenValid = `
+                                <div ${displayText} id="textItem${kontenData.id}">
+                                    <p>
+                                        <b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
+                                    </p>
+                                    <p class="m-t-n-sm">
+                                        Batch Number : ${kontenData.batch_number}
+                                        <br>
+                                        Expired Date : ${kontenData.expired_date}
+                                        <br>
+                                        Dispatch Location : ${kontenData.wloxxmh_out_nama}
+                                        <br>
+                                        Status Picking : <b>${statusPickingText}</b>
+                                        <br>
+                                        
+                                        Jumlah PL : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                        <br>
+                                        Jumlah Pick : ${kontenData.jumlah_p.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        <br>
+                                        Jumlah Sisa : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                    </p>
+                                </div>`
+
                     btnAudit = `
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <div class="quantity-input">
-                                            <input type="text" id="locAsal${kontenData.id}" onchange="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
+                                            <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
                                         </div>
                                     </div>
                                 </div>
 
+                                <h3 style="display: none" id="textLPN${kontenData.id}">${kontenData.wlpxxmh_kode}</h3>
+                                
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <div class="d-flex align-items-center">
                                         <div class="quantity-input">
-                                            <input type="text" id="lpn${kontenData.id}" onchange="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}')" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
+                                            <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}')" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
                                         </div>
                                     </div>
                                 </div>
+
+                                ${kontenValid}
+
                                 <div class="form-group m-t-n-sm" id="input${kontenData.id}"  style="display: none">
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <div class="d-flex align-items-center">
@@ -100,47 +136,17 @@
                                 </div>
                                 ${btnSubmit}
                     `;	
-
-                    kontenValid = `<p>
-                                    <b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
-                                </p>
-                                <p class="m-t-n-sm">
-                                    Batch Number : ${kontenData.batch_number}
-                                    <br>
-                                    Expired Date : ${kontenData.expired_date}
-                                    <br>
-                                    Dispatch Location : ${kontenData.wloxxmh_out_nama}
-                                    <br>
-                                    Status Picking : <b>${statusPickingText}</b>
-                                    <br>
-                                    
-                                    Jumlah PL : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
-                                    <br>
-                                    Jumlah PC : ${kontenData.jumlah_p.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
-                                    <br>
-                                    Jumlah Sisa : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
-                                </p>`
                     ;
                     
-                    if (kontenData.wlpxxmh_kode != '' && wloxxmh_nama != '') {
-                        conct = '-';
-                    } else {
-                        conct = '';
-                    }
                     genKonten = genKonten+ `
                         <div class="${class_col}">
-                            <div class="ibox">
-                                <div class="ibox-content ${textColor}">
-                                    <h3>${kontenData.wlpxxmh_kode} ${conct} ${wloxxmh_nama}</h3>
-                                    ${kontenValid}
-                                    ${btnAudit}
-                                </div>
-                            </div>
-                            
+                            ${h3CardLocation}
+                            ${btnAudit}
                         </div>
                     `;	
                 });
                 $('#konten').html(genKonten);
+                // $(`#locAsal${dataKonten[0].id}`).focus();
             }
         } );
     }
@@ -169,6 +175,7 @@
         } else {
             inputLocation.removeClass('is-invalid');
             inputLocation.next('.invalid-feedback').remove();
+            $('#textLPN' + itemId).show();
             $('#lpn' + itemId).show();
             $('#lpn' + itemId).focus();
             $('#locAsal' + itemId).prop('disabled', true);
@@ -178,6 +185,8 @@
     function validasiLPN(itemId, wlpxxmh_kode) {
         var inputLPN = $('#lpn' + itemId);
         var inputValue = inputLPN.val();
+        inputLPN.removeClass('is-invalid');
+        inputLPN.next('.invalid-feedback').remove();
         
         if (inputValue != wlpxxmh_kode) {
             $('#input' + itemId).hide();
@@ -189,6 +198,7 @@
         } else {
             inputLPN.removeClass('is-invalid');
             inputLPN.next('.invalid-feedback').remove();
+            $('#textItem' + itemId).show();
             $('#input' + itemId).show();
             $('#input_jumlah' + itemId).focus();
             $('#lpn' + itemId).prop('disabled', true);
@@ -291,14 +301,39 @@
                 status_code = json.data.status_code;
                 if (status_code == 200) {
                     toastr[json.data.type_message](json.data.message,"INFO");
+				    tblwpcxxth.ajax.reload(null, false);
                     generateKonten();
+                    
+                    $('#modalLPN').modal('toggle');
+                    cekDetailSubmit();
+                }
+            }
+        } );
+    }
+
+    function cekDetailSubmit() {
+        $.ajax( {
+            url: "../../models/wpcxxth/wpcxxth_fn_cek_detail_submit.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_wpcxxth_old: id_wpcxxth_old
+            },
+            success: function ( json ) {
+                c_id_d = json.data.c_id_d;
+
+                if (c_id_d > 0) {
+                    tblwpcxxth.button('btnConfirmPicking:name').enable();
+                } else {
+                    tblwpcxxth.button('btnConfirmPicking:name').disable();
                 }
             }
         } );
     }
 
     function confirmData() {
-        console.log(wloxxmh_out_nama);
+        // console.log(wloxxmh_out_nama);
         confirmDispatch = prompt('Enter Dispatch Location');
 
         if(confirmDispatch == wloxxmh_out_nama) {
@@ -326,5 +361,17 @@
         } else {
             toastr["warning"]("Dispatch Location Tidak Sesuai!","WARNING");
         }
+    }
+
+    function isPickingUsed(id_wpcxxth_old, is_in_use) {
+        var data = {
+            id_wpcxxth_old: id_wpcxxth_old,
+            is_in_use: is_in_use,
+        };
+        // Convert data to JSON format
+        var jsonData = JSON.stringify(data);
+        // console.log(jsonData);
+        // Send data asynchronously using navigator.sendBeacon
+        navigator.sendBeacon('../../models/wpcxxth/wpcxxth_fn_is_used.php', jsonData);
     }
 </script>

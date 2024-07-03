@@ -73,6 +73,8 @@
         ->join('grlxxmh','grlxxmh.id = wpcxxth.id_grlxxmh_customer','LEFT' )
         // ->where('wpcxxth.transaction_state',1)
         ->where('wpcxxth.id', $id_wpcxxth_old, '<>' )
+        ->where('wpcxxth.is_in_use', 0 )
+        ->where('wpcxxth.id_wpcxxth', 0 )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
