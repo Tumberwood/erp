@@ -4,6 +4,7 @@
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/style.css" rel="stylesheet">
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/custom.css" rel="stylesheet">
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/font-awesome.min.css" rel="stylesheet">
+<link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/material-icons.css" rel="stylesheet">
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/plugins/iCheck/green.css" rel="stylesheet">
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/plugins/datepicker/bootstrap-datepicker.css" rel="stylesheet">
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/plugins/select2/select2.min.css" rel="stylesheet">
