@@ -1,0 +1,158 @@
+<?php
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+
+<?php
+	$nama_tabel    = '_blank';
+	$nama_tabels_d = [];
+?>
+
+<!-- begin content here -->
+
+	
+<div class="row">
+	
+	<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
+		<div class="ibox">
+			<div class="ibox-content bg-primary p-xs">
+				<div class="row vertical-align">
+					<div class="col-3">
+						<i class="material-icons" style="font-size: 48px;">pallet</i>
+					</div>
+					<div class="col-9">
+						<h2 class="font-bold m-b-md">Receive</h2>
+						<hr class="hr-line-dashed m-t-xs m-b-xs">
+					</div>
+				</div>
+				<h4 class="" id="c_lpn_received"></h4>
+				<h4 class="" id="avg_receive"></h4>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
+		<div class="ibox">
+			<div class="ibox-content bg-primary p-xs">
+				<div class="row vertical-align">
+					<div class="col-3">
+						<i class="material-icons" style="font-size: 48px;">forklift</i>
+					</div>
+					<div class="col-9">
+						<h2 class="font-bold m-b-md">Putaway</h5>
+						<hr class="hr-line-dashed m-t-xs m-b-xs">
+					</div>
+				</div>
+				<h4 class="" id="c_lpn_putaway"></h4>
+				<h4 class="" id="c_lpn_to_putaway"></h4>
+				<h4 class="" id="avg_putaway"></h4>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
+		<div class="ibox">
+			<div class="ibox-content bg-warning p-xs">
+				<div class="row vertical-align">
+					<div class="col-3">
+						<i class="material-icons" style="font-size: 48px;">barcode_reader</i>
+					</div>
+					<div class="col-9">
+						<h2 class="font-bold m-b-md">Picking</h5>
+						<hr class="hr-line-dashed m-t-xs m-b-xs">
+					</div>
+				</div>
+				<h4 class="" id="c_lpn_picked"></h4>
+				<h4 class="" id="c_lpn_to_pick"></h4>
+				<h4 class="" id="avg_picking"></h4>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
+		<div class="ibox">
+			<div class="ibox-content bg-warning p-xs">
+				<div class="row vertical-align">
+					<div class="col-3">
+						<i class="material-icons" style="font-size: 48px;">local_shipping</i>
+					</div>
+					<div class="col-9">
+						<h2 class="font-bold m-b-md">Dispatch</h5>
+						<hr class="hr-line-dashed m-t-xs m-b-xs">
+					</div>
+				</div>
+				<h2 class="font-bold" id="c_order_to_dispatch"></h2>
+				<small></small>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-4 col-lg-4 col-md-3 col-sm-12 col-12">
+		<div class="ibox">
+			<div class="ibox-content p-xs" id="hc_location_capacity">
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+		<div class="ibox">
+			<div class="ibox-content p-xs" id="hc_man_hours">
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+		<div class="ibox">
+			<div class="ibox-content p-xs" id="hc_location_heatmap">
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+?>
+
+<!-- BEGIN JS -->
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/highcharts.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/highcharts-more.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/heatmap.js"></script>
+
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wms_dashboard/fn/wms_dash_ops_fn.php'; ?>
+
+<!-- BEGIN javascript here -->
+<script type="text/javascript">
+	// get tableRelation
+	// tableRelation('_blank');
+
+	$(document).ready(function() {
+
+		load_dashboard_wms_ops_box();
+		load_dashboard_wms_ops_location_heatmap();
+		load_dashboard_wms_ops_location_capacity();
+		load_dashboard_wms_ops_man_hours();
+
+	} );// end of document.ready
+
+</script>
+
+<!-- END javascript here -->
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
