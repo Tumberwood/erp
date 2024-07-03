@@ -46,7 +46,7 @@
 					FROM iivxxrd
 					WHERE tanggal <= :end_date AND is_fisik = 0
 					GROUP BY 
-						id_gbrxxmh, 
+						-- id_gbrxxmh, 
 						id_iwhxxmh,
 						id_iimxxmh,
 						id_wloxxmh,
@@ -54,7 +54,7 @@
 				) AS b ON b.wloxxmh_nama = a.wloxxmh_nama AND b.iimxxmh_kode = a.iimxxmh_kode AND b.wlpxxmh_kode = a.wlpxxmh_kode
 				WHERE tanggal <= :end_date
 				GROUP BY 
-					id_gbrxxmh, 
+					-- id_gbrxxmh, 
 					id_iwhxxmh,
 					id_iimxxmh,
 					id_wloxxmh,
