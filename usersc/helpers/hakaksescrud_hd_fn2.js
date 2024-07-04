@@ -1155,17 +1155,40 @@ function CekSelectDetailHD( tbl_detail ){
     //  - transaction_state = 0 atau -1 
     //  - approval_state = 0  
     //  - hak_d = 1
-    if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
-        tbl_detail.button( 'btnRemove:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetActionD = c_btnSetActionD + 1;
+    if(is_master_table == 0){
+        console.log('a');
+        if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
+            tbl_detail.button( 'btnRemove:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetActionD = c_btnSetActionD + 1;
+    
+        }else{
+            tbl_detail.button( 'btnRemove:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
 
+    }else if(is_master_table == 1){
+        // master table
+        console.log('b');
+        if(transaction_state == -9){
+            tbl_detail.button( 'btnRemove:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }else{
+            tbl_detail.button( 'btnRemove:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
+        console.log('c');
         tbl_detail.button( 'btnRemove:name' )
             .nodes()
             .css( 'display', 'none' );
     }
+    
     // END btnRemove
 
     // BEGIN btnView
@@ -1185,6 +1208,7 @@ function CekSelectDetailHD( tbl_detail ){
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
         console.log('CekSelectDetailHD');
+        console.log('- is_master_table: ' + is_master_table);
         console.log('- transaction_state: ' + transaction_state);
         console.log('- hak_u: ' + hak_u);
         console.log('- hak_d: ' + hak_d);
