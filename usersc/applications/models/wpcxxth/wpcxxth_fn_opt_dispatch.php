@@ -55,6 +55,33 @@
     }
     // END query self
 
+    // Ini untuk data lama yang sebelum update transaction_state = 8
+    //data sebelum revisi tanggal 04/07/2024 (revisi jika detail sudah full semua) maka dibuat complete
+    $qs_sisa = $db
+        ->raw()
+        ->exec('SELECT
+                    a.id_wpcxxth as id,
+                    SUM(a.jumlah_terkecil_os) AS os
+                FROM wpclptd a
+                GROUP BY a.id_wpcxxth
+                HAVING os = 0
+        '
+        );
+
+    $rs_sisa = $qs_sisa->fetchAll();
+    $id_array = [];
+
+    if (!empty($rs_sisa)) {
+        //yang item OS = 0 semua, maka tidak perlu dimunculkan headernya
+        foreach ($rs_sisa as $row) {
+            $id_array[] = $row['id'];
+        }
+    
+        $id_string = '(' . implode(',', $id_array) . ')';
+    } else {
+        $id_string = '(-9)';
+    }
+
     // BEGIN query options all except self
     $qs_wpcxxth_all = $db
         ->query('select', 'wpcxxth')
@@ -75,6 +102,8 @@
         ->where('wpcxxth.id', $id_wpcxxth_old, '<>' )
         ->where('wpcxxth.is_in_use', 0 )
         ->where('wpcxxth.id_wpcxxth', 0, '<>' )
+        ->where('wpcxxth.transaction_state', 8, '<>' ) //yang sudah complete atau full semua tidak perlu ditampilkan di opt
+        ->where('wpcxxth.id', $id_string, 'NOT IN', false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

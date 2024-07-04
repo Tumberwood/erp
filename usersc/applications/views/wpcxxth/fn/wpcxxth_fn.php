@@ -36,18 +36,18 @@
 
                     if (status_picking == 1) {
                         displayInputan = '';
-                        statusPickingText = 'Open';
+                        statusPickingText = '<span class="badge badge-plain">Open</span>';
                         displayText = 'style="display: none"';
                         h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
                     } else if (status_picking == 2) {
                         displayInputan = '';
                         displayText = 'style="display: none"';
-                        statusPickingText = 'Parsial';
+                        statusPickingText = '<span class="badge badge-warning">Parsial</span>';
                         h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
                     } else if (status_picking == 3) {
                         displayInputan = 'style="display: none"';
                         displayText = '';
-                        statusPickingText = 'Full';
+                        statusPickingText = '<span class="badge badge-primary">Full</span>';
                         h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
                     } else {
                         displayInputan = '';
@@ -76,7 +76,7 @@
                                         <br>
                                         Dispatch Location : ${kontenData.wloxxmh_out_nama}
                                         <br>
-                                        Status Picking : <b>${statusPickingText}</b>
+                                        Status Picking : ${statusPickingText}
                                         <br>
                                         
                                         Jumlah PL : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}

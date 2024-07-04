@@ -38,7 +38,7 @@
 		$imtxxmh_kode = 215;
 
 		//Generate Kode
-		$start_at = date("Y-m-d H:i:s");
+		// $start_at = date("Y-m-d H:i:s");
 			
 		function integerToRoman($integer){
 			// Convert the integer into an integer (just to make sure)
@@ -420,6 +420,28 @@
 
 			// 	General::logChange( $db , 'wdplptd', $s_id_users, $s_username, 'CONFIRM', $id, $kode_d, $start_at , $confirm_at );
 			// }
+			//cek all full
+			$qs_is_full = $db
+				->raw()
+				->bind(':id_picking', $id_picking)
+				->exec('SELECT
+							a.id_wpcxxth,
+							SUM(a.jumlah_terkecil_os) s_sisa
+						FROM wpclptd a
+						WHERE a.id_wpcxxth = :id_picking
+				'
+			);
+			$rs_is_full = $qs_is_full->fetch();
+			$s_sisa = $rs_is_full['s_sisa'];
+			$id_wpcxxth = $rs_is_full['id_wpcxxth'];
+
+			if ($s_sisa == 0) {
+				$qu_wpcxxth = $db
+					->query('update', 'wpcxxth')
+					->set('transaction_state',8)
+					->where('id',$id_wpcxxth)
+					->exec();
+			}
 
 			General::logChange( $db , 'wdpxxth', $s_id_users, $s_username, 'CONFIRM', $id_wdpxxth_baru, 'Confirm Dispatch Header id='.$id_wdpxxth_baru, $start_at , $confirm_at );
 			

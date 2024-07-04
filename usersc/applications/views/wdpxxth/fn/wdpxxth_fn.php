@@ -36,13 +36,13 @@
 
                     if (status_dispatch == 1) {
                         displayInputan = '';
-                        statusDispatchText = 'Open';
+                        statusDispatchText = '<span class="badge badge-plain">Open</span>';
                     } else if (status_dispatch == 2) {
                         displayInputan = '';
-                        statusDispatchText = 'Parsial';
+                        statusDispatchText = '<span class="badge badge-warning">Parsial</span>';
                     } else if (status_dispatch == 3) {
                         displayInputan = 'style="display: none"';
-                        statusDispatchText = 'Full';
+                        statusDispatchText = '<span class="badge badge-primary">Full</span>';
                     } else {
                         displayInputan = '';
                         statusDispatchText = '';
@@ -53,7 +53,7 @@
                         $('#confirmBtn').hide();
                     } else {
                         $('#confirmBtn').show();
-                        btnSubmit = `<button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>`;
+                        btnSubmit = `<button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" ${displayInputan}>Submit</button>`;
                     }
                     
                     kontenValid = `
@@ -68,12 +68,12 @@
                                         <br>
                                         Dispatch Location : ${kontenData.wloxxmh_out_nama}
                                         <br>
-                                        Status Dispatch : <b>${statusDispatchText}</b>
+                                        Status Dispatch : ${statusDispatchText}
                                         <br>
                                         
-                                        Jumlah PL : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                        Jumlah Pick : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
                                         <br>
-                                        Jumlah Pick : ${kontenData.jumlah_p.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        Jumlah Dispatch : ${kontenData.jumlah_p.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
                                         <br>
                                         Jumlah Sisa : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
                                     </p>
@@ -136,6 +136,8 @@
     }
 
     function validasiJumlah(itemId) {
+        start_at = moment().format('YYYY-MM-DD HH:mm:ss');	
+        console.log(start_at);
         var inputJumlah = $('#input_jumlah' + itemId);
         var valJumlah = inputJumlah.val();
         var qtyInput = parseFloat(inputJumlah.val(), 10); // Parse qtyInput as integer
@@ -204,6 +206,7 @@
         console.log(finish_at);
         console.log(selectedValues);
         $(`#submit${itemId}`).hide();
+        console.log(start_at);
 
         $.ajax( {
             url: "../../models/wdpxxth/wdpxxth_fn_submit.php",

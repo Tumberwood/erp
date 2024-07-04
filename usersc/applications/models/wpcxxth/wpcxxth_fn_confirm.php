@@ -357,6 +357,37 @@
 			// 	General::logChange( $db , 'wpclptd', $s_id_users, $s_username, 'CONFIRM', $id, $kode_d, $start_at , $confirm_at );
 			// }
 
+			//cek all full
+			$qs_is_full = $db
+				->raw()
+				->bind(':id_picking', $id_picking)
+				->exec('SELECT
+							a.id_wpcxxth,
+							a.id_wplxxth,
+							SUM(a.jumlah_terkecil_os) s_sisa
+						FROM wpllptd a
+						WHERE a.id_wpcxxth = :id_picking
+				'
+			);
+			$rs_is_full = $qs_is_full->fetch();
+			$s_sisa = $rs_is_full['s_sisa'];
+			$id_wpcxxth = $rs_is_full['id_wpcxxth'];
+			$id_wplxxth = $rs_is_full['id_wplxxth'];
+
+			if ($s_sisa == 0) {
+				$qu_wplxxth = $db
+					->query('update', 'wplxxth')
+					->set('transaction_state',8)
+					->where('id',$id_wplxxth)
+					->exec();
+
+				$qu_wpcxxth = $db
+					->query('update', 'wpcxxth')
+					->set('transaction_state',8)
+					->where('id',$id_wpcxxth)
+					->exec();
+			}
+			
 			General::logChange( $db , 'wpcxxth', $s_id_users, $s_username, 'CONFIRM', $id_picking, 'Confirm Picking id='.$id_picking, $start_at , $confirm_at );
 			
 			$db->commit();

@@ -72,8 +72,8 @@
 						<th>Item Code</th>
 						<th>Item Name</th>
 						<th>UoM</th>
-						<th>Jumlah PL</th>
 						<th>Jumlah Pick</th>
+						<th>Jumlah Dispatch</th>
 						<th>Jumlah Sisa</th>
 						<th>Status Dispatch</th>
 						<th>Batch Number</th>
@@ -186,9 +186,9 @@
 					{ data: "id_wpcxxth",visible:false },
 					{ 
 						data: "status_dispatch",visible:false },
-					{ data: "wlpxxmh_kode"},
+					{ data: "wlpxxmh_kode",visible:false},
 					{ data: "wloxxmh_nama",visible:false },
-					{ data: "kode_pl_d" },
+					{ data: "kode_pl_d",visible:false },
 					{ data: "iimxxmh_kode" },
 					{ data: "iimxxmh_nama" },
 					{ data: "uom_pl" },
@@ -208,7 +208,7 @@
 						data: "status_dispatch",
 						render: function (data) {
 							if (data == 1){
-								return '<span class="badge badge-lain">Open</span>';
+								return '<span class="badge badge-plain">Open</span>';
 							}else if (data == 2){
 								return '<span class="badge badge-warning">Parsial</span>';
 							}else if(data == 3){
