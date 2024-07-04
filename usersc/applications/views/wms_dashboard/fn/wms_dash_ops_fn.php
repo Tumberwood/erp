@@ -40,6 +40,15 @@
                     $('#c_lpn_picked').html('Done: '+ c_lpn_picked);
                     $('#c_lpn_to_pick').html('Open: ' + c_lpn_to_pick);
                     $('#avg_picking').html('Average: ' + avg_picking + 's');
+
+                    // DISPATCH
+                    c_item_to_dispatch = json.data.rs_item_to_dispatch.c_item_to_dispatch;
+                    c_item_dispatched = json.data.rs_item_dispatched.c_item_dispatched;
+                    avg_dispatch = parseInt(json.data.rs_avg_activity.avg_wdplptd);
+
+                    $('#c_item_dispatched').html('Done: ' + c_item_dispatched);
+                    $('#c_item_to_dispatch').html('Open: '+ c_item_to_dispatch);
+                    $('#avg_dispatch').html('Average: ' + avg_dispatch + 's');
                 }
             }
         } );

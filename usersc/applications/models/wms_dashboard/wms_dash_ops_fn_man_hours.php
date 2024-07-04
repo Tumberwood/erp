@@ -39,7 +39,7 @@
                     INNER JOIN activity_log_ml AS b ON a.id_transaksi = b.id_transaksi AND b.kode = "CONFIRM" AND b.nama = a.nama
                     WHERE 1 
                         AND a.kode = "CREATE"
-                        AND a.nama IN ("wreittd", "wptittd", "wtrittd", "wpclptd", "iivxxrd_audit")
+                        AND a.nama IN ("wreittd", "wptittd", "wtrittd", "wpclptd", "wdplptd", "iivxxrd_audit")
                         AND DATE(a.start_on) BETWEEN :start_date AND :end_date
                     GROUP BY a.username   
                 ');

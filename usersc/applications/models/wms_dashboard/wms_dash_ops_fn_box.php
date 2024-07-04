@@ -120,6 +120,35 @@
                         AND  DATE(activity_log_ml_c.start_on) BETWEEN :start_date AND :end_date
             ');
         $rs_lpn_picked = $qs_lpn_picked->fetch();
+
+        $qs_item_to_dispatch = $db
+            ->raw()
+            ->bind(':transaction_state', 1)
+            ->bind(':status_dispatch', 1)
+            ->exec('SELECT
+                        COUNT(*) AS c_item_to_dispatch
+                    FROM wpclptd
+                    LEFT JOIN wpcxxth ON wpcxxth.id = wpclptd.id_wpcxxth
+                    WHERE 1
+                        AND wpcxxth.transaction_state = :transaction_state
+                        AND wpclptd.status_dispatch = :status_dispatch
+            ');
+        $rs_item_to_dispatch = $qs_item_to_dispatch->fetch();
+
+        $qs_item_dispatched = $db
+            ->raw()
+            ->bind(':start_date', $start_date)
+            ->bind(':end_date', $end_date)
+            ->exec('SELECT
+                        COUNT(*) AS c_item_dispatched
+                    FROM wdplptd
+                    LEFT JOIN activity_log_ml as activity_log_ml_c ON 
+                        activity_log_ml_c.id_transaksi = wdplptd.id 
+                        AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "wdplptd"
+                    WHERE 1
+                        AND  DATE(activity_log_ml_c.start_on) BETWEEN :start_date AND :end_date
+            ');
+        $rs_item_dispatched = $qs_item_dispatched->fetch();
             
         /**
          * average time
@@ -135,12 +164,13 @@
                         IFNULL(AVG(CASE WHEN a.nama = "wreittd" THEN TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) END),0) AS avg_wreittd,
                         IFNULL(AVG(CASE WHEN a.nama = "wptittd" THEN TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) END),0) AS avg_wptittd,
                         IFNULL(AVG(CASE WHEN a.nama = "wtrittd" THEN TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) END),0) AS avg_wtrittd,
+                        IFNULL(AVG(CASE WHEN a.nama = "wdplptd" THEN TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) END),0) AS avg_wdplptd,
                         IFNULL(AVG(CASE WHEN a.nama = "iivxxrd_audit" THEN TIMESTAMPDIFF(SECOND, a.start_on, b.finish_on) END),0) AS avg_iivxxrd_audit
                     FROM activity_log_ml AS a
                     INNER JOIN activity_log_ml AS b ON a.id_transaksi = b.id_transaksi AND b.kode = "CONFIRM" AND b.nama = a.nama
                     WHERE 1 
                         AND a.kode = "CREATE"
-                        AND a.nama IN ("wreittd", "wptittd", "wtrittd", "wpclptd", "iivxxrd_audit")
+                        AND a.nama IN ("wreittd", "wptittd", "wtrittd", "wpclptd", "wdplptd", "iivxxrd_audit")
                         AND DATE(a.start_on) BETWEEN :start_date AND :end_date
             ');
         $rs_avg_activity = $qs_avg_activity->fetch();
@@ -152,6 +182,8 @@
             "rs_lpn_putaway" => $rs_lpn_putaway,
             "rs_lpn_to_pick" => $rs_lpn_to_pick,
             "rs_lpn_picked" => $rs_lpn_picked,
+            "rs_item_to_dispatch" => $rs_item_to_dispatch,
+            "rs_item_dispatched" => $rs_item_dispatched,
             "rs_avg_activity" => $rs_avg_activity
         );
 
