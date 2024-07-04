@@ -112,7 +112,7 @@
 								<thead>
 									<tr>
 										<th rowspan="2">ID</th>
-										<th rowspan="2">id_wdoxxth</th>
+										<th rowspan="2">id_wplxxth</th>
 										<th rowspan="2">LPN</th>
 										<th rowspan="2">Location</th>
 										<th rowspan="2">Item Code</th>
@@ -709,6 +709,7 @@
 					tblwplxxth.button('btnEdit:name').enable();
 				}
 			}
+			cekBelumConfirm();
 		} );
 		
 		tblwplxxth.on( 'deselect', function () {

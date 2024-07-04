@@ -19,7 +19,7 @@
         ->exec('SELECT
                     COUNT(id) AS c_id
                 FROM wplxxth a
-                WHERE a.is_generate_lpn = 1 AND a.transaction_state NOT IN (1,-9)
+                WHERE a.is_generate_lpn = 1 AND a.transaction_state NOT IN (1,-9,8,9)
         '
         );
 
