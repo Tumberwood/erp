@@ -106,7 +106,9 @@
 										<hr class="hr-line-dashed m-t-xs m-b-xs">
 									</div>
 								</div>
-								<h2 class="font-bold" id="c_order_to_dispatch"></h2>
+								<h4 class="" id="c_item_to_dispatch"></h4>
+								<h4 class="" id="c_item_dispatched"></h4>
+								<h4 class="" id="avg_dispatch"></h4>
 								<small></small>
 							</div>
 						</div>
