@@ -127,6 +127,10 @@
                                 <th>Category</th>
                                 <th>Type</th>
                                 <th>Zone</th>
+                                <th>Rack</th>
+                                <th>Bay</th>
+                                <th>Level</th>
+                                <th>Position</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -860,13 +864,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,5,6,7,8,9]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -876,6 +880,10 @@
 				{ data: "wloctmh.nama" },
 				{ data: "wlotpmh.nama" },
 				{ data: "wloznmh.nama" },
+				{ data: "wloxxmh.rack_name" },
+				{ data: "wloxxmh.bay_name" },
+				{ data: "wloxxmh.level_name" },
+				{ data: "wloxxmh.position_name" },
 				{ 
 					data: "wloxxmh.transaction_state" ,
 					...renderTransactionStatus()
