@@ -283,8 +283,7 @@
 					'udpxxsh',
 					{
 						'id_users': id_users,
-						'data_permission': data_permission,
-						'is_setting': is_setting
+						'data_permission': data_permission
 						
 					}
 				);
@@ -566,25 +565,6 @@
 		edtucudasd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				hak_c = edtucudasd.field('ucudasd.hak_c').val();
-				hak_u = edtucudasd.field('ucudasd.hak_u').val();
-				hak_d = edtucudasd.field('ucudasd.hak_d').val();
-				hak_a = edtucudasd.field('ucudasd.hak_a').val();
-				hak_e = edtucudasd.field('ucudasd.hak_e').val();
-				hak_p = edtucudasd.field('ucudasd.hak_p').val();
-
-				validasiRequired(
-					edtucudasd,
-					'ucudasd',
-					{
-						'hak_c': hak_c,
-						'hak_u': hak_u,
-						'hak_d': hak_d,
-						'hak_a': hak_a,
-						'hak_e': hak_e,
-						'hak_p': hak_p
-					}
-				);
 
 			}
 			
