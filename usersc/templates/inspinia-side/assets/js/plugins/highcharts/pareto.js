@@ -1,13 +1,9 @@
-/*
-  Highcharts JS v6.0.4 (2017-12-15)
-
- Pareto series type for Highcharts
-
- (c) 2010-2017 Sebastian Bochan
-
- License: www.highcharts.com/license
-*/
-(function(c){"object"===typeof module&&module.exports?module.exports=c:c(Highcharts)})(function(c){var p=function(a){var c=a.each,d=a.Series,f=a.addEvent,e=a.fireEvent,m=a.wrap,n={init:function(){d.prototype.init.apply(this,arguments);this.initialised=!1;this.baseSeries=null;this.eventRemovers=[];this.addEvents()},setDerivedData:a.noop,setBaseSeries:function(){var b=this.chart,a=this.options.baseSeries;this.baseSeries=a&&(b.series[a]||b.get(a))||null},addEvents:function(){var b=this,a;a=f(this.chart,
-"seriesLinked",function(){b.setBaseSeries();b.baseSeries&&!b.initialised&&(b.setDerivedData(),b.addBaseSeriesEvents(),b.initialised=!0)});this.eventRemovers.push(a)},addBaseSeriesEvents:function(){var b=this,a,c;a=f(b.baseSeries,"updatedData",function(){b.setDerivedData()});c=f(b.baseSeries,"destroy",function(){b.baseSeries=null;b.initialised=!1});b.eventRemovers.push(a,c)},destroy:function(){c(this.eventRemovers,function(a){a()});d.prototype.destroy.apply(this,arguments)}};m(a.Chart.prototype,"linkSeries",
-function(a){a.call(this);e(this,"seriesLinked")});return n}(c);(function(a,c){var d=a.each,f=a.correctFloat,e=a.seriesType;a=a.merge;e("pareto","line",{zIndex:3},a(c,{setDerivedData:function(){if(1<this.baseSeries.yData.length){var a=this.baseSeries.xData,c=this.baseSeries.yData,b=this.sumPointsPercents(c,a,null,!0);this.setData(this.sumPointsPercents(c,a,b,!1),!1)}},sumPointsPercents:function(a,c,b,e){var h=0,k=0,l=[],g;d(a,function(a,d){null!==a&&(e?h+=a:(g=a/b*100,l.push([c[d],f(k+g)]),k+=g))});
-return e?h:l}}))})(c,p)});
+!/**
+ * Highcharts JS v11.4.3 (2024-05-22)
+ *
+ * Pareto series type for Highcharts
+ *
+ * (c) 2010-2024 Sebastian Bochan
+ *
+ * License: www.highcharts.com/license
+ */function(e){"object"==typeof module&&module.exports?(e.default=e,module.exports=e):"function"==typeof define&&define.amd?define("highcharts/modules/pareto",["highcharts"],function(s){return e(s),e.Highcharts=s,e}):e("undefined"!=typeof Highcharts?Highcharts:void 0)}(function(e){"use strict";var s=e?e._modules:{};function t(e,s,t,i){e.hasOwnProperty(s)||(e[s]=i.apply(null,t),"function"==typeof CustomEvent&&window.dispatchEvent(new CustomEvent("HighchartsModuleLoaded",{detail:{path:s,module:e[s]}})))}t(s,"Series/DerivedComposition.js",[s["Core/Globals.js"],s["Core/Series/Series.js"],s["Core/Utilities.js"]],function(e,s,t){var i;let{noop:r}=e,{addEvent:o,defined:a}=t;return function(e){function t(){s.prototype.init.apply(this,arguments),this.initialised=!1,this.baseSeries=null,this.eventRemovers=[],this.addEvents()}function i(){let e=this.chart,s=this.options.baseSeries,t=a(s)&&(e.series[s]||e.get(s));this.baseSeries=t||null}function n(){this.eventRemovers.push(o(this.chart,"afterLinkSeries",()=>{this.setBaseSeries(),this.baseSeries&&!this.initialised&&(this.setDerivedData(),this.addBaseSeriesEvents(),this.initialised=!0)}))}function d(){this.eventRemovers.push(o(this.baseSeries,"updatedData",()=>{this.setDerivedData()}),o(this.baseSeries,"destroy",()=>{this.baseSeries=null,this.initialised=!1}))}function h(){this.eventRemovers.forEach(e=>{e()}),s.prototype.destroy.apply(this,arguments)}e.hasDerivedData=!0,e.setDerivedData=r,e.compose=function(e){let s=e.prototype;return s.addBaseSeriesEvents=d,s.addEvents=n,s.destroy=h,s.init=t,s.setBaseSeries=i,e},e.init=t,e.setBaseSeries=i,e.addEvents=n,e.addBaseSeriesEvents=d,e.destroy=h}(i||(i={})),i}),t(s,"Series/ParetoSeries/ParetoSeriesDefaults.js",[],function(){return{zIndex:3}}),t(s,"Series/ParetoSeries/ParetoSeries.js",[s["Series/DerivedComposition.js"],s["Series/ParetoSeries/ParetoSeriesDefaults.js"],s["Core/Series/SeriesRegistry.js"],s["Core/Utilities.js"]],function(e,s,t,i){let{line:r}=t.seriesTypes,{correctFloat:o,merge:a,extend:n}=i;class d extends r{sumPointsPercents(e,s,t,i){let r=[],a=0,n=0,d=0,h;for(let u of e)null!==u&&(i?n+=u:(h=u/t*100,r.push([s[a],o(d+h)]),d+=h)),++a;return i?n:r}setDerivedData(){let e=this.baseSeries.xData,s=this.baseSeries.yData,t=this.sumPointsPercents(s,e,null,!0);this.setData(this.sumPointsPercents(s,e,t,!1),!1)}}return d.defaultOptions=a(r.defaultOptions,s),n(d.prototype,{hasDerivedData:e.hasDerivedData}),e.compose(d),t.registerSeriesType("pareto",d),d}),t(s,"masters/modules/pareto.src.js",[s["Core/Globals.js"]],function(e){return e})});
