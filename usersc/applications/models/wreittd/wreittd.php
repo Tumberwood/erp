@@ -96,7 +96,12 @@
 		->leftJoin( 'wroxxth','wroxxth.id','=','wreittd.id_wroxxth' )
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wreittd.id_iimxxmh' )
 		->leftJoin( 'iumxxmh','iumxxmh.id','=','wreittd.id_iumxxmh_unit' )
-		->leftJoin( 'grlxxmh','grlxxmh.id','=','wroxxth.id_grlxxmh_supplier' );
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','wroxxth.id_grlxxmh_supplier' )
+		->leftJoin(
+			'activity_log_ml as activity_log_ml_c', 
+			'activity_log_ml_c.id_transaksi = wreittd.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "wreittd"', '', '' )
+		->where( 'DATE(activity_log_ml_c.created_on)', $_POST['start_date'], '>=' )
+		->where( 'DATE(activity_log_ml_c.created_on)', $_POST['end_date'], '<=' );;
 	
 	// do not erase
 	// function show / hide inactive document

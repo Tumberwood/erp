@@ -16,16 +16,46 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div class="modal" id="modalSFwreittd" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">Periode</label>
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
+												<div class="input-group-addon">
+													<span class="fa fa-calendar"></span>
+												</div>
+												<input type="text" id="end_date" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblwreittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Kode</th>
-                                <th>LPN</th>
+                                <th data-priority="1">LPN</th>
                                 <th>Supplier</th>
                                 <th>Item Code</th>
-                                <th>Item Name</th>
+                                <th data-priority="2">Item Name</th>
                                 <th>UoM</th>
                                 <th>Qty</th>
                                 <th>TX</th>
@@ -68,6 +98,9 @@
 	tableRelation('wreittd');
 
 	$(document).ready(function() {
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+
 		// BEGIN wreittd
 		edtwreittd = new $.fn.dataTable.Editor( {
 			formOptions: {
@@ -80,6 +113,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wreittd = show_deleted_wreittd;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			table: "#tblwreittd",
@@ -233,7 +268,7 @@
 				{
 					label: "wreittd.id_grlxxmh_supplier",
 					name: "wreittd.id_grlxxmh_supplier",
-					// type: "hidden"
+					type: "hidden"
 				},
 				{
 					label: "Item <sup class='text-danger'>*<sup>",
@@ -344,15 +379,6 @@
 			
 			if(action == 'create'){
 				tblwreittd.rows().deselect();
-			}else if(action == 'edit'){
-				
-				// if(transaction_state == 0){
-				// 	edtwreittd.field('wreittd.wlpxxmh_kode').enable();
-				// 	edtwreittd.field('wreittd.id_wroxxth').enable();
-				// }else{
-				// 	edtwreittd.field('wreittd.wlpxxmh_kode').disable();
-				// 	edtwreittd.field('wreittd.id_wroxxth').disable();
-				// }
 			}
 		});
 
@@ -362,12 +388,6 @@
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();
 		});
-
-		// edtwreittd.dependent( 'wreittd.wlpxxmh_kode', function ( val, data, callback ) {
-			// wlpxxmh_kode = val;
-			// wlpxxmh_kode_validasi();
-		// 	return {}
-		// }, {event: 'change'});
 		
 		edtwreittd.dependent( 'wreittd.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
@@ -514,9 +534,6 @@
 		edtwreittd.on('postSubmit', function(e, json, data, action, xhr) {
 			
 			if (action != 'remove') {
-				// id_transaksi = json.data[0].wreittd.id;
-				// konversiUom('wreittd', id_transaksi );
-				
 				tblwreittd.rows().deselect();
 			}
 
@@ -536,6 +553,8 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wreittd = show_deleted_wreittd;
+					d.start_date = start_date;
+					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -544,13 +563,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [3,5,8]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4,5,6,7,8]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -580,7 +599,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -631,6 +650,44 @@
 		} );
 
 		// END wreittd
+
+		// BEGIN form filter
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+				start_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				},
+				end_date: {
+					required: true,
+					validDate: "DD MMM YYYY"
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Start Date Wajib Diisi!"
+				},
+				end_date: {
+					required: "End Date Wajib Diisi!"
+				}
+			},
+			submitHandler: function(frmFilter) {
+				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblwreittd.rows().deselect();
+				tblwreittd.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFwreittd').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
+		// END form filter
 		
 	} );// end of document.ready
 
