@@ -1,12 +1,5 @@
 <script>
 
-    // highchart
-	Highcharts.setOptions({
-        credits: {
-            enabled: false
-        },
-	});
-
     /**
      * load_dashboard_wms_ops_box
      * digunakan untuk load data wms operasional box
@@ -79,6 +72,8 @@
                     return [item.rack, item.bay, item.occurance];
                 });
 
+                let max_s_occurance = json.data.rs_wloxxmh_occurance_max.max_s_occurance;
+
                 // Substring template helper for the responsive labels
                 Highcharts.Templating.helpers.substr = (s, from, length) => s.substr(from, length);
 
@@ -111,6 +106,9 @@
                     },
                     colorAxis: {
                         min: 0,
+                        max: max_s_occurance,
+                        minColor: '#1ab394', // green for minimum values
+                        maxColor: '#DF5353', // red for maximum values
                         stops: [
                             [0, '#1ab394'], // green
                             [0.5, '#DDDF0D'], // yellow

@@ -92,11 +92,46 @@
                     ORDER BY a.rack, a.bay');
         $rs_wloxxmh_occurance = $qs_wloxxmh_occurance->fetchAll();
 
+        $qs_wloxxmh_occurance_max = $db
+            ->raw()
+            ->bind(':transaction_state', 1)
+            ->bind(':id_iwhxxmh', $id_iwhxxmh) 
+            ->bind(':id_wloctmh', 3)
+            ->bind(':end_date', $end_date)
+            ->exec('SELECT
+                        MAX(s_occurance) AS max_s_occurance
+                    FROM (
+                        SELECT
+                            a.id,
+                            SUM(ifnull(b.occurance,0)) AS s_occurance
+                        FROM wloxxmh a
+                        LEFT JOIN
+                        (
+                            SELECT
+                                iivxxrd.id_wloxxmh AS id_wloxxmh,
+                                COUNT(*) AS occurance
+                            FROM iivxxrd
+                            LEFT JOIN wloxxmh ON wloxxmh.id = iivxxrd.id_wloxxmh
+                            WHERE 1
+                                AND wloxxmh.transaction_state = :transaction_state
+                                AND iivxxrd.id_iwhxxmh = :id_iwhxxmh
+                                AND wloxxmh.id_wloctmh = :id_wloctmh
+                                AND iivxxrd.tanggal <= :end_date
+                            GROUP BY wloxxmh.id
+                            ) b ON b.id_wloxxmh  = a.id
+                        
+                        GROUP BY a.rack, a.bay
+                    ) a
+                ');
+
+        $rs_wloxxmh_occurance_max = $qs_wloxxmh_occurance_max->fetch();
+
 		$data = array(
             "status_code" => 200,
             "rs_wloxxmh_rack_name" => $rs_wloxxmh_rack_name,
             "rs_wloxxmh_bay_name" => $rs_wloxxmh_bay_name,
-            "rs_wloxxmh_occurance" => $rs_wloxxmh_occurance
+            "rs_wloxxmh_occurance" => $rs_wloxxmh_occurance,
+            "rs_wloxxmh_occurance_max" => $rs_wloxxmh_occurance_max
         );
 
     // tampilkan results
