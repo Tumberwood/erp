@@ -6,8 +6,6 @@
     }
 ?>
 
-<link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/plugins/bootstrapTour/bootstrap-tour.css" rel="stylesheet">
-
 <?php
 	$nama_tabel    = '_demo_m';
 	$nama_tabels_d = [];
@@ -130,7 +128,6 @@
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
 ?>
-<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/bootstrapTour/bootstrap-tour.js"></script>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
@@ -451,16 +448,6 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
-				// {
-				// 	text: '<i class="fa fa-icon">Title</i>',
-				// 	name: 'btnCustom',
-				// 	className: 'btn btn-outline',
-				// 	titleAttr: '',
-				// 	action: function ( e, dt, node, config ) {
-				// 		e.preventDefault();
-				// 		tour.restart();
-				// 	}
-				// },
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
