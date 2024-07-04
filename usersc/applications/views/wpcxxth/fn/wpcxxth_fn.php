@@ -231,24 +231,30 @@
             $('#submit' + itemId).hide().prop('disabled', true);
             return; // Exit function early if input is not a number
         } else {
-            if (qtyInput > defVal) {
-                console.log('lebih');
-                $('#dispatch' + itemId).hide();
+            if (qtyInput <= 0) {
                 $('#submit' + itemId).hide().prop('disabled', true);
                 inputJumlah.addClass('is-invalid').next('.invalid-feedback').remove();
-                inputJumlah.after('<div class="invalid-feedback">Jumlah Max: '+defVal+'</div>');
+                inputJumlah.after('<div class="invalid-feedback">Inputan angka wajib lebih dari 0</div>');
             } else {
-                inputJumlah.removeClass('is-invalid').next('.invalid-feedback').remove();
-                var job_type = dataKonten[0].id_wjtxxmh;  // Assuming dataKonten is defined elsewhere
-                console.log('job_type:', job_type);
-
-                if (job_type == 1 || job_type == 3) {
-                    console.log('job 1 3');
-                    $('#submit' + itemId).show().prop('disabled', false);
-                } else {
-                    console.log('else job 2');
-                    $('#dispatch' + itemId).show().focus();
+                if (qtyInput > defVal) {
+                    console.log('lebih');
+                    $('#dispatch' + itemId).hide();
                     $('#submit' + itemId).hide().prop('disabled', true);
+                    inputJumlah.addClass('is-invalid').next('.invalid-feedback').remove();
+                    inputJumlah.after('<div class="invalid-feedback">Jumlah Max: '+defVal+'</div>');
+                } else {
+                    inputJumlah.removeClass('is-invalid').next('.invalid-feedback').remove();
+                    var job_type = dataKonten[0].id_wjtxxmh;  // Assuming dataKonten is defined elsewhere
+                    console.log('job_type:', job_type);
+
+                    if (job_type == 1 || job_type == 3) {
+                        console.log('job 1 3');
+                        $('#submit' + itemId).show().prop('disabled', false);
+                    } else {
+                        console.log('else job 2');
+                        $('#dispatch' + itemId).show().focus();
+                        $('#submit' + itemId).hide().prop('disabled', true);
+                    }
                 }
             }
         }
