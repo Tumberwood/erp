@@ -25,8 +25,7 @@
         $rs_opt    = array();
         // END definisi variable untuk fn_ajax_results.php
 	
-		// $start_date = $_POST['start_date'];
-		// $end_date = $_POST['end_date'];
+		$end_date = $_POST['end_date'];
 		$id_iwhxxmh = $_POST['id_iwhxxmh'];
 
         /**
@@ -40,6 +39,7 @@
             ->bind(':id_wloctmh', 3)
             ->bind(':id_wloxxmh', 0)
             ->bind(':s_jumlah_terkecil', 0)
+            ->bind(':end_date', $end_date)
             ->exec('SELECT 
                         iwhxxmh.nama as iwhxxmh_nama,
                         SUM(wloxxmh.kapasitas) AS s_kapasitas,
@@ -60,6 +60,7 @@
                             WHERE 1
                                 AND iivxxrd.id_wloxxmh > :id_wloxxmh
                                 AND iivxxrd.id_wloctmh = :id_wloctmh
+                                AND iivxxrd.tanggal <= :end_date
                             GROUP BY 
                                 iivxxrd.id_wloxxmh
                             HAVING s_jumlah_terkecil > :s_jumlah_terkecil

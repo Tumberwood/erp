@@ -25,8 +25,7 @@
         $rs_opt    = array();
         // END definisi variable untuk fn_ajax_results.php
 	
-		// $start_date = $_POST['start_date'];
-		// $end_date = $_POST['end_date'];
+		$end_date = $_POST['end_date'];
 		// $id_iwmxxmh = $_POST['id_iwmxxmh'];
 		
         $id_iwhxxmh = 1;
@@ -67,6 +66,7 @@
             ->bind(':transaction_state', 1)
             ->bind(':id_iwhxxmh', $id_iwhxxmh) 
             ->bind(':id_wloctmh', 3)
+            ->bind(':end_date', $end_date)
             ->exec('SELECT
                         a.id,
                         ifnull(a.rack,0) as rack,
@@ -84,6 +84,7 @@
                             AND wloxxmh.transaction_state = :transaction_state
                             AND iivxxrd.id_iwhxxmh = :id_iwhxxmh
                             AND wloxxmh.id_wloctmh = :id_wloctmh
+                            AND iivxxrd.tanggal <= :end_date
                         GROUP BY wloxxmh.id
                         ) b ON b.id_wloxxmh  = a.id
                     

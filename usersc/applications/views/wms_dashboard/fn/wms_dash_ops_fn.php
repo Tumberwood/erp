@@ -11,14 +11,14 @@
      * load_dashboard_wms_ops_box
      * digunakan untuk load data wms operasional box
      */
-    function load_dashboard_wms_ops_box (){
+    function load_dashboard_wms_ops_box (start_date, end_date){
         $.ajax( {
             url: "../../models/wms_dashboard/wms_dash_ops_fn_box.php",
             dataType: 'json',
             type: 'POST',
             data: {
-                start_date: moment().format("YYYY-MM-DD"),
-                end_date: moment().format("YYYY-MM-DD")
+                start_date: start_date,
+                end_date: end_date
             },
             success: function ( json ) {
                 // console.log(json);
@@ -57,13 +57,13 @@
      * load_dashboard_wms_ops_location_heatmap
      * digunakan untuk load data location heatmap 
      */
-    function load_dashboard_wms_ops_location_heatmap (){
+    function load_dashboard_wms_ops_location_heatmap (end_date){
         $.ajax( {
             url: "../../models/wms_dashboard/wms_dash_ops_fn_location_heatmap.php",
             dataType: 'json',
             type: 'POST',
             data: {
-                // param: param
+                end_date: end_date
             },
             success: function ( json ) {
 
@@ -160,13 +160,13 @@
            
     }
 
-    function load_dashboard_wms_ops_location_capacity (){
+    function load_dashboard_wms_ops_location_capacity (end_date){
         $.ajax( {
             url: "../../models/wms_dashboard/wms_dash_ops_fn_location_capacity.php",
             dataType: 'json',
             type: 'POST',
             data: {
-                // id_iwhxxmh: id_iwhxxmh
+                end_date: end_date,
                 id_iwhxxmh: 1
             },
             success: function ( json ) {
@@ -276,19 +276,16 @@
         } );
     }
 
-    function load_dashboard_wms_ops_man_hours (){
+    function load_dashboard_wms_ops_man_hours (start_date,end_date){
         $.ajax( {
             url: "../../models/wms_dashboard/wms_dash_ops_fn_man_hours.php",
             dataType: 'json',
             type: 'POST',
             data: {
-                // start_date: moment().format("YYYY-MM-DD"),
-                // end_date: moment().format("YYYY-MM-DD")
-                start_date: '2024-07-03',
-                end_date: '2024-07-03'
+                start_date: start_date,
+                end_date: end_date
             },
             success: function ( json ) {
-                console.log(json);
 
                 let xcategory = json.data.rs_man_hours.map(function(row_man_hours) {
                     return row_man_hours.username;
