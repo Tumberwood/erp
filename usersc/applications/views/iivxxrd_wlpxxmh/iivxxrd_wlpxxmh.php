@@ -52,12 +52,12 @@
 					<tr>
 						<th style="vertical-align: middle" rowspan="3">Warehouse</th>
 						<th style="vertical-align: middle" rowspan="3">Location</th>
+						<th style="vertical-align: middle" rowspan="3">LPN</th>
 						<th style="vertical-align: middle" rowspan="3">Kode</th>
 						<th style="vertical-align: middle" rowspan="3">Nama</th>
 						<th colspan="4" class="text-center bg-success">On Hand</th>
 						<th colspan="4" class="text-center bg-warning">Reserved</th>
 						<th colspan="4" class="text-center bg-primary">Avalaible</th>
-						<th style="vertical-align: middle" rowspan="3">LPN</th>
 						<th style="vertical-align: middle" rowspan="3">Batch Number</th>
 						<th style="vertical-align: middle" rowspan="3">Expired Date</th>
 					</tr>
@@ -142,7 +142,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [0,1,2,3,8,9,10]
+					targets: [0,1,2,4]
 				},
 				{
 					searchPanes:{
@@ -157,6 +157,7 @@
 			columns: [
 				{ data: "iwhxxmh_kode" },
 				{ data: "wloxxmh_nama" },
+				{ data: "wlpxxmh_kode" },
 				{ data: "iimxxmh_kode" },
 				{ data: "iimxxmh_nama" },
 				{ 
@@ -194,7 +195,6 @@
 				},
 				{ data: "iumxxmh_default_kode" },
 
-				{ data: "wlpxxmh_kode" },
 				{ data: "batch_number" },
 				{ data: "expired_date" }
 			],
