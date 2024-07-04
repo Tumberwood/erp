@@ -136,8 +136,6 @@
     }
 
     function validasiJumlah(itemId) {
-        start_at = moment().format('YYYY-MM-DD HH:mm:ss');	
-        console.log(start_at);
         var inputJumlah = $('#input_jumlah' + itemId);
         var valJumlah = inputJumlah.val();
         var qtyInput = parseFloat(inputJumlah.val(), 10); // Parse qtyInput as integer

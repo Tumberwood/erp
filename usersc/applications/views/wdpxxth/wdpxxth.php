@@ -285,7 +285,6 @@
 				// atur hak akses
 				// CekInitHeaderH(tblwdpxxth);
 				cekDetailSubmit();
-				cekDetailSubmit();
 			} );
 			
 			tblwdpxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -294,6 +293,9 @@
 					// console.log('Selected ID:', selectedRowData.id);
 					id_wpclptd = selectedRowData.id;
 					$('#modalLPN').modal('toggle');
+					
+					start_at = moment().format('YYYY-MM-DD HH:mm:ss');	
+        			console.log(start_at);
 					generateKonten();
 					setTimeout(function() {
 						$(`#input_jumlah${id_wpclptd}`).focus();
