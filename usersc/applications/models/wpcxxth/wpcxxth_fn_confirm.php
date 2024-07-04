@@ -75,6 +75,7 @@
 		//insert WPC baru setiap confirm
 		$qi_wpcxxth_baru = $db
 			->query('insert', 'wpcxxth')
+			->set('transaction_state',1)
 			->set('id_wplxxth',$id_wplxxth)
 			->set('id_wpcxxth',$id_picking)
 			->set('id_wloxxmh_out',$id_wloxxmh_out)

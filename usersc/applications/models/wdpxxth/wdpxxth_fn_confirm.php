@@ -130,6 +130,7 @@
 		//insert wdp baru setiap confirm
 		$qi_wdpxxth_baru = $db
 			->query('insert', 'wdpxxth')
+			->set('transaction_state',1)
 			->set('id_wpcxxth',$id_picking)
 			->set('id_wloxxmh_out',$id_wloxxmh_out)
 			->set('id_wjtxxmh',$id_wjtxxmh)
