@@ -888,8 +888,7 @@
 
 		edtwplittd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
-			$('div.DTE_Form_Buttons button:eq(2)').nodes()
-        	.css( 'display', 'none' );
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 		
 		edtwplittd.dependent( 'wplittd.id_wdoittd', function ( val, data, callback ) {

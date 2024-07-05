@@ -5,6 +5,7 @@
 
     function generateKonten() {
         $('#konten').empty();
+        $('.modal-footer').empty();
 
         $.ajax( {
             url: "../../models/wpcxxth/wpcxxth_iivxxrd_card.php",
@@ -57,11 +58,17 @@
                     }
 
                     if (id_wjtxxmh == 2) {
-                        btnSubmit = `<button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>`;
+                        btnSubmit = `
+                            <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`
+                            ;
                         $('#confirmBtn').hide();
                     } else {
                         $('#confirmBtn').show();
-                        btnSubmit = `<button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>`;
+                        btnSubmit = `
+                                <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            `;
                     }
                     
                     kontenValid = `
@@ -87,7 +94,7 @@
                                     </p>
                                 </div>`
 
-                    btnAudit = `
+                    kontenInput = `
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <div class="quantity-input">
@@ -134,17 +141,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                ${btnSubmit}
                     `;	
                     ;
                     
                     genKonten = genKonten+ `
                         <div class="${class_col}">
                             ${h3CardLocation}
-                            ${btnAudit}
+                            ${kontenInput}
                         </div>
                     `;	
                 });
+                $('.modal-footer').append(btnSubmit);
                 $('#konten').html(genKonten);
                 // $(`#locAsal${dataKonten[0].id}`).focus();
             }
