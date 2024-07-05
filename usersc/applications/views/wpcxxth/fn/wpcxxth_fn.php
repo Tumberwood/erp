@@ -5,6 +5,7 @@
 
     function generateKonten() {
         $('#konten').empty();
+        $('.modal-footer').empty();
 
         $.ajax( {
             url: "../../models/wpcxxth/wpcxxth_iivxxrd_card.php",
@@ -57,11 +58,17 @@
                     }
 
                     if (id_wjtxxmh == 2) {
-                        btnSubmit = `<button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>`;
+                        btnSubmit = `
+                            <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`
+                            ;
                         $('#confirmBtn').hide();
                     } else {
                         $('#confirmBtn').show();
-                        btnSubmit = `<button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>`;
+                        btnSubmit = `
+                                <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            `;
                     }
                     
                     kontenValid = `
