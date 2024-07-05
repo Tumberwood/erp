@@ -87,7 +87,7 @@
                                     </p>
                                 </div>`
 
-                    btnAudit = `
+                    kontenInput = `
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <div class="quantity-input">
@@ -134,17 +134,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                ${btnSubmit}
                     `;	
                     ;
                     
                     genKonten = genKonten+ `
                         <div class="${class_col}">
                             ${h3CardLocation}
-                            ${btnAudit}
+                            ${kontenInput}
                         </div>
                     `;	
                 });
+                $('.modal-footer').append(btnSubmit);
                 $('#konten').html(genKonten);
                 // $(`#locAsal${dataKonten[0].id}`).focus();
             }
