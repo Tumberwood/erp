@@ -267,31 +267,57 @@
     }
 
     function confirmData() {
+        $.ajax( {
+            url: "../../models/wdpxxth/wdpxxth_fn_cek_confirm.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_wpcxxth_old: id_wpcxxth_old
+            },
+            success: function ( json ) {
+                c_id_d = json.data.c_id_d;
+                isCanConfirm = 0;
+                if (c_id_d > 0) {
+                    cekConfirm = confirm('Apakah Anda yakin? Terdapat '+c_id_d+' data dengan Status Dispatch belum Full');
+                    if (cekConfirm) {
+                        isCanConfirm = 1;
+                    } else {
+                        isCanConfirm = 0;
+                    }
+                } else {
+                    isCanConfirm = 1;
+                }
+
+                if (isCanConfirm == 1) {
+                    confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
+                    console.log(confirm_at);
+                    $.ajax( {
+                        url: "../../models/wdpxxth/wdpxxth_fn_confirm.php",
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {
+                            id_picking: selectedValues,
+                            start_at: start_at,
+                            confirm_at: confirm_at,
+                        },
+                        success: function ( json ) {
+                            status_code = json.data.status_code;
+                            if (status_code == 200) {
+                                toastr[json.data.type_message](json.data.message,"INFO");
+                                // generateKonten();
+                                window.removeEventListener('beforeunload', confirmLeavePage);
+                                location.reload();
+                            }
+                        }
+                    } );
+                }
+            }
+        } );
         // console.log(wloxxmh_out_nama);
         // confirmDispatch = prompt('Enter Dispatch Location');
 
         // if(confirmDispatch == wloxxmh_out_nama) {
-            confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
-            console.log(confirm_at);
-            $.ajax( {
-                url: "../../models/wdpxxth/wdpxxth_fn_confirm.php",
-                dataType: 'json',
-                type: 'POST',
-                data: {
-                    id_picking: selectedValues,
-                    start_at: start_at,
-                    confirm_at: confirm_at,
-                },
-                success: function ( json ) {
-                    status_code = json.data.status_code;
-                    if (status_code == 200) {
-                        toastr[json.data.type_message](json.data.message,"INFO");
-                        // generateKonten();
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        location.reload();
-                    }
-                }
-            } );
         // } else {
         //     toastr["warning"]("Dispatch Location Tidak Sesuai!","WARNING");
         // }
