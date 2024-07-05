@@ -275,16 +275,12 @@
 			if(action != 'remove'){
 
 				id_users = edtudpxxsh.field('udpxxsh.id_users').val();
-				data_permission = edtudpxxsh.field('udpxxsh.data_permission').val();
-				is_setting = edtudpxxsh.field('udpxxsh.is_setting').val();
 
 				validasiRequired(
 					edtudpxxsh,
 					'udpxxsh',
 					{
-						'id_users': id_users,
-						'data_permission': data_permission
-						
+						'id_users': id_users
 					}
 				);
 
