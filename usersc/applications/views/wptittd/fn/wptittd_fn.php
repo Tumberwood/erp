@@ -33,6 +33,7 @@
                             success: function ( json ) {
                                 id_iimxxmh = json.data.id_iimxxmh;
                                 edtwptittd.field('wptittd.id_iimxxmh').val(id_iimxxmh);
+                                sisa_default = json.data.sisa_default;
                                 edtwptittd.field('wptittd.jumlah_unit').val(json.data.sisa_default);
                                 id_iumxxmh_unit_old = json.data.id_iumxxmh_default;
                                 edtwptittd.field('wptittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
@@ -65,7 +66,7 @@
                                         edtwptittd.field('wptittd.keterangan').val(wptittd_details);
 
                                         
-                                        if (id_iimxxmh > 0) {
+                                        if (id_iimxxmh > 0 && sisa_default > 0) {
                                             lpnBooking();
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {
