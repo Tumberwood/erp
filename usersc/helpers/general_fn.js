@@ -1104,8 +1104,9 @@ async function fnConfirm(tbl_name, tbl){
             } );
         }
 
-        toastr[toast_type](full_message, 'INFO');
+        tbl.rows().deselect();
         tbl.ajax.reload(null, false);
+        toastr[toast_type](full_message, 'INFO');
 
 
     } catch (error) {
