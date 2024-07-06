@@ -82,6 +82,7 @@
                         LEFT JOIN wloxxmh ON wloxxmh.id = iivxxrd.id_wloxxmh
                         WHERE 1
                             AND wloxxmh.transaction_state = :transaction_state
+                            AND iivxxrd.is_fisik = 1
                             AND iivxxrd.id_iwhxxmh = :id_iwhxxmh
                             AND wloxxmh.id_wloctmh = :id_wloctmh
                             AND iivxxrd.tanggal <= :end_date
@@ -115,6 +116,7 @@
                             WHERE 1
                                 AND wloxxmh.transaction_state = :transaction_state
                                 AND iivxxrd.id_iwhxxmh = :id_iwhxxmh
+                                AND iivxxrd.is_fisik = 1
                                 AND wloxxmh.id_wloctmh = :id_wloctmh
                                 AND iivxxrd.tanggal <= :end_date
                             GROUP BY wloxxmh.id
