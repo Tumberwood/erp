@@ -23,6 +23,8 @@
                                 <th>ID</th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
+                                <th data-i18n="level"></th>
+                                <th data-i18n="superior"></th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -58,7 +60,7 @@
 	var edthetxxmh, tblhetxxmh, show_deleted_hetxxmh = 0, id_hetxxmh;
 	// ------------- end of default variable
 	
-	var id_hevxxmh_old = 0;
+	var id_hevxxmh_old = 0, id_hetxxmh_atasan_old = 0;
 
 	// get tableRelation
 	tableRelation('hetxxmh');
@@ -106,7 +108,7 @@
 					name: "hetxxmh.nama"
 				}, 	
 				{
-					label: getTranslation('level'),
+					label: getTranslation('level') + " <sup class='text-danger'>*<sup>",
 					name: "hetxxmh.id_hevxxmh",
 					type: "select2",
 					opts: {
@@ -119,6 +121,42 @@
 							data: function (params) {
 								var query = {
 									id_hevxxmh_old: id_hevxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: getTranslation('superior') + " <sup class='text-danger'>*<sup>",
+					name: "hetxxmh.id_hetxxmh_atasan",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hetxxmh/hetxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hetxxmh_old: id_hetxxmh_atasan_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -178,15 +216,19 @@
 		edthetxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edthetxxmh.field('hetxxmh.kode').val();
-				nama = edthetxxmh.field('hetxxmh.nama').val();
+				kode              = edthetxxmh.field('hetxxmh.kode').val();
+				nama              = edthetxxmh.field('hetxxmh.nama').val();
+				id_hevxxmh        = edthetxxmh.field('hetxxmh.id_hevxxmh').val();
+				id_hetxxmh_atasan = edthetxxmh.field('hetxxmh.id_hetxxmh_atasan').val();
 
 				validasiRequired(
 					edthetxxmh,
 					'hetxxmh',
 					{
 						'kode': kode,
-						'nama': nama
+						'nama': nama,
+						'id_hevxxmh': id_hevxxmh,
+						'id_hetxxmh_atasan': id_hetxxmh_atasan
 					}
 				);
 
@@ -256,6 +298,8 @@
 				{ data: "hetxxmh.id",visible:false },
 				{ data: "hetxxmh.kode" },
 				{ data: "hetxxmh.nama" },
+				{ data: "hevxxmh.nama" },
+				{ data: "hetxxmh_atasan.nama" },
 				{ 
 					data: "hetxxmh.transaction_state" ,
 					...renderTransactionStatus()
@@ -300,7 +344,8 @@
 		tblhetxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('hetxxmh');
-			id_hevxxmh_old 		= hetxxmh_data.id_hevxxmh;
+			id_hevxxmh_old        = hetxxmh_data.id_hevxxmh;
+			id_hetxxmh_atasan_old = hetxxmh_data.id_hetxxmh_atasan;
 
 			// atur hak akses
 			CekSelectHeaderH(tblhetxxmh);
@@ -309,7 +354,7 @@
 		tblhetxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hetxxmh');
-			id_hevxxmh_old = 0;
+			id_hevxxmh_old = 0, id_hetxxmh_atasan_old = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhetxxmh);
