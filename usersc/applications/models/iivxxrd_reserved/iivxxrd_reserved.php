@@ -52,7 +52,7 @@
 							SELECT
 								CONCAT(j.kode, " - ",z.kode) AS kode_d
 							FROM wpllptd z
-							LEFT JOIN wplxxth j ON j.id_wpllptd = z.id
+							LEFT JOIN wplxxth j ON j.id = id_wplxxth
 							WHERE z.id = a.id_transaksi_d AND z.wlpxxmh_kode = a.wlpxxmh_kode
 							LIMIT 1
 						)
