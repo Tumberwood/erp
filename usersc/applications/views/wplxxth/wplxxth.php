@@ -59,6 +59,7 @@
                                 <th>Tanggal</th>
                                 <th>Picking Method</th>
                                 <th>Cross Docking</th>
+                                <th>TX</th>
                             </tr>
                         </thead>
                     </table>
@@ -551,6 +552,10 @@
 				{ 
 					data: "wplxxth.is_crossdocking",
 					...renderYaTidak()
+				},
+				{ 
+					data: "wplxxth.transaction_state",
+					...renderTransactionStatus()
 				},
 			],
 			buttons: [
