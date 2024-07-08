@@ -154,7 +154,7 @@
 						expired_date,
 						batch_number
 					)
-					SELECT
+					SELECT DISTINCT
 						0 AS id_transaksi_h,
 						a.id AS id_transaksi_d,
 						f.id_wloctmh,
