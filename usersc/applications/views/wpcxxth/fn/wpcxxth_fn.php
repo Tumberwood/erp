@@ -347,33 +347,55 @@
 
     function confirmData() {
         // console.log(wloxxmh_out_nama);
-        confirmDispatch = prompt('Enter Dispatch Location');
-
-        if(confirmDispatch == wloxxmh_out_nama) {
-            confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
-            console.log(confirm_at);
-            $.ajax( {
-                url: "../../models/wpcxxth/wpcxxth_fn_confirm.php",
-                dataType: 'json',
-                type: 'POST',
-                data: {
-                    id_picking: selectedValues,
-                    start_at: start_at,
-                    confirm_at: confirm_at,
+        
+        swal({
+            text: "Masukkan Lokasi Dispatch",
+            content: {
+                element: "input",
+                attributes: {
+                    placeholder: "Enter Dispatch Location",
+                    type: "text",
                 },
-                success: function ( json ) {
-                    status_code = json.data.status_code;
-                    if (status_code == 200) {
-                        toastr[json.data.type_message](json.data.message,"INFO");
-                        // generateKonten();
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        location.reload();
-                    }
+            },
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        })
+        .then((value) => {
+            if (value !== null && value.trim() !== "") {
+                // Lakukan sesuatu jika nilai dispatch location sesuai dengan wloxxmh_out_nama
+                if (value == wloxxmh_out_nama) {
+                    confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
+                    console.log(confirm_at);
+                    $.ajax( {
+                        url: "../../models/wpcxxth/wpcxxth_fn_confirm.php",
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {
+                            id_picking: selectedValues,
+                            start_at: start_at,
+                            confirm_at: confirm_at,
+                        },
+                        success: function ( json ) {
+                            status_code = json.data.status_code;
+                            if (status_code == 200) {
+                                toastr[json.data.type_message](json.data.message,"INFO");
+                                // generateKonten();
+                                window.removeEventListener('beforeunload', confirmLeavePage);
+                                location.reload();
+                            }
+                        }
+                    } );
+                } else {
+                    // Tindakan jika nilai tidak sesuai
+                    swal("Error", "Dispatch Location tidak sesuai.", "error");
                 }
-            } );
-        } else {
-            toastr["warning"]("Dispatch Location Tidak Sesuai!","WARNING");
-        }
+            } else {
+                // Tindakan jika nilai tidak diisi atau dibatalkan
+                swal("Error", "Anda harus memasukkan Lokasi Dispatch.", "error");
+            }
+        });
     }
 
     function isPickingUsed(id_wpcxxth_old, is_in_use) {
