@@ -89,7 +89,6 @@
                                             edtwptittd.field('wptittd.jumlah_unit').focus();
 
                                             // console.log('uniqueToken load' +uniqueToken);
-                                            booking(1);
                                         }
                                     }
                                 } );

@@ -638,7 +638,7 @@
 									$('div.DTE_Form_Buttons button:eq(2)').hide();
 									$('div.DTE_Form_Buttons button:eq(3)').show();
 									// console.log('uniqueToken start' +uniqueToken);
-									booking(2);
+									booking(1);
 									edtwtrittd.field('wtrittd.is_gabung_lpn').show();
 									edtwtrittd.field('wloxxmh_nama_scan').show();
 									edtwtrittd.field('wloxxmh_nama_scan').focus();

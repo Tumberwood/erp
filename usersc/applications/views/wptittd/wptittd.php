@@ -533,7 +533,7 @@
 									$('div.DTE_Form_Buttons button:eq(2)').hide();
 									$('div.DTE_Form_Buttons button:eq(3)').show();
 									// console.log('uniqueToken start' +uniqueToken);
-									booking(2);
+									booking(1);
 									edtwptittd.field('wloxxmh_nama_scan').show();
 									edtwptittd.field('wloxxmh_nama_scan').focus();
 									edtwptittd.field('wptittd.id_iumxxmh_unit').disable();

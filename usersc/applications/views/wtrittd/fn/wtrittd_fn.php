@@ -75,9 +75,9 @@
                                     edtwtrittd.field('wtrittd.jumlah_unit').focus();
 
                                     // console.log('uniqueToken load' +uniqueToken);
-                                    setTimeout(function() {
-                                        booking(1);
-                                    }, 3000);
+                                    // setTimeout(function() {
+                                    //     booking(1);
+                                    // }, 3000);
                                 }
                             }
                         } );
