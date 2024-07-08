@@ -388,11 +388,11 @@
 		
 		edtwptittd.on('postSubmit', function(e, json, data, action, xhr) {
 			if (action != 'remove') {
-				// console.log(json);
+				console.log(json);
 				// id_transaksi = json.data[0].wptittd.id;
 				// konversiUom('wptittd', id_transaksi );
-				id_transaksi_h = json.data[0].wptittd.id;
-				fnConfirm('wptittd', tblwptittd );
+				// id_transaksi_h = json.data[0].wptittd.id;
+				// fnConfirm('wptittd', tblwptittd );
 				tblwptittd.rows().deselect();
 			}
 		});
