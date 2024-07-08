@@ -136,7 +136,7 @@
 						LEFT JOIN iumxxmh iumxxmh_unit ON iumxxmh_unit.id = :id_iumxxmh_unit
 						LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = terkecil.id_iumxxmh
 						LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = def.id_iumxxmh
-						LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.'
+						LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
 						WHERE iwhxxmh.id = :id_iwhxxmh
 				');
 			}
