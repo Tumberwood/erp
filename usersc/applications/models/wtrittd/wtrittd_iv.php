@@ -129,7 +129,7 @@
 							expired_date,
 							batch_number
 						)
-						SELECT
+						SELECT DISTINCT
 							a.id as id_transaksi_h,
 							a.id as id_transaksi_d,
 							a.id_gcpxxmh as id_gcpxxmh,
@@ -242,7 +242,7 @@
 							expired_date,
 							batch_number
 						)
-						SELECT
+						SELECT DISTINCT
 							a.id as id_transaksi_h,
 							a.id as id_transaksi_d,
 							a.id_gcpxxmh as id_gcpxxmh,
@@ -635,7 +635,7 @@
 							expired_date,
 							batch_number
 						)
-						SELECT
+						SELECT DISTINCT
 							a.id as id_transaksi_h,
 							a.id as id_transaksi_d,
 							a.id_gcpxxmh as id_gcpxxmh,
@@ -748,7 +748,7 @@
 							expired_date,
 							batch_number
 						)
-						SELECT
+						SELECT DISTINCT
 							a.id as id_transaksi_h,
 							a.id as id_transaksi_d,
 							a.id_gcpxxmh as id_gcpxxmh,
@@ -863,7 +863,7 @@
 						expired_date,
 						batch_number
 					)
-					SELECT
+					SELECT DISTINCT
 						a.id as id_transaksi_h,
 						a.id as id_transaksi_d,
 						a.id_gcpxxmh as id_gcpxxmh,
@@ -976,7 +976,7 @@
 						expired_date,
 						batch_number
 					)
-					SELECT
+					SELECT DISTINCT
 						a.id as id_transaksi_h,
 						a.id as id_transaksi_d,
 						a.id_gcpxxmh as id_gcpxxmh,
