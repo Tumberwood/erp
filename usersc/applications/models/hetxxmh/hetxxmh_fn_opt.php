@@ -78,6 +78,7 @@
                 ->where('hetxxmh.kode', '%' . $q . '%', 'LIKE' )
                 ->or_where('hetxxmh.nama', '%' . $q . '%', 'LIKE' );
         } )
+        ->order('hetxxmh.nama')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();

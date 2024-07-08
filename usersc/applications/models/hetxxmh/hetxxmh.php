@@ -27,6 +27,8 @@
 			Field::inst( 'hetxxmh.id' ),
 			Field::inst( 'hetxxmh.id_hevxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'hetxxmh.id_hetxxmh_atasan' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'hetxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -42,8 +44,13 @@
 			Field::inst( 'hetxxmh.start_at' ),
 			Field::inst( 'hetxxmh.finish_at' ),
 			Field::inst( 'hetxxmh.is_defaultprogram' ),
-			Field::inst( 'hetxxmh.is_nextprocess' )
-		);
+			Field::inst( 'hetxxmh.is_nextprocess' ),
+
+			Field::inst( 'hevxxmh.nama' ),
+			Field::inst( 'hetxxmh_atasan.nama' )
+		)
+		->leftJoin( 'hevxxmh','hevxxmh.id','=','hetxxmh.id_hevxxmh' )
+		->leftJoin( 'hetxxmh as hetxxmh_atasan','hetxxmh_atasan.id','=','hetxxmh.id_hetxxmh_atasan' );
 	
 	// do not erase
 	// function show / hide inactive document
