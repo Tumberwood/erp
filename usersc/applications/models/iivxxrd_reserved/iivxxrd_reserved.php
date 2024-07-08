@@ -56,6 +56,8 @@
 							WHERE z.id = a.id_transaksi_d AND z.wlpxxmh_kode = a.wlpxxmh_kode
 							LIMIT 1
 						)
+						WHEN a.imtxxmh_movement_type = "Putaway" THEN "Putaway D"
+						WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "Items Transfer D"
 						ELSE ""
 					END AS kode_transaksi,
 					a.id_transaksi_d
