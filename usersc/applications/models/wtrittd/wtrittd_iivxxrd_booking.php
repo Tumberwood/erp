@@ -91,7 +91,7 @@
 							jumlah_terkecil,
 							jumlah_default
 						)
-						SELECT
+						SELECT DISTINCT
 							3 as id_wloctmh,
 							:wlpxxmh_kode,
 							:id_iwhxxmh as id_iwhxxmh,
