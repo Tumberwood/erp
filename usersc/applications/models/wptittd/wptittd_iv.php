@@ -275,7 +275,6 @@
 				WHERE a.id = :id
 		');
 
-		//Location ditambahkan barangnya
 		$qi_iivxxrd = $db
 			->raw()
 			->bind(':id', $id)
@@ -334,7 +333,7 @@
 					a.id_gbrxxmh as id_gbrxxmh,
 					a.id_iwhxxmh as id_iwhxxmh,
 					wloxxmh.id_wloctmh as id_wloctmh,
-					a.id_wloxxmh_tujuan as id_wloxxmh,
+					a.id_wloxxmh_asal as id_wloxxmh,
 					relasi.id as id_relasi_m,
 					a.id_iimxxmh,
 					a.id_iumxxmh_unit,
@@ -351,9 +350,9 @@
 					iwhxxmh.kode,
 					iwhxxmh.nama,
 					wloxxmh.kode,
-					wloxxmh.nama nama_loc,
+					wloxxmh.nama as loc,
 					relasi.kode,
-					relasi.nama nama_relasi,
+					relasi.nama,
 					iimxxmh.kode,
 					iimxxmh.nama,
 					iumxxmh_unit.kode,
@@ -377,7 +376,7 @@
 				LEFT JOIN gcpxxmh ON gcpxxmh.id = a.id_gcpxxmh
 				LEFT JOIN gbrxxmh ON gbrxxmh.id = a.id_gbrxxmh
 				LEFT JOIN iwhxxmh ON iwhxxmh.id = a.id_iwhxxmh
-				LEFT JOIN wloxxmh ON wloxxmh.id = a.id_wloxxmh_tujuan
+				LEFT JOIN wloxxmh ON wloxxmh.id = a.id_wloxxmh_asal
 				LEFT JOIN wreittd re ON re.wlpxxmh_kode = a.wlpxxmh_kode
 				LEFT JOIN grlxxmh relasi ON relasi.id = re.id_grlxxmh_supplier
 				LEFT JOIN iimxxmh ON iimxxmh.id = a.id_iimxxmh
@@ -387,6 +386,7 @@
 				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.'
 				WHERE a.id = :id
 		');
+		////// END OF BOOKING
 
 		//Receiving diminuskan
 		$qi_iivxxrd = $db
