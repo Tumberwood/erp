@@ -50,9 +50,9 @@
 						WHEN a.imtxxmh_movement_type = "Picking List" THEN
 						(
 							SELECT
-								ifnull(j.kode, z.kode) AS kode_d
+								CONCAT(j.kode, " - ",z.kode) AS kode_d
 							FROM wpllptd z
-							LEFT JOIN wpclptd j ON j.id_wpllptd = z.id
+							LEFT JOIN wplxxth j ON j.id_wpllptd = z.id
 							WHERE z.id = a.id_transaksi_d AND z.wlpxxmh_kode = a.wlpxxmh_kode
 							LIMIT 1
 						)

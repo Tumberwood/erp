@@ -37,6 +37,8 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.id_wloxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'wpllptd.id_wpcxxth' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.kode' ),
 				Field::inst( 'wpllptd.nama' ),
 				Field::inst( 'wpllptd.keterangan' ),
@@ -66,6 +68,7 @@
 				Field::inst( 'wpllptd.batch_number' ),
 				Field::inst( 'uom_default.kode' ),
 				Field::inst( 'uom_terkecil.kode' ),
+				Field::inst( 'wpcxxth.kode' ),
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'wloxxmh.nama' ),
@@ -74,6 +77,7 @@
 			->leftJoin( 'iumxxmh as uom_terkecil','uom_terkecil.id','=','wpllptd.id_iumxxmh_terkecil' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','wpllptd.id_iimxxmh' )
 			->leftJoin( 'wloxxmh','wloxxmh.id','=','wpllptd.id_wloxxmh' )
+			->leftJoin( 'wpcxxth','wpcxxth.id','=','wpllptd.id_wpcxxth' )
 			->where('wpllptd.id_wplxxth',$_POST['id_wplxxth']);
 		
 		// do not erase

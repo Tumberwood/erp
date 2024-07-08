@@ -113,6 +113,7 @@
 									<tr>
 										<th rowspan="2">ID</th>
 										<th rowspan="2">id_wplxxth</th>
+										<th rowspan="2">Kode PC</th>
 										<th rowspan="2">LPN</th>
 										<th rowspan="2">Location</th>
 										<th rowspan="2">Item Code</th>
@@ -136,9 +137,10 @@
 									<th></th>
 									<th></th>
 									<th></th>
-									<th id="s_6"></th>
 									<th></th>
-									<th id="s_8"></th>
+									<th id="s_7"></th>
+									<th></th>
+									<th id="s_9"></th>
 									<th></th>
 									<th></th>
 									<th></th>
@@ -1071,6 +1073,7 @@
 			columns: [
 				{ data: "wpllptd.id",visible:false },
 				{ data: "wpllptd.id_wplxxth",visible:false },
+				{ data: "wpcxxth.kode" },
 				{ data: "wpllptd.wlpxxmh_kode" },
 				{ data: "wloxxmh.nama" },
 				{ data: "iimxxmh.kode" },
@@ -1113,8 +1116,8 @@
 				var api = this.api();
 				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 				
-				for (var i = 6; i <= 8; i+=2) {
-					if (i == 8) {
+				for (var i = 7; i <= 9; i+=2) {
+					if (i == 9) {
 						numFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
 					}
 					var columnIndex = i;
