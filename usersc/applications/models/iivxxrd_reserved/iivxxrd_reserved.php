@@ -67,7 +67,7 @@
 					id_iimxxmh,
 					id_wloxxmh,
 					wlpxxmh_kode
-				-- HAVING jumlah_terkecil_booking <> 0
+				HAVING jumlah_terkecil_booking <> 0
 			');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 	if (!empty($rs_iivxxrd)) {
