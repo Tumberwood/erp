@@ -122,10 +122,129 @@
 		$id_grlxxmh_customer = $rs_pick_h['id_grlxxmh_customer'];
 
 		//delete iiv booking per item tadi
-		$qu_iivxxrd = $db
-			->query('delete', 'iivxxrd')
-			->where('keterangan',"booking_dispatch_id_wpcxxth".$id_picking)
-			->exec();
+		// $qu_iivxxrd = $db
+		// 	->query('delete', 'iivxxrd')
+		// 	->where('keterangan',"booking_dispatch_id_wpcxxth".$id_picking)
+		// 	->exec();
+
+		//select booking PL
+		$qs_booking_pl = $db
+			->raw()
+			->bind(':id_picking', $id_picking)
+			->exec('SELECT
+						a.id_transaksi_d,
+						SUM(a.jumlah_terkecil) s_terkecil,
+						SUM(a.jumlah_unit) s_unit
+					FROM iivxxrd a
+					WHERE a.keterangan = CONCAT("booking_dispatch_id_wpcxxth", :id_picking)
+					GROUP BY a.wlpxxmh_kode
+					HAVING s_terkecil < 0
+			'
+		);
+		$rs_booking_pl = $qs_booking_pl->fetchAll();
+		if (!empty($rs_booking_pl)) {
+			foreach ($rs_booking_pl as $key => $booking_pl) {
+				$s_terkecil = $booking_pl['s_terkecil'];
+				$id_transaksi_d = $booking_pl['id_transaksi_d'];
+				//jika sum booking PL masih minus, maka insert booking balik nya (+)
+				if ($s_terkecil < 0) {
+					
+					//insert booking balik (+) terhadapt booking PL
+					$qi_iivxxrd = $db
+						->raw()
+						->bind(':id_transaksi_d', $id_transaksi_d)
+						->bind(':id_picking', $id_picking)
+						->bind(':imtxxmh_kode', $imtxxmh_kode)
+						->exec('
+							INSERT INTO iivxxrd (
+								id_gcpxxmh,
+								id_gbrxxmh,
+								id_transaksi_h,
+								id_transaksi_d,
+								id_wloctmh,
+								kode,
+								wlpxxmh_kode,
+								id_iwhxxmh,
+								id_wloxxmh,
+								id_relasi_m,
+								id_iimxxmh,
+								id_iumxxmh_unit,
+								id_iumxxmh_terkecil,
+								id_iumxxmh_default,
+								keterangan,
+								iwhxxmh_kode,
+								iwhxxmh_nama,
+								wloxxmh_kode,
+								wloxxmh_nama,
+								relasi_m_kode,
+								relasi_m_nama,
+								iimxxmh_kode,
+								iimxxmh_nama,
+								iumxxmh_unit_kode,
+								iumxxmh_unit_nama,
+								imtxxmh_kode,
+								imtxxmh_movement_type,
+								tanggal,
+								is_fisik,
+								iumxxmh_terkecil_kode,
+								iumxxmh_terkecil_nama,
+								iumxxmh_default_kode,
+								iumxxmh_default_nama,
+								jumlah_unit,
+								jumlah_konversi,
+								jumlah_terkecil,
+								jumlah_default,
+								expired_date,
+								batch_number
+							)
+							SELECT
+								id_gcpxxmh,
+								id_gbrxxmh,
+								id_transaksi_h,
+								id_transaksi_d,
+								id_wloctmh,
+								a.kode,
+								wlpxxmh_kode,
+								id_iwhxxmh,
+								id_wloxxmh,
+								id_relasi_m,
+								id_iimxxmh,
+								id_iumxxmh_unit,
+								id_iumxxmh_terkecil,
+								id_iumxxmh_default,
+								a.keterangan,
+								iwhxxmh_kode,
+								iwhxxmh_nama,
+								wloxxmh_kode,
+								wloxxmh_nama,
+								relasi_m_kode,
+								relasi_m_nama,
+								iimxxmh_kode,
+								iimxxmh_nama,
+								iumxxmh_unit_kode,
+								iumxxmh_unit_nama,
+								imtxxmh_kode,
+								imtxxmh_movement_type,
+								tanggal,
+								is_fisik,
+								iumxxmh_terkecil_kode,
+								iumxxmh_terkecil_nama,
+								iumxxmh_default_kode,
+								iumxxmh_default_nama,
+								SUM(a.jumlah_unit * -1) s_unit,
+								jumlah_konversi,
+								SUM(a.jumlah_terkecil * -1) s_terkecil,
+								SUM(a.jumlah_default * -1) s_default,
+								expired_date,
+								batch_number
+							FROM iivxxrd a
+							LEFT JOIN imtxxmh g ON g.kode = :imtxxmh_kode
+							WHERE a.keterangan = CONCAT("booking_dispatch_id_wpcxxth", :id_picking) AND id_transaksi_d = :id_transaksi_d
+							GROUP BY a.wlpxxmh_kode
+					');
+				}
+			}
+		}
 
 		//insert wdp baru setiap confirm
 		$qi_wdpxxth_baru = $db

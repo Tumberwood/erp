@@ -19,9 +19,12 @@
         ->raw()
         ->bind(':wlpxxmh_kode', $wlpxxmh_kode)
         ->exec('SELECT
-                    COUNT(id) AS c_id
+                    COUNT(id) AS c_id,
+                    SUM(a.jumlah_terkecil) s_terkecil,
+                    SUM(a.jumlah_unit) s_unit
                 FROM iivxxrd a
                 WHERE a.wlpxxmh_kode = :wlpxxmh_kode AND a.id_wloctmh = 3 AND a.is_fisik = 0
+                HAVING s_unit < 0
         '
         );
     $rs_iivxxrd = $qs_iivxxrd->fetch();
