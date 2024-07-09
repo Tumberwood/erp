@@ -498,6 +498,8 @@
 				// id_transaksi = json.data[0].wtrittd.id;
 				// konversiUom('wtrittd', id_transaksi );
 				
+				id_transaksi_h = json.data[0].wtrittd.id;
+				fnConfirm('wtrittd', tblwtrittd );
 				tblwtrittd.rows().deselect();
 			}
 		});
@@ -657,8 +659,6 @@
 							action: function (e, dt, node, config, cb){
 								this.submit(
 									function (json) {
-										id_transaksi_h = json.data[0].wtrittd.id;
-										fnConfirm('wtrittd', tblwtrittd );
 									}, 
 								);
 								
