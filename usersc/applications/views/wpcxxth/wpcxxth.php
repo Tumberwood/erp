@@ -365,7 +365,7 @@
 			
 			$('#selectKode').change(function() {
 				// Get selected values
-				uniqueToken = generateUniqueToken();
+				uniqueToken = "wpcxxth_" + generateUniqueToken();
 				selectedValues = $(this).val();
 				
 				$('#selectKode').prop('disabled', true);
