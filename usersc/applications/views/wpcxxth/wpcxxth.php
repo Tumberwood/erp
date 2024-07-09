@@ -52,7 +52,25 @@
 						<div class="row" id="konten">
 						</div>
 					</div>
+					<div class="modal-footer btnLPN">
+						<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal" id="modalDispatch" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content animated bounceInRight">
+					<div class="modal-header">
+						<h4 class="modal-title">Dispatch</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row" id="kontenDispatch">
+						</div>
+					</div>
 					<div class="modal-footer">
+						<button type="button" class="btn btn-primary submit-button" id="confirmInput" onClick="confirmData()" style="display: none">Submit</button>
 						<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -132,6 +150,7 @@
 		var wloxxmh_out_nama = "";
 		var finish_at = "";
 		var confirm_at = "";
+		var uniqueToken = '';
 
 		// get tableRelation
 		tableRelation('wpcxxth');
@@ -169,13 +188,21 @@
 		});
 
 		$(document).ready(function() {
+			function resetInput() {
+				$('#locDispatch').val('');
+            	$('#confirmInput').hide();
+			}
 
+			$('#modalDispatch').on('hidden.bs.modal', function (e) {
+				resetInput();
+			});
 			tblwpcxxth = $('#tblwpcxxth').DataTable( {
 				ajax: {
 					url: "../../models/wpcxxth/wpcxxth_iivxxrd_table.php",
 					type: 'POST',
 					data: function (d){
 						d.id_wpcxxth_old = id_wpcxxth_old;
+						d.uniqueToken = uniqueToken;
 					}
 				},
 				order: [[ 2, "asc" ]],
@@ -190,15 +217,15 @@
 					{ data: "iimxxmh_nama" },
 					{ data: "uom_pl" },
 					{ 
-						data: "jumlah_pl",
-						...renderNumber( 0, "")
-					},
-					{ 
-						data: "jumlah_p",
-						...renderNumber( 0, "")
-					},
-					{ 
 						data: "jumlah_default_os",
+						...renderNumber( 0, "")
+					},
+					{ 
+						data: "jumlah_default_now",
+						...renderNumber( 0, "")
+					},
+					{ 
+						data: "sisa_default",
 						...renderNumber( 0, "")
 					},
 					{
@@ -244,7 +271,33 @@
 							if (rowData) {
 								wloxxmh_out_nama = rowData.wloxxmh_out_nama;
 								// console.log('wloxxmh_out_nama from first row:', wloxxmh_out_nama);
-								confirmData();
+								$.ajax( {
+									url: "../../models/wpcxxth/wpcxxth_fn_cek_confirm.php",
+									dataType: 'json',
+									type: 'POST',
+									async: false,
+									data: {
+										id_wpcxxth_old: id_wpcxxth_old
+									},
+									success: function ( json ) {
+										c_id_d = json.data.c_id_d;
+										isCanConfirm = 0;
+										if (c_id_d > 0) {
+											cekConfirm = confirm('Apakah Anda yakin? Terdapat '+c_id_d+' data dengan Status Picking belum Full');
+											if (cekConfirm) {
+												isCanConfirm = 1;
+											} else {
+												isCanConfirm = 0;
+											}
+										} else {
+											isCanConfirm = 1;
+										}
+
+										if (isCanConfirm == 1) {
+											$('#modalDispatch').modal('toggle');
+										}
+									}
+								});
 							} else {
 								alert('No data available in the table.');
 							}
@@ -312,6 +365,7 @@
 			
 			$('#selectKode').change(function() {
 				// Get selected values
+				uniqueToken = generateUniqueToken();
 				selectedValues = $(this).val();
 				
 				$('#selectKode').prop('disabled', true);
@@ -319,14 +373,14 @@
 				id_wpcxxth_old  = $('#selectKode').val();
 				tblwpcxxth.ajax.reload(null, false);
 				//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
-				isPickingUsed(id_wpcxxth_old, 1);
+				isPickingUsed(id_wpcxxth_old, 1, uniqueToken);
 				$('#tableLPN').show();
 				// generateKonten();
 				$('#iboxfilter').addClass('collapsed');
 				
 				//event jika direload, maka flag used jadi 0 lagi
 				$(window).on('unload', function() {
-					isPickingUsed(id_wpcxxth_old, 0);
+					isPickingUsed(id_wpcxxth_old, 0, uniqueToken);
 				});
 			});
 

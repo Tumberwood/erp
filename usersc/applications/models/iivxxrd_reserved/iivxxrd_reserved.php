@@ -38,29 +38,29 @@
 							SELECT
 								z.kode
 							FROM wdplptd z
-							WHERE z.id = a.id_transaksi_d AND z.wlpxxmh_kode = a.wlpxxmh_kode
+							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
 						)
 						WHEN a.imtxxmh_movement_type = "Picking" THEN
 						(
 							SELECT
-								z.kode
+								ifnull(z.kode, "Draft Picking")
 							FROM wpclptd z
-							WHERE z.id = a.id_transaksi_d AND z.wlpxxmh_kode = a.wlpxxmh_kode
+							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
 						)
 						WHEN a.imtxxmh_movement_type = "Picking List" THEN
 						(
 							SELECT
-								CONCAT(j.kode, " - ",z.kode) AS kode_d
+								if(z.id_wpcxxth = 0, "Draft Picking List", CONCAT(j.kode, " - ",z.kode)) AS kode_d
 							FROM wpllptd z
 							LEFT JOIN wplxxth j ON j.id = id_wplxxth
-							WHERE z.id = a.id_transaksi_d AND z.wlpxxmh_kode = a.wlpxxmh_kode
+							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
 							LIMIT 1
 						)
-						WHEN a.imtxxmh_movement_type = "Putaway" THEN "Putaway D"
-						WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "Items Transfer D"
+						WHEN a.imtxxmh_movement_type = "Putaway" THEN "Draft Putaway"
+						WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "Draft Items Transfer"
 						ELSE ""
 					END AS kode_transaksi,
-					a.id_transaksi_d
+					max(a.id_transaksi_d)
 				FROM iivxxrd a
 				WHERE tanggal <= :end_date AND is_fisik = 0
 				GROUP BY 
@@ -68,6 +68,7 @@
 					id_iwhxxmh,
 					id_iimxxmh,
 					id_wloxxmh,
+					imtxxmh_movement_type,
 					wlpxxmh_kode
 				HAVING jumlah_terkecil_booking <> 0
 			');

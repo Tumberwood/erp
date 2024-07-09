@@ -15,14 +15,24 @@
 		DataTables\Editor\Result;
 
 	$id_wpcxxth_old = $_POST['id_wpcxxth_old'];
+	$uniqueToken = $_POST['uniqueToken'];
 
-	if ($id_wpcxxth_old > 0) {
+	// echo $uniqueToken;
+
+	if ($id_wpcxxth_old > 0 && $uniqueToken != '') {
 		$qs_wpllptd = $db
 			->raw()
+			->bind(':uniqueToken', $uniqueToken)
 			->exec('SELECT
 						a.jumlah_unit AS jumlah_pl,
 						unit.kode AS uom_pl,
 						ifnull(s_card, 0) AS jumlah_p,
+						ifnull(book.jumlah_default, 0) AS jumlah_default_now,
+						ifnull(book.jumlah_terkecil, 0) AS jumlah_terkecil_now,
+						-- (a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_default, 0) as sisa_default_now,
+						(a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_default, 0) as jumlah_default_os,
+						-- (a.jumlah_terkecil_os / a.jumlah_konversi) - ifnull(book.jumlah_default, 0) as sisa_default,
+						a.jumlah_terkecil_os + ifnull(book.jumlah_terkecil, 0) as sisa_terkecil_now,
 						a.id,
 						a.id_wpcxxth,
 						a.id_wloxxmh,
@@ -44,7 +54,8 @@
 						a.jumlah_terkecil_os,
 						a.jumlah_terkecil_next,
 						a.jumlah_konversi,
-						a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
+						a.jumlah_terkecil_os / a.jumlah_konversi AS sisa_default,
+						-- a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
 						def.kode AS iumxxmh_default_kode,
 						d.nama AS wloxxmh_out_nama,
 						ifnull(e.urutan, 0) AS urutan,
@@ -65,9 +76,11 @@
 						FROM wpclptd
 						GROUP BY id_wpllptd
 					) f ON f.id_wpllptd = a.id
+					LEFT JOIN wpclptd book on book.id_wpllptd = a.id AND book.keterangan = :uniqueToken
 					WHERE 
 						-- a.jumlah_terkecil_os > 0 AND
 						a.id_wpcxxth = '.$id_wpcxxth_old .'
+					HAVING sisa_terkecil_now > 0
 					ORDER BY urutan'
 					
 			);

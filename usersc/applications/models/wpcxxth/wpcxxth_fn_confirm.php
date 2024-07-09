@@ -35,6 +35,7 @@
 		$id_picking    = $_POST['id_picking'];
 		$start_at    = $_POST['start_at'];
 		$confirm_at    = $_POST['confirm_at'];
+		$uniqueToken    = $_POST['uniqueToken'];
 		$imtxxmh_kode = 213;
 
 		$qs_pick_h = $db
@@ -87,109 +88,108 @@
 		// 		//jika sum booking PL masih minus, maka insert booking balik nya (+)
 		// 		if ($s_terkecil < 0) {
 					
-		// 			//insert booking balik (+) terhadapt booking PL
-		// 			$qi_iivxxrd = $db
-		// 				->raw()
-		// 				->bind(':id_transaksi_d', $id_transaksi_d)
-		// 				->bind(':id_wplxxth', $id_wplxxth)
-		// 				->bind(':imtxxmh_kode', $imtxxmh_kode)
-		// 				->exec('
-		// 					INSERT INTO iivxxrd (
-		// 						id_gcpxxmh,
-		// 						id_gbrxxmh,
-		// 						id_transaksi_h,
-		// 						id_transaksi_d,
-		// 						id_wloctmh,
-		// 						kode,
-		// 						wlpxxmh_kode,
-		// 						id_iwhxxmh,
-		// 						id_wloxxmh,
-		// 						id_relasi_m,
-		// 						id_iimxxmh,
-		// 						id_iumxxmh_unit,
-		// 						id_iumxxmh_terkecil,
-		// 						id_iumxxmh_default,
-		// 						keterangan,
-		// 						iwhxxmh_kode,
-		// 						iwhxxmh_nama,
-		// 						wloxxmh_kode,
-		// 						wloxxmh_nama,
-		// 						relasi_m_kode,
-		// 						relasi_m_nama,
-		// 						iimxxmh_kode,
-		// 						iimxxmh_nama,
-		// 						iumxxmh_unit_kode,
-		// 						iumxxmh_unit_nama,
-		// 						imtxxmh_kode,
-		// 						imtxxmh_movement_type,
-		// 						tanggal,
-		// 						is_fisik,
-		// 						iumxxmh_terkecil_kode,
-		// 						iumxxmh_terkecil_nama,
-		// 						iumxxmh_default_kode,
-		// 						iumxxmh_default_nama,
-		// 						jumlah_unit,
-		// 						jumlah_konversi,
-		// 						jumlah_terkecil,
-		// 						jumlah_default,
-		// 						expired_date,
-		// 						batch_number
-		// 					)
-		// 					SELECT DISTINCT
-		// 						id_gcpxxmh,
-		// 						id_gbrxxmh,
-		// 						id_transaksi_h,
-		// 						id_transaksi_d,
-		// 						id_wloctmh,
-		// 						a.kode,
-		// 						wlpxxmh_kode,
-		// 						id_iwhxxmh,
-		// 						id_wloxxmh,
-		// 						id_relasi_m,
-		// 						id_iimxxmh,
-		// 						id_iumxxmh_unit,
-		// 						id_iumxxmh_terkecil,
-		// 						id_iumxxmh_default,
-		// 						a.keterangan,
-		// 						iwhxxmh_kode,
-		// 						iwhxxmh_nama,
-		// 						wloxxmh_kode,
-		// 						wloxxmh_nama,
-		// 						relasi_m_kode,
-		// 						relasi_m_nama,
-		// 						iimxxmh_kode,
-		// 						iimxxmh_nama,
-		// 						iumxxmh_unit_kode,
-		// 						iumxxmh_unit_nama,
-		// 						imtxxmh_kode,
-		// 						imtxxmh_movement_type,
-		// 						tanggal,
-		// 						is_fisik,
-		// 						iumxxmh_terkecil_kode,
-		// 						iumxxmh_terkecil_nama,
-		// 						iumxxmh_default_kode,
-		// 						iumxxmh_default_nama,
-		// 						SUM(a.jumlah_unit * -1) s_unit,
-		// 						jumlah_konversi,
-		// 						SUM(a.jumlah_terkecil * -1) s_terkecil,
-		// 						SUM(a.jumlah_default * -1) s_default,
-		// 						expired_date,
-		// 						batch_number
-		// 					FROM iivxxrd a
-		// 					LEFT JOIN imtxxmh g ON g.kode = :imtxxmh_kode
-		// 					WHERE a.keterangan = CONCAT("wplxxth_id_", :id_wplxxth) AND id_transaksi_d = :id_transaksi_d
-		// 					GROUP BY a.wlpxxmh_kode
-		// 			');
 		// 		}
 		// 	}
 		// }
 		
 		//delete iiv booking per item tadi
-		$qu_iivxxrd = $db
-			->query('delete', 'iivxxrd')
-			->where('id_transaksi_h',$id_picking)
-			->where('keterangan',"wpcxxth_".$id_picking)
-			->exec();
+		// $qu_iivxxrd = $db
+		// 	->query('delete', 'iivxxrd')
+		// 	->where('id_transaksi_h',$id_picking)
+		// 	->where('keterangan',"wpcxxth_".$id_picking)
+		// 	->exec();
+
+		//insert booking balik (+) terhadapt booking PC per detail
+		$qi_iivxxrd = $db
+			->raw()
+			->bind(':id_picking', $id_picking)
+			->bind(':uniqueToken', $uniqueToken)
+			->exec('
+				INSERT INTO iivxxrd (
+					id_gcpxxmh,
+					id_gbrxxmh,
+					id_transaksi_h,
+					id_transaksi_d,
+					id_wloctmh,
+					kode,
+					wlpxxmh_kode,
+					id_iwhxxmh,
+					id_wloxxmh,
+					id_relasi_m,
+					id_iimxxmh,
+					id_iumxxmh_unit,
+					id_iumxxmh_terkecil,
+					id_iumxxmh_default,
+					keterangan,
+					iwhxxmh_kode,
+					iwhxxmh_nama,
+					wloxxmh_kode,
+					wloxxmh_nama,
+					relasi_m_kode,
+					relasi_m_nama,
+					iimxxmh_kode,
+					iimxxmh_nama,
+					iumxxmh_unit_kode,
+					iumxxmh_unit_nama,
+					imtxxmh_kode,
+					imtxxmh_movement_type,
+					tanggal,
+					is_fisik,
+					iumxxmh_terkecil_kode,
+					iumxxmh_terkecil_nama,
+					iumxxmh_default_kode,
+					iumxxmh_default_nama,
+					jumlah_unit,
+					jumlah_konversi,
+					jumlah_terkecil,
+					jumlah_default,
+					expired_date,
+					batch_number
+				)
+				SELECT DISTINCT
+					id_gcpxxmh,
+					id_gbrxxmh,
+					id_transaksi_h,
+					id_transaksi_d,
+					id_wloctmh,
+					a.kode,
+					wlpxxmh_kode,
+					id_iwhxxmh,
+					id_wloxxmh,
+					id_relasi_m,
+					id_iimxxmh,
+					id_iumxxmh_unit,
+					id_iumxxmh_terkecil,
+					id_iumxxmh_default,
+					a.keterangan,
+					iwhxxmh_kode,
+					iwhxxmh_nama,
+					wloxxmh_kode,
+					wloxxmh_nama,
+					relasi_m_kode,
+					relasi_m_nama,
+					iimxxmh_kode,
+					iimxxmh_nama,
+					iumxxmh_unit_kode,
+					iumxxmh_unit_nama,
+					imtxxmh_kode,
+					imtxxmh_movement_type,
+					tanggal,
+					is_fisik,
+					iumxxmh_terkecil_kode,
+					iumxxmh_terkecil_nama,
+					iumxxmh_default_kode,
+					iumxxmh_default_nama,
+					SUM(a.jumlah_unit * -1) s_unit,
+					jumlah_konversi,
+					SUM(a.jumlah_terkecil * -1) s_terkecil,
+					SUM(a.jumlah_default * -1) s_default,
+					expired_date,
+					batch_number
+				FROM iivxxrd a
+				WHERE a.keterangan = CONCAT("wpcxxth_", :id_picking) AND a.kode = :uniqueToken
+				GROUP BY a.wlpxxmh_kode
+		');
 
 		//insert WPC baru setiap confirm
 		$qi_wpcxxth_baru = $db
@@ -253,6 +253,11 @@
 				->exec();
 		}
 			
+		$qu_booking = $db
+			->query('update', 'iivxxrd')
+			->set('kode',$kode_h)
+			->where('kode',$uniqueToken)
+			->exec();
 
 		//insert booking minus
 		$qi_iivxxrd = $db
