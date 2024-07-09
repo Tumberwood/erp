@@ -551,8 +551,8 @@
 							action: function (e, dt, node, config, cb){
 								this.submit(
 									function (json) {
-										id_transaksi_h = json.data[0].wptittd.id;
-										fnConfirm('wptittd', tblwptittd );
+										// id_transaksi_h = json.data[0].wptittd.id;
+										// fnConfirm('wptittd', tblwptittd );
 									}, 
 								);
 								
