@@ -281,19 +281,24 @@
 									},
 									success: function ( json ) {
 										c_id_d = json.data.c_id_d;
-										isCanConfirm = 0;
+										var isCanConfirm = 0;
 										if (c_id_d > 0) {
-											cekConfirm = confirm('Apakah Anda yakin? Terdapat '+c_id_d+' data dengan Status Picking belum Full');
-											if (cekConfirm) {
-												isCanConfirm = 1;
-											} else {
-												isCanConfirm = 0;
-											}
+											swal({
+												text: 'Apakah Anda yakin? Terdapat '+c_id_d+' data dengan Status Picking belum Full',
+												icon: "info",
+												buttons: {
+													cancel: true,
+													confirm: true
+												},
+											})
+											.then((willConfirm) => {
+												if (willConfirm) {
+													$('#modalDispatch').modal('toggle');
+												} else {
+													console.log('NOT OK');
+												}
+											});
 										} else {
-											isCanConfirm = 1;
-										}
-
-										if (isCanConfirm == 1) {
 											$('#modalDispatch').modal('toggle');
 										}
 									}

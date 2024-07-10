@@ -36,7 +36,7 @@
 						WHEN a.imtxxmh_movement_type = "Dispatch" THEN
 						(
 							SELECT
-								z.kode
+								ifnull(z.kode, "Draft Dispatch")
 							FROM wdplptd z
 							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
 						)

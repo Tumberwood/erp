@@ -5,7 +5,7 @@
 
     function generateKonten() {
         $('#konten').empty();
-        $('.modal-footer').empty();
+        $('.btnLPN').empty();
 
         $.ajax( {
             url: "../../models/wdpxxth/wdpxxth_iivxxrd_card.php",
@@ -14,6 +14,7 @@
             async: false,
             data: {
                 id_wpclptd: id_wpclptd,
+                uniqueToken: uniqueToken,
             },
             success: function ( json ) {
                 dataKonten = json.data;
@@ -42,7 +43,8 @@
                         displayInputan = '';
                         statusDispatchText = '<span class="badge badge-warning">Parsial</span>';
                     } else if (status_dispatch == 3) {
-                        displayInputan = 'style="display: none"';
+                        // displayInputan = 'style="display: none"';
+                        displayInputan = '';
                         statusDispatchText = '<span class="badge badge-primary">Full</span>';
                     } else {
                         displayInputan = '';
@@ -78,11 +80,11 @@
                                         Status Dispatch : ${statusDispatchText}
                                         <br>
                                         
-                                        Jumlah Pick : ${kontenData.jumlah_pl.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                        Jumlah Pick : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
                                         <br>
-                                        Jumlah Dispatch : ${kontenData.jumlah_p.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        Jumlah Dispatch : ${kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
                                         <br>
-                                        Jumlah Sisa : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        Jumlah Sisa : ${kontenData.sisa_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
                                     </p>
                                 </div>`
 
@@ -93,8 +95,8 @@
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <div class="d-flex align-items-center">
                                             <select class="form-select fw-bold" id="uom_select${kontenData.id}" onchange="jumlahSatuan(${kontenData.id})" style="font-size: 9px; height: 28px">
-                                                <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.jumlah_terkecil_os.toString().replace(/\.?0+$/, '')}">${kontenData.iumxxmh_terkecil_kode}</option>
-                                                <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')}" selected>${kontenData.iumxxmh_default_kode}</option>
+                                                <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.sisa_terkecil_now.toString().replace(/\.?0+$/, '')}">${kontenData.iumxxmh_terkecil_kode}</option>
+                                                <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" selected>${kontenData.iumxxmh_default_kode}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -102,7 +104,7 @@
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="input_jumlah${kontenData.id}" value="${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')}" class="form-control form-control-sm quantity" min="0" onkeyup="validasiJumlah(${kontenData.id})">
+                                                <input type="text" id="input_jumlah${kontenData.id}" value="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" class="form-control form-control-sm quantity" min="0" onkeyup="validasiJumlah(${kontenData.id})">
                                             </div>
                                         </div>
                                     </div>
@@ -125,7 +127,7 @@
                         </div>
                     `;	
                 });
-                $('.modal-footer').append(btnSubmit);
+                $('.btnLPN').append(btnSubmit);
                 $('#konten').html(genKonten);
                 // $(`#locAsal${dataKonten[0].id}`).focus();
             }
@@ -230,6 +232,7 @@
                 jumlah_unit_input: jumlah_unit_input,
                 start_at: start_at,
                 finish_at: finish_at,
+                uniqueToken: uniqueToken,
             },
             success: function ( json ) {
                 status_code = json.data.status_code;
@@ -277,40 +280,29 @@
             },
             success: function ( json ) {
                 c_id_d = json.data.c_id_d;
-                isCanConfirm = 0;
+                var isCanConfirm = 0;
                 if (c_id_d > 0) {
-                    cekConfirm = confirm('Apakah Anda yakin? Terdapat '+c_id_d+' data dengan Status Dispatch belum Full');
-                    if (cekConfirm) {
-                        isCanConfirm = 1;
-                    } else {
-                        isCanConfirm = 0;
-                    }
+                    swal({
+                        text: 'Apakah Anda yakin? Terdapat '+c_id_d+' data dengan Status Dispatch belum Full',
+                        icon: "info",
+                        buttons: {
+                            cancel: true,
+                            confirm: true
+                        },
+                    })
+                    .then((willConfirm) => {
+                        if (willConfirm) {
+                            console.log('OK');
+                            isCanConfirm = 1;
+                            confirmDispatch();
+                        } else {
+                            console.log('NOT OK');
+                            isCanConfirm = 0;
+                        }
+                    });
                 } else {
                     isCanConfirm = 1;
-                }
-
-                if (isCanConfirm == 1) {
-                    confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
-                    console.log(confirm_at);
-                    $.ajax( {
-                        url: "../../models/wdpxxth/wdpxxth_fn_confirm.php",
-                        dataType: 'json',
-                        type: 'POST',
-                        data: {
-                            id_picking: selectedValues,
-                            start_at: start_at,
-                            confirm_at: confirm_at,
-                        },
-                        success: function ( json ) {
-                            status_code = json.data.status_code;
-                            if (status_code == 200) {
-                                toastr[json.data.type_message](json.data.message,"INFO");
-                                // generateKonten();
-                                window.removeEventListener('beforeunload', confirmLeavePage);
-                                location.reload();
-                            }
-                        }
-                    } );
+                    confirmDispatch();
                 }
             }
         } );
@@ -323,15 +315,46 @@
         // }
     }
 
-    function isDispatchUsed(id_wpcxxth_old, is_in_use) {
+    function confirmDispatch() {
+        confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
+            console.log(confirm_at);
+            $.ajax( {
+                url: "../../models/wdpxxth/wdpxxth_fn_confirm.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    id_picking: selectedValues,
+                    start_at: start_at,
+                    confirm_at: confirm_at,
+                    uniqueToken: uniqueToken,
+                },
+                success: function ( json ) {
+                    status_code = json.data.status_code;
+                    if (status_code == 200) {
+                        toastr[json.data.type_message](json.data.message,"INFO");
+                        // generateKonten();
+                        window.removeEventListener('beforeunload', confirmLeavePage);
+                        location.reload();
+                    }
+                }
+            } );
+    }
+    function isDispatchUsed(id_wpcxxth_old, is_in_use, uniqueToken) {
         var data = {
             id_wpcxxth_old: id_wpcxxth_old,
             is_in_use: is_in_use,
+            uniqueToken: uniqueToken,
         };
         // Convert data to JSON format
         var jsonData = JSON.stringify(data);
         // console.log(jsonData);
         // Send data asynchronously using navigator.sendBeacon
         navigator.sendBeacon('../../models/wdpxxth/wdpxxth_fn_is_used.php', jsonData);
+    }
+    
+    function generateUniqueToken() {
+        var timestamp = new Date().getTime().toString(36);
+        var randomString = Math.random().toString(36).substring(2);
+        return timestamp + randomString;
     }
 </script>

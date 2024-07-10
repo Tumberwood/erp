@@ -52,7 +52,7 @@
 						<div class="row" id="konten">
 						</div>
 					</div>
-					<div class="modal-footer">
+					<div class="modal-footer btnLPN">
 						<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -134,6 +134,7 @@
 		var wloxxmh_out_nama = "";
 		var finish_at = "";
 		var confirm_at = "";
+		var uniqueToken = '';
 
 		// get tableRelation
 		tableRelation('wdpxxth');
@@ -178,6 +179,7 @@
 					type: 'POST',
 					data: function (d){
 						d.id_wpcxxth_old = id_wpcxxth_old;
+						d.uniqueToken = uniqueToken;
 					}
 				},
 				order: [[ 2, "asc" ]],
@@ -193,15 +195,15 @@
 					{ data: "iimxxmh_nama" },
 					{ data: "uom_pl" },
 					{ 
-						data: "jumlah_pl",
-						...renderNumber( 0, "")
-					},
-					{ 
-						data: "jumlah_p",
-						...renderNumber( 0, "")
-					},
-					{ 
 						data: "jumlah_default_os",
+						...renderNumber( 0, "")
+					},
+					{ 
+						data: "jumlah_default_now",
+						...renderNumber( 0, "")
+					},
+					{ 
+						data: "sisa_default",
 						...renderNumber( 0, "")
 					},
 					{
@@ -317,21 +319,23 @@
 			
 			$('#selectKode').change(function() {
 				// Get selected values
+				uniqueToken = "wdpxxth_" + generateUniqueToken();
 				selectedValues = $(this).val();
 				
 				$('#selectKode').prop('disabled', true);
+				
 				// Log selected values
 				id_wpcxxth_old  = $('#selectKode').val();
 				tblwdpxxth.ajax.reload(null, false);
 				//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
-				isDispatchUsed(id_wpcxxth_old, 1);
+				isDispatchUsed(id_wpcxxth_old, 1, uniqueToken);
 				$('#tableLPN').show();
 				// generateKonten();
 				$('#iboxfilter').addClass('collapsed');
 				
 				//event jika direload, maka flag used jadi 0 lagi
 				$(window).on('unload', function() {
-					isDispatchUsed(id_wpcxxth_old, 0);
+					isDispatchUsed(id_wpcxxth_old, 0, uniqueToken);
 				});
 			});
 
