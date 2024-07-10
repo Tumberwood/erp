@@ -630,6 +630,12 @@
 
 		tblwdnxxth.searchPanes.container().appendTo('#spwdnxxth');
 		tblwdnxxth.searchBuilder.container().appendTo( '#sbwdnxxth' );
+
+		
+		// tblwdnxxth.buttons().container().on('click', 'button[name="btnCreate"]', function() {
+		// 	console.log('123');
+		// 	// Add more functionality here if needed
+		// });
 		
 		tblwdnxxth.button('btnPrintDN:name')
 				.nodes()

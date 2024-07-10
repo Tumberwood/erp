@@ -64,10 +64,10 @@
 							a.id_iumxxmh_terkecil,
 							a.id_iumxxmh_default,
 							CONCAT("id_wdnxxth=", a.id_wdnxxth) AS keterangan,
-							wlo.kode AS wloxxmh_kode,
-							wlo.nama AS wloxxmh_nama,
 							iwh.kode AS iwhxxmh_kode,
 							iwh.nama AS iwhxxmh_nama,
+							wlo.kode AS wloxxmh_kode,
+							wlo.nama AS wloxxmh_nama,
 							cs.kode AS relasi_m_kode,
 							cs.nama AS relasi_m_nama,
 							item.kode AS iimxxmh_kode,
@@ -175,10 +175,10 @@
 							a.id_iumxxmh_terkecil,
 							a.id_iumxxmh_default,
 							CONCAT("id_wdnxxth=", a.id_wdnxxth) AS keterangan,
-							wlo.kode AS wloxxmh_kode,
-							wlo.nama AS wloxxmh_nama,
 							iwh.kode AS iwhxxmh_kode,
 							iwh.nama AS iwhxxmh_nama,
+							wlo.kode AS wloxxmh_kode,
+							wlo.nama AS wloxxmh_nama,
 							cs.kode AS relasi_m_kode,
 							cs.nama AS relasi_m_nama,
 							item.kode AS iimxxmh_kode,
@@ -237,7 +237,7 @@
 							jumlah_terkecil_next = jumlah_terkecil_next - :jumlah_terkecil
 						WHERE id = :id_wdplptd'
 			);
-			
+
 			$id_wdnxxth = $values['wdnlptd']['id_wdnxxth'];
 
 			$qd_booking_old = $editor->db()
