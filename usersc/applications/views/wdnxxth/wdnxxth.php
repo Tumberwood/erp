@@ -604,17 +604,17 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
-				// {
-				// 	text: '<i class="fa fa-print"></i>',
-				// 	name: 'btnPrintJurnal',
-				// 	className: 'btn btn-sm btn-outline',
-				// 	titleAttr: 'Print Jurnal',
-				// 	action: function ( e, dt, node, config ) {
-				// 		e.preventDefault(); 
-				// 		var url = $(this).attr('href'); 
-				// 		window.open('../../views/core/jv_print.php?jenis_transaksi=Delivery Delivery&id_transaksi='+id_wdnxxth, '_blank');
-				// 	}
-				// }
+				{
+					text: '<i class="fa fa-print"></i>',
+					name: 'btnPrintDN',
+					className: 'btn btn-sm btn-outline',
+					titleAttr: 'Print Delivery Note',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						var url = $(this).attr('href'); 
+						window.open('wdnxxth_print.php?id_transaksi='+id_wdnxxth, '_blank');
+					}
+				}
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -631,11 +631,17 @@
 		tblwdnxxth.searchPanes.container().appendTo('#spwdnxxth');
 		tblwdnxxth.searchBuilder.container().appendTo( '#sbwdnxxth' );
 		
+		tblwdnxxth.button('btnPrintDN:name')
+				.nodes()
+				.css( 'display', 'none' );
+
 		tblwdnxxth.on( 'init', function () {
 			// atur hak akses
 			tbl_details = [tblwdnittd, tblwdnlptd];
 			CekInitHeaderHD(tblwdnxxth, tbl_details);
-			tblwdnittd.button('btnPrintDN:name').disable();
+			tblwdnxxth.button('btnPrintDN:name')
+				.nodes()
+				.css( 'display', 'none' );
 		} );
 		
 		tblwdnxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -653,6 +659,15 @@
 			tbl_details = [tblwdnittd, tblwdnlptd];
 			CekSelectHeaderHD(tblwdnxxth, tbl_details);
 
+			if (transaction_state != 0) {
+				tblwdnxxth.button('btnPrintDN:name')
+					.nodes()
+					.css( 'display', 'block' );
+			} else {
+				tblwdnxxth.button('btnPrintDN:name')
+					.nodes()
+					.css( 'display', 'none' );					
+			}
 		} );
 		
 		tblwdnxxth.on( 'deselect', function () {
@@ -663,7 +678,9 @@
 			// atur hak akses
 			tbl_details = [tblwdnittd, tblwdnlptd];
 			CekDeselectHeaderHD(tblwdnxxth, tbl_details);
-			tblwdnittd.button('btnPrintDN:name').disable();
+			tblwdnxxth.button('btnPrintDN:name')
+				.nodes()
+				.css( 'display', 'none' );
 		} );
 		// END wdnxxth
 
@@ -987,17 +1004,6 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
-				{
-					text: '<i class="fa fa-print"></i>',
-					name: 'btnPrintDN',
-					className: 'btn btn-sm btn-outline',
-					titleAttr: 'Print Delivery Note',
-					action: function ( e, dt, node, config ) {
-						e.preventDefault(); 
-						var url = $(this).attr('href'); 
-						window.open('wdnxxth_print.php?id_transaksi='+id_wdnittd, '_blank');
-					}
-				}
 			],
 			initComplete: function() {
 			},
@@ -1019,7 +1025,6 @@
 			
 			// atur hak akses
 			CekSelectDetailHD( tblwdnittd );
-			tblwdnittd.button('btnPrintDN:name').enable();
 		} );
 
 		tblwdnittd.on( 'deselect', function() {
@@ -1029,7 +1034,6 @@
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblwdnittd );
-			tblwdnittd.button('btnPrintDN:name').disable();
 		} );
 		// END wdnittd
 

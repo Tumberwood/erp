@@ -37,21 +37,21 @@
 				LEFT JOIN iumxxmh d ON d.id = a.id_iumxxmh_unit
 				LEFT JOIN grlxxmh expedisi ON expedisi.id = b.id_grlxxmh_expedition
 				LEFT JOIN grlxxmh cust ON cust.id = b.id_grlxxmh_customer
-				WHERE a.id = :id_transaksi
+				WHERE b.id = :id_transaksi
 		'
 		);
-	$rs_wdnxxth = $qs_wdnxxth->fetch();
-	$tanggal = new Carbon($rs_wdnxxth['tanggal']);
+	$rs_wdnxxth = $qs_wdnxxth->fetchAll();
+	$tanggal = new Carbon($rs_wdnxxth[0]['tanggal']);
 
 	$tbody = '';
-	// foreach ($rs_wdnxxth as $key => $rs_wdnxxth) {
+	foreach ($rs_wdnxxth as $key => $wdnxxth) {
 		$tbody = $tbody . '<tr>';
-		$tbody = $tbody .  '<td class="bls" width="15%">'.$rs_wdnxxth['iimxxmh_kode'].'</td>';
-		$tbody = $tbody .  '<td class="bls" width="45%">'.$rs_wdnxxth['iimxxmh_nama'].'</td>';
-		$tbody = $tbody .  '<td class="text-right bls" width="20%">'. number_format($rs_wdnxxth['jumlah_unit'],2) .'</td>';
-		$tbody = $tbody .  '<td class="bls brs" width="20%">'. $rs_wdnxxth['iumxxmh_kode'] .'</td>';
+		$tbody = $tbody .  '<td class="bls" width="15%">'.$wdnxxth['iimxxmh_kode'].'</td>';
+		$tbody = $tbody .  '<td class="bls" width="45%">'.$wdnxxth['iimxxmh_nama'].'</td>';
+		$tbody = $tbody .  '<td class="text-right bls" width="20%">'. number_format($wdnxxth['jumlah_unit'],2) .'</td>';
+		$tbody = $tbody .  '<td class="bls brs" width="20%">'. $wdnxxth['iumxxmh_kode'] .'</td>';
 		$tbody = $tbody .  '</tr>';
-	// }
+	}
 
 	// generate tampilan
 	$html = '
@@ -69,35 +69,35 @@
 					</tr>
 					<br>
 					<tr>
-						<td width="9%">Tanggal</td>
+						<td width="10%">Tanggal</td>
 						<td width="1%">:</td>
-						<td width="10%">'.$tanggal->format('d M Y').'</td>
+						<td width="15%">'.$tanggal->format('d M Y').'</td>
                         <td width="2%"></td>
 
-						<td width="14%">Customer</td>
+						<td width="14%">Kode DN</td>
 						<td width="1%">:</td>
-						<td width="18%">'.$rs_wdnxxth['nama_customer'].'</td>
+						<td width="18%">'.$rs_wdnxxth[0]['kode_transaksi'].'</td>
                         <td width="2%"></td>
 						
-						<td width="12%">Expedition</td>
+						<td width="12%">Customer</td>
 						<td width="1%">:</td>
-						<td width="18%">'.$rs_wdnxxth['nama_expedisi'].'</td>
+						<td width="18%">'.$rs_wdnxxth[0]['nama_customer'].'</td>
 
 					</tr>
 					<tr>
-						<td width="9%">Nama Supir</td>
+						<td width="10%">Expedition</td>
 						<td width="1%">:</td>
-						<td width="10%">'.$rs_wdnxxth['supir_nama'].'</td>
+						<td width="15%">'.$rs_wdnxxth[0]['nama_expedisi'].'</td>
                         <td width="2%"></td>
 
-						<td width="14%">Plat Nomor</td>
+						<td width="14%">Nama Supir</td>
 						<td width="1%">:</td>
-						<td width="18%">'.$rs_wdnxxth['mobil_nomor'].'</td>
+						<td width="18%">'.$rs_wdnxxth[0]['supir_nama'].'</td>
                         <td width="2%"></td>
 						
-						<td width="12%">Keterangan</td>
+						<td width="12%">Plat Nomor</td>
 						<td width="1%">:</td>
-						<td width="18%">'.$rs_wdnxxth['keterangan'].'</td>
+						<td width="18%">'.$rs_wdnxxth[0]['mobil_nomor'].'</td>
 
 					</tr>
 				</table>
