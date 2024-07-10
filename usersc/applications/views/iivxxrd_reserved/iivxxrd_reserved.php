@@ -54,6 +54,7 @@
 						<th style="vertical-align: middle" rowspan="3">Location</th>
 						<th style="vertical-align: middle" rowspan="3">Movement Type</th>
 						<th style="vertical-align: middle" rowspan="3">Kode Transaksi</th>
+						<th style="vertical-align: middle" rowspan="3">Username</th>
 						<th style="vertical-align: middle" rowspan="3">LPN</th>
 						<th style="vertical-align: middle" rowspan="3">Kode</th>
 						<th style="vertical-align: middle" rowspan="3">Nama</th>
@@ -143,6 +144,7 @@
 				{ data: "wloxxmh_nama" },
 				{ data: "imtxxmh_movement_type" },
 				{ data: "kode_transaksi" },
+				{ data: "username" },
 				{ data: "wlpxxmh_kode" },
 				{ data: "iimxxmh_kode" },
 				{ data: "iimxxmh_nama" },

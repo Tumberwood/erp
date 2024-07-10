@@ -273,6 +273,9 @@
 						->set('expired_date',$iiv['expired_date'])
 					->exec();
 
+					$finish_at = new Carbon();
+					General::logChange( $db , 'wpllptd', $s_id_users, $s_username, 'CREATE', $id_lpn_d, "", $timestamp , $finish_at );
+					General::logChange( $db , 'wpllptd', $s_id_users, $s_username, 'CONFIRM', $id_lpn_d, "", $timestamp , $finish_at );
 				} else {
 					// echo $subtotal_jumlah_terkecil;
 				}

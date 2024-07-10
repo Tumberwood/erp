@@ -19,58 +19,73 @@
 	$qs_iivxxrd = $db
 		->raw()
 		->bind(':end_date', $end_date->format('Y-m-d') )
-		->exec('SELECT
-					a.iwhxxmh_kode,
-					a.wloxxmh_nama,
-					a.iimxxmh_kode,
-					a.iimxxmh_nama,
-					a.iumxxmh_default_kode,
-					a.iumxxmh_terkecil_kode,
-					SUM(jumlah_default) * -1 as jumlah_default_booking,
-					SUM(jumlah_terkecil) * -1 as jumlah_terkecil_booking,
-					a.wlpxxmh_kode,
-					max(batch_number) batch_number,
-					max(date_format(expired_date,"%d %b %Y")) as expired_date,
-					a.imtxxmh_movement_type,
-					CASE 
-						WHEN a.imtxxmh_movement_type = "Dispatch" THEN
-						(
-							SELECT
-								ifnull(z.kode, "Draft Dispatch")
-							FROM wdplptd z
-							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
-						)
-						WHEN a.imtxxmh_movement_type = "Picking" THEN
-						(
-							SELECT
-								ifnull(z.kode, "Draft Picking")
-							FROM wpclptd z
-							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
-						)
-						WHEN a.imtxxmh_movement_type = "Picking List" THEN
-						(
-							SELECT
-								if(z.id_wpcxxth = 0, "Draft Picking List", CONCAT(j.kode, " - ",z.kode)) AS kode_d
-							FROM wpllptd z
-							LEFT JOIN wplxxth j ON j.id = id_wplxxth
-							WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
-							LIMIT 1
-						)
-						WHEN a.imtxxmh_movement_type = "Putaway" THEN "Draft Putaway"
-						WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "Draft Items Transfer"
-						ELSE ""
-					END AS kode_transaksi,
-					max(a.id_transaksi_d)
-				FROM iivxxrd a
-				WHERE tanggal <= :end_date AND is_fisik = 0
-				GROUP BY 
-					-- id_gbrxxmh, 
-					id_iwhxxmh,
-					id_iimxxmh,
-					id_wloxxmh,
-					imtxxmh_movement_type,
-					wlpxxmh_kode
-				HAVING jumlah_terkecil_booking <> 0
+		->exec('WITH reserved AS (
+					SELECT
+						a.iwhxxmh_kode,
+						a.wloxxmh_nama,
+						a.iimxxmh_kode,
+						a.iimxxmh_nama,
+						a.iumxxmh_default_kode,
+						a.iumxxmh_terkecil_kode,
+						SUM(jumlah_default) * -1 as jumlah_default_booking,
+						SUM(jumlah_terkecil) * -1 as jumlah_terkecil_booking,
+						a.wlpxxmh_kode,
+						max(batch_number) batch_number,
+						max(date_format(expired_date,"%d %b %Y")) as expired_date,
+						a.imtxxmh_movement_type,
+						CASE 
+							WHEN a.imtxxmh_movement_type = "Dispatch" THEN
+							(
+								SELECT
+									ifnull(z.kode, "Draft Dispatch")
+								FROM wdplptd z
+								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
+							)
+							WHEN a.imtxxmh_movement_type = "Picking" THEN
+							(
+								SELECT
+									ifnull(z.kode, "Draft Picking")
+								FROM wpclptd z
+								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
+							)
+							WHEN a.imtxxmh_movement_type = "Picking List" THEN
+							(
+								SELECT
+									if(z.id_wpcxxth = 0, "Draft Picking List", CONCAT(j.kode, " - ",z.kode)) AS kode_d
+								FROM wpllptd z
+								LEFT JOIN wplxxth j ON j.id = id_wplxxth
+								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
+								LIMIT 1
+							)
+							WHEN a.imtxxmh_movement_type = "Putaway" THEN "Draft Putaway"
+							WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "Draft Items Transfer"
+							ELSE ""
+						END AS kode_transaksi,
+						CASE 
+							WHEN a.imtxxmh_movement_type = "Dispatch" THEN "wdplptd"
+							WHEN a.imtxxmh_movement_type = "Picking" THEN "wpclptd"
+							WHEN a.imtxxmh_movement_type = "Picking List" THEN "wpllptd"
+							WHEN a.imtxxmh_movement_type = "Putaway" THEN "wptittd"
+							WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "wtrittd"
+							ELSE ""
+						END AS nama_tabel,
+						max(a.id_transaksi_d) AS id_transaksi
+					FROM iivxxrd a
+					WHERE tanggal <= :end_date AND is_fisik = 0
+					GROUP BY 
+						-- id_gbrxxmh, 
+						id_iwhxxmh,
+						id_iimxxmh,
+						id_wloxxmh,
+						imtxxmh_movement_type,
+						wlpxxmh_kode
+					HAVING jumlah_terkecil_booking <> 0
+				)
+				SELECT DISTINCT
+					rv.*,
+					lg.username
+				FROM reserved AS rv
+				LEFT JOIN activity_log_ml lg ON lg.id_transaksi = rv.id_transaksi AND lg.nama = rv.nama_tabel AND lg.kode = "create"
 			');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 	if (!empty($rs_iivxxrd)) {
