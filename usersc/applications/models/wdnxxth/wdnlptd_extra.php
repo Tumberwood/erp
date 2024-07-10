@@ -82,10 +82,10 @@
 							iumxxmh_terkecil.nama AS iumxxmh_terkecil_nama,
 							iumxxmh_default.kode AS iumxxmh_default_kode,
 							iumxxmh_default.nama AS iumxxmh_default_nama,
-							a.jumlah_unit,
+							-a.jumlah_unit,
 							a.jumlah_konversi,
-							a.jumlah_terkecil,
-							a.jumlah_default,
+							-a.jumlah_terkecil,
+							-a.jumlah_default,
 							a.expired_date,
 							a.batch_number
 						FROM wdnlptd a
@@ -193,10 +193,10 @@
 							iumxxmh_terkecil.nama AS iumxxmh_terkecil_nama,
 							iumxxmh_default.kode AS iumxxmh_default_kode,
 							iumxxmh_default.nama AS iumxxmh_default_nama,
-							a.jumlah_unit,
+							-a.jumlah_unit,
 							a.jumlah_konversi,
-							a.jumlah_terkecil,
-							a.jumlah_default,
+							-a.jumlah_terkecil,
+							-a.jumlah_default,
 							a.expired_date,
 							a.batch_number
 						FROM wdnlptd a

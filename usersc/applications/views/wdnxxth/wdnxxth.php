@@ -485,7 +485,7 @@
 		edtwdnxxth.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirmHD();
-			// $('div.DTE_Form_Buttons button:eq(2)').hide();
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtwdnxxth.dependent( 'wdnxxth.id_grlxxmh_customer', function ( val, data, callback ) {
