@@ -10,7 +10,8 @@
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			$id_wdoxxth = $values['wdnxxth']['id_wdoxxth'];
 			
-			$qs_item_d = $editor->db()
+			//insert detail LPN DN
+			$qi_item_lpn_d = $editor->db()
 				->raw()
 				->bind(':id', $id)
 				->bind(':id_wdoxxth', $id_wdoxxth)
@@ -60,7 +61,8 @@
 				'
 			);
 			
-			$qs_item_d = $editor->db()
+			//insert detaiil item DN
+			$qi_item_d = $editor->db()
 				->raw()
 				->bind(':id', $id)
 				->bind(':id_wdoxxth', $id_wdoxxth)
@@ -146,6 +148,102 @@
 					'
 				);
 			}
+			
+			//insert booking
+			$qi_booking = $editor->db()
+				->raw()
+				->bind(':id', $id)
+				->exec('INSERT INTO iivxxrd (
+							id_transaksi_h,
+							id_transaksi_d,
+							id_wloctmh,
+							kode,
+							wlpxxmh_kode,
+							id_iwhxxmh,
+							id_wloxxmh,
+							id_relasi_m,
+							id_iimxxmh,
+							id_iumxxmh_unit,
+							id_iumxxmh_terkecil,
+							id_iumxxmh_default,
+							keterangan,
+							iwhxxmh_kode,
+							iwhxxmh_nama,
+							wloxxmh_kode,
+							wloxxmh_nama,
+							relasi_m_kode,
+							relasi_m_nama,
+							iimxxmh_kode,
+							iimxxmh_nama,
+							iumxxmh_unit_kode,
+							iumxxmh_unit_nama,
+							imtxxmh_kode,
+							imtxxmh_movement_type,
+							tanggal,
+							is_fisik,
+							iumxxmh_terkecil_kode,
+							iumxxmh_terkecil_nama,
+							iumxxmh_default_kode,
+							iumxxmh_default_nama,
+							jumlah_unit,
+							jumlah_konversi,
+							jumlah_terkecil,
+							jumlah_default,
+							expired_date,
+							batch_number
+						)
+						SELECT
+							a.id_wdnxxth AS id_transaksi_h,
+							a.id AS id_transaksi_d,
+							wlo.id_wloctmh,
+							"" AS kode,
+							a.wlpxxmh_kode,
+							wlo.id_iwhxxmh,
+							wlo.id AS id_wloxxmh,
+							c.id_grlxxmh_customer AS id_relasi_m,
+							a.id_iimxxmh,
+							a.id_iumxxmh_unit,
+							a.id_iumxxmh_terkecil,
+							a.id_iumxxmh_default,
+							CONCAT("id_wdnxxth=", a.id_wdnxxth) AS keterangan,
+							wlo.kode AS wloxxmh_kode,
+							wlo.nama AS wloxxmh_nama,
+							iwh.kode AS iwhxxmh_kode,
+							iwh.nama AS iwhxxmh_nama,
+							cs.kode AS relasi_m_kode,
+							cs.nama AS relasi_m_nama,
+							item.kode AS iimxxmh_kode,
+							item.nama AS iimxxmh_nama,
+							unit.kode AS iumxxmh_unit_kode,
+							unit.nama AS iumxxmh_unit_nama,
+							217,
+							imt.movement_type,
+							CURDATE(),
+							0 AS is_fisik,
+							iumxxmh_terkecil.kode AS iumxxmh_terkecil_kode,
+							iumxxmh_terkecil.nama AS iumxxmh_terkecil_nama,
+							iumxxmh_default.kode AS iumxxmh_default_kode,
+							iumxxmh_default.nama AS iumxxmh_default_nama,
+							a.jumlah_unit,
+							a.jumlah_konversi,
+							a.jumlah_terkecil,
+							a.jumlah_default,
+							a.expired_date,
+							a.batch_number
+						FROM wdnlptd a
+						LEFT JOIN wdplptd b ON b.id = a.id_wdplptd
+						LEFT JOIN wdnxxth c ON c.id = a.id_wdnxxth
+						LEFT JOIN wloxxmh wlo ON wlo.id = b.id_wloxxmh_tujuan
+						LEFT JOIN iwhxxmh iwh ON iwh.id = wlo.id_iwhxxmh
+						LEFT JOIN grlxxmh cs ON cs.id = c.id_grlxxmh_customer
+						LEFT JOIN iimxxmh item ON item.id = a.id_iimxxmh
+						LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
+						LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
+						LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
+						LEFT JOIN imtxxmh imt ON imt.kode = 217
+						WHERE a.id_wdnxxth = :id;
+				'
+			);
 
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
@@ -201,7 +299,14 @@
 					->where('id_wdnxxth',$id)
 					->exec();
 
-				$qs_item_d = $editor->db()
+				$qd_booking_old = $editor->db()
+					->query('delete', 'iivxxrd')
+					->where('keterangan','id_wdnxxth='.$id)
+					->where('is_fisik',0)
+					->exec();
+
+				//insert detail LPN DN
+				$qi_item_lpn_d = $editor->db()
 					->raw()
 					->bind(':id', $id)
 					->bind(':id_wdoxxth', $id_wdoxxth_new)
@@ -251,7 +356,8 @@
 					'
 				);
 				
-				$qs_item_d = $editor->db()
+				//insert detaiil item DN
+				$qi_item_d = $editor->db()
 					->raw()
 					->bind(':id', $id)
 					->bind(':id_wdoxxth', $id_wdoxxth_new)
@@ -337,6 +443,102 @@
 						'
 					);
 				}
+
+				//insert booking
+				$qi_booking = $editor->db()
+					->raw()
+					->bind(':id', $id)
+					->exec('INSERT INTO iivxxrd (
+								id_transaksi_h,
+								id_transaksi_d,
+								id_wloctmh,
+								kode,
+								wlpxxmh_kode,
+								id_iwhxxmh,
+								id_wloxxmh,
+								id_relasi_m,
+								id_iimxxmh,
+								id_iumxxmh_unit,
+								id_iumxxmh_terkecil,
+								id_iumxxmh_default,
+								keterangan,
+								iwhxxmh_kode,
+								iwhxxmh_nama,
+								wloxxmh_kode,
+								wloxxmh_nama,
+								relasi_m_kode,
+								relasi_m_nama,
+								iimxxmh_kode,
+								iimxxmh_nama,
+								iumxxmh_unit_kode,
+								iumxxmh_unit_nama,
+								imtxxmh_kode,
+								imtxxmh_movement_type,
+								tanggal,
+								is_fisik,
+								iumxxmh_terkecil_kode,
+								iumxxmh_terkecil_nama,
+								iumxxmh_default_kode,
+								iumxxmh_default_nama,
+								jumlah_unit,
+								jumlah_konversi,
+								jumlah_terkecil,
+								jumlah_default,
+								expired_date,
+								batch_number
+							)
+							SELECT
+								a.id_wdnxxth AS id_transaksi_h,
+								a.id AS id_transaksi_d,
+								wlo.id_wloctmh,
+								"" AS kode,
+								a.wlpxxmh_kode,
+								wlo.id_iwhxxmh,
+								wlo.id AS id_wloxxmh,
+								c.id_grlxxmh_customer AS id_relasi_m,
+								a.id_iimxxmh,
+								a.id_iumxxmh_unit,
+								a.id_iumxxmh_terkecil,
+								a.id_iumxxmh_default,
+								CONCAT("id_wdnxxth=", a.id_wdnxxth) AS keterangan,
+								wlo.kode AS wloxxmh_kode,
+								wlo.nama AS wloxxmh_nama,
+								iwh.kode AS iwhxxmh_kode,
+								iwh.nama AS iwhxxmh_nama,
+								cs.kode AS relasi_m_kode,
+								cs.nama AS relasi_m_nama,
+								item.kode AS iimxxmh_kode,
+								item.nama AS iimxxmh_nama,
+								unit.kode AS iumxxmh_unit_kode,
+								unit.nama AS iumxxmh_unit_nama,
+								217,
+								imt.movement_type,
+								CURDATE(),
+								0 AS is_fisik,
+								iumxxmh_terkecil.kode AS iumxxmh_terkecil_kode,
+								iumxxmh_terkecil.nama AS iumxxmh_terkecil_nama,
+								iumxxmh_default.kode AS iumxxmh_default_kode,
+								iumxxmh_default.nama AS iumxxmh_default_nama,
+								a.jumlah_unit,
+								a.jumlah_konversi,
+								a.jumlah_terkecil,
+								a.jumlah_default,
+								a.expired_date,
+								a.batch_number
+							FROM wdnlptd a
+							LEFT JOIN wdplptd b ON b.id = a.id_wdplptd
+							LEFT JOIN wdnxxth c ON c.id = a.id_wdnxxth
+							LEFT JOIN wloxxmh wlo ON wlo.id = b.id_wloxxmh_tujuan
+							LEFT JOIN iwhxxmh iwh ON iwh.id = wlo.id_iwhxxmh
+							LEFT JOIN grlxxmh cs ON cs.id = c.id_grlxxmh_customer
+							LEFT JOIN iimxxmh item ON item.id = a.id_iimxxmh
+							LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
+							LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
+							LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
+							LEFT JOIN imtxxmh imt ON imt.kode = 217
+							WHERE a.id_wdnxxth = :id;
+					'
+				);
 			}
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
