@@ -600,10 +600,53 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
+					// $arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{ 
+					text: '<i class="fa fa-save"></i>&nbsp;Confirm',
+					name: 'btnConfirm',
+					className: 'btn btn-sm',
+					titleAttr: 'Confirm',
+					action: function ( e, dt, node, config ) {
+						console.log(id_wdoxxth);
+						// jika draft akan dikonfirmasi
+						notifConfirm();
+						console.log(pesan);
+						message_transaction_state = pesan +'\n \nAnda yakin ingin melakukan confirm?';
+						
+						swal({
+							text: message_transaction_state,
+							icon: "info",
+							buttons: {
+								cancel: true,
+								confirm: true
+							},
+						})
+						.then((willConfirm) => {
+							if (willConfirm) {
+								swal({
+									text: 'List barang yang akan masuk ke lokasi return: \n \n'+pesan_retur,
+									icon: "info",
+									buttons: {
+										cancel: true,
+										confirm: true
+									},
+								})
+								.then((willConfirm) => {
+									if (willConfirm) {
+										fnConfirm('<?php echo $table_name;?>', <?php echo $table;?> );
+									}
+								});
+							}
+						});
+
+						
+
+					}
+				},
 				{
 					text: '<i class="fa fa-print"></i>',
 					name: 'btnPrintDN',
