@@ -102,6 +102,14 @@
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.transaksi_in"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.transaksi_out"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
 									<editor-field name="isoittd_upload.batch_number"></editor-field>
 								</div>
 								<div class="col-lg-6">
@@ -515,6 +523,16 @@
 					label: "LPN <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.lpn"
 				}, 	
+				
+				{
+					label: "Transaksi In <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.transaksi_in"
+				}, 	
+				
+				{
+					label: "Transaksi Out <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.transaksi_out"
+				}, 	
 				{
 					label: "Batch Number <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.batch_number"
@@ -633,27 +651,45 @@
 				fisik          = edtisoittd_upload.field('isoittd_upload.fisik').val();
 				batch_number              = edtisoittd_upload.field('isoittd_upload.batch_number').val();
 				expired_date              = edtisoittd_upload.field('isoittd_upload.expired_date').val();
+				transaksi_in              = edtisoittd_upload.field('isoittd_upload.transaksi_in').val();
+				transaksi_out              = edtisoittd_upload.field('isoittd_upload.transaksi_out').val();
 
-				validasiRequired(
-					edtisoittd_upload,
-					'isoittd_upload',
-					{
-						'select_satuan': select_satuan,
-						'select_item': select_item,
-						'select_lokasi': select_lokasi,
-						'jumlah_terkecil': jumlah_terkecil,
-						'lpn': lpn,
-						'fisik': fisik,
-						'batch_number': batch_number,
-						'expired_date': expired_date,
-					}
-				);
+				if (action == 'edit') {
+					validasiRequired(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
+							'fisik': fisik,
+							'transaksi_in': transaksi_in,
+							'transaksi_out': transaksi_out,
+						}
+					);
+				} else {
+					validasiRequired(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
+							'select_satuan': select_satuan,
+							'select_item': select_item,
+							'select_lokasi': select_lokasi,
+							'jumlah_terkecil': jumlah_terkecil,
+							'lpn': lpn,
+							'fisik': fisik,
+							'batch_number': batch_number,
+							'expired_date': expired_date,
+							'transaksi_in': transaksi_in,
+							'transaksi_out': transaksi_out,
+						}
+					);
+				}
 
 				validasiNumber(
 					edtisoittd_upload,
 					'isoittd_upload',
 					{
-						'fisik': fisik
+						'fisik': fisik,
+						'transaksi_in': transaksi_in,
+						'transaksi_out': transaksi_out,
 					},
 					0,
 					'>='
@@ -768,74 +804,33 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
-				// { 
-				// 	extend: "copy", 
-				// 	name: 'btnCopy',
-				// 	text: '<i class="fa fa-copy"></i>&nbsp;Copy',
-				// 	className: 'btn btn-sm',
-				// 	titleAttr: 'Copy',
-				// 	exportOptions: {
-				// 		columns: ':visible',
-				// 	},
-				// 	customize: function (data) {
-				// 		// Split the data into lines
-				// 		var dataArray = data.split('\n');
-						
-				// 		// Remove the first line (header row)
-				// 		dataArray.splice(0, 2);
-						
-				// 		// Remove specific columns from each line
-				// 		for (var i = 0; i < dataArray.length; i++) {
-				// 			var lineArray = dataArray[i].split('\t'); // Assuming tab-delimited
-				// 			// Remove columns by index (adjust indexes as per your actual table structure)
-				// 			lineArray.splice(12, 2); // Remove Quantity, Fisik, Selisih, SKIP
-				// 			dataArray[i] = lineArray.join('\t'); // Join back with tab delimiter
-				// 		}
-						
-				// 		// Join the remaining lines back into a single string
-				// 		var newData = dataArray.join('\n');
-						
-				// 		return newData;
-				// 	}
-				// },
 				{
 					extend: 'collection',
 					name: 'btnSetExcel',
-					text: '<i class="fa fa-file-excel-o"></i>&nbsp;Excel',
+					text: '<i class="fa fa-file-excel-o"></i>&nbsp;Update Transaksi',
 					className: 'btn btn-sm btn-primary',
 					autoClose: true,
 					buttons: [
 						{
 							extend: "excel",
 							name: 'btnDownload',
-							text: 'Download Excel',
+							title: null,
+							text: 'Download Transaksi',
 							className: 'btn btn-sm',
-							titleAttr: 'Download Excel',
-							customize: function(xlsx) {
-								var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-								// Get all rows
-								var rows = $('row', sheet);
-
-								// Remove the first row (header row)
-								$(rows[0]).remove();
-
-								// Iterate through each row (starting from the second row)
-								for (var i = 1; i < rows.length; i++) {
-									var row = rows[i];
-									var cells = $(row).find('c'); // Get all cells in the current row
-
-									// Remove cells at index 13 (for Selisih Final) and 14 (for SKIP)
-									$(cells[13]).remove();
-									$(cells[14]).remove();
+							titleAttr: 'Download Transaksi',
+							exportOptions: {
+                                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+								rows: function (idx, data, node) {
+									return data.isoittd_upload.fisik != null || data.isoittd_upload.is_skip == 1;
 								}
-							}
+                            },
 						},
+
 						{
 							name: 'btnUpload',
-							text: 'Upload Transaksi Excel',
+							text: 'Upload Transaksi',
 							className: 'btn btn-sm',
-							titleAttr: 'Upload Excel',
+							titleAttr: 'Upload Transaksi',
 							action: function ( e, dt, node, config ) {
 								$('#modalUpload').modal('toggle');
 							}
@@ -1059,8 +1054,14 @@
 
 					tblisoittd_upload.ajax.reload(function ( json ) {
 					}, false);
-					tblisoittd_upload.button('btnSetExcel:name').enable();
 					$('#modalSFisoittd_upload').modal('toggle');
+
+					isUploadTransaksi();
+					if (c_id > 0 ) {
+						tblisoittd_upload.button('btnSetExcel:name').disable();
+					} else {
+						tblisoittd_upload.button('btnSetExcel:name').enable();
+					}
 					return false; 
 				}
 				
@@ -1103,6 +1104,8 @@
 						toastr[toast_type](full_message, 'INFO');
 						$("#frmUploadExcel").val('');
 						$('#modalUpload').modal('toggle');
+						
+						tblisoittd_upload.ajax.reload(null,false);
 					},
 					error: function (xhr, Status, err){
 						// console.log('x');

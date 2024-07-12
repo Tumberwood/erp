@@ -51,26 +51,27 @@
 			$datakembar = 0;
 			$dataupload = 0;
 			
-			$label 		= $sheetData['1']['0'] ; // return 1
+			$label 		= $sheetData['0']['0'] ; // return 1
 			$start_at = $_POST['start_at'];
 			
 			$id_users = $hakakses['s_id_users'];
 			$username = $hakakses['s_username'];
 
 			if ($label == "ID") {
-				for($i = 2;$i < count($sheetData);$i++){
+				for($i = 1;$i < count($sheetData);$i++){
 					//detail
 					$id_isoittd_upload 	= $sheetData[$i]['0'] ;
 					$transaksi_in 		= $sheetData[$i]['11'] ;
 					$transaksi_out		= $sheetData[$i]['12'] ;
 
-					$qu_data_kembar = $db
+					$qu_selish_final = $db
 						->raw()
 						->bind(':id_isoittd_upload', $id_isoittd_upload)
 						->bind(':transaksi_in', $transaksi_in)
 						->bind(':transaksi_out', $transaksi_out)
 						->exec('UPDATE isoittd_upload a
 								SET 
+									is_update_transaksi = 1,
 									transaksi_in = :transaksi_in,
 									transaksi_out = :transaksi_out,
 									selisih_final = a.fisik + :transaksi_out - a.jumlah_terkecil - :transaksi_in

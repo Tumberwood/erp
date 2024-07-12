@@ -12,4 +12,19 @@
             }
         } );
     };
+
+    function isUploadTransaksi() {
+        $.ajax( {
+            url: "../../models/isoittd_upload/fn_is_upload_transaksi.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_isoxxth_upload_filter: id_isoxxth_upload_filter
+            },
+            success: function ( json ) {
+                c_id = json.data.c_id;
+            }
+        } );
+    }
 </script>
