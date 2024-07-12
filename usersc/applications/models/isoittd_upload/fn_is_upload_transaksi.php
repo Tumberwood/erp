@@ -18,15 +18,15 @@
         ->raw()
         ->bind(':id_h', $id_h)
         ->exec('SELECT
-                    COUNT(id) c_id
-                FROM isoittd_upload a
-                WHERE a.id_isoxxth_upload = :id_h AND a.is_update_transaksi = 1
+                    is_update_transaksi
+                FROM isoxxth_upload a
+                WHERE a.id = :id_h
         ');
     $rs_def = $qs_def->fetch();
-    $c_id = $rs_def['c_id'];
+    $is_update_transaksi_h = $rs_def['is_update_transaksi'];
 
     $data = array(
-        'c_id' => $c_id
+        'is_update_transaksi_h' => $is_update_transaksi_h
     );
     // tampilkan results
     require_once( "../../../../usersc/helpers/fn_ajax_results.php" );

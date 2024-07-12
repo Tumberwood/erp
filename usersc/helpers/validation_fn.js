@@ -104,7 +104,7 @@ function validasiUnique(action, edt, tabel, field_edt, nama_field, nama_field_va
             id_transaksi    : id_transaksi
         },
         success: function ( json ) {
-            if(json.data.count == 1){
+            if(json.data.count > 0){
                 var arr_field = field_edt.split(",");
                 $.each(arr_field,function(i){
                     edt.field(tabel + '.' + arr_field[i]).error( 'Data tidak boleh kembar!' );

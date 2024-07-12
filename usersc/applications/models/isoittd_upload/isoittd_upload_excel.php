@@ -53,6 +53,7 @@
 			
 			$label 		= $sheetData['0']['0'] ; // return 1
 			$start_at = $_POST['start_at'];
+			$id_isoxxth_upload_filter = $_POST['id_isoxxth_upload_filter'];
 			
 			$id_users = $hakakses['s_id_users'];
 			$username = $hakakses['s_username'];
@@ -71,7 +72,6 @@
 						->bind(':transaksi_out', $transaksi_out)
 						->exec('UPDATE isoittd_upload a
 								SET 
-									is_update_transaksi = 1,
 									transaksi_in = :transaksi_in,
 									transaksi_out = :transaksi_out,
 									selisih_final = a.fisik + :transaksi_out - a.jumlah_terkecil - :transaksi_in
@@ -131,7 +131,12 @@
 						'
 					);
 				}
-				
+
+				$qu_ = $db
+					->query('update', 'isoxxth_upload')
+					->set('is_update_transaksi',1)
+					->where('id',$id_isoxxth_upload_filter)
+					->exec();
 			}
 		
 			$data = array(

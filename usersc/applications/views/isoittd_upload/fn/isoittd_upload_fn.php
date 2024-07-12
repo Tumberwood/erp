@@ -23,7 +23,7 @@
                 id_isoxxth_upload_filter: id_isoxxth_upload_filter
             },
             success: function ( json ) {
-                c_id = json.data.c_id;
+                is_update_transaksi_h = json.data.is_update_transaksi_h;
             }
         } );
     }

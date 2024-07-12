@@ -516,8 +516,9 @@
 					name: "isoittd_upload.jumlah_terkecil"
 				}, 	
 				{
-					label: "Quantity Fisik <sup class='text-danger'>*<sup>",
-					name: "isoittd_upload.fisik"
+					label: "Quantity Fisik",
+					name: "isoittd_upload.fisik",
+					type: "readonly"
 				}, 	
 				{
 					label: "LPN <sup class='text-danger'>*<sup>",
@@ -646,11 +647,17 @@
 				select_satuan      = edtisoittd_upload.field('isoittd_upload.select_satuan').val();
 				select_item = edtisoittd_upload.field('isoittd_upload.select_item').val();
 				select_lokasi         = edtisoittd_upload.field('isoittd_upload.select_lokasi').val();
+				satuan      = edtisoittd_upload.field('isoittd_upload.satuan').val();
+				kode = edtisoittd_upload.field('isoittd_upload.kode').val();
+				nama = edtisoittd_upload.field('isoittd_upload.nama').val();
+				lokasi         = edtisoittd_upload.field('isoittd_upload.lokasi').val();
 				jumlah_terkecil           = edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').val();
 				lpn          = edtisoittd_upload.field('isoittd_upload.lpn').val();
 				fisik          = edtisoittd_upload.field('isoittd_upload.fisik').val();
 				batch_number              = edtisoittd_upload.field('isoittd_upload.batch_number').val();
-				expired_date              = edtisoittd_upload.field('isoittd_upload.expired_date').val();
+				// expired_date              = edtisoittd_upload.field('isoittd_upload.expired_date').val();
+				
+				expired_date = moment(edtisoittd_upload.field('isoittd_upload.expired_date').val()).format("YYYY-MM-DD");
 				transaksi_in              = edtisoittd_upload.field('isoittd_upload.transaksi_in').val();
 				transaksi_out              = edtisoittd_upload.field('isoittd_upload.transaksi_out').val();
 
@@ -659,7 +666,6 @@
 						edtisoittd_upload,
 						'isoittd_upload',
 						{
-							'fisik': fisik,
 							'transaksi_in': transaksi_in,
 							'transaksi_out': transaksi_out,
 						}
@@ -674,7 +680,6 @@
 							'select_lokasi': select_lokasi,
 							'jumlah_terkecil': jumlah_terkecil,
 							'lpn': lpn,
-							'fisik': fisik,
 							'batch_number': batch_number,
 							'expired_date': expired_date,
 							'transaksi_in': transaksi_in,
@@ -682,12 +687,22 @@
 						}
 					);
 				}
+				
+				// panggil validasi
+				validasiUnique(
+					action,
+					edtisoittd_upload,
+					'isoittd_upload',
+					'select_item,select_lokasi,select_satuan,lpn,batch_number,expired_date',
+					'kode,lokasi,satuan,lpn,batch_number,expired_date,id_isoxxth_upload',
+					"'"+kode+"', '"+lokasi+"', '"+satuan+"', '"+lpn+"', '"+batch_number+"', '"+expired_date+"',"+id_isoxxth_upload_filter,
+					id_isoittd_upload
+				);
 
 				validasiNumber(
 					edtisoittd_upload,
 					'isoittd_upload',
 					{
-						'fisik': fisik,
 						'transaksi_in': transaksi_in,
 						'transaksi_out': transaksi_out,
 					},
@@ -1057,7 +1072,7 @@
 					$('#modalSFisoittd_upload').modal('toggle');
 
 					isUploadTransaksi();
-					if (c_id > 0 ) {
+					if (is_update_transaksi_h == 1 ) {
 						tblisoittd_upload.button('btnSetExcel:name').disable();
 					} else {
 						tblisoittd_upload.button('btnSetExcel:name').enable();
@@ -1090,6 +1105,7 @@
                 var formData = new FormData();
                 formData.append('filename', file);
                 formData.append('start_at', start_at);
+                formData.append('id_isoxxth_upload_filter', id_isoxxth_upload_filter);
 				$.ajax( {
 					url: "../../models/isoittd_upload/isoittd_upload_excel.php",
 					type: 'POST',
@@ -1106,6 +1122,13 @@
 						$('#modalUpload').modal('toggle');
 						
 						tblisoittd_upload.ajax.reload(null,false);
+						
+						isUploadTransaksi();
+						if (is_update_transaksi_h == 1 ) {
+							tblisoittd_upload.button('btnSetExcel:name').disable();
+						} else {
+							tblisoittd_upload.button('btnSetExcel:name').enable();
+						}
 					},
 					error: function (xhr, Status, err){
 						// console.log('x');
