@@ -192,7 +192,7 @@
 							expired_date,
 							batch_number
 						)
-						SELECT
+						SELECT DISTINCT
 							a.id_wdnxxth AS id_transaksi_h,
 							a.id AS id_transaksi_d,
 							wlo.id_wloctmh,
@@ -487,7 +487,7 @@
 								expired_date,
 								batch_number
 							)
-							SELECT
+							SELECT DISTINCT
 								a.id_wdnxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								wlo.id_wloctmh,

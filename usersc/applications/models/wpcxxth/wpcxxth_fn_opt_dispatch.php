@@ -102,7 +102,7 @@
         ->where('wpcxxth.id', $id_wpcxxth_old, '<>' )
         ->where('wpcxxth.is_in_use', 0 )
         ->where('wpcxxth.id_wpcxxth', 0, '<>' )
-        ->where('wpcxxth.transaction_state', 8, '<>' ) //yang sudah complete atau full semua tidak perlu ditampilkan di opt
+        ->where('wpcxxth.transaction_state', '(8,9,-9)', 'NOT IN', false )
         ->where('wpcxxth.id', $id_string, 'NOT IN', false )
         ->where( function ( $r ) {
             $q = $_GET['search'];

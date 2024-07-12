@@ -113,7 +113,7 @@
 						b.id_grlxxmh_customer
 					FROM wdplptd a
 					LEFT JOIN wpcxxth b ON b.id = a.id_wpcxxth
-					WHERE a.id_wpcxxth
+					WHERE a.id_wpcxxth = :id_picking
 			'
 		);
 		$rs_pick_h = $qs_pick_h->fetch();

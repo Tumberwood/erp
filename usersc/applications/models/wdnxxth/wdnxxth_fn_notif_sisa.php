@@ -57,13 +57,13 @@
                     a.wlpxxmh_kode,
                     COUNT(b.id) c_id_pc,
                     a.jumlah_unit AS jumlah_unit_pl,
-                    SUM(b.jumlah_unit) AS jumlah_unit_pc,
-                    a.jumlah_unit - SUM(b.jumlah_unit) AS sisa_pl
+                    SUM(ifnull(b.jumlah_unit,0)) AS jumlah_unit_pc,
+                    a.jumlah_unit - SUM(ifnull(b.jumlah_unit,0)) AS sisa_pl
                 FROM wpllptd a
                 LEFT JOIN wplittd it ON it.id = a.id_wplittd
                 LEFT JOIN wpclptd b ON b.id_wpllptd = a.id
-                LEFT JOIN iimxxmh c ON c.id = b.id_iimxxmh
-                LEFT JOIN iumxxmh d ON d.id = b.id_iumxxmh_unit
+                LEFT JOIN iimxxmh c ON c.id = a.id_iimxxmh
+                LEFT JOIN iumxxmh d ON d.id = a.id_iumxxmh_unit
                 LEFT JOIN wdoittd e ON e.id = it.id_wdoittd 
                 LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh
                 LEFT JOIN wplxxth h ON h.id = a.id_wplxxth
@@ -94,12 +94,12 @@
                     d.kode iumxxmh_kode,
                     a.wlpxxmh_kode,
                     a.jumlah_unit AS jumlah_unit_pc,
-                    sum(b.jumlah_unit) AS jumlah_unit_dp,
-                    a.jumlah_unit - SUM(b.jumlah_unit) AS sisa_pc
+                    sum(ifnull(b.jumlah_unit,0)) AS jumlah_unit_dp,
+                    a.jumlah_unit - SUM(ifnull(b.jumlah_unit,0)) AS sisa_pc
                 FROM wpclptd a
                 LEFT JOIN wdplptd b ON b.id_wpclptd = a.id
-                LEFT JOIN iimxxmh c ON c.id = b.id_iimxxmh
-                LEFT JOIN iumxxmh d ON d.id = b.id_iumxxmh_unit
+                LEFT JOIN iimxxmh c ON c.id = a.id_iimxxmh
+                LEFT JOIN iumxxmh d ON d.id = a.id_iumxxmh_unit
                 LEFT JOIN wdoittd e ON e.id = a.id_wdoittd
                 LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh_tujuan
                 LEFT JOIN wpcxxth h ON h.id = a.id_wpcxxth
