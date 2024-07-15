@@ -823,7 +823,7 @@
 					extend: 'collection',
 					name: 'btnSetExcel',
 					text: '<i class="fa fa-file-excel-o"></i>&nbsp;Update Transaksi',
-					className: 'btn btn-sm btn-primary',
+					className: 'btn btn-primary',
 					autoClose: true,
 					buttons: [
 						{
