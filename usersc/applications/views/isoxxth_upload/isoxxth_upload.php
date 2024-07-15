@@ -32,6 +32,7 @@
 						<label class="col-lg-2 col-md-2">Kode</label>
 						<div class="col-lg-4 col-sm-4">
 							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+							<small class="form-text text-muted">Harap Pilih Kode, jika merupakan opname lanjutan</small>
 						</div>
 					</div>
 					<div class="form-group row">

@@ -758,8 +758,8 @@
 				}
 			],
 			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
-			responsive: false,
-			scrollX: true,
+			// responsive: false,
+			// scrollX: true,
 			columns: [
 				{ data: "isoittd_upload.id",visible:false },
 				// { data: "wloxxmh.nama" },
