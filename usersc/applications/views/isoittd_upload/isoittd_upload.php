@@ -851,71 +851,62 @@
 							}
 						}
 					]
-				}
+				},
 
-				,{
-						extend: 'collection',
-						name: 'btnSetFisik',
-						text: 'Input Fisik',
-						className: 'btn btn-outline',
-						autoClose: true,
-						buttons: [
-							{ 
-								text: '<span>Sesuai Fisik</span>', 
-								name: 'btnSesuai',
-								className: 'btn btn-primary',
-								titleAttr: 'Sesuai',
-								action: function ( e, dt, node, config ) {
-									$.ajax( {
-										url: '../../models/isoittd_upload/fn_button_fisik_sesuai.php',
-										dataType: 'json',
-										type: 'POST',
-										data: {
-											id_transaksi_h: id_transaksi_h,
-											start_button: start_button
-										},
-										success: function ( json ) {
-											full_message = json.message + '</br>';
-                                            toast_type   = json.type_message;
-                                            toastr[toast_type](full_message, 'INFO');
-
-											tblisoittd_upload_fisik.rows().deselect();
-											tblisoittd_upload_fisik.ajax.reload(null,false);
-
-											tblisoittd_upload.rows().deselect();
-											tblisoittd_upload.ajax.reload(null,false);
-										}
-									});
-								}
+				{ 
+					text: '<span>OK</span>', 
+					name: 'btnSesuai',
+					className: 'btn btn-primary',
+					titleAttr: 'Sesuai',
+					action: function ( e, dt, node, config ) {
+						$.ajax( {
+							url: '../../models/isoittd_upload/fn_button_fisik_sesuai.php',
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+								start_button: start_button
 							},
-							{ 
-								text: '<span>Fisik Nol</span>', 
-								name: 'btnNol',
-								titleAttr: 'Fisik Nol',
-								action: function ( e, dt, node, config ) {
-									$.ajax( {
-										url: '../../models/isoittd_upload/fn_button_fisik_nol.php',
-										dataType: 'json',
-										type: 'POST',
-										data: {
-											id_transaksi_h: id_transaksi_h,
-											start_button: start_button
-										},
-										success: function ( json ) {
-											full_message = json.message + '</br>';
-                                            toast_type   = json.type_message;
-                                            toastr[toast_type](full_message, 'INFO');
-											
-											tblisoittd_upload_fisik.rows().deselect();
-											tblisoittd_upload_fisik.ajax.reload(null,false);
+							success: function ( json ) {
+								full_message = json.message + '</br>';
+								toast_type   = json.type_message;
+								toastr[toast_type](full_message, 'INFO');
 
-											tblisoittd_upload.rows().deselect();
-											tblisoittd_upload.ajax.reload(null,false);
-										}
-									});
-								}
+								tblisoittd_upload_fisik.rows().deselect();
+								tblisoittd_upload_fisik.ajax.reload(null,false);
+
+								tblisoittd_upload.rows().deselect();
+								tblisoittd_upload.ajax.reload(null,false);
+							}
+						});
+					}
+				},
+				{ 
+					text: '<span>0</span>', 
+					name: 'btnNol',
+					titleAttr: 'Fisik Nol',
+					action: function ( e, dt, node, config ) {
+						$.ajax( {
+							url: '../../models/isoittd_upload/fn_button_fisik_nol.php',
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+								start_button: start_button
 							},
-						]
+							success: function ( json ) {
+								full_message = json.message + '</br>';
+								toast_type   = json.type_message;
+								toastr[toast_type](full_message, 'INFO');
+								
+								tblisoittd_upload_fisik.rows().deselect();
+								tblisoittd_upload_fisik.ajax.reload(null,false);
+
+								tblisoittd_upload.rows().deselect();
+								tblisoittd_upload.ajax.reload(null,false);
+							}
+						});
+					}
 				},
 				{ 
 					text: 'SKIP', 
