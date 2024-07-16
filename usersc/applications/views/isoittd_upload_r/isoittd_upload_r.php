@@ -137,7 +137,7 @@
 			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 				dom: domPQ,
 				searchPanes:{
-					layout: 'columns-3',
+					layout: window.innerWidth < 768 ? 'columns-1' : 'columns-3'
 				},
 				ajax: {
 					url: "../../models/isoittd_upload_r/isoittd_upload_r.php",
