@@ -136,7 +136,7 @@
 			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 				dom: domPQ,
 				searchPanes:{
-					layout: 'columns-4',
+					layout: 'columns-3',
 				},
 				ajax: {
 					url: "../../models/isoittd_upload_r/isoittd_upload_r.php",
@@ -264,6 +264,8 @@
 				],
 				initComplete: function() {
 					this.api().searchPanes.rebuildPane();
+					$('.dtsp-panesContainer').addClass('col-12');
+
 				},
 				rowCallback: function( row, data, index ) {
 					if ( data.isoittd_upload.transaction_state == -9 ) {

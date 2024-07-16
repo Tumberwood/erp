@@ -13,7 +13,15 @@
 ?>
 
 <!-- begin content here -->
+<style>
+	/* Ensure SearchPanes display vertically on phone mode */
+	@media only screen and (max-width: 768px) {
+		.dtsp-searchPanes {
+			flex-direction: column !important;
+		}
+	}
 
+</style>
 <div id="tabel_atas">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 p-w-xs">
@@ -146,6 +154,7 @@
 									<th>Transaksi Out</th>
 									<th>Selisih Final</th>
 									<th>SKIP</th>
+									<th>Hitung</th>
 									<!-- <th>Location Zone</th> -->
 								</tr>
 							</thead>
@@ -733,7 +742,7 @@
 		tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-3 col-12 col-md-4',
 			},
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload.php",
@@ -800,6 +809,17 @@
 				{ 
 					data: "isoittd_upload.is_skip",
 					...renderYaTidak()
+				},
+				{ 
+					data: null,
+					render: function (data, type, row) {
+						// console.log(row);
+						if(row.isoittd_upload.is_skip == 0 && row.isoittd_upload.fisik == null){
+							return '<span class="badge badge-plain">Tidak</span>';
+						} else {
+							return '<span class="badge badge-primary">Ya</span>';
+						}
+					}
 				},
 				// { data: "wloznmh.nama" }, 
 			],
@@ -956,6 +976,7 @@
 
 		tblisoittd_upload.searchPanes.container().appendTo('#spisoittd_upload');
 		tblisoittd_upload.searchBuilder.container().appendTo( '#sbisoittd_upload' );
+
 		tblisoittd_upload.button('btnSetExcel:name').disable();
 		
 		tblisoittd_upload.on( 'init', function () {
