@@ -202,6 +202,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<!-- <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script> -->
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/isoittd_upload/fn/isoittd_upload_fn.php'; ?>
 
@@ -1471,8 +1472,10 @@
 
 		tblisoittd_upload_fisik.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblisoittd_upload, tblisoittd_upload_fisik, 'isoittd_upload_fisik' );
+			// cek_c_detail= 1;
+			// CekDrawDetailHD(tblisoittd_upload, tblisoittd_upload_fisik, 'isoittd_upload_fisik' );
+			
+			CekDrawDetailHD(tblisoittd_upload_fisik, 1);
 			CekDrawDetailHDFinal(tblisoittd_upload);
 		} );
 
@@ -1484,7 +1487,8 @@
 
 			transaction_state_d   = data_isoittd_upload_fisik.transaction_state;
 			// atur hak akses
-			CekSelectDetailHD(tblisoittd_upload, tblisoittd_upload_fisik );
+			// CekSelectDetailHD(tblisoittd_upload, tblisoittd_upload_fisik );
+			CekSelectDetailHD(tblisoittd_upload_fisik );
 		} );
 
 		tblisoittd_upload_fisik.on( 'deselect', function() {
