@@ -1257,6 +1257,7 @@
 
 		edtisoittd_upload_fisik.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtisoittd_upload_fisik.on( 'preSubmit', function (e, data, action) {
@@ -1339,12 +1340,116 @@
 					$show_status = '_isoittd_upload_fisik';
 					$table_name  = $nama_tabels_d[0];
 
-					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= [''];
-					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log_d','noactionD'];
+					$arr_buttons_tools 		= [];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= [];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
+				{ 
+					extend: 'create',
+					name: 'btnCreate', 
+					editor: edtisoittd_upload_fisik, 
+					text: '<i class="fa fa-plus"></i>&nbsp;Add New', 
+					className: 'btn btn-sm btn-primary', 
+					titleAttr: 'Add New',
+					formButtons: [
+						{
+							text: 'Cancel',
+							action: function () {
+								this.close();
+							},
+							className: 'btn btn-warning m-r-xs'
+						},
+						{
+							text: 'Save',
+							action: function () {
+								this.submit();
+							},
+							className: 'btn btn-primary m-r-xs'
+						},
+						{
+							text: 'Save & Confirm',
+							action: function (e, dt, node, config, cb){
+								this.submit(
+									function (json) {
+										id_transaksi_h = json.data[0].tblisoittd_upload_fisik.id;
+										fnConfirm('tblisoittd_upload_fisik', tblisoittd_upload_fisik );
+									}, 
+								);
+								
+								
+
+							},
+							className: 'btn btn-primary'
+						}
+					]
+				},
+				
+				{ 
+					extend: 'edit', 
+					name: 'btnEdit', 
+					editor: edtisoittd_upload_fisik,
+					text: '<i class="fa fa-edit"></i>&nbsp;Edit',
+					className: 'btn btn-sm btn-warning',
+					titleAttr: 'Edit',
+					formButtons: [
+						{
+							text: 'Cancel',
+							action: function () {
+								this.close();
+							},
+							className: 'btn btn-warning m-r-xs'
+						},
+						{
+							text: 'Save',
+							action: function () {
+								this.submit();
+							},
+							className: 'btn btn-primary m-r-xs'
+						},
+						{
+							text: 'Save & Confirm',
+							action: function (e, dt, node, config, cb){
+								this.submit(
+									function (json) {
+										id_transaksi_h = json.data[0].tblisoittd_upload_fisik.id;
+										fnConfirm('tblisoittd_upload_fisik', tblisoittd_upload_fisik ); 
+									}, 
+								);
+								
+								
+
+							},
+							className: 'btn btn-primary'
+						}
+					]
+				},
+				
+				{
+					extend: 'remove', 
+					name: 'btnRemove',
+					editor: edtisoittd_upload_fisik, 
+					text: '<i class="fa fa-trash"></i>&nbsp;Delete(xH)',
+					className: 'btn btn-sm btn-danger',
+					titleAttr: 'Remove',
+					formButtons: [
+						{
+							text: 'Cancel',
+							action: function () {
+								this.close();
+							},
+							className: 'btn btn-warning m-r-xs'
+						},
+						{
+							text: 'Delete',
+							action: function () {
+								this.submit();
+							},
+							className: 'btn btn-danger'
+						}
+					]
+				},
 			],
 			initComplete: function() {
 			}
