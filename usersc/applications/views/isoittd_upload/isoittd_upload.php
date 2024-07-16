@@ -30,7 +30,7 @@
 									<div class="modal-body">
 										<div class="form-group row">
 											<label class="col-lg-2 col-md-2">Kode</label>
-											<div class="col-lg-4 col-sm-4">
+											<div class="col-lg-8 col-sm-8">
 												<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
 											</div>
 										</div>

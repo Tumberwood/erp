@@ -11,37 +11,36 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="row">
-    <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmisoittd_upload">
-					<div class="form-group row">
-						<label class="col-lg-2 col-md-2">Kode</label>
-						<div class="col-lg-4 col-sm-4">
-							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
-						</div>
-					</div>
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- begin content here -->
-<div id="tabel_atas" style="display: none">
+<div id="tabel_atas">
 	<div class="col">
 		<div class="ibox ">
 			<div class="ibox-content">
+				
+			<div class="modal" id="modalSFisoittd_upload" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content animated bounceInRight">
+						<form class="form-horizontal" id="frmFilter">
+							<div class="modal-header">
+								<h4 class="modal-title">Filter</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group row">
+									<label class="col-lg-2 col-md-2">Kode</label>
+									<div class="col-lg-8 col-sm-8">
+										<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+								<button class="btn btn-primary" type="submit">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
 				<div class="table-responsive">
 						<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
 							<thead>
@@ -207,7 +206,7 @@
 						$table_name  = $nama_tabel;
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-						$arr_buttons_tools2 	= ['sp', 'sb'];
+						$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
 						$arr_buttons_action 	= [];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
@@ -305,7 +304,7 @@
 
 			// END isoittd_upload
 			
-			$("#frmisoittd_upload").submit(function(e) {
+			$("#frmFilter").submit(function(e) {
 				e.preventDefault();
 			}).validate({
 				rules: {
@@ -320,11 +319,11 @@
 					}
 
 					if (id_isoxxth_upload_filter > 0) {
-						$('#tabel_atas').show();
 						
 						full_message = "Sedang Melakukan Load Data" + '</br>';
 						toast_type   = "success";
 						toastr[toast_type](full_message, 'INFO');
+						$('#modalSFisoittd_upload').modal('toggle');
 
 						tblisoittd_upload.ajax.reload(function ( json ) {
 						}, false);
