@@ -13,15 +13,7 @@
 ?>
 
 <!-- begin content here -->
-<style>
-	/* Ensure SearchPanes display vertically on phone mode */
-	@media only screen and (max-width: 768px) {
-		.dtsp-searchPanes {
-			flex-direction: column !important;
-		}
-	}
 
-</style>
 <div id="tabel_atas">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 p-w-xs">
@@ -741,6 +733,10 @@
 		
 		tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 			dom: domPQ,
+			searchPanes:{
+				layout: window.innerWidth < 768 ? 'columns-1' : 'columns-3'
+			},
+			// make if phone mobile make colums -1
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload.php",
 				type: 'POST',
