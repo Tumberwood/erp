@@ -164,7 +164,7 @@
                         LEFT JOIN hemxxmh b ON b.id = a.id_hemxxmh
                     	WHERE 
                     		b.transaction_state <> :transaction_state AND 
-                    		a.id_users = :s_id_users
+                    		b.id_users = :s_id_users
                     ');
                 $rs_hemjbmh     = $qs_hemjbmh->fetch();
                 $s_id_gbrxxmh   = $rs_hemjbmh['id_gbrxxmh'];
