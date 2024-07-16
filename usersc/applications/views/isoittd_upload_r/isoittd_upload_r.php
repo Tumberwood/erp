@@ -59,6 +59,7 @@
 									<th>Fisik</th>
 									<th>Selisih</th>
 									<th>SKIP</th>
+									<th>Hitung</th>
 									<!-- <th>Location Zone</th> -->
 								</tr>
 							</thead>
@@ -194,6 +195,17 @@
 					data: "isoittd_upload.is_skip",
 					...renderYaTidak()
 				},
+				{ 
+					data: null,
+					render: function (data, type, row) {
+						// console.log(row);
+						if(row.isoittd_upload.is_skip == 0 && row.isoittd_upload.fisik == null){
+							return '<span class="badge badge-plain">Tidak</span>';
+						} else {
+							return '<span class="badge badge-primary">Ya</span>';
+						}
+					}
+				},
 				// { data: "wloznmh.nama" }, 
 			],
 				buttons: [
@@ -280,6 +292,7 @@
 				}
 			} );
 
+			tblisoittd_upload.button('btnCloseStock:name').disable();
 			tblisoittd_upload.searchPanes.container().appendTo('#spisoittd_upload');
 			tblisoittd_upload.searchBuilder.container().appendTo( '#sbisoittd_upload' );
 			
@@ -329,6 +342,7 @@
 
 						tblisoittd_upload.ajax.reload(function ( json ) {
 						}, false);
+						tblisoittd_upload.button('btnCloseStock:name').enable();
 						return false; 
 					}
 				}
