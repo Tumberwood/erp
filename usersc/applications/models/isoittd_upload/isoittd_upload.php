@@ -51,7 +51,7 @@
 							'system_path'	=> Upload::DB_SYSTEM_PATH,
 							'extn'		=> Upload::DB_EXTN
 						) )
-						->validator( Validate::fileSize( 500000, 'Ukuran lampiran maksimal 500Kb' ) )
+						->validator( Validate::fileSize( 1000000, 'Ukuran lampiran maksimal 1Mb' ) )
 						->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg'), "Hanya boleh format png, jpg, dan jpeg" ) )
 					),
 					Field::inst( 'isoittd_upload.nama' ),

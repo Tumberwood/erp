@@ -26,6 +26,19 @@
         canvas.renderAll();
     }
 
+
+    // Zoom function
+    function zoomCanvas(event) {
+        var delta = event.deltaY;
+        var zoom = canvas.getZoom();
+        zoom *= 0.999 ** delta;
+        if (zoom > 20) zoom = 20;
+        if (zoom < 0.01) zoom = 0.01;
+        canvas.setZoom(zoom);
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
     function addCircle(left, top) {
         var circle = new fabric.Circle({
             radius: circleSize * 10,

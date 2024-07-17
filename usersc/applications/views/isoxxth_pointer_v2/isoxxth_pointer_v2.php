@@ -239,6 +239,12 @@
 		if (selectedOption) {
 			selectedText = selectedOption.text
 		}
+		
+		// Add event listener for mouse wheel
+		canvas.on('mouse:wheel', function(event) {
+			zoomCanvas(event.e);
+		});
+		
 		$('#addCircleBtn').prop('disabled', true);
 		$('#moveCircleBtn').prop('disabled', true);
 		$('#deleteCircleBtn').prop('disabled', true);
@@ -331,6 +337,24 @@
 											canvas.selection = true;
 										}
 									});
+
+									// Mouse move event
+									canvas.on('mouse:move', function(event) {
+										if (isDragging) {
+											var pointer = canvas.getPointer(event.e);
+											var deltaX = pointer.x - lastPosX;
+											var deltaY = pointer.y - lastPosY;
+											canvas.relativePan({ x: deltaX, y: deltaY });
+											lastPosX = pointer.x;
+											lastPosY = pointer.y;
+										}
+									});
+
+									// Mouse up event
+									canvas.on('mouse:up', function() {
+										isDragging = false;
+									});
+
 									
 									$('#analyzeBtn').on("click", function() {
 										toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
