@@ -144,7 +144,7 @@
 <script type="text/javascript">
 	var canvas = new fabric.Canvas('c');
 	var canvasContainer = $('#canvas-container');
-	var mode = 'add';
+	var mode = '';
 	var warna = '#ff0000';
 	var circleSize = 1;
 	var fungsi = "draw";
@@ -241,10 +241,13 @@
 		}
 		
 		// Add event listener for mouse wheel
-		canvas.on('mouse:wheel', function(event) {
-			zoomCanvas(event.e);
+		// canvas.on('mouse:wheel', function(event) {
+		// 	zoomCanvas(event.e);
+		// });
+		canvas.on('touch:gesture', function(event) {
+			pinchToZoom(event);
 		});
-		
+
 		$('#addCircleBtn').prop('disabled', true);
 		$('#moveCircleBtn').prop('disabled', true);
 		$('#deleteCircleBtn').prop('disabled', true);
