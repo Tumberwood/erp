@@ -221,6 +221,7 @@
 	var id_isoxxth_upload_old = 0;
 	var id_isoxxth_upload_filter = 0;
 	var selectedText = null;
+	var start_button = null;
 	
 
 	// get tableRelation
@@ -900,24 +901,36 @@
 					name: 'btnNol',
 					titleAttr: 'Fisik Nol',
 					action: function ( e, dt, node, config ) {
-						$.ajax( {
-							url: '../../models/isoittd_upload/fn_button_fisik_nol.php',
-							dataType: 'json',
-							type: 'POST',
-							data: {
-								id_transaksi_h: id_transaksi_h,
-								start_button: start_button
+						swal({
+							text: "Apakah Anda Yakin?",
+							icon: "info",
+							buttons: {
+								cancel: true,
+								confirm: true
 							},
-							success: function ( json ) {
-								full_message = json.message + '</br>';
-								toast_type   = json.type_message;
-								toastr[toast_type](full_message, 'INFO');
-								
-								tblisoittd_upload_fisik.rows().deselect();
-								tblisoittd_upload_fisik.ajax.reload(null,false);
+						})
+						.then((willConfirm) => {
+							if (willConfirm) {
+								$.ajax( {
+									url: '../../models/isoittd_upload/fn_button_fisik_nol.php',
+									dataType: 'json',
+									type: 'POST',
+									data: {
+										id_transaksi_h: id_transaksi_h,
+										start_button: start_button
+									},
+									success: function ( json ) {
+										full_message = json.message + '</br>';
+										toast_type   = json.type_message;
+										toastr[toast_type](full_message, 'INFO');
+										
+										tblisoittd_upload_fisik.rows().deselect();
+										tblisoittd_upload_fisik.ajax.reload(null,false);
 
-								tblisoittd_upload.rows().deselect();
-								tblisoittd_upload.ajax.reload(null,false);
+										tblisoittd_upload.rows().deselect();
+										tblisoittd_upload.ajax.reload(null,false);
+									}
+								});
 							}
 						});
 					}
@@ -928,21 +941,33 @@
 					className: 'btn btn-warning',
 					titleAttr: 'Skip',
 					action: function ( e, dt, node, config ) {
-						$.ajax( {
-							url: '../../models/isoittd_upload/fn_button_skip.php',
-							dataType: 'json',
-							type: 'POST',
-							data: {
-								id_transaksi_h: id_transaksi_h,
-								start_button: start_button
+						swal({
+							text: "Apakah Anda Yakin Ingin SKIP?",
+							icon: "info",
+							buttons: {
+								cancel: true,
+								confirm: true
 							},
-							success: function ( json ) {
-								full_message = json.message + '</br>';
-								toast_type   = json.type_message;
-								toastr[toast_type](full_message, 'INFO');
+						})
+						.then((willConfirm) => {
+							if (willConfirm) {
+								$.ajax( {
+									url: '../../models/isoittd_upload/fn_button_skip.php',
+									dataType: 'json',
+									type: 'POST',
+									data: {
+										id_transaksi_h: id_transaksi_h,
+										start_button: start_button
+									},
+									success: function ( json ) {
+										full_message = json.message + '</br>';
+										toast_type   = json.type_message;
+										toastr[toast_type](full_message, 'INFO');
 
-								tblisoittd_upload.rows().deselect();
-								tblisoittd_upload.ajax.reload(null,false);
+										tblisoittd_upload.rows().deselect();
+										tblisoittd_upload.ajax.reload(null,false);
+									}
+								});
 							}
 						});
 					}

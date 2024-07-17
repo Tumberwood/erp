@@ -339,7 +339,7 @@
                                 created_by,
                                 SUM(TIMESTAMPDIFF(second,start_on,finish_on)) AS diff_in_seconds
                             FROM activity_log_ml
-                            WHERE nama = "isoittd_upload_fisik"
+                            WHERE nama = "isoittd_upload_fisik" AND durasi_detik > 0  
                             GROUP BY created_by
                         ) AS jam ON jam.created_by = p.created_by
 
