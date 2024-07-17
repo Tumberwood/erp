@@ -449,7 +449,7 @@
 			<div class="ibox-content">
 				<div class="row">
 					<!-- <div class="col-md-6"> -->
-					<div class="col-6">
+					<div class="col-md-6 col-12">
 						<h5>Log By User</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -468,7 +468,7 @@
 						<!-- <div id="tabel_kiri"></div> -->
 					</div>
 					<!-- <div class="col-md-6"> -->
-					<div class="col-6">
+					<div class="col-md-6 col-12">
 						<h5>Bottom 10 Items</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
