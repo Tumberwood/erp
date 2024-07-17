@@ -124,6 +124,11 @@
 									<editor-field name="isoittd_upload.keterangan"></editor-field>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
+								</div>
+							</div>
 						</div>
 					</div>
 					<!-- end Custom Form Datatables Editor -->
@@ -266,6 +271,124 @@
 		}
 
 		// BEGIN isoittd_upload
+		edtisoittd_upload_skip = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/isoittd_upload/isoittd_upload.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
+					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
+				}
+			},
+			table: "#tblisoittd_upload",
+			fields: [ 
+				{
+					label: "isoittd_upload.start_at",
+					name: "isoittd_upload.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "isoittd_upload.finish_at",
+					name: "isoittd_upload.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "isoittd_upload",
+					type: "hidden"
+				},	
+				{
+					label: "isoittd_upload.id_isoxxth_upload",
+					name: "isoittd_upload.id_isoxxth_upload",
+					type: "hidden"
+				},
+				{
+					label: "isoittd_upload.transaction_state",
+					name: "isoittd_upload.transaction_state",
+					type: "hidden",
+					def: 1
+				},
+				{
+					label: "Transaksi In <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.transaksi_in",
+					type: "hidden"
+				}, 	
+				
+				{
+					label: "Transaksi Out <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.transaksi_out",
+					type: "hidden"
+				}, 	
+				{
+					label: "Foto <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.id_files_skip",
+					type: "upload",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtisoittd_upload_skip.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_upload_skip.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				}
+			]
+		} );
+		
+		edtisoittd_upload_skip.on( 'preOpen', function( e, mode, action ) {
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtisoittd_upload_skip.field('isoittd_upload.start_at').val(start_at);
+			edtisoittd_upload_skip.field('isoittd_upload.id_isoxxth_upload').val(id_isoxxth_upload_filter);
+		});
+
+		edtisoittd_upload_skip.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-xl");
+		});
+
+		edtisoittd_upload_skip.on( 'preSubmit', function (e, data, action) {
+
+				id_files_skip      = edtisoittd_upload_skip.field('isoittd_upload.id_files_skip').val();
+				console.log(id_files_skip);
+
+				if (id_files_skip == 0) {
+					edtisoittd_upload_skip.field('isoittd_upload.id_files_skip').error( 'Wajib diisi!' )
+					return false
+				}
+			
+			if ( edtisoittd_upload_skip.inError() ) {
+				return false;
+			}
+		});
+
+		edtisoittd_upload_skip.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtisoittd_upload_skip.field('isoittd_upload.finish_at').val(finish_at);
+		});
+
+		edtisoittd_upload_skip.on( 'postSubmit', function (e, json, data, action, xhr) {
+			$.ajax( {
+				url: '../../models/isoittd_upload/fn_button_skip.php',
+				dataType: 'json',
+				type: 'POST',
+				data: {
+					id_transaksi_h: id_transaksi_h,
+					start_button: start_button
+				},
+				success: function ( json ) {
+					full_message = json.message + '</br>';
+					toast_type   = json.type_message;
+					toastr[toast_type](full_message, 'INFO');
+
+					tblisoittd_upload.rows().deselect();
+					tblisoittd_upload.ajax.reload(null,false);
+				}
+			});
+		
+			// tblisoittd_upload.rows().deselect();
+			// tblisoittd_upload.ajax.reload(null,false);
+		} );
+
 		edtisoittd_upload = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/isoittd_upload/isoittd_upload.php",
@@ -555,12 +678,26 @@
 					format: 'DD MMM YYYY'
 				},
 				{
+					label: "Foto SKIP",
+					name: "isoittd_upload.id_files_skip",
+					type: "upload",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtisoittd_upload_skip.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_upload_skip.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				},
+				{
 					label: "Keterangan",
 					name: "isoittd_upload.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
+		edtisoittd_upload.field('isoittd_upload.id_files_skip').hide();
 		
 		edtisoittd_upload.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -592,6 +729,8 @@
 				edtisoittd_upload.field('isoittd_upload.nama').show();
 				edtisoittd_upload.field('isoittd_upload.satuan').show();
 				edtisoittd_upload.field('isoittd_upload.lokasi').show();
+				edtisoittd_upload.field('isoittd_upload.id_files_skip').show();
+				edtisoittd_upload.field('isoittd_upload.id_files_skip').disable();
 				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').disable();
 				edtisoittd_upload.field('isoittd_upload.lpn').disable();
 				edtisoittd_upload.field('isoittd_upload.batch_number').disable();
@@ -937,40 +1076,34 @@
 				},
 				{ 
 					text: 'SKIP', 
+					extend: 'edit', 
 					name: 'btnSkip',
+					editor: edtisoittd_upload_skip,
 					className: 'btn btn-warning',
 					titleAttr: 'Skip',
-					action: function ( e, dt, node, config ) {
-						swal({
-							text: "Apakah Anda Yakin Ingin SKIP?",
-							icon: "info",
-							buttons: {
-								cancel: true,
-								confirm: true
-							},
-						})
-						.then((willConfirm) => {
-							if (willConfirm) {
-								$.ajax( {
-									url: '../../models/isoittd_upload/fn_button_skip.php',
-									dataType: 'json',
-									type: 'POST',
-									data: {
-										id_transaksi_h: id_transaksi_h,
-										start_button: start_button
-									},
-									success: function ( json ) {
-										full_message = json.message + '</br>';
-										toast_type   = json.type_message;
-										toastr[toast_type](full_message, 'INFO');
+					// action: function ( e, dt, node, config ) {
+						// this.submit(
+						// 	function (json) {
+								// $.ajax( {
+								// 	url: '../../models/isoittd_upload/fn_button_skip.php',
+								// 	dataType: 'json',
+								// 	type: 'POST',
+								// 	data: {
+								// 		id_transaksi_h: id_transaksi_h,
+								// 		start_button: start_button
+								// 	},
+								// 	success: function ( json ) {
+								// 		full_message = json.message + '</br>';
+								// 		toast_type   = json.type_message;
+								// 		toastr[toast_type](full_message, 'INFO');
 
-										tblisoittd_upload.rows().deselect();
-										tblisoittd_upload.ajax.reload(null,false);
-									}
-								});
-							}
-						});
-					}
+								// 		tblisoittd_upload.rows().deselect();
+								// 		tblisoittd_upload.ajax.reload(null,false);
+								// 	}
+								// });
+						// 	}, 
+						// );
+					// }
 				},
 			],
 			initComplete: function() {
