@@ -76,9 +76,10 @@
 				<hr/>
 				<h3>Action</h3>
 				<p>
-					<button class="btn btn-info" id="addCircleBtn"><i class="fa fa-plus"></i></button>
-					<button class="btn btn-warning" id="moveCircleBtn"><i class="fa fa-arrows"></i></button>
-					<button class="btn btn-danger" id="deleteCircleBtn"><i class="fa fa-trash"></i></button>
+					<button class="btn btn-info" id="addCircleBtn" title="Add Circle"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-warning" id="moveCircleBtn" title="Move Circle"><i class="fa fa-arrows"></i></button>
+					<button class="btn btn-danger" id="deleteCircleBtn" title="Delete Circle"><i class="fa fa-trash"></i></button>
+					<button class="btn btn-info" id="scrollBtn" title="Scroll"><i class="fa fa-mouse-pointer"></i></button>
 				</p>
 
 				<h3>Color</h3>
@@ -239,17 +240,10 @@
 		if (selectedOption) {
 			selectedText = selectedOption.text
 		}
-		
-		// Add event listener for mouse wheel
-		// canvas.on('mouse:wheel', function(event) {
-		// 	zoomCanvas(event.e);
-		// });
-		canvas.on('touch:gesture', function(event) {
-			pinchToZoom(event);
-		});
 
 		$('#addCircleBtn').prop('disabled', true);
 		$('#moveCircleBtn').prop('disabled', true);
+		$('#scrollBtn').prop('disabled', true);
 		$('#deleteCircleBtn').prop('disabled', true);
 		$('#colorPicker').prop('disabled', true);
 		$('#pickColor').prop('disabled', true);
@@ -308,6 +302,7 @@
 									// Aktifkan elemen-elemen setelah file terpilih
 									$('#addCircleBtn').prop('disabled', false);
 									$('#moveCircleBtn').prop('disabled', false);
+									$('#scrollBtn').prop('disabled', false);
 									$('#deleteCircleBtn').prop('disabled', false);
 									$('#colorPicker').prop('disabled', false);
 									$('#pickColor').prop('disabled', false);
@@ -326,6 +321,69 @@
 										mode = 'move';
 									} );
 
+									$('#scrollBtn').on( "click", function() {
+										mode = '';
+									} );
+
+									canvas.on('mouse:wheel', function(event) {
+										zoomCanvas(event.e);
+									});
+
+									// Listen for touch events on the canvas element
+									canvas.on('touchstart', function(event) {
+										if (event.touches.length === 2) {
+											// Store initial touch positions
+											event.touches.forEach(function(touch) {
+												touch.startX = touch.clientX;
+												touch.startY = touch.clientY;
+											});
+										}
+									});
+
+									canvas.on('touchmove', function(event) {
+										if (event.touches.length === 2) {
+											// Calculate current touch positions
+											var touch1 = event.touches[0];
+											var touch2 = event.touches[1];
+
+											// Calculate initial distance between touches
+											var initialDistance = Math.hypot(
+												touch1.startX - touch2.startX,
+												touch1.startY - touch2.startY
+											);
+
+											// Calculate current distance between touches
+											var currentDistance = Math.hypot(
+												touch1.clientX - touch2.clientX,
+												touch1.clientY - touch2.clientY
+											);
+
+											// Calculate zoom factor based on distance change
+											var zoomFactor = currentDistance / initialDistance;
+
+											// Adjust zoom level
+											var zoom = canvas.getZoom();
+											zoom *= zoomFactor;
+											if (zoom > 20) zoom = 20;
+											if (zoom < 0.01) zoom = 0.01;
+											canvas.setZoom(zoom);
+
+											// Update initial touch positions for next move event
+											event.touches.forEach(function(touch) {
+												touch.startX = touch.clientX;
+												touch.startY = touch.clientY;
+											});
+
+											// Prevent default touch behavior (like scrolling)
+											event.preventDefault();
+											event.stopPropagation();
+										}
+									});
+
+									// Variables for panning
+									var isDragging = false;
+									var lastPosX, lastPosY;
+
 									canvas.on('mouse:down', function(options) {
 										if (mode == 'add') {
 											var pointer = canvas.getPointer(options.e);
@@ -338,18 +396,22 @@
 										} else if (mode == 'move') {
 											canvas.isDrawingMode = false;
 											canvas.selection = true;
+										} else {
+											// Handle panning
+											isDragging = true;
+											pointer = canvas.getPointer(options.e);
+											lastPosX = pointer.x;
+											lastPosY = pointer.y;
 										}
 									});
 
 									// Mouse move event
 									canvas.on('mouse:move', function(event) {
 										if (isDragging) {
-											var pointer = canvas.getPointer(event.e);
+											pointer = canvas.getPointer(event.e);
 											var deltaX = pointer.x - lastPosX;
 											var deltaY = pointer.y - lastPosY;
 											canvas.relativePan({ x: deltaX, y: deltaY });
-											lastPosX = pointer.x;
-											lastPosY = pointer.y;
 										}
 									});
 

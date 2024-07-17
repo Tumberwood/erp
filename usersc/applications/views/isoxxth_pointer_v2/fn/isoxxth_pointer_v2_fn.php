@@ -28,13 +28,13 @@
 
 
     // Zoom function
-    function pinchToZoom(event) {
-        var delta = event.e.scale;
+    function zoomCanvas(event) {
+        var delta = event.deltaY;
         var zoom = canvas.getZoom();
-        zoom *= delta;
+        zoom *= 0.999 ** delta;
         if (zoom > 20) zoom = 20;
         if (zoom < 0.01) zoom = 0.01;
-        canvas.zoomToPoint({ x: event.self.x, y: event.self.y }, zoom);
+        canvas.setZoom(zoom);
         event.preventDefault();
         event.stopPropagation();
     }
