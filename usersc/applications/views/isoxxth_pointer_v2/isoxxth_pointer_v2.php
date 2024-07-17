@@ -328,57 +328,7 @@
 									canvas.on('mouse:wheel', function(event) {
 										zoomCanvas(event.e);
 									});
-
-									// Listen for touch events on the canvas element
-									canvas.on('touchstart', function(event) {
-										if (event.touches.length === 2) {
-											// Store initial touch positions
-											event.touches.forEach(function(touch) {
-												touch.startX = touch.clientX;
-												touch.startY = touch.clientY;
-											});
-										}
-									});
-
-									canvas.on('touchmove', function(event) {
-										if (event.touches.length === 2) {
-											// Calculate current touch positions
-											var touch1 = event.touches[0];
-											var touch2 = event.touches[1];
-
-											// Calculate initial distance between touches
-											var initialDistance = Math.hypot(
-												touch1.startX - touch2.startX,
-												touch1.startY - touch2.startY
-											);
-
-											// Calculate current distance between touches
-											var currentDistance = Math.hypot(
-												touch1.clientX - touch2.clientX,
-												touch1.clientY - touch2.clientY
-											);
-
-											// Calculate zoom factor based on distance change
-											var zoomFactor = currentDistance / initialDistance;
-
-											// Adjust zoom level
-											var zoom = canvas.getZoom();
-											zoom *= zoomFactor;
-											if (zoom > 20) zoom = 20;
-											if (zoom < 0.01) zoom = 0.01;
-											canvas.setZoom(zoom);
-
-											// Update initial touch positions for next move event
-											event.touches.forEach(function(touch) {
-												touch.startX = touch.clientX;
-												touch.startY = touch.clientY;
-											});
-
-											// Prevent default touch behavior (like scrolling)
-											event.preventDefault();
-											event.stopPropagation();
-										}
-									});
+									
 
 									// Variables for panning
 									var isDragging = false;
@@ -399,7 +349,7 @@
 										} else {
 											// Handle panning
 											isDragging = true;
-											pointer = canvas.getPointer(options.e);
+											var pointer = canvas.getPointer(options.e);
 											lastPosX = pointer.x;
 											lastPosY = pointer.y;
 										}
@@ -408,7 +358,7 @@
 									// Mouse move event
 									canvas.on('mouse:move', function(event) {
 										if (isDragging) {
-											pointer = canvas.getPointer(event.e);
+											var pointer = canvas.getPointer(event.e);
 											var deltaX = pointer.x - lastPosX;
 											var deltaY = pointer.y - lastPosY;
 											canvas.relativePan({ x: deltaX, y: deltaY });
