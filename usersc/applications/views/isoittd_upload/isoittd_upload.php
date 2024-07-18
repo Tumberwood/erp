@@ -722,6 +722,7 @@
 			edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').val(moment(autofillData.expired_date).format('DD MMM YYYY'));
 			edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val(autofillData.transaksi_in);
 			edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val(autofillData.transaksi_out);
+			edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val(autofillData.fisik);
 		});
 
 		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
