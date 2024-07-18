@@ -336,11 +336,13 @@
                         INNER JOIN users AS us ON us.id = p.created_by
                         INNER JOIN (
                             SELECT
-                                created_by,
-                                SUM(TIMESTAMPDIFF(second,start_on,finish_on)) AS diff_in_seconds
-                            FROM activity_log_ml
-                            WHERE nama = "isoittd_upload_fisik" AND durasi_detik > 0  
-                            GROUP BY created_by
+                                act.created_by,
+                                SUM(TIMESTAMPDIFF(SECOND,act.start_on,act.finish_on)) AS diff_in_seconds
+                            FROM activity_log_ml act
+                            LEFT JOIN isoittd_upload_fisik fis ON fis.id = act.id_transaksi
+                            LEFT JOIN isoittd_upload iso ON iso.id = fis.id_isoittd_upload
+                            WHERE act.nama = "isoittd_upload_fisik" AND durasi_detik > 0 AND iso.id_isoxxth_upload = :id_isoxxth_upload
+                            GROUP BY act.created_by
                         ) AS jam ON jam.created_by = p.created_by
 
                         WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND transaction_state <> -9
