@@ -131,6 +131,66 @@
 							</div>
 						</div>
 					</div>
+					<div id="custom_isoittd_upload_duplicate">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.select_item"></editor-field>
+									<editor-field name="isoittd_upload.kode"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.nama"></editor-field>
+									<editor-field name="isoittd_upload.select_satuan"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.select_lokasi"></editor-field>
+									<editor-field name="isoittd_upload.satuan"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.lokasi"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.jumlah_terkecil"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.fisik"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.transaksi_in"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.transaksi_out"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.batch_number"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.lpn"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.expired_date"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.keterangan"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
+								</div>
+							</div>
+						</div>
+					</div>
 					<!-- end Custom Form Datatables Editor -->
 					<div class="table-responsive">
 						<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -388,6 +448,362 @@
 		
 			// tblisoittd_upload.rows().deselect();
 			// tblisoittd_upload.ajax.reload(null,false);
+		} );
+
+		edtisoittd_upload_duplicate = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/isoittd_upload/isoittd_upload.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
+					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
+				}
+			},
+			table: "#tblisoittd_upload",
+			template: "#custom_isoittd_upload_duplicate",
+			fields: [ 
+				{
+					label: "isoittd_upload.start_at",
+					name: "isoittd_upload.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "isoittd_upload.finish_at",
+					name: "isoittd_upload.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "isoittd_upload",
+					type: "hidden"
+				},	
+				{
+					label: "isoittd_upload.id_isoxxth_upload",
+					name: "isoittd_upload.id_isoxxth_upload",
+					type: "hidden"
+				},
+				{
+					label: "isoittd_upload.transaction_state",
+					name: "isoittd_upload.transaction_state",
+					type: "hidden",
+					def: 1
+				},
+				{
+					label: "Kode Item",
+					name: "isoittd_upload.kode",
+					type: "readonly"
+				},
+				{
+					label: "Nama Item",
+					name: "isoittd_upload.nama",
+					type: "readonly"
+				},
+				{
+					label: "Satuan",
+					name: "isoittd_upload.satuan",
+					type: "readonly"
+				},
+				{
+					label: "Lokasi",
+					name: "isoittd_upload.lokasi",
+					type: "readonly"
+				},
+				{
+					label: "Item <sup class='text-danger'>*<sup>", 
+					name: "isoittd_upload.select_item",
+					type: "select2",
+					id: "item_opname",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/item_opname_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
+								var query = {
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Satuan <sup class='text-danger'>*<sup>", 
+					name: "isoittd_upload.select_satuan",
+					type: "select2",
+					id: "satuan_opname",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/satuan_opname_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
+								var query = {
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Lokasi <sup class='text-danger'>*<sup>", 
+					name: "isoittd_upload.select_lokasi",
+					type: "select2",
+					id: "lokasi_opname",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/lokasi_opname_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
+								var query = {
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Quantity <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.jumlah_terkecil"
+				}, 	
+				{
+					label: "Quantity Fisik",
+					name: "isoittd_upload.fisik",
+					type: "readonly"
+				}, 	
+				{
+					label: "LPN <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.lpn"
+				}, 	
+				
+				{
+					label: "Transaksi In <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.transaksi_in"
+				}, 	
+				
+				{
+					label: "Transaksi Out <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.transaksi_out"
+				}, 	
+				{
+					label: "Batch Number <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.batch_number"
+				}, 	
+				{
+					label: "Expired Date",
+					name: "isoittd_upload.expired_date",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},
+				{
+					label: "Foto SKIP",
+					name: "isoittd_upload.id_files_skip",
+					type: "upload",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtisoittd_upload_duplicate_skip.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_upload_duplicate_skip.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				},
+				{
+					label: "Keterangan",
+					name: "isoittd_upload.keterangan",
+					type: "textarea"
+				}
+			]
+		} );
+		edtisoittd_upload_duplicate.field('isoittd_upload.id_files_skip').hide();
+		edtisoittd_upload_duplicate.field('isoittd_upload.id_files_skip').disable();
+		
+		edtisoittd_upload_duplicate.on( 'preOpen', function( e, mode, action ) {
+			console.log(id_transaksi_h);
+
+			autofillField('isoittd_upload', id_transaksi_h, '*');
+			id_iimxxmh_old = id_transaksi_h;
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtisoittd_upload_duplicate.field('isoittd_upload.start_at').val(start_at);
+			edtisoittd_upload_duplicate.field('isoittd_upload.id_isoxxth_upload').val(autofillData.id_isoxxth_upload);
+
+			edtisoittd_upload_duplicate.field('isoittd_upload.select_item').hide();
+			edtisoittd_upload_duplicate.field('isoittd_upload.select_item').val(id_transaksi_h);
+			edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').hide();
+			edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').val(id_transaksi_h);
+			edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').hide();
+			edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').val(id_transaksi_h);
+			edtisoittd_upload_duplicate.field('isoittd_upload.kode').show();
+			edtisoittd_upload_duplicate.field('isoittd_upload.kode').val(autofillData.kode);
+			edtisoittd_upload_duplicate.field('isoittd_upload.nama').show();
+			edtisoittd_upload_duplicate.field('isoittd_upload.nama').val(autofillData.nama);
+			edtisoittd_upload_duplicate.field('isoittd_upload.satuan').show();
+			edtisoittd_upload_duplicate.field('isoittd_upload.satuan').val(autofillData.satuan);
+			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').show();
+			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').val(autofillData.lokasi);
+			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').disable();
+			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').val(autofillData.jumlah_terkecil);
+			edtisoittd_upload_duplicate.field('isoittd_upload.lpn').enable();
+			edtisoittd_upload_duplicate.field('isoittd_upload.lpn').val(autofillData.lpn);
+			edtisoittd_upload_duplicate.field('isoittd_upload.batch_number').enable();
+			edtisoittd_upload_duplicate.field('isoittd_upload.batch_number').val(autofillData.batch_number);
+			edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').enable();
+			edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').val(moment(autofillData.expired_date).format('DD MMM YYYY'));
+			edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val(autofillData.transaksi_in);
+			edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val(autofillData.transaksi_out);
+		});
+
+		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-xl");
+		});
+
+		edtisoittd_upload_duplicate.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				select_satuan      = edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').val();
+				select_item = edtisoittd_upload_duplicate.field('isoittd_upload.select_item').val();
+				select_lokasi         = edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').val();
+				satuan      = edtisoittd_upload_duplicate.field('isoittd_upload.satuan').val();
+				kode = edtisoittd_upload_duplicate.field('isoittd_upload.kode').val();
+				nama = edtisoittd_upload_duplicate.field('isoittd_upload.nama').val();
+				lokasi         = edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').val();
+				jumlah_terkecil           = edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').val();
+				lpn          = edtisoittd_upload_duplicate.field('isoittd_upload.lpn').val();
+				fisik          = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
+				batch_number              = edtisoittd_upload_duplicate.field('isoittd_upload.batch_number').val();
+				// expired_date              = edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').val();
+				
+				expired_date = moment(edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').val()).format("YYYY-MM-DD");
+				transaksi_in              = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
+				transaksi_out              = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
+
+				validasiRequired(
+					edtisoittd_upload_duplicate,
+					'isoittd_upload',
+					{
+						'select_satuan': select_satuan,
+						'select_item': select_item,
+						'select_lokasi': select_lokasi,
+						'jumlah_terkecil': jumlah_terkecil,
+						'lpn': lpn,
+						'batch_number': batch_number,
+						'expired_date': expired_date,
+						'transaksi_in': transaksi_in,
+						'transaksi_out': transaksi_out,
+					}
+				);
+				
+				// panggil validasi
+				validasiUnique(
+					action,
+					edtisoittd_upload_duplicate,
+					'isoittd_upload',
+					'select_item,select_lokasi,select_satuan,lpn,batch_number,expired_date',
+					'kode,lokasi,satuan,lpn,batch_number,expired_date,id_isoxxth_upload',
+					"'"+kode+"', '"+lokasi+"', '"+satuan+"', '"+lpn+"', '"+batch_number+"', '"+expired_date+"',"+id_isoxxth_upload_filter,
+					id_isoittd_upload
+				);
+
+				validasiNumber(
+					edtisoittd_upload_duplicate,
+					'isoittd_upload',
+					{
+						'transaksi_in': transaksi_in,
+						'transaksi_out': transaksi_out,
+					},
+					0,
+					'>='
+				);
+			}
+			
+			if ( edtisoittd_upload_duplicate.inError() ) {
+				return false;
+			}
+		});
+
+		edtisoittd_upload_duplicate.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtisoittd_upload_duplicate.field('isoittd_upload.finish_at').val(finish_at);
+		});
+		
+		edtisoittd_upload_duplicate.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblisoittd_upload.rows().deselect();
+			tblisoittd_upload.ajax.reload(null,false);
+		} );
+
+		edtisoittd_upload_duplicate.on( 'close', function () {
+			edtisoittd_upload_duplicate.enable();
 		} );
 
 		edtisoittd_upload = new $.fn.dataTable.Editor( {
@@ -721,7 +1137,6 @@
 				edtisoittd_upload.field('isoittd_upload.lpn').enable();
 				edtisoittd_upload.field('isoittd_upload.batch_number').enable();
 				edtisoittd_upload.field('isoittd_upload.expired_date').enable();
-
 			}else if(action == 'edit'){
 				
 				edtisoittd_upload.field('isoittd_upload.select_item').hide();
@@ -1012,6 +1427,14 @@
 						}
 					]
 				},
+				{ 
+					text: '<i class="fa fa-clone"></i>&nbsp;Duplicate', 
+					name: 'btnDuplicate',
+					extend: 'create', 
+					editor: edtisoittd_upload_duplicate,
+					className: 'btn btn-plain',
+					titleAttr: 'Duplicate',
+				},
 
 				{ 
 					text: '<span>OK</span>', 
@@ -1136,6 +1559,11 @@
 		tblisoittd_upload.searchBuilder.container().appendTo( '#sbisoittd_upload' );
 
 		tblisoittd_upload.button('btnSetExcel:name').disable();
+		tblisoittd_upload.button('btnSetFisik:name').disable();
+		tblisoittd_upload.button('btnSesuai:name').disable();
+		tblisoittd_upload.button('btnSkip:name').disable();
+		tblisoittd_upload.button('btnNol:name').disable();
+		tblisoittd_upload.button('btnDuplicate:name').disable();
 		
 		tblisoittd_upload.on( 'init', function () {
 			// atur hak akses
@@ -1146,6 +1574,7 @@
 			tblisoittd_upload.button('btnSesuai:name').disable();
 			tblisoittd_upload.button('btnNol:name').disable();
 			tblisoittd_upload.button('btnSkip:name').disable();
+			tblisoittd_upload.button('btnDuplicate:name').disable();
 		} );
 		
 		tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -1193,6 +1622,7 @@
 				tblisoittd_upload.button('btnNol:name').disable();
 			}
 			tblisoittd_upload.button('btnSkip:name').enable();
+			tblisoittd_upload.button('btnDuplicate:name').enable();		
 
 			//keperluan Button
 			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -1218,6 +1648,7 @@
 			tblisoittd_upload.button('btnNol:name').disable();
 			tblisoittd_upload.button('btnSetFisik:name').disable();
 			tblisoittd_upload.button('btnSkip:name').disable();
+			tblisoittd_upload.button('btnDuplicate:name').disable();
 		} );
 		
 		// END isoittd_upload
