@@ -1658,7 +1658,6 @@
 			lpn = 0;
 			batch_number = 0;
 			expired = 0;
-			start_button = null;
 			
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
