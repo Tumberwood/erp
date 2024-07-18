@@ -287,7 +287,7 @@
 	var id_isoxxth_upload_old = 0;
 	var id_isoxxth_upload_filter = 0;
 	var selectedText = null;
-	var start_button = null;
+	var start_button = "";
 	
 
 	// get tableRelation
