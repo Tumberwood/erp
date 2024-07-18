@@ -656,12 +656,14 @@
 				
 				{
 					label: "Transaksi In <sup class='text-danger'>*<sup>",
-					name: "isoittd_upload.transaksi_in"
+					name: "isoittd_upload.transaksi_in",
+					type: "hidden"
 				}, 	
 				
 				{
 					label: "Transaksi Out <sup class='text-danger'>*<sup>",
-					name: "isoittd_upload.transaksi_out"
+					name: "isoittd_upload.transaksi_out",
+					type: "hidden"
 				}, 	
 				{
 					label: "Batch Number <sup class='text-danger'>*<sup>",
@@ -746,43 +748,36 @@
 			$(".modal-dialog").addClass("modal-xl");
 		});
 
-		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_in', function ( val, data, callback ) {
-			if (val > 0) {
-				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
-				transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
-				transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
+		// edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_in', function ( val, data, callback ) {
+		// 	if (val > 0) {
+		// 		fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
+		// 		transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
+		// 		transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
 
-				selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
-				console.log(selisih_final);
-				edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
-			}
-			return {}
-		}, {event: 'keyup change'});
+		// 		selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
+		// 		console.log(selisih_final);
+		// 		edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
+		// 	}
+		// 	return {}
+		// }, {event: 'keyup change'});
 
-		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_out', function ( val, data, callback ) {
-			if (val > 0) {
-				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
-				transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
-				transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
+		// edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_out', function ( val, data, callback ) {
+		// 	if (val > 0) {
+		// 		fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
+		// 		transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
+		// 		transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
 
-				selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
-				console.log(selisih_final);
-				edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
-			}
-			return {}
-		}, {event: 'keyup change'});
+		// 		selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
+		// 		console.log(selisih_final);
+		// 		edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
+		// 	}
+		// 	return {}
+		// }, {event: 'keyup change'});
 
 		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.fisik', function ( val, data, callback ) {
 			if (val > 0) {
 				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
-				transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
-				transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
-
-				selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
-				console.log(selisih_final);
-				edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
-
-				edtisoittd_upload_duplicate.field('isoittd_upload.selisih').val(val);
+				edtisoittd_upload_duplicate.field('isoittd_upload.selisih').val(fisik);
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -818,8 +813,6 @@
 						'lpn': lpn,
 						'batch_number': batch_number,
 						'expired_date': expired_date,
-						'transaksi_in': transaksi_in,
-						'transaksi_out': transaksi_out,
 					}
 				);
 				
@@ -838,8 +831,6 @@
 					edtisoittd_upload_duplicate,
 					'isoittd_upload',
 					{
-						'transaksi_in': transaksi_in,
-						'transaksi_out': transaksi_out,
 					},
 					0,
 					'>='
