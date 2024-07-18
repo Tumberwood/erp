@@ -34,7 +34,7 @@
         zoom *= 0.999 ** delta;
         if (zoom > 20) zoom = 20;
         if (zoom < 0.01) zoom = 0.01;
-        canvas.setZoom(zoom);
+        canvas.zoomToPoint({ x: event.offsetX, y: event.offsetY }, zoom);
         event.preventDefault();
         event.stopPropagation();
     }
@@ -294,7 +294,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/isoittd_upload/isoittd_upload_fn_opt.php",
+							url: "../../models/isoittd_upload/isoittd_upload_fn_event.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
