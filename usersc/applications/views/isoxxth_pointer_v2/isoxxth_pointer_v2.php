@@ -305,6 +305,8 @@
 									// console.log(event);
 									// console.log(event.target);
 									replaceCanvasImage(target_bg);
+									canvas.setZoom(1); // Atur zoom ke nilai default (misalnya 1)
+    								canvas.absolutePan({ x: 0, y: 0 });
 
 									// Aktifkan elemen-elemen setelah file terpilih
 									$('#addCircleBtn').prop('disabled', false);
