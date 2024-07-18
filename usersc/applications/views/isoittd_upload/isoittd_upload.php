@@ -490,6 +490,21 @@
 					def: 1
 				},
 				{
+					label: "isoittd_upload.selisih_final",
+					name: "isoittd_upload.selisih_final",
+					type: "hidden"
+				},
+				{
+					label: "isoittd_upload.selisih",
+					name: "isoittd_upload.selisih",
+					type: "hidden"
+				},
+				{
+					label: "isoittd_upload.is_skip",
+					name: "isoittd_upload.is_skip",
+					type: "hidden"
+				},
+				{
 					label: "Kode Item",
 					name: "isoittd_upload.kode",
 					type: "readonly"
@@ -723,6 +738,9 @@
 			edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val(autofillData.transaksi_in);
 			edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val(autofillData.transaksi_out);
 			edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val(autofillData.fisik);
+			edtisoittd_upload_duplicate.field('isoittd_upload.selisih').val(autofillData.selisih);
+			edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(autofillData.selisih_final);
+			edtisoittd_upload_duplicate.field('isoittd_upload.is_skip').val(autofillData.is_skip);
 		});
 
 		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
