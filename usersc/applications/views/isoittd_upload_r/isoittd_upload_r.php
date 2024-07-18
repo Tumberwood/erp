@@ -47,7 +47,6 @@
 								<tr>
 									<th>ID</th>
 									<th>Kode SOU</th>
-									<th>Tanggal Upload</th>
 									<th>Loc</th>
 									<th>LPN</th>
 									<th>SKU</th>
@@ -60,7 +59,6 @@
 									<th>Selisih</th>
 									<th>SKIP</th>
 									<th>Hitung</th>
-									<!-- <th>Location Zone</th> -->
 								</tr>
 							</thead>
 						</table>
@@ -166,18 +164,13 @@
 			scrollX: true,
 			columns: [
 				{ data: "isoittd_upload.id",visible:false },
-				// { data: "wloxxmh.nama" },
 				{ data: "isoxxth_upload.kode" },
-				{ data: "isoxxth_upload.tanggal_upload" },
 				{ data: "isoittd_upload.lokasi" },
 				{ data: "isoittd_upload.lpn" },
-				// { data: "iimxxmh.kode" },
-				// { data: "iimxxmh.nama" },
 				{ data: "isoittd_upload.kode" },
 				{ data: "isoittd_upload.nama" },
 				{ data: "isoittd_upload.batch_number" },
 				{ data: "isoittd_upload.expired_date" },
-				// { data: "iumxxmh.kode" },
 				{ data: "isoittd_upload.satuan" },
 				{ 
 					data: "isoittd_upload.jumlah_terkecil" ,
@@ -198,15 +191,13 @@
 				{ 
 					data: null,
 					render: function (data, type, row) {
-						// console.log(row);
 						if(row.isoittd_upload.is_skip == 0 && row.isoittd_upload.fisik == null){
 							return '<span class="badge badge-plain">Tidak</span>';
 						} else {
 							return '<span class="badge badge-primary">Ya</span>';
 						}
 					}
-				},
-				// { data: "wloznmh.nama" }, 
+				}
 			],
 				buttons: [
 					// BEGIN breaking generate button
