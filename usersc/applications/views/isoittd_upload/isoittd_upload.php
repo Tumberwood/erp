@@ -647,8 +647,7 @@
 				}, 	
 				{
 					label: "Quantity Fisik",
-					name: "isoittd_upload.fisik",
-					type: "readonly"
+					name: "isoittd_upload.fisik"
 				}, 	
 				{
 					label: "LPN <sup class='text-danger'>*<sup>",
@@ -728,7 +727,7 @@
 			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').show();
 			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').val(autofillData.lokasi);
 			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').disable();
-			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').val(autofillData.jumlah_terkecil);
+			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').val(0);
 			edtisoittd_upload_duplicate.field('isoittd_upload.lpn').enable();
 			edtisoittd_upload_duplicate.field('isoittd_upload.lpn').val(autofillData.lpn);
 			edtisoittd_upload_duplicate.field('isoittd_upload.batch_number').enable();
@@ -746,6 +745,47 @@
 		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		});
+
+		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_in', function ( val, data, callback ) {
+			if (val > 0) {
+				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
+				transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
+				transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
+
+				selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
+				console.log(selisih_final);
+				edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_out', function ( val, data, callback ) {
+			if (val > 0) {
+				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
+				transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
+				transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
+
+				selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
+				console.log(selisih_final);
+				edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.fisik', function ( val, data, callback ) {
+			if (val > 0) {
+				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
+				transaksi_in = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
+				transaksi_out = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
+
+				selisih_final = parseFloat(fisik) + parseFloat(transaksi_out) - 0 - parseFloat(transaksi_in);
+				console.log(selisih_final);
+				edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(selisih_final);
+
+				edtisoittd_upload_duplicate.field('isoittd_upload.selisih').val(val);
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtisoittd_upload_duplicate.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -1461,6 +1501,7 @@
 					className: 'btn btn-primary',
 					titleAttr: 'Sesuai',
 					action: function ( e, dt, node, config ) {
+						// console.log(start_button);
 						$.ajax( {
 							url: '../../models/isoittd_upload/fn_button_fisik_sesuai.php',
 							dataType: 'json',
