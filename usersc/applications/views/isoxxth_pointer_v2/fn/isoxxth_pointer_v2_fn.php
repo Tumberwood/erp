@@ -301,7 +301,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/isoittd_upload/isoittd_upload_fn_event.php",
+							url: "../../models/isoittd_upload/isoittd_upload_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
