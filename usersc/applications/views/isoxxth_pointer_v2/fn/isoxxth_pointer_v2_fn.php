@@ -26,6 +26,13 @@
         canvas.renderAll();
     }
 
+    function zoomMobile(delta, x, y) {
+        var zoom = canvas.getZoom();
+        zoom *= 0.999 ** delta;
+        if (zoom > 20) zoom = 20;
+        if (zoom < 0.01) zoom = 0.01;
+        canvas.zoomToPoint({ x: x, y: y }, zoom);
+    }
 
     // Zoom function
     function zoomCanvas(event) {
