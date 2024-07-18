@@ -1433,7 +1433,7 @@
 					name: 'btnDuplicate',
 					extend: 'create', 
 					editor: edtisoittd_upload_duplicate,
-					className: 'btn btn-plain',
+					className: 'btn btn-outline',
 					titleAttr: 'Duplicate',
 				},
 
