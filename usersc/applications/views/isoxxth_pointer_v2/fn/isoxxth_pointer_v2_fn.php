@@ -124,6 +124,8 @@
 
         // Set the canvas with filtered circles
         canvas.clear().renderAll();
+        canvas.absolutePan({ x: 0, y: 0 });
+        canvas.setZoom(1);
         fabric.Image.fromURL(imageData, function(img) {
             // Mengatur ukuran canvas sesuai ukuran gambar
             canvas.setDimensions({ width: img.width, height: img.height });

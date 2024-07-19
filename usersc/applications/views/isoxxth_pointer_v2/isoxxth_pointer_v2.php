@@ -406,6 +406,9 @@
 											hitungWarna(target_bg, function(result) {
 												// Assign result to simpanFoto
 												simpanFoto = result;
+												
+												canvas.absolutePan({ x: 0, y: 0 });
+												canvas.setZoom(1);
 												// console.log(simpanFoto);
 
 												hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
