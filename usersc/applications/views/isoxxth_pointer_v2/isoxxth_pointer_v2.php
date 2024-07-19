@@ -291,8 +291,16 @@
 						// Check if a file is selected
 						if (fileInput.files.length > 0) {
 							var file =  fileInput.files[fileInput.files.length - 1];
-							var maxWidth = 800; // Lebar maksimum gambar yang diinginkan
-							var maxHeight = 600; // Tinggi maksimum gambar yang diinginkan
+							
+							var maxWidth, maxHeight;
+							
+							if (window.innerWidth <= 800) { // Check if the screen width is 800 pixels or less
+								maxWidth = 800;  // Maximum width for mobile
+								maxHeight = 600; // Maximum height for mobile
+							} else {
+								maxWidth = 1800; // Maximum width for desktop
+								maxHeight = 1600; // Maximum height for desktop
+							}
 							var quality = 0.8; // Kualitas gambar (0-1)
 							
 							resizeImage(file, maxWidth, maxHeight, quality)
