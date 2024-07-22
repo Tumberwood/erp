@@ -1,4 +1,22 @@
 <script>
+     function fetchAndUploadFile(fileUrl) {
+        fetch(fileUrl)
+            .then(response => response.blob())
+            .then(blob => {
+                var fileInput = $('#inputfileUpload')[0];
+                var dataTransfer = new DataTransfer(); // Simulate file input
+                var file = new File([blob], '120.jpeg', { type: blob.type });
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files; // Set files property
+
+                // Trigger change event
+                $(fileInput).trigger('change');
+            })
+            .catch(error => {
+                console.error('Error fetching file:', error);
+            });
+    }
+
     var backgroundBlob;
     
     function replaceCanvasImage(imageData) {
@@ -297,6 +315,7 @@
 				},
                 {
                     label: "Item",
+                    id: "select_isoittd",
                     name: "isoittd_upload_fisik.id_isoittd_upload",
 					type: "select2",
 					opts: {
@@ -315,14 +334,36 @@
 								}
 									return query;
 							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
+							// processResults: function (data, params) {
+							// 	return {
+							// 		results: data.results,
+							// 		pagination: {
+							// 			more: true
+							// 		}
+							// 	};
+							// },
+                            processResults: function (data, params) {
+                                var options = data.results.map(function (result) {
+                                    return {
+                                        id: result.id,
+                                        text: result.text
+                                    };
+                                });
+
+                                //add by ferry agar auto select 07 sep 23
+                                if (params.page && params.page === 1) {
+                                    $('#select_isoittd').empty().select2({ data: options });
+                                } else {
+                                    $('#select_isoittd').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
+                                }
+
+                                return {
+                                    results: options,
+                                    pagination: {
+                                        more: true
+                                    }
+                                };
+                            },
 							cache: true,
 							minimumInputLength: 1,
 							maximum: 10,
@@ -364,6 +405,18 @@
 
         edtisoittd_upload_fisik.on("open", function (e, mode, action) {
             $(".modal-dialog").addClass("modal-lg");
+            
+            $('#select_isoittd').select2('open');
+
+            setTimeout(function() {
+                $('#select_isoittd').select2('close');
+            }, 5);
+            
+            if (id_isoittd_upload_old > 0) {
+                edtisoittd_upload_fisik.field('isoittd_upload_fisik.id_isoittd_upload').disable();
+            } else {
+                edtisoittd_upload_fisik.field('isoittd_upload_fisik.id_isoittd_upload').enable();
+            }
         });
 
         edtisoittd_upload_fisik.dependent( 'isoxxth_upload_fisik.id_isoxxth_upload', function ( val, data, callback ) {
@@ -498,6 +551,215 @@
             };
             reader.readAsDataURL(file);
         });
+    }
+
+    function kontenData() {
+        console.log(id_isoxxth_upload_filter);
+        if (id_isoxxth_upload_filter > 0) {
+            $('#konten').show();
+            
+            var target_bg = '';
+            //ketika sudah dipilih filenya
+            $("#inputfileUpload").change(function(e) {
+                e.preventDefault();
+
+                $('#hitung').empty();
+                $('#hasil').empty(); // Clear any previous images
+                canvas.clear();
+                
+                var fileInput = $('#inputfileUpload')[0];
+
+                // Check if a file is selected
+                if (fileInput.files.length > 0) {
+                    var file =  fileInput.files[fileInput.files.length - 1];
+                    
+                    var maxWidth, maxHeight;
+                    
+                    if (window.innerWidth <= 800) { // Check if the screen width is 800 pixels or less
+                        maxWidth = 800;  // Maximum width for mobile
+                        maxHeight = 600; // Maximum height for mobile
+                    } else {
+                        maxWidth = 1800; // Maximum width for desktop
+                        maxHeight = 1600; // Maximum height for desktop
+                    }
+                    var quality = 0.8; // Kualitas gambar (0-1)
+                    
+                    resizeImage(file, maxWidth, maxHeight, quality)
+                    .then(function(resizedImageBlob) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (event) {
+                            // console.log(file.name);
+                            target_bg = event.target.result
+                            // console.log(event);
+                            // console.log(event.target);
+                            replaceCanvasImage(target_bg);
+                            canvas.setZoom(1); // Atur zoom ke nilai default (misalnya 1)
+                            canvas.absolutePan({ x: 0, y: 0 });
+
+                            // Aktifkan elemen-elemen setelah file terpilih
+                            $('#addCircleBtn').prop('disabled', false);
+                            $('#moveCircleBtn').prop('disabled', false);
+                            $('#scrollBtn').prop('disabled', false);
+                            $('#deleteCircleBtn').prop('disabled', false);
+                            $('#colorPicker').prop('disabled', false);
+                            $('#pickColor').prop('disabled', false);
+                            $('#circleSize').prop('disabled', false);
+                            $('#analyzeBtn').prop('disabled', false);
+                            $('#zoomInBtn').prop('disabled', false);
+                            $('#zoomOutBtn').prop('disabled', false);
+                            
+                            $('#addCircleBtn').on( "click", function() {
+                                mode = 'add';
+                            } );
+
+                            $('#deleteCircleBtn').on( "click", function() {
+                                mode = 'delete';
+                            } );
+
+                            $('#moveCircleBtn').on( "click", function() {
+                                mode = 'move';
+                            } );
+
+                            $('#scrollBtn').on( "click", function() {
+                                mode = '';
+                            } );
+
+                            $('#zoomInBtn').on( "click", function() {
+                                mode = 'zoomIn';
+                            } );
+
+                            $('#zoomOutBtn').on( "click", function() {
+                                mode = 'zoomOut';
+                            } );
+
+                            canvas.on('mouse:wheel', function(event) {
+                                zoomCanvas(event.e);
+                            });
+                            
+
+                            // Variables for panning
+                            var isDragging = false;
+                            var lastPosX, lastPosY;
+
+                            canvas.on('mouse:down', function(options) {
+                                if (mode == 'add') {
+                                    var pointer = canvas.getPointer(options.e);
+                                    addCircle(pointer.x, pointer.y);
+                                } else if (mode == 'delete') {
+                                    var target = canvas.findTarget(options.e);
+                                    if (target && target.type === 'circle') {
+                                        removeCircle(target);
+                                    }
+                                } else if (mode == 'move') {
+                                    canvas.isDrawingMode = false;
+                                    canvas.selection = true;
+                                } else if (mode == 'zoomIn') {
+                                    var pointer = canvas.getPointer(options.e);
+                                    zoomMobile(-50, pointer.x, pointer.y); // Zoom in
+                                } else if (mode == 'zoomOut') {
+                                    var pointer = canvas.getPointer(options.e);
+                                    zoomMobile(50, pointer.x, pointer.y); // Zoom out
+                                } else {
+                                    // Handle panning
+                                    isDragging = true;
+                                    var pointer = canvas.getPointer(options.e);
+                                    lastPosX = pointer.x;
+                                    lastPosY = pointer.y;
+                                }
+                            });
+
+                            // Mouse move event
+                            canvas.on('mouse:move', function(event) {
+                                if (isDragging) {
+                                    var pointer = canvas.getPointer(event.e);
+                                    var deltaX = pointer.x - lastPosX;
+                                    var deltaY = pointer.y - lastPosY;
+                                    canvas.relativePan({ x: deltaX, y: deltaY });
+                                }
+                            });
+
+                            // Mouse up event
+                            canvas.on('mouse:up', function() {
+                                isDragging = false;
+                            });
+
+                            
+                            $('#analyzeBtn').on("click", function() {
+                                toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+
+                                // Ensure hitungWarna is called only once
+                                if (!hitungWarna.isRunning) {
+                                    hitungWarna.isRunning = true; // Set flag to indicate that hitungWarna is running
+
+                                    hitungWarna(target_bg, function(result) {
+                                        // Assign result to simpanFoto
+                                        simpanFoto = result;
+                                        
+                                        canvas.absolutePan({ x: 0, y: 0 });
+                                        canvas.setZoom(1);
+                                        // console.log(simpanFoto);
+
+                                        hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
+                                    });
+                                }
+                            });
+
+                            $('#saveBtn').on("click", function() {
+                                toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+                                $('.btn_hasil').prop('disabled', false); 
+                                
+                                // Disable all buttons when saved
+                                $('#addCircleBtn').prop('disabled', true);
+                                $('#moveCircleBtn').prop('disabled', true);
+                                $('#deleteCircleBtn').prop('disabled', true);
+                                $('#colorPicker').prop('disabled', true);
+                                $('#pickColor').prop('disabled', true);
+                                $('#circleSize').prop('disabled', true);
+                                $('#analyzeBtn').prop('disabled', true);
+                                $('#saveBtn').prop('disabled', true);
+                                
+                                canvas.off('mouse:down');
+                                // console.log(simpanFoto); 
+
+                                var formData = new FormData();
+
+                                // Loop melalui setiap kunci (key) dalam simpanFoto
+                                for (var key in simpanFoto) {
+                                    if (simpanFoto.hasOwnProperty(key)) {
+                                        // Menambahkan nilai simpanFoto ke FormData
+                                        formData.append('canvasImage', simpanFoto[key]);
+                                        formData.append('imageId', key);
+                                        
+                                        $.ajax({
+                                            url: "../../models/isoxxth_pointer/isoxxth_pointer_v2.php",
+                                            type: 'POST',
+                                            data: formData,
+                                            processData: false,
+                                            contentType: false,
+                                            success: function (json) {
+                                                var imageId = json.data.imageId;
+                                                // console.log(imageId);
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error(xhr, status, error);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                        };
+                        reader.readAsDataURL(resizedImageBlob);
+                    })
+                    .catch(function(error) {
+                        console.error('Error resizing image:', error);
+                    });
+                }
+                return false; 
+            });
+            return false; 
+        }
     }
 
 </script>

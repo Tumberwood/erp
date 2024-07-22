@@ -8,6 +8,18 @@
     if (!securePage($_SERVER['PHP_SELF'])) {
         die();
     }
+
+	if (isset($_GET['id_sou'])) {
+		$id_isoxxth_upload_filter = $_GET['id_sou'];
+	} else {
+		$id_isoxxth_upload_filter = 0;	
+	}
+
+	if (isset($_GET['id_td'])) {
+		$id_isoittd_upload_old = $_GET['id_td'];
+	} else {
+		$id_isoittd_upload_old = 0;	
+	}
 ?>
 <link href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
 
@@ -156,9 +168,13 @@
 	var c_circle = 0;
 	var arr_warna = [];
 	var id_isoxxth_upload_old = 0;
-	var id_isoittd_upload_old = 0;
+	// var id_isoittd_upload_old = 0;
 	var simpanFoto = {};
-	var id_isoxxth_upload_filter = 0;
+	// var id_isoxxth_upload_filter = 0;
+	var id_isoxxth_upload_filter = <?php echo $id_isoxxth_upload_filter ?>;
+	// console.log(id_isoxxth_upload_filter);
+	var id_isoittd_upload_old = <?php echo $id_isoittd_upload_old ?>;
+	// console.log(id_isoxxth_upload_filter);
 
 	const colorPicker = document.getElementById('colorPicker');
 	const pickColorButton = document.getElementById('pickColor');
@@ -222,13 +238,44 @@
 				}
 					return query;
 			},
+			// processResults: function (data, params) {
+			// 	return {
+			// 		results: data.results,
+			// 		pagination: {
+			// 			more: true
+			// 		}
+			// 	};
+			// },
 			processResults: function (data, params) {
-				return {
-					results: data.results,
-					pagination: {
-						more: true
+				if (id_isoxxth_upload_filter > 0) {
+					var options = data.results.map(function (result) {
+						return {
+							id: result.id,
+							text: result.text
+						};
+					});
+
+					//add by ferry agar auto select 07 sep 23
+					if (params.page && params.page === 1) {
+						$('#selectKode').empty().select2({ data: options });
+					} else {
+						$('#selectKode').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
 					}
-				};
+
+					return {
+						results: options,
+						pagination: {
+							more: true
+						}
+					};
+				} else {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				}
 			},
 			cache: true,
 			minimumInputLength: 1,
@@ -245,7 +292,30 @@
 		if (selectedOption) {
 			selectedText = selectedOption.text
 		}
+		
+		$('#selectKode').select2('open');
 
+		setTimeout(function() {
+			$('#selectKode').select2('close');
+		}, 5);
+		console.log(id_isoittd_upload_old);
+		if (id_isoittd_upload_old > 0) {
+			autofillField('isoittd_upload', id_isoittd_upload_old, 'id_files_pointer');
+			id_files_pointer = autofillData.id_files_pointer;
+			console.log(id_files_pointer);
+			if (id_files_pointer > 0) {
+				console.log(111);
+				// console.log(id_files_pointer);
+				autofillField('files', id_files_pointer, 'web_path');
+				web_path = autofillData.web_path;
+				// console.log(web_path);
+				fetchAndUploadFile(web_path);
+				$('#inputfileUpload').prop('disabled', true);
+				$('#frmisoittd_upload :input').prop('disabled', true);
+			}
+		}
+
+		kontenData();
 		$('#addCircleBtn').prop('disabled', true);
 		$('#moveCircleBtn').prop('disabled', true);
 		$('#scrollBtn').prop('disabled', true);
@@ -270,215 +340,15 @@
 				
 			},
 			submitHandler: function(frmisoittd_upload) {
-				id_isoxxth_upload_filter  = $('#selectKode').val();
-				// console.log(id_isoxxth_upload_filter);
-
-				//Jika ada filter kode maka akan muncul konten
-				if (id_isoxxth_upload_filter > 0) {
-					$('#konten').show();
-					
-					var target_bg = '';
-					//ketika sudah dipilih filenya
-					$("#inputfileUpload").change(function(e) {
-						e.preventDefault();
-
-						$('#hitung').empty();
-						$('#hasil').empty(); // Clear any previous images
-						canvas.clear();
-						
-						var fileInput = $('#inputfileUpload')[0];
-
-						// Check if a file is selected
-						if (fileInput.files.length > 0) {
-							var file =  fileInput.files[fileInput.files.length - 1];
-							
-							var maxWidth, maxHeight;
-							
-							if (window.innerWidth <= 800) { // Check if the screen width is 800 pixels or less
-								maxWidth = 800;  // Maximum width for mobile
-								maxHeight = 600; // Maximum height for mobile
-							} else {
-								maxWidth = 1800; // Maximum width for desktop
-								maxHeight = 1600; // Maximum height for desktop
-							}
-							var quality = 0.8; // Kualitas gambar (0-1)
-							
-							resizeImage(file, maxWidth, maxHeight, quality)
-							.then(function(resizedImageBlob) {
-								var reader = new FileReader();
-
-								reader.onload = function (event) {
-									// console.log(file.name);
-									target_bg = event.target.result
-									// console.log(event);
-									// console.log(event.target);
-									replaceCanvasImage(target_bg);
-									canvas.setZoom(1); // Atur zoom ke nilai default (misalnya 1)
-    								canvas.absolutePan({ x: 0, y: 0 });
-
-									// Aktifkan elemen-elemen setelah file terpilih
-									$('#addCircleBtn').prop('disabled', false);
-									$('#moveCircleBtn').prop('disabled', false);
-									$('#scrollBtn').prop('disabled', false);
-									$('#deleteCircleBtn').prop('disabled', false);
-									$('#colorPicker').prop('disabled', false);
-									$('#pickColor').prop('disabled', false);
-									$('#circleSize').prop('disabled', false);
-									$('#analyzeBtn').prop('disabled', false);
-									$('#zoomInBtn').prop('disabled', false);
-									$('#zoomOutBtn').prop('disabled', false);
-									
-									$('#addCircleBtn').on( "click", function() {
-										mode = 'add';
-									} );
-
-									$('#deleteCircleBtn').on( "click", function() {
-										mode = 'delete';
-									} );
-
-									$('#moveCircleBtn').on( "click", function() {
-										mode = 'move';
-									} );
-
-									$('#scrollBtn').on( "click", function() {
-										mode = '';
-									} );
-
-									$('#zoomInBtn').on( "click", function() {
-										mode = 'zoomIn';
-									} );
-
-									$('#zoomOutBtn').on( "click", function() {
-										mode = 'zoomOut';
-									} );
-
-									canvas.on('mouse:wheel', function(event) {
-										zoomCanvas(event.e);
-									});
-									
-
-									// Variables for panning
-									var isDragging = false;
-									var lastPosX, lastPosY;
-
-									canvas.on('mouse:down', function(options) {
-										if (mode == 'add') {
-											var pointer = canvas.getPointer(options.e);
-											addCircle(pointer.x, pointer.y);
-										} else if (mode == 'delete') {
-											var target = canvas.findTarget(options.e);
-											if (target && target.type === 'circle') {
-												removeCircle(target);
-											}
-										} else if (mode == 'move') {
-											canvas.isDrawingMode = false;
-											canvas.selection = true;
-										} else if (mode == 'zoomIn') {
-											var pointer = canvas.getPointer(options.e);
-											zoomMobile(-50, pointer.x, pointer.y); // Zoom in
-										} else if (mode == 'zoomOut') {
-											var pointer = canvas.getPointer(options.e);
-											zoomMobile(50, pointer.x, pointer.y); // Zoom out
-										} else {
-											// Handle panning
-											isDragging = true;
-											var pointer = canvas.getPointer(options.e);
-											lastPosX = pointer.x;
-											lastPosY = pointer.y;
-										}
-									});
-
-									// Mouse move event
-									canvas.on('mouse:move', function(event) {
-										if (isDragging) {
-											var pointer = canvas.getPointer(event.e);
-											var deltaX = pointer.x - lastPosX;
-											var deltaY = pointer.y - lastPosY;
-											canvas.relativePan({ x: deltaX, y: deltaY });
-										}
-									});
-
-									// Mouse up event
-									canvas.on('mouse:up', function() {
-										isDragging = false;
-									});
-
-									
-									$('#analyzeBtn').on("click", function() {
-										toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
-
-										// Ensure hitungWarna is called only once
-										if (!hitungWarna.isRunning) {
-											hitungWarna.isRunning = true; // Set flag to indicate that hitungWarna is running
-
-											hitungWarna(target_bg, function(result) {
-												// Assign result to simpanFoto
-												simpanFoto = result;
-												
-												canvas.absolutePan({ x: 0, y: 0 });
-												canvas.setZoom(1);
-												// console.log(simpanFoto);
-
-												hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
-											});
-										}
-									});
-
-									$('#saveBtn').on("click", function() {
-										toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
-										$('.btn_hasil').prop('disabled', false); 
-										
-										// Disable all buttons when saved
-										$('#addCircleBtn').prop('disabled', true);
-										$('#moveCircleBtn').prop('disabled', true);
-										$('#deleteCircleBtn').prop('disabled', true);
-										$('#colorPicker').prop('disabled', true);
-										$('#pickColor').prop('disabled', true);
-										$('#circleSize').prop('disabled', true);
-										$('#analyzeBtn').prop('disabled', true);
-										$('#saveBtn').prop('disabled', true);
-										
-										canvas.off('mouse:down');
-										// console.log(simpanFoto); 
-
-										var formData = new FormData();
-
-										// Loop melalui setiap kunci (key) dalam simpanFoto
-										for (var key in simpanFoto) {
-											if (simpanFoto.hasOwnProperty(key)) {
-												// Menambahkan nilai simpanFoto ke FormData
-												formData.append('canvasImage', simpanFoto[key]);
-												formData.append('imageId', key);
-												
-												$.ajax({
-													url: "../../models/isoxxth_pointer/isoxxth_pointer_v2.php",
-													type: 'POST',
-													data: formData,
-													processData: false,
-													contentType: false,
-													success: function (json) {
-														var imageId = json.data.imageId;
-														// console.log(imageId);
-													},
-													error: function (xhr, status, error) {
-														console.error(xhr, status, error);
-													}
-												});
-											}
-										}
-									});
-
-								};
-								reader.readAsDataURL(resizedImageBlob);
-							})
-							.catch(function(error) {
-								console.error('Error resizing image:', error);
-							});
-						}
-						return false; 
-					});
-					return false; 
+				console.log(id_isoxxth_upload_filter);
+				if ($('#selectKode').val() > 0) {
+					id_isoxxth_upload_filter  = $('#selectKode').val();
 				}
+				console.log(id_isoxxth_upload_filter);
+				// console.log(id_isoxxth_upload_filter);
+				kontenData();
+				//Jika ada filter kode maka akan muncul konten
+				
 			}
 		});
 		

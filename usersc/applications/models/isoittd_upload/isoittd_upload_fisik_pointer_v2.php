@@ -36,6 +36,10 @@
 				Field::inst( 'isoittd_upload_fisik.finish_at' ),
 				Field::inst( 'isoittd_upload_fisik.is_defaultprogram' ),
 				Field::inst( 'isoittd_upload_fisik.fisik' ),
+				Field::inst( 'isoittd_upload_fisik.is_pointer' )
+				->set( Field::SET_CREATE )
+				->setValue(1)
+				,
 			)
 			// BEGIN upload multi file
 			// table files dan filestr adalah bawaan framework, jangan diganti. cukup ganti isoittd_upload_fisik nya saja dan folder 

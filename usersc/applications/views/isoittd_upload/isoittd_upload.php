@@ -128,6 +128,9 @@
 								<div class="col-lg-6">
 									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
 								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.id_files_pointer"></editor-field>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -187,6 +190,9 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.id_files_pointer"></editor-field>
 								</div>
 							</div>
 						</div>
@@ -286,6 +292,7 @@
 	var is_skip_select = 0;
 	var id_isoxxth_upload_old = 0;
 	var id_isoxxth_upload_filter = 0;
+	var id_files_pointer_old = 0;
 	var selectedText = null;
 	var start_button = "";
 	
@@ -371,13 +378,13 @@
 					def: 1
 				},
 				{
-					label: "Transaksi In <sup class='text-danger'>*<sup>",
+					label: "Transaksi In",
 					name: "isoittd_upload.transaksi_in",
 					type: "hidden"
 				}, 	
 				
 				{
-					label: "Transaksi Out <sup class='text-danger'>*<sup>",
+					label: "Transaksi Out",
 					name: "isoittd_upload.transaksi_out",
 					type: "hidden"
 				}, 	
@@ -655,13 +662,13 @@
 				}, 	
 				
 				{
-					label: "Transaksi In <sup class='text-danger'>*<sup>",
+					label: "Transaksi In",
 					name: "isoittd_upload.transaksi_in",
 					type: "hidden"
 				}, 	
 				
 				{
-					label: "Transaksi Out <sup class='text-danger'>*<sup>",
+					label: "Transaksi Out",
 					name: "isoittd_upload.transaksi_out",
 					type: "hidden"
 				}, 	
@@ -699,7 +706,46 @@
 					label: "Keterangan",
 					name: "isoittd_upload.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "ID Foto", 
+					name: "isoittd_upload.id_files_pointer",
+					type: "select2",
+					id: "lokasi_opname",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/isoittd_upload_files_pointer_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
+								var query = {
+									id_isoittd_upload_old: id_files_pointer_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 		edtisoittd_upload_duplicate.field('isoittd_upload.id_files_skip').hide();
@@ -742,6 +788,7 @@
 			edtisoittd_upload_duplicate.field('isoittd_upload.selisih').val(autofillData.selisih);
 			edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(autofillData.selisih_final);
 			edtisoittd_upload_duplicate.field('isoittd_upload.is_skip').val(autofillData.is_skip);
+			edtisoittd_upload_duplicate.field('isoittd_upload.id_files_pointer').val(autofillData.id_files_pointer);
 		});
 
 		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
@@ -799,8 +846,6 @@
 				// expired_date              = edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').val();
 				
 				expired_date = moment(edtisoittd_upload_duplicate.field('isoittd_upload.expired_date').val()).format("YYYY-MM-DD");
-				transaksi_in              = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_in').val();
-				transaksi_out              = edtisoittd_upload_duplicate.field('isoittd_upload.transaksi_out').val();
 
 				validasiRequired(
 					edtisoittd_upload_duplicate,
@@ -854,6 +899,110 @@
 
 		edtisoittd_upload_duplicate.on( 'close', function () {
 			edtisoittd_upload_duplicate.enable();
+		} );
+
+		//Upload foto pointer
+		
+
+		// BEGIN isoittd_upload
+		edtisoittd_upload_pointer = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/isoittd_upload/isoittd_upload.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
+					d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
+				}
+			},
+			table: "#tblisoittd_upload",
+			fields: [ 
+				{
+					label: "isoittd_upload.start_at",
+					name: "isoittd_upload.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "isoittd_upload.finish_at",
+					name: "isoittd_upload.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "isoittd_upload",
+					type: "hidden"
+				},	
+				{
+					label: "isoittd_upload.id_isoxxth_upload",
+					name: "isoittd_upload.id_isoxxth_upload",
+					type: "hidden"
+				},
+				{
+					label: "isoittd_upload.transaction_state",
+					name: "isoittd_upload.transaction_state",
+					type: "hidden",
+					def: 1
+				},
+				{
+					label: "Transaksi In",
+					name: "isoittd_upload.transaksi_in",
+					type: "hidden"
+				}, 	
+				
+				{
+					label: "Transaksi Out",
+					name: "isoittd_upload.transaksi_out",
+					type: "hidden"
+				}, 	
+				{
+					label: "Foto <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.id_files_pointer",
+					type: "upload",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtisoittd_upload_pointer.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_upload_pointer.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				}
+			]
+		} );
+		
+		edtisoittd_upload_pointer.on( 'preOpen', function( e, mode, action ) {
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtisoittd_upload_pointer.field('isoittd_upload.start_at').val(start_at);
+			edtisoittd_upload_pointer.field('isoittd_upload.id_isoxxth_upload').val(id_isoxxth_upload_filter);
+		});
+
+		edtisoittd_upload_pointer.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-xl");
+		});
+
+		edtisoittd_upload_pointer.on( 'preSubmit', function (e, data, action) {
+
+				id_files_pointer      = edtisoittd_upload_pointer.field('isoittd_upload.id_files_pointer').val();
+				console.log(id_files_pointer);
+
+				if (id_files_pointer == 0) {
+					edtisoittd_upload_pointer.field('isoittd_upload.id_files_pointer').error( 'Wajib diisi!' )
+					return false
+				}
+			
+			if ( edtisoittd_upload_pointer.inError() ) {
+				return false;
+			}
+		});
+
+		edtisoittd_upload_pointer.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtisoittd_upload_pointer.field('isoittd_upload.finish_at').val(finish_at);
+		});
+
+		edtisoittd_upload_pointer.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// tblisoittd_upload.rows().deselect();
+			tblisoittd_upload.ajax.reload(null,false);
 		} );
 
 		edtisoittd_upload = new $.fn.dataTable.Editor( {
@@ -1119,12 +1268,12 @@
 				}, 	
 				
 				{
-					label: "Transaksi In <sup class='text-danger'>*<sup>",
+					label: "Transaksi In",
 					name: "isoittd_upload.transaksi_in"
 				}, 	
 				
 				{
-					label: "Transaksi Out <sup class='text-danger'>*<sup>",
+					label: "Transaksi Out",
 					name: "isoittd_upload.transaksi_out"
 				}, 	
 				{
@@ -1161,7 +1310,46 @@
 					label: "Keterangan",
 					name: "isoittd_upload.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "ID Foto", 
+					name: "isoittd_upload.id_files_pointer",
+					type: "select2",
+					id: "lokasi_opname",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/isoittd_upload_files_pointer_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
+								var query = {
+									id_isoittd_upload_old: id_files_pointer_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 		edtisoittd_upload.field('isoittd_upload.id_files_skip').hide();
@@ -1268,22 +1456,13 @@
 				lpn          = edtisoittd_upload.field('isoittd_upload.lpn').val();
 				fisik          = edtisoittd_upload.field('isoittd_upload.fisik').val();
 				batch_number              = edtisoittd_upload.field('isoittd_upload.batch_number').val();
+				transaksi_in              = edtisoittd_upload.field('isoittd_upload.transaksi_in').val();
+				transaksi_out              = edtisoittd_upload.field('isoittd_upload.transaksi_out').val();
 				// expired_date              = edtisoittd_upload.field('isoittd_upload.expired_date').val();
 				
 				expired_date = moment(edtisoittd_upload.field('isoittd_upload.expired_date').val()).format("YYYY-MM-DD");
-				transaksi_in              = edtisoittd_upload.field('isoittd_upload.transaksi_in').val();
-				transaksi_out              = edtisoittd_upload.field('isoittd_upload.transaksi_out').val();
 
-				if (action == 'edit') {
-					validasiRequired(
-						edtisoittd_upload,
-						'isoittd_upload',
-						{
-							'transaksi_in': transaksi_in,
-							'transaksi_out': transaksi_out,
-						}
-					);
-				} else {
+				if (action == 'create') {
 					validasiRequired(
 						edtisoittd_upload,
 						'isoittd_upload',
@@ -1295,8 +1474,6 @@
 							'lpn': lpn,
 							'batch_number': batch_number,
 							'expired_date': expired_date,
-							'transaksi_in': transaksi_in,
-							'transaksi_out': transaksi_out,
 						}
 					);
 				}
@@ -1312,16 +1489,18 @@
 					id_isoittd_upload
 				);
 
-				validasiNumber(
-					edtisoittd_upload,
-					'isoittd_upload',
-					{
-						'transaksi_in': transaksi_in,
-						'transaksi_out': transaksi_out,
-					},
-					0,
-					'>='
-				);
+				if (transaksi_in != '' && transaksi_out != '') {
+					validasiNumber(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
+							'transaksi_in': transaksi_in,
+							'transaksi_out': transaksi_out,
+						},
+						0,
+						'>='
+					);
+				}
 			}
 			
 			if ( edtisoittd_upload.inError() ) {
@@ -1492,9 +1671,10 @@
 				{
 					extend: 'collection',
 					name: 'btnSetExcel',
-					text: '<i class="fa fa-file-excel-o"></i>&nbsp;Update Transaksi',
+					text: '<i class="fa fa-file-excel-o"></i>',
 					className: 'btn btn-primary',
 					autoClose: true,
+					titleAttr: 'Update Transaksi',
 					buttons: [
 						{
 							extend: "excel",
@@ -1523,7 +1703,7 @@
 					]
 				},
 				{ 
-					text: '<i class="fa fa-clone"></i>&nbsp;Duplicate', 
+					text: '<i class="fa fa-clone"></i>', 
 					name: 'btnDuplicate',
 					extend: 'create', 
 					editor: edtisoittd_upload_duplicate,
@@ -1606,29 +1786,14 @@
 					editor: edtisoittd_upload_skip,
 					className: 'btn btn-warning',
 					titleAttr: 'Skip',
-					// action: function ( e, dt, node, config ) {
-						// this.submit(
-						// 	function (json) {
-								// $.ajax( {
-								// 	url: '../../models/isoittd_upload/fn_button_skip.php',
-								// 	dataType: 'json',
-								// 	type: 'POST',
-								// 	data: {
-								// 		id_transaksi_h: id_transaksi_h,
-								// 		start_button: start_button
-								// 	},
-								// 	success: function ( json ) {
-								// 		full_message = json.message + '</br>';
-								// 		toast_type   = json.type_message;
-								// 		toastr[toast_type](full_message, 'INFO');
-
-								// 		tblisoittd_upload.rows().deselect();
-								// 		tblisoittd_upload.ajax.reload(null,false);
-								// 	}
-								// });
-						// 	}, 
-						// );
-					// }
+				},
+				{ 
+					text: ' <i class="fa fa-upload"></i>', 
+					extend: 'edit', 
+					name: 'btnPointer',
+					editor: edtisoittd_upload_pointer,
+					className: 'btn btn-outline',
+					titleAttr: 'Upload Foto Pointer',
 				},
 			],
 			initComplete: function() {
@@ -1660,6 +1825,7 @@
 		tblisoittd_upload.button('btnSkip:name').disable();
 		tblisoittd_upload.button('btnNol:name').disable();
 		tblisoittd_upload.button('btnDuplicate:name').disable();
+		tblisoittd_upload.button('btnPointer:name').disable();
 		
 		tblisoittd_upload.on( 'init', function () {
 			// atur hak akses
@@ -1671,6 +1837,7 @@
 			tblisoittd_upload.button('btnNol:name').disable();
 			tblisoittd_upload.button('btnSkip:name').disable();
 			tblisoittd_upload.button('btnDuplicate:name').disable();
+			tblisoittd_upload.button('btnPointer:name').disable();
 		} );
 		
 		tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -1699,6 +1866,7 @@
 			// wloxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().wloxxmh;
 			nama_lokasi 		= isoittd_upload_data.lokasi;
 			is_skip_select 		= isoittd_upload_data.is_skip;
+			id_files_pointer_old 		= isoittd_upload_data.id_files_pointer;
 			
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
@@ -1719,6 +1887,7 @@
 			}
 			tblisoittd_upload.button('btnSkip:name').enable();
 			tblisoittd_upload.button('btnDuplicate:name').enable();		
+			tblisoittd_upload.button('btnPointer:name').enable();		
 
 			//keperluan Button
 			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -1732,6 +1901,7 @@
 			kode_uom = 0;
 			nama_lokasi = 0;
 			is_skip_select = 0;
+			id_files_pointer_old = 0;
 			lpn = 0;
 			batch_number = 0;
 			expired = 0;
@@ -1745,6 +1915,7 @@
 			tblisoittd_upload.button('btnSetFisik:name').disable();
 			tblisoittd_upload.button('btnSkip:name').disable();
 			tblisoittd_upload.button('btnDuplicate:name').disable();
+			tblisoittd_upload.button('btnPointer:name').disable();
 		} );
 		
 		// END isoittd_upload
