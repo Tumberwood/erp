@@ -1343,10 +1343,14 @@
 			edtisoittd_upload.enable();
 		} );
 		
+		var selisihDesc = $.fn.dataTable.absoluteOrderNumber( [
+			{ value: null, position: 'bottom' }
+		] );
+
 		tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: window.innerWidth < 768 ? 'columns-1' : 'columns-3'
+				layout: window.innerWidth < 768 ? 'columns-1' : 'columns-4'
 			},
 			// make if phone mobile make colums -1
 			ajax: {
@@ -1362,14 +1366,15 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,3,4]
+					targets: [1,3,4,10,13,14,15]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
 					targets: '_all'
-				}
+				},
+				{ type: selisihDesc, targets: 10 }
 			],
 			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
 			// responsive: false,
@@ -1397,7 +1402,27 @@
 				},
 				{ 
 					data: "isoittd_upload.selisih",
-					...renderNumber()
+					// ...renderNumber()
+					render: function(data, type, row) {
+						if (type === 'sp') {
+							if (data == 0) {
+								return "OK";
+							} else if (data > 0) {
+								return "Lebih"
+							} else if (data < 0) {
+								return "Kurang"
+							} else {
+								return "Invalid Value"
+							}
+						} else {
+							return $.fn.dataTable.render.number(',', '.', 0, '', '').display(data);
+						}
+					},
+					class: "text-right",
+					searchPanes: {
+						orthogonal: 'sp',
+						show: true
+					}
 				},
 				{ 
 					data: "isoittd_upload.transaksi_in",
@@ -1409,7 +1434,27 @@
 				},
 				{ 
 					data: "isoittd_upload.selisih_final",
-					...renderNumber()
+					// ...renderNumber()
+					render: function(data, type, row) {
+						if (type === 'sp') {
+							if (data == 0) {
+								return "OK";
+							} else if (data > 0) {
+								return "Lebih"
+							} else if (data < 0) {
+								return "Kurang"
+							} else {
+								return "Invalid Value"
+							}
+						} else {
+							return $.fn.dataTable.render.number(',', '.', 0, '', '').display(data);
+						}
+					},
+					class: "text-right",
+					searchPanes: {
+						orthogonal: 'sp',
+						show: true
+					}
 				},
 				{ 
 					data: "isoittd_upload.is_skip",

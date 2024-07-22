@@ -132,6 +132,10 @@
 		
 		$(document).ready(function() {
 			
+			var selisihDesc = $.fn.dataTable.absoluteOrderNumber( [
+				{ value: null, position: 'bottom' }
+			] );
+
 			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 				dom: domPQ,
 				searchPanes:{
@@ -150,14 +154,15 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,11,12,13]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
 					targets: '_all'
-				}
+				},
+				{ type: selisihDesc, targets: 11 }
 			],
 			order: [[ 2, "asc" ]],
 			responsive: false,
@@ -182,7 +187,27 @@
 				},
 				{ 
 					data: "isoittd_upload.selisih",
-					...renderNumber()
+					// ...renderNumber()
+					render: function(data, type, row) {
+						if (type === 'sp') {
+							if (data == 0) {
+								return "OK";
+							} else if (data > 0) {
+								return "Lebih"
+							} else if (data < 0) {
+								return "Kurang"
+							} else {
+								return "Invalid Value"
+							}
+						} else {
+							return $.fn.dataTable.render.number(',', '.', 0, '', '').display(data);
+						}
+					},
+					class: "text-right",
+					searchPanes: {
+						orthogonal: 'sp',
+						show: true
+					}
 				},
 				{ 
 					data: "isoittd_upload.is_skip",
