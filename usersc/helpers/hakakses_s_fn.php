@@ -169,7 +169,7 @@
                     		b.id_users = :s_id_users
                     ');
                 $rs_hemjbmh     = $qs_hemjbmh->fetch();
-                if (isset($rs_hemjbmh)) {
+                if (!empty($rs_hemjbmh)) {
                     $s_id_gbrxxmh   = $rs_hemjbmh['id_gbrxxmh'];
                     $s_id_hodxxmh   = $rs_hemjbmh['id_hodxxmh'];
                 }
