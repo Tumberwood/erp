@@ -127,6 +127,8 @@
             if(!is_null($rs_hemxxmh['id_hemxxmh'])){
                 $s_id_hemxxmh = $rs_hemxxmh['id_hemxxmh'];
             }
+        } else {
+            $s_id_hemxxmh = 0;
         }
         // END hemxxmh default
         
@@ -167,8 +169,10 @@
                     		b.id_users = :s_id_users
                     ');
                 $rs_hemjbmh     = $qs_hemjbmh->fetch();
-                $s_id_gbrxxmh   = $rs_hemjbmh['id_gbrxxmh'];
-                $s_id_hodxxmh   = $rs_hemjbmh['id_hodxxmh'];
+                if (isset($rs_hemjbmh)) {
+                    $s_id_gbrxxmh   = $rs_hemjbmh['id_gbrxxmh'];
+                    $s_id_hodxxmh   = $rs_hemjbmh['id_hodxxmh'];
+                }
                 // END data terkait  user
 
                 // BEGIN hak akses ucudasd
