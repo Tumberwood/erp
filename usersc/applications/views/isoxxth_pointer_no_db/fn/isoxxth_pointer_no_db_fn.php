@@ -110,6 +110,8 @@
         $('#hasil').empty(); // Clear any previous images
 
         // Set the canvas with filtered circles
+        canvas.absolutePan({ x: 0, y: 0 });
+        canvas.setZoom(1);
         canvas.clear().renderAll();
         fabric.Image.fromURL(imageData, function(img) {
             // Mengatur ukuran canvas sesuai ukuran gambar
@@ -283,5 +285,24 @@
         });
     }
 
+    function zoomMobile(delta, x, y) {
+        var zoom = canvas.getZoom();
+        zoom *= 0.999 ** delta;
+        if (zoom > 20) zoom = 20;
+        if (zoom < 0.01) zoom = 0.01;
+        canvas.zoomToPoint({ x: x, y: y }, zoom);
+    }
+
+    // Zoom function
+    function zoomCanvas(event) {
+        var delta = event.deltaY;
+        var zoom = canvas.getZoom();
+        zoom *= 0.999 ** delta;
+        if (zoom > 20) zoom = 20;
+        if (zoom < 0.01) zoom = 0.01;
+        canvas.zoomToPoint({ x: event.offsetX, y: event.offsetY }, zoom);
+        event.preventDefault();
+        event.stopPropagation();
+    }
 
 </script>

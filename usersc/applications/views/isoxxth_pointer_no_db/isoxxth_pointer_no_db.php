@@ -51,9 +51,12 @@
 				<hr/>
 				<h3>Action</h3>
 				<p>
-					<button class="btn btn-info" id="addCircleBtn"><i class="fa fa-plus"></i></button>
-					<button class="btn btn-warning" id="moveCircleBtn"><i class="fa fa-arrows"></i></button>
-					<button class="btn btn-danger" id="deleteCircleBtn"><i class="fa fa-trash"></i></button>
+					<button class="btn btn-info" id="addCircleBtn" title="Add Circle" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-warning" id="moveCircleBtn" title="Move Circle" data-toggle="tooltip"><i class="fa fa-arrows"></i></button>
+					<button class="btn btn-danger" id="deleteCircleBtn" title="Delete Circle" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
+					<button class="btn btn-outline" id="scrollBtn" title="Scroll" data-toggle="tooltip"><i class="fa fa-mouse-pointer"></i></button>
+					<button class="btn btn-outline" id="zoomInBtn" title="Zoom In" data-toggle="tooltip"><i class="fa fa-search-plus"></i></button>
+					<button class="btn btn-outline" id="zoomOutBtn" title="Zoom Out" data-toggle="tooltip"><i class="fa fa-search-minus"></i></button>
 				</p>
 
 				<h3>Color</h3>
@@ -119,7 +122,7 @@
 <script type="text/javascript">
 	var canvas = new fabric.Canvas('c');
 	var canvasContainer = $('#canvas-container');
-	var mode = 'add';
+	var mode = '';
 	var warna = '#ff0000';
 	var circleSize = 1;
 	var fungsi = "draw";
@@ -206,8 +209,16 @@
 			var fileInput = $('#inputfileUpload')[0];
 			if (fileInput.files.length > 0) {
 				var file =  fileInput.files[fileInput.files.length - 1];
-				var maxWidth = 800; // Lebar maksimum gambar yang diinginkan
-				var maxHeight = 600; // Tinggi maksimum gambar yang diinginkan
+				
+				var maxWidth, maxHeight;
+				
+				if (window.innerWidth <= 800) { // Check if the screen width is 800 pixels or less
+					maxWidth = 800;  // Maximum width for mobile
+					maxHeight = 600; // Maximum height for mobile
+				} else {
+					maxWidth = 1800; // Maximum width for desktop
+					maxHeight = 1600; // Maximum height for desktop
+				}
 				var quality = 0.8; // Kualitas gambar (0-1)
 
 				resizeImage(file, maxWidth, maxHeight, quality)
@@ -219,6 +230,8 @@
 						// console.log(event);
 						// console.log(event.target);
 						replaceCanvasImage(target_bg);
+						canvas.setZoom(1); // Atur zoom ke nilai default (misalnya 1)
+						canvas.absolutePan({ x: 0, y: 0 });
 
 						// Aktifkan elemen-elemen setelah file terpilih
 						// $('#addCircleBtn').prop('disabled', false);
@@ -241,6 +254,25 @@
 							mode = 'move';
 						} );
 
+						$('#scrollBtn').on( "click", function() {
+							mode = '';
+						} );
+
+						$('#zoomInBtn').on( "click", function() {
+							mode = 'zoomIn';
+						} );
+
+						$('#zoomOutBtn').on( "click", function() {
+							mode = 'zoomOut';
+						} );
+
+						canvas.on('mouse:wheel', function(event) {
+							zoomCanvas(event.e);
+						});
+
+						var isDragging = false;
+						var lastPosX, lastPosY;
+						
 						canvas.on('mouse:down', function(options) {
 							if (mode == 'add') {
 								var pointer = canvas.getPointer(options.e);
@@ -253,9 +285,36 @@
 							} else if (mode == 'move') {
 								canvas.isDrawingMode = false;
 								canvas.selection = true;
+							} else if (mode == 'zoomIn') {
+								var pointer = canvas.getPointer(options.e);
+								zoomMobile(-50, pointer.x, pointer.y); // Zoom in
+							} else if (mode == 'zoomOut') {
+								var pointer = canvas.getPointer(options.e);
+								zoomMobile(50, pointer.x, pointer.y); // Zoom out
+							} else {
+								// Handle panning
+								isDragging = true;
+								var pointer = canvas.getPointer(options.e);
+								lastPosX = pointer.x;
+								lastPosY = pointer.y;
 							}
 						});
-						
+
+						// Mouse move event
+						canvas.on('mouse:move', function(event) {
+							if (isDragging) {
+								var pointer = canvas.getPointer(event.e);
+								var deltaX = pointer.x - lastPosX;
+								var deltaY = pointer.y - lastPosY;
+								canvas.relativePan({ x: deltaX, y: deltaY });
+							}
+						});
+
+						// Mouse up event
+						canvas.on('mouse:up', function() {
+							isDragging = false;
+						});
+
 						$('#analyzeBtn').on("click", function() {
 							toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
 
@@ -266,6 +325,9 @@
 								hitungWarna(target_bg, function(result) {
 									// Assign result to simpanFoto
 									simpanFoto = result;
+
+									canvas.absolutePan({ x: 0, y: 0 });
+									canvas.setZoom(1);
 									// console.log(simpanFoto);
 
 									hitungWarna.isRunning = false; // Reset the flag when hitungWarna is done
