@@ -1356,7 +1356,7 @@
 					type: "readonly"
 				},
 				{
-					label: "ID Foto", 
+					label: "ID Foto Pointer", 
 					name: "isoittd_upload.id_files_pointer",
 					type: "select2",
 					id: "lokasi_opname",
