@@ -400,7 +400,18 @@
 						}
 					},
 					noFileText: 'Belum ada gambar'
-				}
+				},
+				{
+					label: "Alasan Skip <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.alasan_skip",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Label LPN Tidak Ada / Salah", "value": "Label LPN Tidak Ada / Salah" },
+						{ "label": "Label Lokasi Tidak Ada / Salah", "value": "Label Lokasi Tidak Ada / Salah" },
+						{ "label": "Penataan belum sesuai standart", "value": "Penataan belum sesuai standart" },
+					]
+				},
 			]
 		} );
 		
@@ -411,17 +422,21 @@
 		});
 
 		edtisoittd_upload_skip.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-xl");
+			$(".modal-dialog").addClass("modal-lg");
 		});
 
 		edtisoittd_upload_skip.on( 'preSubmit', function (e, data, action) {
 
 				id_files_skip      = edtisoittd_upload_skip.field('isoittd_upload.id_files_skip').val();
+				alasan_skip      = edtisoittd_upload_skip.field('isoittd_upload.alasan_skip').val();
 				console.log(id_files_skip);
 
 				if (id_files_skip == 0) {
 					edtisoittd_upload_skip.field('isoittd_upload.id_files_skip').error( 'Wajib diisi!' )
-					return false
+				}
+
+				if (alasan_skip == '') {
+					edtisoittd_upload_skip.field('isoittd_upload.alasan_skip').error( 'Wajib diisi!' )
 				}
 			
 			if ( edtisoittd_upload_skip.inError() ) {
@@ -966,7 +981,12 @@
 						}
 					},
 					noFileText: 'Belum ada gambar'
-				}
+				},
+				{
+					label: "Keterangan Pointer <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.keterangan_pointer",
+					fieldInfo: "Contoh: Hanya hitung pipa yang berisi 4"
+				}, 	
 			]
 		} );
 		
@@ -977,7 +997,7 @@
 		});
 
 		edtisoittd_upload_pointer.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-xl");
+			$(".modal-dialog").addClass("modal-lg");
 		});
 
 		edtisoittd_upload_pointer.on( 'preSubmit', function (e, data, action) {
@@ -987,7 +1007,13 @@
 
 				if (id_files_pointer == 0) {
 					edtisoittd_upload_pointer.field('isoittd_upload.id_files_pointer').error( 'Wajib diisi!' )
-					return false
+				}
+
+				keterangan_pointer      = edtisoittd_upload_pointer.field('isoittd_upload.keterangan_pointer').val();
+				console.log(keterangan_pointer);
+
+				if (keterangan_pointer == '') {
+					edtisoittd_upload_pointer.field('isoittd_upload.keterangan_pointer').error( 'Wajib diisi!' )
 				}
 			
 			if ( edtisoittd_upload_pointer.inError() ) {
@@ -1310,6 +1336,11 @@
 					label: "Keterangan",
 					name: "isoittd_upload.keterangan",
 					type: "textarea"
+				},
+				{
+					label: "Keterangan Pointer",
+					name: "isoittd_upload.keterangan_pointer",
+					type: "hidden"
 				},
 				{
 					label: "ID Foto", 

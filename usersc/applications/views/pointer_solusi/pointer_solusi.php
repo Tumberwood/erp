@@ -58,6 +58,7 @@
 									<th>Quantity</th>
 									<th>Fisik</th>
 									<th>Selisih</th>
+									<th>Keterangan</th>
 									<th>Hitung</th>
 									<th>Link</th>
 								</tr>
@@ -211,6 +212,7 @@
 						show: true
 					}
 				},
+				{ data: "isoittd_upload.keterangan_pointer" },
 				{ 
 					data: "isoittd_upload.is_pointer",
 					...renderYaTidak()

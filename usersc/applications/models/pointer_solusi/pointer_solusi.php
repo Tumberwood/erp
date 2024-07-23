@@ -58,6 +58,7 @@
 						->setFormatter( Format::ifEmpty( 0 ) ),
 					Field::inst( 'isoittd_upload.nama' ),
 					Field::inst( 'isoittd_upload.keterangan' ),
+					Field::inst( 'isoittd_upload.keterangan_pointer' ),
 					Field::inst( 'isoittd_upload.created_by' ),
 					Field::inst( 'isoittd_upload.transaction_state' ),
 					Field::inst( 'isoittd_upload.approval_state' ),
