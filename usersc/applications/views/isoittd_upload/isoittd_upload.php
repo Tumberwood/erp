@@ -129,7 +129,15 @@
 									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
 								</div>
 								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.alasan_skip"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
 									<editor-field name="isoittd_upload.id_files_pointer"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="isoittd_upload.keterangan_pointer"></editor-field>
 								</div>
 							</div>
 						</div>
@@ -1340,7 +1348,12 @@
 				{
 					label: "Keterangan Pointer",
 					name: "isoittd_upload.keterangan_pointer",
-					type: "hidden"
+					type: "textarea"
+				},
+				{
+					label: "Alasan Skip",
+					name: "isoittd_upload.alasan_skip",
+					type: "readonly"
 				},
 				{
 					label: "ID Foto", 
