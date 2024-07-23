@@ -2,7 +2,7 @@
   require_once($abs_us_root . $us_url_root . 'users/includes/template/database_navigation_prep.php');
 ?>
 
-      <div id="wrapper">
+      <div id="wrapper" style="overflow-y: hidden;">
       <?php
               require_once $abs_us_root.$us_url_root.'usersc/templates/inspinia-side/template_sidebar.php';
             /**
