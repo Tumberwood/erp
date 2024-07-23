@@ -154,10 +154,11 @@
                     });
                     
                     // Create the fabric.Text object
-                    var totalText = new fabric.Text(`Total Circles: ${countByColor[color]}`, {
+                    var totalText = new fabric.Text(`Total: ${countByColor[color]}`, {
                         left: 10,
                         top: 10,
-                        fill: color
+                        fill: color,
+                        fontSize: 24
                     });
 
                     // Measure text width and height
