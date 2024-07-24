@@ -168,13 +168,9 @@
 	var c_circle = 0;
 	var arr_warna = [];
 	var id_isoxxth_upload_old = 0;
-	// var id_isoittd_upload_old = 0;
 	var simpanFoto = {};
-	// var id_isoxxth_upload_filter = 0;
 	var id_isoxxth_upload_filter = <?php echo $id_isoxxth_upload_filter ?>;
-	// console.log(id_isoxxth_upload_filter);
 	var id_isoittd_upload_old = <?php echo $id_isoittd_upload_old ?>;
-	// console.log(id_isoxxth_upload_filter);
 
 	const colorPicker = document.getElementById('colorPicker');
 	const pickColorButton = document.getElementById('pickColor');

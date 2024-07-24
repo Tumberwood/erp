@@ -38,16 +38,16 @@
         });
         canvas.add(circle);
         canvas.bringToFront(circle);
-        canvas.renderAll(); // Render circle immediately after adding
+        canvas.renderAll(); 
         c_circle++;
-        // console.log(c_circle);
+        
         $('#inputfileUpload').prop('disabled', true);
     }
 
     function removeCircle(circle) {
         canvas.remove(circle);
         c_circle--;
-        // console.log(c_circle);
+        
         if (c_circle == 0) {
             $('#inputfileUpload').prop('disabled', false);
         } else {

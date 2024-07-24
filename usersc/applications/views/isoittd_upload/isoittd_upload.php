@@ -1600,6 +1600,7 @@
 				{ type: selisihDesc, targets: 10 }
 			],
 			// deferRender: true,
+			// serverSide: true,
 			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
 			// responsive: false,
 			// scrollX: true,
