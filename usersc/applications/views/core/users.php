@@ -446,7 +446,7 @@
 			CekSelectHeaderHD(tbludpxxsh, tbl_details);
 
 			tblucudasd.button( 'btnRefreshPages:name' ).enable();
-
+			console.log(id_users);
 		} );
 		
 		tbludpxxsh.on( 'deselect', function () {

@@ -25,6 +25,7 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'udpxxsh.id' ),
+			Field::inst( 'udpxxsh.id_users' ),
 			Field::inst( 'users.id' ),
 			Field::inst( 'users.email' ),
 			Field::inst( 'users.username' ),
