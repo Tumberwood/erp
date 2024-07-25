@@ -41,6 +41,25 @@
 			Field::inst( 'pages_extend.is_crud' )
 		)
 		->leftJoin( 'pages_extend','pages_extend.id','=','pages.id' )
+		->join(
+			Mjoin::inst( 'permissions' )
+				->link( 'pages.id', 'permission_page_matches.page_id' )
+				->link( 'permissions.id', 'permission_page_matches.permission_id' )
+				->fields(
+					Field::inst( 'id' )
+						->setFormatter( Format::ifEmpty( 0 ) )
+						->options( Options::inst()
+							->table( 'permissions' )
+							->value( 'id' )
+							->label( ['name'] )
+							->render( function ( $row ) {
+								return $row['name'];
+							} )
+							->order( 'name' )
+						),
+					Field::inst( 'name' )
+				)
+		)
 		->where( 'LEFT(pages.page,20)', 'usersc/applications/');
 	
 	// BEGIN log

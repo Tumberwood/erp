@@ -27,6 +27,7 @@
                                 <th>Info</th>
                                 <th>C-U-D-A</th>
                                 <th>Hal Setting</th>
+                                <th>Permissions</th>
                             </tr>
                         </thead>
                     </table>
@@ -141,7 +142,15 @@
 							{ "label": "Tidak", "value": 0 },
 							{ "label": "Ya", "value": 1 }
 						]
-					}
+					},
+					{
+						label: "Permissions",
+						name: "permissions[].id",
+						type: "select2",
+						opts: {
+							"multiple": true
+						}
+					},	
 				]
 			} );
 
@@ -202,7 +211,8 @@
 					{ 
 						data: "pages_extend.is_setting", 
 						...renderYaTidak()
-					}
+					},
+					{ data: "permissions[].name" },
 				],
 				buttons: [
 					// BEGIN breaking generate button
