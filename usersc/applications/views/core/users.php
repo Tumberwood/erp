@@ -194,6 +194,8 @@
 	var id_gbrxxmh_old = 0;
 	var id_hodxxmh_old = 0;
 	var id_iwhxxmh_old = 0;
+	var btnPass = '';
+	var btnConfirmPass = '';
 
 	// get tableRelation
 	tableRelation('udpxxsh');
@@ -310,11 +312,64 @@
 				edtudpxxsh.field('users.password').hide();
 				edtudpxxsh.field('confirm_password').hide();
 			}
+
 		});
 
 		edtudpxxsh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirmHD();
+			
+			var btnPassId = '#togglePasswordVisibility';
+			console.log($(btnPassId).length);
+			if ($(btnPassId).length === 0) {
+				var btnPass = $(
+					'<button class="btn btn-outline-primary btn-sm btnPwd" type="button" id="togglePasswordVisibility">' +
+					'<i class="fa fa-eye" id="password_eye_icon"></i>' +
+					'</button>'
+				);
+
+				edtudpxxsh.field('users.password').input().after(btnPass);
+			}
+
+			$(btnPass).on('click', () => {
+				var passwordField = edtudpxxsh.field('users.password').input();
+				var icon = $('#password_eye_icon');
+				
+				// Toggle the password visibility
+				if (passwordField.attr('type') === 'password') {
+					passwordField.attr('type', 'text');
+					icon.removeClass('fa-eye').addClass('fa-eye-slash');
+				} else {
+					passwordField.attr('type', 'password');
+					icon.removeClass('fa-eye-slash').addClass('fa-eye');
+				}
+			});
+			
+			var btnConfirmPassId = '#toggleconfirmPasswordVisibility';
+			console.log($(btnConfirmPassId).length);
+			if ($(btnConfirmPassId).length === 0) {
+				var btnConfirmPass = $(
+					'<button class="btn btn-outline-primary btn-sm btnPwd" type="button" id="toggleconfirmPasswordVisibility">' +
+					'<i class="fa fa-eye" id="confirm_password_eye_icon"></i>' +
+					'</button>'
+				);
+
+				edtudpxxsh.field('confirm_password').input().after(btnConfirmPass);
+			}
+
+			$(btnConfirmPass).on('click', () => {
+				var passwordField = edtudpxxsh.field('confirm_password').input();
+				var icon = $('#confirm_password_eye_icon');
+				
+				// Toggle the password visibility
+				if (passwordField.attr('type') === 'password') {
+					passwordField.attr('type', 'text');
+					icon.removeClass('fa-eye').addClass('fa-eye-slash');
+				} else {
+					passwordField.attr('type', 'password');
+					icon.removeClass('fa-eye-slash').addClass('fa-eye');
+				}
+			});
 		});
 		
 		edtudpxxsh.on( 'preSubmit', function (e, data, action) {
@@ -398,6 +453,8 @@
 		} );
 
 		edtudpxxsh.on( 'close', function () {
+			btnPass = '';
+			btnConfirmPass = '';
 			edtudpxxsh.enable();
 		} );
 		
