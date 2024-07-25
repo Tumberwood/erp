@@ -4,6 +4,15 @@
             // INSERT ke user extend
             $id_users = $id;
 
+            $qs_udp = $editor->db()
+                ->query('select', 'udpxxsh' )
+                ->get(['id'] )
+                ->where('id_users', $id_users )
+                ->exec();
+            $rs_udp = $qs_udp->fetch();
+
+            $id_udp = $rs_udp['id'];
+
             // $user_permission_matches = $editor->db()
 			// 	->query('insert', 'user_permission_matches')
 			// 	->set('user_id',$id_users)
@@ -24,6 +33,8 @@
                 array_push($arr_permission_id,$row['permission_id']);
             }
 
+            // print_r($arr_permission_id);
+
             $sql_select_permission_page_matches = $editor->db()
                 ->query('select', 'permission_page_matches')
                 ->get('permission_page_matches.page_id as page_id')
@@ -34,11 +45,12 @@
                 ->where( 'pages_extend.is_setting', 0)
                 ->exec();
             $results_select_permission_page_matches = $sql_select_permission_page_matches->fetchAll();
+            // print_r($results_select_permission_page_matches);
 
             foreach ($results_select_permission_page_matches as $row) {
                 $sql_insert_ucudasd = $editor->db()
                     ->query('insert', 'ucudasd')
-                    ->set('id_udpxxsh',$id)
+                    ->set('id_udpxxsh',$id_udp)
                     ->set('id_users', $id_users)
                     ->set('id_pages', $row['page_id'])
                     ->exec();
@@ -60,7 +72,7 @@
                 foreach ($results_select_permission_page_matches_setting as $row) {
                     $sql_insert_ucudasd = $editor->db()
                         ->query('insert', 'ucudasd')
-                        ->set('id_udpxxsh',$id)
+                        ->set('id_udpxxsh',$id_udp)
                         ->set('id_users', $id_users)
                         ->set('id_pages', $row['page_id'])
                         ->exec();
