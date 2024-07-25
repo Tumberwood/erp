@@ -328,6 +328,11 @@
 						'lname': lname,
 					}
 				);
+
+				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailRegex.test(email)) {
+					edtudpxxsh.field('users.email').error('Format email tidak valid!');
+				}
 			}
 			
 			if ( edtudpxxsh.inError() ) {
