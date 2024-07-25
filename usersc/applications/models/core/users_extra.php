@@ -13,11 +13,11 @@
 
             $id_udp = $rs_udp['id'];
 
-            // $user_permission_matches = $editor->db()
-			// 	->query('insert', 'user_permission_matches')
-			// 	->set('user_id',$id_users)
-			// 	->set('permission_id', 1)
-			// 	->exec();
+            $user_permission_matches = $editor->db()
+				->query('insert', 'user_permission_matches')
+				->set('user_id',$id_users)
+				->set('permission_id', 1)
+				->exec();
 
             /* INSERT ucudasd sesuai hak akses pages yang sudah di assign ke user terpilih*/
             // select permission apa yang dimiliki oleh user terpilih
