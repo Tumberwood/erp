@@ -187,7 +187,7 @@
 	var edtudpwhsd, tbludpwhsd, show_deleted_udpwhsd = 0, id_udpwhsd;
 	// ------------- end of default variable
 
-	var id_users, id_users_old  = 0;
+	var id_users = 0, id_users_old  = 0;
 	var id_gbrxxmh_old = 0;
 	var id_hodxxmh_old = 0;
 	var id_iwhxxmh_old = 0;
@@ -333,6 +333,27 @@
 				if (!emailRegex.test(email)) {
 					edtudpxxsh.field('users.email').error('Format email tidak valid!');
 				}
+
+				validasiUnique(
+					action,
+					edtudpxxsh,
+					'users',
+					'email',
+					'email',
+					'"'+email+'"',
+					id_users
+				);
+
+				
+				validasiUnique(
+					action,
+					edtudpxxsh,
+					'users',
+					'username',
+					'username',
+					'"'+username+'"',
+					id_users
+				);
 			}
 			
 			if ( edtudpxxsh.inError() ) {
