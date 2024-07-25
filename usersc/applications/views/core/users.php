@@ -43,7 +43,7 @@
 								<editor-field name="users.password"></editor-field>
 							</div>
 							<div class="col-lg-6">
-								<editor-field name="permissions[].id"></editor-field>
+								<editor-field name="confirm_password"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -55,6 +55,9 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="permissions[].id"></editor-field>
+							</div>
 							<div class="col-lg-6">
 								<editor-field name="udpxxsh.keterangan"></editor-field>
 							</div>
@@ -244,6 +247,10 @@
 					name: "users.password"
 				},  
 				{
+					label: "Confirm Password <sup class='text-danger'>*<sup>",
+					name: "confirm_password"
+				},  
+				{
 					label: "First Name <sup class='text-danger'>*<sup>",
 					name: "users.fname"
 				},  
@@ -294,10 +301,12 @@
 			if (action == 'create'){
 				tbludpxxsh.rows().deselect();
 				edtudpxxsh.field('users.password').show();
+				edtudpxxsh.field('confirm_password').show();
 			} else {
 				edtudpxxsh.field('users.username').disable();
 				edtudpxxsh.field('users.email').disable();
 				edtudpxxsh.field('users.password').hide();
+				edtudpxxsh.field('confirm_password').hide();
 			}
 		});
 
@@ -314,6 +323,7 @@
 				password = edtudpxxsh.field('users.password').val();
 				fname = edtudpxxsh.field('users.fname').val();
 				lname = edtudpxxsh.field('users.lname').val();
+				confirm_password = edtudpxxsh.field('confirm_password').val();
 
 				if(!permissions_id || permissions_id == ''){
 					edtudpxxsh.field('permissions[].id').error( 'Wajib diisi!' );
@@ -356,6 +366,16 @@
 					'"'+username+'"',
 					id_users
 				);
+				
+				if (action == 'create') {
+					if(!confirm_password || confirm_password == ''){
+						edtudpxxsh.field('confirm_password').error( 'Wajib diisi!' );
+					}
+
+					if (confirm_password != password) {
+						edtudpxxsh.field('confirm_password').error( 'Confirm Password salah!' );
+					}
+				}
 			}
 			
 			if ( edtudpxxsh.inError() ) {
