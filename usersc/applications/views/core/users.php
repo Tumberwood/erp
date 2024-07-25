@@ -20,7 +20,47 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
-
+			<div id="custom_users">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="users.username"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="users.email"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="users.fname"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="users.lname"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="users.password"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="permissions[].id"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="udpxxsh.data_permission"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="udpxxsh.is_setting"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="udpxxsh.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tbludpxxsh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -166,6 +206,7 @@
 					d.show_deleted_udpxxsh = show_deleted_udpxxsh;
 				}
 			},
+			template: "#custom_users",
 			table: "#tbludpxxsh",
 			fields: [ 
 				{
@@ -191,25 +232,33 @@
 					def: 0
 				},	
 				{
-					label: "Username",
+					label: "Username <sup class='text-danger'>*<sup>",  
 					name: "users.username"
 				},  
 				{
-					label: "Email",
+					label: "Email <sup class='text-danger'>*<sup>",
 					name: "users.email"
 				},  
 				{
-					label: "Password",
+					label: "Password <sup class='text-danger'>*<sup>",
 					name: "users.password"
 				},  
 				{
-					label: "Fname",
+					label: "First Name <sup class='text-danger'>*<sup>",
 					name: "users.fname"
 				},  
 				{
-					label: "Lname",
+					label: "Last Name <sup class='text-danger'>*<sup>",
 					name: "users.lname"
 				},  
+				{
+					label: "Permissions <sup class='text-danger'>*<sup>",
+					name: "permissions[].id",
+					type: "select2",
+					opts: {
+						"multiple": true
+					}
+				},	
 				{
 					label: "Akses Data",
 					name: "udpxxsh.data_permission",
@@ -235,33 +284,50 @@
 					name: "udpxxsh.keterangan",
 					type: "textarea"
 				},
-				{
-					label: "Permissions",
-					name: "permissions[].id",
-					type: "select2",
-					opts: {
-						"multiple": true
-					}
-				},	
 			]
 		} );
 		
 		edtudpxxsh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtudpxxsh.field('users.start_at').val(start_at);
-
+			
 			if (action == 'create'){
 				tbludpxxsh.rows().deselect();
+			} else {
+				edtudpxxsh.field('users.username').disable();
+				edtudpxxsh.field('users.email').disable();
 			}
 		});
 
 		edtudpxxsh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirmHD();
 		});
 		
 		edtudpxxsh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
+				permissions_id = edtudpxxsh.field('permissions[].id').val();
+				username = edtudpxxsh.field('users.username').val();
+				email = edtudpxxsh.field('users.email').val();
+				password = edtudpxxsh.field('users.password').val();
+				fname = edtudpxxsh.field('users.fname').val();
+				lname = edtudpxxsh.field('users.lname').val();
+
+				if(!permissions_id || permissions_id == ''){
+					edtudpxxsh.field('permissions[].id').error( 'Wajib diisi!' );
+				}
+
+				validasiRequired(
+					edtudpxxsh,
+					'users',
+					{
+						'username': username,
+						'email': email,
+						'password': password,
+						'fname': fname,
+						'lname': lname,
+					}
+				);
 			}
 			
 			if ( edtudpxxsh.inError() ) {
