@@ -293,9 +293,11 @@
 			
 			if (action == 'create'){
 				tbludpxxsh.rows().deselect();
+				edtudpxxsh.field('users.password').show();
 			} else {
 				edtudpxxsh.field('users.username').disable();
 				edtudpxxsh.field('users.email').disable();
+				edtudpxxsh.field('users.password').hide();
 			}
 		});
 
@@ -370,6 +372,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpxxsh.on( 'close', function () {

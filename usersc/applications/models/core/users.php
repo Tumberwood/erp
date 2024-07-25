@@ -30,6 +30,7 @@
 			Field::inst( 'users.email' ),
 			Field::inst( 'users.username' ),
 			Field::inst( 'users.password' )
+			->set(Field::SET_CREATE)
 			->setFormatter(function($val) {
 				return password_hash($val, PASSWORD_BCRYPT, ['cost' => 12]);
 			}),
