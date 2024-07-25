@@ -244,11 +244,13 @@
 				},  
 				{
 					label: "Password <sup class='text-danger'>*<sup>",
-					name: "users.password"
+					name: "users.password",
+					type: "password"
 				},  
 				{
 					label: "Confirm Password <sup class='text-danger'>*<sup>",
-					name: "confirm_password"
+					name: "confirm_password",
+					type: "password"
 				},  
 				{
 					label: "First Name <sup class='text-danger'>*<sup>",
