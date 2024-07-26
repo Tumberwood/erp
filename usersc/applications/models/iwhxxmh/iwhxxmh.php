@@ -44,6 +44,7 @@
 			Field::inst( 'iwhxxmh.start_at' ),
 			Field::inst( 'iwhxxmh.finish_at' ),
 			Field::inst( 'iwhxxmh.is_defaultprogram' ),
+			Field::inst( 'iwhxxmh.is_nextprocess' ),
 
 			Field::inst( 'gbrxxmh.nama' ),
 			Field::inst( 'iwhctmh.nama' ),
