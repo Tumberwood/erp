@@ -1,5 +1,29 @@
 <?php 
-    require_once '../../../../users/init.php';
+    //kalau init.php diaktifkan di noakses.php, maka akan ada error
+    //Notice: Undefined index: user in D:\xampp\htdocs\erpx\usersc\includes\loader.php on line 39
+    // require_once '../../../../users/init.php';
+
+    $abs_us_root=$_SERVER['DOCUMENT_ROOT'];
+
+    $self_path=explode("/", $_SERVER['PHP_SELF']);
+    $self_path_length=count($self_path);
+    $file_found=FALSE;
+
+    for($i = 1; $i < $self_path_length; $i++){
+        array_splice($self_path, $self_path_length-$i, $i);
+        $us_url_root=implode("/",$self_path)."/";
+
+        if (file_exists($abs_us_root.$us_url_root.'z_us_root.php')){
+            $file_found=TRUE;
+            break;
+        }else{
+            $file_found=FALSE;
+        }
+    }
+    $settings = new stdClass();
+    $settings->template = "inspinia-side"; //ini dibuat hard code karena tidak bisa akses db
+
+    //ini kalau diaktifkan akan membuat noakses redirect ke login.php, karena 
     // if (!securePage($_SERVER['PHP_SELF'])) {
     //     die();
     // }
