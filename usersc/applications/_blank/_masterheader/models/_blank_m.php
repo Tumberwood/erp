@@ -39,6 +39,7 @@
 			Field::inst( '_blank.approval_state' ),
 			Field::inst( '_blank.start_at' ),
 			Field::inst( '_blank.finish_at' ),
+			Field::inst( '_blank.is_nextprocess' ),
 			Field::inst( '_blank.is_defaultprogram' )
 		);
 	

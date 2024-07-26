@@ -39,6 +39,7 @@
 			Field::inst( '_blankheader.approval_state' ),
 			Field::inst( '_blankheader.start_at' ),
 			Field::inst( '_blankheader.finish_at' ),
+			Field::inst( '_blankheader.is_nextprocess' ),
 			Field::inst( '_blankheader.is_defaultprogram' )
 		);
 	

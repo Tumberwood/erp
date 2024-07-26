@@ -37,6 +37,7 @@
 				Field::inst( '_blankdetail.approval_state' ),
 				Field::inst( '_blankdetail.start_at' ),
 				Field::inst( '_blankdetail.finish_at' ),
+				Field::inst( '_blankdetail.is_nextprocess' ),
 				Field::inst( '_blankdetail.is_defaultprogram' )
 			)
 			->where('_blankdetail.id__blankheader',$_POST['id__blankheader']);

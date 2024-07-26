@@ -44,6 +44,7 @@
 				->set( Field::SET_EDIT )
 				->setValue($_SESSION['user']),
 			Field::inst( '_blank.is_approve' ),
+			Field::inst( '_blank.is_nextprocess' ),
 			Field::inst( '_blank.is_defaultprogram' )
 		);
 	
