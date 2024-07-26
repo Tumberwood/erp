@@ -36,12 +36,13 @@ if($user->data()->id > 100){
 			a.data_permission as data_permission
 		FROM udpxxsh a
 		WHERE 
-			a.id_users = " . $id_users;
+			a.transaction_state = 1
+			AND a.id_users = " . $id_users;
 	
 	$query_udpxxsh = $db->query($qs_udpxxsh);
-	$count_udpxxsh = $query_udpxxsh->count();
+	$rs_udpxxsh = $query_udpxxsh->results();
 
-	if($count_udpxxsh > 0){
+	if(!empty($rs_udpxxsh)){
 		Redirect::to($us_url_root.'usersc/applications/views/core/dashboard.php');
 
 	}else{
