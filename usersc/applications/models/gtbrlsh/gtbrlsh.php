@@ -46,6 +46,7 @@
 			Field::inst( 'gtbrlsh.is_master_table' ),
 			Field::inst( 'gtbrlsh.is_need_approval' ),
 			Field::inst( 'gtbrlsh.is_need_generate_kode' ),
+			Field::inst( 'gtbrlsh.is_nextprocess' ),
 			Field::inst( 'gtbrlsh.is_need_jurnal' ),
 			Field::inst( 'gtbrlsh.is_need_inventory' )
 		);

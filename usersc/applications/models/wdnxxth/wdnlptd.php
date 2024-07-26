@@ -49,6 +49,7 @@
 				Field::inst( 'wdnlptd.approval_state' ),
 				Field::inst( 'wdnlptd.start_at' ),
 				Field::inst( 'wdnlptd.finish_at' ),
+				Field::inst( 'wdnlptd.is_nextprocess' ),
 				Field::inst( 'wdnlptd.is_defaultprogram' ),
 				Field::inst( 'wdnlptd.jumlah_unit' ),
 				Field::inst( 'wdnlptd.jumlah_terkecil' ),

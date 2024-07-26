@@ -39,6 +39,7 @@
 			Field::inst( 'lprxxmh.approval_state' ),
 			Field::inst( 'lprxxmh.start_at' ),
 			Field::inst( 'lprxxmh.finish_at' ),
+			Field::inst( 'lprxxmh.is_nextprocess' ),
 			Field::inst( 'lprxxmh.is_defaultprogram' )
 		);
 	

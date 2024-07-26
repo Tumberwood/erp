@@ -39,6 +39,7 @@
 			Field::inst( 'lvtxxmh.approval_state' ),
 			Field::inst( 'lvtxxmh.start_at' ),
 			Field::inst( 'lvtxxmh.finish_at' ),
+			Field::inst( 'lvtxxmh.is_nextprocess' ),
 			Field::inst( 'lvtxxmh.is_defaultprogram' ),
 			Field::inst( 'lvtxxmh.golongan' ),
 			Field::inst( 'lvtxxmh.berat_maksimal' ),

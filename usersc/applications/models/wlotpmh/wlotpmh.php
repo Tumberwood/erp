@@ -38,6 +38,7 @@
 			Field::inst( 'wlotpmh.approval_state' ),
 			Field::inst( 'wlotpmh.start_at' ),
 			Field::inst( 'wlotpmh.finish_at' ),
+			Field::inst( 'wlotpmh.is_nextprocess' ),
 			Field::inst( 'wlotpmh.is_defaultprogram' )
 		);
 	

@@ -41,6 +41,7 @@
 			Field::inst( 'ndcrctd.approval_state' ),
 			Field::inst( 'ndcrctd.start_at' ),
 			Field::inst( 'ndcrctd.finish_at' ),
+			Field::inst( 'ndcrctd.is_nextprocess' ),
 			Field::inst( 'ndcrctd.is_defaultprogram' ),
 
 			

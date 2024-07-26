@@ -38,6 +38,7 @@
 			Field::inst( 'wloznmh.approval_state' ),
 			Field::inst( 'wloznmh.start_at' ),
 			Field::inst( 'wloznmh.finish_at' ),
+			Field::inst( 'wloznmh.is_nextprocess' ),
 			Field::inst( 'wloznmh.is_defaultprogram' )
 		);
 	

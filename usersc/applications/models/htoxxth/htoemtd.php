@@ -39,6 +39,7 @@
 				Field::inst( 'htoemtd.approval_state' ),
 				Field::inst( 'htoemtd.start_at' ),
 				Field::inst( 'htoemtd.finish_at' ),
+				Field::inst( 'htoemtd.is_nextprocess' ),
 				Field::inst( 'htoemtd.is_defaultprogram' ),
 				Field::inst( 'htoemtd.jam_awal' )
 					->getFormatter( function ( $val, $data, $opts ) {

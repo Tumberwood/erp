@@ -77,6 +77,7 @@
 					Field::inst( 'isoittd_upload.approval_state' ),
 					Field::inst( 'isoittd_upload.start_at' ),
 					Field::inst( 'isoittd_upload.finish_at' ),
+					Field::inst( 'isoittd_upload.is_nextprocess' ),
 					Field::inst( 'isoittd_upload.is_defaultprogram' ),
 					Field::inst( 'isoittd_upload.jumlah_terkecil' ),
 					Field::inst( 'isoittd_upload.fisik' ),

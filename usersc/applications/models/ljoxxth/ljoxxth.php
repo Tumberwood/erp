@@ -47,6 +47,7 @@
 			Field::inst( 'ljoxxth.approval_state' ),
 			Field::inst( 'ljoxxth.start_at' ),
 			Field::inst( 'ljoxxth.finish_at' ),
+			Field::inst( 'ljoxxth.is_nextprocess' ),
 			Field::inst( 'ljoxxth.is_defaultprogram' ),
 			Field::inst( 'ljoxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {

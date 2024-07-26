@@ -47,6 +47,7 @@
 			Field::inst( 'fobxxth.approval_state' ),
 			Field::inst( 'fobxxth.start_at' ),
 			Field::inst( 'fobxxth.finish_at' ),
+			Field::inst( 'fobxxth.is_nextprocess' ),
 			Field::inst( 'fobxxth.is_defaultprogram' ),
 
 			Field::inst( 'fobxxth.tanggal' )

@@ -37,6 +37,7 @@
 				Field::inst( 'isoittd_upload_fisik.approval_state' ),
 				Field::inst( 'isoittd_upload_fisik.start_at' ),
 				Field::inst( 'isoittd_upload_fisik.finish_at' ),
+				Field::inst( 'isoittd_upload_fisik.is_nextprocess' ),
 				Field::inst( 'isoittd_upload_fisik.is_defaultprogram' ),
 				Field::inst( 'isoittd_upload_fisik.fisik' ),
 			)

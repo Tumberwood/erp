@@ -41,6 +41,7 @@
 				Field::inst( 'igiittd.approval_state' ),
 				Field::inst( 'igiittd.start_at' ),
 				Field::inst( 'igiittd.finish_at' ),
+				Field::inst( 'igiittd.is_nextprocess' ),
 				Field::inst( 'igiittd.is_defaultprogram' ),
 				Field::inst( 'igiittd.jumlah_unit' ),
 				

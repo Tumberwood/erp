@@ -61,6 +61,7 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
+			Field::inst( 'itoxxth.is_nextprocess' ),
 			Field::inst( 'itoxxth.is_defaultprogram' ),
 			Field::inst( 'iwhxxmh_asal.nama' ),
 			Field::inst( 'iwhxxmh_tujuan.nama' )

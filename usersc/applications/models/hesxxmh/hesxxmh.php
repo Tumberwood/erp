@@ -38,6 +38,7 @@
 			Field::inst( 'hesxxmh.approval_state' ),
 			Field::inst( 'hesxxmh.start_at' ),
 			Field::inst( 'hesxxmh.finish_at' ),
+			Field::inst( 'hesxxmh.is_nextprocess' ),
 			Field::inst( 'hesxxmh.is_defaultprogram' ),
 		);
 	

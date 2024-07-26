@@ -52,6 +52,7 @@
 			Field::inst( 'prcxxth.approval_state' ),
 			Field::inst( 'prcxxth.start_at' ),
 			Field::inst( 'prcxxth.finish_at' ),
+			Field::inst( 'prcxxth.is_nextprocess' ),
 			Field::inst( 'prcxxth.is_defaultprogram' ),
 
 			Field::inst( 'prcxxth.tanggal' )

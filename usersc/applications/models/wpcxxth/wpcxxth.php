@@ -62,6 +62,7 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'iivxxrd_audit.status_audit' ),
+			Field::inst( 'iivxxrd_audit.is_nextprocess' ),
 			Field::inst( 'iivxxrd_audit.is_defaultprogram' )
 		);
 

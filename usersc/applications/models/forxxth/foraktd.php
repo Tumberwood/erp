@@ -40,6 +40,7 @@
 				Field::inst( 'foraktd.approval_state' ),
 				Field::inst( 'foraktd.start_at' ),
 				Field::inst( 'foraktd.finish_at' ),
+				Field::inst( 'foraktd.is_nextprocess' ),
 				Field::inst( 'foraktd.is_defaultprogram' ),
 
 				Field::inst( 'foraktd.amount' ),

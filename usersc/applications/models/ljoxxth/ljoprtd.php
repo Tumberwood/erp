@@ -39,6 +39,7 @@
 				Field::inst( 'ljoprtd.approval_state' ),
 				Field::inst( 'ljoprtd.start_at' ),
 				Field::inst( 'ljoprtd.finish_at' ),
+				Field::inst( 'ljoprtd.is_nextprocess' ),
 				Field::inst( 'ljoprtd.is_defaultprogram' ),
 				Field::inst( 'ljoprtd.tanggaljam_start' )
 					->getFormatter( 'Format::datetime', array(

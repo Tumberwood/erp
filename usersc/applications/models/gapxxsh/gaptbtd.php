@@ -39,6 +39,7 @@
 				Field::inst( 'gaptbtd.approval_state' ),
 				Field::inst( 'gaptbtd.start_at' ),
 				Field::inst( 'gaptbtd.finish_at' ),
+				Field::inst( 'gaptbtd.is_nextprocess' ),
 				Field::inst( 'gaptbtd.is_defaultprogram' ),
 
 				Field::inst( 'gtbrlsh.nama' )

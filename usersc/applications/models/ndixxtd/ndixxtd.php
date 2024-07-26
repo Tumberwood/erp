@@ -41,6 +41,7 @@
 			Field::inst( 'ndixxtd.approval_state' ),
 			Field::inst( 'ndixxtd.start_at' ),
 			Field::inst( 'ndixxtd.finish_at' ),
+			Field::inst( 'ndixxtd.is_nextprocess' ),
 			Field::inst( 'ndixxtd.is_defaultprogram' ),
 
 			Field::inst( 'ndixxtd.dokumen_nomor' ),

@@ -40,6 +40,7 @@
 				Field::inst( 'gapdusd.approval_state' ),
 				Field::inst( 'gapdusd.start_at' ),
 				Field::inst( 'gapdusd.finish_at' ),
+				Field::inst( 'gapdusd.is_nextprocess' ),
 				Field::inst( 'gapdusd.is_defaultprogram' ),
 				Field::inst( 'gapdusd.tblheader' ),
 				Field::inst( 'gapdusd.level_ke' ),

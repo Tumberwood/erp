@@ -53,6 +53,7 @@
 			Field::inst( 'wdnxxth.approval_state' ),
 			Field::inst( 'wdnxxth.start_at' ),
 			Field::inst( 'wdnxxth.finish_at' ),
+			Field::inst( 'wdnxxth.is_nextprocess' ),
 			Field::inst( 'wdnxxth.is_defaultprogram' ),
 
 			Field::inst( 'wdnxxth.tanggal' )

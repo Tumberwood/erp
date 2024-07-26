@@ -46,6 +46,7 @@
 				Field::inst( 'prcittd.start_at' ),
 				Field::inst( 'prcittd.finish_at' ),
 				Field::inst( 'prcittd.is_defaultprogram' ),
+				Field::inst( 'prcittd.is_nextprocess' ),
 
 				Field::inst( 'prcittd.jumlah_unit' ),
 				Field::inst( 'prcittd.harga_unit' ),

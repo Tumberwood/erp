@@ -43,6 +43,7 @@
 				Field::inst( 'itiittd.approval_state' ),
 				Field::inst( 'itiittd.start_at' ),
 				Field::inst( 'itiittd.finish_at' ),
+				Field::inst( 'itiittd.is_nextprocess' ),
 				Field::inst( 'itiittd.is_defaultprogram' ),
 				Field::inst( 'itiittd.jumlah_unit' ),
 

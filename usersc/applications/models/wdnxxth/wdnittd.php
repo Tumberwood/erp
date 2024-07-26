@@ -41,6 +41,7 @@
 				Field::inst( 'wdnittd.approval_state' ),
 				Field::inst( 'wdnittd.start_at' ),
 				Field::inst( 'wdnittd.finish_at' ),
+				Field::inst( 'wdnittd.is_nextprocess' ),
 				Field::inst( 'wdnittd.is_defaultprogram' ),
 
 				Field::inst( 'wdnittd.jumlah_unit' ),

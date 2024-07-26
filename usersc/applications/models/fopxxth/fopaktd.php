@@ -40,6 +40,7 @@
 				Field::inst( 'fopaktd.approval_state' ),
 				Field::inst( 'fopaktd.start_at' ),
 				Field::inst( 'fopaktd.finish_at' ),
+				Field::inst( 'fopaktd.is_nextprocess' ),
 				Field::inst( 'fopaktd.is_defaultprogram' ),
 
 				Field::inst( 'fopaktd.amount' ),

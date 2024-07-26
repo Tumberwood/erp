@@ -39,6 +39,7 @@
 				Field::inst( 'ndctitd.approval_state' ),
 				Field::inst( 'ndctitd.start_at' ),
 				Field::inst( 'ndctitd.finish_at' ),
+				Field::inst( 'ndctitd.is_nextprocess' ),
 				Field::inst( 'ndctitd.is_defaultprogram' ),
 
 				Field::inst( 'ndcxxmh.dokumen_nomor' ),

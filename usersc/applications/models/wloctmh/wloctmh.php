@@ -38,6 +38,7 @@
 			Field::inst( 'wloctmh.transaction_state' ),
 			Field::inst( 'wloctmh.approval_state' ),
 			Field::inst( 'wloctmh.start_at' ),
+			Field::inst( 'wloctmh.is_nextprocess' ),
 			Field::inst( 'wloctmh.finish_at' ),
 			Field::inst( 'wloctmh.is_defaultprogram' )
 		);

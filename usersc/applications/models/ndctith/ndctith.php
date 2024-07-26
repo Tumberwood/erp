@@ -43,6 +43,7 @@
 			Field::inst( 'ndctith.approval_state' ),
 			Field::inst( 'ndctith.start_at' ),
 			Field::inst( 'ndctith.finish_at' ),
+			Field::inst( 'ndctith.is_nextprocess' ),
 			Field::inst( 'ndctith.is_defaultprogram' ),
 
 			Field::inst( 'ndctith.tanggal_jam_ti' )

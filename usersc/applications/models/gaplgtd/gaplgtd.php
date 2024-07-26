@@ -42,6 +42,7 @@
 			Field::inst( 'gaplgtd.approval_state' ),
 			Field::inst( 'gaplgtd.start_at' ),
 			Field::inst( 'gaplgtd.finish_at' ),
+			Field::inst( 'gaplgtd.is_nextprocess' ),
 			Field::inst( 'gaplgtd.is_defaultprogram' ),
 			Field::inst( 'gaplgtd.tbl_name' ),
 			Field::inst( 'gaplgtd.dt_pengajuan' )

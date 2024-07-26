@@ -35,6 +35,7 @@
 			Field::inst( 'hemxxmh.approval_state' ),
 			Field::inst( 'hemxxmh.start_at' ),
 			Field::inst( 'hemxxmh.finish_at' ),
+			Field::inst( 'hemxxmh.is_nextprocess' ),
 			Field::inst( 'hemxxmh.is_defaultprogram' ),
 
 			Field::inst( 'hodxxmh.nama' ),

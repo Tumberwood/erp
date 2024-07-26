@@ -38,6 +38,7 @@
 			Field::inst( 'ndclgmh.transaction_state' ),
 			Field::inst( 'ndclgmh.approval_state' ),
 			Field::inst( 'ndclgmh.start_at' ),
+			Field::inst( 'ndclgmh.is_nextprocess' ),
 			Field::inst( 'ndclgmh.finish_at' ),
 			Field::inst( 'ndclgmh.is_defaultprogram' )
 		);

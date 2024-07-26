@@ -48,6 +48,7 @@
 			Field::inst( 'wplxxth.approval_state' ),
 			Field::inst( 'wplxxth.start_at' ),
 			Field::inst( 'wplxxth.finish_at' ),
+			Field::inst( 'wplxxth.is_nextprocess' ),
 			Field::inst( 'wplxxth.is_defaultprogram' ),
 			Field::inst( 'wplxxth.is_crossdocking' ),
 			Field::inst( 'wplxxth.is_generate_lpn' ),

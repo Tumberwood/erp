@@ -39,6 +39,7 @@
 				Field::inst( 'htscdtd_peg.approval_state' ),
 				Field::inst( 'htscdtd_peg.start_at' ),
 				Field::inst( 'htscdtd_peg.finish_at' ),
+				Field::inst( 'htscdtd_peg.is_nextprocess' ),
 				Field::inst( 'htscdtd_peg.is_defaultprogram' ),
 				Field::inst( 'hemxxmh.nama' ),
 				Field::inst( 'hemxxmh.kode' ),

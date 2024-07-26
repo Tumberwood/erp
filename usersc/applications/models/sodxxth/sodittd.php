@@ -55,6 +55,7 @@
 						'from' => 'd M Y',
 						'to' =>   'Y-m-d'
 					) ),
+				Field::inst( 'sodittd.is_nextprocess' ),
 				Field::inst( 'sodittd.is_defaultprogram' ),
 				Field::inst( 'sodittd.jumlah_unit' ),
 				Field::inst( 'sodittd.harga_unit' ),

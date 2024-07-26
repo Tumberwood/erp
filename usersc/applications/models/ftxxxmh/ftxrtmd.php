@@ -38,6 +38,7 @@
 				Field::inst( 'ftxrtmd.approval_state' ),
 				Field::inst( 'ftxrtmd.start_at' ),
 				Field::inst( 'ftxrtmd.finish_at' ),
+				Field::inst( 'ftxrtmd.is_nextprocess' ),
 				Field::inst( 'ftxrtmd.is_defaultprogram' ),
 				Field::inst( 'ftxrtmd.batas_bawah' ),
 				Field::inst( 'ftxrtmd.batas_atas' ),

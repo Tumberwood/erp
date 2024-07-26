@@ -55,6 +55,7 @@
 						'from' => 'd M Y',
 						'to' =>   'Y-m-d'
 					) ),
+				Field::inst( 'wdoittd.is_nextprocess' ),
 				Field::inst( 'wdoittd.is_defaultprogram' ),
 				Field::inst( 'wdoittd.jumlah_unit' ),
 				Field::inst( 'wdoittd.harga_unit' ),

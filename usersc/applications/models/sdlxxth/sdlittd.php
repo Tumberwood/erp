@@ -46,6 +46,7 @@
 				Field::inst( 'sdlittd.start_at' ),
 				Field::inst( 'sdlittd.finish_at' ),
 				Field::inst( 'sdlittd.is_defaultprogram' ),
+				Field::inst( 'sdlittd.is_nextprocess' ),
 
 				Field::inst( 'sdlittd.jumlah_unit' ),
 				Field::inst( 'sdlittd.diskon_jenis' ),

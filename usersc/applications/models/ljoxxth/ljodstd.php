@@ -40,6 +40,7 @@
 				Field::inst( 'ljodstd.start_at' ),
 				Field::inst( 'ljodstd.finish_at' ),
 				Field::inst( 'ljodstd.is_defaultprogram' ),
+				Field::inst( 'ljodstd.is_nextprocess' ),
 				Field::inst( 'ljodstd.urutan' ),
 
 				Field::inst( 'grlxxmh.nama' )

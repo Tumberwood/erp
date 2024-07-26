@@ -48,6 +48,7 @@
 				Field::inst( 'wpllptd.start_at' ),
 				Field::inst( 'wpllptd.finish_at' ),
 				Field::inst( 'wpllptd.is_defaultprogram' ),
+				Field::inst( 'wpllptd.is_nextprocess' ),
 				Field::inst( 'wpllptd.jumlah_unit' ),
 				Field::inst( 'wpllptd.jumlah_terkecil' ),
 				Field::inst( 'wpllptd.jumlah_default' ),

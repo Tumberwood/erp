@@ -39,6 +39,7 @@
 			Field::inst( 'licxxmh.approval_state' ),
 			Field::inst( 'licxxmh.start_at' ),
 			Field::inst( 'licxxmh.finish_at' ),
+			Field::inst( 'licxxmh.is_nextprocess' ),
 			Field::inst( 'licxxmh.is_defaultprogram' )
 		);
 	

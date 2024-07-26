@@ -41,6 +41,7 @@
 				Field::inst( 'itoittd.approval_state' ),
 				Field::inst( 'itoittd.start_at' ),
 				Field::inst( 'itoittd.finish_at' ),
+				Field::inst( 'itoittd.is_nextprocess' ),
 				Field::inst( 'itoittd.is_defaultprogram' ),
 				Field::inst( 'itoittd.jumlah_unit' ),
 				Field::inst( 'iimxxmh.kode' ),

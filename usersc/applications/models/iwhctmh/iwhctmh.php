@@ -39,6 +39,7 @@
 			Field::inst( 'iwhctmh.approval_state' ),
 			Field::inst( 'iwhctmh.start_at' ),
 			Field::inst( 'iwhctmh.finish_at' ),
+			Field::inst( 'iwhctmh.is_nextprocess' ),
 			Field::inst( 'iwhctmh.is_defaultprogram' )
 		);
 	

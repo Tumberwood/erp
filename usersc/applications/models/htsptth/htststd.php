@@ -35,6 +35,7 @@
 				Field::inst( 'htststd.nama' ),
 				Field::inst( 'htststd.keterangan' ),
 				Field::inst( 'htststd.transaction_state' ),
+				Field::inst( 'htststd.is_nextprocess' ),
 				Field::inst( 'htststd.approval_state' ),
 				Field::inst( 'htststd.start_at' ),
 				Field::inst( 'htststd.finish_at' ),

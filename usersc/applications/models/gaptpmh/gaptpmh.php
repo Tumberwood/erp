@@ -38,6 +38,7 @@
 			Field::inst( 'gaptpmh.transaction_state' ),
 			Field::inst( 'gaptpmh.approval_state' ),
 			Field::inst( 'gaptpmh.start_at' ),
+			Field::inst( 'gaptpmh.is_nextprocess' ),
 			Field::inst( 'gaptpmh.finish_at' ),
 			Field::inst( 'gaptpmh.is_defaultprogram' )
 		);

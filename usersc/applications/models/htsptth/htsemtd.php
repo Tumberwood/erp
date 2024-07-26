@@ -33,6 +33,7 @@
 				Field::inst( 'htsemtd.kode' ),
 				Field::inst( 'htsemtd.nama' ),
 				Field::inst( 'htsemtd.keterangan' ),
+				Field::inst( 'htsemtd.is_nextprocess' ),
 				Field::inst( 'htsemtd.transaction_state' ),
 				Field::inst( 'htsemtd.approval_state' ),
 				Field::inst( 'htsemtd.start_at' ),

@@ -41,6 +41,7 @@
 			Field::inst( 'fcrxxmh.finish_at' ),
 			Field::inst( 'fcrxxmh.is_defaultprogram' ),
 			Field::inst( 'fcrxxmh.is_default' ),
+			Field::inst( 'fcrxxmh.is_nextprocess' ),
 			Field::inst( 'fcrxxmh.simbol' )
 		);
 	

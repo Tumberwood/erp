@@ -38,6 +38,7 @@
 			Field::inst( 'lacxxmh.transaction_state' ),
 			Field::inst( 'lacxxmh.approval_state' ),
 			Field::inst( 'lacxxmh.start_at' ),
+			Field::inst( 'lacxxmh.is_nextprocess' ),
 			Field::inst( 'lacxxmh.finish_at' ),
 			Field::inst( 'lacxxmh.is_defaultprogram' )
 		);

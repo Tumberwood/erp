@@ -42,6 +42,7 @@
 			Field::inst( 'gapxxsh.start_at' ),
 			Field::inst( 'gapxxsh.finish_at' ),
 			Field::inst( 'gapxxsh.is_defaultprogram' ),
+			Field::inst( 'gapxxsh.is_nextprocess' ),
 			Field::inst( 'gapxxsh.jumlah_level' ),
 
 			Field::inst( 'gaptpmh.nama' )

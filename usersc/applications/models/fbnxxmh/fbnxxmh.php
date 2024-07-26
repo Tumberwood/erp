@@ -39,6 +39,7 @@
 			Field::inst( 'fbnxxmh.approval_state' ),
 			Field::inst( 'fbnxxmh.start_at' ),
 			Field::inst( 'fbnxxmh.finish_at' ),
+			Field::inst( 'fbnxxmh.is_nextprocess' ),
 			Field::inst( 'fbnxxmh.is_defaultprogram' )
 		)
 		;

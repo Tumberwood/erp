@@ -51,6 +51,7 @@
 			Field::inst( 'sdlxxth.approval_state' ),
 			Field::inst( 'sdlxxth.start_at' ),
 			Field::inst( 'sdlxxth.finish_at' ),
+			Field::inst( 'sdlxxth.is_nextprocess' ),
 			Field::inst( 'sdlxxth.is_defaultprogram' ),
 
 			Field::inst( 'sdlxxth.tanggal' )

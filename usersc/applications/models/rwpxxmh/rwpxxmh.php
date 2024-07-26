@@ -39,6 +39,7 @@
 			Field::inst( 'rwpxxmh.approval_state' ),
 			Field::inst( 'rwpxxmh.start_at' ),
 			Field::inst( 'rwpxxmh.finish_at' ),
+			Field::inst( 'rwpxxmh.is_nextprocess' ),
 			Field::inst( 'rwpxxmh.is_defaultprogram' )
 		);
 	

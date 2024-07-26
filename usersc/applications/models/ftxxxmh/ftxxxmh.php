@@ -36,6 +36,7 @@
 			Field::inst( 'ftxxxmh.approval_state' ),
 			Field::inst( 'ftxxxmh.start_at' ),
 			Field::inst( 'ftxxxmh.finish_at' ),
+			Field::inst( 'ftxxxmh.is_nextprocess' ),
 			Field::inst( 'ftxxxmh.is_defaultprogram' ),
 			Field::inst( 'ftxxxmh.is_progressif' )
 		);
