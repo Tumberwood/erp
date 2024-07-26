@@ -40,6 +40,11 @@
 		position: absolute;
 	}
 
+	#hasil {
+		overflow: scroll; /* Adds scrollbars for both x and y */
+		border: 1px solid #ccc; /* Optional: just to visualize the div */
+	}
+
 </style>
 
 <?php
