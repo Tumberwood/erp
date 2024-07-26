@@ -28,6 +28,10 @@
 		position: absolute;
 	}
 
+	#hasil {
+		overflow: scroll; 
+		border: 1px solid #ccc; 
+	}
 </style>
 
 <?php
