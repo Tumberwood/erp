@@ -332,7 +332,7 @@ function CekSelectHeaderH(tbl_header){
             // }
 
             //ditambahkan pengecekan hak akses udp crud - 26 Juli 2024
-            if(transaction_state != -9 && hak_u == 1 && approval_state == 0){
+            if(transaction_state != -9 && hak_u == 1){
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
                     .css( 'display', 'block' );
