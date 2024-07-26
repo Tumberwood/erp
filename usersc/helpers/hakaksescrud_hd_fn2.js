@@ -319,15 +319,28 @@ function CekSelectHeaderH(tbl_header){
         }else if (is_master_table == 1){
             // master table
             // cek status transaksi
-            if(transaction_state == -9){
-                tbl_header.button( 'btnEdit:name' )
-                    .nodes()
-                    .css( 'display', 'none' );
-            }else{
+
+            // if(transaction_state == -9){
+            //     tbl_header.button( 'btnEdit:name' )
+            //         .nodes()
+            //         .css( 'display', 'none' );
+            // }else{
+            //     tbl_header.button( 'btnEdit:name' )
+            //         .nodes()
+            //         .css( 'display', 'block' );
+            //     c_btnSetAction = c_btnSetAction + 1;
+            // }
+
+            //ditambahkan pengecekan hak akses udp crud - 26 Juli 2024
+            if(transaction_state != -9 && hak_u == 1 && approval_state == 0){
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
                     .css( 'display', 'block' );
                 c_btnSetAction = c_btnSetAction + 1;
+            }else{
+                tbl_header.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
             }
         }else{
             // seharusnya tidak masuk sini karena default is_master_table = 0
