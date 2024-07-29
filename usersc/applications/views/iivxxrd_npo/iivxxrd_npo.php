@@ -101,7 +101,7 @@
 	var id_iwhxxmh = 0, id_iwhxxmh_old = 0;
 
 	// get tableRelation
-	tableRelation('iivxxrd_npo_audit');
+	tableRelation('iivxxrd_npo');
 
 	$(document).ready(function() {
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
