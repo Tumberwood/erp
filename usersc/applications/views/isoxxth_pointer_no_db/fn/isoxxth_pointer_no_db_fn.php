@@ -194,10 +194,12 @@
                     });
 
                     // Create image element and append it to #hasil
-                    var img = document.createElement('img');
-                    img.src = canvasDataUrl;
-                    $('#hasil').append(img); // Append the image to #hasil
-                    
+                    // var img = document.createElement('img');
+                    // img.src = canvasDataUrl;
+                    // $('#hasil').append(img); // Append the image to #hasil
+                    var imgHtml = `<br><img src="${canvasDataUrl}"><br>`;
+                    $('#hasil').append(imgHtml); // Append image and <br> together
+
                     var circleImageData = canvasDataUrl.replace(/^data:image\/(png|jpeg);base64,/, '');
                     var circleBlob = base64ToBlob(circleImageData, 'image/jpeg');
                     var imageId = Date.now();
