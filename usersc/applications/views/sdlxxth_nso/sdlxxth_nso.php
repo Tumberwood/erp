@@ -53,6 +53,11 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth_nso.tanggal"></editor-field>
 							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="sdlxxth_nso.id_wttxxmh"></editor-field>
+							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth_nso.id_iwhxxmh"></editor-field>
 							</div>
@@ -79,6 +84,7 @@
 								<th>ID</th>
 								<th>Tanggal</th>
                                 <th>Kode</th>
+                                <th>Tipe Transaksi</th>
 								<th>Customer</th>
 								<th>Warehouse</th>
 								<th>TX</th>
@@ -148,7 +154,7 @@
 	var edtsdlittd_nso, tblsdlittd_nso, show_deleted_sdlittd_nso = 0, id_sdlittd_nso;
 	// ------------- end of default variable
 
-	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0;
+	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_wttxxmh_old = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0;
 
 	// get tableRelation
@@ -236,6 +242,42 @@
 							data: function (params) {
 								var query = {
 									id_grlxxmh_old: id_grlxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Tipe Transaksi <sup class='text-danger'>*<sup>",
+					name: "sdlxxth_nso.id_wttxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wttxxmh/wttxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wttxxmh_old: id_wttxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -356,6 +398,7 @@
 
 				tanggal         = edtsdlxxth_nso.field('sdlxxth_nso.tanggal').val();
 				id_iwhxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_iwhxxmh').val();
+				id_wttxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_wttxxmh').val();
 				id_grlxxmh_customer      = edtsdlxxth_nso.field('sdlxxth_nso.id_grlxxmh_customer').val();
 
 				validasiRequired(
@@ -364,6 +407,7 @@
 					{
 						"tanggal": tanggal, 
 						"id_iwhxxmh": id_iwhxxmh, 
+						"id_wttxxmh": id_wttxxmh, 
 						"id_grlxxmh_customer": id_grlxxmh_customer,
 					}
 				);
@@ -424,6 +468,7 @@
 				{ data: "sdlxxth_nso.id",visible:false },
 				{ data: "sdlxxth_nso.tanggal" },
 				{ data: "sdlxxth_nso.kode" },
+				{ data: "wttxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
 				{ 
@@ -486,6 +531,7 @@
 			id_grlxxmh_old      = sdlxxth_nso_data.id_grlxxmh_customer;
 			id_grlxxmh_customer = sdlxxth_nso_data.id_grlxxmh_customer;
 			id_iwhxxmh_old      = sdlxxth_nso_data.id_iwhxxmh;
+			id_wttxxmh_old      = sdlxxth_nso_data.id_wttxxmh;
 			
 			// atur hak akses
 			tbl_details = [tblsdlittd_nso];
@@ -496,7 +542,7 @@
 		tblsdlxxth_nso.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('sdlxxth_nso');
-			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_wttxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblsdlittd_nso];

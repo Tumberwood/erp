@@ -33,6 +33,8 @@
 				->setValue($s_id_gbrxxmh),
 			Field::inst( 'sdlxxth_nso.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'sdlxxth_nso.id_wttxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth_nso.id_grlxxmh_customer' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth_nso.kode' )
@@ -68,10 +70,12 @@
 			Field::inst( 'sdlxxth_nso.supir_nama' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
+			Field::inst( 'wttxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' ),
 
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','sdlxxth_nso.id_iwhxxmh' )
+		->leftJoin( 'wttxxmh','wttxxmh.id','=','sdlxxth_nso.id_wttxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','sdlxxth_nso.id_grlxxmh_customer' )
 		;
 	

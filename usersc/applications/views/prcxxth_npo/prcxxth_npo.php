@@ -53,6 +53,9 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth_npo.tanggal"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth_npo.id_wttxxmh"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -85,6 +88,7 @@
 								<th>ID</th>
 								<th>Tanggal</th>
                                 <th>Kode</th>
+                                <th>Tipe Transaksi</th>
 								<th>Supplier</th>
 								<th>Warehouse</th>
 								<th>TX</th>
@@ -175,7 +179,7 @@
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_wttxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('prcxxth_npo');
@@ -264,6 +268,42 @@
 							data: function (params) {
 								var query = {
 									id_grlxxmh_old: id_grlxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Tipe Transaksi <sup class='text-danger'>*<sup>",
+					name: "prcxxth_npo.id_wttxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wttxxmh/wttxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wttxxmh_old: id_wttxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -388,6 +428,7 @@
 
 				tanggal             = edtprcxxth_npo.field('prcxxth_npo.tanggal').val();
 				id_iwhxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_iwhxxmh').val();
+				id_wttxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_wttxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth_npo.field('prcxxth_npo.id_grlxxmh_supplier').val();
 				referensi_nomor     = edtprcxxth_npo.field('prcxxth_npo.referensi_nomor').val();
 
@@ -397,20 +438,11 @@
 					{
 						"tanggal": tanggal, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
+						"id_iwhxxmh": id_iwhxxmh,
+						"id_wttxxmh": id_wttxxmh,
+						"referensi_nomor": referensi_nomor
 					}
 				);
-
-				// if(id_iitxxmh == 1 ){
-					validasiRequired(
-						edtprcxxth_npo, 
-						"prcxxth_npo", 
-						{
-							"id_iwhxxmh": id_iwhxxmh,
-							"referensi_nomor": referensi_nomor
-						}
-					);
-				
-				// }
 
 			}
 			
@@ -468,6 +500,7 @@
 				{ data: "prcxxth_npo.id",visible:false },
 				{ data: "prcxxth_npo.tanggal" },
 				{ data: "prcxxth_npo.kode" },
+				{ data: "wttxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
 				{ 
@@ -519,6 +552,7 @@
 			id_grlxxmh_old      = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_grlxxmh_supplier = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_iwhxxmh_old      = prcxxth_npo_data.id_iwhxxmh;
+			id_wttxxmh_old      = prcxxth_npo_data.id_wttxxmh;
 
 			console.log(id_prcxxth_npo);
 			console.log(is_defaultprogram);
@@ -532,7 +566,7 @@
 		tblprcxxth_npo.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('prcxxth_npo');
-			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_wttxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd_npo];

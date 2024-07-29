@@ -34,6 +34,8 @@
 			Field::inst( 'prcxxth_npo.id_iitxxmh' ),
 			Field::inst( 'prcxxth_npo.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'prcxxth_npo.id_wttxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth_npo.id_grlxxmh_supplier' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth_npo.kode' )
@@ -70,10 +72,12 @@
 			Field::inst( 'prcxxth_npo.supir_nama' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
+			Field::inst( 'wttxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' ),
 
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','prcxxth_npo.id_iwhxxmh' )
+		->leftJoin( 'wttxxmh','wttxxmh.id','=','prcxxth_npo.id_wttxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','prcxxth_npo.id_grlxxmh_supplier' )
 		;
 	
