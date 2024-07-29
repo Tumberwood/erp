@@ -85,7 +85,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2,3,4,5,6]
 				},
 				{
 					searchPanes:{
@@ -100,8 +100,8 @@
 				{ data: "sdlxxth_nso.tanggal" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
-				{ data: "iimxxmh.nama" },
 				{ data: "iimxxmh.kode" },
+				{ data: "iimxxmh.nama" },
 				{ 
 					data: "sdlittd_nso.jumlah_unit",
 					...renderNumber()
