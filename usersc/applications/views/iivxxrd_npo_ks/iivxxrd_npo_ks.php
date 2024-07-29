@@ -59,6 +59,7 @@
 						</div>
 					</div>
 				</div>
+				<div id="keterangan_filter"></div>
 				<table id="tbliivxxrd_npo_ks" class="table table-striped table-bordered table-hover nowrap" width="100%">
 					<thead>
 						<tr>
@@ -292,6 +293,17 @@
 				tbliivxxrd_npo_ks.ajax.reload(function ( json ) {
 				toastr.remove();
 				toastr["success"]("Load data berhasil","INFO")
+				autofillField('iimxxmh', id_iimxxmh, "kode,nama");
+				iimxxmh_kode = autofillData.kode;
+				iimxxmh_nama = iimxxmh_kode + " - " +autofillData.nama;
+				autofillField('iwhxxmh', id_iwhxxmh, "kode,nama");
+				iwhxxmh_kode = autofillData.kode;
+				iwhxxmh_nama = autofillData.nama;
+				tgl_awal = moment(start_date).format('DD MMM YYYY');
+				tgl_akhir = moment(end_date).format('DD MMM YYYY');
+				tanggal = tgl_awal + " s/d " +tgl_akhir;
+
+				$('#keterangan_filter').html(`<h3>${tanggal} - ${iwhxxmh_nama} <br>${iimxxmh_nama}</h3>`)
 				$('#modalSFiivxxrd_npo').modal('toggle');
 			}, false);
 				return false;
