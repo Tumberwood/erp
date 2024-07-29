@@ -25,6 +25,21 @@
             success: function ( json ) {
                 is_update_transaksi_h = json.data.is_update_transaksi_h;
             }
-        } );
+        } )
+    }
+    
+    function cekKeteranganPointer(id_files_pointer) {
+        $.ajax( {
+            url: "../../models/isoittd_upload/fn_keterangan_pointer.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_files_pointer: id_files_pointer
+            },
+            success: function ( json ) {
+                keterangan_pointer = json.data.keterangan_pointer;
+            }
+        } )
     }
 </script>

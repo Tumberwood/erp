@@ -224,9 +224,12 @@
                     });
 
                     // Create image element and append it to #hasil
-                    var img = document.createElement('img');
-                    img.src = canvasDataUrl;
-                    $('#hasil').append(img); // Append the image to #hasil
+                    // var img = document.createElement('img');
+                    // img.src = canvasDataUrl;
+                    // $('#hasil').append(img); // Append the image to #hasil
+
+                    var imgHtml = `<br><img src="${canvasDataUrl}"><br>`;
+                    $('#hasil').append(imgHtml); // Append image and <br> together
                     
                     var circleImageData = canvasDataUrl.replace(/^data:image\/(png|jpeg);base64,/, '');
                     var circleBlob = base64ToBlob(circleImageData, 'image/jpeg');
@@ -585,8 +588,8 @@
                     var maxWidth, maxHeight;
                     
                     if (window.innerWidth <= 800) { // Check if the screen width is 800 pixels or less
-                        maxWidth = 800;  // Maximum width for mobile
-                        maxHeight = 600; // Maximum height for mobile
+                        maxWidth = 1200;  // Maximum width for mobile
+                        maxHeight = 1000; // Maximum height for mobile
                     } else {
                         maxWidth = 1800; // Maximum width for desktop
                         maxHeight = 1600; // Maximum height for desktop

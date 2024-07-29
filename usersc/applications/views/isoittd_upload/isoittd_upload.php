@@ -1346,7 +1346,7 @@
 					type: "textarea"
 				},
 				{
-					label: "Keterangan Pointer",
+					label: "Keterangan Pointer<sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.keterangan_pointer",
 					type: "textarea"
 				},
@@ -1404,6 +1404,8 @@
 			edtisoittd_upload.field('isoittd_upload.start_at').val(start_at);
 			edtisoittd_upload.field('isoittd_upload.id_isoxxth_upload').val(id_isoxxth_upload_filter);
 
+			edtisoittd_upload.field('isoittd_upload.keterangan_pointer').hide();
+
 			if(action == 'create'){
 				tblisoittd_upload.rows().deselect();
 
@@ -1444,6 +1446,19 @@
 		edtisoittd_upload.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		});
+
+		edtisoittd_upload.dependent( 'isoittd_upload.id_files_pointer', function ( val, data, callback ) {
+			if (val > 0) {
+				cekKeteranganPointer(val);
+				edtisoittd_upload.field('isoittd_upload.keterangan_pointer').show();
+				edtisoittd_upload.field('isoittd_upload.keterangan_pointer').val(keterangan_pointer);
+			} else {
+				edtisoittd_upload.field('isoittd_upload.keterangan_pointer').hide();
+				edtisoittd_upload.field('isoittd_upload.keterangan_pointer').val('');
+
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtisoittd_upload.dependent( 'isoittd_upload.select_item', function ( val, data, callback ) {
 			if (val > 0) {
@@ -1502,6 +1517,8 @@
 				batch_number              = edtisoittd_upload.field('isoittd_upload.batch_number').val();
 				transaksi_in              = edtisoittd_upload.field('isoittd_upload.transaksi_in').val();
 				transaksi_out              = edtisoittd_upload.field('isoittd_upload.transaksi_out').val();
+				id_files_pointer              = edtisoittd_upload.field('isoittd_upload.id_files_pointer').val();
+				keterangan_pointer              = edtisoittd_upload.field('isoittd_upload.keterangan_pointer').val();
 				// expired_date              = edtisoittd_upload.field('isoittd_upload.expired_date').val();
 				
 				expired_date = moment(edtisoittd_upload.field('isoittd_upload.expired_date').val()).format("YYYY-MM-DD");
@@ -1543,6 +1560,16 @@
 						},
 						0,
 						'>='
+					);
+				}
+
+				if (id_files_pointer > 0) {
+					validasiRequired(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
+							'keterangan_pointer': keterangan_pointer,
+						}
 					);
 				}
 			}

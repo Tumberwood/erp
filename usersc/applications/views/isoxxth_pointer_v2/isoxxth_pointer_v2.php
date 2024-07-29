@@ -134,7 +134,7 @@
 				<div id="canvas-container">
 					<canvas id="c" width="800" height="600"></canvas>
 				</div>
-				<br/>
+				
 				<div id="hasil"></div>
 			</div>
 		</div>
