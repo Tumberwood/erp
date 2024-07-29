@@ -301,9 +301,9 @@
 				iwhxxmh_nama = autofillData.nama;
 				tgl_awal = moment(start_date).format('DD MMM YYYY');
 				tgl_akhir = moment(end_date).format('DD MMM YYYY');
-				tanggal = tgl_awal + " s/d " +tgl_akhir;
+				tanggal = tgl_awal + " - " +tgl_akhir;
 
-				$('#keterangan_filter').html(`<h3>${tanggal} - ${iwhxxmh_nama} <br>${iimxxmh_nama}</h3>`)
+				$('#keterangan_filter').html(`<h3>${tanggal} (${iwhxxmh_nama}) <br>${iimxxmh_nama}</h3>`)
 				$('#modalSFiivxxrd_npo').modal('toggle');
 			}, false);
 				return false;
