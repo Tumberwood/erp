@@ -120,10 +120,10 @@
 					imtxxmh.movement_type,
 					sdlxxth_nso.tanggal,
 					1 as is_fisik,
-					sdlittd_nso.jumlah_unit as jumlah_unit,
+					-sdlittd_nso.jumlah_unit as jumlah_unit,
 					sdlittd_nso.jumlah_konversi as jumlah_konversi,
-					sdlittd_nso.jumlah_terkecil as jumlah_terkecil,
-					sdlittd_nso.jumlah_default as jumlah_default
+					-sdlittd_nso.jumlah_terkecil as jumlah_terkecil,
+					-sdlittd_nso.jumlah_default as jumlah_default
 				FROM sdlxxth_nso
 				LEFT JOIN gcpxxmh ON gcpxxmh.id = sdlxxth_nso.id_gcpxxmh
 				LEFT JOIN gbrxxmh ON gbrxxmh.id = sdlxxth_nso.id_gbrxxmh
