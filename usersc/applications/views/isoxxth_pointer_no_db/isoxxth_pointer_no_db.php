@@ -216,8 +216,8 @@
 				var maxWidth, maxHeight;
 				
 				if (window.innerWidth <= 800) { // Check if the screen width is 800 pixels or less
-					maxWidth = 800;  // Maximum width for mobile
-					maxHeight = 600; // Maximum height for mobile
+					maxWidth = 1200;  // Maximum width for mobile
+					maxHeight = 1000; // Maximum height for mobile
 				} else {
 					maxWidth = 1800; // Maximum width for desktop
 					maxHeight = 1600; // Maximum height for desktop
