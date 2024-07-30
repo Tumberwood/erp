@@ -94,6 +94,8 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iivxxrd_npo_ks/fn/iivxxrd_npo_ks_fn.php'; ?>
+
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
@@ -293,9 +295,8 @@
 				tbliivxxrd_npo_ks.ajax.reload(function ( json ) {
 				toastr.remove();
 				toastr["success"]("Load data berhasil","INFO")
-				autofillField('iimxxmh', id_iimxxmh, "kode,nama");
-				iimxxmh_kode = autofillData.kode;
-				iimxxmh_nama = iimxxmh_kode + " - " +autofillData.nama;
+				detailText(id_iimxxmh);
+
 				autofillField('iwhxxmh', id_iwhxxmh, "kode,nama");
 				iwhxxmh_kode = autofillData.kode;
 				iwhxxmh_nama = autofillData.nama;
@@ -303,7 +304,7 @@
 				tgl_akhir = moment(end_date).format('DD MMM YYYY');
 				tanggal = tgl_awal + " - " +tgl_akhir;
 
-				$('#keterangan_filter').html(`<h3>${tanggal} (${iwhxxmh_nama}) <br>${iimxxmh_nama}</h3>`)
+				$('#keterangan_filter').html(`<h3>${tanggal} (${iwhxxmh_nama}) <br>${iimxxmh_nama} (${iumxxmh_kode})</h3>`)
 				$('#modalSFiivxxrd_npo').modal('toggle');
 			}, false);
 				return false;
