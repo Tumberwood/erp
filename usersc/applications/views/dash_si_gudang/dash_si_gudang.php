@@ -127,7 +127,7 @@
 					<h3 class="text-center">Average Inventory</h3>
 					<div class="row">
 						<div class="col-12">
-							<div class="widget bg-info m-l-n-md">
+							<div class="widget bg-info">
 								<h1 class="ukuran text-center font-bold" id="avg_jumlah"></h1>
 								<h5 class="no-margins text-center font-bold">
 									Item
