@@ -20,7 +20,7 @@
                 $('#ts_out').html(c_id_h_out)
                 c_id_d_out = json.data1.c_id_d;
                 $('#item_out').html(c_id_d_out)
-                avg_jumlah = json.data4.avg_jumlah;
+                avg_jumlah = parseFloat(json.data4.avg_jumlah).toFixed(1);
                 $('#avg_jumlah').html(avg_jumlah)
             }
         } );
