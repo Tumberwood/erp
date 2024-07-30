@@ -108,7 +108,7 @@ function siVarReset(tbl_name){
  *  tbl_name_data
  *  id_tbl_name
  *  id_transaksi_d
- *  id_transaksi_log
+ *  id_transaksi_log_d
  *  transaction_state_d
  *  is_nextprocess_d
  * 
@@ -120,7 +120,7 @@ function siVarSetD(tbl_name){
     window[tbl_name + '_data'] = rowDataD[tbl_name];
     window['id_' + tbl_name]   = rowDataD[tbl_name].id;
     id_transaksi_d             = rowDataD[tbl_name].id;
-    id_transaksi_log           = rowDataD[tbl_name].id;
+    id_transaksi_log_d           = rowDataD[tbl_name].id;
     transaction_state_d        = rowDataD[tbl_name].transaction_state;
     is_nextprocess_d           = rowDataD[tbl_name].is_nextprocess;
 
@@ -132,7 +132,7 @@ function siVarSetD(tbl_name){
  *  tbl_name
  *  id_tbl_name
  *  id_transaksi_d
- *  id_transaksi_log
+ *  id_transaksi_log_d
  *  transaction_state_d
  *  is_nextprocess_d
  * 
@@ -143,7 +143,7 @@ function siVarResetD(tbl_name){
     window[tbl_name + '_data'] = 0;
     window['id_' + tbl_name]   = 0;
     id_transaksi_d             = 0;
-    id_transaksi_log           = 0;
+    id_transaksi_log_d           = 0;
     transaction_state_d        = 0;
     is_nextprocess_d           = 0;
 
