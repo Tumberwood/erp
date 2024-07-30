@@ -13,21 +13,26 @@
 
 			$qs_iso_td = $editor->db()
 				->query('select', 'isoittd_upload' )
-				->get(['id_files_pointer'] )
+				->get([
+					'id_files_pointer',
+					'id_isoxxth_upload'
+					] )
 				->where('id', $id_h )
 				->exec();
 			$rs_iso_td = $qs_iso_td ->fetch();
 			$id_files_pointer = $rs_iso_td['id_files_pointer'];
+			$id_isoxxth_upload = $rs_iso_td['id_isoxxth_upload'];
 
 			//Jika gambar pointer sudah diisi
 			if ($id_files_pointer > 0) {
 				$qs_pointer = $editor->db()
 					->raw()
 					->bind(':id_files_pointer', $id_files_pointer)
+					->bind(':id_isoxxth_upload', $id_isoxxth_upload)
 					->exec('SELECT
 								a.id
 							FROM isoittd_upload a
-							WHERE a.id_isoxxth_upload = 1 AND a.id_files_pointer = :id_files_pointer 
+							WHERE a.id_isoxxth_upload = :id_isoxxth_upload AND a.id_files_pointer = :id_files_pointer 
 					');
 				$rs_pointer = $qs_pointer->fetchAll();
 				
