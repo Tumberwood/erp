@@ -399,6 +399,7 @@
 				tanggal         = edtsdlxxth_nso.field('sdlxxth_nso.tanggal').val();
 				id_iwhxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_iwhxxmh').val();
 				id_wttxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_wttxxmh').val();
+				supir_nama      = edtsdlxxth_nso.field('sdlxxth_nso.supir_nama').val();
 				id_grlxxmh_customer      = edtsdlxxth_nso.field('sdlxxth_nso.id_grlxxmh_customer').val();
 
 				validasiRequired(
@@ -408,6 +409,7 @@
 						"tanggal": tanggal, 
 						"id_iwhxxmh": id_iwhxxmh, 
 						"id_wttxxmh": id_wttxxmh, 
+						"supir_nama": supir_nama, 
 						"id_grlxxmh_customer": id_grlxxmh_customer,
 					}
 				);
