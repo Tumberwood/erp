@@ -126,10 +126,10 @@
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
+									<editor-field name="isoittd_upload.alasan_skip"></editor-field>
 								</div>
 								<div class="col-lg-6">
-									<editor-field name="isoittd_upload.alasan_skip"></editor-field>
+									<editor-field name="isoittd_upload.id_files_skip"></editor-field>
 								</div>
 							</div>
 							<div class="row">
@@ -397,6 +397,17 @@
 					type: "hidden"
 				}, 	
 				{
+					label: "Alasan Skip <sup class='text-danger'>*<sup>",
+					name: "isoittd_upload.alasan_skip",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Label LPN Tidak Ada / Salah", "value": "Label LPN Tidak Ada / Salah" },
+						{ "label": "Label Lokasi Tidak Ada / Salah", "value": "Label Lokasi Tidak Ada / Salah" },
+						{ "label": "Penataan belum sesuai standart", "value": "Penataan belum sesuai standart" },
+					]
+				},
+				{
 					label: "Foto <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.id_files_skip",
 					type: "upload",
@@ -408,17 +419,6 @@
 						}
 					},
 					noFileText: 'Belum ada gambar'
-				},
-				{
-					label: "Alasan Skip <sup class='text-danger'>*<sup>",
-					name: "isoittd_upload.alasan_skip",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Label LPN Tidak Ada / Salah", "value": "Label LPN Tidak Ada / Salah" },
-						{ "label": "Label Lokasi Tidak Ada / Salah", "value": "Label Lokasi Tidak Ada / Salah" },
-						{ "label": "Penataan belum sesuai standart", "value": "Penataan belum sesuai standart" },
-					]
 				},
 			]
 		} );
@@ -680,7 +680,7 @@
 					name: "isoittd_upload.fisik"
 				}, 	
 				{
-					label: "LPN <sup class='text-danger'>*<sup>",
+					label: "LPN",
 					name: "isoittd_upload.lpn"
 				}, 	
 				
@@ -696,16 +696,13 @@
 					type: "hidden"
 				}, 	
 				{
-					label: "Batch Number <sup class='text-danger'>*<sup>",
+					label: "Batch Number",
 					name: "isoittd_upload.batch_number"
 				}, 	
 				{
 					label: "Expired Date",
 					name: "isoittd_upload.expired_date",
 					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
 					opts:{
 						minDate: new Date('1900-01-01'),
 						firstDay: 0
@@ -878,9 +875,6 @@
 						'select_item': select_item,
 						'select_lokasi': select_lokasi,
 						'jumlah_terkecil': jumlah_terkecil,
-						'lpn': lpn,
-						'batch_number': batch_number,
-						'expired_date': expired_date,
 					}
 				);
 				
@@ -1297,7 +1291,7 @@
 					type: "readonly"
 				}, 	
 				{
-					label: "LPN <sup class='text-danger'>*<sup>",
+					label: "LPN",
 					name: "isoittd_upload.lpn"
 				}, 	
 				
@@ -1311,16 +1305,13 @@
 					name: "isoittd_upload.transaksi_out"
 				}, 	
 				{
-					label: "Batch Number <sup class='text-danger'>*<sup>",
+					label: "Batch Number",
 					name: "isoittd_upload.batch_number"
 				}, 	
 				{
 					label: "Expired Date",
 					name: "isoittd_upload.expired_date",
 					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
 					opts:{
 						minDate: new Date('1900-01-01'),
 						firstDay: 0
@@ -1397,6 +1388,7 @@
 			]
 		} );
 		edtisoittd_upload.field('isoittd_upload.id_files_skip').hide();
+		edtisoittd_upload.field('isoittd_upload.alasan_skip').hide();
 		edtisoittd_upload.field('isoittd_upload.id_files_skip').disable();
 		
 		edtisoittd_upload.on( 'preOpen', function( e, mode, action ) {
@@ -1437,8 +1429,10 @@
 				
 				if (is_skip_select == 1) {
 					edtisoittd_upload.field('isoittd_upload.id_files_skip').show();
+					edtisoittd_upload.field('isoittd_upload.alasan_skip').show();
 				} else {
 					edtisoittd_upload.field('isoittd_upload.id_files_skip').hide();
+					edtisoittd_upload.field('isoittd_upload.alasan_skip').hide();
 				}
 			}
 		});
@@ -1532,9 +1526,6 @@
 							'select_item': select_item,
 							'select_lokasi': select_lokasi,
 							'jumlah_terkecil': jumlah_terkecil,
-							'lpn': lpn,
-							'batch_number': batch_number,
-							'expired_date': expired_date,
 						}
 					);
 				}
