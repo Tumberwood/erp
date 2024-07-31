@@ -52,7 +52,32 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="row">
+
+<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmisoittd_upload">
+				<div class="modal-header">
+					<h4 class="modal-title">Filter</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-lg-3 col-md-3">Kode Stock Opname</label>
+						<div class="col-lg-8 col-sm-8">
+							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="row">
     <div class="col">
         <div class="ibox collapsed" id="iboxfilter">
             <div class="ibox-title">
@@ -76,7 +101,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="row" id="konten" style="display: none">
 	<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
@@ -164,6 +189,10 @@
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
+	
+	//Aktivasi Filter Floating
+	filterFloating();
+	
 	var canvas = new fabric.Canvas('c');
 	var canvasContainer = $('#canvas-container');
 	var mode = '';
@@ -348,6 +377,7 @@
 				console.log(id_isoxxth_upload_filter);
 				// console.log(id_isoxxth_upload_filter);
 				kontenData();
+				$('#modalFloatingFilter').modal('toggle');
 				//Jika ada filter kode maka akan muncul konten
 				
 			}

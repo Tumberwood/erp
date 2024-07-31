@@ -1,5 +1,5 @@
 <script>
-    function load_dashboard_logistic (){
+    function loadDashboardSiGudang (){
         $.ajax( {
             url: "../../models/dash_si_gudang/dash_si_gudang.php",
             dataType: 'json',

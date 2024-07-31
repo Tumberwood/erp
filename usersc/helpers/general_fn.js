@@ -1113,3 +1113,10 @@ async function fnConfirm(tbl_name, tbl){
         console.error('Error occurred:', error);
     }
 }
+
+function filterFloating() {
+    $('#btnFilterFloating').show();
+    $('#btnFilterFloating').on('click', function() {
+        $('#modalFloatingFilter').modal('show');
+    });
+}

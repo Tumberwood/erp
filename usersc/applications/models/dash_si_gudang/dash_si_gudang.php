@@ -98,12 +98,12 @@
 
         $qs_avg = $db
             ->raw()
-            ->bind(':start_date', $start_date)
-            ->bind(':end_date', $end_date)
             ->exec('SELECT
-                        AVG(a.jumlah_terkecil) avg_jumlah
-                    FROM iivxxrd_npo a
-                    WHERE a.tanggal BETWEEN :start_date AND :end_date;
+                        (SUM(CASE WHEN a.confirmed_at < DATE_ADD("'.$end_date.' 00:00:00", INTERVAL 1 DAY) THEN a.jumlah_terkecil ELSE 0 END) 
+                        -
+                        SUM(CASE WHEN a.confirmed_at < "'.$start_date.' 00:00:00" THEN a.jumlah_terkecil ELSE 0 END)) 
+                        / 2 AS avg_jumlah
+                    FROM iivxxrd_npo a;
                     '
                     );
         $rs_avg = $qs_avg->fetch();

@@ -36,6 +36,36 @@
     }
 </style>
 
+<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmFilter">
+				<div class="modal-header">
+					<h4 class="modal-title">Filter</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-lg-2 col-form-label">Periode</label>
+						<div class="col-lg-5">
+							<div class="input-group input-daterange" id="periode">
+								<input type="text" id="start_date" class="form-control">
+								<div class="input-group-addon">
+									<span class="fa fa-calendar"></span>
+								</div>
+								<input type="text" id="end_date" class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 
 <div class="row" id="fltr">
 	<div class="col">
 		<div class="ibox collapsed" id="iboxfilter">
@@ -68,7 +98,7 @@
 		</div>
 	</div>
 </div>
-<hr>
+<hr> -->
 
 <div class="row" id="showing" style="display:none">
 	<div class="col">
@@ -130,7 +160,7 @@
 							<div class="widget bg-info">
 								<h1 class="ukuran text-center font-bold" id="avg_jumlah"></h1>
 								<h5 class="no-margins text-center font-bold">
-									Item
+									Unit
 								</h5>
 							</div>
 						</div>
@@ -214,12 +244,15 @@
 	// get tableRelation
 	tableRelation('prcxxth_npo');
 
+	//Aktivasi Filter Floating
+	filterFloating();
+
 	$(document).ready(function() {
 
 		//function autoreload data based on interval ms di ggsxxsh
 		// autoReloadInterval(function () {
 		// 	//tambahkan function reload tabel atau function generate card
-		// 	load_dashboard_logistic();							
+		// 	loadDashboardSiGudang();							
 		// 	tblprcxxth_npo.ajax.reload(null, false);
 		// 	// console.log('reloaded');
 		// });
@@ -227,7 +260,7 @@
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');	
 
-		load_dashboard_logistic();
+		loadDashboardSiGudang();
 
 		tblprcxxth_npo = $('#tblprcxxth_npo').DataTable( {
 			dom: domPQ,
@@ -377,13 +410,15 @@
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
-				
+				loadDashboardSiGudang();
 				tblprcxxth_npo.ajax.reload(null, false);
 				
 				toastr.remove();
 				toastr["success"]("Load data berhasil","INFO")
-				var ibox = $('#iboxfilter');
-				ibox.find('.collapse-link').click();
+				// var ibox = $('#iboxfilter');
+				// ibox.find('.collapse-link').click();
+				
+				$('#modalFloatingFilter').modal('toggle');
 			}
 		});
 	} );// end of document.ready
