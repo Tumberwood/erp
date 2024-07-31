@@ -11,7 +11,35 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="row">
+<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmFilter">
+				<div class="modal-header">
+					<h4 class="modal-title">Filter</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="lpnInput" placeholder="LPN">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="locationInput" placeholder="Location">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="row">
     <div class="col">
         <div class="ibox" id="iboxfilter">
             <div class="ibox-title">
@@ -40,7 +68,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="row" id="konten">
 </div>
@@ -75,6 +103,8 @@
 
 		// get tableRelation
 		tableRelation('iivxxrd_audit');
+		//Aktivasi Filter Floating
+		filterFloating();
 		
 		function generateKonten() {
 			$('#konten').empty();
@@ -285,7 +315,8 @@
 					wloxxmh_filter  = $('#locationInput').val();
 					if (wlpxxmh_filter != '' || wloxxmh_filter != '') {
 						generateKonten();
-						$('#iboxfilter').addClass('collapsed');
+						// $('#iboxfilter').addClass('collapsed');
+						$('#modalFloatingFilter').modal('toggle');
 
 						//start at itu saat submit filter
 						start_at = moment().format("YYYY-MM-DD HH:mm:ss");
