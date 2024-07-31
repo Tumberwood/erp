@@ -58,31 +58,9 @@
 	.floating-button:hover {
 		background-color: #179b77;
 	}
-
-	.tooltip {
-		visibility: hidden;
-		width: 120px;
-		background-color: #555;
-		color: #fff;
-		text-align: center;
-		border-radius: 6px;
-		padding: 5px 0;
-		position: absolute;
-		z-index: 1;
-		bottom: 125%; /* Position above the button */
-		left: 50%;
-		margin-left: -60px; /* Center the tooltip */
-		opacity: 0;
-		transition: opacity 0.3s;
-	}
-
-	.floating-button:hover .tooltip {
-		visibility: visible;
-		opacity: 1;
-	}
 </style>
 
 <!-- Button untuk Filter Floating-->
-<div class="floating-button" id="btnFilterFloating" title="Filter" style="display: none">
+<div class="floating-button" id="btnFilterFloating" style="display: none" data-toggle="tooltip" data-placement="left" title="Filter">
 	<i class="fa fa-filter"></i>
 </div>
