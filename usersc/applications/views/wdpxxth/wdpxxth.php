@@ -11,33 +11,29 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="row">
-    <div class="col">
-        <div class="ibox" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmFilter">
+<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmFilter">
+				<div class="modal-header">
+					<h4 class="modal-title">Filter</h4>
+				</div>
+				<div class="modal-body">
 					<div class="form-group row">
 						<label class="col-lg-2 col-md-2">Kode Picking</label>
 						<div class="col-lg-4 col-sm-4">
 							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
 						</div>
 					</div>
-                    <!-- <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div> -->
-                </form>
-				
-            </div>
-        </div>
-    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
-
 
 <div class="ibox" id="tableLPN" style="display: none">
 	<div class="ibox-content">
@@ -138,6 +134,9 @@
 
 		// get tableRelation
 		tableRelation('wdpxxth');
+		
+		//Aktivasi Filter Floating
+		filterFloating();
 		
 		$("#selectKode").select2({
 			placeholder : "Select",
@@ -331,7 +330,7 @@
 				isDispatchUsed(id_wpcxxth_old, 1, uniqueToken);
 				$('#tableLPN').show();
 				// generateKonten();
-				$('#iboxfilter').addClass('collapsed');
+				$('#modalFloatingFilter').modal('toggle');
 				
 				//event jika direload, maka flag used jadi 0 lagi
 				$(window).on('unload', function() {
