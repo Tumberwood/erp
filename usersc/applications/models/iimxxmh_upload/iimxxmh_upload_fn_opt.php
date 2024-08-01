@@ -28,6 +28,18 @@
         $id_iimxxmh_upload_old = 0;
     }
 
+    if($_GET['company'] != ''){
+        $company = $_GET['company'];
+    }else{
+        $company = 0;
+    }
+
+    if($_GET['cabang'] != ''){
+        $cabang = $_GET['cabang'];
+    }else{
+        $cabang = 0;
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_iimxxmh_upload_old > 0){
@@ -35,7 +47,7 @@
             ->query('select', 'iimxxmh_upload')
             ->get([
                 'iimxxmh_upload.id as id',
-                'iimxxmh_upload.nama as text'
+                'concat(kode, " - ", iimxxmh_upload.nama) as text'
             ])
             ->where('iimxxmh_upload.id', $id_iimxxmh_upload_old )
             ->limit(1)
@@ -52,14 +64,18 @@
         ->query('select', 'iimxxmh_upload')
         ->get([
             'iimxxmh_upload.id as id',
-            'iimxxmh_upload.nama as text'
+            'concat(kode, " - ", iimxxmh_upload.nama) as text'
         ])
         ->where('iimxxmh_upload.transaction_state',1)
         ->where('iimxxmh_upload.id', $id_iimxxmh_upload_old, '<>' )
+        ->where('iimxxmh_upload.company', $company)
+        ->where('iimxxmh_upload.cabang', $cabang)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('iimxxmh_upload.nama', '%' . $q . '%', 'LIKE' );
+                ->where('iimxxmh_upload.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('iimxxmh_upload.nama', '%' . $q . '%', 'LIKE' )
+                ;
         } )
         ->order('iimxxmh_upload.nama')
         ->limit($resultCount)

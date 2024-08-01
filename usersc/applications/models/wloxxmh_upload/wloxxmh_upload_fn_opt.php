@@ -28,6 +28,18 @@
         $id_wloxxmh_upload_old = 0;
     }
 
+    if($_GET['company'] != ''){
+        $company = $_GET['company'];
+    }else{
+        $company = 0;
+    }
+
+    if($_GET['cabang'] != ''){
+        $cabang = $_GET['cabang'];
+    }else{
+        $cabang = 0;
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_wloxxmh_upload_old > 0){
@@ -56,10 +68,13 @@
         ])
         ->where('wloxxmh_upload.transaction_state',1)
         ->where('wloxxmh_upload.id', $id_wloxxmh_upload_old, '<>' )
+        ->where('wloxxmh_upload.company', $company)
+        ->where('wloxxmh_upload.cabang', $cabang)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('wloxxmh_upload.nama', '%' . $q . '%', 'LIKE' );
+                ->where('wloxxmh_upload.nama', '%' . $q . '%', 'LIKE' )
+                ;
         } )
         ->order('wloxxmh_upload.nama')
         ->limit($resultCount)

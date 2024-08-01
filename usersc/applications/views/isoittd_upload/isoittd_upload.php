@@ -296,6 +296,8 @@
 	var id_isoxxth_upload_old = 0;
 	var id_iwhxxmh_old = 0;
 	var id_iimxxmh_old = 0;
+	var id_wloxxmh_upload_old = 0;
+	var id_iimxxmh_upload_old = 0;
 	var id_iumxxmh_old = 0;
 	var is_skip_select = 0;
 	var id_isoxxth_upload_old = 0;
@@ -303,7 +305,8 @@
 	var id_files_pointer_old = 0;
 	var selectedText = null;
 	var start_button = "";
-	
+	var company = '';
+	var cabang = '';
 
 	// get tableRelation
 	tableRelation('isoittd_upload');
@@ -1102,13 +1105,14 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/isoittd_upload/item_opname_fn_opt.php",
+							url: "../../models/iimxxmh_upload/iimxxmh_upload_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_iimxxmh_old,
-									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									id_iimxxmh_upload_old: id_iimxxmh_upload_old,
+									company: company,
+									cabang: cabang,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1132,43 +1136,9 @@
 					}
 				},
 				{
-					label: "Satuan <sup class='text-danger'>*<sup>", 
+					label: "Satuan", 
 					name: "isoittd_upload.select_satuan",
-					type: "select2",
-					id: "satuan_opname",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/isoittd_upload/satuan_opname_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								// console.log(id_isoxxth_upload_filter);
-								var query = {
-									id_isoittd_upload_old: id_iimxxmh_old,
-									id_isoxxth_upload_old: id_isoxxth_upload_filter,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
+					type: "readonly",
 				},
 				{
 					label: "Lokasi <sup class='text-danger'>*<sup>", 
@@ -1180,13 +1150,14 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/isoittd_upload/lokasi_opname_fn_opt.php",
+							url: "../../models/wloxxmh_upload/wloxxmh_upload_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_iimxxmh_old,
-									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									id_wloxxmh_upload_old: id_wloxxmh_upload_old,
+									company: company,
+									cabang: cabang,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1209,78 +1180,6 @@
 						},
 					}
 				},
-				// {
-				// 	label: "UoM <sup class='text-danger'>*<sup>", 
-				// 	name: "isoittd_upload.id_iumxxmh_terkecil",
-				// 	type: "select2",
-				// 	opts: {
-				// 		placeholder : "Select",
-				// 		allowClear: true,
-				// 		multiple: false,
-				// 		ajax: {
-				// 			url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
-				// 			dataType: 'json',
-				// 			data: function (params) {
-				// 				var query = {
-				// 					id_iumxxmh_old: id_iumxxmh_old,
-				// 					search: params.term || '',
-				// 					page: params.page || 1
-				// 				}
-				// 					return query;
-				// 			},
-				// 			processResults: function (data, params) {
-				// 				return {
-				// 					results: data.results,
-				// 					pagination: {
-				// 						more: true
-				// 					}
-				// 				};
-				// 			},
-				// 			cache: true,
-				// 			minimumInputLength: 1,
-				// 			maximum: 10,
-				// 			delay: 500,
-				// 			maximumSelectionLength: 5,
-				// 			minimumResultsForSearch: -1,
-				// 		},
-				// 	}
-				// },
-				// {
-				// 	label: "Location <sup class='text-danger'>*<sup>", 
-				// 	name: "isoittd_upload.id_wloxxmh",
-				// 	type: "select2",
-				// 	opts: {
-				// 		placeholder : "Select",
-				// 		allowClear: true,
-				// 		multiple: false,
-				// 		ajax: {
-				// 			url: "../../models/wloxxmh/wloxxmh_fn_opt.php",
-				// 			dataType: 'json',
-				// 			data: function (params) {
-				// 				var query = {
-				// 					id_wloxxmh_old: id_wloxxmh_old,
-				// 					search: params.term || '',
-				// 					page: params.page || 1
-				// 				}
-				// 					return query;
-				// 			},
-				// 			processResults: function (data, params) {
-				// 				return {
-				// 					results: data.results,
-				// 					pagination: {
-				// 						more: true
-				// 					}
-				// 				};
-				// 			},
-				// 			cache: true,
-				// 			minimumInputLength: 1,
-				// 			maximum: 10,
-				// 			delay: 500,
-				// 			maximumSelectionLength: 5,
-				// 			minimumResultsForSearch: -1,
-				// 		},
-				// 	}
-				// },
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
 					name: "isoittd_upload.jumlah_terkecil"
@@ -1397,6 +1296,12 @@
 			edtisoittd_upload.field('isoittd_upload.id_isoxxth_upload').val(id_isoxxth_upload_filter);
 
 			edtisoittd_upload.field('isoittd_upload.keterangan_pointer').hide();
+			
+			autofillField('isoxxth_upload', id_isoxxth_upload_filter, 'company,cabang')
+			company = autofillData.company;
+			cabang = autofillData.cabang;
+			// console.log('company = '+company);
+			// console.log('cabang = '+cabang);
 
 			if(action == 'create'){
 				tblisoittd_upload.rows().deselect();
@@ -1460,25 +1365,21 @@
 				if (data_item_opname) {
 					text_item_opname = data_item_opname.text
 				}
-				console.log(text_item_opname);
+				// console.log(text_item_opname);
 				var separatorIndex = text_item_opname.indexOf(" - ");
 				var s_kode = text_item_opname.substring(0, separatorIndex);
 				var s_nama = text_item_opname.substring(separatorIndex + 3);
 
+				// console.log(s_kode);
+				// console.log(s_nama);
+
+				autofillField('iimxxmh_upload', val, 'satuan');
+				satuan = autofillData.satuan;
+
 				edtisoittd_upload.field('isoittd_upload.kode').val(s_kode);
 				edtisoittd_upload.field('isoittd_upload.nama').val(s_nama);
-			}
-			return {}
-		}, {event: 'keyup change'});
-
-		edtisoittd_upload.dependent( 'isoittd_upload.select_satuan', function ( val, data, callback ) {
-			if (val > 0) {
-				var data_satuan_opname = $('#satuan_opname').select2('data')[0];
-				if (data_satuan_opname) {
-					text_satuan_opname = data_satuan_opname.text
-				}
-
-				edtisoittd_upload.field('isoittd_upload.satuan').val(text_satuan_opname);
+				edtisoittd_upload.field('isoittd_upload.select_satuan').val(satuan);
+				edtisoittd_upload.field('isoittd_upload.satuan').val(satuan);
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -2000,7 +1901,7 @@
 
 				if (id_isoxxth_upload_filter > 0) {
 					toastr["success"]("Load data berhasil","INFO")
-
+					
 					tblisoittd_upload.ajax.reload(function ( json ) {
 					}, false);
 					$('#modalSFisoittd_upload').modal('toggle');
