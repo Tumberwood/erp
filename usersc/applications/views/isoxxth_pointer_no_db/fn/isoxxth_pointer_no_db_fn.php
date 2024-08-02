@@ -40,7 +40,7 @@
         canvas.bringToFront(circle);
         canvas.renderAll(); 
         c_circle++;
-        
+        circleHistory.push(circle);
         $('#inputfileUpload').prop('disabled', true);
     }
 
@@ -307,5 +307,29 @@
         event.preventDefault();
         event.stopPropagation();
     }
+    $(document).keydown(function(e) {
+        // Check if Ctrl+Z is pressed
+        if (e.ctrlKey && e.key === 'z') {
+            undoLastCircle();
+            e.preventDefault(); // Prevent default action for Ctrl+Z
+        }
+    });
 
+    function undoLastCircle() {
+        if (circleHistory.length > 0) {
+            // Get the last circle from the history
+            var lastCircle = circleHistory.pop();
+            
+            // Remove the last circle from the canvas
+            canvas.remove(lastCircle);
+            canvas.renderAll();
+            c_circle--;
+
+            if (c_circle == 0) {
+                $('#inputfileUpload').prop('disabled', false);
+            } else {
+                $('#inputfileUpload').prop('disabled', true);
+            }
+        }
+    }
 </script>

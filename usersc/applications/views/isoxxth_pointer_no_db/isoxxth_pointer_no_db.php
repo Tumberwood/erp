@@ -61,6 +61,7 @@
 					<button class="btn btn-outline" id="scrollBtn" title="Scroll" data-toggle="tooltip"><i class="fa fa-mouse-pointer"></i></button>
 					<button class="btn btn-outline" id="zoomInBtn" title="Zoom In" data-toggle="tooltip"><i class="fa fa-search-plus"></i></button>
 					<button class="btn btn-outline" id="zoomOutBtn" title="Zoom Out" data-toggle="tooltip"><i class="fa fa-search-minus"></i></button>
+					<button class="btn btn-outline" id="undo" title="Undo" data-toggle="tooltip"><i class="fa fa-undo"></i></button>
 				</p>
 
 				<h3>Color</h3>
@@ -135,6 +136,7 @@
 	var id_isoittd_upload_old = 0;
 	var simpanFoto = {};
 	var id_isoxxth_upload_filter = 0;
+	var circleHistory = [];
 
 	const colorPicker = document.getElementById('colorPicker');
 	const pickColorButton = document.getElementById('pickColor');
@@ -267,6 +269,11 @@
 
 						$('#zoomOutBtn').on( "click", function() {
 							mode = 'zoomOut';
+						} );
+
+						$('#undo').on( "click", function() {
+							undoLastCircle();
+            				e.preventDefault();
 						} );
 
 						canvas.on('mouse:wheel', function(event) {
