@@ -27,6 +27,7 @@
                                 <th>Info</th>
                                 <th>C-U-D-A</th>
                                 <th>Hal Setting</th>
+                                <th>Private</th>
                                 <th>Permissions</th>
                             </tr>
                         </thead>
@@ -112,9 +113,8 @@
                         type: "readonly"
 					}, 	
 					{
-						label: "Title",
-						name: "pages.title",
-                        type: "readonly"
+						label: "Title",  
+						name: "pages.title"
 					}, 	
 					{
 						label: "Info",
@@ -141,6 +141,17 @@
 						options: [
 							{ "label": "Tidak", "value": 0 },
 							{ "label": "Ya", "value": 1 }
+						]
+					},
+					{
+						label: "Set this page as private?",
+						name: "pages.private",
+						type: "select",
+						placeholder : "Pilih",
+						def: 1,
+						options: [
+							{ "label": "This Page is Public", "value": 0 },
+							{ "label": "This Page is Private (Protected)", "value": 1 }
 						]
 					},
 					{
@@ -210,6 +221,10 @@
 					},
 					{ 
 						data: "pages_extend.is_setting", 
+						...renderYaTidak()
+					},
+					{ 
+						data: "pages.private", 
 						...renderYaTidak()
 					},
 					{ data: "permissions[].name" },

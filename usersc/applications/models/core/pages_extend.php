@@ -28,8 +28,8 @@
 				->set( Field::SET_NONE ),
 			Field::inst( 'pages.page' )
 				->set( Field::SET_NONE ),
-			Field::inst( 'pages.title' )
-				->set( Field::SET_NONE ),
+			Field::inst( 'pages.title' ),
+			Field::inst( 'pages.private' ),
 			Field::inst( 'pages_extend.created_by' ),
 			Field::inst( 'pages_extend.transaction_state' ),
 			Field::inst( 'pages_extend.approval_state' ),
