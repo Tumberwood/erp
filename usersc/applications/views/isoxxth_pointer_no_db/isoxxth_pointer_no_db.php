@@ -290,10 +290,10 @@
 								canvas.selection = true;
 							} else if (mode == 'zoomIn') {
 								var pointer = canvas.getPointer(options.e);
-								zoomMobile(-50, pointer.x, pointer.y); // Zoom in
+								zoomMobile(options.e, -50, pointer.x, pointer.y); // Zoom in
 							} else if (mode == 'zoomOut') {
 								var pointer = canvas.getPointer(options.e);
-								zoomMobile(50, pointer.x, pointer.y); // Zoom out
+								zoomMobile(options.e, 50, pointer.x, pointer.y); // Zoom out
 							} else {
 								// Handle panning
 								isDragging = true;

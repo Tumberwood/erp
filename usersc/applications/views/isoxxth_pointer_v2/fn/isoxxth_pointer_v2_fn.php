@@ -44,12 +44,12 @@
         canvas.renderAll();
     }
 
-    function zoomMobile(delta, x, y) {
+    function zoomMobile(event, delta, x, y) {
         var zoom = canvas.getZoom();
         zoom *= 0.999 ** delta;
         if (zoom > 20) zoom = 20;
         if (zoom < 0.01) zoom = 0.01;
-        canvas.zoomToPoint({ x: x, y: y }, zoom);
+        canvas.zoomToPoint({ x: event.offsetX, y: event.offsetY }, zoom);
     }
 
     // Zoom function
@@ -668,10 +668,10 @@
                                     canvas.selection = true;
                                 } else if (mode == 'zoomIn') {
                                     var pointer = canvas.getPointer(options.e);
-                                    zoomMobile(-50, pointer.x, pointer.y); // Zoom in
+                                    zoomMobile(options.e, -50, pointer.x, pointer.y); // Zoom in
                                 } else if (mode == 'zoomOut') {
                                     var pointer = canvas.getPointer(options.e);
-                                    zoomMobile(50, pointer.x, pointer.y); // Zoom out
+                                    zoomMobile(options.e, 50, pointer.x, pointer.y); // Zoom out
                                 } else {
                                     // Handle panning
                                     isDragging = true;
