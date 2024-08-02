@@ -115,7 +115,6 @@
 	}
 
 	function cekNotification(){
-		$('#notification_dropdown').empty();
 		// load notif
 		$.ajax( {
 			url: '../../../helpers/fn_notification_load.php',
@@ -127,52 +126,19 @@
 			success: function ( json ) {
 				str = '';
 				if( json.data.c_rs_notifications_unread > 0){
-					// $('#c_notification_unread').show();
-					// $('#c_notification_unread').html(json.data.c_rs_notifications_unread);
 					$('#notifCount').show();
 					$('#notifCount').html(json.data.c_rs_notifications_unread);
 					tblnotifications.ajax.reload(null, false);
-					// $.each( json.data.rs_notifications, function( key, value ) {
-					// 	var id_notifications = value.id_notifications;
-					// 	str = '<li data-id="' + id_notifications + '">'+
-					// 			'<div id="notif_' + id_notifications + '">'+
-					// 				value.message +
-					// 				'<span class="float-right text-muted small">'+moment(value.date_created).fromNow()+'</span>'+
-					// 			'</div>'+
-					// 		'</li>';
-					// 	if(key+1 != json.data.c_rs_notifications_unread){
-					// 		str=str+'<li class="dropdown-divider"></li>';
-					// 	}
-					// 	$("#notification_dropdown").append(str);
-					// });
 				}else{
 					// $('#c_notification_unread').hide();
 					$('#notifCount').hide();
 					str='<li>No Unread Notification</li>';
-					$("#notification_dropdown").append(str);
 				}
 			
 			}
 
 		} );
 	}
-
-	$("#notification_dropdown").on("click", "li", function () {
-		//Ambil data id element li yang di click dengan this data id
-		var id_notifications = $(this).data("id");
-		$.ajax({
-			url: '../../../helpers/fn_notification_read.php',
-			dataType: 'json',
-			type: 'POST',
-			async: false,
-			data: {
-				id_notifications: id_notifications
-			},
-			success: function (json) {
-				cekNotification();
-			}
-		});
-	});
 	// END Notifications
 
 	toastr.options = {
