@@ -87,7 +87,10 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
-
+<?php
+	//Notif baru
+	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
+?>
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
@@ -133,38 +136,36 @@
 			],
 			rowGroup: {
 				dataSrc: function (row) {
-						return  row.iimxxmh_kode+' - '+row.iimxxmh_nama;
-					},
-				endRender: function(rows, group) {
+					return row.iimxxmh_kode + ' - ' + row.iimxxmh_nama;
+				},
+				endRender: function (rows, group) {
 					var sum_jumlah_in = rows
 						.data()
 						.pluck('jumlah_in')
-						.reduce( function (a, b) {
+						.reduce(function (a, b) {
 							return parseInt(a) + parseInt(b);
 						}, 0);
-					sum_jumlah_in = $.fn.dataTable.render.number(',', '.', 0, '').display( sum_jumlah_in )
+					sum_jumlah_in = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_jumlah_in);
 
-					var sum_jumlah_in = rows
+					var sum_jumlah_out = rows
 						.data()
-						.pluck('jumlah_in')
-						.reduce( function (a, b) {
+						.pluck('jumlah_out')
+						.reduce(function (a, b) {
 							return parseInt(a) + parseInt(b);
 						}, 0);
-					sum_jumlah_in = $.fn.dataTable.render.number(',', '.', 0, '').display( sum_jumlah_in )
+					sum_jumlah_out = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_jumlah_out);
 
 					return $('<tr/>')
-						.append( '<td class="font-bold text-success">Subtotal</td>' )
-						.append( '<td></td>' )
-						.append( '<td></td>' )
-						.append( '<td></td>' )
-						.append( '<td></td>' )
-						.append( '<td></td>' )
-						.append( '<td class="text-right font-bold bg-warning">'+sum_jumlah_in+'</td>' );
-						.append( '<td class="text-right font-bold bg-warning">'+sum_jumlah_out'</td>' );
-						.append( '<td></td>' )
-
+						.append('<td class="font-bold text-success">Subtotal</td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						.append('<td class="text-right font-bold bg-warning">' + sum_jumlah_in + '</td>')
+						.append('<td class="text-right font-bold bg-warning">' + sum_jumlah_out + '</td>')
+						.append('<td></td>');
 				}
-				
 			},
 			columns: [
 				{ data: "tanggal" },

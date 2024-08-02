@@ -92,7 +92,10 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
-
+<?php
+	//Notif baru
+	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
+?>
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
