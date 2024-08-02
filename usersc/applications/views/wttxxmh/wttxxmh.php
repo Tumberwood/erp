@@ -54,6 +54,10 @@
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wttxxmh/fn/wttxxmh_fn.php'; ?>
 
+<?php
+	//Notif baru
+	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
+?>
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase

@@ -116,7 +116,10 @@
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wdpxxth/fn/wdpxxth_fn.php'; ?>
-
+<?php
+	//Notif baru
+	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
+?>
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 		cekNotification();

@@ -124,7 +124,9 @@
 				if( json.data.c_rs_notifications_unread > 0){
 					$('#notifCount').show();
 					$('#notifCount').html(json.data.c_rs_notifications_unread);
-					tblnotifications.ajax.reload(null, false);
+					if (typeof displayNotifications === 'function') {
+						tblnotifications.ajax.reload(null, false);
+					}
 				}else{
 					// $('#c_notification_unread').hide();
 					$('#notifCount').hide();
