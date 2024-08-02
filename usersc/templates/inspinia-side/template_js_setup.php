@@ -1,3 +1,8 @@
+<?php
+	//Notif baru
+	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
+?>
+
 <script>
 	// bug fix datatables tidak aligned antara header dan body saat dipasang di multitab
 	// $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
