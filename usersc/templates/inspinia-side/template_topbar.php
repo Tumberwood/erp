@@ -34,13 +34,14 @@
     // // end of message
 
     // // Set up notifications button/modal
-    // if ($user->isLoggedIn()) {
-    //     if ($dayLimitQ = $db->query('SELECT notif_daylimit FROM settings', array())) $dayLimit = $dayLimitQ->results()[0]->notif_daylimit;
-    //     else $dayLimit = 7;
+    if ($user->isLoggedIn()) {
+        if ($dayLimitQ = $db->query('SELECT notif_daylimit FROM settings', array())) $dayLimit = $dayLimitQ->results()[0]->notif_daylimit;
+        else $dayLimit = 7;
 
-    //     // 2nd parameter- true/false for all notifications or only current
-    //     $notifications = new Notification($user->data()->id, false, $dayLimit);
-    // }
+        // 2nd parameter- true/false for all notifications or only current
+        $notifications = new Notification($user->data()->id, false, $dayLimit);
+        print_r($notifications->getUnreadCount());
+    }
 /*
 Load main navigation menus
 */
@@ -66,12 +67,10 @@ Make menu tree
             <li>
                 <span class="m-r-sm text-muted welcome-message">Welcome <b><?=echouser($user->data()->id)?></b></span>
             </li>
-            <li class="dropdown" id="notification_parent">
-                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell" id="notification_icon"></i> <span class="label label-warning" id="c_notification_unread"></span>
+            <li id="notification_parent" style="display: none">
+                <a href="#" onclick="displayNotifications('new')" id="notificationsTrigger" data-toggle="modal" data-target="#notificationsModal"  >
+                    <i class="fa fa-bell" id="notification_icon"></i> <span class="label label-warning" id="notifCount"></span>
                 </a>
-                <ul class="dropdown-menu dropdown-messages dropdown-menu-right" id="notification_dropdown">                        
-                </ul>
             </li>
 
             <?php

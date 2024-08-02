@@ -220,6 +220,9 @@
 <script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iimxxmh/fn/iimxxmh_fn.php'; ?>
+<?php
+	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
+?>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">

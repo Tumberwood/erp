@@ -42,26 +42,26 @@
         $rs_c_notifications_unread = $qs_c_notifications_unread->fetch();
         $c_rs_notifications_unread = $rs_c_notifications_unread['c_unread'];
 
-        $qs_notifications = $db
-            ->raw()
-            ->bind(':id_users', $id_users)
-            ->bind(':is_archived', 0)
-            ->bind(':is_read', 0)
-            ->exec('
-                SELECT
-                    id as id_notifications,
-                    message,
-                    date_created,
-                    is_read
-                FROM notifications
-                WHERE 
-                    user_id = :id_users AND
-                    is_archived = :is_archived AND
-                    is_read = :is_read
-                ORDER BY 
-                    date_created
-            ');
-        $rs_notifications = $qs_notifications->fetchAll();
+        // $qs_notifications = $db
+        //     ->raw()
+        //     ->bind(':id_users', $id_users)
+        //     ->bind(':is_archived', 0)
+        //     ->bind(':is_read', 0)
+        //     ->exec('
+        //         SELECT
+        //             id as id_notifications,
+        //             message,
+        //             date_created,
+        //             is_read
+        //         FROM notifications
+        //         WHERE 
+        //             user_id = :id_users AND
+        //             is_archived = :is_archived AND
+        //             is_read = :is_read
+        //         ORDER BY 
+        //             date_created
+        //     ');
+        // $rs_notifications = $qs_notifications->fetchAll();
 
 
     }catch(PDOException $e){
@@ -71,7 +71,7 @@
 	}
 
     $data = array(
-		'rs_notifications' => $rs_notifications,
+		// 'rs_notifications' => $rs_notifications,
         'c_rs_notifications_unread' => $c_rs_notifications_unread
 	);
 
