@@ -15,6 +15,15 @@
     // ambil variable dari ajax data
     $wlpxxmh_kode = $_POST['wlpxxmh_kode'];
     $uniqueToken = $_POST['uniqueToken'];
+    $id_wpttpmh = $_POST['id_wpttpmh'];
+    
+    if ($id_wpttpmh == 2) {
+        $where_wloctmh = 'AND iivxxrd.id_wloctmh IN (1,6)';
+    } else {
+        $where_wloctmh = 'AND iivxxrd.id_wloctmh = 1';
+    }
+
+    // echo $id_wpttpmh;
 
     $qs_iivxxrd = $db
         // ->query('select', 'iivxxrd' )
@@ -58,7 +67,7 @@
                 LEFT JOIN iumxxmh m_def ON m_def.id = def.id_iumxxmh
                 WHERE 
                     iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
-                    AND iivxxrd.id_wloctmh = 1 AND iivxxrd.keterangan <> :uniqueToken
+                    '.$where_wloctmh.' AND iivxxrd.keterangan <> :uniqueToken
                 GROUP BY
                     iivxxrd.id_iimxxmh,
                     iivxxrd.iimxxmh_kode,

@@ -14,6 +14,13 @@
 
     // ambil variable dari ajax data
     $wlpxxmh_kode = $_POST['wlpxxmh_kode'];
+    $id_wpttpmh = $_POST['id_wpttpmh'];
+
+    if ($id_wpttpmh == 2) {
+        $where_wloctmh = 'AND a.id_wloctmh IN (1,6)';
+    } else {
+        $where_wloctmh = 'AND a.id_wloctmh = 1';
+    }
 
     $qs_iivxxrd = $db
         ->raw()
@@ -23,7 +30,7 @@
                     SUM(a.jumlah_terkecil) s_terkecil,
                     SUM(a.jumlah_unit) s_unit
                 FROM iivxxrd a
-                WHERE a.wlpxxmh_kode = :wlpxxmh_kode AND a.id_wloctmh = 1 AND a.is_fisik = 0
+                WHERE a.wlpxxmh_kode = :wlpxxmh_kode '.$where_wloctmh.' AND a.is_fisik = 0
                 HAVING s_unit < 0
         '
         );

@@ -108,6 +108,9 @@
 	var uniqueToken = '';
 	var sisa = 0;
 	var is_valid_lpn = 0;
+	var id_iwhxxmh = 0;
+	var id_wpttpmh_old = 0;
+	var id_wloxxmh_old = 0;
 	
 	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
 	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
@@ -157,6 +160,42 @@
 					name: "wptittd.wlpxxmh_kode"
 				},
 				{
+					label: "Jenis Putaway <sup class='text-danger'>*<sup>",
+					name: "wptittd.id_wpttpmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wpttpmh/wpttpmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wpttpmh_old: id_wpttpmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
 					label: "wptittd.id_iimxxmh",
 					name: "wptittd.id_iimxxmh",
 					type: "hidden"
@@ -175,12 +214,6 @@
 					label: "wptittd.id_wloxxmh_tujuan",
 					name: "wptittd.id_wloxxmh_tujuan",
 					type: "hidden"
-				},
-				{
-					label: "wptittd.id_wpttpmh",
-					name: "wptittd.id_wpttpmh",
-					type: "hidden",
-					def: 1
 				},
 				{
 					label: "wptittd.id_wjtxxmh",
@@ -236,6 +269,54 @@
 					name: "wptittd.jumlah_unit"
 				},
 				{
+					label: "Drop",
+					name: "wptittd.is_drop",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Lokasi Drop <sup class='text-danger'>*<sup>",
+					name: "lokasi_drop",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_wloctmh.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									ids_wloctmh: '6',
+									id_iwhxxmh: id_iwhxxmh,
+									id_wloxxmh_old: id_wloxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
 					label: "Location <sup class='text-danger'>*<sup>",
 					name: "wloxxmh_nama_scan"
 				},
@@ -246,10 +327,12 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwptittd.field('wptittd.start_at').val(start_at);
 
+			edtwptittd.field('wptittd.is_drop').hide();
 			edtwptittd.field('wptittd.id_iumxxmh_unit').hide();
 			edtwptittd.field('wptittd.keterangan').hide();
 			edtwptittd.field('wptittd.jumlah_unit').hide();
 			edtwptittd.field('wloxxmh_nama_scan').hide();
+			edtwptittd.field('lokasi_drop').hide();
 			
 			if(action == 'create'){
 				tblwptittd.rows().deselect();
@@ -286,13 +369,36 @@
 			$('div.DTE_Form_Buttons button:eq(3)').hide();
 		});
 
-		edtwptittd.dependent( 'wptittd.wlpxxmh_kode', function ( val, data, callback ) {
-			wlpxxmh_kode = val;
-			wlpxxmh_kode_validasi();
-			$('div.DTE_Form_Buttons button:eq(1)').hide();
-			// $(this).unbind('change');
+		edtwptittd.dependent( 'wptittd.id_wpttpmh', function ( val, data, callback ) {
+			wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
+			if (wlpxxmh_kode != '' && val > 0) {
+				wlpxxmh_kode_validasi();
+
+				if (val == 2) {
+					edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
+					edtwptittd.field('wptittd.jumlah_unit').disable();
+				} else {
+					edtwptittd.field('wptittd.id_iumxxmh_unit').enable();
+					edtwptittd.field('wptittd.jumlah_unit').enable();
+				}
+			}
 			return {}
 		}, {event: 'change'});
+		
+		edtwptittd.dependent( 'wptittd.wlpxxmh_kode', function ( val, data, callback ) {
+			wlpxxmh_kode = val;
+			if (val != '') {
+				lpnValidate(wlpxxmh_kode);
+			}
+
+			id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
+			if (id_wpttpmh > 0) {
+				wlpxxmh_kode_validasi();
+				$('div.DTE_Form_Buttons button:eq(1)').hide();
+			}
+			// $(this).unbind('change');
+			return {}
+		}, {event: 'keyup change'});
 
 		edtwptittd.dependent( 'wptittd.id_iumxxmh_unit', function ( val, data, callback ) {
 			if (val > 0) {
@@ -304,6 +410,14 @@
 		edtwptittd.dependent( 'wptittd.jumlah_unit', function ( val, data, callback ) {
 			if (val > 0) {
 				outstandingItem();
+			}
+			return {}
+		}, {event: 'change'});
+
+		edtwptittd.dependent( 'lokasi_drop', function ( val, data, callback ) {
+			if (val > 0) {
+				id_wloxxmh_tujuan = val;
+				edtwptittd.field('wptittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan); 
 			}
 			return {}
 		}, {event: 'change'});
@@ -331,12 +445,21 @@
 			if(action != 'remove'){
 
 				wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
+				id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
 				id_iumxxmh_unit = edtwptittd.field('wptittd.id_iumxxmh_unit').val();
 				jumlah_unit = edtwptittd.field('wptittd.jumlah_unit').val();
 				wloxxmh_nama_scan = edtwptittd.field('wloxxmh_nama_scan').val();
+				lokasi_drop = edtwptittd.field('lokasi_drop').val();
+				is_drop = edtwptittd.field('wptittd.is_drop').val();
 
-				if(!wloxxmh_nama_scan || wloxxmh_nama_scan == ''){
-					edtwptittd.field('wloxxmh_nama_scan').error( 'Wajib diisi!' );
+				if (is_drop == 0) {
+					if(!wloxxmh_nama_scan || wloxxmh_nama_scan == ''){
+						edtwptittd.field('wloxxmh_nama_scan').error( 'Wajib diisi!' );
+					}
+				} else {
+					if(!lokasi_drop || lokasi_drop == ''){
+						edtwptittd.field('lokasi_drop').error( 'Wajib diisi!' );
+					}
 				}
 
 				validasiRequired(
@@ -344,6 +467,7 @@
 					'wptittd',
 					{
 						'wlpxxmh_kode'   : wlpxxmh_kode,
+						'id_wpttpmh'   : id_wpttpmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
 						'jumlah_unit'    : jumlah_unit,
 					}
@@ -537,9 +661,18 @@
 									$('div.DTE_Form_Buttons button:eq(3)').show();
 									// console.log('uniqueToken start' +uniqueToken);
 									booking(1);
-									edtwptittd.field('wloxxmh_nama_scan').show();
+
+									is_drop = edtwptittd.field('wptittd.is_drop').val();
+									if (is_drop == 1) {
+										edtwptittd.field('wloxxmh_nama_scan').hide();
+										edtwptittd.field('lokasi_drop').show();
+									} else {
+										edtwptittd.field('wloxxmh_nama_scan').show();
+										edtwptittd.field('lokasi_drop').hide();
+									}
 									edtwptittd.field('wloxxmh_nama_scan').focus();
 									edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
+									edtwptittd.field('wptittd.is_drop').disable();
 									edtwptittd.field('wptittd.jumlah_unit').disable();
 								}
 
@@ -594,6 +727,7 @@
 			siVarSet('wptittd');
 			id_iumxxmh_unit_old = wptittd_data.id_iumxxmh_unit;
 			jumlah_unit_old = wptittd_data.jumlah_unit_default;
+			id_wpttpmh_old = wptittd_data.id_wpttpmh;
 
 			// atur hak akses
 			CekSelectHeaderH(tblwptittd);
@@ -603,6 +737,7 @@
 			// reset variable standar framework
 			siVarReset('wptittd');
 			id_iumxxmh_unit_old = 0;
+			id_wpttpmh_old = 0;
 			jumlah_unit_old = 0;
 
 			// atur hak akses

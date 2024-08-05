@@ -68,6 +68,7 @@
 			Field::inst( 'wptittd.finish_at' ),
 			Field::inst( 'wptittd.is_defaultprogram' ),
 			Field::inst( 'wptittd.is_nextprocess' ),
+			Field::inst( 'wptittd.is_drop' ),
 
 			Field::inst( 'wptittd.wlpxxmh_kode' ),
 			Field::inst( 'wptittd.jumlah_unit' ),

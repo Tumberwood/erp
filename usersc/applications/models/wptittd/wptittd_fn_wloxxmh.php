@@ -96,10 +96,12 @@
                 LEFT JOIN (
                     SELECT
                         rd.id_wloxxmh,
-                        rd.wlpxxmh_kode
+                        rd.wlpxxmh_kode,
+                        SUM(rd.jumlah_terkecil) s_terkecil
                     FROM iivxxrd rd
                     WHERE rd.wlpxxmh_kode = :wlpxxmh_kode 
-                    LIMIT 1
+                    GROUP BY rd.id_wloxxmh
+                    HAVING s_terkecil > 0
                 ) r ON r.wlpxxmh_kode = :wlpxxmh_kode
         ');
 

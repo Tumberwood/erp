@@ -4,8 +4,30 @@
         event.preventDefault();
     }
 
+    function lpnValidate(wlpxxmh_kode) {
+        $.ajax( {
+            url: "../../models/wptittd/wptittd_fn_wlpxxmh.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                wlpxxmh_kode: wlpxxmh_kode
+            },
+            success: function ( json ) {
+                if(json.data.status_code == 500){
+                    edtwptittd.field('wptittd.wlpxxmh_kode').error( json.data.message );
+                    edtwptittd.field('wptittd.wlpxxmh_kode').val( '' );
+                }else{
+                    edtwptittd.field('wptittd.wlpxxmh_kode').error('');
+                }
+            }
+        });
+    }
+
     function wlpxxmh_kode_validasi (){
-        if(wlpxxmh_kode != ""){
+        id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
+        wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
+        console.log(id_wpttpmh);
+        if(wlpxxmh_kode != "" && id_wpttpmh > 0){
             // cek apakah master LPN ada
             $.ajax( {
                 url: "../../models/wptittd/wptittd_fn_wlpxxmh.php",
@@ -27,6 +49,7 @@
                             dataType: 'json',
                             type: 'POST',
                             data: {
+                                id_wpttpmh: id_wpttpmh,
                                 wlpxxmh_kode: wlpxxmh_kode,
                                 uniqueToken: uniqueToken,
                             },
@@ -64,7 +87,6 @@
                                         // edtwptittd.field('wptittd_details').val(wptittd_details);
                                         edtwptittd.field('wptittd.keterangan').val(wptittd_details);
 
-                                        
                                         if (id_iimxxmh > 0) {
                                             lpnBooking();
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
@@ -74,7 +96,13 @@
                                         }
                                         
                                         // console.log(is_valid_lpn);
-                                        if (is_valid_lpn == 1) {
+                                        if (is_valid_lpn == 1 & id_wpttpmh > 0) {
+                                            if (id_wpttpmh == 2) {
+                                                edtwptittd.field('wptittd.is_drop').show();
+                                            } else {
+                                                edtwptittd.field('wptittd.is_drop').hide();
+                                            }
+                                            
                                             $('div.DTE_Form_Buttons button:eq(1)').hide();
                                             $('div.DTE_Form_Buttons button:eq(2)').show();
                                             
@@ -82,6 +110,7 @@
                                             edtwptittd.field('wptittd.jumlah_unit').error('');
                                             edtwptittd.field('wloxxmh_nama_scan').error('');
 
+                                            edtwptittd.field('wptittd.id_wpttpmh').disable();
                                             edtwptittd.field('wptittd.wlpxxmh_kode').disable();
                                             edtwptittd.field('wptittd.id_iumxxmh_unit').show();
                                             edtwptittd.field('wptittd.keterangan').show();
@@ -102,12 +131,16 @@
     };
 
     function outstandingItem() {
+        id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
+        wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
+        
         $.ajax( {
             url: "../../models/wptittd/wptittd_fn_iivxxrd.php",
             dataType: 'json',
             type: 'POST',
             async: false,
             data: {
+                id_wpttpmh: id_wpttpmh,
                 wlpxxmh_kode: wlpxxmh_kode,
                 uniqueToken: uniqueToken,
             },
@@ -201,7 +234,8 @@
             type: 'POST',
             async: false,
             data: {
-                wlpxxmh_kode: wlpxxmh_kode
+                wlpxxmh_kode: wlpxxmh_kode,
+                id_wpttpmh: id_wpttpmh,
             },
             success: function ( json ) {
                 c_id = json.data.c_id;
@@ -209,6 +243,7 @@
                 
                 if (c_id > 0) {
                     edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini sedang dipakai oleh user lain!' );
+                    is_valid_lpn = 0;
                 } else {
                     outstandingItem();
                     if (sisa <= 0) {
