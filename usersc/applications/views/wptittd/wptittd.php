@@ -372,6 +372,7 @@
 		edtwptittd.dependent( 'wptittd.id_wpttpmh', function ( val, data, callback ) {
 			wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
 			if (wlpxxmh_kode != '' && val > 0) {
+				edtwptittd.field('wptittd.id_wpttpmh').error('');
 				wlpxxmh_kode_validasi();
 
 				if (val == 2) {

@@ -57,6 +57,7 @@
                                 id_iimxxmh = json.data.id_iimxxmh;
                                 edtwptittd.field('wptittd.id_iimxxmh').val(id_iimxxmh);
                                 edtwptittd.field('wptittd.jumlah_unit').val(json.data.sisa_default);
+                                sisa_unit = json.data.sisa_default;
                                 id_iumxxmh_unit_old = json.data.id_iumxxmh_default;
                                 edtwptittd.field('wptittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
 
@@ -89,6 +90,13 @@
 
                                         if (id_iimxxmh > 0) {
                                             lpnBooking();
+                                            if (sisa_unit <= 0) {
+                                                edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini sudah habis terpakai!' );
+                                                is_valid_lpn = 0;
+                                            } else {
+                                                edtwptittd.field('wptittd.wlpxxmh_kode').error('');
+                                                is_valid_lpn = 1;
+                                            }
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {
                                             edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini tidak ditemukan dalam report inventory!' );
@@ -228,6 +236,9 @@
     }
 
     function lpnBooking() {
+        id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
+        wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
+
         $.ajax( {
             url: "../../models/wptittd/wptittd_lpn_booking.php",
             dataType: 'json',
@@ -246,13 +257,7 @@
                     is_valid_lpn = 0;
                 } else {
                     outstandingItem();
-                    if (sisa <= 0) {
-                        edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini sudah habis terpakai!' );
-                        is_valid_lpn = 0;
-                    } else {
-                        edtwptittd.field('wptittd.wlpxxmh_kode').error('');
-                        is_valid_lpn = 1;
-                    }
+                    
                 }
             }
         } );
