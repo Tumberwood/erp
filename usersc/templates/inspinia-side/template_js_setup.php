@@ -1,7 +1,4 @@
-<?php
-	//Notif baru
-	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
-?>
+
 
 <script>
 	// bug fix datatables tidak aligned antara header dan body saat dipasang di multitab
@@ -255,6 +252,16 @@
 	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 	// END datepicker init
 	
+	
+	var edtnotifications, tblnotifications, show_inactive_status = 0, id_notifications;
+	// END end of default variable
+
+	var id_notifications = 0;
+	var notifSpan = document.getElementById('notifCount');
+
+	// Get the text content of the span
+	var notifValue = notifSpan.textContent || notifSpan.innerText;
+	
 	$(document).ready(function() {
 		// BEGIN notification
 		
@@ -266,6 +273,106 @@
 			$("#notification_parent").hide();
 		}
 		// END notification
+
+		tblnotifications = $('#tblnotifications').DataTable( {
+			ajax: {
+				url: "../../../../usersc/applications/models/core/notifications.php",
+				type: 'POST',
+				data: function (d){
+				}
+			},
+			// serverSide: true,
+			order: [[ 2, "desc" ]],
+			columns: [
+				{ data: "notifications.id",visible:false },
+				{ data: "notifications.message" },
+				{ data: "notifications.date_created" },
+			],
+			buttons: [
+				{ 
+					text: 'Mark as Read', 
+					name: "btnMark",
+					className: 'btn btn-primary', 
+					titleAttr: 'Mark as Read',
+					action: function ( e, dt, node, config ) {
+						$.ajax( {
+							url: '../../../../usersc/applications/models/core/notifications_fn_read.php',
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_notifications: id_notifications,
+							},
+							success: function ( json ) {
+								c_badge = json.badge;
+
+								var notifSpan = document.getElementById('notifCount');
+								notifSpan.textContent = c_badge; 
+
+								// console.log('Updated notifCount:', notifSpan.textContent || notifSpan.innerText);
+
+								tblnotifications.ajax.reload(null, false);
+								tblnotifications.rows().deselect();
+							}
+						} );
+						// console.log(id_notifications);
+					}
+				},
+				{ 
+					text: 'Mark All as Read', 
+					name: "btnMarkAll",
+					className: 'btn btn-danger', 
+					titleAttr: 'Mark All as Read',
+					action: function ( e, dt, node, config ) {
+						message_transaction_state = "Apakah Anda Yakin Ingin Read All Notif?";
+							
+						swal({
+							text: message_transaction_state,
+							icon: "info",
+							buttons: {
+								cancel: true,
+								confirm: true
+							},
+						})
+						.then((willConfirm) => {
+							if (willConfirm) {
+								$.ajax( {
+									url: '../../../../usersc/applications/models/core/notifications_fn_read_all.php',
+									dataType: 'json',
+									type: 'POST',
+									data: {
+									},
+									success: function ( json ) {
+										c_badge = json.badge;
+
+										var notifSpan = document.getElementById('notifCount');
+										notifSpan.textContent = c_badge; 
+
+										// console.log('Updated notifCount:', notifSpan.textContent || notifSpan.innerText);
+
+										tblnotifications.ajax.reload(null, false);
+										tblnotifications.rows().deselect();
+									}
+								} );
+							}
+						});
+						// console.log(id_notifications);
+					}
+				}
+			]
+			
+		} );
+		tblnotifications.button('btnMark:name').disable();
+
+		tblnotifications.on( 'select', function( e, dt, type, indexes ) {
+			notifications_data = tblnotifications.row( { selected: true } ).data().notifications;
+			id_notifications = notifications_data.id;
+			tblnotifications.button('btnMark:name').enable();
+		} );
+
+		tblnotifications.on( 'deselect', function () {
+			id_notifications = 0;
+			tblnotifications.button('btnMark:name').disable();
+		} );
 
 	} );// end of document.ready global
 

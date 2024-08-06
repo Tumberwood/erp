@@ -155,3 +155,37 @@ Make menu tree
         <h4 style="display: inline-block;"><?= (($pageTitle != '') ? $pageTitle : ''); ?></h4>&nbsp<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="<?= (($pageInfo != '') ? $pageInfo : ''); ?>" ></i>
     </div>
 </div>
+
+<div id="notificationsModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" id="notification_type">New Notifications</h4>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12"> 
+						<div class="ibox float-e-margins">
+							<div class="ibox-content">
+									<table id="tblnotifications" class="table table-striped table-bordered table-hover responsive" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Pesan</th>
+												<th>Tanggal Dibuat</th>
+											</tr>
+										</thead>
+									</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
