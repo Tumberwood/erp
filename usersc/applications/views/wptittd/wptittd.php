@@ -466,6 +466,7 @@
 			} else {
 				if (jumlah_unit > 0) {
 					edtwptittd.field('wloxxmh_nama_scan').show();
+					edtwptittd.field('wloxxmh_nama_scan').focus();
 					edtwptittd.field('lokasi_drop').hide();
 				}
 			}
@@ -720,7 +721,6 @@
 									// console.log('uniqueToken start' +uniqueToken);
 									booking(1);
 
-									edtwptittd.field('wloxxmh_nama_scan').focus();
 									edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
 									edtwptittd.field('wptittd.jumlah_unit').disable();
 									id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
@@ -729,6 +729,7 @@
 									} else {
 										edtwptittd.field('wptittd.is_drop').hide();
 										edtwptittd.field('wloxxmh_nama_scan').show();
+										edtwptittd.field('wloxxmh_nama_scan').focus();
 									}
 
 									id_wloxxmh_asal = edtwptittd.field('wptittd.id_wloxxmh_asal').val();
