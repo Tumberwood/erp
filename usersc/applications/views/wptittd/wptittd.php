@@ -429,7 +429,7 @@
 
 			id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
 			if (id_wpttpmh > 0) {
-				// wlpxxmh_kode_validasi();
+				wlpxxmh_kode_validasi();
 				$('div.DTE_Form_Buttons button:eq(1)').hide();
 			}
 			// $(this).unbind('change');
