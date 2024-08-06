@@ -185,9 +185,13 @@
 	// ------------- default variable, do not erase
 	var edtudpxxsh, tbludpxxsh, show_deleted_udpxxsh = 0, id_udpxxsh;
 	var edtucudasd, tblucudasd, show_deleted_ucudasd = 0, id_ucudasd;
+	var edtucudasd_copyfrom;
 	var edtudpbrsd, tbludpbrsd, show_deleted_udpbrsd = 0, id_udpbrsd;
+	var edtudpbrsd_copyfrom;
 	var edtudpodsd, tbludpodsd, show_deleted_udpodsd = 0, id_udpodsd;
+	var edtudpodsd_copyfrom;
 	var edtudpwhsd, tbludpwhsd, show_deleted_udpwhsd = 0, id_udpwhsd;
+	var edtudpwhsd_copyfrom;
 	// ------------- end of default variable
 
 	var id_users = 0, id_users_old  = 0;
@@ -541,6 +545,10 @@
 			CekInitHeaderHD(tbludpxxsh, tbl_details);
 
 			tblucudasd.button( 'btnRefreshPages:name' ).disable();
+			tblucudasd.button( 'btnucudasdCopyFrom:name' ).disable();
+			tbludpbrsd.button( 'btnudpbrsdCopyFrom:name' ).disable();
+			tbludpodsd.button( 'btnudpodsdCopyFrom:name' ).disable();
+			tbludpwhsd.button( 'btnudpwhsdCopyFrom:name' ).disable();
 		} );
 		
 		tbludpxxsh.on( 'select', function( e, dt, type, indexes ) {
@@ -554,6 +562,10 @@
 			CekSelectHeaderHD(tbludpxxsh, tbl_details);
 
 			tblucudasd.button( 'btnRefreshPages:name' ).enable();
+			tblucudasd.button( 'btnucudasdCopyFrom:name' ).enable();
+			tbludpbrsd.button( 'btnudpbrsdCopyFrom:name' ).enable();
+			tbludpodsd.button( 'btnudpodsdCopyFrom:name' ).enable();
+			tbludpwhsd.button( 'btnudpwhsdCopyFrom:name' ).enable();
 			console.log(id_users);
 		} );
 		
@@ -567,6 +579,10 @@
 			CekDeselectHeaderHD(tbludpxxsh, tbl_details);
 
 			tblucudasd.button( 'btnRefreshPages:name' ).disable();
+			tblucudasd.button( 'btnucudasdCopyFrom:name' ).disable();
+			tbludpbrsd.button( 'btnudpbrsdCopyFrom:name' ).disable();
+			tbludpodsd.button( 'btnudpodsdCopyFrom:name' ).disable();
+			tbludpwhsd.button( 'btnudpwhsdCopyFrom:name' ).disable();
 		} );
 		// END udpxxsh
 
@@ -725,6 +741,131 @@
 		edtucudasd.on( 'close', function () {
 			edtucudasd.enable();
 		} );
+
+		// BEGIN ucudasd_copyfrom
+		edtucudasd_copyfrom = new $.fn.dataTable.Editor( {
+
+			ajax: {
+				url: "../../models/core/ucudasd_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_ucudasd = show_deleted_ucudasd;
+					d.id_udpxxsh = id_udpxxsh;
+				}
+			},
+			table: "#tblucudasd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "ucudasd",
+					type: "hidden"
+				},	
+				{
+					label: "ucudasd.transaction_state",
+					name: "ucudasd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "ucudasd.id_udpxxsh",
+					name: "ucudasd.id_udpxxsh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From User",
+					name: "id_udpxxsh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/udpxxsh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_udpxxsh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtucudasd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtucudasd_copyfrom.field('ucudasd.id_udpxxsh').val(id_udpxxsh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtucudasd_copyfrom.field('start_at').val(start_at);
+		});
+
+		edtucudasd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtucudasd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				id_udpxxsh_source = edtucudasd_copyfrom.field('id_udpxxsh_source').val();
+				if(id_udpxxsh_source == null || id_udpxxsh_source == ''){
+					edtucudasd_copyfrom.field('id_udpxxsh_source').error( 'Wajib diisi!' );
+				}
+			}
+			
+			if ( edtucudasd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtucudasd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtucudasd_copyfrom.field('finish_at').val(finish_at);
+		});
+			
+		edtucudasd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tblucudasd.ajax.reload(null,false);
+		} );
+
+		edtucudasd_copyfrom.on( 'close', function () {
+			edtucudasd_copyfrom.enable();
+		} );
 		
 		tblucudasd = $('#tblucudasd').DataTable( {
 			ajax: {
@@ -843,7 +984,15 @@
 							}
 						} );
 					}
-				}
+				},
+				{ 
+					extend: 'create',
+					name: 'btnucudasdCopyFrom', 
+					editor: edtucudasd_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
 			],
 			initComplete: function() {
 			},
@@ -874,6 +1023,131 @@
 		} );
 		// END ucudasd
 
+		// BEGIN udpbrsd_copyfrom
+		edtudpbrsd_copyfrom = new $.fn.dataTable.Editor( {
+
+			ajax: {
+				url: "../../models/core/udpbrsd_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_udpbrsd = show_deleted_udpbrsd;
+					d.id_udpxxsh = id_udpxxsh;
+				}
+			},
+			table: "#tbludpbrsd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "udpbrsd",
+					type: "hidden"
+				},	
+				{
+					label: "udpbrsd.transaction_state",
+					name: "udpbrsd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "udpbrsd.id_udpxxsh",
+					name: "udpbrsd.id_udpxxsh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From User",
+					name: "id_udpxxsh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/udpxxsh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_udpxxsh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtudpbrsd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtudpbrsd_copyfrom.field('udpbrsd.id_udpxxsh').val(id_udpxxsh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtudpbrsd_copyfrom.field('start_at').val(start_at);
+		});
+
+		edtudpbrsd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtudpbrsd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				id_udpxxsh_source = edtudpbrsd_copyfrom.field('id_udpxxsh_source').val();
+				if(id_udpxxsh_source == null || id_udpxxsh_source == ''){
+					edtudpbrsd_copyfrom.field('id_udpxxsh_source').error( 'Wajib diisi!' );
+				}
+			}
+			
+			if ( edtudpbrsd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtudpbrsd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtudpbrsd_copyfrom.field('finish_at').val(finish_at);
+		});
+			
+		edtudpbrsd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tbludpbrsd.ajax.reload(null,false);
+		} );
+
+		edtudpbrsd_copyfrom.on( 'close', function () {
+			edtudpbrsd_copyfrom.enable();
+		} );
+		
 		// BEGIN udpbrsd
 		edtudpbrsd = new $.fn.dataTable.Editor( {
 			ajax: {
@@ -1054,6 +1328,14 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
+				{ 
+					extend: 'create',
+					name: 'btnudpbrsdCopyFrom', 
+					editor: edtudpbrsd_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
 				// END breaking generate button
 			],
 			initComplete: function() {
@@ -1087,6 +1369,131 @@
 		} );
 		// END udpbrsd
 
+		// BEGIN udpodsd_copyfrom
+		edtudpodsd_copyfrom = new $.fn.dataTable.Editor( {
+
+			ajax: {
+				url: "../../models/core/udpodsd_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_udpodsd = show_deleted_udpodsd;
+					d.id_udpxxsh = id_udpxxsh;
+				}
+			},
+			table: "#tbludpodsd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "udpodsd",
+					type: "hidden"
+				},	
+				{
+					label: "udpodsd.transaction_state",
+					name: "udpodsd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "udpodsd.id_udpxxsh",
+					name: "udpodsd.id_udpxxsh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From User",
+					name: "id_udpxxsh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/udpxxsh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_udpxxsh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtudpodsd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtudpodsd_copyfrom.field('udpodsd.id_udpxxsh').val(id_udpxxsh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtudpodsd_copyfrom.field('start_at').val(start_at);
+		});
+
+		edtudpodsd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtudpodsd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				id_udpxxsh_source = edtudpodsd_copyfrom.field('id_udpxxsh_source').val();
+				if(id_udpxxsh_source == null || id_udpxxsh_source == ''){
+					edtudpodsd_copyfrom.field('id_udpxxsh_source').error( 'Wajib diisi!' );
+				}
+			}
+			
+			if ( edtudpodsd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtudpodsd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtudpodsd_copyfrom.field('finish_at').val(finish_at);
+		});
+			
+		edtudpodsd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tbludpodsd.ajax.reload(null,false);
+		} );
+
+		edtudpodsd_copyfrom.on( 'close', function () {
+			edtudpodsd_copyfrom.enable();
+		} );
+		
 		// BEGIN udpodsd
 		edtudpodsd = new $.fn.dataTable.Editor( {
 			ajax: {
@@ -1266,6 +1673,14 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
+				{ 
+					extend: 'create',
+					name: 'btnudpodsdCopyFrom', 
+					editor: edtudpodsd_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
 				// END breaking generate button
 			],
 			initComplete: function() {
@@ -1298,6 +1713,131 @@
 			CekDeselectDetailHD( tbludpodsd );
 		} );
 		// END udpodsd
+
+		// BEGIN udpwhsd_copyfrom
+		edtudpwhsd_copyfrom = new $.fn.dataTable.Editor( {
+
+			ajax: {
+				url: "../../models/core/udpwhsd_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_udpwhsd = show_deleted_udpwhsd;
+					d.id_udpxxsh = id_udpxxsh;
+				}
+			},
+			table: "#tbludpwhsd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "udpwhsd",
+					type: "hidden"
+				},	
+				{
+					label: "udpwhsd.transaction_state",
+					name: "udpwhsd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "udpwhsd.id_udpxxsh",
+					name: "udpwhsd.id_udpxxsh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From User",
+					name: "id_udpxxsh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/udpxxsh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_udpxxsh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtudpwhsd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtudpwhsd_copyfrom.field('udpwhsd.id_udpxxsh').val(id_udpxxsh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtudpwhsd_copyfrom.field('start_at').val(start_at);
+		});
+
+		edtudpwhsd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtudpwhsd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+				id_udpxxsh_source = edtudpwhsd_copyfrom.field('id_udpxxsh_source').val();
+				if(id_udpxxsh_source == null || id_udpxxsh_source == ''){
+					edtudpwhsd_copyfrom.field('id_udpxxsh_source').error( 'Wajib diisi!' );
+				}
+			}
+			
+			if ( edtudpwhsd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtudpwhsd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtudpwhsd_copyfrom.field('finish_at').val(finish_at);
+		});
+			
+		edtudpwhsd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tbludpwhsd.ajax.reload(null,false);
+		} );
+
+		edtudpwhsd_copyfrom.on( 'close', function () {
+			edtudpwhsd_copyfrom.enable();
+		} );
 
 		// BEGIN udpwhsd
 		edtudpwhsd = new $.fn.dataTable.Editor( {
@@ -1479,6 +2019,14 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
+				{ 
+					extend: 'create',
+					name: 'btnudpwhsdCopyFrom', 
+					editor: edtudpwhsd_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
 				// END breaking generate button
 			],
 			initComplete: function() {
