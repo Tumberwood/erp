@@ -45,10 +45,26 @@
         $('#inputfileUpload').prop('disabled', true);
     }
 
-    function removeCircle(circle) {
-        canvas.remove(circle);
-        c_circle--;
+    // function removeCircle(circle) {
+    //     canvas.remove(circle);
+    //     c_circle--;
         
+    //     if (c_circle == 0) {
+    //         $('#inputfileUpload').prop('disabled', false);
+    //     } else {
+    //         $('#inputfileUpload').prop('disabled', true);
+    //     }
+    // }
+    function removeCircle(circle) {
+        // Remove the circle from the canvas
+        canvas.remove(circle);
+        canvas.renderAll();
+        c_circle--;
+
+        // Add the circle to the undo stack and clear the redo stack
+        circleHistory.push(circle);
+        redoStack.length = 0;
+
         if (c_circle == 0) {
             $('#inputfileUpload').prop('disabled', false);
         } else {
@@ -333,7 +349,6 @@
             // Add the circle to the redo stack
             redoStack.push(lastCircle);
 
-
             if (c_circle == 0) {
                 $('#inputfileUpload').prop('disabled', false);
             } else {
@@ -355,6 +370,7 @@
             
             // Add the circle back to the undo stack
             circleHistory.push(lastCircle);
+            
             if (c_circle == 0) {
                 $('#inputfileUpload').prop('disabled', false);
             } else {
