@@ -79,6 +79,92 @@
                 }
             }
 
-        });
+        })
+        ->on('postEdit',function( $editor, $id, $values, $row ) {
+			$newPassword = $values['new_password'];
+			$userActive = $values['users']['active'];
+            $id_users = $id;
+
+            $qs_udp = $editor->db()
+                ->query('select', 'udpxxsh' )
+                ->get(['id'] )
+                ->where('id_users', $id_users )
+                ->exec();
+            $rs_udp = $qs_udp->fetch();
+
+            $id_udp = $rs_udp['id'];
+
+            if ($userActive == 0) {
+                $qu_udpxxsh = $editor->db()
+                    ->query('update', 'udpxxsh')
+                    ->set('transaction_state',-9)
+                    ->where('id',$id_udp)
+                    ->exec();
+
+                $qu_ucudasd = $editor->db()
+                    ->query('update', 'ucudasd')
+                    ->set('transaction_state',-9)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+
+                $qu_udpbrsd = $editor->db()
+                    ->query('update', 'udpbrsd')
+                    ->set('transaction_state',-9)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+
+                $qu_udpodsd = $editor->db()
+                    ->query('update', 'udpodsd')
+                    ->set('transaction_state',-9)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+
+                $qu_udpwhsd = $editor->db()
+                    ->query('update', 'udpwhsd')
+                    ->set('transaction_state',-9)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+            } else {
+                // $qu_udpxxsh = $editor->db()
+                //     ->query('update', 'udpxxsh')
+                //     ->set('transaction_state',0)
+                //     ->where('id',$id_udp)
+                //     ->exec();
+
+                $qu_ucudasd = $editor->db()
+                    ->query('update', 'ucudasd')
+                    ->set('transaction_state',0)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+
+                $qu_udpbrsd = $editor->db()
+                    ->query('update', 'udpbrsd')
+                    ->set('transaction_state',0)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+
+                $qu_udpodsd = $editor->db()
+                    ->query('update', 'udpodsd')
+                    ->set('transaction_state',0)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+
+                $qu_udpwhsd = $editor->db()
+                    ->query('update', 'udpwhsd')
+                    ->set('transaction_state',0)
+                    ->where('id_udpxxsh',$id_udp)
+                    ->exec();
+            }
+            
+            if ($newPassword != '') {
+                $password = password_hash($newPassword, PASSWORD_BCRYPT, ['cost' => 12]);
+
+                $qu_users = $editor->db()
+                    ->query('update', 'users')
+                    ->set('password',$password)
+                    ->where('id',$id_users)
+                    ->exec();
+            }
+		});
    
 ?>

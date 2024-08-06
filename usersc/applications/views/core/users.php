@@ -48,6 +48,14 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="new_password"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="confirm_new_password"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
 								<editor-field name="udpxxsh.data_permission"></editor-field>
 							</div>
 							<div class="col-lg-6">
@@ -60,6 +68,11 @@
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="udpxxsh.keterangan"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="users.active"></editor-field>
 							</div>
 						</div>
 					</div>
@@ -259,6 +272,16 @@
 					type: "password"
 				},  
 				{
+					label: "New Password",
+					name: "new_password",
+					type: "password"
+				},  
+				{
+					label: "Confirm New Password",
+					name: "confirm_new_password",
+					type: "password"
+				},  
+				{
 					label: "First Name <sup class='text-danger'>*<sup>",
 					name: "users.fname"
 				},  
@@ -295,6 +318,16 @@
 					]
 				}, 	
 				{
+					label: "Status User",
+					name: "users.active",
+					type: "select",
+					def: 1,
+					options: [
+						{ "label": "Aktif", "value": 1 },
+						{ "label": "Non Aktif", "value": 0 }
+					]
+				}, 	
+				{
 					label: "Keterangan",
 					name: "udpxxsh.keterangan",
 					type: "textarea"
@@ -310,11 +343,15 @@
 				tbludpxxsh.rows().deselect();
 				edtudpxxsh.field('users.password').show();
 				edtudpxxsh.field('confirm_password').show();
+				edtudpxxsh.field('new_password').hide();
+				edtudpxxsh.field('confirm_new_password').hide();
 			} else {
 				edtudpxxsh.field('users.username').disable();
 				edtudpxxsh.field('users.email').disable();
 				edtudpxxsh.field('users.password').hide();
 				edtudpxxsh.field('confirm_password').hide();
+				edtudpxxsh.field('new_password').show();
+				edtudpxxsh.field('confirm_new_password').show();
 			}
 
 		});
@@ -374,8 +411,70 @@
 					icon.removeClass('fa-eye-slash').addClass('fa-eye');
 				}
 			});
+			
+			var btnNewPassId = '#toggleNewPasswordVisibility';
+			console.log($(btnNewPassId).length);
+			if ($(btnNewPassId).length === 0) {
+				var btnNewPass = $(
+					'<button class="btn btn-outline-primary btn-sm btnPwd" type="button" id="toggleNewPasswordVisibility">' +
+					'<i class="fa fa-eye" id="password_eye_icon"></i>' +
+					'</button>'
+				);
+
+				edtudpxxsh.field('new_password').input().after(btnNewPass);
+			}
+
+			$(btnNewPass).on('click', () => {
+				var newPasswordField = edtudpxxsh.field('new_password').input();
+
+				var icon = $('#password_eye_icon');
+				
+				// Toggle the password visibility
+				if (newPasswordField.attr('type') === 'password') {
+					newPasswordField.attr('type', 'text');
+					icon.removeClass('fa-eye').addClass('fa-eye-slash');
+				} else {
+					newPasswordField.attr('type', 'password');
+					icon.removeClass('fa-eye-slash').addClass('fa-eye');
+				}
+			});
+			
+			var btnConfirmNewPassId = '#toggleConfirmNewPasswordVisibility';
+			console.log($(btnConfirmNewPassId).length);
+			if ($(btnConfirmNewPassId).length === 0) {
+				var btnConfirmNewPass = $(
+					'<button class="btn btn-outline-primary btn-sm btnPwd" type="button" id="toggleConfirmNewPasswordVisibility">' +
+					'<i class="fa fa-eye" id="confirm_new_password_eye_icon"></i>' +
+					'</button>'
+				);
+
+				edtudpxxsh.field('confirm_new_password').input().after(btnConfirmNewPass);
+			}
+
+			$(btnConfirmNewPass).on('click', () => {
+				var newPasswordField = edtudpxxsh.field('confirm_new_password').input();
+				var icon = $('#confirm_new_password_eye_icon');
+				
+				// Toggle the password visibility
+				if (newPasswordField.attr('type') === 'password') {
+					newPasswordField.attr('type', 'text');
+					icon.removeClass('fa-eye').addClass('fa-eye-slash');
+				} else {
+					newPasswordField.attr('type', 'password');
+					icon.removeClass('fa-eye-slash').addClass('fa-eye');
+				}
+			});
 		});
 		
+		edtudpxxsh.dependent( 'new_password', function ( val, data, callback ) {
+			if (val != '') {
+				edtudpxxsh.field('confirm_new_password').label("Confirm New Password <sup class='text-danger'>*<sup>")
+			} else {
+				edtudpxxsh.field('confirm_new_password').label("Confirm New Password")
+			}
+			return {}
+		}, {event: 'keyup change'});
+
 		edtudpxxsh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				permissions_id = edtudpxxsh.field('permissions[].id').val();
@@ -385,6 +484,8 @@
 				fname = edtudpxxsh.field('users.fname').val();
 				lname = edtudpxxsh.field('users.lname').val();
 				confirm_password = edtudpxxsh.field('confirm_password').val();
+				confirm_new_password = edtudpxxsh.field('confirm_new_password').val();
+				new_password = edtudpxxsh.field('new_password').val();
 
 				if(!permissions_id || permissions_id == ''){
 					edtudpxxsh.field('permissions[].id').error( 'Wajib diisi!' );
@@ -436,7 +537,15 @@
 					if (confirm_password != password) {
 						edtudpxxsh.field('confirm_password').error( 'Confirm Password salah!' );
 					}
+				} else {
+					console.log(new_password);
+					console.log(confirm_new_password);
+					
+					if (confirm_new_password != new_password) {
+						edtudpxxsh.field('confirm_new_password').error( 'Confirm New Password salah!' );
+					}
 				}
+				
 			}
 			
 			if ( edtudpxxsh.inError() ) {
@@ -801,6 +910,7 @@
 							data: function (params) {
 								var query = {
 									id_udpxxsh_old: 0,
+									id_users: id_users,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1082,6 +1192,7 @@
 							data: function (params) {
 								var query = {
 									id_udpxxsh_old: 0,
+									id_users: id_users,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1428,6 +1539,7 @@
 							data: function (params) {
 								var query = {
 									id_udpxxsh_old: 0,
+									id_users: id_users,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1773,6 +1885,7 @@
 							data: function (params) {
 								var query = {
 									id_udpxxsh_old: 0,
+									id_users: id_users,
 									search: params.term || '',
 									page: params.page || 1
 								}

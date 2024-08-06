@@ -28,6 +28,12 @@
         $id_udpxxsh_old = 0;
     }
 
+    if($_GET['id_users'] > 0){
+        $id_users = $_GET['id_users'];
+    }else{
+        $id_users = 0;
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_udpxxsh_old > 0){
@@ -58,6 +64,7 @@
         ->join('users','users.id = udpxxsh.id_users','LEFT' )
         ->where('udpxxsh.transaction_state',1)
         ->where('udpxxsh.id', $id_udpxxsh_old, '<>' )
+        ->where('udpxxsh.id_users', $id_users, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

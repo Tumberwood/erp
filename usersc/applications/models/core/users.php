@@ -40,6 +40,7 @@
 			->setValue(1),
 			Field::inst( 'users.fname' ),
 			Field::inst( 'users.lname' ),
+			Field::inst( 'users.active' ),
 			Field::inst( 'udpxxsh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
@@ -50,6 +51,7 @@
 			Field::inst( 'udpxxsh.start_at' ),
 			Field::inst( 'udpxxsh.finish_at' ),
 			Field::inst( 'udpxxsh.is_defaultprogram' ),
+			Field::inst( 'udpxxsh.is_setting' ),
 			Field::inst( 'udpxxsh.data_permission' ),
 			Field::inst( 'users_extend.is_hakakses' )
 			->setValue(1),
