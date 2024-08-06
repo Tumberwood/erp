@@ -211,6 +211,8 @@
                         quality: 1
                     });
 
+                    canvas.remove(backgroundRect);
+                    canvas.remove(totalText);
                     // Create image element and append it to #hasil
                     // var img = document.createElement('img');
                     // img.src = canvasDataUrl;

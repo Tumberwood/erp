@@ -54,7 +54,7 @@
             'id as id',
             'CONCAT(kode," - ",nama) as text'
         ])
-        ->order('kode')
+        ->order('id')
         ->where('transaction_state',1)
         ->where('id', $id_wpttpmh_old, '<>' )
         ->where( function ( $r ) {

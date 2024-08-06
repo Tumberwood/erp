@@ -159,6 +159,7 @@
 				{
 					label: "Jenis Putaway <sup class='text-danger'>*<sup>",
 					name: "wptittd.id_wpttpmh",
+                    id: "select_wpttpmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -175,14 +176,28 @@
 								}
 									return query;
 							},
-							processResults: function (data, params) {
+                            processResults: function (data, params) {
+                                var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								//add by ferry agar auto select 07 sep 23
+								if (params.page && params.page === 1) {
+									$('#select_wpttpmh').empty().select2({ data: options });
+								} else {
+									$('#select_wpttpmh').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
+								}
+
 								return {
-									results: data.results,
+									results: options,
 									pagination: {
 										more: true
 									}
 								};
-							},
+                            },
 							cache: true,
 							minimumInputLength: 1,
 							maximum: 10,
@@ -364,6 +379,12 @@
 			
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 			$('div.DTE_Form_Buttons button:eq(3)').hide();
+
+			$('#select_wpttpmh').select2('open');
+
+            setTimeout(function() {
+                $('#select_wpttpmh').select2('close');
+            }, 5);
 		});
 
 		edtwptittd.dependent( 'wptittd.id_wpttpmh', function ( val, data, callback ) {
