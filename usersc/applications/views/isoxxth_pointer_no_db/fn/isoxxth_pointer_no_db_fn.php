@@ -41,6 +41,7 @@
         canvas.renderAll(); 
         c_circle++;
         circleHistory.push(circle);
+        redoStack.length = 0;
         $('#inputfileUpload').prop('disabled', true);
     }
 
@@ -313,6 +314,10 @@
             undoLastCircle();
             e.preventDefault(); // Prevent default action for Ctrl+Z
         }
+        if (e.ctrlKey && e.key === 'y') {
+            redoLastCircle();
+            e.preventDefault(); // Prevent default action for Ctrl+Y
+        }
     });
 
     function undoLastCircle() {
@@ -325,6 +330,31 @@
             canvas.renderAll();
             c_circle--;
 
+            // Add the circle to the redo stack
+            redoStack.push(lastCircle);
+
+
+            if (c_circle == 0) {
+                $('#inputfileUpload').prop('disabled', false);
+            } else {
+                $('#inputfileUpload').prop('disabled', true);
+            }
+        }
+    }
+
+    function redoLastCircle() {
+        if (redoStack.length > 0) {
+            // Get the last circle from the redo stack
+            var lastCircle = redoStack.pop();
+            
+            // Add the circle back to the canvas
+            canvas.add(lastCircle);
+            canvas.bringToFront(lastCircle);
+            canvas.renderAll();
+            c_circle++;
+            
+            // Add the circle back to the undo stack
+            circleHistory.push(lastCircle);
             if (c_circle == 0) {
                 $('#inputfileUpload').prop('disabled', false);
             } else {

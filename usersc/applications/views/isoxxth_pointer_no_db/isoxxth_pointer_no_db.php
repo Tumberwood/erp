@@ -32,6 +32,11 @@
 		overflow: scroll; 
 		border: 1px solid #ccc; 
 	}
+	
+	.fa-flipped {
+		transform: scaleX(-1); /* Flip horizontally */
+		display: inline-block; /* Ensure transform is applied */
+	}
 </style>
 
 <?php
@@ -62,6 +67,7 @@
 					<button class="btn btn-outline" id="zoomInBtn" title="Zoom In" data-toggle="tooltip"><i class="fa fa-search-plus"></i></button>
 					<button class="btn btn-outline" id="zoomOutBtn" title="Zoom Out" data-toggle="tooltip"><i class="fa fa-search-minus"></i></button>
 					<button class="btn btn-outline" id="undo" title="Undo" data-toggle="tooltip"><i class="fa fa-undo"></i></button>
+					<button class="btn btn-outline" id="redo" title="Redo" data-toggle="tooltip"><i class="fa fa-undo fa-flipped"></i></button>
 				</p>
 
 				<h3>Color</h3>
@@ -137,6 +143,7 @@
 	var simpanFoto = {};
 	var id_isoxxth_upload_filter = 0;
 	var circleHistory = [];
+	var redoStack = [];
 
 	const colorPicker = document.getElementById('colorPicker');
 	const pickColorButton = document.getElementById('pickColor');
@@ -273,6 +280,11 @@
 
 						$('#undo').on( "click", function() {
 							undoLastCircle();
+            				e.preventDefault();
+						} );
+
+						$('#redo').on( "click", function() {
+							redoLastCircle();
             				e.preventDefault();
 						} );
 
