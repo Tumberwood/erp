@@ -129,9 +129,7 @@
 				if( json.data.c_rs_notifications_unread > 0){
 					$('#notifCount').show();
 					$('#notifCount').html(json.data.c_rs_notifications_unread);
-					if (typeof displayNotifications === 'function') {
-						tblnotifications.ajax.reload(null, false);
-					}
+					tblnotifications.ajax.reload(null, false);
 				}else{
 					// $('#c_notification_unread').hide();
 					$('#notifCount').hide();
@@ -261,17 +259,9 @@
 		// BEGIN notification
 		
 		if(is_notification == 1){
-			//cek apakah file notifications.php sudah di include, dengan kondisi
-			//jika displayNotifications dideteksi type function, maka notifikasi sudah diinclude, karena displayNotifications itu adalah function di dalam file notifications.php
-			if (typeof displayNotifications === 'function') {
-				$("#notification_parent").show();
-				setInterval(cekNotification, notification_interval_ms);
-				cekNotification();
-			} else {
-				full_message = 'Hubungi Administrator, notifikasi diaktifkan tapi belum include file notifications.php!' + '</br>';
-				toast_type   = 'error';
-				toastr[toast_type](full_message, 'INFO');
-			}
+			$("#notification_parent").show();
+			setInterval(cekNotification, notification_interval_ms);
+			cekNotification();
 		}else{
 			$("#notification_parent").hide();
 		}

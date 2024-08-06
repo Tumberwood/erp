@@ -46,9 +46,6 @@
 
 		// Output the value
 		// console.log(notifValue);
-		function displayNotifications(new_all) {
-		}
-
 		$(document).ready(function() {
 			//start datatables
 			tblnotifications = $('#tblnotifications').DataTable( {

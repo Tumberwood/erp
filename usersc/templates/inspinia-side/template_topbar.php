@@ -68,7 +68,7 @@ Make menu tree
                 <span class="m-r-sm text-muted welcome-message">Welcome <b><?=echouser($user->data()->id)?></b></span>
             </li>
             <li id="notification_parent" style="display: none">
-                <a href="#" onclick="displayNotifications('new')" id="notificationsTrigger" data-toggle="modal" data-target="#notificationsModal"  >
+                <a href="#" id="notificationsTrigger" data-toggle="modal" data-target="#notificationsModal"  >
                     <i class="fa fa-bell" id="notification_icon"></i> <span class="label label-warning" id="notifCount"></span>
                 </a>
             </li>
