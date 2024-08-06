@@ -185,6 +185,7 @@
 				{
 					label: "Location",
 					name: "wreittd.id_wloxxmh",
+					id: "select_wloxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -204,13 +205,27 @@
 									return query;
 							},
 							processResults: function (data, params) {
+                                var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								//add by ferry agar auto select 07 sep 23
+								if (params.page && params.page === 1) {
+									$('#select_wloxxmh').empty().select2({ data: options });
+								} else {
+									$('#select_wloxxmh').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
+								}
+
 								return {
-									results: data.results,
+									results: options,
 									pagination: {
 										more: true
 									}
 								};
-							},
+                            },
 							cache: true,
 							minimumInputLength: 1,
 							maximum: 10,
@@ -387,11 +402,18 @@
 
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();
+
 		});
 		
 		edtwreittd.dependent( 'wreittd.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
 			edtwreittd.field('wreittd.id_wloxxmh').input().val(null).trigger('change');
+			
+			$('#select_wloxxmh').select2('open');
+
+            setTimeout(function() {
+                $('#select_wloxxmh').select2('close');
+            }, 5);
 			return {}
 		}, {event: 'keyup change'});
 

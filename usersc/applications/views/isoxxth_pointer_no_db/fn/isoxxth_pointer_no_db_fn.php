@@ -213,6 +213,9 @@
 
                     canvas.remove(backgroundRect);
                     canvas.remove(totalText);
+                    filteredCircles.forEach(function(circle) {
+                        canvas.remove(circle);
+                    });
                     // Create image element and append it to #hasil
                     // var img = document.createElement('img');
                     // img.src = canvasDataUrl;
