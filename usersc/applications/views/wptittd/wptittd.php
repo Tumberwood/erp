@@ -728,6 +728,7 @@
 										edtwptittd.field('wptittd.is_drop').show();
 									} else {
 										edtwptittd.field('wptittd.is_drop').hide();
+										edtwptittd.field('wloxxmh_nama_scan').show();
 									}
 
 									id_wloxxmh_asal = edtwptittd.field('wptittd.id_wloxxmh_asal').val();
