@@ -34,14 +34,14 @@
     // // end of message
 
     // // Set up notifications button/modal
-    if ($user->isLoggedIn()) {
-        if ($dayLimitQ = $db->query('SELECT notif_daylimit FROM settings', array())) $dayLimit = $dayLimitQ->results()[0]->notif_daylimit;
-        else $dayLimit = 7;
+    // if ($user->isLoggedIn()) {
+    //     if ($dayLimitQ = $db->query('SELECT notif_daylimit FROM settings', array())) $dayLimit = $dayLimitQ->results()[0]->notif_daylimit;
+    //     else $dayLimit = 7;
 
-        // 2nd parameter- true/false for all notifications or only current
-        $notifications = new Notification($user->data()->id, false, $dayLimit);
-        print_r($notifications->getUnreadCount());
-    }
+    //     // 2nd parameter- true/false for all notifications or only current
+    //     $notifications = new Notification($user->data()->id, false, $dayLimit);
+    //     print_r($notifications->getUnreadCount());
+    // }
 /*
 Load main navigation menus
 */
@@ -99,7 +99,7 @@ Make menu tree
                         $itemString.="'new')";
                         $itemString.='"';
                         $itemString.='id="notificationsTrigger" data-toggle="modal" data-target="#notificationsModal"  ><i class="glyphicon glyphicon-bell"></i> <span id="notifCount" class="badge badge-danger" style="margin-top: -5px">';
-                        $itemString.=(($notifications->getUnreadCount() > 0) ? $notifications->getUnreadCount() : '');
+                        // $itemString.=(($notifications->getUnreadCount() > 0) ? $notifications->getUnreadCount() : '');
                         $itemString.='</span></a></li>';
                     }
                 }elseif($value['label']=='{{messages}}') {
