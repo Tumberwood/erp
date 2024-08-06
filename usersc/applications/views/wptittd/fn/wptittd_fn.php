@@ -107,6 +107,12 @@
                                         if (is_valid_lpn == 1 & id_wpttpmh > 0) {
                                             if (id_wpttpmh == 2) {
                                                 edtwptittd.field('wptittd.is_drop').show();
+                                                
+                                                $('#select_wloxxmh').select2('open');
+
+                                                setTimeout(function() {
+                                                    $('#select_wloxxmh').select2('close');
+                                                }, 5);
                                             } else {
                                                 edtwptittd.field('wptittd.is_drop').hide();
                                             }

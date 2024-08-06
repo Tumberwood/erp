@@ -293,6 +293,7 @@
 				{
 					label: "Lokasi Drop <sup class='text-danger'>*<sup>",
 					name: "lokasi_drop",
+					id: "select_wloxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -311,14 +312,29 @@
 								}
 									return query;
 							},
-							processResults: function (data, params) {
+							
+                            processResults: function (data, params) {
+                                var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								//add by ferry agar auto select 07 sep 23
+								if (params.page && params.page === 1) {
+									$('#select_wloxxmh').empty().select2({ data: options });
+								} else {
+									$('#select_wloxxmh').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
+								}
+
 								return {
-									results: data.results,
+									results: options,
 									pagination: {
 										more: true
 									}
 								};
-							},
+                            },
 							cache: true,
 							minimumInputLength: 1,
 							maximum: 10,
