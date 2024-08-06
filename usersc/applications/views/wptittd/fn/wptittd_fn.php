@@ -81,6 +81,8 @@
                                         wloxxmh_nama_target = json.data.wloxxmh_nama;
                                         wptittd_details = wptittd_details + json.data.wloxxmh_nama;
                                         id_iwhxxmh = json.data.id_iwhxxmh;
+                                        jenis_put = json.data.jenis_put;
+                                        id_wloctmh = json.data.id_wloctmh;
                                         id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
                                         id_wloxxmh_asal = json.data.id_wloxxmh_asal;
                                         edtwptittd.field('wptittd.id_iwhxxmh').val(id_iwhxxmh);
@@ -88,6 +90,18 @@
                                         edtwptittd.field('wptittd.id_wloxxmh_asal').val(id_wloxxmh_asal);
                                         // edtwptittd.field('wptittd_details').val(wptittd_details);
                                         edtwptittd.field('wptittd.keterangan').val(wptittd_details);
+                                        
+                                        // console.log(id_wloctmh);
+                                        // console.log(jenis_put);
+                                        if (id_wloctmh == 6) {
+                                            if (id_wpttpmh != 2) {
+                                                var newOption = new Option(jenis_put, 2, true, true);
+                                                $('#select_wpttpmh').append(newOption).trigger('change');
+
+                                                // Update Select2 to reflect the disabled state
+                                                $('#select_wpttpmh').trigger('change.select2');
+                                            }
+                                        }
 
                                         if (id_iimxxmh > 0) {
                                             lpnBooking();

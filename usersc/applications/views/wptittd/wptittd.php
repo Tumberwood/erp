@@ -108,6 +108,7 @@
 	var id_iwhxxmh = 0;
 	var id_wpttpmh_old = 0;
 	var id_wloxxmh_old = 0;
+	var id_wloctmh = 0;
 	
 	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
 	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
@@ -183,7 +184,7 @@
 										text: result.text
 									};
 								});
-
+								
 								//add by ferry agar auto select 07 sep 23
 								if (params.page && params.page === 1) {
 									$('#select_wpttpmh').empty().select2({ data: options });
@@ -453,18 +454,18 @@
 		edtwptittd.dependent( 'wptittd.is_drop', function ( val, data, callback ) {
 			is_drop = edtwptittd.field('wptittd.is_drop').val();
 			jumlah_unit = edtwptittd.field('wptittd.jumlah_unit').val();
-			if (is_drop == 1) {
-				
-				$('#select_wloxxmh').select2('open');
+			
+			if (jumlah_unit > 0) {
+				if (is_drop == 1) {
+					$('#select_wloxxmh').select2('open');
 
-				setTimeout(function() {
-					$('#select_wloxxmh').select2('close');
-				}, 5);
+					setTimeout(function() {
+						$('#select_wloxxmh').select2('close');
+					}, 5);
 
-				edtwptittd.field('wloxxmh_nama_scan').hide();
-				edtwptittd.field('lokasi_drop').show();
-			} else {
-				if (jumlah_unit > 0) {
+					edtwptittd.field('wloxxmh_nama_scan').hide();
+					edtwptittd.field('lokasi_drop').show();
+				} else {
 					edtwptittd.field('wloxxmh_nama_scan').show();
 					edtwptittd.field('wloxxmh_nama_scan').focus();
 					edtwptittd.field('lokasi_drop').hide();
@@ -726,7 +727,9 @@
 									id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
 									if (id_wpttpmh == 2) {
 										edtwptittd.field('wptittd.is_drop').show();
+										edtwptittd.field('wptittd.is_drop').val(1)
 									} else {
+										edtwptittd.field('wptittd.is_drop').val(0)
 										edtwptittd.field('wptittd.is_drop').hide();
 										edtwptittd.field('wloxxmh_nama_scan').show();
 										edtwptittd.field('wloxxmh_nama_scan').focus();

@@ -115,6 +115,36 @@
 
     $rs_wloxxmh = $qs_wloxxmh->fetch();
 
+    $qs_wpttpmh = $db
+        ->query('select', 'wpttpmh' )
+        ->get([
+            'CONCAT(kode," - ",nama) as text'
+        ] )
+        ->where('id', 2 )
+        ->exec();
+    $rs_wpttpmh = $qs_wpttpmh->fetch();
+
+    
+    $qs_asal = $db
+        ->raw()
+        ->bind(':wlpxxmh_kode', $wlpxxmh_kode)
+        ->exec('SELECT
+                    rd.id_wloxxmh,
+                    rd.wlpxxmh_kode,
+                    rd.id_wloctmh,
+                    SUM(rd.jumlah_terkecil) s_terkecil
+                FROM iivxxrd rd
+                WHERE rd.wlpxxmh_kode = :wlpxxmh_kode AND rd.id_wloctmh IN (1,6)
+                GROUP BY rd.id_wloxxmh
+                HAVING s_terkecil > 0
+        '
+        );
+
+    $rs_asal = $qs_asal->fetch();
+    $id_wloctmh = $rs_asal['id_wloctmh'];
+
+    $jenis_put = $rs_wpttpmh['text'];
+
     if(empty($rs_wloxxmh)){
         $status_code = 500;
         $message = 'Loc Pref Tidak ditemukan!';
@@ -141,6 +171,8 @@
         'id_wloxxmh_tujuan' => $id_wloxxmh_tujuan,
         'wloxxmh_nama' => $wloxxmh_nama,
         'id_iwhxxmh' => $id_iwhxxmh,
+        'jenis_put' => $jenis_put,
+        'id_wloctmh' => $id_wloctmh,
     );
 
     // tampilkan results
