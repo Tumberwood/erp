@@ -73,6 +73,7 @@
                                     dataType: 'json',
                                     type: 'POST',
                                     data: {
+                                        id_wpttpmh: id_wpttpmh,
                                         wlpxxmh_kode: wlpxxmh_kode,
                                         uniqueToken: uniqueToken,
                                     },
@@ -105,17 +106,6 @@
                                         
                                         // console.log(is_valid_lpn);
                                         if (is_valid_lpn == 1 & id_wpttpmh > 0) {
-                                            if (id_wpttpmh == 2) {
-                                                edtwptittd.field('wptittd.is_drop').show();
-                                                
-                                                $('#select_wloxxmh').select2('open');
-
-                                                setTimeout(function() {
-                                                    $('#select_wloxxmh').select2('close');
-                                                }, 5);
-                                            } else {
-                                                edtwptittd.field('wptittd.is_drop').hide();
-                                            }
                                             
                                             $('div.DTE_Form_Buttons button:eq(1)').hide();
                                             $('div.DTE_Form_Buttons button:eq(2)').show();
@@ -124,7 +114,7 @@
                                             edtwptittd.field('wptittd.jumlah_unit').error('');
                                             edtwptittd.field('wloxxmh_nama_scan').error('');
 
-                                            edtwptittd.field('wptittd.id_wpttpmh').disable();
+                                            // edtwptittd.field('wptittd.id_wpttpmh').disable();
                                             edtwptittd.field('wptittd.wlpxxmh_kode').disable();
                                             edtwptittd.field('wptittd.id_iumxxmh_unit').show();
                                             edtwptittd.field('wptittd.keterangan').show();
@@ -132,6 +122,14 @@
                                             edtwptittd.field('wptittd.jumlah_unit').focus();
 
                                             // console.log('uniqueToken load' +uniqueToken);
+                                        } else {
+					                        $('div.DTE_Form_Buttons button:eq(2)').hide();
+                                            edtwptittd.field('wptittd.is_drop').hide();
+                                            edtwptittd.field('wptittd.id_iumxxmh_unit').hide();
+                                            edtwptittd.field('wptittd.keterangan').hide();
+                                            edtwptittd.field('wptittd.jumlah_unit').hide();
+                                            edtwptittd.field('wloxxmh_nama_scan').hide();
+                                            edtwptittd.field('lokasi_drop').hide();
                                         }
                                     }
                                 } );

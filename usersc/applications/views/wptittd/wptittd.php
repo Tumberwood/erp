@@ -285,6 +285,7 @@
 					name: "wptittd.is_drop",
 					type: "select",
 					placeholder : "Select",
+					fieldInfo: "jika tidak drop,berarti langsung disimpan ke lokasi",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
@@ -409,12 +410,12 @@
 				edtwptittd.field('wptittd.id_wpttpmh').error('');
 				wlpxxmh_kode_validasi();
 
-				if (val == 2) {
-					edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
-					edtwptittd.field('wptittd.jumlah_unit').disable();
-				} else {
+				if (val == 1) {
 					edtwptittd.field('wptittd.id_iumxxmh_unit').enable();
 					edtwptittd.field('wptittd.jumlah_unit').enable();
+				} else {
+					edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
+					edtwptittd.field('wptittd.jumlah_unit').disable();
 				}
 			}
 			return {}
@@ -428,7 +429,7 @@
 
 			id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
 			if (id_wpttpmh > 0) {
-				wlpxxmh_kode_validasi();
+				// wlpxxmh_kode_validasi();
 				$('div.DTE_Form_Buttons button:eq(1)').hide();
 			}
 			// $(this).unbind('change');
@@ -445,6 +446,28 @@
 		edtwptittd.dependent( 'wptittd.jumlah_unit', function ( val, data, callback ) {
 			if (val > 0) {
 				outstandingItem();
+			}
+			return {}
+		}, {event: 'change'});
+
+		edtwptittd.dependent( 'wptittd.is_drop', function ( val, data, callback ) {
+			is_drop = edtwptittd.field('wptittd.is_drop').val();
+			jumlah_unit = edtwptittd.field('wptittd.jumlah_unit').val();
+			if (is_drop == 1) {
+				
+				$('#select_wloxxmh').select2('open');
+
+				setTimeout(function() {
+					$('#select_wloxxmh').select2('close');
+				}, 5);
+
+				edtwptittd.field('wloxxmh_nama_scan').hide();
+				edtwptittd.field('lokasi_drop').show();
+			} else {
+				if (jumlah_unit > 0) {
+					edtwptittd.field('wloxxmh_nama_scan').show();
+					edtwptittd.field('lokasi_drop').hide();
+				}
 			}
 			return {}
 		}, {event: 'change'});
@@ -697,18 +720,21 @@
 									// console.log('uniqueToken start' +uniqueToken);
 									booking(1);
 
-									is_drop = edtwptittd.field('wptittd.is_drop').val();
-									if (is_drop == 1) {
-										edtwptittd.field('wloxxmh_nama_scan').hide();
-										edtwptittd.field('lokasi_drop').show();
-									} else {
-										edtwptittd.field('wloxxmh_nama_scan').show();
-										edtwptittd.field('lokasi_drop').hide();
-									}
 									edtwptittd.field('wloxxmh_nama_scan').focus();
 									edtwptittd.field('wptittd.id_iumxxmh_unit').disable();
-									edtwptittd.field('wptittd.is_drop').disable();
 									edtwptittd.field('wptittd.jumlah_unit').disable();
+									id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
+									if (id_wpttpmh == 2) {
+										edtwptittd.field('wptittd.is_drop').show();
+									} else {
+										edtwptittd.field('wptittd.is_drop').hide();
+									}
+
+									id_wloxxmh_asal = edtwptittd.field('wptittd.id_wloxxmh_asal').val();
+									id_wloxxmh_tujuan = edtwptittd.field('wptittd.id_wloxxmh_tujuan').val();
+									edtwptittd.field('wptittd.id_wpttpmh').disable();
+									console.log(id_wloxxmh_asal);
+									console.log(id_wloxxmh_tujuan);
 								}
 
 								if ( edtwptittd.inError() ) {

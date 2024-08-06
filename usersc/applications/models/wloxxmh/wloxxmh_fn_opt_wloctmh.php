@@ -76,7 +76,7 @@
             $q = $_GET['search'];
             $r->where('nama', '%' . $q . '%', 'LIKE' );
         } )
-        ->order('is_default', "desc")
+        ->order('is_default', 'DESC')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();

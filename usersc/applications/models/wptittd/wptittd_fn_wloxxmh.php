@@ -15,6 +15,13 @@
     // ambil variable dari ajax data
     $wlpxxmh_kode = $_POST['wlpxxmh_kode'];
     $uniqueToken = $_POST['uniqueToken'];
+    $id_wpttpmh = $_POST['id_wpttpmh'];
+    
+    if ($id_wpttpmh == 2) {
+        $where_wloctmh = 'AND rd.id_wloctmh IN (1,6)';
+    } else {
+        $where_wloctmh = 'AND rd.id_wloctmh = 1';
+    }
 
     $qs_wloxxmh = $db
         ->raw()
@@ -100,6 +107,7 @@
                         SUM(rd.jumlah_terkecil) s_terkecil
                     FROM iivxxrd rd
                     WHERE rd.wlpxxmh_kode = :wlpxxmh_kode 
+                    '.$where_wloctmh.'
                     GROUP BY rd.id_wloxxmh
                     HAVING s_terkecil > 0
                 ) r ON r.wlpxxmh_kode = :wlpxxmh_kode
