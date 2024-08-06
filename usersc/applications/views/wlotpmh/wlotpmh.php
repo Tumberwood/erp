@@ -52,10 +52,7 @@
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wlotpmh/fn/wlotpmh_fn.php'; ?>
 
-<?php
-	//Notif baru
-	require_once $abs_us_root.$us_url_root.'/usersc/applications/views/core/notifications.php';
-?>
+
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
