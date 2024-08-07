@@ -411,7 +411,7 @@
 					]
 				},
 				{
-					label: "Foto <sup class='text-danger'>*<sup>",
+					label: "Foto",
 					name: "isoittd_upload.id_files_skip",
 					type: "upload",
 					display: function ( fileId, counter ) {
@@ -441,10 +441,6 @@
 				id_files_skip      = edtisoittd_upload_skip.field('isoittd_upload.id_files_skip').val();
 				alasan_skip      = edtisoittd_upload_skip.field('isoittd_upload.alasan_skip').val();
 				console.log(id_files_skip);
-
-				if (id_files_skip == 0) {
-					edtisoittd_upload_skip.field('isoittd_upload.id_files_skip').error( 'Wajib diisi!' )
-				}
 
 				if (alasan_skip == '') {
 					edtisoittd_upload_skip.field('isoittd_upload.alasan_skip').error( 'Wajib diisi!' )
