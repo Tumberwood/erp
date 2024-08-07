@@ -222,6 +222,12 @@
                         format: 'png',
                         quality: 1
                     });
+                    
+                    canvas.remove(backgroundRect);
+                    canvas.remove(totalText);
+                    filteredCircles.forEach(function(circle) {
+                        canvas.remove(circle);
+                    });
 
                     // Create image element and append it to #hasil
                     // var img = document.createElement('img');
