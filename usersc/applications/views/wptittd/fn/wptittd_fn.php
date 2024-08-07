@@ -359,4 +359,19 @@
         // Send data asynchronously using navigator.sendBeacon
         navigator.sendBeacon('../..//models/wptittd/wptittd_fn_remove_booking.php', jsonData);
     }
+
+    function validasiCancelDrop(wlpxxmh_kode) {
+        $.ajax( {
+            url: "../../models/wptittd/wptittd_fn_validasiCancelDrop.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                wlpxxmh_kode: wlpxxmh_kode
+            },
+            success: function ( json ) {
+                id_wloctmh_ajx = json.data.id_wloctmh;
+            }
+        } );
+    }
 </script>

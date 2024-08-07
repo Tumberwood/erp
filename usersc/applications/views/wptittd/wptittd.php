@@ -765,6 +765,35 @@
 						}
 					]
 				},
+				{
+					text: 'Cancel Drop',
+					name: 'btnCancelDrop',
+					action: function () {
+						confirm_cancel = confirm('Apakah anda yakin ingin cancel drop?');
+						if (confirm_cancel) {
+							toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+
+							$.ajax( {
+								url: "../../models/wptittd/wptittd_fn_cancelDrop.php",
+								dataType: 'json',
+								type: 'POST',
+								async: false,
+								data: {
+									wlpxxmh_kode: wlpxxmh_kode_sel
+								},
+								success: function ( json ) {
+									full_message = json.data.message + '</br>';
+									toast_type   = json.data.type_message;
+									toastr[toast_type](full_message, 'INFO');
+									
+									tblwptittd.rows().deselect();
+									tblwptittd.ajax.reload(null,false);
+								}
+							} );
+						}
+					},
+					className: 'btn btn-warning m-r-xs'
+				},
                     // END 
 				// END breaking generate button
 			],
@@ -782,6 +811,7 @@
 
 		tblwptittd.searchPanes.container().appendTo('#spwptittd');
 		tblwptittd.searchBuilder.container().appendTo( '#sbwptittd' );
+		tblwptittd.button('btnCancelDrop:name').disable();
 		
 		tblwptittd.on( 'init', function () {
 			// atur hak akses
@@ -794,17 +824,40 @@
 			id_iumxxmh_unit_old = wptittd_data.id_iumxxmh_unit;
 			jumlah_unit_old = wptittd_data.jumlah_unit_default;
 			id_wpttpmh_old = wptittd_data.id_wpttpmh;
+			id_wloxxmh_tujuan = wptittd_data.id_wloxxmh_tujuan;
+			wlpxxmh_kode_sel = wptittd_data.wlpxxmh_kode;
 
 			// atur hak akses
 			CekSelectHeaderH(tblwptittd);
+			autofillField('wloxxmh', id_wloxxmh_tujuan, 'id_wloctmh');
+			id_wloctmh_s = autofillData.id_wloctmh;
+
+			//cek apakah lokasi tujuan adalah lokasi drop
+			if (id_wloctmh_s == 6) {
+				validasiCancelDrop(wlpxxmh_kode_sel);
+
+				//cek apakah di inventory, LPN yg dipilih ini masih ada di DROP?
+				if (id_wloctmh_ajx == 6) {
+					//kalau masih ada di DROP, maka button enable
+					tblwptittd.button('btnCancelDrop:name').enable();
+				} else {
+					//kalau tidak di lokasi drop, maka sudah pernah di cancel drop sebelumnya
+					tblwptittd.button('btnCancelDrop:name').disable();
+				}
+			} else {
+				tblwptittd.button('btnCancelDrop:name').disable();
+			}
 		} );
 
 		tblwptittd.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wptittd');
 			id_iumxxmh_unit_old = 0;
+			id_wloxxmh_tujuan = 0;
+			wlpxxmh_kode_sel = '';
 			id_wpttpmh_old = 0;
 			jumlah_unit_old = 0;
+			tblwptittd.button('btnCancelDrop:name').disable();
 
 			// atur hak akses
 			CekDeselectHeaderH(tblwptittd);
