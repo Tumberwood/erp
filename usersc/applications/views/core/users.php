@@ -845,6 +845,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtucudasd.on( 'close', function () {
@@ -971,6 +972,7 @@
 			// action : "create" | "edit"
 			// do something
 			tblucudasd.ajax.reload(null,false);
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtucudasd_copyfrom.on( 'close', function () {
@@ -1253,6 +1255,7 @@
 			// action : "create" | "edit"
 			// do something
 			tbludpbrsd.ajax.reload(null,false);
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpbrsd_copyfrom.on( 'close', function () {
@@ -1403,6 +1406,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpbrsd.on( 'close', function () {
@@ -1600,6 +1604,7 @@
 			// action : "create" | "edit"
 			// do something
 			tbludpodsd.ajax.reload(null,false);
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpodsd_copyfrom.on( 'close', function () {
@@ -1749,6 +1754,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpodsd.on( 'close', function () {
@@ -1946,6 +1952,7 @@
 			// action : "create" | "edit"
 			// do something
 			tbludpwhsd.ajax.reload(null,false);
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpwhsd_copyfrom.on( 'close', function () {
@@ -2096,6 +2103,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tbludpxxsh.ajax.reload(null,false);
 		} );
 
 		edtudpwhsd.on( 'close', function () {
