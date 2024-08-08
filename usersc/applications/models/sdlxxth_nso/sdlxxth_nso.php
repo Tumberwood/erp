@@ -33,7 +33,7 @@
 				->setValue($s_id_gbrxxmh),
 			Field::inst( 'sdlxxth_nso.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'sdlxxth_nso.id_wttxxmh' )
+			Field::inst( 'sdlxxth_nso.id_imtxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth_nso.id_grlxxmh_customer' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
@@ -68,15 +68,20 @@
 				) ),
 			Field::inst( 'sdlxxth_nso.mobil_nomor' ),
 			Field::inst( 'sdlxxth_nso.supir_nama' ),
+			Field::inst( 'sdlxxth_nso.referensi' ),
+			Field::inst( 'sdlxxth_nso.referensi_nomor' ),
+			Field::inst( 'sdlxxth_nso.plat_nomor' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
-			Field::inst( 'wttxxmh.nama' ),
+			Field::inst( 'imtxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' ),
 
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','sdlxxth_nso.id_iwhxxmh' )
-		->leftJoin( 'wttxxmh','wttxxmh.id','=','sdlxxth_nso.id_wttxxmh' )
+		->leftJoin( 'imtxxmh','imtxxmh.id','=','sdlxxth_nso.id_imtxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','sdlxxth_nso.id_grlxxmh_customer' )
+		->where( 'sdlxxth_nso.tanggal', $_POST['start_date'], '>=' )
+		->where( 'sdlxxth_nso.tanggal', $_POST['end_date'], '<=' )
 		;
 	
 		// BEGIN where single data view

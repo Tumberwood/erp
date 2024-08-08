@@ -53,10 +53,13 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth_nso.tanggal"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="sdlxxth_nso.id_imtxxmh"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="sdlxxth_nso.id_wttxxmh"></editor-field>
+								<editor-field name="sdlxxth_nso.id_grlxxmh_customer"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth_nso.id_iwhxxmh"></editor-field>
@@ -64,7 +67,15 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="sdlxxth_nso.id_grlxxmh_customer"></editor-field>
+								<editor-field name="sdlxxth_nso.referensi_nomor"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="sdlxxth_nso.referensi"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="sdlxxth_nso.plat_nomor"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth_nso.supir_nama"></editor-field>
@@ -84,7 +95,7 @@
 								<th>ID</th>
 								<th>Tanggal</th>
                                 <th>Kode</th>
-                                <th>Tipe Transaksi</th>
+                                <th>Transaction Type</th>
 								<th>Customer</th>
 								<th>Warehouse</th>
 								<th>TX</th>
@@ -154,7 +165,7 @@
 	var edtsdlittd_nso, tblsdlittd_nso, show_deleted_sdlittd_nso = 0, id_sdlittd_nso;
 	// ------------- end of default variable
 
-	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_wttxxmh_old = 0;
+	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0;
 
 	// get tableRelation
@@ -265,19 +276,19 @@
 					}
 				},
 				{
-					label: "Tipe Transaksi <sup class='text-danger'>*<sup>",
-					name: "sdlxxth_nso.id_wttxxmh",
+					label: "Transaction Type <sup class='text-danger'>*<sup>",
+					name: "sdlxxth_nso.id_imtxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/wttxxmh/wttxxmh_fn_opt.php",
+							url: "../../models/imtxxmh/imtxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_wttxxmh_old: id_wttxxmh_old,
+									id_imtxxmh_old: id_imtxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -372,6 +383,19 @@
 					name: "sdlxxth_nso.supir_nama"
 				},
 				{
+					label: "Plat Nomor <sup class='text-danger'>*<sup>",
+					name: "sdlxxth_nso.plat_nomor"
+				},
+				{
+					label: "Referensi <sup class='text-danger'>*<sup>",
+					name: "sdlxxth_nso.referensi"
+				},
+				{
+					label: "Surat Jalan",
+					name: "sdlxxth_nso.referensi_nomor",
+					fieldInfo: "nomor surat jalan pengirim"
+				},
+				{
 					label: "Keterangan",
 					name: "sdlxxth_nso.keterangan",
 					type: "textarea"
@@ -398,9 +422,11 @@
 
 				tanggal         = edtsdlxxth_nso.field('sdlxxth_nso.tanggal').val();
 				id_iwhxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_iwhxxmh').val();
-				id_wttxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_wttxxmh').val();
+				id_imtxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_imtxxmh').val();
 				supir_nama      = edtsdlxxth_nso.field('sdlxxth_nso.supir_nama').val();
 				id_grlxxmh_customer      = edtsdlxxth_nso.field('sdlxxth_nso.id_grlxxmh_customer').val();
+				plat_nomor      = edtsdlxxth_nso.field('sdlxxth_nso.plat_nomor').val();
+				referensi      = edtsdlxxth_nso.field('sdlxxth_nso.referensi').val();
 
 				validasiRequired(
 					edtsdlxxth_nso, 
@@ -408,9 +434,11 @@
 					{
 						"tanggal": tanggal, 
 						"id_iwhxxmh": id_iwhxxmh, 
-						"id_wttxxmh": id_wttxxmh, 
+						"id_imtxxmh": id_imtxxmh, 
 						"supir_nama": supir_nama, 
 						"id_grlxxmh_customer": id_grlxxmh_customer,
+						"plat_nomor": plat_nomor,
+						"referensi": referensi,
 					}
 				);
 
@@ -470,7 +498,7 @@
 				{ data: "sdlxxth_nso.id",visible:false },
 				{ data: "sdlxxth_nso.tanggal" },
 				{ data: "sdlxxth_nso.kode" },
-				{ data: "wttxxmh.nama" },
+				{ data: "imtxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
 				{ 
@@ -533,7 +561,7 @@
 			id_grlxxmh_old      = sdlxxth_nso_data.id_grlxxmh_customer;
 			id_grlxxmh_customer = sdlxxth_nso_data.id_grlxxmh_customer;
 			id_iwhxxmh_old      = sdlxxth_nso_data.id_iwhxxmh;
-			id_wttxxmh_old      = sdlxxth_nso_data.id_wttxxmh;
+			id_imtxxmh_old      = sdlxxth_nso_data.id_imtxxmh;
 			
 			// atur hak akses
 			tbl_details = [tblsdlittd_nso];
@@ -544,7 +572,7 @@
 		tblsdlxxth_nso.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('sdlxxth_nso');
-			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_wttxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblsdlittd_nso];
@@ -640,11 +668,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_iitxxmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
+									ids_iitxxmh: 1,
 									search: params.term || '',
 									page: params.page || 1
 								}

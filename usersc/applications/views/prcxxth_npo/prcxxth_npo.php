@@ -54,7 +54,7 @@
 								<editor-field name="prcxxth_npo.tanggal"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth_npo.id_wttxxmh"></editor-field>
+								<editor-field name="prcxxth_npo.id_imtxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -69,6 +69,14 @@
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth_npo.referensi_nomor"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth_npo.referensi"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth_npo.plat_nomor"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth_npo.supir_nama"></editor-field>
@@ -88,7 +96,7 @@
 								<th>ID</th>
 								<th>Tanggal</th>
                                 <th>Kode</th>
-                                <th>Tipe Transaksi</th>
+                                <th>Transaction Type</th>
 								<th>Supplier</th>
 								<th>Warehouse</th>
 								<th>TX</th>
@@ -179,7 +187,7 @@
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_wttxxmh_old = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_imtxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('prcxxth_npo');
@@ -291,19 +299,19 @@
 					}
 				},
 				{
-					label: "Tipe Transaksi <sup class='text-danger'>*<sup>",
-					name: "prcxxth_npo.id_wttxxmh",
+					label: "Transaction Type <sup class='text-danger'>*<sup>",
+					name: "prcxxth_npo.id_imtxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/wttxxmh/wttxxmh_fn_opt.php",
+							url: "../../models/imtxxmh/imtxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_wttxxmh_old: id_wttxxmh_old,
+									id_imtxxmh_old: id_imtxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -395,11 +403,20 @@
 				},
 				{
 					label: "Surat Jalan <sup class='text-danger'>*<sup>",
-					name: "prcxxth_npo.referensi_nomor"
+					name: "prcxxth_npo.referensi_nomor",
+					fieldInfo: "nomor surat jalan pengirim"
 				},
 				{
 					label: "Supir",
 					name: "prcxxth_npo.supir_nama"
+				},
+				{
+					label: "Plat Nomor <sup class='text-danger'>*<sup>",
+					name: "prcxxth_npo.plat_nomor"
+				},
+				{
+					label: "Referensi <sup class='text-danger'>*<sup>",
+					name: "prcxxth_npo.referensi"
 				},
 				{
 					label: "Keterangan",
@@ -428,9 +445,11 @@
 
 				tanggal             = edtprcxxth_npo.field('prcxxth_npo.tanggal').val();
 				id_iwhxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_iwhxxmh').val();
-				id_wttxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_wttxxmh').val();
+				id_imtxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_imtxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth_npo.field('prcxxth_npo.id_grlxxmh_supplier').val();
 				referensi_nomor     = edtprcxxth_npo.field('prcxxth_npo.referensi_nomor').val();
+				plat_nomor     = edtprcxxth_npo.field('prcxxth_npo.plat_nomor').val();
+				referensi     = edtprcxxth_npo.field('prcxxth_npo.referensi').val();
 
 				validasiRequired(
 					edtprcxxth_npo, 
@@ -439,8 +458,10 @@
 						"tanggal": tanggal, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_iwhxxmh": id_iwhxxmh,
-						"id_wttxxmh": id_wttxxmh,
-						"referensi_nomor": referensi_nomor
+						"id_imtxxmh": id_imtxxmh,
+						"referensi_nomor": referensi_nomor,
+						"plat_nomor": plat_nomor,
+						"referensi": referensi,
 					}
 				);
 
@@ -500,7 +521,7 @@
 				{ data: "prcxxth_npo.id",visible:false },
 				{ data: "prcxxth_npo.tanggal" },
 				{ data: "prcxxth_npo.kode" },
-				{ data: "wttxxmh.nama" },
+				{ data: "imtxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
 				{ 
@@ -552,7 +573,7 @@
 			id_grlxxmh_old      = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_grlxxmh_supplier = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_iwhxxmh_old      = prcxxth_npo_data.id_iwhxxmh;
-			id_wttxxmh_old      = prcxxth_npo_data.id_wttxxmh;
+			id_imtxxmh_old      = prcxxth_npo_data.id_imtxxmh;
 
 			console.log(id_prcxxth_npo);
 			console.log(is_defaultprogram);
@@ -566,7 +587,7 @@
 		tblprcxxth_npo.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('prcxxth_npo');
-			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_wttxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd_npo];
@@ -662,11 +683,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_iitxxmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
+									ids_iitxxmh: 1,
 									search: params.term || '',
 									page: params.page || 1
 								}

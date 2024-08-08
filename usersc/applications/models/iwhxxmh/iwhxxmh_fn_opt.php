@@ -8,6 +8,7 @@
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
 	require_once( "../../../../usersc/helpers/datatables_fn_debug.php" );
+	include_once( "../../../helpers/hakakses_s_fn.php" );
 
     // BEGIN definisi variable untuk fn_ajax_results.php
     $data      = array();
@@ -27,6 +28,16 @@
     }else{
         $id_iwhxxmh_old = 0;
     }
+
+    if ($s_id_users > 100) {
+        $ids_iwh = '('.$s_str_arr_ha_iwhxxmh.')';
+        $where_hk = 'IN';
+    } else {
+        $where_hk = 'NOT IN';
+        $ids_iwh = '('.$s_str_arr_ha_iwhxxmh.')';
+    }
+
+    // echo $ids_iwh;
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
@@ -73,6 +84,7 @@
         ->where('iwhxxmh.transaction_state',1)
         ->where('iwhxxmh.id_iwhctmh',3,'<>')
         ->where('iwhxxmh.id', $id_iwhxxmh_old, '<>' )
+        ->where('iwhxxmh.id', $ids_iwh, $where_hk, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

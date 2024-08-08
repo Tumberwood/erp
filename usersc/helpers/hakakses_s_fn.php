@@ -352,6 +352,7 @@
         's_id_hodxxmh'         => $s_id_hodxxmh,
         's_arr_ha_hodxxmh'     => $s_arr_ha_hodxxmh,
         's_str_arr_ha_hodxxmh' => $s_str_arr_ha_hodxxmh,
+        's_str_arr_ha_iwhxxmh' => $s_str_arr_ha_iwhxxmh,
         // END optional
     );
 	
