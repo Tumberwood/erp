@@ -150,7 +150,7 @@
 					targets:'_all'
 				},
 				{ 
-					className: 'bg-beige', targets: [4,5,8,9,12,13] //ini jumlah sama uom
+					className: 'bg-beige', targets: [5,6,9,10,13,14] //ini jumlah sama uom
 				}
 			],
 			columns: [
