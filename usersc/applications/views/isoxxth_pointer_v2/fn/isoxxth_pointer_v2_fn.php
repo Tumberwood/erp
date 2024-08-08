@@ -136,6 +136,8 @@
             // Remove the circle from the array
             circleHistory.splice(index, 1);
         }
+        
+        redoStack.push(circle);
     }
 
     function base64ToBlob(base64Data, contentType) {
@@ -746,6 +748,16 @@
                                 mode = 'zoomOut';
                             } );
 
+                            $('#undo').on( "click", function() {
+                                undoLastCircle();
+                                e.preventDefault();
+                            } );
+
+                            $('#redo').on( "click", function() {
+                                redoLastCircle();
+                                e.preventDefault();
+                            } );
+
                             canvas.on('mouse:wheel', function(event) {
                                 zoomCanvas(event.e);
                             });
@@ -881,6 +893,10 @@
             undoLastCircle();
             e.preventDefault(); // Prevent default action for Ctrl+Z
         }
+        if (e.ctrlKey && e.key === 'y') {
+            redoLastCircle();
+            e.preventDefault(); // Prevent default action for Ctrl+Y
+        }
     });
 
     function undoLastCircle() {
@@ -895,6 +911,22 @@
 
             // Add the circle to the redo stack
             redoStack.push(lastCircle);
+        }
+    }
+
+    function redoLastCircle() {
+        if (redoStack.length > 0) {
+            // Get the last circle from the redo stack
+            var lastCircle = redoStack.pop();
+            
+            // Add the circle back to the canvas
+            canvas.add(lastCircle);
+            canvas.bringToFront(lastCircle);
+            canvas.renderAll();
+            c_circle++;
+            
+            // Add the circle back to the undo stack
+            circleHistory.push(lastCircle);
         }
     }
 </script>

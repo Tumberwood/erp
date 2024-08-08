@@ -69,6 +69,8 @@
             circleHistory.splice(index, 1);
         }
 
+        redoStack.push(circle);
+
         if (c_circle == 0) {
             $('#inputfileUpload').prop('disabled', false);
         } else {

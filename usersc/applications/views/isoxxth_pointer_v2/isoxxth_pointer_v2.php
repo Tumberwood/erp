@@ -44,7 +44,11 @@
 		overflow: scroll; /* Adds scrollbars for both x and y */
 		border: 1px solid #ccc; /* Optional: just to visualize the div */
 	}
-
+	
+	.fa-flipped {
+		transform: scaleX(-1); /* Flip horizontally */
+		display: inline-block; /* Ensure transform is applied */
+	}
 </style>
 
 <?php
@@ -118,14 +122,16 @@
 				<hr/>
 				<h3>Action</h3>
 				<p>
-				<button class="btn btn-info" id="addCircleBtn" title="Add Circle" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
-				<button class="btn btn-warning" id="moveCircleBtn" title="Move Circle" data-toggle="tooltip"><i class="fa fa-arrows"></i></button>
-				<button class="btn btn-danger" id="deleteCircleBtn" title="Delete Circle" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
-				<button class="btn btn-outline" id="scrollBtn" title="Scroll" data-toggle="tooltip"><i class="fa fa-mouse-pointer"></i></button>
-				<button class="btn btn-outline" id="zoomInBtn" title="Zoom In" data-toggle="tooltip"><i class="fa fa-search-plus"></i></button>
-				<button class="btn btn-outline" id="zoomOutBtn" title="Zoom Out" data-toggle="tooltip"><i class="fa fa-search-minus"></i></button>
-
-
+					<button class="btn btn-info" id="addCircleBtn" title="Add Circle" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-warning" id="moveCircleBtn" title="Move Circle" data-toggle="tooltip"><i class="fa fa-arrows"></i></button>
+					<button class="btn btn-danger" id="deleteCircleBtn" title="Delete Circle" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
+					<button class="btn btn-outline" id="scrollBtn" title="Scroll" data-toggle="tooltip"><i class="fa fa-mouse-pointer"></i></button>
+					<button class="btn btn-outline" id="zoomInBtn" title="Zoom In" data-toggle="tooltip"><i class="fa fa-search-plus"></i></button>
+					<button class="btn btn-outline" id="zoomOutBtn" title="Zoom Out" data-toggle="tooltip"><i class="fa fa-search-minus"></i></button>
+				</p>
+				<p class="m-t-n-sm">
+					<button class="btn btn-outline" id="undo" title="Undo" data-toggle="tooltip"><i class="fa fa-undo"></i></button>
+					<button class="btn btn-outline" id="redo" title="Redo" data-toggle="tooltip"><i class="fa fa-undo fa-flipped"></i></button>
 				</p>
 
 				<h3>Color</h3>
