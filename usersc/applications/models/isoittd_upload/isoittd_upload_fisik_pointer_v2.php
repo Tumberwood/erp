@@ -36,6 +36,8 @@
 				Field::inst( 'isoittd_upload_fisik.finish_at' ),
 				Field::inst( 'isoittd_upload_fisik.is_defaultprogram' ),
 				Field::inst( 'isoittd_upload_fisik.fisik' ),
+				Field::inst( 'isoittd_upload_fisik.jumlah_konversi' ),
+				Field::inst( 'isoittd_upload_fisik.jumlah_unit' ),
 				Field::inst( 'isoittd_upload_fisik.is_pointer' )
 				->set( Field::SET_CREATE )
 				->setValue(1)

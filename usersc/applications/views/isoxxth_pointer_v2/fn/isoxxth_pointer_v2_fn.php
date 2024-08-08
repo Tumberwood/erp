@@ -1,4 +1,11 @@
 <script>
+
+    function generateUniqueToken() {
+        var timestamp = new Date().getTime().toString(36);
+        var randomString = Math.random().toString(36).substring(2);
+        return timestamp + randomString;
+    }
+
      function fetchAndUploadFile(fileUrl) {
         fetch(fileUrl)
             .then(response => response.blob())
@@ -279,6 +286,8 @@
 
         // $('#analyzeBtn').hide();
         
+		uniqueToken = generateUniqueToken();
+
         // BEGIN isoittd_upload_fisik
         edtisoittd_upload_fisik = new $.fn.dataTable.Editor( {
             ajax: {
@@ -289,7 +298,7 @@
             },
             formOptions: {
                 main: {
-                    focus: 12,
+                    focus: 7,
                     onBackground: 'none'
                 }
             },
@@ -318,9 +327,15 @@
                 },	
                 {
                     label: "Kode",
-                    name: "isoxxth_upload_fisik.id_isoxxth_upload",
+                    name: "isoittd_upload_fisik.id_isoxxth_upload",
                     type: "hidden",
 					def: id_isoxxth_upload_filter
+				},
+                {
+                    label: "Kode",
+                    name: "isoittd_upload_fisik.kode",
+                    type: "hidden",
+					def: uniqueToken
 				},
                 {
                     label: "Item",
@@ -392,7 +407,16 @@
 					}
 				},
                 {
-                    label: "Fisik <sup class='text-danger'>*<sup>",
+                    label: "Fisik",
+                    name: "isoittd_upload_fisik.jumlah_unit",
+                    type: "readonly"
+                }, 	
+                {
+                    label: "Isi <sup class='text-danger'>*<sup>",
+                    name: "isoittd_upload_fisik.jumlah_konversi"
+                }, 	
+                {
+                    label: "Total Fisik",
                     name: "isoittd_upload_fisik.fisik",
                     type: "readonly"
                 }, 	
@@ -435,9 +459,14 @@
             } else {
                 edtisoittd_upload_fisik.field('isoittd_upload_fisik.id_isoittd_upload').enable();
             }
+            
+            kode_input = edtisoittd_upload_fisik.field('isoittd_upload_fisik.kode').val();
+            // console.log(uniqueToken);
+            // console.log('//////////');
+            // console.log(kode_input);
         });
 
-        edtisoittd_upload_fisik.dependent( 'isoxxth_upload_fisik.id_isoxxth_upload', function ( val, data, callback ) {
+        edtisoittd_upload_fisik.dependent( 'isoittd_upload_fisik.id_isoxxth_upload', function ( val, data, callback ) {
             if (val > 0) {
                 // console.log(val);
                 id_isoxxth_upload_old = val;
@@ -445,15 +474,26 @@
             return {}
         }, {event: 'keyup change'});
 
+        edtisoittd_upload_fisik.dependent( 'isoittd_upload_fisik.jumlah_konversi', function ( val, data, callback ) {
+            if (val > 0) {
+                jumlah_unit = edtisoittd_upload_fisik.field('isoittd_upload_fisik.jumlah_unit').val();
+                fisik_terkecil = val * jumlah_unit;
+                edtisoittd_upload_fisik.field('isoittd_upload_fisik.fisik').val(fisik_terkecil);
+            }
+            return {}
+        }, {event: 'keyup change'});
+
         edtisoittd_upload_fisik.on( 'preSubmit', function (e, data, action) {
             if(action != 'remove'){
                 fisik           = edtisoittd_upload_fisik.field('isoittd_upload_fisik.fisik').val();
+                jumlah_konversi           = edtisoittd_upload_fisik.field('isoittd_upload_fisik.jumlah_konversi').val();
 
                 validasiRequired(
                     edtisoittd_upload_fisik,
                     'isoittd_upload_fisik',
                     {
                         'fisik': fisik,
+                        'jumlah_konversi': jumlah_konversi,
                     }
                 );
 
@@ -465,6 +505,16 @@
                     },
                     0,
                     '>='
+                );
+
+                validasiNumber(
+                    edtisoittd_upload_fisik,
+                    'isoittd_upload_fisik',
+                    {
+                        'jumlah_konversi': jumlah_konversi
+                    },
+                    0,
+                    '>'
                 );
             }
             
@@ -496,7 +546,7 @@
                 
                 start_at = moment().format('YYYY-MM-DD HH:mm:ss');
                 edtisoittd_upload_fisik.field('isoittd_upload_fisik.start_at').val(start_at);
-                edtisoittd_upload_fisik.field('isoittd_upload_fisik.fisik').val(count);
+                edtisoittd_upload_fisik.field('isoittd_upload_fisik.jumlah_unit').val(count);
                 edtisoittd_upload_fisik.field('foto').val(image);
                 // console.log(image);
                 // console.log(file);

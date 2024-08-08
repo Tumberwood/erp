@@ -317,6 +317,7 @@
 	});
 
 	$(document).ready(function() {
+
 		$('[data-toggle="tooltip"]').tooltip();
 		var selectedOption = $('#selectKode').select2('data')[0];
 		if (selectedOption) {

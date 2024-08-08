@@ -6,6 +6,7 @@
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			// script diletakkan disini
 			$id_h = $values['isoittd_upload_fisik']['id_isoittd_upload'];
+			$kode = $values['isoittd_upload_fisik']['kode'];
 			$foto = $values['foto'];
 			$filePath = '../../../files/isoxxth_pointer/';
 			$imageUrl  = $filePath.$foto.'.jpg';
@@ -43,11 +44,14 @@
 						$id_isoittd = $pointer_td['id'];
 						
 						$qd_isoittd_upload_fisik = $editor->db()
-							->query('delete', 'isoittd_upload_fisik')
-							->where('id_isoittd_upload',$id_isoittd)
-							->where('is_pointer',1)
-							->where('id',  $id, '<>')
-							->exec();
+							->raw()
+							->bind(':kode', $kode)
+							->bind(':id_isoittd', $id_isoittd)
+							->exec('DELETE FROM isoittd_upload_fisik
+									WHERE id_isoittd_upload = :id_isoittd
+									AND is_pointer = 1
+									AND (kode IS NULL OR kode <> :kode);
+						');
 	
 						// Get file information
 						$fileInfo = stat($imageUrl);
@@ -77,13 +81,19 @@
 									(
 										id_isoittd_upload,
 										is_pointer,
+										jumlah_konversi,
+										jumlah_unit,
 										fisik,
+										kode,
 										keterangan
 									)
 									SELECT 
 										:id_isoittd,
 										is_pointer,
+										jumlah_konversi,
+										jumlah_unit,
 										fisik,
+										kode,
 										keterangan
 									FROM isoittd_upload_fisik
 									WHERE id = :id;
@@ -130,13 +140,16 @@
 				}
 			} else {
 				$id_isoittd = $id_h;
-						
+
 				$qd_isoittd_upload_fisik = $editor->db()
-					->query('delete', 'isoittd_upload_fisik')
-					->where('id_isoittd_upload',$id_isoittd)
-					->where('is_pointer',1)
-					->where('id',  $id, '<>')
-					->exec();
+					->raw()
+					->bind(':kode', $kode)
+					->bind(':id_isoittd', $id_isoittd)
+					->exec('DELETE FROM isoittd_upload_fisik
+							WHERE id_isoittd_upload = :id_isoittd
+							AND is_pointer = 1
+							AND (kode IS NULL OR kode <> :kode);
+				');
 
 				// Get file information
 				$fileInfo = stat($imageUrl);
