@@ -499,15 +499,37 @@
 					}
 				)
 
-				validasiUnique(
-				    action,
-				    edtwreittd,
-				    'wreittd',
-				    'wlpxxmh_kode',
-				    'wlpxxmh_kode',
-				    '"'+wlpxxmh_kode+'"',
-				    id_wreittd
-				);
+				if(action == 'create'){
+					id_transaksi = 0;
+				}
+				
+				$.ajax( {
+					url: '../../../helpers/validate_fn_unique.php',
+					dataType: 'json',
+					type: 'POST',
+					async: false,
+					data: {
+						table_name      : 'wreittd',
+						nama_field      : 'wlpxxmh_kode',
+						nama_field_value: '"'+wlpxxmh_kode+'"',
+						id_transaksi    : id_wreittd
+					},
+					success: function ( json ) {
+						if(json.data.count > 0){
+							edtwreittd.field('wreittd.wlpxxmh_kode').error( 'LPN sudah pernah dipakai' );
+						}
+					}
+				} );
+				
+				// validasiUnique(
+				//     action,
+				//     edtwreittd,
+				//     'wreittd',
+				//     'wlpxxmh_kode',
+				//     'wlpxxmh_kode',
+				//     '"'+wlpxxmh_kode+'"',
+				//     id_wreittd
+				// );
 
 				wlpxxmh_kode_validasi();
 

@@ -21,6 +21,7 @@
     };
     
     function wlpxxmh_kode_validasi (){
+        wlpxxmh_kode = edtwreittd.field('wreittd.wlpxxmh_kode').val();
         if(wlpxxmh_kode != ""){
             // cek apakah master LPN ada
             $.ajax( {
@@ -33,6 +34,7 @@
                 success: function ( json ) {
                     if(json.data.status_code == 500){
                         edtwreittd.field('wreittd.wlpxxmh_kode').error( json.data.message );
+                        edtwreittd.field('wreittd.wlpxxmh_kode').val('');
                     }
                 }
             } );
@@ -53,6 +55,7 @@
                 success: function ( json ) {
                     id_wlpxxmh = json.data.id_wlpxxmh;
                     edtwreittd.field('wreittd.id_wlpxxmh').val(id_wlpxxmh);
+                    wlpxxmh_kode_validasi ();
                 }
             } );
             
