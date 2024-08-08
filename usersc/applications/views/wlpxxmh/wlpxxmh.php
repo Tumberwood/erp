@@ -7,14 +7,15 @@
 ?>
 
 <?php
-	$nama_tabel    = 'wlpxxmh';
-	$nama_tabels_d = [];
+	$nama_tabel       = 'wlpxxmh';
+    $nama_tabels_d 	= [];
+    $nama_tabels_d[0] = 'iivxxrd';
 ?>
 
 <!-- begin content here -->
 <div class="row">
-	<div class="col">
-		<div class="ibox">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
                     <table id="tblwlpxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -27,11 +28,40 @@
                             </tr>
                         </thead>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+		<div class="tabs-container">
+			<ul class="nav nav-tabs" role="tablist">
+				<li><a class="nav-link active" data-toggle="tab" href="#tabiivxxrd_1"> Item</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" id="tabiivxxrd_1" class="tab-pane active">
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table id="tbliivxxrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+								<thead>
+									<tr>
+										<th>Item Code</th>
+										<th>Item Name</th>
+										<th>Batch Number</th>
+										<th>Expired Date</th>
+									</tr>
+								</thead>
+							</table>
+						</div> <!-- end of table -->
+
+					</div>
 				</div>
 			</div>
+
 		</div>
-	</div>
-</div>
+	</div> <!-- end of right col -->
+
+</div> <!-- end of row -->
 
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
@@ -51,18 +81,20 @@
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wlpxxmh/fn/wlpxxmh_fn.php'; ?>
 
-
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
+	cekNotification();
 	// ------------- default variable, do not erase
 	var edtwlpxxmh, tblwlpxxmh, show_deleted_wlpxxmh = 0, id_wlpxxmh;
+	var edtiivxxrd, tbliivxxrd, show_deleted_iivxxrd = 0, id_iivxxrd;
 	// ------------- end of default variable
-
+	
 	var selectedIds;
+	var wlpxxmh_kode = '';
 
 	// get tableRelation
 	tableRelation('wlpxxmh');
-	
+
 	$(document).ready(function() {
 		// BEGIN wlpxxmh
 		edtwlpxxmh = new $.fn.dataTable.Editor( {
@@ -96,47 +128,49 @@
 					name: "wlpxxmh.transaction_state",
 					type: "hidden",
 					def: 0
-				},	
+				},
 				{
-					label: "LPN <sup class='text-danger'>*<sup>",
+					label: "Kode <sup class='text-danger'>*<sup>",
 					name: "wlpxxmh.kode"
+				}, 	
+				{
+					label: "Nama <sup class='text-danger'>*<sup>",
+					name: "wlpxxmh.nama"
+				}, 	
+				{
+					label: "Keterangan",
+					name: "wlpxxmh.keterangan",
+					type: "textarea"
 				}
 			]
 		} );
-
+		
 		edtwlpxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwlpxxmh.field('wlpxxmh.start_at').val(start_at);
-			
+
 			if(action == 'create'){
 				tblwlpxxmh.rows().deselect();
-			}else if(action == 'edit'){
-				
-				if(transaction_state == 0){
-					edtwlpxxmh.field('wlpxxmh.kode').enable();
-				}else{
-					edtwlpxxmh.field('wlpxxmh.kode').disable();
-				}
 			}
 		});
 
 		edtwlpxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
-
-			// enable disable tombol Save & Confirm
-			edtFormButtonSaveConfirm();
+			edtFormButtonSaveConfirmHD();
 		});
-
+		
 		edtwlpxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
 				kode = edtwlpxxmh.field('wlpxxmh.kode').val();
+				nama = edtwlpxxmh.field('wlpxxmh.nama').val();
 
 				validasiRequired(
 					edtwlpxxmh,
 					'wlpxxmh',
 					{
-						'kode': kode
+						'kode': kode,
+						'nama': nama
 					}
 				);
 
@@ -150,23 +184,37 @@
 					id_wlpxxmh
 				);
 
-
+				validasiUnique(
+					action,
+					edtwlpxxmh,
+					'wlpxxmh',
+					'nama',
+					'nama',
+					'"'+nama+'"',
+					id_wlpxxmh
+				);
 			}
 			
 			if ( edtwlpxxmh.inError() ) {
 				return false;
 			}
 		});
-		
+
 		edtwlpxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwlpxxmh.field('wlpxxmh.finish_at').val(finish_at);
 		});
+		
+		edtwlpxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+		} );
 
 		edtwlpxxmh.on( 'close', function () {
 			edtwlpxxmh.enable();
 		} );
-
+		
 		tblwlpxxmh = $('#tblwlpxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -215,6 +263,7 @@
 				},
 			],
 			buttons: [
+
 				// BEGIN breaking generate button
 				<?php
 					$id_table    = 'id_wlpxxmh';
@@ -224,11 +273,12 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+					$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				
 				{
 					text: '<i class="fa fa-google"></i>',
 					name: 'btnCustom',
@@ -288,31 +338,99 @@
 		
 		tblwlpxxmh.on( 'init', function () {
 			// atur hak akses
-			CekInitHeaderH(tblwlpxxmh);
+			tbl_details = [tbliivxxrd];
+			CekInitHeaderHD(tblwlpxxmh, tbl_details);
 		} );
 		
 		tblwlpxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('wlpxxmh');
 			selectedIds = getSelectedRowIds();
+
+			wlpxxmh_kode      = wlpxxmh_data.kode;
 			
 			// atur hak akses
-			CekSelectHeaderH(tblwlpxxmh);
-		} );
+			tbl_details = [tbliivxxrd];
+			CekSelectHeaderHD(tblwlpxxmh, tbl_details);
 
+		} );
+		
 		tblwlpxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wlpxxmh');
 			var selectedIds = getSelectedRowIds();
+			wlpxxmh_kode = '';
 
 			// atur hak akses
-			CekDeselectHeaderH(tblwlpxxmh);
+			tbl_details = [tbliivxxrd];
+			CekDeselectHeaderHD(tblwlpxxmh, tbl_details);
 		} );
-		
 		// END wlpxxmh
+
+		tbliivxxrd = $('#tbliivxxrd').DataTable( {
+			ajax: {
+				url: "../../models/wlpxxmh/iivxxrd_wlpxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iivxxrd = show_deleted_iivxxrd;
+					d.wlpxxmh_kode = wlpxxmh_kode;
+				},
+			},
+			order: [[ 1, "asc" ]],
+			columns: [
+				{ data: "iimxxmh_kode" },
+				{ data: "iimxxmh_nama" },
+				{ data: "batch_number" },
+				{ data: "expired_date" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_iivxxrd';
+					$table       = 'tbliivxxrd';
+					$edt         = 'edtiivxxrd';
+					$show_status = '_iivxxrd';
+					$table_name  = $nama_tabels_d[0];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tbliivxxrd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tbliivxxrd, 0 );
+			CekDrawDetailHDFinal(tblwlpxxmh);
+		} );
+
+		tbliivxxrd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('iivxxrd');
+			
+			// atur hak akses
+			CekSelectDetailHD( tbliivxxrd );
+		} );
+
+		tbliivxxrd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('iivxxrd');
+			
+			// atur hak akses
+			CekDeselectDetailHD( tbliivxxrd );
+		} );
+		// END iivxxrd
 		
 	} );// end of document.ready
-
+	
 </script>
 
 <!-- END javascript here -->
