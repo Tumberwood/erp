@@ -121,12 +121,21 @@
         canvas.bringToFront(circle);
         canvas.renderAll(); // Render circle immediately after adding
         c_circle++;
+        circleHistory.push(circle);
+        redoStack.length = 0;
 
     }
 
     function removeCircle(circle) {
         canvas.remove(circle);
+        canvas.renderAll();
         c_circle--;
+        var index = circleHistory.findIndex(c => c === circle);
+
+        if (index !== -1) {
+            // Remove the circle from the array
+            circleHistory.splice(index, 1);
+        }
     }
 
     function base64ToBlob(base64Data, contentType) {
@@ -866,4 +875,26 @@
         }
     }
 
+    $(document).keydown(function(e) {
+        // Check if Ctrl+Z is pressed
+        if (e.ctrlKey && e.key === 'z') {
+            undoLastCircle();
+            e.preventDefault(); // Prevent default action for Ctrl+Z
+        }
+    });
+
+    function undoLastCircle() {
+        if (circleHistory.length > 0) {
+            // Get the last circle from the history
+            var lastCircle = circleHistory.pop();
+            
+            // Remove the last circle from the canvas
+            canvas.remove(lastCircle);
+            canvas.renderAll();
+            c_circle--;
+
+            // Add the circle to the redo stack
+            redoStack.push(lastCircle);
+        }
+    }
 </script>

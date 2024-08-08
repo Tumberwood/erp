@@ -62,9 +62,12 @@
         canvas.renderAll();
         c_circle--;
 
-        // Add the circle to the undo stack and clear the redo stack
-        circleHistory.push(circle);
-        redoStack.length = 0;
+        var index = circleHistory.findIndex(c => c === circle);
+
+        if (index !== -1) {
+            // Remove the circle from the array
+            circleHistory.splice(index, 1);
+        }
 
         if (c_circle == 0) {
             $('#inputfileUpload').prop('disabled', false);

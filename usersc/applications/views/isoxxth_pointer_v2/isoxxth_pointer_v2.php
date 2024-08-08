@@ -205,6 +205,9 @@
 	var simpanFoto = {};
 	var id_isoxxth_upload_filter = <?php echo $id_isoxxth_upload_filter ?>;
 	var id_isoittd_upload_old = <?php echo $id_isoittd_upload_old ?>;
+	
+	var circleHistory = [];
+	var redoStack = [];
 
 	const colorPicker = document.getElementById('colorPicker');
 	const pickColorButton = document.getElementById('pickColor');
