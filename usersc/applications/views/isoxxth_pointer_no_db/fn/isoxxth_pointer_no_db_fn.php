@@ -314,22 +314,59 @@
     function zoomMobile(event, delta, x, y) {
         var zoom = canvas.getZoom();
         zoom *= 0.999 ** delta;
-        if (zoom > 20) zoom = 20;
-        if (zoom < 0.01) zoom = 0.01;
-        canvas.zoomToPoint({ x: event.offsetX, y: event.offsetY }, zoom);
+        
+        // Calculate the maximum zoom-out level
+        var canvasWidth = canvas.width;
+        var canvasHeight = canvas.height;
+        
+        // Assuming you want the canvas to fit entirely within the viewport size
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        
+        // Calculate the maximum zoom-out factor
+        var maxZoomOutX = viewportWidth / canvasWidth;
+        var maxZoomOutY = viewportHeight / canvasHeight;
+        
+        var maxZoomOut = Math.min(maxZoomOutX, maxZoomOutY);
+
+        // Constrain zoom level
+        if (zoom > 20) zoom = 20;  // Adjust max zoom-in level if needed
+        if (zoom < maxZoomOut) zoom = maxZoomOut; // Constrain to calculated max zoom-out
+        
+        canvas.zoomToPoint({ x: x, y: y }, zoom);
     }
 
     // Zoom function
     function zoomCanvas(event) {
         var delta = event.deltaY;
         var zoom = canvas.getZoom();
+        
+        // Calculate the maximum zoom-out level
+        var canvasWidth = canvas.width;
+        var canvasHeight = canvas.height;
+        
+        // Assuming you want the canvas to fit entirely within a specific viewport size
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        
+        // Calculate the maximum zoom-out factor
+        var maxZoomOutX = viewportWidth / canvasWidth;
+        var maxZoomOutY = viewportHeight / canvasHeight;
+        
+        var maxZoomOut = Math.min(maxZoomOutX, maxZoomOutY);
+
+        // Apply zoom change
         zoom *= 0.999 ** delta;
-        if (zoom > 20) zoom = 20;
-        if (zoom < 0.01) zoom = 0.01;
+        
+        // Constrain zoom level
+        if (zoom > 20) zoom = 20;  // Adjust max zoom-in level if needed
+        if (zoom < maxZoomOut) zoom = maxZoomOut; // Constrain to calculated max zoom-out
+        
         canvas.zoomToPoint({ x: event.offsetX, y: event.offsetY }, zoom);
         event.preventDefault();
         event.stopPropagation();
     }
+    
     $(document).keydown(function(e) {
         // Check if Ctrl+Z is pressed
         if (e.ctrlKey && e.key === 'z') {
