@@ -781,7 +781,7 @@
 					action: function () {
 						confirm_cancel = confirm('Apakah anda yakin ingin cancel drop?');
 						if (confirm_cancel) {
-							toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+							// toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 
 							$.ajax( {
 								url: "../../models/wptittd/wptittd_fn_cancelDrop.php",
