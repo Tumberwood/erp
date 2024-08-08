@@ -64,7 +64,7 @@
                                 <th>Item Name</th>
                                 <th>UoM</th>
                                 <th>Qty</th>
-                                <th>Barang Drop</th>
+                                <th>Drop</th>
                                 <th>Cancel Drop</th>
                                 <th>TX</th>
                             </tr>
