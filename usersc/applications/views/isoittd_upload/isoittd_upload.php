@@ -603,7 +603,6 @@
 					label: "Lokasi <sup class='text-danger'>*<sup>", 
 					name: "isoittd_upload.select_lokasi",
 					type: "select2",
-					id: "lokasi_opname",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
