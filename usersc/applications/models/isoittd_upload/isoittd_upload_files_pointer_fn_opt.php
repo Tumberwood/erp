@@ -3,7 +3,7 @@
      * Digunakan untuk populate options data item category
      * Table terkait    : isoittd_upload
      * Parameter        : 
-     *  - id_isoittd_upload_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_files_pointer_old       : data existing (untuk keperluan edit), dipakai di query self
      */    
     require_once( "../../../../users/init.php" );
     require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,22 +22,22 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id_isoittd_upload_old'] > 0){
-        $id_isoittd_upload_old = $_GET['id_isoittd_upload_old'];
+    if($_GET['id_files_pointer_old'] > 0){
+        $id_files_pointer_old = $_GET['id_files_pointer_old'];
     }else{
-        $id_isoittd_upload_old = 0;
+        $id_files_pointer_old = 0;
     }
 
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id_isoittd_upload_old > 0){
+    if($id_files_pointer_old > 0){
         $qs_isoittd_upload_self = $db
             ->query('select', 'isoittd_upload')
             ->get([
                 'id_files_pointer as id',
                 'CONCAT(isoittd_upload.kode, " - ", nama) as text'
             ])
-            ->where('id_files_pointer', $id_isoittd_upload_old )
+            ->where('id_files_pointer', $id_files_pointer_old )
             ->group_by('id_files_pointer')
             ->exec();
         $rs_isoittd_upload_self = $qs_isoittd_upload_self->fetchAll();
@@ -54,7 +54,7 @@
             'CONCAT(isoittd_upload.kode, " - ", nama) as text'
         ])
         ->where('isoittd_upload.transaction_state',1)
-        ->where('id_files_pointer', $id_isoittd_upload_old, '<>' )
+        ->where('id_files_pointer', $id_files_pointer_old, '<>' )
         ->where('id_isoxxth_upload', $_GET['id_isoxxth_upload_old'])
         ->where( function ( $r ) {
             $q = $_GET['search'];

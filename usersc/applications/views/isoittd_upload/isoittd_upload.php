@@ -564,13 +564,14 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/isoittd_upload/item_opname_fn_opt.php",
+							url: "../../models/iimxxmh_upload/iimxxmh_upload_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_iimxxmh_old,
-									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									id_iimxxmh_upload_old: id_iimxxmh_upload_old,
+									company: company,
+									cabang: cabang,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -594,43 +595,9 @@
 					}
 				},
 				{
-					label: "Satuan <sup class='text-danger'>*<sup>", 
+					label: "Satuan", 
 					name: "isoittd_upload.select_satuan",
-					type: "select2",
-					id: "satuan_opname",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/isoittd_upload/satuan_opname_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								// console.log(id_isoxxth_upload_filter);
-								var query = {
-									id_isoittd_upload_old: id_iimxxmh_old,
-									id_isoxxth_upload_old: id_isoxxth_upload_filter,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
+					type: "readonly",
 				},
 				{
 					label: "Lokasi <sup class='text-danger'>*<sup>", 
@@ -642,13 +609,14 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/isoittd_upload/lokasi_opname_fn_opt.php",
+							url: "../../models/wloxxmh_upload/wloxxmh_upload_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_iimxxmh_old,
-									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									id_wloxxmh_upload_old: id_wloxxmh_upload_old,
+									company: company,
+									cabang: cabang,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -742,7 +710,7 @@
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_foto_pointer_old,
+									id_files_pointer_old: id_foto_pointer_old,
 									id_isoxxth_upload_old: id_isoxxth_upload_filter,
 									search: params.term || '',
 									page: params.page || 1
@@ -1257,7 +1225,7 @@
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_files_pointer_old,
+									id_files_pointer_old: id_files_pointer_old,
 									id_isoxxth_upload_old: id_isoxxth_upload_filter,
 									search: params.term || '',
 									page: params.page || 1
