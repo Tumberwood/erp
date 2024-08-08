@@ -242,6 +242,18 @@
                 WHERE a.id = :id_iivxxrd
         '
     );
+    
+    //ubah flag is_cancel_drop = 1 untuk LPN yang terpilih (jika lokasi tujuan adalah lokasi drop).
+    $qi_iivxxrd = $db
+        ->raw()
+        ->bind(':wlpxxmh_kode', $wlpxxmh_kode)
+        ->exec('UPDATE wptittd a
+                LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh_tujuan
+                SET
+                    a.is_cancel_drop = 1
+                WHERE a.wlpxxmh_kode = :wlpxxmh_kode AND b.id_wloctmh = 6
+        '
+    );
 
     if(empty($qi_iivxxrd)){
         $status_code = 500;

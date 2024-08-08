@@ -86,6 +86,7 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'wptittd.batch_number' ),
+			Field::inst( 'wptittd.is_cancel_drop' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),

@@ -64,6 +64,8 @@
                                 <th>Item Name</th>
                                 <th>UoM</th>
                                 <th>Qty</th>
+                                <th>Barang Drop</th>
+                                <th>Cancel Drop</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -632,6 +634,14 @@
 				{ 
 					data: "wptittd.jumlah_unit",
 					...renderNumber( 2, "")
+				},
+				{ 
+					data: "wptittd.is_drop" ,
+					...renderYaTidak()
+				},
+				{ 
+					data: "wptittd.is_cancel_drop" ,
+					...renderYaTidak()
 				},
 				{ 
 					data: "wptittd.transaction_state" ,
