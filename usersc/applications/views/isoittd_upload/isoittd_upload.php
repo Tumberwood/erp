@@ -303,6 +303,7 @@
 	var id_isoxxth_upload_old = 0;
 	var id_isoxxth_upload_filter = 0;
 	var id_files_pointer_old = 0;
+	var id_foto_pointer_old = 0;
 	var selectedText = null;
 	var start_button = "";
 	var company = '';
@@ -741,7 +742,7 @@
 							data: function (params) {
 								// console.log(id_isoxxth_upload_filter);
 								var query = {
-									id_isoittd_upload_old: id_files_pointer_old,
+									id_isoittd_upload_old: id_foto_pointer_old,
 									id_isoxxth_upload_old: id_isoxxth_upload_filter,
 									search: params.term || '',
 									page: params.page || 1
@@ -1828,6 +1829,7 @@
 			nama_lokasi 		= isoittd_upload_data.lokasi;
 			is_skip_select 		= isoittd_upload_data.is_skip;
 			id_files_pointer_old 		= isoittd_upload_data.id_files_pointer;
+			id_foto_pointer_old 		= isoittd_upload_data.id_files_pointer;
 			
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
@@ -1863,6 +1865,7 @@
 			nama_lokasi = 0;
 			is_skip_select = 0;
 			id_files_pointer_old = 0;
+			id_foto_pointer_old = 0;
 			lpn = 0;
 			batch_number = 0;
 			expired = 0;
