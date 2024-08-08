@@ -218,7 +218,7 @@
 		tblwlpxxmh = $('#tblwlpxxmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
-				layout: 'columns-4',
+				layout: 'columns-2',
 			},
 			ajax: {
 				url: "../../models/wlpxxmh/wlpxxmh.php",
