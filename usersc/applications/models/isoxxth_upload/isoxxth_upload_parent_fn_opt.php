@@ -38,6 +38,8 @@
                 'CONCAT(isoxxth_upload.kode, " - ", warehouse) as text'
             ])
             ->where('isoxxth_upload.id', $id_isoxxth_upload_old )
+            ->limit(1)
+            ->offset($offset)
             ->exec();
         $rs_isoxxth_upload_self = $qs_isoxxth_upload_self->fetchAll();
     }else{

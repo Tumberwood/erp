@@ -11,6 +11,15 @@
 			$filePath = '../../../files/isoxxth_pointer/';
 			$imageUrl  = $filePath.$foto.'.jpg';
 			$filename = $foto.'.jpg';
+			
+			$qs_path = $editor->db()
+				->raw()
+				->exec('SELECT
+							CONCAT("/", SUBSTRING_INDEX(a.genpath, "/applications", 1)) AS genpath
+						FROM ggsxxsh a
+			');
+			$rs_path = $qs_path->fetch();
+			$genpath = $rs_path['genpath'];
 
 			$qs_iso_td = $editor->db()
 				->query('select', 'isoittd_upload' )
@@ -39,7 +48,6 @@
 				
 				if (file_exists($imageUrl)) {
 					
-					
 					foreach ($rs_pointer as $key => $pointer_td) {
 						$id_isoittd = $pointer_td['id'];
 						
@@ -55,7 +63,7 @@
 	
 						// Get file information
 						$fileInfo = stat($imageUrl);
-						$web_path = '/erpx/usersc/files/isoxxth_pointer/'.$foto.'.jpg';
+						$web_path = $genpath.'/files/isoxxth_pointer/'.$foto.'.jpg';
 						
 						// Get file extension
 						$extn = pathinfo($imageUrl, PATHINFO_EXTENSION);
@@ -153,7 +161,7 @@
 
 				// Get file information
 				$fileInfo = stat($imageUrl);
-				$web_path = '/erpx/usersc/files/isoxxth_pointer/'.$foto.'.jpg';
+				$web_path = $genpath.'/files/isoxxth_pointer/'.$foto.'.jpg';
 				
 				// Get file extension
 				$extn = pathinfo($imageUrl, PATHINFO_EXTENSION);
