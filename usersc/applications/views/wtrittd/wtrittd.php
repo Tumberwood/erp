@@ -289,6 +289,7 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwtrittd.field('wtrittd.start_at').val(start_at);
 
+			edtwtrittd.field('wtrittd.wlpxxmh_kode').hide();
 			edtwtrittd.field('wtrittd.id_iumxxmh_unit').hide();
 			edtwtrittd.field('wtrittd.keterangan').hide();
 			edtwtrittd.field('wtrittd.jumlah_unit').hide();
@@ -347,7 +348,7 @@
 			$('div.DTE_Form_Buttons button:eq(1)').hide();
 			// $(this).unbind('change');
 			return {}
-		}, {event: 'change'});
+		}, {event: 'keyup'});
 
 		edtwtrittd.dependent( 'wtrittd.id_iumxxmh_unit', function ( val, data, callback ) {
 			if (val > 0) {

@@ -21,6 +21,7 @@
         ->exec('SELECT
                     a.id_wloxxmh id_loc,
                     a.id_iwhxxmh,
+                    a.id_wloctmh,
 	                SUM(a.jumlah_terkecil) s_terkecil
                 FROM iivxxrd a
                 LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh
@@ -38,6 +39,7 @@
         
         $id_loc        = 0;
         $id_iwhxxmh        = 0;
+        $id_wloctmh        = 0;
 
     }else{
         $status_code = 200;
@@ -46,6 +48,7 @@
 
         $id_loc        = $rs_loc['id_loc'];
         $id_iwhxxmh        = $rs_loc['id_iwhxxmh'];
+        $id_wloctmh        = $rs_loc['id_wloctmh'];
         
     }
 
@@ -56,6 +59,7 @@
 
         'id_loc'        => $id_loc,
         'id_iwhxxmh'        => $id_iwhxxmh,
+        'id_wloctmh'        => $id_wloctmh,
     );
 
     // tampilkan results

@@ -141,7 +141,11 @@
         );
 
     $rs_asal = $qs_asal->fetch();
-    $id_wloctmh = $rs_asal['id_wloctmh'];
+    if(!empty($rs_asal)){
+        $id_wloctmh = $rs_asal['id_wloctmh'];
+    } else {
+        $id_wloctmh = 0;
+    }
 
     $jenis_put = $rs_wpttpmh['text'];
 
