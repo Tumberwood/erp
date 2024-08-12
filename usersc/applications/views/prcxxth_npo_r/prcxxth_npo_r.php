@@ -21,7 +21,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode PR</th>
+                                <th>No Doc</th>
                                 <th>Tanggal</th>
                                 <th>Supplier</th>
                                 <th>Warehouse</th>

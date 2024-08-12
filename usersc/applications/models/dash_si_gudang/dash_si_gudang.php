@@ -25,10 +25,10 @@
                         FROM prcittd_npo b
                         LEFT JOIN prcxxth_npo a ON a.id = b.id_prcxxth_npo
                         WHERE a.tanggal BETWEEN :start_date AND :end_date 
-                        AND b.transaction_state = 1
+                        AND a.transaction_state = 1
                         ) AS c_id_d
                     FROM prcxxth_npo a
-                    WHERE a.tanggal BETWEEN :start_date AND :end_date
+                    WHERE a.tanggal BETWEEN :start_date AND :end_date AND a.transaction_state = 1
                     '
                     );
         $rs_prc = $qs_prc->fetch();
@@ -44,10 +44,10 @@
                         FROM sdlittd_nso b
                         LEFT JOIN sdlxxth_nso a ON a.id = b.id_sdlxxth_nso
                         WHERE a.tanggal BETWEEN :start_date AND :end_date 
-                        AND b.transaction_state = 1
+                        AND a.transaction_state = 1
                         ) AS c_id_d
                     FROM sdlxxth_nso a
-                    WHERE a.tanggal BETWEEN :start_date AND :end_date
+                    WHERE a.tanggal BETWEEN :start_date AND :end_date AND a.transaction_state = 1
                     '
                     );
         $rs_sdl = $qs_sdl->fetch();
@@ -67,7 +67,7 @@
                     LEFT JOIN iimxxmh c ON c.id = b.id_iimxxmh
                     LEFT JOIN iumxxmh d ON d.id = b.id_iumxxmh_unit
                     WHERE a.tanggal BETWEEN :start_date AND :end_date 
-                    AND b.transaction_state = 1
+                    AND a.transaction_state = 1
                     ORDER BY jumlah_unit DESC
                     LIMIT 10
                     '
@@ -89,7 +89,7 @@
                     LEFT JOIN iimxxmh c ON c.id = b.id_iimxxmh
                     LEFT JOIN iumxxmh d ON d.id = b.id_iumxxmh_unit
                     WHERE a.tanggal BETWEEN :start_date AND :end_date 
-                    AND b.transaction_state = 1
+                    AND a.transaction_state = 1
                     ORDER BY jumlah_unit DESC
                     LIMIT 10
                     '
