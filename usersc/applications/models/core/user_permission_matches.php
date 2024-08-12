@@ -33,9 +33,15 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'users.username' ),
 				Field::inst( 'users.email' ),
+				Field::inst( 'user_permission_matches_extend.created_by' ),
+				Field::inst( 'user_permission_matches_extend.transaction_state' ),
+				Field::inst( 'user_permission_matches_extend.approval_state' ),
+				Field::inst( 'user_permission_matches_extend.start_at' ),
+				Field::inst( 'user_permission_matches_extend.finish_at' ),
+				Field::inst( 'user_permission_matches_extend.is_defaultprogram' )
 			)
 			->leftJoin( 'users','users.id','=','user_permission_matches.user_id' )
-			
+			->leftJoin( 'user_permission_matches_extend','user_permission_matches_extend.id','=','user_permission_matches.id' )
 			->where('user_permission_matches.permission_id',$_POST['permission_id']);
 		
 		// do not erase
@@ -44,8 +50,8 @@
 		include( "user_permission_matches_extra.php" );
 
 		// BEGIN log
-		$nama_table = 'user_permission_matches';
-		// include( "../../../helpers/edt_log.php" );
+		$nama_table = 'user_permission_matches_extend';
+		include( "../../../helpers/edt_log.php" );
 		// END log
 		
 		$json = $editor

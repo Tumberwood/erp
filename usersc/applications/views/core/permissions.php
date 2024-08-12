@@ -326,19 +326,19 @@
 			},
 			fields: [ 
 				{
-					label: "user_permission_matches.start_at",
-					name: "user_permission_matches.start_at",
+					label: "user_permission_matches_extend.start_at",
+					name: "user_permission_matches_extend.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "user_permission_matches.finish_at",
-					name: "user_permission_matches.finish_at",
+					label: "user_permission_matches_extend.finish_at",
+					name: "user_permission_matches_extend.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "name_tabel",
 					name: "name_tabel",
-					def: "user_permission_matches",
+					def: "user_permission_matches_extend",
 					type: "hidden"
 				},
 				{
@@ -389,7 +389,7 @@
 			edtuser_permission_matches.field('user_permission_matches.permission_id').val(permission_id);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtuser_permission_matches.field('user_permission_matches.start_at').val(start_at);
+			edtuser_permission_matches.field('user_permission_matches_extend.start_at').val(start_at);
 			
 			if(action == 'create'){
 				tbluser_permission_matches.rows().deselect();
@@ -433,7 +433,7 @@
 
 		edtuser_permission_matches.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtuser_permission_matches.field('user_permission_matches.finish_at').val(finish_at);
+			edtuser_permission_matches.field('user_permission_matches_extend.finish_at').val(finish_at);
 		});
 			
 		edtuser_permission_matches.on( 'postSubmit', function (e, json, data, action, xhr) {
@@ -529,19 +529,19 @@
 			},
 			fields: [ 
 				{
-					label: "permission_page_matches.start_at",
-					name: "permission_page_matches.start_at",
+					label: "permission_page_matches_extend.start_at",
+					name: "permission_page_matches_extend.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "permission_page_matches.finish_at",
-					name: "permission_page_matches.finish_at",
+					label: "permission_page_matches_extend.finish_at",
+					name: "permission_page_matches_extend.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "name_tabel",
 					name: "name_tabel",
-					def: "permission_page_matches",
+					def: "permission_page_matches_extend",
 					type: "hidden"
 				},
 				{
@@ -592,7 +592,7 @@
 			edtpermission_page_matches.field('permission_page_matches.permission_id').val(permission_id);
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpermission_page_matches.field('permission_page_matches.start_at').val(start_at);
+			edtpermission_page_matches.field('permission_page_matches_extend.start_at').val(start_at);
 			
 			if(action == 'create'){
 				tblpermission_page_matches.rows().deselect();
@@ -636,7 +636,7 @@
 
 		edtpermission_page_matches.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtpermission_page_matches.field('permission_page_matches.finish_at').val(finish_at);
+			edtpermission_page_matches.field('permission_page_matches_extend.finish_at').val(finish_at);
 		});
 			
 		edtpermission_page_matches.on( 'postSubmit', function (e, json, data, action, xhr) {
