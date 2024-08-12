@@ -45,7 +45,7 @@
 
 		// BEGIN log
 		$nama_table = 'permission_page_matches';
-		include( "../../../helpers/edt_log.php" );
+		// include( "../../../helpers/edt_log.php" );
 		// END log
 		
 		$json = $editor
