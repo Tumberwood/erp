@@ -24,6 +24,7 @@
 								<th data-i18n="code"></th>
 								<th data-i18n="movementType"></th>
 								<th data-i18n="module"></th>
+								<th data-i18n="type"></th>
                                 <th data-i18n="notes"></th>
                                 <th data-i18n="state"></th>
                             </tr>
@@ -102,8 +103,19 @@
 					name: "imtxxmh.kode"
 				}, 	
 				{
-					label: "Movement Type <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " class='text-danger'>*<sup>",
 					name: "imtxxmh.movement_type"
+				},
+				{
+					label: getTranslation('type') + " <sup class='text-danger'>*<sup>",
+					name: "imtxxmh.movement_type_group",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "GR", "value": "GR" },
+						{ "label": "GI", "value": "GI" },
+						{ "label": "GT", "value": "GT" }
+					]
 				},
 				{
 					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
@@ -174,9 +186,9 @@
 					action,
 					edtimtxxmh,
 					'imtxxmh',
-					'kode',
-					'kode',
-					'"'+kode+'"',
+					'kode.module',
+					'kode,module',
+					'"'+kode+','+module+'"',
 					id_imtxxmh
 				);
 
@@ -228,6 +240,7 @@
 				{ data: "imtxxmh.kode" },
 				{ data: "imtxxmh.movement_type" },
 				{ data: "imtxxmh.module" },
+				{ data: "imtxxmh.movement_type_group" },
 				{ data: "imtxxmh.keterangan" },
 				{ 
 					data: "imtxxmh.transaction_state" ,
