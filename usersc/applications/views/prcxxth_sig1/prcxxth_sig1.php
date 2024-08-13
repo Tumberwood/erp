@@ -69,7 +69,7 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth_sig1.referensi_nomor"></editor-field>
+								<editor-field name="prcxxth_sig1.surat_jalan"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth_sig1.referensi"></editor-field>
@@ -108,49 +108,6 @@
             </div>
         </div>
     </div>
-
-	<!--
-	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
-		<div class="tabs-container">
-			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabprcittd_sig1"> Item</a></li>
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" id="tabprcittd_sig1" class="tab-pane active">
-					<div class="panel-body">
-						
-						<div id="frmprcittd_sig1">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-										<editor-field name="prcittd_sig1.id_iimxxmh"></editor-field>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-										<editor-field name="prcittd_sig1.jumlah_unit"></editor-field>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-										<editor-field name="prcittd_sig1.id_iumxxmh_unit"></editor-field>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-										<editor-field name="prcittd_sig1.keterangan"></editor-field>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="table">
-							
-						</div> 
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div> -->
-	<!-- end of right col -->
 
 	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
@@ -447,7 +404,7 @@
 				},
 				{
 					label: "Surat Jalan <sup class='text-danger'>*<sup>",
-					name: "prcxxth_sig1.referensi_nomor",
+					name: "prcxxth_sig1.surat_jalan",
 					fieldInfo: "Nomor surat jalan pengirim"
 				},
 				{
@@ -492,7 +449,7 @@
 				id_iwhxxmh          = edtprcxxth_sig1.field('prcxxth_sig1.id_iwhxxmh').val();
 				id_imtxxmh          = edtprcxxth_sig1.field('prcxxth_sig1.id_imtxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth_sig1.field('prcxxth_sig1.id_grlxxmh_supplier').val();
-				referensi_nomor     = edtprcxxth_sig1.field('prcxxth_sig1.referensi_nomor').val();
+				surat_jalan     = edtprcxxth_sig1.field('prcxxth_sig1.surat_jalan').val();
 				referensi     = edtprcxxth_sig1.field('prcxxth_sig1.referensi').val();
 
 				validasiRequired(
@@ -503,7 +460,7 @@
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_iwhxxmh": id_iwhxxmh,
 						"id_imtxxmh": id_imtxxmh,
-						"referensi_nomor": referensi_nomor,
+						"surat_jalan": surat_jalan,
 						"referensi": referensi,
 					}
 				);

@@ -67,7 +67,7 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
-			Field::inst( 'prcxxth_sig1.referensi_nomor' ),
+			Field::inst( 'prcxxth_sig1.surat_jalan' ),
 			Field::inst( 'prcxxth_sig1.mobil_nomor' ),
 			Field::inst( 'prcxxth_sig1.supir_nama' ),
 			Field::inst( 'prcxxth_sig1.referensi' ),
