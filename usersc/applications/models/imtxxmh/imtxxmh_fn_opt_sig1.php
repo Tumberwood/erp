@@ -12,8 +12,6 @@
     // BEGIN definisi variable untuk fn_ajax_results.php
     $data      = array();
     $rs_opt    = array();
-    // $c_rs_opt  = 0;
-    // $morePages = false;
     // END definisi variable untuk fn_ajax_results.php
 
     // BEGIN select2 pagination preparation
@@ -77,13 +75,7 @@
     }else{
         $rs_opt = $rs_imtxxmh_all;
     }
-    // $c_rs_opt = count($rs_opt);
     // END menggabungkan options
-
-    // BEGIN untuk keperluan paginasi select2
-    // $endCount  = $offset + $resultCount;
-    // $morePages = $endCount > $c_rs_opt;
-    // END untuk keperluan paginasi select2
     
     // tampilkan results
     require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
