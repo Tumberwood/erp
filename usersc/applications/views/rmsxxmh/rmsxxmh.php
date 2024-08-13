@@ -422,6 +422,7 @@
 		edtrmsxxmh_rwpxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
+				id_rmsxxmh = edtrmsxxmh_rwpxxmh.field('rmsxxmh_rwpxxmh.id_rmsxxmh').val();
 				id_rwpxxmh = edtrmsxxmh_rwpxxmh.field('rmsxxmh_rwpxxmh.id_rwpxxmh').val();
 
 				validasiRequired(
@@ -437,8 +438,8 @@
 					edtrmsxxmh_rwpxxmh,
 					'rmsxxmh_rwpxxmh',
 					'id_rwpxxmh',
-					'id_rwpxxmh',
-					id_rwpxxmh,
+					'id_rmsxxmh,id_rwpxxmh',
+					id_rmsxxmh+','+id_rwpxxmh,
 					id_rmsxxmh_rwpxxmh
 				);
 
@@ -455,9 +456,7 @@
 		});
 			
 		edtrmsxxmh_rwpxxmh.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblrmsxxmh.ajax.reload(null, false);
 		} );
 
 		edtrmsxxmh_rwpxxmh.on( 'close', function () {
