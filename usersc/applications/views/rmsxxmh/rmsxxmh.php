@@ -25,7 +25,6 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
-                                <th>Keterangan</th>
                             </tr>
                         </thead>
                     </table>
@@ -50,7 +49,6 @@
 										<th>id_rmsxxmh</th>
 										<th>Kode</th>
 										<th>Nama</th>
-										<th>Keterangan</th>
 									</tr>
 								</thead>
 							</table>
@@ -98,8 +96,6 @@
 	tableRelation('rmsxxmh');
 
 	$(document).ready(function() {
-		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		
 		// BEGIN rmsxxmh
 		edtrmsxxmh = new $.fn.dataTable.Editor( {
@@ -108,8 +104,6 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_rmsxxmh = show_deleted_rmsxxmh;
-					d.start_date = start_date;
-					d.end_date = end_date;
 				}
 			},
 			table: "#tblrmsxxmh",
@@ -232,8 +226,6 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_rmsxxmh = show_deleted_rmsxxmh;
-					d.start_date = start_date;
-					d.end_date = end_date;
 				}
 			},
 			order: [[ 1, "desc" ]],
@@ -242,7 +234,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2]
 				},
 				{
 					searchPanes:{
@@ -254,8 +246,7 @@
 			columns: [
 				{ data: "rmsxxmh.id",visible:false },
 				{ data: "rmsxxmh.kode" },
-				{ data: "rmsxxmh.nama" },
-				{ data: "rmsxxmh.keterangan" }
+				{ data: "rmsxxmh.nama" }
 			],
 			buttons: [
 
@@ -477,8 +468,7 @@
 				{ data: "rmsxxmh_rwpxxmh.id",visible:false },
 				{ data: "rmsxxmh_rwpxxmh.id_rmsxxmh",visible:false },
 				{ data: "rwpxxmh.kode" },
-				{ data: "rwpxxmh.nama" },
-				{ data: "rmsxxmh_rwpxxmh.keterangan" }
+				{ data: "rwpxxmh.nama" }
 			],
 			buttons: [
 				// BEGIN breaking generate button
