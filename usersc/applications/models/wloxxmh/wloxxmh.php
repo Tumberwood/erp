@@ -50,6 +50,7 @@
 			Field::inst( 'wloxxmh.finish_at' ),
 			Field::inst( 'wloxxmh.is_defaultprogram' ),
 			Field::inst( 'wloxxmh.is_nextprocess' ),
+			Field::inst( 'wloxxmh.is_smaller' ),
 
 			Field::inst( 'wloxxmh.kapasitas' ),
 			Field::inst( 'wloxxmh.rack' ),

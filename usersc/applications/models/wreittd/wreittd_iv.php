@@ -95,6 +95,7 @@
 					jumlah_terkecil,
 					jumlah_default,
 					wlpxxmh_kode,
+					wpaxxmh_kode,
 					expired_date,
 					batch_number
 				)
@@ -142,6 +143,7 @@
 					a.jumlah_terkecil as jumlah_terkecil,
 					a.jumlah_default as jumlah_default,
 					a.wlpxxmh_kode,
+					a.wpaxxmh_kode,
 					a.expired_date,
 					a.batch_number
 				FROM wreittd a

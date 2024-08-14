@@ -51,7 +51,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Tanggal</th>
                                 <th>Kode</th>
+                                <th>User</th>
+                                <th>Warehouse</th>
+                                <th>Location</th>
                                 <th data-priority="1">LPN</th>
                                 <th>Supplier</th>
                                 <th>Item Code</th>
@@ -601,7 +605,7 @@
 					d.end_date = end_date;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 1, "desc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -618,7 +622,11 @@
 			],
 			columns: [
 				{ data: "wreittd.id",visible:false },
+				{ data: "tanggal_confirm" },
 				{ data: "wreittd.kode" },
+				{ data: "username" },
+				{ data: "iwhxxmh.kode" },
+				{ data: "wloxxmh.nama" },
 				{ data: "wreittd.wlpxxmh_kode" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iimxxmh.kode" },

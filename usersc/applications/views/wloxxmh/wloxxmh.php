@@ -62,6 +62,9 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wloxxmh.nama"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.is_smaller"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -417,6 +420,16 @@
 					label: "Nama <sup class='text-danger'>*<sup>",
 					name: "wloxxmh.nama",
 					type: "readonly"
+				},
+				{
+					label: "Smaller Location",
+					name: "wloxxmh.is_smaller",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 },
+					]
 				},
 				{
 					label: "Keterangan",

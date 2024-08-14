@@ -129,6 +129,9 @@
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 										<editor-field name="iimummd.is_iumxxmh_beli"></editor-field>
 									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+										<editor-field name="iimummd.is_replenishment"></editor-field>
+									</div>
 								</div>
 								<div class="row">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -165,13 +168,14 @@
 									<th rowspan=2>id_iimxxmh</th>
 									<th rowspan=2>UoM</th>
 									<th rowspan=2 data-i18n="conversion"></th>
-									<th colspan=4>UoM Purpose</th>
+									<th colspan=5>UoM Purpose</th>
 								</tr>
 								<tr>
 									<th data-i18n="inventory"></th>
 									<th>Base</th>
 									<th data-i18n="buy"></th>
 									<th data-i18n="sell"></th>
+									<th>Replenishment</th>
 								</tr>
 							</thead>
 						</table>
@@ -236,7 +240,7 @@
 	
 	var id_iumxxmh_old = 0;
 	var is_default_old = 0;
-	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0;
+	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0, is_replenishment_old = 0;
 	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
 	var id_wloxxmh_old = 0;
 
@@ -924,6 +928,16 @@
 					]
 				}, 		
 				{
+					label: "UoM Replenishment <sup class='text-danger'>*<sup>",
+					name: "iimummd.is_replenishment",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 		
+				{
 					label: getTranslation('notes'),
 					name: "iimummd.keterangan",
 					type: "textarea"
@@ -962,7 +976,12 @@
 					label: "is_update_iumxxmh_jual",
 					name: "is_update_iumxxmh_jual",
 					type: "hidden"
-				}
+				},
+				{
+					label: "is_replenishment",
+					name: "is_replenishment",
+					type: "hidden"
+				},
 				
 			]
 		} );
@@ -1057,11 +1076,13 @@
 			is_default 		= edtiimummd.field('iimummd.is_default').val();
 			is_iumxxmh_beli	= edtiimummd.field('iimummd.is_iumxxmh_beli').val();
 			is_iumxxmh_jual = edtiimummd.field('iimummd.is_iumxxmh_jual').val();
+			is_replenishment = edtiimummd.field('iimummd.is_replenishment').val();
 
 			if(action == 'create'){
 				is_default_old = 0;
 				is_iumxxmh_beli_old = 0
 				is_iumxxmh_jual_old = 0
+				is_replenishment_old = 0
 			} // else nya sudah didapatkan saat select
 
 			if(is_default == 1 && is_default != is_default_old){
@@ -1096,6 +1117,17 @@
 					edtiimummd.field('is_update_iumxxmh_jual').val(1);
 				}else{
 					edtiimummd.field('is_update_iumxxmh_jual').val(0);
+					return false;
+				}
+			}
+			// END konfirmasi Default UoM Jual
+			
+			// BEGIN konfirmasi Default UoM Jual
+			if(is_replenishment == 1 && is_replenishment != is_replenishment_old){
+				if(confirm('Apakah Anda Ingin Mengubah Default UoM Replenishment?')){
+					edtiimummd.field('is_replenishment').val(1);
+				}else{
+					edtiimummd.field('is_replenishment').val(0);
 					return false;
 				}
 			}
@@ -1248,7 +1280,11 @@
 				{ 
 					data: "iimummd.is_iumxxmh_jual" ,
 					...renderYaTidak()
-				}
+				},
+				{ 
+					data: "iimummd.is_replenishment" ,
+					...renderYaTidak()
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -1295,6 +1331,7 @@
 			is_default_old      = iimummd_data.is_default;
 			is_iumxxmh_beli_old = iimummd_data.is_iumxxmh_beli;
 			is_iumxxmh_jual_old = iimummd_data.is_iumxxmh_jual;
+			is_replenishment_old = iimummd_data.is_replenishment;
 			
 			// atur hak akses
 			CekSelectDetailHD(tbliimummd );

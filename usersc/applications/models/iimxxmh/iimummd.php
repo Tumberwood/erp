@@ -47,6 +47,7 @@
 				Field::inst( 'iimummd.is_default' ),
 				Field::inst( 'iimummd.is_iumxxmh_beli' ),
 				Field::inst( 'iimummd.is_iumxxmh_jual' ),
+				Field::inst( 'iimummd.is_replenishment' ),
 
 				Field::inst( 'iimummd.is_terkecil' ),
 				Field::inst( 'iimummd.jumlah_konversi' ),
