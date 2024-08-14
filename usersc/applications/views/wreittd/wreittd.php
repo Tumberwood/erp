@@ -53,6 +53,7 @@
                                 <th>ID</th>
                                 <th>Tanggal</th>
                                 <th>Kode</th>
+                                <th>User</th>
                                 <th>Warehouse</th>
                                 <th>Location</th>
                                 <th data-priority="1">LPN</th>
@@ -623,7 +624,8 @@
 				{ data: "wreittd.id",visible:false },
 				{ data: "tanggal_confirm" },
 				{ data: "wreittd.kode" },
-				{ data: "iwhxxmh.nama" },
+				{ data: "username" },
+				{ data: "iwhxxmh.kode" },
 				{ data: "wloxxmh.nama" },
 				{ data: "wreittd.wlpxxmh_kode" },
 				{ data: "grlxxmh.nama" },
