@@ -40,7 +40,10 @@
 			Field::inst( 'imtxxmh.start_at' ),
 			Field::inst( 'imtxxmh.finish_at' ),
 			Field::inst( 'imtxxmh.is_defaultprogram' ),
-			Field::inst( 'imtxxmh.is_nextprocess' )
+			Field::inst( 'imtxxmh.is_nextprocess' ),
+			Field::inst( 'imtxxmh.movement_type' ),
+			Field::inst( 'imtxxmh.movement_type_group' ),
+			Field::inst( 'imtxxmh.module' )
 		);
 	
 	// do not erase

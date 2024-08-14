@@ -40,7 +40,8 @@
 			Field::inst( 'iicxxmh.start_at' ),
 			Field::inst( 'iicxxmh.finish_at' ),
 			Field::inst( 'iicxxmh.is_defaultprogram' ),
-			Field::inst( 'iicxxmh.is_nextprocess' )
+			Field::inst( 'iicxxmh.is_nextprocess' ),
+			Field::inst( 'iicxxmh.is_dbmxxth' )
 		);
 	
 	// do not erase

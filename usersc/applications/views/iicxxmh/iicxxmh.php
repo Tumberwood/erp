@@ -25,7 +25,7 @@
                                 <th>ID</th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
-                                <th data-i18n="notes"></th>
+                                <th>BoM</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -145,6 +145,17 @@
 					name: "iicxxmh.nama"
 				}, 	
 				{
+					label: "Bill of Material",
+					name: "iicxxmh.is_dbmxxth",
+					fieldInfo: "Apakah menggunakan Bill of Material",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
 					label: getTranslation('notes'),
 					name: "iicxxmh.keterangan",
 					type: "textarea"
@@ -254,7 +265,9 @@
 				{ data: "iicxxmh.id",visible:false },
 				{ data: "iicxxmh.kode" },
 				{ data: "iicxxmh.nama" },
-				{ data: "iicxxmh.keterangan" },
+				{ data: "iicxxmh.is_dbmxxth", 
+					...renderYaTidak()
+				},
 				{ 
 					data: "iicxxmh.transaction_state" ,
 					...renderTransactionStatus()
