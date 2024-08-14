@@ -211,6 +211,7 @@
 					jumlah_terkecil,
 					jumlah_default,
 					wlpxxmh_kode,
+					wpaxxmh_kode,
 					expired_date,
 					batch_number
 				)
@@ -258,6 +259,7 @@
 					-a.jumlah_terkecil as jumlah_terkecil,
 					-a.jumlah_default as jumlah_default,
 					a.wlpxxmh_kode,
+					a.wpaxxmh_kode,
 					re.expired_date,
 					re.batch_number
 				FROM wptittd a
@@ -323,6 +325,7 @@
 					jumlah_terkecil,
 					jumlah_default,
 					wlpxxmh_kode,
+					wpaxxmh_kode,
 					expired_date,
 					batch_number
 				)
@@ -370,6 +373,7 @@
 					a.jumlah_terkecil as jumlah_terkecil,
 					a.jumlah_default as jumlah_default,
 					a.wlpxxmh_kode,
+					a.wpaxxmh_kode,
 					re.expired_date,
 					re.batch_number
 				FROM wptittd a
@@ -437,6 +441,7 @@
 					jumlah_terkecil,
 					jumlah_default,
 					wlpxxmh_kode,
+					wpaxxmh_kode,
 					expired_date,
 					batch_number
 				)
@@ -484,6 +489,7 @@
 					-a.jumlah_terkecil as jumlah_terkecil,
 					-a.jumlah_default as jumlah_default,
 					a.wlpxxmh_kode,
+					a.wpaxxmh_kode,
 					re.expired_date,
 					re.batch_number
 				FROM wptittd a
@@ -550,6 +556,7 @@
 					jumlah_terkecil,
 					jumlah_default,
 					wlpxxmh_kode,
+					wpaxxmh_kode,
 					expired_date,
 					batch_number
 				)
@@ -597,6 +604,7 @@
 					a.jumlah_terkecil as jumlah_terkecil,
 					a.jumlah_default as jumlah_default,
 					a.wlpxxmh_kode,
+					a.wpaxxmh_kode,
 					re.expired_date,
 					re.batch_number
 				FROM wptittd a

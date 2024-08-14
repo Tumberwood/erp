@@ -70,6 +70,10 @@
 			Field::inst( 'wptittd.is_nextprocess' ),
 			Field::inst( 'wptittd.is_drop' ),
 
+			Field::inst( 'wptittd.wpaxxmh_kode' )
+			->set( Field::SET_CREATE )
+			->setValue('Pallet 1'),
+			
 			Field::inst( 'wptittd.wlpxxmh_kode' ),
 			Field::inst( 'wptittd.jumlah_unit' ),
 			Field::inst( 'wptittd.jumlah_konversi' ),
