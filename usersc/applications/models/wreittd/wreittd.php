@@ -69,6 +69,9 @@
 			Field::inst( 'wreittd.is_nextprocess' ),
 
 			Field::inst( 'wreittd.wlpxxmh_kode' ),
+			Field::inst( 'wreittd.wpaxxmh_kode' )
+			->set( Field::SET_CREATE )
+			->setValue('Pallet 1'),
 			Field::inst( 'wreittd.jumlah_unit' ),
 			Field::inst( 'wreittd.jumlah_konversi' ),
 			Field::inst( 'wreittd.expired_date' )
@@ -89,17 +92,30 @@
 			
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
+			Field::inst( 'activity_log_ml_confirm.finish_on as tanggal_confirm' )
+				->getFormatter( 'Format::datetime', array(
+					'from' => 'Y-m-d H:i:s',
+					'to' =>   'd M Y H:i'
+				) )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y H:i',
+					'to' =>   'Y-m-d H:i:s'
+				) ),
 
-			Field::inst( 'iumxxmh.kode' )
+			Field::inst( 'iumxxmh.kode' ),
+			Field::inst( 'wloxxmh.nama' ),
+			Field::inst( 'iwhxxmh.nama' ),
 			
 		)
 		->leftJoin( 'wroxxth','wroxxth.id','=','wreittd.id_wroxxth' )
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wreittd.id_iimxxmh' )
+		->leftJoin( 'wloxxmh','wloxxmh.id','=','wreittd.id_wloxxmh' )
+		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','wreittd.id_iwhxxmh' )
 		->leftJoin( 'iumxxmh','iumxxmh.id','=','wreittd.id_iumxxmh_unit' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','wroxxth.id_grlxxmh_supplier' )
-		// ->leftJoin(
-		// 	'activity_log_ml as activity_log_ml_c', 
-		// 	'activity_log_ml_c.id_transaksi = wreittd.id AND activity_log_ml_c.kode = "CREATE" AND activity_log_ml_c.nama = "wreittd"', '', '' )
+		->leftJoin(
+			'activity_log_ml as activity_log_ml_confirm', 
+			'activity_log_ml_confirm.id_transaksi = wreittd.id AND activity_log_ml_confirm.kode = "CONFIRM" AND activity_log_ml_confirm.nama = "wreittd"', '', '' )
 		// ->where( 'DATE(activity_log_ml_c.created_on)', $_POST['start_date'], '>=' )
 		// ->where( 'DATE(activity_log_ml_c.created_on)', $_POST['end_date'], '<=' )
 		;
