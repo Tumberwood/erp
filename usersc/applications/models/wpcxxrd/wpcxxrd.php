@@ -74,9 +74,10 @@
 			Field::inst( 'iumxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
 			Field::inst( 'wpclptd.is_defaultprogram' ),
-			Field::inst( 'iwhxxmh.nama' ),
+			Field::inst( 'iwhxxmh.kode' ),
 			Field::inst( 'asal.nama' ),
 			Field::inst( 'tujuan.nama' ),
+			Field::inst( 'activity_log_ml_confirm.username as username' ),
 		)
 		->leftJoin( 'wpcxxth','wpcxxth.id','=','wpclptd.id_wpcxxth' )
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wpclptd.id_iimxxmh' )

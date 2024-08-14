@@ -24,6 +24,7 @@
 								<th>id_wpcxxth</th>
 								<th>Tanggal</th>
 								<th>Kode</th>
+								<th>User</th>
 								<th>Warehouse</th>
 								<th>Lokasi Asal</th>
 								<th>Lokasi Tujuan</th>
@@ -104,7 +105,8 @@
 					{ data: "wpclptd.id_wpcxxth",visible:false },
 					{ data: "tanggal_confirm" },
 					{ data: "wpclptd.kode" },
-					{ data: "iwhxxmh.nama" },
+					{ data: "username" },
+					{ data: "iwhxxmh.kode" },
 					{ data: "asal.nama" },
 					{ data: "tujuan.nama" },
 					{ data: "wpclptd.wlpxxmh_kode" },
