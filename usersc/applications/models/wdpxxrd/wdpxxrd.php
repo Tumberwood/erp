@@ -73,10 +73,11 @@
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iumxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
-			Field::inst( 'iwhxxmh.nama' ),
+			Field::inst( 'iwhxxmh.kode' ),
 			Field::inst( 'wdplptd.is_defaultprogram' ),
 			Field::inst( 'asal.nama' ),
 			Field::inst( 'tujuan.nama' ),
+			Field::inst( 'activity_log_ml_confirm.username as username' ),
 		)
 		->leftJoin( 'wdpxxth','wdpxxth.id','=','wdplptd.id_wdpxxth' )
 		->leftJoin( 'wloxxmh asal','asal.id','=','wdplptd.id_wloxxmh_asal' )
