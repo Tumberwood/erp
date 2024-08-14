@@ -72,7 +72,8 @@
 					'from' => 'd M Y H:i',
 					'to' =>   'Y-m-d H:i:s'
 				) ),
-			Field::inst( 'iivxxrd_audit.is_defaultprogram' )
+			Field::inst( 'iivxxrd_audit.is_defaultprogram' ),
+			Field::inst( 'activity_log_ml_confirm.username as username' ),
 		)
 		->leftJoin(
 			'activity_log_ml as activity_log_ml_confirm', 

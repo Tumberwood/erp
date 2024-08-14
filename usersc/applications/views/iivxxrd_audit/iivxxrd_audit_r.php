@@ -23,6 +23,7 @@
 								<th rowspan="2">ID</th>
 								<th rowspan="2">Tanggal</th>
 								<th rowspan="2">Kode Doc</th>
+								<th rowspan="2">User</th>
 								<th rowspan="2">Warehouse</th>
 								<th rowspan="2">Location</th>
 								<th rowspan="2">Item Kode</th>
@@ -108,6 +109,7 @@
 					{ data: "iivxxrd_audit.id",visible:false },
 					{ data: "tanggal_confirm" },
 					{ data: "iivxxrd_audit.kode" },
+					{ data: "username" },
 					{ data: "iivxxrd_audit.iwhxxmh_kode" },
 					{ data: "iivxxrd_audit.wloxxmh_nama" },
 					{ data: "iivxxrd_audit.iimxxmh_kode" },
