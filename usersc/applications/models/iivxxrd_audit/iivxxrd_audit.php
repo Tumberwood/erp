@@ -63,8 +63,21 @@
 				) ),
 			Field::inst( 'iivxxrd_audit.status_audit' ),
 			Field::inst( 'iivxxrd_audit.is_nextprocess' ),
+			Field::inst( 'activity_log_ml_confirm.finish_on as tanggal_confirm' )
+				->getFormatter( 'Format::datetime', array(
+					'from' => 'Y-m-d H:i:s',
+					'to' =>   'd M Y H:i'
+				) )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y H:i',
+					'to' =>   'Y-m-d H:i:s'
+				) ),
 			Field::inst( 'iivxxrd_audit.is_defaultprogram' )
-		);
+		)
+		->leftJoin(
+			'activity_log_ml as activity_log_ml_confirm', 
+			'activity_log_ml_confirm.id_transaksi = iivxxrd_audit.id AND activity_log_ml_confirm.kode = "CONFIRM" AND activity_log_ml_confirm.nama = "iivxxrd_audit"', '', '' )
+		;
 
 	// do not erase
 	// function show / hide inactive document

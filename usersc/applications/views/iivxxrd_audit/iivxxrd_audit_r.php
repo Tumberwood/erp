@@ -21,10 +21,12 @@
 						<thead>
 							<tr>
 								<th rowspan="2">ID</th>
+								<th rowspan="2">Tanggal</th>
+								<th rowspan="2">Kode Doc</th>
 								<th rowspan="2">Warehouse</th>
 								<th rowspan="2">Location</th>
-								<th rowspan="2">Kode</th>
-								<th rowspan="2">Nama</th>
+								<th rowspan="2">Item Kode</th>
+								<th rowspan="2">Item Nama</th>
 								<th colspan="2">Terkecil</th>
 								<th colspan="2">Default</th>
 								<th rowspan="2">LPN</th>
@@ -87,7 +89,7 @@
 						d.show_deleted_iivxxrd_audit = show_deleted_iivxxrd_audit;
 					}
 				},
-				order: [[ 1, "asc" ]],
+				order: [[ 1, "desc" ]],
 				columnDefs:[
 					{
 						searchPanes:{
@@ -104,6 +106,8 @@
 				],
 				columns: [
 					{ data: "iivxxrd_audit.id",visible:false },
+					{ data: "tanggal_confirm" },
+					{ data: "iivxxrd_audit.kode" },
 					{ data: "iivxxrd_audit.iwhxxmh_kode" },
 					{ data: "iivxxrd_audit.wloxxmh_nama" },
 					{ data: "iivxxrd_audit.iimxxmh_kode" },
