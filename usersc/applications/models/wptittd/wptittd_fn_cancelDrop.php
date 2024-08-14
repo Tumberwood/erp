@@ -133,7 +133,7 @@
                 FROM iivxxrd a
                 WHERE a.wlpxxmh_kode = :wlpxxmh_kode AND a.id_wloctmh IN (1,6)
                 GROUP BY a.id_wloxxmh
-                HAVING SUM(a.jumlah_terkecil) > 0 > 0
+                HAVING SUM(a.jumlah_terkecil) > 0
         '
     );
     $id_iivxxrd = $qi_iivxxrd_min->insertId();
