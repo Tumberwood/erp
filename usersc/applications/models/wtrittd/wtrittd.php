@@ -85,13 +85,27 @@
 			Field::inst( 'iimxxmh.nama' ),
 			Field::inst( 'tujuan.nama' ),
 			Field::inst( 'asal.nama' ),
+			Field::inst( 'activity_log_ml_confirm.finish_on as tanggal_confirm' )
+				->getFormatter( 'Format::datetime', array(
+					'from' => 'Y-m-d H:i:s',
+					'to' =>   'd M Y H:i'
+				) )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y H:i',
+					'to' =>   'Y-m-d H:i:s'
+				) ),
 
-			Field::inst( 'iumxxmh.kode' )
+			Field::inst( 'iumxxmh.kode' ),
+			Field::inst( 'iwhxxmh.nama' ),
 		)
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wtrittd.id_iimxxmh' )
+		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','wtrittd.id_iwhxxmh' )
 		->leftJoin( 'iumxxmh','iumxxmh.id','=','wtrittd.id_iumxxmh_unit' )
 		->leftJoin( 'wloxxmh as tujuan','tujuan.id','=','wtrittd.id_wloxxmh_tujuan' )
 		->leftJoin( 'wloxxmh as asal','asal.id','=','wtrittd.id_wloxxmh_asal' )
+		->leftJoin(
+			'activity_log_ml as activity_log_ml_confirm', 
+			'activity_log_ml_confirm.id_transaksi = wtrittd.id AND activity_log_ml_confirm.kode = "CONFIRM" AND activity_log_ml_confirm.nama = "wtrittd"', '', '' )
 		->where( 'DATE(wtrittd.start_at)', $start_date, '>=' )
 		->where( 'DATE(wtrittd.start_at)', $end_date, '<=' )
 		;

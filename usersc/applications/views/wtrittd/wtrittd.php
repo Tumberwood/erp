@@ -58,8 +58,10 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Kode</th>
+                                <th>Tanggal</th>
                                 <th>LPN Asal</th>
                                 <th>LPN Tujuan</th>
+                                <th>Warehouse</th>
                                 <th>Lokasi Asal</th>
                                 <th>Lokasi Tujuan</th>
                                 <th>Item Code</th>
@@ -543,9 +545,11 @@
 			],
 			columns: [
 				{ data: "wtrittd.id",visible:false },
-				{ data: "wtrittd.kode" ,visible:false },
+				{ data: "wtrittd.kode"},
+				{ data: "tanggal_confirm" },
 				{ data: "wtrittd.wlpxxmh_kode" },
 				{ data: "wtrittd.wlpxxmh_kode_tujuan" },
+				{ data: "iwhxxmh.nama" },
 				{ data: "asal.nama" },
 				{ data: "tujuan.nama" },
 				{ data: "iimxxmh.kode" },
