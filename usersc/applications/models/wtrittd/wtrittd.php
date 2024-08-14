@@ -96,7 +96,8 @@
 				) ),
 
 			Field::inst( 'iumxxmh.kode' ),
-			Field::inst( 'iwhxxmh.nama' ),
+			Field::inst( 'iwhxxmh.kode' ),
+			Field::inst( 'activity_log_ml_confirm.username as username' ),
 		)
 		->leftJoin( 'iimxxmh','iimxxmh.id','=','wtrittd.id_iimxxmh' )
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','wtrittd.id_iwhxxmh' )
