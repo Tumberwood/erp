@@ -35,6 +35,24 @@
 		}
 
 	}
+
+	function isReplenishment( $db, $id_transaksi_h, $id_transaksi_default, $action ){
+		if($action != 'REMOVE'){
+			$qu = $db
+				->raw()
+				->bind(':id_transaksi_h', $id_transaksi_h)
+				->bind(':id_transaksi_default', $id_transaksi_default)
+				->exec('
+					UPDATE iimummd
+					SET
+						is_replenishment = 0
+					WHERE 
+						id_iimxxmh = :id_transaksi_h AND
+						id <> :id_transaksi_default
+				');
+		}
+
+	}
 	
     $editor
 		->on('preCreate',function( $editor, $values ) {
@@ -83,6 +101,14 @@
 				isIumxxmhJual( $editor->db(), $id_transaksi_h, $id, 'EDIT' );
 			}
 			// END is_update_iumxxmh_jual
+
+			// print_r( $values['is_replenishment']) ;
+			// BEGIN is_replenishment
+			if( $values['is_replenishment'] == 1 ){
+				$id_transaksi_h = $values['iimummd']['id_iimxxmh'];
+				isReplenishment( $editor->db(), $id_transaksi_h, $id, 'EDIT' );
+			}
+			// END is_replenishment
 			
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
