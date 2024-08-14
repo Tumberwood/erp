@@ -20,8 +20,6 @@
     // BEGIN definisi variable untuk fn_ajax_results.php
     $data      = array();
     $rs_opt    = array();
-    $c_rs_opt  = 0;
-    $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 	
 	$table_name         = $_POST['table_name'];
@@ -47,7 +45,7 @@
                 LEFT JOIN gaptbtd ON gaptbtd.id_gtbrlsh = gtbrlsh.id
                 LEFT JOIN gapxxsh ON gapxxsh.id = gaptbtd.id_gapxxsh
                 WHERE 
-                    tblheader = :table_name
+                    gtbrlsh.tblheader = :table_name
             ');
         $rs_gtbrlsh        = $qs_gtbrlsh->fetch();
         $gtbrlsh_nama      = $rs_gtbrlsh['gtbrlsh_nama'];
@@ -66,6 +64,14 @@
         $tr_amount = '';
         $field_group = '';
         $where_group_nama = '';
+
+        /**
+         * gaptpmh
+         * 1: Level
+         * 2: Amount
+         * 3: Group Level
+         * 
+         */
 
         if($id_gaptpmh == 1){
             
@@ -168,37 +174,39 @@
             ');
         $rs_gapdusd = $qs_gapdusd->fetchAll();
 
-        foreach ($rs_gapdusd as $row_gapdusd) {
-            $qi_gaplgtd = $db
-                ->query('insert', 'gaplgtd')
-                ->set('id_users', $row_gapdusd['id_users'] )
-                ->set('id_users_pengaju', $rs_log['id_users_pengaju'])
-                ->set('id_transaksi', $id_transaksi )
-                ->set('kode', $rs_transaksi['kode'])
-                ->set('nama', $gtbrlsh_nama)
-                ->set('start_at', date('Y-m-d H:i:s'))
-                ->set('tbl_name', $table_name)
-                ->set('level_ke', $row_gapdusd['level_ke'] )
-                ->set('dt_pengajuan', $rs_log['created_on'] )
-                ->set('transaction_state', 1 )
-                ->exec();
-        }
+        if(!empty($rs_gapdusd)){
+            foreach ($rs_gapdusd as $row_gapdusd) {
+                $qi_gaplgtd = $db
+                    ->query('insert', 'gaplgtd')
+                    ->set('id_users', $row_gapdusd['id_users'] )
+                    ->set('id_users_pengaju', $rs_log['id_users_pengaju'])
+                    ->set('id_transaksi', $id_transaksi )
+                    ->set('kode', $rs_transaksi['kode'])
+                    ->set('nama', $gtbrlsh_nama)
+                    ->set('start_at', date('Y-m-d H:i:s'))
+                    ->set('tbl_name', $table_name)
+                    ->set('level_ke', $row_gapdusd['level_ke'] )
+                    ->set('dt_pengajuan', $rs_log['created_on'] )
+                    ->set('transaction_state', 1 )
+                    ->exec();
+            }
 
-        if(!empty($qi_gaplgtd)){
             $db->commit();
-            $status_code  = '200';
+            $status_code  = 200;
             $message      = 'Pengajuan Approval Berhasil Dilakukan';
             $type_message = 'success';
+
         }else{
             $db->rollback();
-            $status_code  = '500';
-            $message      = 'Pengajuan Approval Gagal Dilakukan';
+            $status_code  = 500;
+            $message      = 'Pengajuan Approval Gagal Dilakukan! User penyetuju belum diatur';
             $type_message = 'error';
         }
+
         
     }catch(PDOException $e){
         $db->rollback();
-        $status_code  = '500';
+        $status_code  = 500;
         $message      = 'Pengajuan Approval Gagal Dilakukan! ' . $e->getMessage();
         $type_message = 'error';
     }catch (Exception $e) {
