@@ -57,8 +57,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
                                 <th>Tanggal</th>
+                                <th>Kode</th>
                                 <th>LPN Asal</th>
                                 <th>LPN Tujuan</th>
                                 <th>Warehouse</th>
@@ -545,8 +545,8 @@
 			],
 			columns: [
 				{ data: "wtrittd.id",visible:false },
-				{ data: "wtrittd.kode"},
 				{ data: "tanggal_confirm" },
+				{ data: "wtrittd.kode"},
 				{ data: "wtrittd.wlpxxmh_kode" },
 				{ data: "wtrittd.wlpxxmh_kode_tujuan" },
 				{ data: "iwhxxmh.nama" },

@@ -604,7 +604,7 @@
 					d.end_date = end_date;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 1, "desc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
