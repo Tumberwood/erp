@@ -83,6 +83,8 @@
 										<tr>
 											<th>ID</th>
 											<th>id_wplxxth</th>
+											<th>Customer</th>
+											<th>Kode DO</th>
 											<th>Item Code</th>
 											<th>Item Name</th>
 											<th>UoM</th>
@@ -92,6 +94,8 @@
 									</thead>
 									<tfoot>
 										<tr>
+											<th></th>
+											<th></th>
 											<th></th>
 											<th></th>
 											<th></th>
@@ -236,12 +240,13 @@
 				},
 				{
 					label: "Delivery Order <sup class='text-danger'>*<sup>",
-					name: "wplxxth.id_wdoxxth",
+					name: "wdoxxth[].id",
+					id: "wdoxxth",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
-						multiple: false,
+						multiple: true,
 						ajax: {
 							url: "../../models/wdoxxth/wdoxxth_fn_opt.php",
 							dataType: 'json',
@@ -454,12 +459,12 @@
 			}, 5);
 		});
 		
-		edtwplxxth.dependent( 'wplxxth.id_wdoxxth', function ( val, data, callback ) {
-			autofillField('wdoxxth', val, 'id_grlxxmh_customer');
-			id_grlxxmh_customer = autofillData.id_grlxxmh_customer;
-			edtwplxxth.field('wplxxth.id_grlxxmh_customer').val(id_grlxxmh_customer);
-			return {}
-		}, {event: 'keyup change'});
+		// edtwplxxth.dependent( 'wdoxxth[].id', function ( val, data, callback ) {
+		// 	autofillField('wdoxxth', val, 'id_grlxxmh_customer');
+		// 	id_grlxxmh_customer = autofillData.id_grlxxmh_customer;
+		// 	edtwplxxth.field('wplxxth.id_grlxxmh_customer').val(id_grlxxmh_customer);
+		// 	return {}
+		// }, {event: 'keyup change'});
 		
 		edtwplxxth.dependent( 'wplxxth.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
@@ -475,17 +480,46 @@
 		edtwplxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				id_wdoxxth = edtwplxxth.field('wplxxth.id_wdoxxth').val();
+				id_wdoxxth = edtwplxxth.field('wdoxxth[].id').val();
 				tanggal = edtwplxxth.field('wplxxth.tanggal').val();
 				id_wpmxxmh = edtwplxxth.field('wplxxth.id_wpmxxmh').val();
 				id_iwhxxmh = edtwplxxth.field('wplxxth.id_iwhxxmh').val();
 				id_wloxxmh_out = edtwplxxth.field('wplxxth.id_wloxxmh_out').val();
+				
+				if(!id_wdoxxth || id_wdoxxth == ''){
+					edtwplxxth.field('wdoxxth[].id').error( 'Wajib diisi!' );
+				}
+
+				if (id_wpmxxmh == 1) {
+					if (id_wdoxxth.length > 1) {
+						edtwplxxth.field('wdoxxth[].id').error( 'Hanya Boleh Pilih 1 DO untuk Standard Picking!' );
+					}
+				} else if (id_wpmxxmh == 2 || id_wpmxxmh == 3) {
+					// console.log(id_wdoxxth);
+					var ids_grlxxmh_customer = [];
+
+					id_wdoxxth.forEach(id_wdo => {
+						console.log(id_wdo);
+						autofillField('wdoxxth', id_wdo, 'id_grlxxmh_customer');
+						var id_grlxxmh_customer = autofillData.id_grlxxmh_customer;
+						ids_grlxxmh_customer.push(id_grlxxmh_customer); // Add the value to the array
+					});
+
+					//cek apakah customernya ini sama semua atau tidak
+					var cekCustomer = ids_grlxxmh_customer.every(val => val === ids_grlxxmh_customer[0]);
+
+					if (cekCustomer) {
+						// console.log(ids_grlxxmh_customer);
+					} else {
+						edtwplxxth.field('wdoxxth[].id').error( 'DO harus memiliki Customer yang sama! Silahkan pilih DO lain atau Mengganti ke Wave Picking.' );
+					}
+				}
 
 				validasiRequired(
 					edtwplxxth,
 					'wplxxth',
 					{
-						'id_wdoxxth': id_wdoxxth,
+						// 'id_wdoxxth': id_wdoxxth,
 						'tanggal': tanggal,
 						'id_wpmxxmh': id_wpmxxmh,
 						'id_iwhxxmh': id_iwhxxmh,
@@ -547,7 +581,7 @@
 			columns: [
 				{ data: "wplxxth.id",visible:false },
 				{ data: "wplxxth.kode" },
-				{ data: "wdoxxth.kode" },
+				{ data: "wdoxxth[].kode" },
 				{ data: "wplxxth.tanggal" },
 				{ data: "wpmxxmh.nama" },
 				{ 
@@ -987,6 +1021,8 @@
 			columns: [
 				{ data: "wplittd.id",visible:false },
 				{ data: "wplittd.id_wplxxth",visible:false },
+				{ data: "grlxxmh.nama" },
+				{ data: "wplittd.wdoxxth_kode" },
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.nama" },
@@ -1082,8 +1118,8 @@
 				{ data: "wpcxxth.kode" },
 				{ data: "wpllptd.wlpxxmh_kode" },
 				{ data: "wloxxmh.nama" },
-				{ data: "iimxxmh.kode" },
-				{ data: "iimxxmh.nama" },
+				{ data: "iimxxmh.kode",visible:false },
+				{ data: "iimxxmh.nama",visible:false },
 				{ 
 					data: "wpllptd.jumlah_terkecil",
 					...renderNumber( 0, "")
@@ -1097,6 +1133,50 @@
 				{ data: "wpllptd.batch_number" },
 				{ data: "wpllptd.expired_date" },
 			],
+			rowGroup: {
+				dataSrc: function (row) {
+					return  row.iimxxmh.kode+' - '+row.iimxxmh.nama
+				},
+				endRender: function (rows, group) {
+					var sum_terkecil = rows
+						.data()
+						.pluck('wpllptd.jumlah_terkecil')
+						.map(function (terkecil) {
+							return parseFloat(terkecil) || 0;
+						})
+						.reduce(function (a, b) {
+							return a + b;
+						}, 0);
+					
+					sum_terkecil = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_terkecil);
+					
+					var sum_default = rows
+						.data()
+						.pluck('wpllptd.jumlah_default')
+						.map(function (def) {
+							return parseFloat(def) || 0;
+						})
+						.reduce(function (a, b) {
+							return a + b;
+						}, 0);
+					
+					sum_default = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_default);
+
+					return $('<tr/>')
+						.append('<td class="font-bold text-success">Total</td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						// .append('<td></td>')
+						// .append('<td></td>')
+						.append('<td class="text-right font-bold bg-success">' + sum_terkecil + '</td>')
+						.append('<td></td>')
+						.append('<td class="text-right font-bold bg-success">' + sum_default + '</td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						.append('<td></td>')
+						;
+				}
+			},
 			buttons: [
 				// BEGIN breaking generate button
 				<?php

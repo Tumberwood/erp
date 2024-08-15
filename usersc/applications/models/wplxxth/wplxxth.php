@@ -69,6 +69,25 @@
 		)
 		->leftJoin( 'wdoxxth','wdoxxth.id','=','wplxxth.id_wdoxxth' )
 		->leftJoin( 'wpmxxmh','wpmxxmh.id','=','wplxxth.id_wpmxxmh' )
+		->join(
+			Mjoin::inst( 'wdoxxth' )
+				->link( 'wplxxth.id', 'wdoxxth_wplxxth.id_wplxxth' )
+				->link( 'wdoxxth.id', 'wdoxxth_wplxxth.id_wdoxxth' )
+				->fields(
+					Field::inst( 'id' )
+						->setFormatter( Format::ifEmpty( 0 ) )
+						->options( Options::inst()
+							->table( 'wdoxxth' )
+							->value( 'id' )
+							->label( ['kode'] )
+							->render( function ( $row ) {
+								return $row['kode'];
+							} )
+							->order( 'kode' )
+						),
+					Field::inst( 'kode' )
+				)
+		)
 		;
 	
 	if($_POST['start_date'] != ''){

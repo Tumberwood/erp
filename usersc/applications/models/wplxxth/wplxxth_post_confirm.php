@@ -101,12 +101,15 @@
 				->bind(':id', $id)
 				->exec('SELECT
 							a.id_wjtxxmh,
-							id_grlxxmh_customer,
+							b.id_grlxxmh_customer,
 							id_wloxxmh_out
 						FROM wpllptd a
-						LEFT JOIN wplxxth b on b.id = a.id_wplxxth
+						LEFT JOIN wplittd b on b.id = a.id_wplittd
+						LEFT JOIN wplxxth c on c.id = a.id_wplxxth
 						WHERE a.id_wplxxth = :id
-						GROUP BY a.id_wjtxxmh
+						GROUP BY 
+							a.id_wjtxxmh
+							, b.id_grlxxmh_customer
 				'
 				);
 
@@ -159,13 +162,30 @@
 					->exec();
 
 				//detail LPN Picking List
-				$qu_wpllptd = $db
-					->query('update', 'wpllptd')
-					->set('kode',$formatted_kode)
-					->set('id_wpcxxth',$id_transaksi)
-					->where('id_wjtxxmh',$id_wjtxxmh)
-					->where('id_wplxxth',$id)
-				->exec();
+				$qs_lpn_d = $db
+				->raw()
+				->bind(':id', $id)
+				->bind(':id_transaksi', $id_transaksi)
+				->bind(':id_wjtxxmh', $id_wjtxxmh)
+				->bind(':id_grlxxmh_customer', $id_grlxxmh_customer)
+				->bind(':formatted_kode', $formatted_kode)
+				->exec('UPDATE wpllptd a
+						LEFT JOIN wplittd b on b.id = a.id_wplittd
+						SET 
+							a.kode = :formatted_kode,
+							a.id_wpcxxth = :id_transaksi
+						WHERE a.id_wplxxth = :id AND a.id_wjtxxmh = :id_wjtxxmh AND b.id_grlxxmh_customer = :id_grlxxmh_customer
+				'
+				);
+
+				// $qu_wpllptd = $db
+				// 	->query('update', 'wpllptd')
+				// 	->set('kode',$formatted_kode)
+				// 	->set('id_wpcxxth',$id_transaksi)
+				// 	->where('id_wjtxxmh',$id_wjtxxmh)
+				// 	->where('id_grlxxmh_customer',$id_grlxxmh_customer)
+				// 	->where('id_wplxxth',$id)
+				// ->exec();
 			}
 		} // end if($state == 1)
 

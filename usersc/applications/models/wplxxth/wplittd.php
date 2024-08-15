@@ -28,6 +28,7 @@
 			->debug(true)
 			->fields(
 				Field::inst( 'wplittd.id' ),
+				Field::inst( 'wplittd.id_grlxxmh_customer' ),
 				Field::inst( 'wplittd.id_wplxxth' ),
 				Field::inst( 'wplittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
@@ -36,6 +37,7 @@
 				Field::inst( 'wplittd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wplittd.kode' ),
+				Field::inst( 'wplittd.wdoxxth_kode' ),
 				Field::inst( 'wplittd.nama' ),
 				Field::inst( 'wplittd.keterangan' ),
 				Field::inst( 'wplittd.created_by' ),
@@ -47,12 +49,14 @@
 				Field::inst( 'wplittd.jumlah_unit' ),
 				Field::inst( 'wplittd.subtotal_jumlah_unit' ),
 				
+				Field::inst( 'grlxxmh.nama' ),
 				Field::inst( 'iumxxmh.nama' ),
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 			)
 			->leftJoin( 'iumxxmh','iumxxmh.id','=','wplittd.id_iumxxmh_unit' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','wplittd.id_iimxxmh' )
+			->leftJoin( 'grlxxmh','grlxxmh.id','=','wplittd.id_grlxxmh_customer' )
 			->where('wplittd.id_wplxxth',$_POST['id_wplxxth']);
 		
 		// do not erase

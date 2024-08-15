@@ -101,8 +101,7 @@
 						LEFT JOIN iivxxrd b ON b.id_iimxxmh = a.id_iimxxmh
 						LEFT JOIN wplxxth c ON c.id = a.id_wplxxth
 						LEFT JOIN iimxxmh d ON d.id = a.id_iimxxmh
-						LEFT JOIN wdoxxth e ON e.id = c.id_wdoxxth
-						LEFT JOIN grlxxmh f ON f.id = e.id_grlxxmh_customer
+						LEFT JOIN grlxxmh f ON f.id = a.id_grlxxmh_customer
 						LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 						LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
 						WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
