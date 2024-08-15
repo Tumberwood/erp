@@ -26,6 +26,12 @@
         $id_imtxxmh_old = 0;
     }
 
+    if( count($_GET['movement_type_group']) > 0 ){
+        $movement_type_group = $_GET['movement_type_group'];
+    }else{
+        $movement_type_group = [];
+    }
+
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_imtxxmh_old > 0){
@@ -56,7 +62,7 @@
         ->where('transaction_state',1)
         ->where('id', $id_imtxxmh_old, '<>' )
         ->where('module','SIG')
-        ->where('movement_type_group','GR')
+        ->where_in( ' movement_type_group', $_GET['movement_type_group'])
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
