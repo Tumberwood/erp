@@ -10,20 +10,27 @@
  * |    btnShowHide:name        | Show Hide Deleted Data                                                                    |
  * |    btnColVis:name          | Show Hide Kolom                                                                           |
  * |                            |                                                                                           |
+ * +----------------------------+-------------------------------------------------------------------------------------------+
  * | btnSetAction               |                                                                                           |
  * |    btnCreate:name          | Add Data, transaction_status = 0                                                          |
  * |    btnEdit:name            | Edit Data, transaction_status = 0                                                         |
  * |    btnRemove:name          | Remove Data (Hard Delete), hanya bisa dilakukan jika transaction_status = 0               |
  * |    btnConfirm:name         | Konfirmasi Data, transaction_status = 1                                                   |
+ * |    btnRemoveHD:name        | Remove Data (Hard Delete) transaksi header dan detail sekaligus                           |
  * |    btnNonAktif:name        | Non Aktif Data, transaction_status = -9, hanya bisa dilakikan jika transaction_status = 1 |
- * |    btnClose:name           | Menyatakan transaksi sudah close. . Sudah tidak dapat diapa-apakah lagi                   |
+ * |                            | hanya bisa dilakukan jika transaction_status = 0                                          |
+ * |    btnNonAktifHD:name      | Untuk non aktif data header detail                                                        |
+ * |    btnClose:name           | Menyatakan transaksi sudah close. . Sudah tidak dapat diapa-apakan lagi                   |
  * |    btnView:name            | View Data, technically ini menggunakan fitur edit, hanya di readonly                      |
  * |    btnLog:name             | View Log Data, history terkait data dari table activity_log_ml                            |
  * |                            |                                                                                           |
+ * +----------------------------+-------------------------------------------------------------------------------------------+
+ * | Hanya dipakai di menu approval                                                                                         |
  * | btnSetApproval             |                                                                                           |
  * |    btnApprove:name         | Approval, approval_state = 1, masih bisa di cancel Approve jika belum Next Process        |
  * |    btnCancelApprove:name   | Approval, approval_state = -1                                                             |
- * |    btnVoid:name            | Void, approval_state = -9. Sudah tidak dapat diapa-apakah lagi                            |
+ * |    btnVoid:name            | Void, approval_state = -9. Sudah tidak dapat diapa-apakan lagi                            |
+ * |                            |                                                                                           |
  * +----------------------------+-------------------------------------------------------------------------------------------+
  */
 
@@ -408,8 +415,6 @@
                                     }
                                 });
 
-                                
-
                             }
                         },
 <?php
@@ -509,31 +514,39 @@
                             titleAttr: 'Confirm',
                             action: function ( e, dt, node, config ) {
 
-                                // jika draft akan dikonfirmasi
+                                // jika data akan dihapus
                                 message_transaction_state = "Apakah Anda Yakin Akan Menutup Data?";
                                 
-                                is_close = confirm(message_transaction_state);
-                                if(is_close == true){
+                                swal({
+                                    text: message_transaction_state,
+                                    icon: "warning",
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true
+                                    },
+                                })
+                                .then((willConfirm) => {
+                                    if (willConfirm) {
+                                        // fnClose
+                                        $.ajax( {
+                                            url: '../../../helpers/tr_fn_transaction_state.php',
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: {
+                                                table_name	 : '<?php echo $table_name;?>',
+                                                id_transaksi : id_transaksi_h,
+                                                transaction_state : 9
+                                            },
+                                            success: function ( json ) {
+                                                toast_type   = json.data.type_message;
+                                                full_message = json.data.message;
+                                                toastr[toast_type](full_message, 'INFO');
+                                            }
+                                        } );
 
-                                    $.ajax( {
-                                        url: '../../../helpers/tr_fn_transaction_state.php',
-                                        dataType: 'json',
-                                        type: 'POST',
-                                        data: {
-                                            table_name	 : '<?php echo $table_name;?>',
-                                            id_transaksi : id_transaksi_h,
-                                            transaction_state : 9
-                                        },
-                                        success: function ( json ) {
-                                            toast_type   = json.data.type_message;
-                                            full_message = json.data.message;
-                                            toastr[toast_type](full_message, 'INFO');
-                                        }
-                                    } );
-
-                                    <?php echo $table;?>.ajax.reload(null, false);
-
-                                }
+                                        <?php echo $table;?>.ajax.reload(null, false);
+                                    }
+                                });
 
                             }
                         },
@@ -739,30 +752,41 @@
                             className: 'btn btn-sm text-danger',
                             titleAttr: 'Remove',
                             action: function ( e, dt, node, config ) {
-                                
-                                message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
-                                is_delete = confirm(message_is_delete);
 
-                                if(is_delete == true){
-                                    $.ajax( {
-                                        url: '../../../helpers/tr_fn_transaction_state.php',
-                                        dataType: 'json',
-                                        type: 'POST',
-                                        data: {
-                                            table_name	 : '<?php echo $table_name;?>',
-                                            id_transaksi : id_transaksi_h,
-                                            transaction_state : -9
-                                        },
-                                        success: function ( json ) {
-                                            full_message = json.data.message;
-                                            toast_type   = json.data.type_message;
-                                            toastr[toast_type](full_message, 'INFO');
-                                            
-                                            <?php echo $table;?>.ajax.reload(null, false);
-                                            <?php echo $table;?>.rows().deselect();
-                                        }
-                                    } );
-                                }
+                                // jika data akan dihapus
+                                message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
+                                
+                                swal({
+                                    text: message_is_delete,
+                                    icon: "warning",
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true
+                                    },
+                                })
+                                .then((willConfirm) => {
+                                    if (willConfirm) {
+                                        // fnNonAktif
+                                        $.ajax( {
+                                            url: '../../../helpers/tr_fn_transaction_state.php',
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: {
+                                                table_name	 : '<?php echo $table_name;?>',
+                                                id_transaksi : id_transaksi_h,
+                                                transaction_state : -9
+                                            },
+                                            success: function ( json ) {
+                                                full_message = json.data.message;
+                                                toast_type   = json.data.type_message;
+                                                toastr[toast_type](full_message, 'INFO');
+                                                
+                                                <?php echo $table;?>.ajax.reload(null, false);
+                                                <?php echo $table;?>.rows().deselect();
+                                            }
+                                        } );
+                                    }
+                                });
 
                             }
                         },
@@ -782,34 +806,45 @@
                             titleAttr: 'Remove',
                             action: function ( e, dt, node, config ) {
                                 
+                                // jika data akan dihapus
                                 message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
-                                is_delete = confirm(message_is_delete);
+                                
+                                swal({
+                                    text: message_is_delete,
+                                    icon: "warning",
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true
+                                    },
+                                })
+                                .then((willConfirm) => {
+                                    if (willConfirm) {
+                                        // fnDelete
+                                        full_message = '';
 
-                                if(is_delete == true){
-                                    full_message = '';
+                                        $.ajax( {
+                                            url: '../../../helpers/tr_fn_transaction_state.php',
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: {
+                                                table_name	        : '<?php echo $table_name;?>',
+                                                id_transaksi        : id_transaksi_h,
+                                                transaction_state   : -93
+                                            },
+                                            success: function ( json ) {
 
-                                    $.ajax( {
-                                        url: '../../../helpers/tr_fn_transaction_state.php',
-                                        dataType: 'json',
-                                        type: 'POST',
-                                        data: {
-                                            table_name	        : '<?php echo $table_name;?>',
-                                            id_transaksi        : id_transaksi_h,
-                                            transaction_state   : -93
-                                        },
-                                        success: function ( json ) {
+                                                toast_type   = json.data.type_message;
+                                                full_message = full_message + json.data.message + '</br>';
+                                                
+                                                toastr[toast_type](full_message, 'INFO');
+                                                
+                                                <?php echo $table;?>.ajax.reload(null, false);
+                                                <?php echo $table;?>.rows().deselect();
 
-                                            toast_type   = json.data.type_message;
-                                            full_message = full_message + json.data.message + '</br>';
-                                            
-                                            toastr[toast_type](full_message, 'INFO');
-                                            
-                                            <?php echo $table;?>.ajax.reload(null, false);
-                                            <?php echo $table;?>.rows().deselect();
-
-                                        }
-                                    } );
-                                }
+                                            }
+                                        } );
+                                    }
+                                });
 
                             }
                         },
@@ -828,32 +863,43 @@
                             className: 'btn btn-sm text-danger',
                             titleAttr: 'Remove',
                             action: function ( e, dt, node, config ) {
-                                
+
+                                // jika data akan dihapus
                                 message_is_delete = "Apakah Anda Yakin Akan Menghapus Data?";
-                                is_delete = confirm(message_is_delete);
+                                
+                                swal({
+                                    text: message_is_delete,
+                                    icon: "warning",
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true
+                                    },
+                                })
+                                .then((willConfirm) => {
+                                    if (willConfirm) {
+                                        // fnDelete
+                                        $.ajax( {
+                                            url: '../../../helpers/tr_fn_transaction_state.php',
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: {
+                                                table_name	        : '<?php echo $table_name;?>',
+                                                id_transaksi        : id_transaksi_h,
+                                                transaction_state   : -92
+                                            },
+                                            success: function ( json ) {
+                        
+                                                toast_type   = json.data.type_message;
+                                                full_message = json.data.message;
+                                                toastr[toast_type](full_message, 'INFO');
+                                                
+                                                <?php echo $table;?>.ajax.reload(null, false);
+                                                <?php echo $table;?>.rows().deselect();
 
-                                if(is_delete == true){
-                                    $.ajax( {
-                                        url: '../../../helpers/tr_fn_transaction_state.php',
-                                        dataType: 'json',
-                                        type: 'POST',
-                                        data: {
-                                            table_name	        : '<?php echo $table_name;?>',
-                                            id_transaksi        : id_transaksi_h,
-                                            transaction_state   : -92
-                                        },
-                                        success: function ( json ) {
-                    
-                                            toast_type   = json.data.type_message;
-                                            full_message = json.data.message;
-                                            toastr[toast_type](full_message, 'INFO');
-                                            
-                                            <?php echo $table;?>.ajax.reload(null, false);
-                                            <?php echo $table;?>.rows().deselect();
-
-                                        }
-                                    } );
-                                }
+                                            }
+                                        } );
+                                    }
+                                });
 
                             }
                         },

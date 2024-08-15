@@ -1098,7 +1098,7 @@ async function fnConfirm(tbl_name, tbl){
                 },
                 success: function ( json ) {
                     status_code  = json.data.status_code;
-                    toast_type = json.data.type_message;
+                    toast_type = 'error';
                     full_message = full_message + json.data.message + '</br>';
                 }
             } );

@@ -38,6 +38,7 @@
  * hak_u        : hak akses Update data
  * hak_d        : hak akses Remove, Non Aktif, Reactivate data
  * hak_a        : hak akses Approve, Cancel Approve, Void data
+ * hak_l        : hak akses Close data
  * hak_e        : hak akses Export Excel, Export pdf, Copy Clipboard
  * hak_p        : hak akses Print
  * 
@@ -53,7 +54,7 @@
 var status_select;
 var arr_is_valid_cek_detail = [];
 var c_is_valid_cek_detail = 0;
-
+var is_final_approve = 0;
 /**
  * Digunakan untuk membantu menampilkan console.log untuk event-event di file ini
  * Setting on off nya pada ggsxxsh.is_debug_hakakses_hd
@@ -68,6 +69,27 @@ $.ajax( {
         is_debug_hakakses_hd = json.data.is_debug_hakakses_hd
     }
 } );
+
+/**
+ * Digunakan untuk melakukan pengecekan apakah table memeerlukan approval dan status approval finalnya apa
+ * 
+ * @param {Object} tbl 
+ */
+function cekApproval(){
+
+    if(is_need_approval == 1 && approval_state == 9){
+        is_final_approve = 1;
+    }else{
+        is_final_approve == 0;
+    }
+
+    console.log('----------');
+    console.log('cekApproval');
+    console.log('- is_need_approval: ' + is_need_approval);
+    console.log('- approval_state: ' + approval_state);
+    console.log('- is_final_approve: ' + is_final_approve);
+    console.log('----------');
+}
 
 /**
  * ReloadTableDetail
@@ -269,6 +291,7 @@ function CekInitHeaderH(tbl_header){
  * @param {Object} tbl_header 
  */
 function CekSelectHeaderH(tbl_header){
+    cekApproval();
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
         console.log('CekSelectHeaderH');
@@ -276,6 +299,7 @@ function CekSelectHeaderH(tbl_header){
         console.log('- is_master_table ' + is_master_table);
         console.log('- is_nextprocess ' + is_nextprocess);
         console.log('- transaction_state ' + transaction_state);
+        console.log('- is_need_approval ' + is_need_approval);
         console.log('- approval_state ' + approval_state);
         console.log('- hak_u ' + hak_u);
         console.log('- hak_d ' + hak_d);
@@ -421,39 +445,14 @@ function CekSelectHeaderH(tbl_header){
             .css( 'display', 'none' );
     }
 
-    // if( is_nextprocess == 1 ){
-    //     tbl_header.button( 'btnNonAktif:name' )
-    //         .nodes()
-    //         .css( 'display', 'none' );
-    // }else{
-    //     if( transaction_state == 1 ){
-    //         if(hak_d == 1){
-    //             tbl_header.button( 'btnNonAktif:name' )
-    //                 .nodes()
-    //                 .css( 'display', 'block' );
-    //             c_btnSetAction = c_btnSetAction + 1;
-    //         }else{
-    //             tbl_header.button( 'btnNonAktif:name' )
-    //                 .nodes()
-    //                 .css( 'display', 'none' );
-    //         }
-    //     }else{
-    //         // ini masih draft, sehingga tidak perlu non aktif, tapi remove
-    //         tbl_header.button( 'btnNonAktif:name' )
-    //             .nodes()
-    //             .css( 'display', 'none' );
-    //     }
-    // }
-    // END btnNonAktif
-
     // BEGIN btnClose
     /**
      * Aturan Close
      *  transaction_state = 1
-     *  approval_state = 0
-     *  hak_d = 1
+     *  is_final_approve = 1
+     *  hak_l = 1
      */
-    if( transaction_state == 1 && hak_a == 1 && approval_state == 1){
+    if( transaction_state == 1 && hak_l == 1 && is_final_approve == 1){
         // debug purpose
         if (is_debug_hakakses_hd == 1) {
             console.log('btnClose = Aktif');
@@ -750,6 +749,8 @@ function CekInitHeaderHD(tbl_header, tbl_details){
         console.log('CekInitHeaderHD');
         console.log('- hak_e: ' + hak_e);
         console.log('- hak_c: ' + hak_c);
+        console.log('- is_need_approval: ' + is_need_approval);
+        console.log('- approval_state: ' + approval_state);
         console.log('- c_btnSetAction: ' + c_btnSetAction);
         console.log('----------');
     }
@@ -767,13 +768,17 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     c_btnSetActionD = 0;
     arr_is_valid_cek_detail = [];
 
+    cekApproval();
+
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
         console.log('CekSelectHeaderHD');
         console.log('- is_defaultprogram: ' + is_defaultprogram);
         console.log('- is_master_table: ' + is_master_table);
         console.log('- transaction_state: ' + transaction_state);
+        console.log('- is_need_approval ' + is_need_approval);
         console.log('- approval_state: ' + approval_state);
+        console.log('- is_final_approve: ' + is_final_approve);
         console.log('- hak_u: ' + hak_u);
         console.log('- is_nextprocess: ' + is_nextprocess);
         console.log('----------');
@@ -781,19 +786,24 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     
     // BEGIN Set Action
     // BEGIN btnEdit
-    // Boleh Edit jika
-    //  - transaction_state = 0 atau -1 
-    //  - approval_state = 0  
-    //  - hak_u = 1
-    
-    if(is_defaultprogram == 1){
+    /**
+     * Aturan Edit
+     * No
+     *  is_defaultprogram == 1
+     *  is_need_approval == 1 && is_final_approve == 1
+     *  hak_u = 0
+     *  is_master_table
+     * Yes
+     *  
+     */
+    if(is_defaultprogram == 1 || hak_u == 0 || (is_need_approval == 1 && is_final_approve == 1) ){
         tbl_header.button( 'btnEdit:name' )
             .nodes()
             .css( 'display', 'none' );
 
     }else{
         if(is_master_table == 0){
-            if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
+            if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 ){
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
                     .css( 'display', 'block' );
@@ -817,6 +827,7 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
             }
         }else{
             // master table
+            // harusnya ini tidak terjadi
             tbl_header.button( 'btnEdit:name' )
                 .nodes()
                 .css( 'display', 'none' );
@@ -825,11 +836,13 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     // END btnEdit
 
     // BEGIN btnRemoveHD
-    // Boleh Remove jika
-    //  - transaction_state = 0 atau -1 
-    //  - approval_state = 0  
-    //  - hak_d = 1
-    if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
+    /**
+     * Aturan Remove
+     * Yes
+     * - transaction_state == 1 && hak_d == 1 && is_final_approve == 0
+     * 
+     */
+    if( transaction_state == 0 && hak_d == 1 ){
         tbl_header.button( 'btnRemoveHD:name' )
             .nodes()
             .css( 'display', 'block' );
@@ -846,17 +859,22 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     // END btnConfirm
 
     // BEGIN btnNonAktifHD
+    /**
+     * Aturan NonAktif HD
+     * Yes
+     * - transaction_state = 1 && hak_d == 1 && 
+     */
     // Boleh NonAktif jika
     //  - transaction_state = 1
     //  - approval_state = 0  
     //  - hak_d = 1
     
-    if( is_nextprocess == 1){
+    if( is_nextprocess == 1 || is_final_approve == 1 || hak_d == 0){
         tbl_header.button( 'btnNonAktifHD:name' )
             .nodes()
             .css( 'display', 'none' );
     }else{
-        if( transaction_state == 1 && hak_d == 1 && approval_state == 0 ){
+        if( transaction_state == 1 && hak_d == 1 && is_final_approve == 0 ){
             tbl_header.button( 'btnNonAktifHD:name' )
                 .nodes()
                 .css( 'display', 'block' );
@@ -869,6 +887,24 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     }
     
     // END btnNonAktifHD
+
+    // BEGIN btnClose
+    /**
+     * Aturan Close HD
+     * Yes
+     * - is_final_approve == 1 && hak_l == 1 
+     */
+    if(is_final_approve == 1 && hak_l == 1 ){
+        tbl_header.button( 'btnClose:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetAction = c_btnSetAction + 1;
+    }else{
+        tbl_header.button( 'btnClose:name' )
+            .nodes()
+            .css( 'display', 'none' );
+    }
+    // END btnClose
 
     // BEGIN btnView
     // Boleh tanpa syarat
@@ -948,8 +984,11 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
         console.log('CekDeselectHeaderHD');
+        console.log('- is_need_approval: ' + is_need_approval);
+        console.log('- approval_state: ' + approval_state);
         console.log('----------');
     }
+    is_final_approve = 0;
     
     c_btnSetAction  = 0;
     arr_is_valid_cek_detail = [];

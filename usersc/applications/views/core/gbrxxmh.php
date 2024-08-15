@@ -303,7 +303,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,2]
+					targets: '_all'
 				}
 			],
 			columns: [

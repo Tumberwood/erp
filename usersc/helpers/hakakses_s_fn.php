@@ -53,6 +53,7 @@
             $hak_u = 1;
             $hak_d = 1;
             $hak_a = 1;
+            $hak_l = 1;
             $hak_e = 1;
             $hak_p = 1;
 
@@ -186,6 +187,7 @@
                     		a.hak_u as hak_u,
                     		a.hak_d as hak_d,
                     		a.hak_a as hak_a,
+                    		a.hak_l as hak_l,
                     		a.hak_e as hak_e,
                     		a.hak_p as hak_p
                     	FROM ucudasd a
@@ -207,6 +209,7 @@
                     $hak_u = $rs_ucudasd['hak_u'];
                     $hak_d = $rs_ucudasd['hak_d'];
                     $hak_a = $rs_ucudasd['hak_a'];
+                    $hak_l = $rs_ucudasd['hak_l'];
                     $hak_e = $rs_ucudasd['hak_e'];
                     $hak_p = $rs_ucudasd['hak_p'];
 
@@ -338,6 +341,7 @@
         'hak_u' => $hak_u,
         'hak_d' => $hak_d,
         'hak_a' => $hak_a,
+        'hak_l' => $hak_l,
         'hak_e' => $hak_e,
         'hak_p' => $hak_p,
 

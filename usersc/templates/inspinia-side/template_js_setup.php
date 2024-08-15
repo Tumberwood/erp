@@ -162,6 +162,7 @@
 	var hak_u               = <?php echo json_encode($hak_u) ?>;
 	var hak_d               = <?php echo json_encode($hak_d) ?>;
 	var hak_a               = <?php echo json_encode($hak_a) ?>;
+	var hak_l               = <?php echo json_encode($hak_l) ?>;
 	var hak_e               = <?php echo json_encode($hak_e) ?>;
 	var hak_p               = <?php echo json_encode($hak_p) ?>;
 	
@@ -173,14 +174,9 @@
 	var is_approve          = 0;	// status persetujuan transaksi
 	var tr_status           = 0;	// status persetujuan transaksi
 	var is_nextprocess      = 0;	// sudah ditarik ke proses selanjutnya atau belum
-	// var is_jurnal 		    = 0;
+	var is_need_approval    = 0;	// untuk cek apakah transaksi perlu approval atau tidak
 	var is_valid_harga_d    = 0;
-	// var is_need_generate_kode = 0;	// untuk generate kode saat approve
-	// var is_need_delete	    = 1; 	
-	// var is_need_approval    = 0;	// untuk cek apakah transaksi perlu approval atau tidak
-	// var is_need_inventory   = 0;	// menentukan apakah transaksi terkait inventory atau tidak
-	// var is_need_jurnal 	 	= 0;	// menentukan apakah transaksi terkait jurnal accounting atau tidak
-	// var is_active 	  	    = 0;
+	
 	var kategori_dokumen	= '';
 	var kategori_dokumen_value = '';
 

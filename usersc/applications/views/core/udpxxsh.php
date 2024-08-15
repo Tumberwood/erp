@@ -60,6 +60,7 @@
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Edit / Update">U</th>
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Delete">D</th>
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Approve, Cancel Approve dan Void">A</th>
+										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Close Data">L</th>
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Export dan Copy Data">E</th>
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Print">P</th>
 									</tr>
@@ -510,7 +511,18 @@
 					label: "Approve",
 					name: "ucudasd.hak_a",
 					type: "select",
-					fieldInfo: "Pengaturan akses Approval, Cancel Approve, dan Void Transaksi",
+					fieldInfo: "Pengaturan akses Approval, Cancel Approve, dan Void",
+					placeholder: "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Close",
+					name: "ucudasd.hak_l",
+					type: "select",
+					fieldInfo: "Pengaturan akses Close",
 					placeholder: "Pilih",
 					options: [
 						{ "label": "Ya", "value": 1 },
@@ -630,6 +642,16 @@
 				},
 				{ 
 					data: "ucudasd.hak_a" ,
+					render: function (data){
+						if (data == 1){
+							return '<i class="fa fa-check text-navy"></i>';
+						}else if(data == 0){
+							return '<i class="fa fa-remove text-danger"></i>';
+						}
+					}
+				},
+				{ 
+					data: "ucudasd.hak_l" ,
 					render: function (data){
 						if (data == 1){
 							return '<i class="fa fa-check text-navy"></i>';
