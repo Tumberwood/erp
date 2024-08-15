@@ -56,6 +56,7 @@
 				Field::inst( 'ucudasd.hak_u' ),
 				Field::inst( 'ucudasd.hak_d' ),
 				Field::inst( 'ucudasd.hak_a' ),
+				Field::inst( 'ucudasd.hak_l' ),
 				Field::inst( 'ucudasd.hak_e' ),
 				Field::inst( 'ucudasd.hak_p' ),
 				Field::inst( 'pages.title' )
