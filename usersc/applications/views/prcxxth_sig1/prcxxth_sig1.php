@@ -313,6 +313,7 @@
 							data: function (params) {
 								var query = {
 									id_imtxxmh_old: id_imtxxmh_old,
+									movement_type_group: ['GR'],
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -449,19 +450,19 @@
 				id_iwhxxmh          = edtprcxxth_sig1.field('prcxxth_sig1.id_iwhxxmh').val();
 				id_imtxxmh          = edtprcxxth_sig1.field('prcxxth_sig1.id_imtxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth_sig1.field('prcxxth_sig1.id_grlxxmh_supplier').val();
-				surat_jalan     = edtprcxxth_sig1.field('prcxxth_sig1.surat_jalan').val();
-				referensi     = edtprcxxth_sig1.field('prcxxth_sig1.referensi').val();
+				surat_jalan         = edtprcxxth_sig1.field('prcxxth_sig1.surat_jalan').val();
+				referensi           = edtprcxxth_sig1.field('prcxxth_sig1.referensi').val();
 
 				validasiRequired(
 					edtprcxxth_sig1, 
 					"prcxxth_sig1", 
 					{
-						"tanggal": tanggal, 
+						"tanggal"            : tanggal,
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
-						"id_iwhxxmh": id_iwhxxmh,
-						"id_imtxxmh": id_imtxxmh,
-						"surat_jalan": surat_jalan,
-						"referensi": referensi,
+						"id_iwhxxmh"         : id_iwhxxmh,
+						"id_imtxxmh"         : id_imtxxmh,
+						"surat_jalan"        : surat_jalan,
+						"referensi"          : referensi,
 					}
 				);
 
@@ -785,38 +786,13 @@
 
 		edtprcittd_sig1.dependent( 'prcittd_sig1.harga_unit', function ( val, data, callback ) {
 			hitungSubtotalDetail(edtprcittd_sig1, 'prcittd_sig1');
-			hitungDpp(edtprcittd_sig1, 'prcittd_sig1');
 			return {}
 		}, {event: 'keyup change'});
 		
 		edtprcittd_sig1.dependent( 'prcittd_sig1.jumlah_unit', function ( val, data, callback ) {
 			hitungSubtotalDetail(edtprcittd_sig1, 'prcittd_sig1');
-			hitungDpp(edtprcittd_sig1, 'prcittd_sig1');
-
 			return {}
 		}, {event: 'keyup change'});
-
-		edtprcittd_sig1.dependent( 'prcittd_sig1.diskon_jenis', function ( val, data, callback ) {
-			hitungDiskon(edtprcittd_sig1, 'prcittd_sig1');
-			hitungDpp(edtprcittd_sig1, 'prcittd_sig1');
-			return {}
-		}, {event: 'keyup change'});
-		
-		edtprcittd_sig1.dependent( 'prcittd_sig1.diskon_persen', function ( val, data, callback ) {
-			if (val != null) {
-				hitungDiskon(edtprcittd_sig1, 'prcittd_sig1');
-				hitungDpp(edtprcittd_sig1, 'prcittd_sig1');
-			}
-			return {}
-		}, {event: 'keyup'});
-		
-		edtprcittd_sig1.dependent( 'prcittd_sig1.diskon_value', function ( val, data, callback ) {
-			if (val != null) {
-				hitungDiskon(edtprcittd_sig1, 'prcittd_sig1');
-				hitungDpp(edtprcittd_sig1, 'prcittd_sig1');
-			}
-			return {}
-		}, {event: 'keyup'});
 		
 		edtprcittd_sig1.on( 'preSubmit', function (e, data, action) {
 			if(action == 'create'){
