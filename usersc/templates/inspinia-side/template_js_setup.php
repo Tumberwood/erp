@@ -162,6 +162,7 @@
 	var hak_u               = <?php echo json_encode($hak_u) ?>;
 	var hak_d               = <?php echo json_encode($hak_d) ?>;
 	var hak_a               = <?php echo json_encode($hak_a) ?>;
+	var hak_l               = <?php echo json_encode($hak_l) ?>;
 	var hak_e               = <?php echo json_encode($hak_e) ?>;
 	var hak_p               = <?php echo json_encode($hak_p) ?>;
 	
