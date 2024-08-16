@@ -21,6 +21,9 @@
 	use 
 		Carbon\Carbon;
 	
+	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
+
 	$editor = Editor::inst( $db, 'wpclptd' )
 		->debug(true)
 		->fields(
@@ -88,6 +91,9 @@
 		->leftJoin(
 			'activity_log_ml as activity_log_ml_confirm', 
 			'activity_log_ml_confirm.id_transaksi = wpclptd.id AND activity_log_ml_confirm.kode = "CONFIRM" AND activity_log_ml_confirm.nama = "wpclptd"', '', '' )
+		
+		->where( 'activity_log_ml_confirm.finish_on', $start_date, '>=' )
+		->where( 'activity_log_ml_confirm.finish_on', $end_date, '<=' )
 		;
 
 	// do not erase
