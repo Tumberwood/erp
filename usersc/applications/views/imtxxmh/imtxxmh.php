@@ -103,7 +103,7 @@
 					name: "imtxxmh.kode"
 				}, 	
 				{
-					label: getTranslation('name') + " class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "imtxxmh.movement_type"
 				},
 				{
