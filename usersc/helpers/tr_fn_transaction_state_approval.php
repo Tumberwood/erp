@@ -77,6 +77,24 @@
             
         }elseif($id_gaptpmh == 2){
             $field_amount = ',grand_total ';
+
+            /**
+             * ambil kode transaksi [dan grand_total] untuk di insert ke gaplgtd
+             * grand_total optional, hanya untuk yang approval_type (gaptpmh) = Amount
+             */
+            $qs_transaksi = $db
+                ->raw()
+                ->bind(':id_transaksi', $id_transaksi)
+                ->exec('SELECT
+                        kode 
+                    '
+                        .$field_amount.
+                        // $field_group.
+                    ' FROM '.$table_name.'
+                    WHERE 
+                        id = :id_transaksi
+                ');
+            $rs_transaksi = $qs_transaksi->fetch();
             $tr_amount = $rs_transaksi['grand_total'];
 
         }elseif($id_gaptpmh == 3){
@@ -137,24 +155,6 @@
                     AND nama = :table_name
             ');
         $rs_log     = $qs_log->fetch();
-
-        /**
-         * ambil kode transaksi [dan grand_total] untuk di insert ke gaplgtd
-         * grand_total optional, hanya untuk yang approval_type (gaptpmh) = Amount
-         */
-        $qs_transaksi = $db
-            ->raw()
-            ->bind(':id_transaksi', $id_transaksi)
-            ->exec('SELECT
-                    kode 
-                '
-                    .$field_amount.
-                    // $field_group.
-                ' FROM '.$table_name.'
-                WHERE 
-                    id = :id_transaksi
-            ');
-        $rs_transaksi = $qs_transaksi->fetch();
       
         /**
          * ambil id_users yang harus melakukan approval
