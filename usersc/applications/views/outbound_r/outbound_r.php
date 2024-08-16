@@ -11,6 +11,16 @@
 	$nama_tabels_d = [];
 ?>
 
+<style>
+	.bg-green-light {
+		background-color: #d4edda !important; /* Light green */
+	}
+
+	.bg-blue-light {
+		background-color: #d1ecf1 !important; /* Light blue */
+	}
+</style>
+
 <!-- begin content here -->
 <div class="row">
 	<div class="col">
@@ -23,21 +33,21 @@
 								<th rowspan=2>Item Code</th>
 								<th rowspan=2>Item Name</th>
 								<th rowspan=2>LPN</th>
-								<th colspan=3>Picking List</th>
-								<th colspan=3>Picking</th>
-								<th colspan=3>Dispatch</th>
+								<th colspan=3 class="bg-green-light">Picking List</th>
+								<th colspan=3 class="bg-beige">Picking</th>
+								<th colspan=3 class="bg-blue-light">Dispatch</th>
 								<th colspan=2>Delivery Note</th>
 							</tr>
 							<tr>
 								<th>Kode</th>
 								<th>Qty</th>
-								<th>Status</th>
+								<th class="bg-green-light">Status</th>
 								<th>Kode</th>
 								<th>Qty</th>
-								<th>Status</th>
+								<th class="bg-beige">Status</th>
 								<th>Kode</th>
 								<th>Qty</th>
-								<th>Status</th>
+								<th class="bg-blue-light">Status</th>
 								<th>Kode</th>
 								<th>Qty</th>
 							</tr>
@@ -103,7 +113,16 @@
 							show: false,
 						},
 						targets: '_all'
-					}
+					},
+					{ 
+						className: 'bg-green-light', targets: [3,4]
+					},
+					{ 
+						className: 'bg-beige', targets: [6,7]
+					},
+					{ 
+						className: 'bg-blue-light', targets: [9,10]
+					},
 				],
 				columns: [
 					{ data: "iimxxmh_kode" },
@@ -154,13 +173,21 @@
 				},
 				rowCallback: function( row, data, index ) {
 					if ( data.ket_pl != 'Lunas' ) {
-						$('td', row).addClass('bg-warning');
+						$('td:eq(5)', row).addClass('bg-warning');
+					} else {
+						$('td:eq(5)', row).addClass('bg-green-light');
 					}
+
 					if ( data.ket_pc != 'Lunas' ) {
-						$('td', row).addClass('bg-warning');
+						$('td:eq(8)', row).addClass('bg-warning');
+					}else {
+						$('td:eq(8)', row).addClass('bg-beige');
 					}
+
 					if ( data.ket_dp != 'Lunas' ) {
-						$('td', row).addClass('bg-warning');
+						$('td:eq(11)', row).addClass('bg-warning');
+					} else {
+						$('td:eq(11)', row).addClass('bg-blue-light');
 					}
 				}
 			} );
