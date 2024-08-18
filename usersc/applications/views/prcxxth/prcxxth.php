@@ -109,6 +109,7 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabprcittd" class="tab-pane active">
 					<div class="panel-body">
+						
 						<div id="frmprcittd">
 							<div class="panel-body">
 								<div class="row">
@@ -129,6 +130,7 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="table-responsive">
 							<table id="tblprcittd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
@@ -630,6 +632,7 @@
 				}
 			},
 			table: "#tblprcittd",
+			template: "#frmprcittd",
 			formOptions: {
 				main: {
 					focus: 3
@@ -806,7 +809,7 @@
 		});
 
 		edtprcittd.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
@@ -993,10 +996,10 @@
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblprcxxth.rows().deselect();
 				tblprcxxth.ajax.reload(function ( json ) {
-				toastr.remove();
-				toastr["success"]("Load data berhasil","INFO")
-				$('#modalSFprcxxth').modal('toggle');
-			}, false);
+					toastr.remove();
+					toastr["success"]("Load data berhasil","INFO")
+					$('#modalSFprcxxth').modal('toggle');
+				}, false);
 				return false;
 			}
 		});
