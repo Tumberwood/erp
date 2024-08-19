@@ -51,6 +51,29 @@
         input.after('<div class="invalid-feedback">'+message+'</div>');
     }
 
+    function smallerValidation(id_iimxxmh) {
+        $.ajax( {
+            url: "../../models/wptittd/wptittd_fn_smaller_loc.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                id_iimxxmh: id_iimxxmh
+            },
+            success: function ( json ) {
+                if(json.data.status_code == 500){
+                    invalidValidation(inputLPN,json.data.message );
+                    inputLPN.val('');
+                    // edtwptittd.field('wptittd.wlpxxmh_kode').val( '' );
+                    is_valid_lpn = 0;
+                }else{
+                    validValidation(inputLPN);
+                    // edtwptittd.field('wptittd.wlpxxmh_kode').error('');
+                    is_valid_lpn = 1;
+                }
+            }
+        });
+    }
+
     function lpnValidate() {
         var timestamp = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
         var id_wpttpmh = $('#select_wpttpmh').val();
@@ -174,7 +197,8 @@
                                                 is_valid_lpn = 0;
                                             } else {
                                                 validValidation(inputLPN);
-                                                is_valid_lpn = 1;
+                                                // is_valid_lpn = 1;
+                                                smallerValidation(id_iimxxmh);
                                             }
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {

@@ -23,6 +23,27 @@
         });
     }
 
+    function smallerValidation(id_iimxxmh) {
+        $.ajax( {
+            url: "../../models/wptittd/wptittd_fn_smaller_loc.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                id_iimxxmh: id_iimxxmh
+            },
+            success: function ( json ) {
+                if(json.data.status_code == 500){
+                    edtwptittd.field('wptittd.wlpxxmh_kode').error( json.data.message );
+                    edtwptittd.field('wptittd.wlpxxmh_kode').val( '' );
+                    is_valid_lpn = 0;
+                }else{
+                    edtwptittd.field('wptittd.wlpxxmh_kode').error('');
+                    is_valid_lpn = 1;
+                }
+            }
+        });
+    }
+
     function wlpxxmh_kode_validasi (){
         id_wpttpmh = edtwptittd.field('wptittd.id_wpttpmh').val();
         wlpxxmh_kode = edtwptittd.field('wptittd.wlpxxmh_kode').val();
@@ -110,7 +131,8 @@
                                                 is_valid_lpn = 0;
                                             } else {
                                                 edtwptittd.field('wptittd.wlpxxmh_kode').error('');
-                                                is_valid_lpn = 1;
+                                                // is_valid_lpn = 1;
+                                                smallerValidation(id_iimxxmh);
                                             }
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {
