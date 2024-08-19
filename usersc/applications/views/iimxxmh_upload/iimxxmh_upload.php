@@ -55,8 +55,8 @@
                                 <th>Company</th>
                                 <th>Cabang</th>
                                 <th>Satuan</th>
-                                <th>Kode Lokasi</th>
-                                <th>Nama Lokasi</th>
+                                <th>Kode Item</th>
+                                <th>Nama Item</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
