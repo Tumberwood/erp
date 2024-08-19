@@ -76,15 +76,17 @@
                 },
                 success: function ( json ) {
                     id_uom_replenishment = json.data.id_uom_replenishment;
+                    kode = json.data.kode;
                     jumlah_unit_replenishment = json.data.jumlah_unit_replenishment;
                     message_replenishment = json.data.message;
                     if(id_uom_replenishment == 0){
 						edtwreittd.field('wreittd.id_iimxxmh').error( message_replenishment );
-					}
+					} else {
+                        if(jumlah_unit >  jumlah_unit_replenishment){
+                            edtwreittd.field('wreittd.jumlah_unit').error( 'Inputan tidak boleh melebihi jumlah replenishment: '+jumlah_unit_replenishment+' '+kode );
+                        }
+                    }
 
-					if(jumlah_unit >  $jumlah_unit_replenishment){
-						edtwreittd.field('wreittd.jumlah_unit').error( 'Inputan harus tidak boleh melebihi '+jumlah_unit_replenishment );
-					}
                 }
             } );
         }
