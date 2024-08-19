@@ -36,6 +36,21 @@
 		$uniqueToken    = $_POST['uniqueToken'];
 		$timestamp    = $_POST['timestamp'];
 
+		$qs_ggswmsh = $db
+			->query('select', 'ggswmsh' )
+			->get(['is_replenishment'] )
+			->where('id', 1 )
+			->exec();
+		$rs_ggswmsh = $qs_ggswmsh->fetch();
+		$is_replenishment = $rs_ggswmsh['is_replenishment'];
+
+		if ($is_replenishment == 1) {
+			$qd_wtrittd = $db
+				->query('delete', 'wtrittd')
+				->where('keterangan',$uniqueToken)
+				->exec();
+		}
+		
 		$qd_lpn_d = $db
 			->query('delete', 'wpllptd')
 			->where('id_wplxxth',$id_transaksi_h)
