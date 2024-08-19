@@ -61,4 +61,32 @@
             
         }
     };
+    
+    function uomReplenishment(id_iimxxmh, id_iumxxmh_unit){
+        // cek apakah UoM Replenishment ada
+        if (id_iumxxmh_unit > 0 && id_iimxxmh > 0) {
+            $.ajax( {
+                url: "../../models/wreittd/wreittd_fn_uom_replenishment.php",
+                dataType: 'json',
+                async: false,
+                type: 'POST',
+                data: {
+                    id_iimxxmh: id_iimxxmh,
+                    id_iumxxmh_unit: id_iumxxmh_unit,
+                },
+                success: function ( json ) {
+                    id_uom_replenishment = json.data.id_uom_replenishment;
+                    jumlah_unit_replenishment = json.data.jumlah_unit_replenishment;
+                    message_replenishment = json.data.message;
+                    if(id_uom_replenishment == 0){
+						edtwreittd.field('wreittd.id_iimxxmh').error( message_replenishment );
+					}
+
+					if(jumlah_unit >  $jumlah_unit_replenishment){
+						edtwreittd.field('wreittd.jumlah_unit').error( 'Inputan harus tidak boleh melebihi '+jumlah_unit_replenishment );
+					}
+                }
+            } );
+        }
+    };
 </script>

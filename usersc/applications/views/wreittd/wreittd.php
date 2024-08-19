@@ -465,6 +465,8 @@
 			}
 
 			if(action != 'remove'){
+				autofillField('ggswmsh', 1, 'is_replenishment');
+				is_replenishment = autofillData.is_replenishment;
 
 				wlpxxmh_kode    = edtwreittd.field('wreittd.wlpxxmh_kode').val();
 				id_wroxxth      = edtwreittd.field('wreittd.id_wroxxth').val();
@@ -541,6 +543,11 @@
 					edtwreittd, 'wreittd', 'expired_date', expired_date, '>='
 				)
 
+				if (is_replenishment == 1) {
+					uomReplenishment(id_iimxxmh, id_iumxxmh_unit);
+
+					
+				}
 				validasiOutstanding(
 					edtwreittd, 'wreittd', id_transaksi, id_wroittd, 'wroittd'
 				)
