@@ -32,12 +32,19 @@
                 id_iimxxmh: id_iimxxmh
             },
             success: function ( json ) {
-                if(json.data.status_code == 500){
-                    edtwptittd.field('wptittd.wlpxxmh_kode').error( json.data.message );
-                    edtwptittd.field('wptittd.wlpxxmh_kode').val( '' );
-                    is_valid_lpn = 0;
-                }else{
-                    edtwptittd.field('wptittd.wlpxxmh_kode').error('');
+                autofillField('ggswmsh', 1, 'is_replenishment');
+				is_replenishment = autofillData.is_replenishment;
+
+                if (is_replenishment == 1) {
+                    if(json.data.status_code == 500){
+                        edtwptittd.field('wptittd.wlpxxmh_kode').error( json.data.message );
+                        edtwptittd.field('wptittd.wlpxxmh_kode').val( '' );
+                        is_valid_lpn = 0;
+                    }else{
+                        edtwptittd.field('wptittd.wlpxxmh_kode').error('');
+                        is_valid_lpn = 1;
+                    }
+                } else {
                     is_valid_lpn = 1;
                 }
             }
