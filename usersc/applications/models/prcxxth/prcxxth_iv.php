@@ -59,8 +59,7 @@
 			$qi_iivxxrd = $db
 				->raw()
 				->bind(':id', $id)
-				->exec('
-					INSERT INTO iivxxrd (
+				->exec('INSERT INTO iivxxrd (
 						id_transaksi_h,
 						id_transaksi_d,
 						id_gcpxxmh,
@@ -149,7 +148,7 @@
 					LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = prcittd.id_iumxxmh_unit
 					LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = prcittd.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = prcittd.id_iumxxmh_default
-					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.'
+					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.module = "ERP"
 					WHERE prcxxth.id = :id
 				');
 

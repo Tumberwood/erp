@@ -26,9 +26,12 @@
         // END definisi variable untuk fn_ajax_results.php
 	
 		$end_date = $_POST['end_date'];
-		// $id_iwmxxmh = $_POST['id_iwmxxmh'];
 		
-        $id_iwhxxmh = 1;
+        if (empty($_POST['id_iwhxxmh'])) {
+            $id_iwhxxmh = 0;
+        }else{
+            $id_iwhxxmh = $_POST['id_iwhxxmh'];
+        }
 
         // kapasitas gudang tanpa overflow
 		$qs_wloxxmh_rack_name = $db
@@ -87,8 +90,11 @@
                             AND wloxxmh.id_wloctmh = :id_wloctmh
                             AND iivxxrd.tanggal <= :end_date
                         GROUP BY wloxxmh.id
-                        ) b ON b.id_wloxxmh  = a.id
-                    
+                    ) b ON b.id_wloxxmh  = a.id
+                    WHERE 1
+                        AND a.transaction_state = 1
+                        AND a.id_iwhxxmh = :id_iwhxxmh
+                        AND a.id_wloctmh = :id_wloctmh
                     GROUP BY a.rack, a.bay
                     ORDER BY a.rack, a.bay');
         $rs_wloxxmh_occurance = $qs_wloxxmh_occurance->fetchAll();

@@ -27,9 +27,12 @@
 	
 		$start_date = $_POST['start_date'];
 		$end_date = $_POST['end_date'];
-		// $id_iwhxxmh = $_POST['id_iwhxxmh'];
-		
-        $id_iwhxxmh = 1;
+
+        if (empty($_POST['id_iwhxxmh'])) {
+            $id_iwhxxmh = 0;
+        }else{
+            $id_iwhxxmh = $_POST['id_iwhxxmh'];
+        }
 
         // LPN Received
         $qs_lpn_received = $db

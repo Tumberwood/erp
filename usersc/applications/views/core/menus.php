@@ -288,7 +288,18 @@
 							}
 						}
 					},
-					{ data: "permissions[].name" },
+					{
+						data: "permissions",
+						render: function(data, type, row) {
+							if (Array.isArray(data)) {
+								return data.map(function(permission) {
+									return permission.name;
+								}).join(', ');
+							} else {
+								return '';
+							}
+						}
+					},
 					{ 
 						data: "menus.logged_in" ,
 						render: function (data){

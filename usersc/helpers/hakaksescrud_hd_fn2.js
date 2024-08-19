@@ -82,13 +82,15 @@ function cekApproval(){
     }else{
         is_final_approve == 0;
     }
-
-    console.log('----------');
-    console.log('cekApproval');
-    console.log('- is_need_approval: ' + is_need_approval);
-    console.log('- approval_state: ' + approval_state);
-    console.log('- is_final_approve: ' + is_final_approve);
-    console.log('----------');
+    
+    if (is_debug_hakakses_hd == 1) {
+        console.log('----------');
+        console.log('cekApproval');
+        console.log('- is_need_approval: ' + is_need_approval);
+        console.log('- approval_state: ' + approval_state);
+        console.log('- is_final_approve: ' + is_final_approve);
+        console.log('----------');
+    }
 }
 
 /**
