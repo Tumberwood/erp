@@ -3,6 +3,25 @@
         event.preventDefault();
     }
 
+    function cekDataInventory(wlpxxmh_kode, id_wloxxmh){
+        // cek apakah UoM Replenishment ada
+        $.ajax( {
+            url: "../../models/wpcxxth/wpcxxth_cek_inventory.php",
+            dataType: 'json',
+            async: false,
+            type: 'POST',
+            data: {
+                wlpxxmh_kode: wlpxxmh_kode,
+                id_wloxxmh: id_wloxxmh,
+            },
+            success: function ( json ) {
+                message_rep = json.data.message;
+                status_code_rep = json.data.status_code;
+                console.log(status_code_rep);
+            }
+        } );
+    };
+
     function generateKonten() {
         $('#konten').empty();
         $('.btnLPN').empty();
@@ -29,158 +48,167 @@
                 }
 
                 genKonten = '';
-                dataKonten.sort((a, b) => a.status_picking - b.status_picking);
-                dataKonten.forEach(kontenData => {
-                    wloxxmh_nama = kontenData.wloxxmh_nama;
-                    status_picking = kontenData.status_picking;
-                    id_wjtxxmh = kontenData.id_wjtxxmh;
-                    wloxxmh_out_nama = kontenData.wloxxmh_out_nama;
-                    sisa_terkecil_now = kontenData.sisa_terkecil_now;
-                    id_submit_d = kontenData.id_submit_d;
-                    console.log(id_submit_d);
+                autofillField('ggswmsh', 1, 'is_replenishment');
+				is_replenishment = autofillData.is_replenishment;
+                cekDataInventory(dataKonten[0].wlpxxmh_kode, dataKonten[0].id_wloxxmh);
+                if (is_replenishment == 1 && status_code_rep == 500) {
+                    $('#konten').html(`<h3>${message_rep}</h3>`);
+                } else {
 
-                    if (id_submit_d > 0) {
-                        displayInputan = 'style="display: none"';
-                        displayText = '';
-                        h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
-                        displayInputJumlah = '';
-                        if (status_picking == 1) {
-                            statusPickingText = '<span class="badge badge-plain">Open</span>';
-                        } else if (status_picking == 2) {  
-                            statusPickingText = '<span class="badge badge-warning">Parsial</span>';
-                        } else if (status_picking == 3) {
-                            statusPickingText = '<span class="badge badge-primary">Full</span>';
-                        }
-                    } else {
-                        if (status_picking == 1) {
-                            displayInputan = '';
-                            statusPickingText = '<span class="badge badge-plain">Open</span>';
-                            displayText = 'style="display: none"';
-                            h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
-                            displayInputJumlah = 'style="display: none"';
-                        } else if (status_picking == 2) {
-                            displayInputan = '';
-                            displayText = 'style="display: none"';
-                            statusPickingText = '<span class="badge badge-warning">Parsial</span>';
-                            h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
-                            displayInputJumlah = 'style="display: none"';
-                        } else if (status_picking == 3) {
-                            if (sisa_terkecil_now > 0) {
-                                displayInputJumlah = '';
-                            } else {
-                                displayInputJumlah = 'style="display: none"';
-                            }
+                    dataKonten.sort((a, b) => a.status_picking - b.status_picking);
+                    dataKonten.forEach(kontenData => {
+                        wloxxmh_nama = kontenData.wloxxmh_nama;
+                        status_picking = kontenData.status_picking;
+                        id_wjtxxmh = kontenData.id_wjtxxmh;
+                        wloxxmh_out_nama = kontenData.wloxxmh_out_nama;
+                        sisa_terkecil_now = kontenData.sisa_terkecil_now;
+                        id_submit_d = kontenData.id_submit_d;
+                        console.log(id_submit_d);
+    
+                        if (id_submit_d > 0) {
                             displayInputan = 'style="display: none"';
                             displayText = '';
-                            statusPickingText = '<span class="badge badge-primary">Full</span>';
                             h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
-                            displayInputJumlah = 'style="display: none"';
+                            displayInputJumlah = '';
+                            if (status_picking == 1) {
+                                statusPickingText = '<span class="badge badge-plain">Open</span>';
+                            } else if (status_picking == 2) {  
+                                statusPickingText = '<span class="badge badge-warning">Parsial</span>';
+                            } else if (status_picking == 3) {
+                                statusPickingText = '<span class="badge badge-primary">Full</span>';
+                            }
                         } else {
-                            displayInputan = '';
-                            statusPickingText = '';
-                            displayText = 'style="display: none"';
-                            h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
-                            displayInputJumlah = 'style="display: none"';
+                            if (status_picking == 1) {
+                                displayInputan = '';
+                                statusPickingText = '<span class="badge badge-plain">Open</span>';
+                                displayText = 'style="display: none"';
+                                h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            } else if (status_picking == 2) {
+                                displayInputan = '';
+                                displayText = 'style="display: none"';
+                                statusPickingText = '<span class="badge badge-warning">Parsial</span>';
+                                h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            } else if (status_picking == 3) {
+                                if (sisa_terkecil_now > 0) {
+                                    displayInputJumlah = '';
+                                } else {
+                                    displayInputJumlah = 'style="display: none"';
+                                }
+                                displayInputan = 'style="display: none"';
+                                displayText = '';
+                                statusPickingText = '<span class="badge badge-primary">Full</span>';
+                                h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            } else {
+                                displayInputan = '';
+                                statusPickingText = '';
+                                displayText = 'style="display: none"';
+                                h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            }
                         }
-                    }
-
-
-                    if (id_wjtxxmh == 2) {
-                        btnSubmit = `
-                            <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>
-                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`
-                            ;
-                        $('#confirmBtn').hide();
-                    } else {
-                        $('#confirmBtn').show();
-                        btnSubmit = `
-                                <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                            `;
-                    }
-                    
-                    kontenValid = `
-                                <div ${displayText} id="textItem${kontenData.id}">
-                                    <p>
-                                        <b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
-                                    </p>
-                                    <p class="m-t-n-sm">
-                                        Batch Number : ${kontenData.batch_number}
-                                        <br>
-                                        Expired Date : ${kontenData.expired_date}
-                                        <br>
-                                        Dispatch Location : ${kontenData.wloxxmh_out_nama}
-                                        <br>
-                                        Status Picking : ${statusPickingText}
-                                        <br>
-                                        
-                                        Jumlah PL : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
-                                        <br>
-                                        Jumlah Pick : ${kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
-                                        <br>
-                                        Jumlah Sisa : ${kontenData.sisa_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
-                                    </p>
-                                </div>`
-
-                    kontenInput = `
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="quantity-input">
-                                            <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h3 style="display: none" id="textLPN${kontenData.id}">${kontenData.wlpxxmh_kode}</h3>
-                                
-                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="quantity-input">
-                                            <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                ${kontenValid}
-
-                                <div class="form-group m-t-n-sm" id="input${kontenData.id}"  ${displayInputJumlah}>
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <div class="d-flex align-items-center">
-                                            <select class="form-select fw-bold" id="uom_select${kontenData.id}" onchange="jumlahSatuan(${kontenData.id})" style="font-size: 9px; height: 28px">
-                                                <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.sisa_terkecil_now.toString().replace(/\.?0+$/, '')}">${kontenData.iumxxmh_terkecil_kode}</option>
-                                                <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" selected>${kontenData.iumxxmh_default_kode}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
+    
+    
+                        if (id_wjtxxmh == 2) {
+                            btnSubmit = `
+                                <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`
+                                ;
+                            $('#confirmBtn').hide();
+                        } else {
+                            $('#confirmBtn').show();
+                            btnSubmit = `
+                                    <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit</button>
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                `;
+                        }
+                        
+                        kontenValid = `
+                                    <div ${displayText} id="textItem${kontenData.id}">
+                                        <p>
+                                            <b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
+                                        </p>
+                                        <p class="m-t-n-sm">
+                                            Batch Number : ${kontenData.batch_number}
+                                            <br>
+                                            Expired Date : ${kontenData.expired_date}
+                                            <br>
+                                            Dispatch Location : ${kontenData.wloxxmh_out_nama}
+                                            <br>
+                                            Status Picking : ${statusPickingText}
+                                            <br>
+                                            
+                                            Jumlah PL : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                            <br>
+                                            Jumlah Pick : ${kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                            <br>
+                                            Jumlah Sisa : ${kontenData.sisa_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        </p>
+                                    </div>`
+    
+                        kontenInput = `
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="input_jumlah${kontenData.id}" value="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" class="form-control form-control-sm quantity" min="0" onkeyup="validasiJumlah(${kontenData.id})">
+                                                <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div class="d-flex align-items-center justify-content-between m-t-n-sm">
-                                    <div class="d-flex align-items-center">
-                                        <div class="quantity-input">
-                                            <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
+    
+                                    <h3 style="display: none" id="textLPN${kontenData.id}">${kontenData.wlpxxmh_kode}</h3>
+                                    
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="quantity-input">
+                                                <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                    `;	
-                    ;
-                    
-                    genKonten = genKonten+ `
-                        <div class="${class_col}">
-                            ${h3CardLocation}
-                            ${kontenInput}
-                        </div>
-                    `;	
-                });
-                $('.btnLPN').append(btnSubmit);
-                $('#konten').html(genKonten);
+    
+                                    ${kontenValid}
+    
+                                    <div class="form-group m-t-n-sm" id="input${kontenData.id}"  ${displayInputJumlah}>
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <div class="d-flex align-items-center">
+                                                <select class="form-select fw-bold" id="uom_select${kontenData.id}" onchange="jumlahSatuan(${kontenData.id})" style="font-size: 9px; height: 28px">
+                                                    <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.sisa_terkecil_now.toString().replace(/\.?0+$/, '')}">${kontenData.iumxxmh_terkecil_kode}</option>
+                                                    <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" selected>${kontenData.iumxxmh_default_kode}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <div class="d-flex align-items-center">
+                                                <div class="quantity-input">
+                                                    <input type="text" id="input_jumlah${kontenData.id}" value="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" class="form-control form-control-sm quantity" min="0" onkeyup="validasiJumlah(${kontenData.id})">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-center justify-content-between m-t-n-sm">
+                                        <div class="d-flex align-items-center">
+                                            <div class="quantity-input">
+                                                <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
+                                            </div>
+                                        </div>
+                                    </div>
+                        `;	
+                        ;
+                        
+                        genKonten = genKonten+ `
+                            <div class="${class_col}">
+                                ${h3CardLocation}
+                                ${kontenInput}
+                            </div>
+                        `;	
+                    });
+                    $('.btnLPN').append(btnSubmit);
+                    $('#konten').html(genKonten);
+                }
+
                 // $(`#locAsal${dataKonten[0].id}`).focus();
             }
         } );
