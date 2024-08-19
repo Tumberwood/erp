@@ -497,15 +497,17 @@
 		});
 		
 		edtwtrittd.on('postSubmit', function(e, json, data, action, xhr) {
-			if (action != 'remove') {
-				// console.log(json);
-				// id_transaksi = json.data[0].wtrittd.id;
-				// konversiUom('wtrittd', id_transaksi );
+			// if (action != 'remove') {
+			// 	// console.log(json);
+			// 	// id_transaksi = json.data[0].wtrittd.id;
+			// 	// konversiUom('wtrittd', id_transaksi );
 				
-				id_transaksi_h = json.data[0].wtrittd.id;
-				fnConfirm('wtrittd', tblwtrittd );
+			// 	id_transaksi_h = json.data[0].wtrittd.id;
+			// 	console.log(id_transaksi_h);
+			// 	fnConfirm('wtrittd', tblwtrittd );
 				tblwtrittd.rows().deselect();
-			}
+				tblwtrittd.ajax.reload(null, false);
+			// }
 		});
 
 		edtwtrittd.on( 'close', function () {
