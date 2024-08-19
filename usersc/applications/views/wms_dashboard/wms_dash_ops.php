@@ -167,7 +167,7 @@
 	// get tableRelation
 	// tableRelation('_blank');
 
-	var id_iwhxxmh_old = 0;
+	var id_iwhxxmh, id_iwhxxmh_old = 0;
 
 	$("#select_id_iwhxxmh").select2({
 		placeholder : "Warehouse",
@@ -204,9 +204,11 @@
 	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
 
 	function reload_dashboard_data(){
+		id_iwhxxmh = $('#select_id_iwhxxmh').val();
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-		load_dashboard_wms_ops_box(start_date,end_date);
+		end_date   = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+
+		load_dashboard_wms_ops_box(start_date,end_date,id_iwhxxmh);
 		load_dashboard_wms_ops_location_heatmap(end_date);
 		load_dashboard_wms_ops_location_capacity(end_date);
 		load_dashboard_wms_ops_man_hours(start_date,end_date);
@@ -216,6 +218,9 @@
 
 		reload_dashboard_data();
 
+		$("#select_id_iwhxxmh").change(function(){		
+			reload_dashboard_data();
+		});
 
 		$("#start_date").change(function(){
 			reload_dashboard_data();

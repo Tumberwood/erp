@@ -26,7 +26,12 @@
         // END definisi variable untuk fn_ajax_results.php
 	
 		$end_date = $_POST['end_date'];
-		$id_iwhxxmh = $_POST['id_iwhxxmh'];
+
+        if (empty($_POST['id_iwhxxmh'])) {
+            $id_iwhxxmh = 0;
+        }else{
+            $id_iwhxxmh = $_POST['id_iwhxxmh'];
+        }
 
         /**
          * Warehouse Capacity

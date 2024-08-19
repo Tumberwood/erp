@@ -4,14 +4,15 @@
      * load_dashboard_wms_ops_box
      * digunakan untuk load data wms operasional box
      */
-    function load_dashboard_wms_ops_box (start_date, end_date){
+    function load_dashboard_wms_ops_box (start_date, end_date, id_iwhxxmh){
         $.ajax( {
             url: "../../models/wms_dashboard/wms_dash_ops_fn_box.php",
             dataType: 'json',
             type: 'POST',
             data: {
                 start_date: start_date,
-                end_date: end_date
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
             },
             success: function ( json ) {
                 // console.log(json);
@@ -65,7 +66,8 @@
             dataType: 'json',
             type: 'POST',
             data: {
-                end_date: end_date
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
             },
             success: function ( json ) {
 
@@ -174,109 +176,111 @@
             type: 'POST',
             data: {
                 end_date: end_date,
-                id_iwhxxmh: 1
+                id_iwhxxmh: id_iwhxxmh
             },
             success: function ( json ) {
 
-                let kapasitas_max = json.data.rs_wloxxmh.s_kapasitas;
-                let kapasitas_terisi = json.data.rs_wloxxmh.c_id_wloxxmh;
+                if(json.data.status_code == 200){
+                    let kapasitas_max = json.data.rs_wloxxmh.s_kapasitas;
+                    let kapasitas_terisi = json.data.rs_wloxxmh.c_id_wloxxmh;
 
-                var ticks = [];
-                for (var i = 0; i <= kapasitas_max; i += 200) {
-                    ticks.push(i);
-                }
-                if (ticks[ticks.length - 1] !== kapasitas_max) {
-                    ticks.push(kapasitas_max);
-                }
+                    var ticks = [];
+                    for (var i = 0; i <= kapasitas_max; i += 200) {
+                        ticks.push(i);
+                    }
+                    if (ticks[ticks.length - 1] !== kapasitas_max) {
+                        ticks.push(kapasitas_max);
+                    }
 
-                Highcharts.chart('hc_location_capacity', {
+                    Highcharts.chart('hc_location_capacity', {
 
-                    chart: {
-                        type: 'gauge',
-                        plotBackgroundColor: null,
-                        plotBackgroundImage: null,
-                        plotBorderWidth: 0,
-                        plotShadow: false,
-                        height: '60%'
-                    },
-
-                    title: {
-                        text: 'Location Capacity'
-                    },
-
-                    pane: {
-                        startAngle: -90,
-                        endAngle: 89.9,
-                        background: null,
-                        center: ['50%', '75%'],
-                        size: '110%'
-                    },
-
-                    // the value axis
-                    yAxis: {
-                        min: 0,
-                        max: kapasitas_max,
-                        tickPositions: ticks,
-                        tickPixelInterval: 100,
-                        tickPosition: 'inside',
-                        labels: {
-                            distance: 20,
-                            style: {
-                                fontSize: '14px'
-                            }
+                        chart: {
+                            type: 'gauge',
+                            plotBackgroundColor: null,
+                            plotBackgroundImage: null,
+                            plotBorderWidth: 0,
+                            plotShadow: false,
+                            height: '60%'
                         },
-                        lineWidth: 0,
-                        plotBands: [{
-                            from: 0,
-                            to: 0.4*kapasitas_max,
-                            color: '#1ab394', // green
-                            thickness: 20
-                        }, {
-                            from: 0.4*kapasitas_max,
-                            to: 0.6*kapasitas_max,
-                            color: '#DDDF0D', // yellow
-                            thickness: 20
-                        }, {
-                            from: 0.6*kapasitas_max,
-                            to: kapasitas_max,
-                            color: '#DF5353', // red
-                            thickness: 20
+
+                        title: {
+                            text: 'Location Capacity'
+                        },
+
+                        pane: {
+                            startAngle: -90,
+                            endAngle: 89.9,
+                            background: null,
+                            center: ['50%', '75%'],
+                            size: '110%'
+                        },
+
+                        // the value axis
+                        yAxis: {
+                            min: 0,
+                            max: kapasitas_max,
+                            tickPositions: ticks,
+                            tickPixelInterval: 100,
+                            tickPosition: 'inside',
+                            labels: {
+                                distance: 20,
+                                style: {
+                                    fontSize: '14px'
+                                }
+                            },
+                            lineWidth: 0,
+                            plotBands: [{
+                                from: 0,
+                                to: 0.4*kapasitas_max,
+                                color: '#1ab394', // green
+                                thickness: 20
+                            }, {
+                                from: 0.4*kapasitas_max,
+                                to: 0.6*kapasitas_max,
+                                color: '#DDDF0D', // yellow
+                                thickness: 20
+                            }, {
+                                from: 0.6*kapasitas_max,
+                                to: kapasitas_max,
+                                color: '#DF5353', // red
+                                thickness: 20
+                            }]
+                        },
+
+                        series: [{
+                            name: 'Terisi',
+                            data: [kapasitas_terisi],
+                            tooltip: {
+                                valueSuffix: ' Pallet'
+                            },
+                            dataLabels: {
+                                format: '{y} Pallet ('+(kapasitas_terisi/kapasitas_max*100).toFixed(2)+'%)',
+                                borderWidth: 0,
+                                color: (
+                                    Highcharts.defaultOptions.title &&
+                                    Highcharts.defaultOptions.title.style &&
+                                    Highcharts.defaultOptions.title.style.color
+                                ) || '#333333',
+                                style: {
+                                    fontSize: '16px'
+                                }
+                            },
+                            dial: {
+                                radius: '80%',
+                                backgroundColor: 'gray',
+                                baseWidth: 12,
+                                baseLength: '0%',
+                                rearLength: '0%'
+                            },
+                            pivot: {
+                                backgroundColor: 'gray',
+                                radius: 6
+                            }
+
                         }]
-                    },
 
-                    series: [{
-                        name: 'Terisi',
-                        data: [kapasitas_terisi],
-                        tooltip: {
-                            valueSuffix: ' Pallet'
-                        },
-                        dataLabels: {
-                            format: '{y} Pallet ('+(kapasitas_terisi/kapasitas_max*100).toFixed(2)+'%)',
-                            borderWidth: 0,
-                            color: (
-                                Highcharts.defaultOptions.title &&
-                                Highcharts.defaultOptions.title.style &&
-                                Highcharts.defaultOptions.title.style.color
-                            ) || '#333333',
-                            style: {
-                                fontSize: '16px'
-                            }
-                        },
-                        dial: {
-                            radius: '80%',
-                            backgroundColor: 'gray',
-                            baseWidth: 12,
-                            baseLength: '0%',
-                            rearLength: '0%'
-                        },
-                        pivot: {
-                            backgroundColor: 'gray',
-                            radius: 6
-                        }
-
-                    }]
-
-                });
+                    });
+                }
 
                 // hc_location_capacity
             }
@@ -290,7 +294,8 @@
             type: 'POST',
             data: {
                 start_date: start_date,
-                end_date: end_date
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
             },
             success: function ( json ) {
 
