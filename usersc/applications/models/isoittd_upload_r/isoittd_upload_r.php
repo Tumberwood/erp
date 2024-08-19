@@ -3,6 +3,7 @@
 	include_once( "../../../../usersc/lib/DataTables.php" );
 	include_once( "../../../../usersc/vendor/autoload.php");
 	include_once( "../../../helpers/hakakses_s_fn.php" );
+	include_once( "../../../helpers/SolusiIndonesiaUtilities.php" );
 	
 	use
 		DataTables\Editor,
@@ -55,6 +56,11 @@
 					Field::inst( 'isoittd_upload.lpn' ),
 					Field::inst( 'isoittd_upload.is_skip' ),
 					Field::inst( 'isoittd_upload.batch_number' ),
+					Field::inst( 'isoittd_upload.transaksi_in' ),
+					Field::inst( 'isoittd_upload.transaksi_out' ),
+					Field::inst( 'isoittd_upload.selisih_final' ),
+					Field::inst( 'isoittd_upload.qty_penjelasan' ),
+					Field::inst( 'isoittd_upload.keterangan_penjelasan' ),
 					Field::inst( 'isoittd_upload.expired_date' )
 						->getFormatter( function ( $val, $data, $opts ) {
 							if ($val === '0000-00-00' || $val === null){

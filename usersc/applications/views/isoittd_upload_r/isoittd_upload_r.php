@@ -57,6 +57,10 @@
 									<th>Quantity</th>
 									<th>Fisik</th>
 									<th>Selisih</th>
+									<th>Transaksi In</th>
+									<th>Transaksi Out</th>
+									<th>Selisih Final</th>
+									<th>Qty Penjelasan</th>
 									<th>SKIP</th>
 									<th>Hitung</th>
 								</tr>
@@ -131,6 +135,109 @@
 		// tableRelation('isoittd_uploadheader');
 		
 		$(document).ready(function() {
+			
+			edtisoittd_upload = new $.fn.dataTable.Editor( {
+				ajax: {
+					url: "../../models/isoittd_upload_r/isoittd_upload_r.php",
+					type: 'POST',
+					data: function (d){
+						d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
+						d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
+					}
+				},
+				table: "#tblisoittd_upload",
+				fields: [ 
+					{
+						label: "isoittd_upload.start_at",
+						name: "isoittd_upload.start_at",
+						type: "hidden"
+					},	
+					{
+						label: "isoittd_upload.finish_at",
+						name: "isoittd_upload.finish_at",
+						type: "hidden"
+					},	
+					{
+						label: "nama_tabel",
+						name: "nama_tabel",
+						def: "isoittd_upload",
+						type: "hidden"
+					},	
+					{
+						label: "isoittd_upload.id_isoxxth_upload",
+						name: "isoittd_upload.id_isoxxth_upload",
+						type: "hidden"
+					},
+					{
+						label: "isoittd_upload.transaction_state",
+						name: "isoittd_upload.transaction_state",
+						type: "hidden",
+						def: 1
+					},
+					{
+						label: "Qty Penjelasan <sup class='text-danger'>*<sup>", 
+						name: "isoittd_upload.qty_penjelasan"
+					}, 	
+					{
+						label: "Keterangan Penjelasan <sup class='text-danger'>*<sup>",
+						name: "isoittd_upload.keterangan_penjelasan",
+						type: "textarea"
+					},
+				]
+			} );
+			
+			edtisoittd_upload.on( 'preOpen', function( e, mode, action ) {
+			});
+
+			edtisoittd_upload.on("open", function (e, mode, action) {
+				$(".modal-dialog").addClass("modal-xl");
+				$('div.DTE_Form_Buttons button:eq(2)').hide();
+			});
+
+			edtisoittd_upload.on( 'preSubmit', function (e, data, action) {
+				if(action != 'remove'){
+
+					qty_penjelasan              = edtisoittd_upload.field('isoittd_upload.qty_penjelasan').val();
+					keterangan_penjelasan              = edtisoittd_upload.field('isoittd_upload.keterangan_penjelasan').val();
+
+					validasiRequired(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
+							'qty_penjelasan': qty_penjelasan,
+							'keterangan_penjelasan': keterangan_penjelasan,
+						}
+					);
+					
+					validasiNumber(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
+							'qty_penjelasan': qty_penjelasan,
+						},
+						0,
+						'>='
+					);
+				}
+				
+				if ( edtisoittd_upload.inError() ) {
+					return false;
+				}
+			});
+
+			edtisoittd_upload.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtisoittd_upload.field('isoittd_upload.finish_at').val(finish_at);
+			});
+			
+			edtisoittd_upload.on( 'postSubmit', function (e, json, data, action, xhr) {
+				tblisoittd_upload.rows().deselect();
+				tblisoittd_upload.ajax.reload(null,false);
+			} );
+
+			edtisoittd_upload.on( 'close', function () {
+				edtisoittd_upload.enable();
+			} );
 			
 			var selisihDesc = $.fn.dataTable.absoluteOrderNumber( [
 				{ value: null, position: 'bottom' }
@@ -210,6 +317,42 @@
 					}
 				},
 				{ 
+					data: "isoittd_upload.transaksi_in",
+					...renderNumber()
+				},
+				{ 
+					data: "isoittd_upload.transaksi_out",
+					...renderNumber()
+				},
+				{ 
+					data: "isoittd_upload.selisih_final",
+					// ...renderNumber()
+					render: function(data, type, row) {
+						if (type === 'sp') {
+							if (data == 0) {
+								return "OK";
+							} else if (data > 0) {
+								return "Lebih"
+							} else if (data < 0) {
+								return "Kurang"
+							} else {
+								return "Invalid Value"
+							}
+						} else {
+							return $.fn.dataTable.render.number(',', '.', 0, '', '').display(data);
+						}
+					},
+					class: "text-right",
+					searchPanes: {
+						orthogonal: 'sp',
+						show: true
+					}
+				},
+				{ 
+					data: "isoittd_upload.qty_penjelasan",
+					...renderNumber()
+				},
+				{ 
 					data: "isoittd_upload.is_skip",
 					...renderYaTidak()
 				},
@@ -235,7 +378,7 @@
 
 						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 						$arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
-						$arr_buttons_action 	= [];
+						$arr_buttons_action 	= ['edit'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
