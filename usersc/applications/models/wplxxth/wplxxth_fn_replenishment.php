@@ -25,6 +25,11 @@
 	$morePages = 0;
 	// END definisi variable untuk fn_ajax_results.php
 
+	if ($movement_method == 1) {
+		$orderMethod = ', expired_date ASC';
+	} else {
+		$orderMethod = '';
+	}
 	//select di inventory
 	$qs_iivxxrd = $db
 		->raw()
@@ -96,27 +101,30 @@
 					a.id_iimxxmh,
 					wlpxxmh_kode
 				HAVING SUM(b.jumlah_terkecil) > 0
-				ORDER BY level_loc DESC
+				-- ORDER BY jumlah_terkecil_iv DESC
+				ORDER BY jumlah_terkecil_iv DESC
+				'.$orderMethod.'
+
 	');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 
 	//Aturan Movement Method Order, sesuai master items
-	$movementMethodOrder = function ($a, $b) use ($movement_method, $movement_method2) {
-		//Jika movement method pertama adalah FEFO
-		if ($movement_method == 1) {
-			$dateComparison = strtotime($a['expired_date']) - strtotime($b['expired_date']);
+	// $movementMethodOrder = function ($a, $b) use ($movement_method, $movement_method2) {
+	// 	//Jika movement method pertama adalah FEFO
+	// 	if ($movement_method == 1) {
+	// 		$dateComparison = strtotime($a['expired_date']) - strtotime($b['expired_date']);
 
-			//jika movement method 2 adalah FIFO
-			if ($movement_method2 == 2) {
-				if ($dateComparison == 0) {
-					// return intval($a['level_loc']) - intval($b['level_loc']);
-				}
-			}
-			return $dateComparison;
-		}
-	};
+	// 		//jika movement method 2 adalah FIFO
+	// 		if ($movement_method2 == 2) {
+	// 			if ($dateComparison == 0) {
+	// 				// return intval($a['level_loc']) - intval($b['level_loc']);
+	// 			}
+	// 		}
+	// 		return $dateComparison;
+	// 	}
+	// };
 
-	usort($rs_iivxxrd, $movementMethodOrder);
+	// usort($rs_iivxxrd, $movementMethodOrder);
 
 	foreach ($rs_iivxxrd as $key => $iiv) {
 		//insert ke detail LPN
