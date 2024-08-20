@@ -93,24 +93,24 @@
 			
 			$db->commit();
 			$status_code  = 200;
-			$message      = 'Detail LPN Berhasil Ditambahkan';
+			$message      = 'Detail LPN Berhasil Direset';
 			$type_message = 'success';
 			
 		}else{
 			$db->rollback();
 			$status_code  = 500;
-			$message      = 'Detail LPN Gagal Ditambahkan!';
+			$message      = 'Detail LPN Gagal Direset!';
 			$type_message = 'error';
 		}
 	}catch(PDOException $e){
 		$db->rollback();
 		$status_code  = 500;
-		$message      = 'Detail LPN Gagal Ditambahkan! ' . $e->getMessage();
+		$message      = 'Detail LPN Gagal Direset! ' . $e->getMessage();
 		$type_message = 'error';
 	}catch (Exception $e) {
 		$db->rollback();
 		$status_code = 500;
-		$message = 'Detail LPN Gagal Ditambahkan!, ' . $e->getMessage();
+		$message = 'Detail LPN Gagal Direset!, ' . $e->getMessage();
 		$type_message = 'error';
 	}
 	// build response

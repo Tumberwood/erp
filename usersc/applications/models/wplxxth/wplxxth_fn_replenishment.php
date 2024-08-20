@@ -108,6 +108,23 @@
 	');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 
+	// echo $jumlah_terkecil_replenishment;
+	$index_rep = array_search(
+		true,
+		array_map(
+			function ($item) use ($jumlah_terkecil_replenishment) {
+				return $item['jumlah_terkecil_iv'] < $jumlah_terkecil_replenishment;
+			},
+			$rs_iivxxrd
+		)
+	);
+
+	if ($index_rep !== false) {
+		// Found the index where jumlah_terkecil_iv < 50
+		$index_replenishment = $index_rep;
+	} else {
+		$index_replenishment = 0;
+	}
 	//Aturan Movement Method Order, sesuai master items
 	// $movementMethodOrder = function ($a, $b) use ($movement_method, $movement_method2) {
 	// 	//Jika movement method pertama adalah FEFO
@@ -187,8 +204,17 @@
 			}
 			// print_r($iiv['jumlah_unit']."->");
 			// print_r($jumlah_unit_insert."->");
+
 			//Jika jumlah terkecil di iiv kurang dari konversi di uom replenishment
 			if ($jumlah_terkecil_insert <  $jumlah_terkecil_replenishment) {
+				
+				if ($index_replenishment > 0) {
+					if ($key != $index_replenishment) {
+						// Skip this iteration because the current index matches $index
+						continue;
+					}
+				}
+
 				//select lokasi is_smaller = 1 yang masih avalaible, harus lihat lpn sama dan kapasitas
 				$qs_loc_smaller = $db
 					->raw()
