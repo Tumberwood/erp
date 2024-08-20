@@ -80,6 +80,7 @@
 
 			Field::inst( 'wtrittd.expired_date_tujuan' ),
 			Field::inst( 'wtrittd.batch_number_tujuan' ),
+			Field::inst( 'wtrittd.is_replenishment' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
@@ -109,6 +110,7 @@
 			'activity_log_ml_confirm.id_transaksi = wtrittd.id AND activity_log_ml_confirm.kode = "CONFIRM" AND activity_log_ml_confirm.nama = "wtrittd"', '', '' )
 		->where( 'DATE(wtrittd.start_at)', $start_date, '>=' )
 		->where( 'DATE(wtrittd.start_at)', $end_date, '<=' )
+		->where( 'wtrittd.is_replenishment', null) //tampilkan yang bukan replensihment.
 		;
 	
 	// do not erase

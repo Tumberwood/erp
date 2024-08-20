@@ -198,6 +198,7 @@
                 
                 if (c_id > 0) {
                     edtwtrittd.field('wtrittd.wlpxxmh_kode').error( 'LPN ini sedang dipakai oleh user lain!' );
+                    is_valid_lpn = 0;
                 } else {
                     outstandingItem();
                     if (sisa <= 0) {
