@@ -339,7 +339,17 @@
 						},
 					}
 				},
-				
+				{
+					label: "All WH",
+					name: "wplxxth.is_all_wh",
+					type: "select",
+					placeholder : "Select",
+					def:1,
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
 				{
 					label: "Warehouse<sup class='text-danger'>*<sup>",
 					name: "wplxxth.id_iwhxxmh",
@@ -439,6 +449,8 @@
 			]
 		} );
 		
+		edtwplxxth.field('wplxxth.id_iwhxxmh').hide();
+
 		edtwplxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwplxxth.field('wplxxth.start_at').val(start_at);
@@ -466,6 +478,15 @@
 		// 	return {}
 		// }, {event: 'keyup change'});
 		
+		edtwplxxth.dependent( 'wplxxth.is_all_wh', function ( val, data, callback ) {
+			if (val == 1) {
+				edtwplxxth.field('wplxxth.id_iwhxxmh').hide();
+			} else {
+				edtwplxxth.field('wplxxth.id_iwhxxmh').show();
+			}
+			return {}
+		}, {event: 'keyup change'});
+		
 		edtwplxxth.dependent( 'wplxxth.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
 			id_wloxxmh_old = 0;
@@ -473,7 +494,6 @@
 			if (id_wloxxmh_old == 0) {
 				edtwplxxth.field('wplxxth.id_wloxxmh_out').val('');
 			}
-			console.log('id_iwhxxmh = '+id_iwhxxmh);
 			return {}
 		}, {event: 'keyup change'});
 
@@ -484,6 +504,7 @@
 				tanggal = edtwplxxth.field('wplxxth.tanggal').val();
 				id_wpmxxmh = edtwplxxth.field('wplxxth.id_wpmxxmh').val();
 				id_iwhxxmh = edtwplxxth.field('wplxxth.id_iwhxxmh').val();
+				is_all_wh = edtwplxxth.field('wplxxth.is_all_wh').val();
 				id_wloxxmh_out = edtwplxxth.field('wplxxth.id_wloxxmh_out').val();
 				
 				if(!id_wdoxxth || id_wdoxxth == ''){
@@ -522,10 +543,21 @@
 						// 'id_wdoxxth': id_wdoxxth,
 						'tanggal': tanggal,
 						'id_wpmxxmh': id_wpmxxmh,
-						'id_iwhxxmh': id_iwhxxmh,
+						// 'id_iwhxxmh': id_iwhxxmh,
 						'id_wloxxmh_out': id_wloxxmh_out,
 					}
 				);
+
+				if (is_all_wh == 0) {
+					
+					validasiRequired(
+						edtwplxxth,
+						'wplxxth',
+						{
+							'id_iwhxxmh': id_iwhxxmh,
+						}
+					);
+				}
 
 			}
 			

@@ -43,6 +43,22 @@
 			->exec();
 		$rs_ggswmsh = $qs_ggswmsh->fetch();
 		$is_replenishment = $rs_ggswmsh['is_replenishment'];
+
+		$qs_wplxxth = $db
+			->query('select', 'wplxxth' )
+			->get([
+					'is_all_wh'
+				] )
+			->where('id', $id_transaksi_h )
+			->exec();
+		$rs_wplxxth = $qs_wplxxth->fetch();
+		$is_all_wh = $rs_wplxxth['is_all_wh'];
+
+		if ($is_all_wh == 1) {
+			$where_wh = '';
+		} else {
+			$where_wh = 'AND b.id_iwhxxmh = c.id_iwhxxmh';
+		}
 		
 		$qs_items = $db
 			->query('select', 'wplittd a' )
@@ -168,7 +184,7 @@
 							LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 							LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
 							WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
-							AND b.id_iwhxxmh = c.id_iwhxxmh
+							'.$where_wh.'
 							AND (
 									(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
 									OR
