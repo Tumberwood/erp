@@ -555,7 +555,7 @@
 			allowClear: true,
 			multiple: false,
 			ajax: {
-				url: "../../models/isoxxth_upload/isoxxth_upload_fn_opt.php",
+				url: "../../models/isoxxth_upload/isoxxth_upload_parent_fn_opt.php",
 				dataType: 'json',
 				data: function (params) {
 					var query = {
