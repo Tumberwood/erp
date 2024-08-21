@@ -33,12 +33,15 @@
 								<th rowspan=2>Item Code</th>
 								<th rowspan=2>Item Name</th>
 								<th rowspan=2>LPN</th>
+								<th colspan=2 >Delivery Order</th>
 								<th colspan=3 class="bg-green-light">Picking List</th>
 								<th colspan=3 class="bg-beige">Picking</th>
 								<th colspan=3 class="bg-blue-light">Dispatch</th>
 								<th colspan=2>Delivery Note</th>
 							</tr>
 							<tr>
+								<th>Kode</th>
+								<th>Qty</th>
 								<th>Kode</th>
 								<th>Qty</th>
 								<th class="bg-green-light">Status</th>
@@ -115,19 +118,24 @@
 						targets: '_all'
 					},
 					{ 
-						className: 'bg-green-light', targets: [3,4]
+						className: 'bg-green-light', targets: [5,6]
 					},
 					{ 
-						className: 'bg-beige', targets: [6,7]
+						className: 'bg-beige', targets: [8,9]
 					},
 					{ 
-						className: 'bg-blue-light', targets: [9,10]
+						className: 'bg-blue-light', targets: [11,12]
 					},
 				],
 				columns: [
 					{ data: "iimxxmh_kode" },
 					{ data: "iimxxmh_nama" },
 					{ data: "wlpxxmh_kode" },
+					{ data: "kode_do" },
+					{ 
+						data: "jumlah_do", //4
+						...renderNumber(2)
+					},
 					{ data: "kode_pl" },
 					{ 
 						data: "jumlah_pl", //4
@@ -173,21 +181,21 @@
 				},
 				rowCallback: function( row, data, index ) {
 					if ( data.ket_pl != 'Lunas' ) {
-						$('td:eq(5)', row).addClass('bg-warning');
+						$('td:eq(7)', row).addClass('bg-warning');
 					} else {
-						$('td:eq(5)', row).addClass('bg-green-light');
+						$('td:eq(7)', row).addClass('bg-green-light');
 					}
 
 					if ( data.ket_pc != 'Lunas' ) {
-						$('td:eq(8)', row).addClass('bg-warning');
+						$('td:eq(10)', row).addClass('bg-warning');
 					}else {
-						$('td:eq(8)', row).addClass('bg-beige');
+						$('td:eq(10)', row).addClass('bg-beige');
 					}
 
 					if ( data.ket_dp != 'Lunas' ) {
-						$('td:eq(11)', row).addClass('bg-warning');
+						$('td:eq(13)', row).addClass('bg-warning');
 					} else {
-						$('td:eq(11)', row).addClass('bg-blue-light');
+						$('td:eq(13)', row).addClass('bg-blue-light');
 					}
 				}
 			} );

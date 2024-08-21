@@ -28,6 +28,8 @@
 					b.kode iimxxmh_kode,
 					b.nama iimxxmh_nama,
 					a.wlpxxmh_kode,
+					ifnull(do_rl.kode, wdo.kode) kode_do,
+					ifnull(h.jumlah_unit_do, wdt.jumlah_unit) jumlah_do,
 					CONCAT(plth.kode, " - ", a.kode) kode_pl,	
 					a.jumlah_unit jumlah_pl,
 					if(a.jumlah_terkecil_os = 0 OR g.transaction_state = 1, "Lunas", CONCAT("sisa = ", ROUND(a.jumlah_terkecil_os / a.jumlah_konversi))) ket_pl,
@@ -47,6 +49,11 @@
 				LEFT JOIN wdplptd e ON e.id_wpclptd = d.id
 				LEFT JOIN wdnlptd f ON f.id_wdplptd = e.id
 				LEFT JOIN wdnxxth g ON g.id = f.id_wdnxxth
+				LEFT JOIN wplittd plt ON plt.id = a.id_wplittd
+				LEFT JOIN wdoittd wdt ON wdt.id = plt.id_wdoittd	
+				LEFT JOIN wdoxxth wdo ON wdo.id = wdt.id_wdoxxth			
+				LEFT JOIN wdoxxth_wdnxxth h ON h.id_wdoxxth = g.id_wdoxxth AND h.id_wdnxxth = g.id
+				LEFT JOIN wdoxxth do_rl ON do_rl.id = h.id_wdoxxth
 				ORDER BY a.wlpxxmh_kode
 	'
 				
