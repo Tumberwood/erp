@@ -35,32 +35,28 @@
                     status_dispatch = kontenData.status_dispatch;
                     id_wjtxxmh = kontenData.id_wjtxxmh;
                     wloxxmh_out_nama = kontenData.wloxxmh_out_nama;
+                    id_submit_d = kontenData.id_submit_d;
 
                     if (status_dispatch == 1) {
-                        displayInputan = '';
                         statusDispatchText = '<span class="badge badge-plain">Open</span>';
                     } else if (status_dispatch == 2) {
-                        displayInputan = '';
                         statusDispatchText = '<span class="badge badge-warning">Parsial</span>';
                     } else if (status_dispatch == 3) {
-                        // displayInputan = 'style="display: none"';
-                        displayInputan = '';
                         statusDispatchText = '<span class="badge badge-primary">Full</span>';
                     } else {
-                        displayInputan = '';
                         statusDispatchText = '';
                     }
 
                     if (id_wjtxxmh == 2) {
                         btnSubmit = `
-                            <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" style="display: none">Submit & Confirm</button>
+                            <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" style="display: none">Submit & Confirm</button>
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                         `;
                         $('#confirmBtn').hide();
                     } else {
                         $('#confirmBtn').show();
                         btnSubmit = `
-                            <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="submitData(${kontenData.id})" ${displayInputan}>Submit</button>
+                            <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})">Submit</button>
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                         `;
                     }
@@ -91,7 +87,7 @@
                     btnAudit = `
                                 ${kontenValid}
 
-                                <div class="form-group m-t-n-sm" id="input${kontenData.id}" ${displayInputan}>
+                                <div class="form-group m-t-n-sm" id="input${kontenData.id}">
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <div class="d-flex align-items-center">
                                             <select class="form-select fw-bold" id="uom_select${kontenData.id}" onchange="jumlahSatuan(${kontenData.id})" style="font-size: 9px; height: 28px">
@@ -104,7 +100,13 @@
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="input_jumlah${kontenData.id}" value="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" class="form-control form-control-sm quantity" min="0" onkeyup="validasiJumlah(${kontenData.id})">
+                                                <input 
+                                                    type="text" 
+                                                    id="input_jumlah${kontenData.id}" 
+                                                    value="${id_submit_d > 0 ? kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '') : 
+                                                    kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" 
+                                                    class="form-control form-control-sm quantity" 
+                                                    min="0">
                                             </div>
                                         </div>
                                     </div>
@@ -152,23 +154,27 @@
 
         console.log('qtyInput:', qtyInput); // Check the value of qtyInput
         console.log('defVal:', defVal);     // Check the value of defVal
+        var is_submit = 0;
 
         if (isNaN(valJumlah)) {
             inputJumlah.addClass('is-invalid').next('.invalid-feedback').remove();
             inputJumlah.after('<div class="invalid-feedback">Inputan wajib angka!</div>');
             $('#dispatch' + itemId).hide();
-            $('#submit' + itemId).hide().prop('disabled', true);
+            // $('#submit' + itemId).hide().prop('disabled', true);
+            is_submit = 0;
             return; // Exit function early if input is not a number
         } else {
             if (qtyInput <= 0) {
-                $('#submit' + itemId).hide().prop('disabled', true);
+                // $('#submit' + itemId).hide().prop('disabled', true);
+                is_submit = 0;
                 inputJumlah.addClass('is-invalid').next('.invalid-feedback').remove();
                 inputJumlah.after('<div class="invalid-feedback">Inputan angka wajib lebih dari 0</div>');
             } else {
                 if (qtyInput > defVal) {
                     console.log('lebih');
                     $('#dispatch' + itemId).hide();
-                    $('#submit' + itemId).hide().prop('disabled', true);
+                    // $('#submit' + itemId).hide().prop('disabled', true);
+                    is_submit = 0;
                     inputJumlah.addClass('is-invalid').next('.invalid-feedback').remove();
                     inputJumlah.after('<div class="invalid-feedback">Jumlah Max: '+defVal+'</div>');
                 } else {
@@ -178,14 +184,20 @@
 
                     if (job_type == 1 || job_type == 3) {
                         console.log('job 1 3');
-                        $('#submit' + itemId).show().prop('disabled', false);
+                        // $('#submit' + itemId).show().prop('disabled', false);
+                        is_submit = 1;
                     } else {
                         console.log('else job 2');
                         $('#dispatch' + itemId).show().focus();
-                        $('#submit' + itemId).hide().prop('disabled', true);
+                        // $('#submit' + itemId).hide().prop('disabled', true);
+                        is_submit = 0;
                     }
                 }
             }
+        }
+        
+        if (is_submit == 1) {
+            submitData(itemId);
         }
     }
 
