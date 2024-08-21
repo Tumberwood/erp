@@ -38,7 +38,7 @@
 <div class="ibox" id="tableLPN" style="display: none">
 	<div class="ibox-content">
 		
-		<div class="modal" id="modalLPN" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal" id="modalLPN" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content animated bounceInRight">
 					<div class="modal-header">
@@ -54,8 +54,9 @@
 				</div>
 			</div>
 		</div>
+
 		
-		<div class="modal" id="modalDispatch" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal" id="modalDispatch" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content animated bounceInRight">
 					<div class="modal-header">
