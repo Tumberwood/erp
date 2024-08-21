@@ -28,10 +28,11 @@
                     b.jumlah_unit,
                     b.jumlah_unit - a.subtotal_jumlah_unit sisa_do
                 FROM wplittd a
+                LEFT JOIN wplxxth h ON h.id = a.id_wplxxth
                 LEFT JOIN wdoittd b ON b.id = a.id_wdoittd 
                 LEFT JOIN iimxxmh c ON c.id = a.id_iimxxmh
                 LEFT JOIN iumxxmh d ON d.id = a.id_iumxxmh_unit
-                WHERE b.id_wdoxxth = :id_wdoxxth
+                WHERE b.id_wdoxxth = :id_wdoxxth AND h.transaction_state <> 9
                 HAVING sisa_do > 0
                 '
         );

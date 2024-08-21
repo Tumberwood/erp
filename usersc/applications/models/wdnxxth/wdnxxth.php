@@ -55,6 +55,7 @@
 			Field::inst( 'wdnxxth.finish_at' ),
 			Field::inst( 'wdnxxth.is_nextprocess' ),
 			Field::inst( 'wdnxxth.is_defaultprogram' ),
+			Field::inst( 'wdnxxth.is_all_wh' ),
 
 			Field::inst( 'wdnxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {

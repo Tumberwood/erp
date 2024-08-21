@@ -55,20 +55,23 @@
 								<editor-field name="wdnxxth.tanggal"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="wdnxxth.id_iwhxxmh"></editor-field>
+								<editor-field name="wdnxxth.id_grlxxmh_customer"></editor-field>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="wdnxxth.id_grlxxmh_customer"></editor-field>
-							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wdnxxth.id_wdoxxth"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wdnxxth.id_grlxxmh_expedition"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="wdnxxth.id_grlxxmh_expedition"></editor-field>
+								<editor-field name="wdnxxth.is_all_wh"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wdnxxth.id_iwhxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -422,6 +425,17 @@
 					type: "hidden"
 				},
 				{
+					label: "All WH",
+					name: "wdnxxth.is_all_wh",
+					type: "select",
+					placeholder : "Select",
+					def:1,
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
 					label: "Warehouse <sup class='text-danger'>*<sup>",
 					name: "wdnxxth.id_iwhxxmh",
 					type: "select2",
@@ -473,6 +487,8 @@
 			]
 		} );
 		
+		edtwdnxxth.field('wdnxxth.id_iwhxxmh').hide();
+
 		edtwdnxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwdnxxth.field('wdnxxth.start_at').val(start_at);
@@ -487,6 +503,15 @@
 			edtFormButtonSaveConfirmHD();
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
+
+		edtwdnxxth.dependent( 'wdnxxth.is_all_wh', function ( val, data, callback ) {
+			if (val == 1) {
+				edtwdnxxth.field('wdnxxth.id_iwhxxmh').hide();
+			} else {
+				edtwdnxxth.field('wdnxxth.id_iwhxxmh').show();
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtwdnxxth.dependent( 'wdnxxth.id_grlxxmh_customer', function ( val, data, callback ) {
 			edtwdnxxth.field('wdnxxth.id_wdoxxth').input().val(null).trigger('change');
@@ -504,13 +529,14 @@
 				id_wdoxxth      = edtwdnxxth.field('wdnxxth.id_wdoxxth').val();
 				mobil_nomor      = edtwdnxxth.field('wdnxxth.mobil_nomor').val();
 				supir_nama      = edtwdnxxth.field('wdnxxth.supir_nama').val();
+				is_all_wh      = edtwdnxxth.field('wdnxxth.is_all_wh').val();
 
 				validasiRequired(
 					edtwdnxxth, 
 					"wdnxxth", 
 					{
 						"tanggal": tanggal, 
-						"id_iwhxxmh": id_iwhxxmh, 
+						// "id_iwhxxmh": id_iwhxxmh, 
 						"id_grlxxmh_customer": id_grlxxmh_customer,
 						"id_grlxxmh_expedition": id_grlxxmh_expedition,
 						"id_wdoxxth": id_wdoxxth,
@@ -518,6 +544,17 @@
 						"supir_nama": supir_nama,
 					}
 				);
+
+				if (is_all_wh == 0) {
+					
+					validasiRequired(
+						edtwdnxxth,
+						'wdnxxth',
+						{
+							'id_iwhxxmh': id_iwhxxmh,
+						}
+					);
+				}
 
 			}
 			

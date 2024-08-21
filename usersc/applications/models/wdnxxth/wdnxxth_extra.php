@@ -9,6 +9,14 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			$id_wdoxxth = $values['wdnxxth']['id_wdoxxth'];
+			$id_iwhxxmh = $values['wdnxxth']['id_iwhxxmh'];
+			$is_all_wh = $values['wdnxxth']['is_all_wh'];
+
+			if ($is_all_wh == 1) {
+				$where_wh = '';
+			} else {
+				$where_wh = ' AND b.id_iwhxxmh = '.$id_iwhxxmh;
+			}
 			
 			//insert detail LPN DN
 			$qi_item_lpn_d = $editor->db()
@@ -57,6 +65,7 @@
 						LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 						LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
 						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+						'.$where_wh.'
 						HAVING jumlah_terkecil > 0
 				'
 			);
@@ -98,6 +107,7 @@
 						LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 						LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
 						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+						'.$where_wh.'
 						GROUP BY a.id_iimxxmh
 						HAVING jumlah_terkecil > 0;
 				'
@@ -129,6 +139,7 @@
 						LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 						LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
 						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+						'.$where_wh.'
 						HAVING jumlah_terkecil > 0
 				'
 			);
@@ -241,24 +252,42 @@
 						LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 						LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 						LEFT JOIN imtxxmh imt ON imt.kode = 217
-						WHERE a.id_wdnxxth = :id;
+						WHERE a.id_wdnxxth = :id
+						'.$where_wh.'
+						;
 				'
 			);
 
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// cek apakah DO nya diedit
+			
+			$id_wdoxxth_new = $values['wdnxxth']['id_wdoxxth'];
+			$id_iwhxxmh_new = $values['wdnxxth']['id_iwhxxmh'];
+			$is_all_wh_new = $values['wdnxxth']['is_all_wh'];
+
+			if ($is_all_wh_new == 1) {
+				$where_wh = '';
+			} else {
+				$where_wh = ' AND b.id_iwhxxmh = '.$id_iwhxxmh_new;
+			}
+
 			$qs_old = $editor->db()
 				->query('select', 'wdnxxth' )
-				->get(['id_wdoxxth'] )
+				->get([
+					'id_wdoxxth',
+					'is_all_wh',
+					'id_iwhxxmh'
+					] )
 				->where('id', $id )
 				->exec();
 			$rs_old = $qs_old->fetch();
 
 			$id_wdoxxth_old = $rs_old['id_wdoxxth'];
-			$id_wdoxxth_new = $values['wdnxxth']['id_wdoxxth'];
+			$id_iwhxxmh_old = $rs_old['id_iwhxxmh'];
+			$is_all_wh_old = $rs_old['is_all_wh'];
 
-			if ($id_wdoxxth_old != $id_wdoxxth_new) {
+			if ($id_wdoxxth_old != $id_wdoxxth_new || $is_all_wh_old != $is_all_wh_new || $id_iwhxxmh_old != $id_iwhxxmh_new) {
 				$qs_pld = $editor->db()
 				->query('select', 'wdnlptd' )
 					->get([
@@ -352,6 +381,7 @@
 							LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 							LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
 							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+							'.$where_wh.'
 							HAVING jumlah_terkecil > 0
 					'
 				);
@@ -393,6 +423,7 @@
 							LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 							LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
 							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+							'.$where_wh.'
 							GROUP BY a.id_iimxxmh
 							HAVING jumlah_terkecil > 0;
 					'
@@ -424,6 +455,7 @@
 							LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 							LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
 							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+							'.$where_wh.'
 							HAVING jumlah_terkecil > 0
 					'
 				);
@@ -536,7 +568,9 @@
 							LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 							LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 							LEFT JOIN imtxxmh imt ON imt.kode = 217
-							WHERE a.id_wdnxxth = :id;
+							WHERE a.id_wdnxxth = :id
+							'.$where_wh.'
+							;
 					'
 				);
 			}
@@ -544,9 +578,49 @@
 		->on('postEdit',function( $editor, $id, $values, $row ) {
 			// script diletakkan disini
 		})
-		->on('preRemove',function( $editor, $id, $values ) {
-			// script diletakkan disini
+		->on('preRemove', function($editor, $id, $values) {
+			try {
+				// Debugging untuk melihat ID yang dikirim
+				print_r($id);
+		
+				$qs_dispatch = $editor->db()
+					->raw()
+					->bind(':id', $id)
+					->exec('SELECT
+								a.id_wdplptd,
+								a.jumlah_terkecil
+							FROM wdnlptd a
+							WHERE a.id_wdnxxth = :id'
+					);
+		
+				$rs_dispatch = $qs_dispatch->fetchAll();
+		
+				foreach ($rs_dispatch as $dispatch) {
+					$id_wdplptd = $dispatch['id_wdplptd'];
+					$jumlah_terkecil = $dispatch['jumlah_terkecil'];
+		
+					$editor->db()
+						->raw()
+						->bind(':id_wdplptd', $id_wdplptd)
+						->bind(':jumlah_terkecil', $jumlah_terkecil)
+						->exec('UPDATE wdplptd
+								SET
+									jumlah_terkecil_os = jumlah_terkecil_os + :jumlah_terkecil,
+									jumlah_terkecil_next = jumlah_terkecil_next - :jumlah_terkecil
+								WHERE id = :id_wdplptd'
+						);
+				}
+		
+				$editor->db()
+					->query('delete', 'iivxxrd')
+					->where('keterangan', 'id_wdnxxth='.$id)
+					->exec();
+		
+			} catch (\Exception $e) {
+				error_log("Error in preRemove: " . $e->getMessage());
+			}
 		})
+		
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
 		});
