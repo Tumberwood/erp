@@ -101,7 +101,6 @@
 					a.id_iimxxmh,
 					wlpxxmh_kode
 				HAVING SUM(b.jumlah_terkecil) > 0
-				-- ORDER BY jumlah_terkecil_iv DESC
 				ORDER BY jumlah_terkecil_iv DESC
 				'.$orderMethod.'
 
@@ -109,22 +108,31 @@
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 
 	// echo $jumlah_terkecil_replenishment;
-	$index_rep = array_search(
-		true,
-		array_map(
+	// $index_rep = array_search(
+	// 	true,
+	// 	array_map(
+	// 		function ($item) use ($jumlah_terkecil_replenishment) {
+	// 			return $item['jumlah_terkecil_iv'] < $jumlah_terkecil_replenishment;
+	// 		},
+	// 		$rs_iivxxrd
+	// 	)
+	// );
+
+	$index_replenishment = array_keys(
+		array_filter(
+			$rs_iivxxrd,
 			function ($item) use ($jumlah_terkecil_replenishment) {
 				return $item['jumlah_terkecil_iv'] < $jumlah_terkecil_replenishment;
-			},
-			$rs_iivxxrd
+			}
 		)
 	);
 
-	if ($index_rep !== false) {
-		// Found the index where jumlah_terkecil_iv < 50
-		$index_replenishment = $index_rep;
-	} else {
-		$index_replenishment = 0;
-	}
+	// if ($index_rep !== false) {
+	// 	// Found the index where jumlah_terkecil_iv < 50
+	// 	$index_replenishment = $index_rep;
+	// } else {
+	// 	$index_replenishment = 0;
+	// }
 	//Aturan Movement Method Order, sesuai master items
 	// $movementMethodOrder = function ($a, $b) use ($movement_method, $movement_method2) {
 	// 	//Jika movement method pertama adalah FEFO
@@ -208,9 +216,9 @@
 			//Jika jumlah terkecil di iiv kurang dari konversi di uom replenishment
 			if ($jumlah_terkecil_insert <  $jumlah_terkecil_replenishment) {
 				
-				if ($index_replenishment > 0) {
-					if ($key != $index_replenishment) {
-						// Skip this iteration because the current index matches $index
+				if (!empty($index_replenishment)) {
+					if (!in_array($key, $index_replenishment)) {
+						// Skip this iteration because the current index is not in $index_replenishment
 						continue;
 					}
 				}
@@ -277,18 +285,33 @@
 										)
 			
 									ORDER BY wloxxmh.is_smaller DESC
-									LIMIT 1
+									-- LIMIT 1
 								) location
 							) loc
 					'
 					);
 
-				$rs_loc_smaller = $qs_loc_smaller->fetch();
+				$rs_loc_smaller = $qs_loc_smaller->fetchAll();
 
-				$id_wloxxmh_smaller = $rs_loc_smaller['id_wloxxmh'];
+				$ids_wloxxmh = array_column($rs_loc_smaller, 'id_wloxxmh');
+				$id_wloxxmh_smaller = '(' . implode(',', $ids_wloxxmh) . ')';
+
+				$id_wloxxmh_now = $iiv['id_wloxxmh'];
+
+				$qs_this_smaller = $db
+					->raw()
+					->bind(':id_wloxxmh_now', $id_wloxxmh_now)
+					->exec('SELECT
+								IF(:id_wloxxmh_now IN '.$id_wloxxmh_smaller.', "is_smaller", "is_not_smaller") AS result;
+					'
+					);
+
+				$rs_this_smaller = $qs_this_smaller->fetch();
+
+				$is_smaller_location = $rs_this_smaller['result'];
 
 				//cek apakah lokasi sekarang ini adalah smaller = 1
-				if ($id_wloxxmh_smaller != $iiv['id_wloxxmh']) {
+				if ($is_smaller_location == "is_not_smaller") {
 					//insert ke Item Transfer
 					$qi_wtrittd = $db
 						->query('insert', 'wtrittd')
@@ -302,7 +325,7 @@
 						->set('start_at',$timestamp)
 						->set('id_iimxxmh',$iiv['id_iimxxmh'])
 						->set('id_wloxxmh_asal',$iiv['id_wloxxmh'])
-						->set('id_wloxxmh_tujuan',$id_wloxxmh_smaller)
+						->set('id_wloxxmh_tujuan',$rs_loc_smaller[0]['id_wloxxmh'])
 						->set('id_iwhxxmh',$iiv['id_iwhxxmh'])
 						->set('id_iumxxmh_unit',$iiv['id_iumxxmh_unit'])
 						->set('id_iumxxmh_terkecil',$iiv['id_iumxxmh_terkecil'])
@@ -367,7 +390,7 @@
 						->set('id_wloctmh',$iiv['id_wloctmh'])
 						->set('wlpxxmh_kode',$iiv['wlpxxmh_kode'])
 						->set('id_iwhxxmh',$iiv['id_iwhxxmh'])
-						->set('id_wloxxmh',$id_wloxxmh_smaller)
+						->set('id_wloxxmh',$rs_loc_smaller[0]['id_wloxxmh'])
 						->set('id_relasi_m',$iiv['id_relasi_m'])
 						->set('id_iimxxmh',$iiv['id_iimxxmh'])
 						->set('id_iumxxmh_unit',$iiv['id_iumxxmh_unit'])
@@ -376,8 +399,8 @@
 						->set('keterangan',$uniqueToken)
 						->set('iwhxxmh_kode',$iiv['iwhxxmh_kode'])
 						->set('iwhxxmh_nama',$iiv['iwhxxmh_nama'])
-						->set('wloxxmh_kode',$rs_loc_smaller['wloxxmh_kode'])
-						->set('wloxxmh_nama',$rs_loc_smaller['wloxxmh_nama'])
+						->set('wloxxmh_kode',$rs_loc_smaller[0]['wloxxmh_kode'])
+						->set('wloxxmh_nama',$rs_loc_smaller[0]['wloxxmh_nama'])
 						->set('relasi_m_kode',$iiv['relasi_m_kode'])
 						->set('relasi_m_nama',$iiv['relasi_m_nama'])
 						->set('iimxxmh_kode',$iiv['iimxxmh_kode'])
@@ -404,9 +427,9 @@
 					General::logChange( $db , 'wtrittd', $s_id_users, $s_username, 'CREATE', $id_wtrittd, "Replenishment From PL id ".$id_transaksi_h, $timestamp , $finish_at );
 					// General::logChange( $db , 'wtrittd', $s_id_users, $s_username, 'CONFIRM', $id_wtrittd, "Replenishment From PL id ".$id_transaksi_h, $timestamp , $finish_at );
 					
-					$id_lokasi_insert = $rs_loc_smaller['id_wloxxmh'];
-					$nama_lokasi_insert = $rs_loc_smaller['wloxxmh_nama'];
-					$kode_lokasi_insert = $rs_loc_smaller['wloxxmh_kode'];
+					$id_lokasi_insert = $rs_loc_smaller[0]['id_wloxxmh'];
+					$nama_lokasi_insert = $rs_loc_smaller[0]['wloxxmh_nama'];
+					$kode_lokasi_insert = $rs_loc_smaller[0]['wloxxmh_kode'];
 				} else {
 					$id_lokasi_insert = $iiv['id_wloxxmh'];
 					$nama_lokasi_insert = $iiv['wloxxmh_nama'];
