@@ -22,6 +22,7 @@
 			->raw()
 			->bind(':uniqueToken', $uniqueToken)
 			->exec('SELECT
+						a.id_wplxxth,
 						a.jumlah_unit AS jumlah_pl,
 						unit.kode AS uom_pl,
 						ifnull(s_card, 0) AS jumlah_p,

@@ -3,7 +3,9 @@
         event.preventDefault();
     }
 
-    function cekDataInventory(wlpxxmh_kode, id_wloxxmh){
+    var status_code_rep;
+    
+    function cekDataInventory(id_wplxxth, wlpxxmh_kode, id_wloxxmh, jumlah_pl){
         // cek apakah UoM Replenishment ada
         $.ajax( {
             url: "../../models/wpcxxth/wpcxxth_cek_inventory.php",
@@ -11,8 +13,10 @@
             async: false,
             type: 'POST',
             data: {
+                id_wplxxth: id_wplxxth,
                 wlpxxmh_kode: wlpxxmh_kode,
                 id_wloxxmh: id_wloxxmh,
+                jumlah_pl: jumlah_pl,
             },
             success: function ( json ) {
                 message_rep = json.data.message;
@@ -50,7 +54,7 @@
                 genKonten = '';
                 autofillField('ggswmsh', 1, 'is_replenishment');
 				is_replenishment = autofillData.is_replenishment;
-                cekDataInventory(dataKonten[0].wlpxxmh_kode, dataKonten[0].id_wloxxmh);
+                cekDataInventory(dataKonten[0].id_wplxxth, dataKonten[0].wlpxxmh_kode, dataKonten[0].id_wloxxmh, dataKonten[0].jumlah_pl);
                 if (is_replenishment == 1 && status_code_rep == 500) {
                     $('.btnLPN').append(`<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`);
                     $('#konten').html(`<h3>${message_rep}</h3>`);
