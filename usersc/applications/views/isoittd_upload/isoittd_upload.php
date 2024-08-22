@@ -211,6 +211,7 @@
 							<thead>
 								<tr>
 									<th>ID</th>
+									<th>Hitung</th>
 									<th>Loc</th>
 									<th>LPN</th>
 									<th>SKU</th>
@@ -225,7 +226,6 @@
 									<th>Transaksi Out</th>
 									<th>Selisih Final</th>
 									<th>SKIP</th>
-									<th>Hitung</th>
 									<!-- <th>Location Zone</th> -->
 								</tr>
 							</thead>
@@ -1470,7 +1470,8 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,3,4,10,13,14,15]
+					// targets: [1,3,4,10,13,14,15]
+					targets: [1,2,4,5,11,14,15]
 				},
 				{
 					searchPanes:{
@@ -1478,16 +1479,27 @@
 					},
 					targets: '_all'
 				},
-				{ type: selisihDesc, targets: 10 }
+				{ type: selisihDesc, targets: 11 }
 			],
 			deferRender: true,
 			// serverSide: true,
-			order: [[ 1, "asc" ], [ 3, "asc" ], [ 2, "asc" ], [ 5, "asc" ]],
+			order: [[ 2, "asc" ], [ 4, "asc" ], [ 3, "asc" ], [ 6, "asc" ]],
 			// responsive: false,
 			// scrollX: true,
 			columns: [
 				{ data: "isoittd_upload.id",visible:false },
 				// { data: "wloxxmh.nama" },
+				{ 
+					data: null,
+					render: function (data, type, row) {
+						// console.log(row);
+						if(row.isoittd_upload.is_skip == 0 && row.isoittd_upload.fisik == null){
+							return '<span class="badge badge-plain">Tidak</span>';
+						} else {
+							return '<span class="badge badge-primary">Ya</span>';
+						}
+					}
+				},
 				{ data: "isoittd_upload.lokasi" },
 				{ data: "isoittd_upload.lpn" },
 				// { data: "iimxxmh.kode" },
@@ -1565,17 +1577,6 @@
 				{ 
 					data: "isoittd_upload.is_skip",
 					...renderYaTidak()
-				},
-				{ 
-					data: null,
-					render: function (data, type, row) {
-						// console.log(row);
-						if(row.isoittd_upload.is_skip == 0 && row.isoittd_upload.fisik == null){
-							return '<span class="badge badge-plain">Tidak</span>';
-						} else {
-							return '<span class="badge badge-primary">Ya</span>';
-						}
-					}
 				},
 				// { data: "wloznmh.nama" }, 
 			],
