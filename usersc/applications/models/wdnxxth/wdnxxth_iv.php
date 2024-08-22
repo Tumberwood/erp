@@ -1237,7 +1237,8 @@
 							a.jumlah_unit_next = 0,
 							a.jumlah_unit = jumlah_unit_os,
 							a.jumlah_terkecil_next = 0,
-							a.jumlah_terkecil = jumlah_terkecil_os
+							a.jumlah_terkecil = jumlah_terkecil_os,
+							a.jumlah_default = jumlah_unit_os
 						WHERE a.id_wdoxxth = :id_wdoxxth
 						;
 				'

@@ -191,7 +191,7 @@
 							:uniqueToken
 						FROM wpclptd a
 						LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh_tujuan
-						LEFT JOIN wloxxmh c ON c.id_wloctmh = 5 AND c.is_defaultprogram = 1
+						LEFT JOIN wloxxmh c ON c.id_wloctmh = 5 AND c.is_defaultprogram = 1 AND c.id_iwhxxmh = b.id_iwhxxmh
 						WHERE a.id = :id_lpn
 				'
 			);
