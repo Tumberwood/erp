@@ -1099,7 +1099,7 @@
 					}
 				},
 				{
-					label: "Satuan", 
+					label: "Satuan <sup class='text-danger'>*<sup>",", 
 					name: "isoittd_upload.select_satuan",
 					type: "select2",
 					id: "satuan_opname",
@@ -1341,7 +1341,7 @@
 		edtisoittd_upload.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		});
-		
+
 		edtisoittd_upload.dependent( 'isoittd_upload.select_satuan', function ( val, data, callback ) {
 			if (val > 0) {
 				var data_satuan_opname = $('#satuan_opname').select2('data')[0];
