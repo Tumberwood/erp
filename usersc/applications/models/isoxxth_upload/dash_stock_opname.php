@@ -402,54 +402,18 @@
             ->raw()
             ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
             ->exec('SELECT
-                        kode,
-                        nama,
-                        s_jumlah_terkecil,
-                        s_fisik,
-                        s_selisih
-                    FROM 
-                    (
-                        SELECT * FROM 
-                        (
-                            SELECT
-                                a.kode,
-                                a.nama,
-                                SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
-                                SUM(a.fisik) AS s_fisik,
-                                SUM(a.selisih) AS s_selisih
-                            FROM isoittd_upload AS a
-                            INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                            WHERE (a.id_isoxxth_upload = ::id_isoxxth_upload OR th.id_isoxxth_upload_parent = ::id_isoxxth_upload) 
-                            AND a.transaction_state <> -9 
-                            AND a.fisik IS NOT NULL
-                            GROUP BY a.kode, a.nama
-                            HAVING s_selisih < 0
-                            ORDER BY s_selisih ASC
-                            LIMIT 10
-                        ) AS subquery1
-                        
-                        UNION ALL
-                        
-                        SELECT * FROM 
-                        (
-                            SELECT
-                                a.kode,
-                                a.nama,
-                                SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
-                                SUM(a.fisik) AS s_fisik,
-                                SUM(a.selisih) AS s_selisih
-                            FROM isoittd_upload AS a
-                            INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                            WHERE (a.id_isoxxth_upload = ::id_isoxxth_upload OR th.id_isoxxth_upload_parent = ::id_isoxxth_upload) 
-                            AND a.transaction_state <> -9 
-                            AND a.fisik IS NOT NULL
-                            GROUP BY a.kode, a.nama
-                            HAVING s_selisih > 0
-                            ORDER BY s_selisih DESC
-                            LIMIT 10
-                        ) AS subquery2
-                    ) item;
-        
+                        a.kode,
+                        a.nama,
+                        sum(a.jumlah_terkecil) AS s_jumlah_terkecil,
+                        sum(a.fisik) AS s_fisik,
+                        sum(a.selisih) AS s_selisih
+                    FROM isoittd_upload AS a
+                    INNER JOIN isoxxth_upload th on th.id = a.id_isoxxth_upload
+                    WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND a.transaction_state <> -9 AND a.fisik is not null
+                    GROUP BY a.nama
+                    having s_selisih < 0
+                    ORDER BY s_selisih ASC
+                    LIMIT 10
                     '
                     );
         $rs_selisih_terbanyak = $qs_selisih_terbanyak->fetchAll();
