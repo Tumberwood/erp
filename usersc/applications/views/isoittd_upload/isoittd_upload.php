@@ -1820,6 +1820,17 @@
 
 			//keperluan Button
 			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
+
+			console.log(hak_u);
+			if (hak_u == 1) {	
+				tblisoittd_upload_fisik.button('btnCreate:name')
+				.nodes()
+				.css( 'display', 'block' );
+			} else {
+				tblisoittd_upload_fisik.button('btnCreate:name')
+				.nodes()
+				.css( 'display', 'none' );
+			}
 		} );
 		
 		tblisoittd_upload.on( 'deselect', function () {
@@ -2259,6 +2270,30 @@
 						}
 					]
 				},
+				{
+					extend: "selected",
+					name: 'btnView',
+					text: '<i class="fa fa-window-maximize"></i>&nbsp;View Data',
+					className: 'btn btn-sm',
+					titleAttr: 'View Data',
+					action: function(e, dt, node, config) {
+						edtisoittd_upload_fisik.edit(tblisoittd_upload_fisik.row({
+							selected: true
+						}).index(), {
+							title: 'View'
+						}).buttons(
+							{
+								text: 'Close',
+								action: function () {
+									this.close();
+								},
+								className: 'btn btn-warning'
+							}
+						);
+						edtisoittd_upload_fisik.disable();
+						e.preventDefault();
+					}
+				},
 			],
 			initComplete: function() {
 			}
@@ -2283,6 +2318,23 @@
 			// atur hak akses
 			// CekSelectDetailHD(tblisoittd_upload, tblisoittd_upload_fisik );
 			CekSelectDetailHD(tblisoittd_upload_fisik );
+
+			console.log(hak_u);
+			if (hak_u == 1) {	
+				tblisoittd_upload_fisik.button('btnEdit:name')
+				.nodes()
+				.css( 'display', 'block' );
+				tblisoittd_upload_fisik.button('btnRemove:name')
+				.nodes()
+				.css( 'display', 'block' );
+			} else {
+				tblisoittd_upload_fisik.button('btnEdit:name')
+				.nodes()
+				.css( 'display', 'none' );
+				tblisoittd_upload_fisik.button('btnRemove:name')
+				.nodes()
+				.css( 'display', 'none' );
+			}
 		} );
 
 		tblisoittd_upload_fisik.on( 'deselect', function() {
