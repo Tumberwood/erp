@@ -202,10 +202,8 @@
 				$lpn 		= strtoupper($sheetData[$i]['9']) ;
 				$batch_number 		= strtoupper($sheetData[$i]['10']) ;
 
-				$expired_date = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data expired_date
-				// $expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
-				// $exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data expired_date
-				// $expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
+				$exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data expired_date
+				$expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
 
 				// //Insert Detail
 				// $qi_detail = $db
