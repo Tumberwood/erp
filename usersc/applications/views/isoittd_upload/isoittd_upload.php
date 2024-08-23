@@ -1101,7 +1101,41 @@
 				{
 					label: "Satuan", 
 					name: "isoittd_upload.select_satuan",
-					type: "readonly",
+					type: "select2",
+					id: "satuan_opname",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/isoittd_upload/satuan_opname_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								// console.log(id_isoxxth_upload_filter);
+								var query = {
+									id_isoittd_upload_old: id_iimxxmh_old,
+									id_isoxxth_upload_old: id_isoxxth_upload_filter,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
 				},
 				{
 					label: "Lokasi <sup class='text-danger'>*<sup>", 
@@ -1307,6 +1341,18 @@
 		edtisoittd_upload.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		});
+		
+		edtisoittd_upload.dependent( 'isoittd_upload.select_satuan', function ( val, data, callback ) {
+			if (val > 0) {
+				var data_satuan_opname = $('#satuan_opname').select2('data')[0];
+				if (data_satuan_opname) {
+					text_satuan_opname = data_satuan_opname.text
+				}
+
+				edtisoittd_upload.field('isoittd_upload.satuan').val(text_satuan_opname);
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtisoittd_upload.dependent( 'isoittd_upload.id_files_pointer', function ( val, data, callback ) {
 			if (val > 0) {
