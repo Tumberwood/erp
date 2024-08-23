@@ -1099,7 +1099,7 @@
 					}
 				},
 				{
-					label: "Satuan <sup class='text-danger'>*<sup>",", 
+					label: "Satuan <sup class='text-danger'>*<sup>", 
 					name: "isoittd_upload.select_satuan",
 					type: "select2",
 					id: "satuan_opname",
