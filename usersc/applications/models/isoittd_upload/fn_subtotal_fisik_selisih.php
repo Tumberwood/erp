@@ -27,7 +27,8 @@
                     ) AS c ON c.id_isoittd_upload = b.id
                     SET 
                         b.fisik = sum_fisik,
-                        b.selisih = sum_fisik - b.jumlah_terkecil
+                        b.selisih = sum_fisik - b.jumlah_terkecil,
+                        b.selisih_final = sum_fisik - b.jumlah_terkecil
                     WHERE b.id = :id_h
         ');
 

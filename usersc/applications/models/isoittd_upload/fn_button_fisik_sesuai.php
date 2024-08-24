@@ -27,6 +27,7 @@ use
                         SET 
                             b.fisik = b.jumlah_terkecil,
                             b.selisih = 0,
+                            b.selisih_final = 0,
                             b.is_skip = 0
                         WHERE b.id = :id_h
         ');

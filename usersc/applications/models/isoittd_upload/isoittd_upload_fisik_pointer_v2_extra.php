@@ -141,6 +141,7 @@
 												b.is_skip = 0,
 												b.is_pointer = 1,
 												b.fisik = sum_fisik,
+												b.selisih_final = sum_fisik - b.jumlah_terkecil,
 												b.selisih = sum_fisik - b.jumlah_terkecil
 											WHERE b.id = :id_isoittd
 							');
@@ -210,6 +211,7 @@
 										b.is_skip = 0,
 										b.is_pointer = 1,
 										b.fisik = sum_fisik,
+										b.selisih_final = sum_fisik - b.jumlah_terkecil,
 										b.selisih = sum_fisik - b.jumlah_terkecil
 									WHERE b.id = :id_isoittd
 					');
