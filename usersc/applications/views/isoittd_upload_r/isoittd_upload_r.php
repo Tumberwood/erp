@@ -286,11 +286,11 @@
 				{ data: "isoittd_upload.satuan" },
 				{ 
 					data: "isoittd_upload.jumlah_terkecil" ,
-					...renderNumber()
+					...renderNumber(2)
 				},
 				{ 
 					data: "isoittd_upload.fisik",
-					...renderNumber()
+					...renderNumber(2)
 				},
 				{ 
 					data: "isoittd_upload.selisih",
@@ -307,7 +307,7 @@
 								return "Invalid Value"
 							}
 						} else {
-							return $.fn.dataTable.render.number(',', '.', 0, '', '').display(data);
+							return $.fn.dataTable.render.number(',', '.', 2, '', '').display(data);
 						}
 					},
 					class: "text-right",
@@ -318,11 +318,11 @@
 				},
 				{ 
 					data: "isoittd_upload.transaksi_in",
-					...renderNumber()
+					...renderNumber(2)
 				},
 				{ 
 					data: "isoittd_upload.transaksi_out",
-					...renderNumber()
+					...renderNumber(2)
 				},
 				{ 
 					data: "isoittd_upload.selisih_final",
@@ -339,7 +339,7 @@
 								return "Invalid Value"
 							}
 						} else {
-							return $.fn.dataTable.render.number(',', '.', 0, '', '').display(data);
+							return $.fn.dataTable.render.number(',', '.', 2, '', '').display(data);
 						}
 					},
 					class: "text-right",
