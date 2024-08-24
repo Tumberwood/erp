@@ -818,9 +818,9 @@
 		edtisoittd_upload_duplicate.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				select_satuan      = edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').val();
-				select_item = edtisoittd_upload_duplicate.field('isoittd_upload.select_item').val();
-				select_lokasi         = edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').val();
+				// select_satuan      = edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').val();
+				// select_item = edtisoittd_upload_duplicate.field('isoittd_upload.select_item').val();
+				// select_lokasi         = edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').val();
 				satuan      = edtisoittd_upload_duplicate.field('isoittd_upload.satuan').val();
 				kode = edtisoittd_upload_duplicate.field('isoittd_upload.kode').val();
 				nama = edtisoittd_upload_duplicate.field('isoittd_upload.nama').val();
@@ -837,9 +837,9 @@
 					edtisoittd_upload_duplicate,
 					'isoittd_upload',
 					{
-						'select_satuan': select_satuan,
-						'select_item': select_item,
-						'select_lokasi': select_lokasi,
+						// 'select_satuan': select_satuan,
+						// 'select_item': select_item,
+						// 'select_lokasi': select_lokasi,
 						'jumlah_terkecil': jumlah_terkecil,
 					}
 				);
