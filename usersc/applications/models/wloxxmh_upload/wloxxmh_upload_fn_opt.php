@@ -47,7 +47,7 @@
             ->query('select', 'wloxxmh_upload')
             ->get([
                 'wloxxmh_upload.id as id',
-                'wloxxmh_upload.nama as text'
+                'nama as text'
             ])
             ->where('wloxxmh_upload.id', $id_wloxxmh_upload_old )
             ->limit(1)
@@ -64,7 +64,7 @@
         ->query('select', 'wloxxmh_upload')
         ->get([
             'wloxxmh_upload.id as id',
-            'wloxxmh_upload.nama as text'
+            'nama as text'
         ])
         ->where('wloxxmh_upload.transaction_state',1)
         ->where('wloxxmh_upload.id', $id_wloxxmh_upload_old, '<>' )
@@ -73,10 +73,10 @@
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('wloxxmh_upload.nama', '%' . $q . '%', 'LIKE' )
+                ->where('nama', '%' . $q . '%', 'LIKE' )
                 ;
         } )
-        ->order('wloxxmh_upload.nama')
+        ->order('nama')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
@@ -98,6 +98,17 @@
     // END finalisasi paginasi select2
     
     // tampilkan results
-    require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
+    // require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
 
+    $results = array(
+        "debug" => $debug,
+        "data" => $data,
+
+        // untuk select2
+        "results" => $rs_opt,
+    );
+    // END results akhir
+
+    header('Content-Type: application/json');
+    echo json_encode($results);
 ?>
