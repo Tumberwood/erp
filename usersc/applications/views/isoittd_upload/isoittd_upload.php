@@ -1805,13 +1805,28 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_upload_fisik];
 			CekInitHeaderHD(tblisoittd_upload, tbl_details);
-			
-			tblisoittd_upload.button('btnSetFisik:name').disable();
-			tblisoittd_upload.button('btnSesuai:name').disable();
-			tblisoittd_upload.button('btnNol:name').disable();
-			tblisoittd_upload.button('btnSkip:name').disable();
-			tblisoittd_upload.button('btnDuplicate:name').disable();
-			tblisoittd_upload.button('btnPointer:name').disable();
+
+			console.log(hak_u);
+			if (hak_u == 1) {	
+				tblisoittd_upload.button('btnSetExcel:name').nodes()
+				.css( 'display', 'block' );
+
+				tblisoittd_upload.button('btnSetFisik:name').nodes().css( 'display', 'block' );
+				tblisoittd_upload.button('btnSesuai:name').nodes().css( 'display', 'block' );
+				tblisoittd_upload.button('btnNol:name').nodes().css( 'display', 'block' );
+				tblisoittd_upload.button('btnSkip:name').nodes().css( 'display', 'block' );
+				tblisoittd_upload.button('btnDuplicate:name').nodes().css( 'display', 'block' );
+				tblisoittd_upload.button('btnPointer:name').nodes().css( 'display', 'block' );
+			} else {
+				tblisoittd_upload.button('btnSetExcel:name').nodes().css( 'display', 'none' );
+				
+				tblisoittd_upload.button('btnSetFisik:name').nodes().css( 'display', 'none' );
+				tblisoittd_upload.button('btnSesuai:name').nodes().css( 'display', 'none' );
+				tblisoittd_upload.button('btnNol:name').nodes().css( 'display', 'none' );
+				tblisoittd_upload.button('btnSkip:name').nodes().css( 'display', 'none' );
+				tblisoittd_upload.button('btnDuplicate:name').nodes().css( 'display', 'none' );
+				tblisoittd_upload.button('btnPointer:name').nodes().css( 'display', 'none' );
+			}
 		} );
 		
 		tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -1854,36 +1869,29 @@
 			//keperluan Button
 			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
 
+			tblisoittd_upload.button('btnSetFisik:name').enable();
+
+			if (fisik == null) {
+				tblisoittd_upload.button('btnNol:name').enable();		
+				tblisoittd_upload.button('btnSesuai:name').enable();
+
+			} else {
+				tblisoittd_upload.button('btnSesuai:name').disable();
+				tblisoittd_upload.button('btnNol:name').disable();
+			}
+			tblisoittd_upload.button('btnSkip:name').enable();
+			tblisoittd_upload.button('btnDuplicate:name').enable();		
+			tblisoittd_upload.button('btnPointer:name').enable();
+				
 			console.log(hak_u);
 			if (hak_u == 1) {	
 				tblisoittd_upload_fisik.button('btnCreate:name')
 				.nodes()
-				.css( 'display', 'block' );
-
-				tblisoittd_upload.button('btnSetFisik:name').enable();
-
-				if (fisik == null) {
-					tblisoittd_upload.button('btnNol:name').enable();		
-					tblisoittd_upload.button('btnSesuai:name').enable();
-
-				} else {
-					tblisoittd_upload.button('btnSesuai:name').disable();
-					tblisoittd_upload.button('btnNol:name').disable();
-				}
-				tblisoittd_upload.button('btnSkip:name').enable();
-				tblisoittd_upload.button('btnDuplicate:name').enable();		
-				tblisoittd_upload.button('btnPointer:name').enable();		
+				.css( 'display', 'block' );	
 			} else {
 				tblisoittd_upload_fisik.button('btnCreate:name')
 				.nodes()
 				.css( 'display', 'none' );
-
-				tblisoittd_upload.button('btnSetFisik:name').disable();
-				tblisoittd_upload.button('btnSesuai:name').disable();
-				tblisoittd_upload.button('btnNol:name').disable();
-				tblisoittd_upload.button('btnSkip:name').disable();
-				tblisoittd_upload.button('btnDuplicate:name').disable();
-				tblisoittd_upload.button('btnPointer:name').disable();
 			}
 		} );
 		
