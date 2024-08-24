@@ -97,18 +97,7 @@
     $morePages = $endCount >= $c_rs_opt;
     // END finalisasi paginasi select2
     
+    $not_numcheck = 1;
     // tampilkan results
-    // require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
-
-    $results = array(
-        "debug" => $debug,
-        "data" => $data,
-
-        // untuk select2
-        "results" => $rs_opt,
-    );
-    // END results akhir
-
-    header('Content-Type: application/json');
-    echo json_encode($results);
+    require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
 ?>
