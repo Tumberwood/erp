@@ -1850,19 +1850,6 @@
 			// rowData = tblisoittd_upload.row(rowIndex).data();
 			// console.log(rowIndex);		
 			// console.log(rowData);
-			tblisoittd_upload.button('btnSetFisik:name').enable();
-
-			if (fisik == null) {
-				tblisoittd_upload.button('btnNol:name').enable();		
-				tblisoittd_upload.button('btnSesuai:name').enable();
-
-			} else {
-				tblisoittd_upload.button('btnSesuai:name').disable();
-				tblisoittd_upload.button('btnNol:name').disable();
-			}
-			tblisoittd_upload.button('btnSkip:name').enable();
-			tblisoittd_upload.button('btnDuplicate:name').enable();		
-			tblisoittd_upload.button('btnPointer:name').enable();		
 
 			//keperluan Button
 			start_button = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -1872,10 +1859,31 @@
 				tblisoittd_upload_fisik.button('btnCreate:name')
 				.nodes()
 				.css( 'display', 'block' );
+
+				tblisoittd_upload.button('btnSetFisik:name').enable();
+
+				if (fisik == null) {
+					tblisoittd_upload.button('btnNol:name').enable();		
+					tblisoittd_upload.button('btnSesuai:name').enable();
+
+				} else {
+					tblisoittd_upload.button('btnSesuai:name').disable();
+					tblisoittd_upload.button('btnNol:name').disable();
+				}
+				tblisoittd_upload.button('btnSkip:name').enable();
+				tblisoittd_upload.button('btnDuplicate:name').enable();		
+				tblisoittd_upload.button('btnPointer:name').enable();		
 			} else {
 				tblisoittd_upload_fisik.button('btnCreate:name')
 				.nodes()
 				.css( 'display', 'none' );
+
+				tblisoittd_upload.button('btnSetFisik:name').disable();
+				tblisoittd_upload.button('btnSesuai:name').disable();
+				tblisoittd_upload.button('btnNol:name').disable();
+				tblisoittd_upload.button('btnSkip:name').disable();
+				tblisoittd_upload.button('btnDuplicate:name').disable();
+				tblisoittd_upload.button('btnPointer:name').disable();
 			}
 		} );
 		
