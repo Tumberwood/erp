@@ -1780,11 +1780,11 @@
 					$('td', row).addClass('text-warning');
 				}
 
-				if ( data.isoittd_upload.selisih < 0 ) {
+				if ( data.isoittd_upload.selisih_final < 0 ) {
 					$(row).addClass('bg-danger');
 				}
 
-				if ( data.isoittd_upload.selisih > 0 ) {
+				if ( data.isoittd_upload.selisih_final > 0 ) {
 					$(row).addClass('bg-warning');
 				}
 			}

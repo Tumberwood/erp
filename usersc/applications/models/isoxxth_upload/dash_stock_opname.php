@@ -117,7 +117,7 @@
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
                         LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
-                        WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.selisih = 0
+                        WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.selisih_final = 0
                     ) AS sesuai ON sesuai.id_isoxxth_upload = a.id
                     
                     -- fisik lebih
@@ -127,7 +127,7 @@
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
                         LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
-                        WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.selisih > 0
+                        WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.selisih_final > 0
                     ) AS lebih ON lebih.id_isoxxth_upload = a.id
                     
                     -- fisik kurang
@@ -137,7 +137,7 @@
                             d.id_isoxxth_upload
                         FROM isoittd_upload AS d
                         LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
-                        WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.selisih < 0
+                        WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.selisih_final < 0
                     ) AS kurang ON kurang.id_isoxxth_upload = a.id
                     
                     -- fisik skip
@@ -266,7 +266,7 @@
                             LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
                             WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 
                             group by d.nama
-                            Having sum(d.selisih) = 0
+                            Having sum(d.selisih_final) = 0
                         ) AS z
                     ) AS sesuai ON sesuai.id_isoxxth_upload = a.id
                     
@@ -284,7 +284,7 @@
                             LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
                             WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 
                             group by d.nama
-                            Having sum(d.selisih) > 0
+                            Having sum(d.selisih_final) > 0
                         ) AS z
                     ) AS lebih ON lebih.id_isoxxth_upload = a.id
                     
@@ -302,7 +302,7 @@
                             LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
                             WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 
                             group by d.nama
-                            Having sum(d.selisih) < 0
+                            Having sum(d.selisih_final) < 0
                         ) AS z
                     ) AS kurang ON kurang.id_isoxxth_upload = a.id
                     
@@ -387,7 +387,7 @@
         //                 a.nama,
         //                 sum(a.jumlah_terkecil) AS s_jumlah_terkecil,
         //                 sum(a.fisik) AS s_fisik,
-        //                 sum(a.selisih) AS s_selisih
+        //                 sum(a.selisih_final) AS s_selisih
         //             FROM isoittd_upload AS a
         //             INNER JOIN isoxxth_upload th on th.id = a.id_isoxxth_upload
         //             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND a.transaction_state <> -9 AND a.fisik is not null
@@ -416,7 +416,7 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                SUM(a.selisih) AS s_selisih
+                                SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
@@ -437,7 +437,7 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                SUM(a.selisih) AS s_selisih
+                                SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
