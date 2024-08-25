@@ -452,6 +452,23 @@
                     );
         $rs_selisih_terbanyak = $qs_selisih_terbanyak->fetchAll();
 
+        $qs_skip = $db
+            ->raw()
+            ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
+            ->exec('SELECT
+                        a.kode,
+                        a.nama,
+                        sum(a.jumlah_terkecil) AS s_jumlah_terkecil,
+                        sum(a.fisik) AS s_fisik,
+                        sum(a.selisih_final) AS s_selisih
+                    FROM isoittd_upload AS a
+                    INNER JOIN isoxxth_upload th on th.id = a.id_isoxxth_upload
+                    WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND a.transaction_state <> -9 AND d.is_skip = 1
+                    LIMIT 10
+                    '
+                    );
+        $rs_skip = $qs_skip->fetchAll();
+
         $results = array();
 		$results['data'] = $rs_row_data;
 		$results['data2'] = $rs_group_item;
