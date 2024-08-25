@@ -425,7 +425,6 @@
                             GROUP BY a.kode, a.nama
                             HAVING s_selisih < 0
                             ORDER BY s_selisih ASC
-                            LIMIT 10
                         ) AS subquery1
                         
                         UNION ALL
@@ -446,7 +445,6 @@
                             GROUP BY a.kode, a.nama
                             HAVING s_selisih > 0
                             ORDER BY s_selisih DESC
-                            LIMIT 10
                         ) AS subquery2
                     ) item;
         
