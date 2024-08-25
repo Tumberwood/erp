@@ -473,7 +473,7 @@
 				<div class="row">
 					<!-- <div class="col-md-6"> -->
 					<div class="col-md-6 col-12">
-						<h5>Log By User</h5>
+						<h5>Item Selisih</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
 									<thead>
@@ -492,7 +492,7 @@
 					</div>
 					<!-- <div class="col-md-6"> -->
 					<div class="col-md-6 col-12">
-						<h5>Bottom 10 Items</h5>
+						<h5>Auditor Statistic</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
 									<thead>
@@ -500,7 +500,7 @@
 											<th class="text-center" rowspan="2" style="vertical-align: middle">User</th>
 											<th class="text-center" colspan="2">Count</th>
 											<th class="text-center" rowspan="2" style="vertical-align: middle">Lokasi</th>
-											<th class="text-center" rowspan="2" style="vertical-align: middle">Total Time</th>
+											<!-- <th class="text-center" rowspan="2" style="vertical-align: middle">Total Time</th> -->
 										</tr>
 										<tr>
 											<th class="text-center">Upload</th>
@@ -513,7 +513,7 @@
 											<th id="total_1"></th>
 											<th id="total_2"></th>
 											<th></th>
-											<th></th>
+											<!-- <th></th> -->
 										</tr>
 									</tfoot>
 								</table>
@@ -853,7 +853,7 @@
 				CekDeselectHeaderH(tblisoittd_upload);
 			} );
 			
-			//Tabel Log by User
+			
 			tblisoittd_upload_log = $('#tblisoittd_upload_log').DataTable( {
 				dom: dom0,
 				ajax: {
@@ -864,7 +864,7 @@
 					},
 					dataSrc: 'data4'
 				},
-				order: [[ 4, "asc" ]],
+				order: [[ 0, "asc" ]],
 				responsive: false,
 				scrollX: true,
 				columns: [
@@ -881,7 +881,7 @@
 						data: "lokasi",
 						...renderNumber() 
 					},
-					{ data: "total_time" },
+					// { data: "total_time" },
 				],
 				buttons: [
 					// BEGIN breaking generate button
