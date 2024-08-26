@@ -202,12 +202,8 @@
 				$lpn 		= strtoupper($sheetData[$i]['9']) ;
 				$batch_number 		= strtoupper($sheetData[$i]['10']) ;
 
-				if ($sheetData[$i]['11'] == '' || $sheetData[$i]['11'] == null) {
-					$expired_date = '0000-00-00';
-				} else {
-					$exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data expired_date
-					$expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
-				}
+				$exp_date_excel = new Carbon($sheetData[$i]['11']); //gunakan carbon untuk ambil data expired_date
+				$expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
 
 				// //Insert Detail
 				// $qi_detail = $db
@@ -291,7 +287,7 @@
 								LEFT JOIN isoxxth_upload  c ON c.id = a.id_isoxxth_upload
 								WHERE (a.fisik >= 0 OR a.is_skip = 1) AND a.transaction_state <> -9 AND (a.id_isoxxth_upload = :id_parent OR c.id_isoxxth_upload_parent = :id_parent)
 								AND a.kode = :kode_item AND a.lpn = :lpn AND ifnull(a.batch_number, "") = :batch_number 
-								AND a.expired_date = :expired_date AND a.lokasi = :lokasi
+								AND a.expired_date = ifnull(:expired_date, "0000-00-00") AND a.lokasi = :lokasi
 								GROUP BY a.id
 							'
 					);
