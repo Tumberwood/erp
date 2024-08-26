@@ -144,11 +144,11 @@
                     left JOIN (
                         select
                             COUNT(d.id) AS c_skip,
-                            d.id_isoxxth_upload
+                            if(th.id_isoxxth_upload_parent > 0, th.id_isoxxth_upload_parent, d.id_isoxxth_upload) id_isoxxth_upload
                         FROM isoittd_upload AS d
                         LEFT JOIN isoxxth_upload th on th.id = d.id_isoxxth_upload
                         WHERE (d.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND d.transaction_state <> -9 AND d.is_skip = 1
-                    ) AS skip ON skip.id_isoxxth_upload = a.id
+                    ) AS skip ON skip.id_isoxxth_upload = a.id OR skip.id_isoxxth_upload = a.id_isoxxth_upload_parent
                     
                     WHERE a.id = :id_isoxxth_upload OR a.id_isoxxth_upload_parent = :id_isoxxth_upload
                     HAVING c_target > 0
