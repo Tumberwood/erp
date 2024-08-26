@@ -210,7 +210,7 @@
 					$expired_date = $exp_date_excel->format('Y-m-d'); //format jadi 2023-09-12
 				}
 
-				echo $expired_date;
+				// echo $expired_date;
 				// //Insert Detail
 				// $qi_detail = $db
 				// 	->raw()
