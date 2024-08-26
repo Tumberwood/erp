@@ -483,6 +483,7 @@
 											<th>Sistem</th>
 											<th>Fisik</th>
 											<th>Selisih</th>
+											<th>Alasan Selisih</th>
 										</tr>
 
 									</thead>
@@ -491,7 +492,29 @@
 						<!-- <div id="tabel_kiri"></div> -->
 					</div>
 					<!-- <div class="col-md-6"> -->
+						
 					<div class="col-md-6 col-12">
+						<h5>Data SKIP</h5>
+							<div class="table-responsive">
+								<table id="tblisoittd_upload_skip" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>Loc</th>
+											<th>Item Code</th>
+											<th>Item Name</th>
+											<th>Alasan Skip</th>
+										</tr>
+
+									</thead>
+								</table>
+							</div>
+						<!-- <div id="tabel_kiri"></div> -->
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<!-- <div class="col-md-6"> -->
+					<div class="col-md-12 col-12">
 						<h5>Auditor Statistic</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -520,26 +543,6 @@
 							</div>
 						
 						<!-- <div id="tabel_atas"></div> -->
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<!-- <div class="col-md-6"> -->
-					<div class="col-md-12 col-12">
-						<h5>Data SKIP</h5>
-							<div class="table-responsive">
-								<table id="tblisoittd_upload_skip" class="table table-striped table-bordered table-hover nowrap" width="100%">
-									<thead>
-										<tr>
-											<th>Loc</th>
-											<th>Item Code</th>
-											<th>Item Name</th>
-										</tr>
-
-									</thead>
-								</table>
-							</div>
-						<!-- <div id="tabel_kiri"></div> -->
 					</div>
 				</div>
 			</div>
@@ -840,6 +843,7 @@
 						data: "s_selisih",
 						...renderNumber() 
 					},
+					{ data: "keterangan" },
 				],
 				buttons: [
 					// BEGIN breaking generate button
@@ -979,6 +983,7 @@
 					{ data: "lokasi" },
 					{ data: "kode" },
 					{ data: "nama" },
+					{ data: "alasan_skip" }
 				],
 				buttons: [
 					// BEGIN breaking generate button

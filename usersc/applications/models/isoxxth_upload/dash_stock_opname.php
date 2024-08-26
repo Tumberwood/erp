@@ -406,6 +406,7 @@
                         nama,
                         s_jumlah_terkecil,
                         s_fisik,
+                        keterangan,
                         s_selisih
                     FROM 
                     (
@@ -416,6 +417,7 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
+                                a.keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
@@ -436,6 +438,7 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
+                                a.keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
@@ -458,6 +461,7 @@
             ->exec('SELECT
                         a.kode,
                         a.nama,
+                        a.alasan_skip,
                         a.lokasi
                     FROM isoittd_upload AS a
                     INNER JOIN isoxxth_upload th on th.id = a.id_isoxxth_upload
