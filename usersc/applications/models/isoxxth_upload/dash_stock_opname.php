@@ -94,11 +94,11 @@
                     left JOIN (
                         select
                             COUNT(up.id) AS c_not_upload,
-                            up.id_isoxxth_upload
+                            if(th.id_isoxxth_upload_parent > 0, th.id_isoxxth_upload_parent, up.id_isoxxth_upload) id_isoxxth_upload
                         FROM isoittd_upload AS up
                         LEFT JOIN isoxxth_upload th on th.id = up.id_isoxxth_upload
                         WHERE (up.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND up.transaction_state <> -9 AND up.is_upload IS NULL
-                    ) AS not_upload ON not_upload.id_isoxxth_upload = a.id
+                    ) AS not_upload ON not_upload.id_isoxxth_upload = a.id OR not_upload.id_isoxxth_upload = a.id_isoxxth_upload_parent
                     
                     -- isoittd yang sudah terhitung
                     left JOIN (
