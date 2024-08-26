@@ -1315,7 +1315,15 @@
 				edtisoittd_upload.field('isoittd_upload.batch_number').enable();
 				edtisoittd_upload.field('isoittd_upload.expired_date').enable();
 			}else if(action == 'edit'){
-				
+				if (is_upload == 1) {
+					edtisoittd_upload.field('isoittd_upload.lpn').disable();
+					edtisoittd_upload.field('isoittd_upload.batch_number').disable();
+					edtisoittd_upload.field('isoittd_upload.expired_date').disable();
+				} else {
+					edtisoittd_upload.field('isoittd_upload.lpn').enable();
+					edtisoittd_upload.field('isoittd_upload.batch_number').enable();
+					edtisoittd_upload.field('isoittd_upload.expired_date').enable();
+				}
 				edtisoittd_upload.field('isoittd_upload.select_item').hide();
 				edtisoittd_upload.field('isoittd_upload.select_satuan').hide();
 				edtisoittd_upload.field('isoittd_upload.select_lokasi').hide();
@@ -1324,9 +1332,6 @@
 				edtisoittd_upload.field('isoittd_upload.satuan').show();
 				edtisoittd_upload.field('isoittd_upload.lokasi').show();
 				edtisoittd_upload.field('isoittd_upload.jumlah_terkecil').disable();
-				edtisoittd_upload.field('isoittd_upload.lpn').disable();
-				edtisoittd_upload.field('isoittd_upload.batch_number').disable();
-				edtisoittd_upload.field('isoittd_upload.expired_date').disable();
 				
 				if (is_skip_select == 1) {
 					edtisoittd_upload.field('isoittd_upload.id_files_skip').show();
@@ -1893,12 +1898,6 @@
 				tblisoittd_upload_fisik.button('btnCreate:name')
 				.nodes()
 				.css( 'display', 'none' );
-			}
-
-			if (is_upload == 1) {
-				tblisoittd_upload.button('btnEdit:name').disable();
-			} else {
-				tblisoittd_upload.button('btnEdit:name').enable();
 			}
 		} );
 		
