@@ -625,6 +625,24 @@
 									return query;
 							},
 							processResults: function (data, params) {
+
+								autofillField('isoittd_upload', id_transaksi_h, 'lokasi');
+								location_sel = autofillData.lokasi;
+
+								// console.log(location_sel);
+														
+								var matchedOption = data.results.find(function (item) {
+									return item.text === location_sel;
+								});
+
+								// console.log(matchedOption); 
+
+								// $('#lokasi_duplicate').append(new Option(matchedOption.text, matchedOption.id, false, false)).trigger('change');
+								// If a match is found, set the Select2 value
+								if (matchedOption) {
+									$('#lokasi_duplicate').append(new Option(matchedOption.text, matchedOption.id, false, false)).trigger('change');
+								}
+
 								return {
 									results: data.results,
 									pagination: {
@@ -745,6 +763,7 @@
 
 			autofillField('isoittd_upload', id_transaksi_h, '*');
 			id_iimxxmh_old = id_transaksi_h;
+			location_sel = autofillData.lokasi;
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			id_wloxxmh_upload_old
@@ -791,6 +810,12 @@
 
 		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			
+			$('#lokasi_duplicate').select2('open');
+
+            setTimeout(function() {
+                $('#lokasi_duplicate').select2('close');
+            }, 5);
 		});
 
 		// edtisoittd_upload_duplicate.dependent( 'isoittd_upload.transaksi_in', function ( val, data, callback ) {
