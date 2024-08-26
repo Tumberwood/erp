@@ -417,7 +417,13 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), "") AS keterangan,
+                                (
+                                    SELECT
+                                        GROUP_CONCAT(b.keterangan SEPARATOR ", ") ket
+                                    FROM isoittd_upload_fisik b
+                                    WHERE b.id_isoittd_upload = a.id
+                                    GROUP BY b.id_isoittd_upload
+                                ) keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
@@ -439,7 +445,13 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), "") AS keterangan,
+                                (
+                                    SELECT
+                                        GROUP_CONCAT(b.keterangan SEPARATOR ", ") ket
+                                    FROM isoittd_upload_fisik b
+                                    WHERE b.id_isoittd_upload = a.id
+                                    GROUP BY b.id_isoittd_upload
+                                ) keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
