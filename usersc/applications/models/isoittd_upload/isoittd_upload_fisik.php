@@ -40,9 +40,12 @@
 				Field::inst( 'isoittd_upload_fisik.is_nextprocess' ),
 				Field::inst( 'isoittd_upload_fisik.is_defaultprogram' ),
 				Field::inst( 'isoittd_upload_fisik.fisik' ),
+				Field::inst( 'isoittd_upload.lpn' ),
+				Field::inst( 'isoittd_upload.lokasi' ),
 			)
 			// BEGIN upload multi file
 			// table files dan filestr adalah bawaan framework, jangan diganti. cukup ganti isoittd_upload_fisik nya saja dan folder 
+			->leftJoin( 'isoittd_upload','isoittd_upload.id','=','isoittd_upload_fisik.id_isoittd_upload' )
 			->join(
 				Mjoin::inst( 'files' )
 					->link( 'isoittd_upload_fisik.id', 'filestr.id_transaksi' )

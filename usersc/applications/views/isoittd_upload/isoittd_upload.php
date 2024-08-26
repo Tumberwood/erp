@@ -250,6 +250,8 @@
 										<tr>
 											<th>ID</th>
 											<th>id_isoittd_upload</th>
+											<th>Loc</th>
+											<th>LPN</th>
 											<th>Fisik</th>
 										</tr>
 									</thead>
@@ -2214,10 +2216,12 @@
 			columns: [
 				{ data: "isoittd_upload_fisik.id",visible:false },
 				{ data: "isoittd_upload_fisik.id_isoittd_upload",visible:false },
+				{ data: "isoittd_upload.lokasi"},
+				{ data: "isoittd_upload.lpn"},
 				{ 
 					data: "isoittd_upload_fisik.fisik",
 					...renderNumber()
-				}
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
