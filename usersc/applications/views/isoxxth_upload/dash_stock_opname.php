@@ -483,7 +483,7 @@
 											<th>Sistem</th>
 											<th>Fisik</th>
 											<th>Selisih</th>
-											<th>Alasan Selisih</th>
+											<th>Ketarangan</th>
 										</tr>
 
 									</thead>

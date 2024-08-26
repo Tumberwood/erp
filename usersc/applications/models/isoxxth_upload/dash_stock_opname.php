@@ -417,7 +417,7 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                a.keterangan,
+                                GROUP_CONCAT(a.keterangan SEPARATOR ", ") AS keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
@@ -438,7 +438,7 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                a.keterangan,
+                                GROUP_CONCAT(a.keterangan SEPARATOR ", ") AS keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
