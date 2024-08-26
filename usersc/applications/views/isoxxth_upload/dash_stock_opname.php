@@ -473,6 +473,25 @@
 				<div class="row">
 					<!-- <div class="col-md-6"> -->
 					<div class="col-md-6 col-12">
+						<h5>Row Selisih</h5>
+							<div class="table-responsive">
+								<table id="tblisoittd_upload_row" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>Item Code</th>
+											<th>Item Name</th>
+											<th>Sistem</th>
+											<th>Fisik</th>
+											<th>Selisih</th>
+											<th>Ketarangan</th>
+										</tr>
+
+									</thead>
+								</table>
+							</div>
+						<!-- <div id="tabel_kiri"></div> -->
+					</div>
+					<div class="col-md-6 col-12">
 						<h5>Item Selisih</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -493,6 +512,10 @@
 					</div>
 					<!-- <div class="col-md-6"> -->
 						
+				</div>
+				<br>
+				<div class="row">
+					<!-- <div class="col-md-6"> -->
 					<div class="col-md-6 col-12">
 						<h5>Data SKIP</h5>
 							<div class="table-responsive">
@@ -510,11 +533,7 @@
 							</div>
 						<!-- <div id="tabel_kiri"></div> -->
 					</div>
-				</div>
-				<br>
-				<div class="row">
-					<!-- <div class="col-md-6"> -->
-					<div class="col-md-12 col-12">
+					<div class="col-md-6 col-12">
 						<h5>Auditor Statistic</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -563,6 +582,7 @@
 		var edtisoittd_upload, tblisoittd_upload, show_deleted_isoittd_upload = 0, id_isoittd_upload;
 		var tblisoittd_upload_log;
 		var tblisoittd_upload_skip;
+		var tblisoittd_upload_row;
 		// ------------- end of default variable
 		var notifyprogress = '';
 		var id_htsxxmh_old = 0;
@@ -811,10 +831,66 @@
 				tblisoittd_upload_skip.ajax.reload(function() {
 					scrollToPosition(scrollPosition);
 				}, false);
+				tblisoittd_upload_row.ajax.reload(function() {
+					scrollToPosition(scrollPosition);
+				}, false);
 				// console.log('reloaded');
 			});
 
-			//Table Selisih
+			//Table Selisih Row
+			tblisoittd_upload_row = $('#tblisoittd_upload_row').DataTable( {
+				dom: dom0,
+				ajax: {
+					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					type: 'POST',
+					data: function (d){
+						d.id_isoxxth_upload = id_isoxxth_upload_filter;
+					},
+					dataSrc: 'data6'
+				},
+				order: [[ 4, "asc" ]],
+				responsive: false,
+				scrollX: true,
+				columns: [
+					{ data: "kode" },
+					{ data: "nama" },
+					{ 
+						data: "s_jumlah_terkecil",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_fisik",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_selisih",
+						...renderNumber() 
+					},
+					{ data: "keterangan" },
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_isoittd_upload';
+						$table       = 'tblisoittd_upload';
+						$edt         = 'edtisoittd_upload';
+						$show_status = '_isoittd_upload';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						// $arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= [];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+					?>
+					// END breaking generate button
+				],
+				rowCallback: function( row, data, index ) {
+					
+				}
+			} );
+
+			//Table Selisih item
 			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 				dom: dom0,
 				ajax: {
@@ -1026,6 +1102,7 @@
 						tblisoittd_upload.ajax.reload(null, false);
 						tblisoittd_upload_log.ajax.reload(null, false);
 						tblisoittd_upload_skip.ajax.reload(null, false);
+						tblisoittd_upload_row.ajax.reload(null, false);
 						$('#modalFloatingFilter').modal('toggle');
 					}
 				}

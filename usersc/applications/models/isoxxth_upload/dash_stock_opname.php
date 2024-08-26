@@ -456,6 +456,65 @@
                     '
                     );
         $rs_selisih_terbanyak = $qs_selisih_terbanyak->fetchAll();
+        
+        $qs_selisih_row = $db
+            ->raw()
+            ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
+            ->exec('SELECT
+                        kode,
+                        nama,
+                        s_jumlah_terkecil,
+                        s_fisik,
+                        keterangan,
+                        s_selisih
+                    FROM 
+                    (
+                        SELECT * FROM 
+                        (
+                            SELECT
+                                a.kode,
+                                a.nama,
+                                a.jumlah_terkecil AS s_jumlah_terkecil,
+                                a.fisik AS s_fisik,
+                                CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS keterangan,
+                                a.selisih_final AS s_selisih
+                            FROM isoittd_upload AS a
+                            INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
+                            INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                            WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
+                            AND a.transaction_state <> -9 
+                            AND a.fisik IS NOT NULL
+                            GROUP BY a.id
+                            HAVING s_selisih < 0
+                            ORDER BY s_selisih ASC
+                        ) AS subquery1
+                        
+                        UNION ALL
+                        
+                        SELECT * FROM 
+                        (
+                            SELECT
+                                a.kode,
+                                a.nama,
+                                a.jumlah_terkecil AS s_jumlah_terkecil,
+                                a.fisik AS s_fisik,
+                                CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS keterangan,
+                                a.selisih_final AS s_selisih
+                            FROM isoittd_upload AS a
+                            INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
+                            INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                            WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
+                            AND a.transaction_state <> -9 
+                            AND a.fisik IS NOT NULL
+                            GROUP BY a.id
+                            HAVING s_selisih > 0
+                            ORDER BY s_selisih DESC
+                        ) AS subquery2
+                    ) item;
+        
+                    '
+                    );
+        $rs_selisih_row = $qs_selisih_row->fetchAll();
 
         $qs_skip = $db
             ->raw()
@@ -478,6 +537,7 @@
 		$results['data3'] = $rs_selisih_terbanyak;
 		$results['data4'] = $rs_log_user;
 		$results['data5'] = $rs_skip;
+		$results['data6'] = $rs_selisih_row;
         
 		$results['columns'] = [
 			['data' => 'kode', 'name' => 'kode'],
@@ -499,6 +559,7 @@
 		$results['data3'] = [];
 		$results['data4'] = [];
 		$results['data5'] = [];
+		$results['data6'] = [];
 		$results['columns'] = [];
 	}
 
