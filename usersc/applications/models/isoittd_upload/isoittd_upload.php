@@ -84,6 +84,7 @@
 					Field::inst( 'isoittd_upload.selisih' ),
 					Field::inst( 'isoittd_upload.lpn' ),
 					Field::inst( 'isoittd_upload.is_skip' ),
+					Field::inst( 'isoittd_upload.is_upload' ),
 					Field::inst( 'isoittd_upload.batch_number' ),
 					Field::inst( 'isoittd_upload.transaksi_in' ),
 					Field::inst( 'isoittd_upload.transaksi_out' ),

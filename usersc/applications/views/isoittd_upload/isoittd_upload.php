@@ -1844,6 +1844,7 @@
 			expired   	= isoittd_upload_data.expired_date;
 			selisih   	= isoittd_upload_data.selisih;
 			fisik   	= isoittd_upload_data.fisik;
+			is_upload   	= isoittd_upload_data.is_upload;
 			
 			// iimxxmh_data    	= tblisoittd_upload.row( { selected: true } ).data().iimxxmh;
 			nama_item 		= isoittd_upload_data.nama;
@@ -1892,6 +1893,12 @@
 				tblisoittd_upload_fisik.button('btnCreate:name')
 				.nodes()
 				.css( 'display', 'none' );
+			}
+
+			if (is_upload == 1) {
+				tblisoittd_upload.button('btnEdit:name').disable();
+			} else {
+				tblisoittd_upload.button('btnEdit:name').enable();
 			}
 		} );
 		
