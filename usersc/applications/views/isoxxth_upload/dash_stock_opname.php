@@ -522,6 +522,26 @@
 						<!-- <div id="tabel_atas"></div> -->
 					</div>
 				</div>
+				<br>
+				<div class="row">
+					<!-- <div class="col-md-6"> -->
+					<div class="col-md-6 col-12">
+						<h5>Data SKIP</h5>
+							<div class="table-responsive">
+								<table id="tblisoittd_upload_skip" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>Loc</th>
+											<th>Item Code</th>
+											<th>Item Name</th>
+										</tr>
+
+									</thead>
+								</table>
+							</div>
+						<!-- <div id="tabel_kiri"></div> -->
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -539,6 +559,7 @@
 		// ------------- default variable, do not erase
 		var edtisoittd_upload, tblisoittd_upload, show_deleted_isoittd_upload = 0, id_isoittd_upload;
 		var tblisoittd_upload_log;
+		var tblisoittd_upload_skip;
 		// ------------- end of default variable
 		var notifyprogress = '';
 		var id_htsxxmh_old = 0;
@@ -783,6 +804,10 @@
 				tblisoittd_upload_log.ajax.reload(function() {
 					scrollToPosition(scrollPosition);
 				}, false);
+
+				tblisoittd_upload_skip.ajax.reload(function() {
+					scrollToPosition(scrollPosition);
+				}, false);
 				// console.log('reloaded');
 			});
 
@@ -853,7 +878,8 @@
 				CekDeselectHeaderH(tblisoittd_upload);
 			} );
 			
-			
+
+			/////////
 			tblisoittd_upload_log = $('#tblisoittd_upload_log').DataTable( {
 				dom: dom0,
 				ajax: {
@@ -934,6 +960,48 @@
 				CekDeselectHeaderH(tblisoittd_upload_log);
 			} );
 
+			
+			//Table SKIP
+			tblisoittd_upload_skip = $('#tblisoittd_upload_skip').DataTable( {
+				dom: dom0,
+				ajax: {
+					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					type: 'POST',
+					data: function (d){
+						d.id_isoxxth_upload = id_isoxxth_upload_filter;
+					},
+					dataSrc: 'data5'
+				},
+				order: [[ 0, "asc" ]],
+				responsive: false,
+				scrollX: true,
+				columns: [
+					{ data: "lokasi" },
+					{ data: "kode" },
+					{ data: "nama" },
+				],
+				buttons: [
+					// BEGIN breaking generate button
+					<?php
+						$id_table    = 'id_isoittd_upload';
+						$table       = 'tblisoittd_upload';
+						$edt         = 'edtisoittd_upload';
+						$show_status = '_isoittd_upload';
+						$table_name  = $nama_tabel;
+
+						$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+						// $arr_buttons_tools2 	= ['sf', 'sp', 'sb'];
+						$arr_buttons_tools2 	= [];
+						$arr_buttons_action 	= [];
+						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+					?>
+					// END breaking generate button
+				],
+				rowCallback: function( row, data, index ) {
+					
+				}
+			} );
+
 			$("#frmFilter").submit(function(e) {
 				e.preventDefault();
 			}).validate({
@@ -952,6 +1020,7 @@
 						generateCard(id_isoxxth_upload_filter);
 						tblisoittd_upload.ajax.reload(null, false);
 						tblisoittd_upload_log.ajax.reload(null, false);
+						tblisoittd_upload_skip.ajax.reload(null, false);
 						$('#modalFloatingFilter').modal('toggle');
 					}
 				}

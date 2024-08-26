@@ -425,7 +425,6 @@
                             GROUP BY a.kode, a.nama
                             HAVING s_selisih < 0
                             ORDER BY s_selisih ASC
-                            LIMIT 10
                         ) AS subquery1
                         
                         UNION ALL
@@ -446,7 +445,6 @@
                             GROUP BY a.kode, a.nama
                             HAVING s_selisih > 0
                             ORDER BY s_selisih DESC
-                            LIMIT 10
                         ) AS subquery2
                     ) item;
         
@@ -454,11 +452,26 @@
                     );
         $rs_selisih_terbanyak = $qs_selisih_terbanyak->fetchAll();
 
+        $qs_skip = $db
+            ->raw()
+            ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
+            ->exec('SELECT
+                        a.kode,
+                        a.nama,
+                        a.lokasi
+                    FROM isoittd_upload AS a
+                    INNER JOIN isoxxth_upload th on th.id = a.id_isoxxth_upload
+                    WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND a.transaction_state <> -9 AND a.is_skip = 1
+                    '
+                    );
+        $rs_skip = $qs_skip->fetchAll();
+
         $results = array();
 		$results['data'] = $rs_row_data;
 		$results['data2'] = $rs_group_item;
 		$results['data3'] = $rs_selisih_terbanyak;
 		$results['data4'] = $rs_log_user;
+		$results['data5'] = $rs_skip;
         
 		$results['columns'] = [
 			['data' => 'kode', 'name' => 'kode'],
@@ -479,6 +492,7 @@
 		$results['data'] = [];
 		$results['data3'] = [];
 		$results['data4'] = [];
+		$results['data5'] = [];
 		$results['columns'] = [];
 	}
 
