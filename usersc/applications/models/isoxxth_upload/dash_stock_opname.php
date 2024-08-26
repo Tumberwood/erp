@@ -417,11 +417,11 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS keterangan,
+                                ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), "") AS keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                            INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                            -- INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
                             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
@@ -439,11 +439,11 @@
                                 a.nama,
                                 SUM(a.jumlah_terkecil) AS s_jumlah_terkecil,
                                 SUM(a.fisik) AS s_fisik,
-                                CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS keterangan,
+                                ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), "") AS keterangan,
                                 SUM(a.selisih_final) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                            INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                            -- INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
                             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
