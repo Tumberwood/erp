@@ -605,6 +605,7 @@
 					label: "Lokasi <sup class='text-danger'>*<sup>", 
 					name: "isoittd_upload.select_lokasi",
 					type: "select2",
+					id: "lokasi_duplicate",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
@@ -744,7 +745,9 @@
 
 			autofillField('isoittd_upload', id_transaksi_h, '*');
 			id_iimxxmh_old = id_transaksi_h;
+			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			id_wloxxmh_upload_old
 			edtisoittd_upload_duplicate.field('isoittd_upload.start_at').val(start_at);
 			edtisoittd_upload_duplicate.field('isoittd_upload.id_isoxxth_upload').val(autofillData.id_isoxxth_upload);
 
@@ -752,16 +755,17 @@
 			edtisoittd_upload_duplicate.field('isoittd_upload.select_item').val(id_transaksi_h);
 			edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').hide();
 			edtisoittd_upload_duplicate.field('isoittd_upload.select_satuan').val(id_transaksi_h);
-			edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').hide();
-			edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').val(id_transaksi_h);
+			// edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').hide();
+			// edtisoittd_upload_duplicate.field('isoittd_upload.select_lokasi').val(id_transaksi_h);
 			edtisoittd_upload_duplicate.field('isoittd_upload.kode').show();
 			edtisoittd_upload_duplicate.field('isoittd_upload.kode').val(autofillData.kode);
 			edtisoittd_upload_duplicate.field('isoittd_upload.nama').show();
 			edtisoittd_upload_duplicate.field('isoittd_upload.nama').val(autofillData.nama);
 			edtisoittd_upload_duplicate.field('isoittd_upload.satuan').show();
 			edtisoittd_upload_duplicate.field('isoittd_upload.satuan').val(autofillData.satuan);
-			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').show();
-			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').val(autofillData.lokasi);
+			// edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').show();
+			edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').hide();
+			// edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').val(autofillData.lokasi);
 			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').disable();
 			edtisoittd_upload_duplicate.field('isoittd_upload.jumlah_terkecil').val(0);
 			edtisoittd_upload_duplicate.field('isoittd_upload.lpn').enable();
@@ -777,6 +781,12 @@
 			edtisoittd_upload_duplicate.field('isoittd_upload.selisih_final').val(autofillData.selisih_final);
 			edtisoittd_upload_duplicate.field('isoittd_upload.is_skip').val(autofillData.is_skip);
 			edtisoittd_upload_duplicate.field('isoittd_upload.id_files_pointer').val(autofillData.id_files_pointer);
+
+			
+			autofillField('isoxxth_upload', id_isoxxth_upload_filter, 'company,cabang')
+			company = autofillData.company;
+			cabang = autofillData.cabang;
+			
 		});
 
 		edtisoittd_upload_duplicate.on("open", function (e, mode, action) {
@@ -813,6 +823,18 @@
 			if (val > 0) {
 				fisik = edtisoittd_upload_duplicate.field('isoittd_upload.fisik').val();
 				edtisoittd_upload_duplicate.field('isoittd_upload.selisih').val(fisik);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtisoittd_upload_duplicate.dependent( 'isoittd_upload.select_lokasi', function ( val, data, callback ) {
+			if (val > 0) {
+				var data_lokasi_duplicate = $('#lokasi_duplicate').select2('data')[0];
+				if (data_lokasi_duplicate) {
+					text_lokasi_duplicate = data_lokasi_duplicate.text
+				}
+
+				edtisoittd_upload_duplicate.field('isoittd_upload.lokasi').val(text_lokasi_duplicate);
 			}
 			return {}
 		}, {event: 'keyup change'});
