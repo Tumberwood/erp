@@ -525,7 +525,7 @@
 				<br>
 				<div class="row">
 					<!-- <div class="col-md-6"> -->
-					<div class="col-md-6 col-12">
+					<div class="col-md-12 col-12">
 						<h5>Data SKIP</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_skip" class="table table-striped table-bordered table-hover nowrap" width="100%">
