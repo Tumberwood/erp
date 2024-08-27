@@ -483,6 +483,9 @@
 											<th>Sistem</th>
 											<th>Fisik</th>
 											<th>Selisih</th>
+											<th>Transaksi In</th>
+											<th>Transaksi Out</th>
+											<th>Selisih Final</th>
 											<th>Ketarangan</th>
 										</tr>
 
@@ -502,6 +505,9 @@
 											<th>Sistem</th>
 											<th>Fisik</th>
 											<th>Selisih</th>
+											<th>Transaksi In</th>
+											<th>Transaksi Out</th>
+											<th>Selisih Final</th>
 											<th>Ketarangan</th>
 										</tr>
 
@@ -866,6 +872,18 @@
 						data: "s_selisih",
 						...renderNumber() 
 					},
+					{ 
+						data: "s_transaksi_in",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_transaksi_out",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_selisih_final",
+						...renderNumber() 
+					},
 					{ data: "keterangan" },
 				],
 				buttons: [
@@ -917,6 +935,18 @@
 					},
 					{ 
 						data: "s_selisih",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_transaksi_in",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_transaksi_out",
+						...renderNumber() 
+					},
+					{ 
+						data: "s_selisih_final",
 						...renderNumber() 
 					},
 					{ data: "keterangan" },

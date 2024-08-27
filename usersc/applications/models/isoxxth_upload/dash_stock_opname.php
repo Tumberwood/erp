@@ -407,6 +407,9 @@
                         s_jumlah_terkecil,
                         s_fisik,
                         keterangan,
+                        s_selisih_final,
+                        s_transaksi_in,
+                        s_transaksi_out,
                         s_selisih
                     FROM 
                     (
@@ -424,7 +427,10 @@
                                     WHERE b.id_isoittd_upload = a.id
                                     GROUP BY b.id_isoittd_upload
                                 ) keterangan,
-                                SUM(a.selisih_final) AS s_selisih
+                                SUM(a.selisih_final) AS s_selisih_final,
+                                SUM(a.transaksi_in) AS s_transaksi_in,
+                                SUM(a.transaksi_out) AS s_transaksi_out,
+                                SUM(a.selisih) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                             -- INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
@@ -452,7 +458,10 @@
                                     WHERE b.id_isoittd_upload = a.id
                                     GROUP BY b.id_isoittd_upload
                                 ) keterangan,
-                                SUM(a.selisih_final) AS s_selisih
+                                SUM(a.selisih_final) AS s_selisih_final,
+                                SUM(a.transaksi_in) AS s_transaksi_in,
+                                SUM(a.transaksi_out) AS s_transaksi_out,
+                                SUM(a.selisih) AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                             -- INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
@@ -478,6 +487,9 @@
                         s_jumlah_terkecil,
                         s_fisik,
                         keterangan,
+                        s_selisih_final,
+                        s_transaksi_in,
+                        s_transaksi_out,
                         s_selisih
                     FROM 
                     (
@@ -489,7 +501,10 @@
                                 a.jumlah_terkecil AS s_jumlah_terkecil,
                                 a.fisik AS s_fisik,
                                 CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS keterangan,
-                                a.selisih_final AS s_selisih
+                                a.selisih_final AS s_selisih_final,
+                                a.transaksi_in AS s_transaksi_in,
+                                a.transaksi_out AS s_transaksi_out,
+                                a.selisih AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                             INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
@@ -511,7 +526,10 @@
                                 a.jumlah_terkecil AS s_jumlah_terkecil,
                                 a.fisik AS s_fisik,
                                 CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS keterangan,
-                                a.selisih_final AS s_selisih
+                                a.selisih_final AS s_selisih_final,
+                                a.transaksi_in AS s_transaksi_in,
+                                a.transaksi_out AS s_transaksi_out,
+                                a.selisih AS s_selisih
                             FROM isoittd_upload AS a
                             INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                             INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
