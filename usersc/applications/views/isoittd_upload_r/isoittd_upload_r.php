@@ -63,6 +63,7 @@
 									<th>Qty Penjelasan</th>
 									<th>SKIP</th>
 									<th>Hitung</th>
+									<th>Keterangan</th>
 								</tr>
 							</thead>
 						</table>
@@ -365,7 +366,8 @@
 							return '<span class="badge badge-primary">Ya</span>';
 						}
 					}
-				}
+				},
+				{ data: "isoittd_upload.keterangan" },
 			],
 				buttons: [
 					// BEGIN breaking generate button
