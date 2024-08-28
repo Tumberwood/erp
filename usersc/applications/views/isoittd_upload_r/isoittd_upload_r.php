@@ -455,9 +455,21 @@
 			tblisoittd_upload.searchPanes.container().appendTo('#spisoittd_upload');
 			tblisoittd_upload.searchBuilder.container().appendTo( '#sbisoittd_upload' );
 			
-			tblisoittd_upload.on( 'init', function () {
+			tblisoittd_upload.on( 'draw', function () {
 				// atur hak akses
 				CekInitHeaderH(tblisoittd_upload);
+				console.log(hak_l);
+				console.log(id_isoxxth_upload_filter);
+
+				if (id_isoxxth_upload_filter > 0) {
+					if (hak_l == 1) {
+						tblisoittd_upload.button('btnCloseStock:name').enable();
+					} else {
+						tblisoittd_upload.button('btnCloseStock:name').disable();
+					}
+				} else {
+					tblisoittd_upload.button('btnCloseStock:name').disable();
+				}
 			} );
 			
 			tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
@@ -501,7 +513,7 @@
 
 						tblisoittd_upload.ajax.reload(function ( json ) {
 						}, false);
-						tblisoittd_upload.button('btnCloseStock:name').enable();
+						// tblisoittd_upload.button('btnCloseStock:name').enable();
 						return false; 
 					}
 				}
