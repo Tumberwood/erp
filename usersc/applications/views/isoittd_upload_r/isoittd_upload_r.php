@@ -165,11 +165,6 @@
 						type: "hidden"
 					},	
 					{
-						label: "isoittd_upload.id_isoxxth_upload",
-						name: "isoittd_upload.id_isoxxth_upload",
-						type: "hidden"
-					},
-					{
 						label: "isoittd_upload.transaction_state",
 						name: "isoittd_upload.transaction_state",
 						type: "hidden",

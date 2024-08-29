@@ -56,6 +56,7 @@
                 'qty_penjelasan' => $row['qty_penjelasan'],
                 'is_skip' => $row['is_skip'],
                 'transaction_state' => $row['transaction_state'],
+                'id_isoxxth_upload' => $row['id_isoxxth_upload'],
                 // other fields...
             );
         }, $rs_data);
