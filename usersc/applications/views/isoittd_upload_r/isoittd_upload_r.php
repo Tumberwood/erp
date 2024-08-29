@@ -250,12 +250,13 @@
 					layout: window.innerWidth < 768 ? 'columns-1' : 'columns-3'
 				},
 				ajax: {
-					url: "../../models/isoittd_upload_r/isoittd_upload_r.php",
+					url: "../../models/isoittd_upload_r/isoittd_upload_r_tabel.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_isoittd_upload = show_deleted_isoittd_upload;
 						d.id_isoxxth_upload_filter = id_isoxxth_upload_filter;
-					}
+					},
+        			dataSrc: 'data' 
 				},
 			columnDefs:[
 				{
@@ -276,25 +277,25 @@
 			responsive: false,
 			scrollX: true,
 			columns: [
-				{ data: "isoittd_upload.id",visible:false },
-				{ data: "isoxxth_upload.kode" },
-				{ data: "isoittd_upload.lokasi" },
-				{ data: "isoittd_upload.lpn" },
-				{ data: "isoittd_upload.kode" },
-				{ data: "isoittd_upload.nama" },
-				{ data: "isoittd_upload.batch_number" },
-				{ data: "isoittd_upload.expired_date" },
-				{ data: "isoittd_upload.satuan" },
+				{ data: "id",visible:false },
+				{ data: "kode_sou" },
+				{ data: "lokasi" },
+				{ data: "lpn" },
+				{ data: "kode" },
+				{ data: "nama" },
+				{ data: "batch_number" },
+				{ data: "expired_date" },
+				{ data: "satuan" },
 				{ 
-					data: "isoittd_upload.jumlah_terkecil" ,
+					data: "jumlah_terkecil" ,
 					...renderNumber(2)
 				},
 				{ 
-					data: "isoittd_upload.fisik",
+					data: "fisik",
 					...renderNumber(2)
 				},
 				{ 
-					data: "isoittd_upload.selisih",
+					data: "selisih",
 					// ...renderNumber()
 					render: function(data, type, row) {
 						if (type === 'sp') {
@@ -318,15 +319,15 @@
 					}
 				},
 				{ 
-					data: "isoittd_upload.transaksi_in",
+					data: "transaksi_in",
 					...renderNumber(2)
 				},
 				{ 
-					data: "isoittd_upload.transaksi_out",
+					data: "transaksi_out",
 					...renderNumber(2)
 				},
 				{ 
-					data: "isoittd_upload.selisih_final",
+					data: "selisih_final",
 					// ...renderNumber()
 					render: function(data, type, row) {
 						if (type === 'sp') {
@@ -350,24 +351,24 @@
 					}
 				},
 				{ 
-					data: "isoittd_upload.qty_penjelasan",
+					data: "qty_penjelasan",
 					...renderNumber()
 				},
 				{ 
-					data: "isoittd_upload.is_skip",
+					data: "is_skip",
 					...renderYaTidak()
 				},
 				{ 
 					data: null,
 					render: function (data, type, row) {
-						if(row.isoittd_upload.is_skip == 0 && row.isoittd_upload.fisik == null){
+						if(row.is_skip == 0 && row.fisik == null){
 							return '<span class="badge badge-plain">Tidak</span>';
 						} else {
 							return '<span class="badge badge-primary">Ya</span>';
 						}
 					}
 				},
-				{ data: "isoittd_upload.keterangan" },
+				{ data: "s_keterangan" },
 			],
 				buttons: [
 					// BEGIN breaking generate button
@@ -441,14 +442,21 @@
 
 				},
 				rowCallback: function( row, data, index ) {
-					if ( data.isoittd_upload.transaction_state == -9 ) {
-						$('td', row).addClass('text-danger');
-					}else if ( data.isoittd_upload.transaction_state == 0 ) {
-						$('td', row).addClass('text-warning');
+					// if ( data.isoittd_upload.transaction_state == -9 ) {
+					// 	$('td', row).addClass('text-danger');
+					// }else if ( data.isoittd_upload.transaction_state == 0 ) {
+					// 	$('td', row).addClass('text-warning');
+					// }
+
+					// if ( data.fisik == null &&  data.is_skip == 0) {
+					// 	$('td', row).addClass('bg-warning');
+					// }
+					if ( data.selisih_final < 0 ) {
+						$(row).addClass('bg-danger');
 					}
 
-					if ( data.isoittd_upload.fisik == null &&  data.isoittd_upload.is_skip == 0) {
-						$('td', row).addClass('bg-warning');
+					if ( data.selisih_final > 0 ) {
+						$(row).addClass('bg-warning');
 					}
 				}
 			} );
