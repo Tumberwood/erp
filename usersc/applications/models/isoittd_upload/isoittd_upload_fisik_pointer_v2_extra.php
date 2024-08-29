@@ -211,7 +211,7 @@
 										b.is_skip = 0,
 										b.is_pointer = 1,
 										b.fisik = sum_fisik,
-										b.selisih_final = sum_fisik - b.jumlah_terkecil,
+										b.selisih_final = sum_fisik + ifnull(b.transaksi_out,0) - b.jumlah_terkecil -ifnull( b.transaksi_in,0),
 										b.selisih = sum_fisik - b.jumlah_terkecil
 									WHERE b.id = :id_isoittd
 					');
