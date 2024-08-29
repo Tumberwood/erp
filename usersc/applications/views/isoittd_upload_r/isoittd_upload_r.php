@@ -98,6 +98,8 @@
 		var edtisoittd_upload, tblisoittd_upload, show_deleted_isoittd_upload = 0, id_isoittd_upload;
 		// ------------- end of default variable
 		var id_isoxxth_upload_filter = 0;
+		var qty_penjelasan = 0;
+		var keterangan_penjelasan = '';
 
 		tableRelation('isoittd_upload');
 		
@@ -183,6 +185,8 @@
 			} );
 			
 			edtisoittd_upload.on( 'preOpen', function( e, mode, action ) {
+				edtisoittd_upload.field('isoittd_upload.qty_penjelasan').val(qty_penjelasan);
+				edtisoittd_upload.field('isoittd_upload.keterangan_penjelasan').val(keterangan_penjelasan);
 			});
 
 			edtisoittd_upload.on("open", function (e, mode, action) {
@@ -480,6 +484,12 @@
 			tblisoittd_upload.on( 'select', function( e, dt, type, indexes ) {
 				// set variable standar framework
 				// siVarSet('isoittd_upload');
+				isoittd_upload_data    = tblisoittd_upload.row( { selected: true } ).data();
+				// console.log(isoittd_upload_data);
+				id_isoittd_upload      = isoittd_upload_data.id;
+				qty_penjelasan      = isoittd_upload_data.qty_penjelasan;
+				keterangan_penjelasan      = isoittd_upload_data.keterangan_penjelasan;
+				// console.log(id_isoittd_upload);
 
 				// atur hak akses
 				CekSelectHeaderH(tblisoittd_upload);
@@ -488,6 +498,8 @@
 			tblisoittd_upload.on( 'deselect', function () {
 				// reset variable standar framework
 				siVarReset('isoittd_upload');
+				qty_penjelasan = 0;
+				keterangan_penjelasan = '';
 
 				// atur hak akses
 				CekDeselectHeaderH(tblisoittd_upload);

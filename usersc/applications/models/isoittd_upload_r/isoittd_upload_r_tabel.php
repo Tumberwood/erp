@@ -54,6 +54,7 @@
                 'transaksi_out' => $row['transaksi_out'],
                 'selisih_final' => $row['selisih_final'],
                 'qty_penjelasan' => $row['qty_penjelasan'],
+                'keterangan_penjelasan' => $row['keterangan_penjelasan'],
                 'is_skip' => $row['is_skip'],
                 'transaction_state' => $row['transaction_state'],
                 'id_isoxxth_upload' => $row['id_isoxxth_upload'],
