@@ -28,7 +28,7 @@
                     SET 
                         b.fisik = sum_fisik,
                         b.selisih = sum_fisik - b.jumlah_terkecil,
-                        b.selisih_final = sum_fisik - b.jumlah_terkecil
+                        b.selisih_final = b.fisik + ifnull(b.transaksi_out,0) - b.jumlah_terkecil -ifnull( b.transaksi_in,0)
                     WHERE b.id = :id_h
         ');
 
