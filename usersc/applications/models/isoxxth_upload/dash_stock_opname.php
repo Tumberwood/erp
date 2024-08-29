@@ -506,8 +506,8 @@
                                 a.transaksi_out AS s_transaksi_out,
                                 a.selisih AS s_selisih
                             FROM isoittd_upload AS a
-                            INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                            INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                            LEFT JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
+                            LEFT JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
                             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
@@ -531,8 +531,8 @@
                                 a.transaksi_out AS s_transaksi_out,
                                 a.selisih AS s_selisih
                             FROM isoittd_upload AS a
-                            INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                            INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                            LEFT JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
+                            LEFT JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
                             WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
