@@ -32,7 +32,32 @@
         $rs_data = $qs_data->fetchAll();
 
         $results = array();
-		$results['data'] = $rs_data;
+		$results = array();
+        $results['data'] = array_map(function($row) {
+            return array(
+                'DT_RowId' => 'row_'.$row['id'],  // This gives each row a unique identifier
+                'id' => $row['id'],
+                'kode_sou' => $row['kode_sou'],
+                's_keterangan' => $row['s_keterangan'],
+                'lokasi' => $row['lokasi'],
+                'lpn' => $row['lpn'],
+                'nama' => $row['nama'],
+                'kode' => $row['kode'],
+                'batch_number' => $row['batch_number'],
+                'expired_date' => $row['expired_date'],
+                'satuan' => $row['satuan'],
+                'jumlah_terkecil' => $row['jumlah_terkecil'],
+                'fisik' => $row['fisik'],
+                'selisih' => $row['selisih'],
+                'transaksi_in' => $row['transaksi_in'],
+                'transaksi_out' => $row['transaksi_out'],
+                'selisih_final' => $row['selisih_final'],
+                'qty_penjelasan' => $row['qty_penjelasan'],
+                'is_skip' => $row['is_skip'],
+                'transaction_state' => $row['transaction_state'],
+                // other fields...
+            );
+        }, $rs_data);
         
 	} else {
 		$results['data'] = [];
