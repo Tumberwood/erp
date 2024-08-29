@@ -438,8 +438,8 @@
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
                             GROUP BY a.kode, a.nama
-                            HAVING s_selisih < 0
-                            ORDER BY s_selisih ASC
+                            HAVING s_selisih_final < 0
+                            ORDER BY s_selisih_final ASC
                         ) AS subquery1
                         
                         UNION ALL
@@ -469,8 +469,8 @@
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
                             GROUP BY a.kode, a.nama
-                            HAVING s_selisih > 0
-                            ORDER BY s_selisih DESC
+                            HAVING s_selisih_final > 0
+                            ORDER BY s_selisih_final DESC
                         ) AS subquery2
                     ) item;
         
@@ -512,8 +512,8 @@
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
                             GROUP BY a.id
-                            HAVING s_selisih < 0
-                            ORDER BY s_selisih ASC
+                            HAVING s_selisih_final < 0
+                            ORDER BY s_selisih_final ASC
                         ) AS subquery1
                         
                         UNION ALL
@@ -537,8 +537,8 @@
                             AND a.transaction_state <> -9 
                             AND a.fisik IS NOT NULL
                             GROUP BY a.id
-                            HAVING s_selisih > 0
-                            ORDER BY s_selisih DESC
+                            HAVING s_selisih_final > 0
+                            ORDER BY s_selisih_final DESC
                         ) AS subquery2
                     ) item;
         
