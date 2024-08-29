@@ -20,7 +20,8 @@
             ->exec('SELECT
                         th.kode kode_sou,
                         CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS s_keterangan,
-                        a.*
+                        a.*,
+                        DATE_FORMAT(a.expired_date, "%d %b %Y") expired_date
                     FROM isoittd_upload AS a
                     INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
                     INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
