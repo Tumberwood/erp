@@ -107,7 +107,7 @@
                             hitung.id_isoxxth_upload
                         FROM isoittd_upload AS hitung
                         LEFT JOIN isoxxth_upload th on th.id = hitung.id_isoxxth_upload
-                        WHERE (hitung.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND hitung.transaction_state <> -9 AND (fisik >= 0 OR is_skip = :id_isoxxth_upload)
+                        WHERE (hitung.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) AND hitung.transaction_state <> -9 AND (selisih_final IS NOT NULL OR is_skip = :id_isoxxth_upload)
                     ) AS hitung ON hitung.id_isoxxth_upload = a.id
                     
                     -- fisik sesuai
