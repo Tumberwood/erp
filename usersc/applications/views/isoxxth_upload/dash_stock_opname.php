@@ -522,7 +522,7 @@
 				<br>
 				<div class="row">
 					<!-- <div class="col-md-6"> -->
-					<div class="col-md-6 col-12">
+					<div class="col-md-12 col-12">
 						<h5>Data SKIP</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_skip" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -539,7 +539,7 @@
 							</div>
 						<!-- <div id="tabel_kiri"></div> -->
 					</div>
-					<div class="col-md-6 col-12">
+					<!-- <div class="col-md-6 col-12">
 						<h5>Auditor Statistic</h5>
 							<div class="table-responsive">
 								<table id="tblisoittd_upload_log" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -548,7 +548,6 @@
 											<th class="text-center" rowspan="2" style="vertical-align: middle">User</th>
 											<th class="text-center" colspan="2">Count</th>
 											<th class="text-center" rowspan="2" style="vertical-align: middle">Lokasi</th>
-											<!-- <th class="text-center" rowspan="2" style="vertical-align: middle">Total Time</th> -->
 										</tr>
 										<tr>
 											<th class="text-center">Upload</th>
@@ -561,14 +560,11 @@
 											<th id="total_1"></th>
 											<th id="total_2"></th>
 											<th></th>
-											<!-- <th></th> -->
 										</tr>
 									</tfoot>
 								</table>
 							</div>
-						
-						<!-- <div id="tabel_atas"></div> -->
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
