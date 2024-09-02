@@ -25,7 +25,8 @@
 	$state = $_POST['state'];
 
 	try{
-		
+		$db->transaction();
+
 		if($state == 1){
 			$qs_prcxxth = $db
                 ->query('select', 'prcxxth' )
@@ -81,6 +82,7 @@
 
 		
 	}catch(PDOException $e){
+        $db->rollback();
 		$status_code  = 500;
 		$message      = 'Perhitungan HPP Gagal Dilakukan! ' . $e->getMessage();
 		$type_message = 'error';
