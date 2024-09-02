@@ -1,4 +1,8 @@
 <script>
+     function confirmLeavePage(event) {
+        event.preventDefault();
+    }
+
     var backgroundBlob;
     
     function replaceCanvasImage(imageData) {
@@ -43,6 +47,7 @@
         circleHistory.push(circle);
         redoStack.length = 0;
         $('#inputfileUpload').prop('disabled', true);
+        window.addEventListener('beforeunload', confirmLeavePage);
     }
 
     // function removeCircle(circle) {

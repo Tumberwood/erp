@@ -126,7 +126,7 @@
         c_circle++;
         circleHistory.push(circle);
         redoStack.length = 0;
-
+        window.addEventListener('beforeunload', confirmLeavePage);
     }
 
     function removeCircle(circle) {
@@ -675,7 +675,6 @@
         console.log(id_isoxxth_upload_filter);
         if (id_isoxxth_upload_filter > 0) {
             $('#konten').show();
-			window.addEventListener('beforeunload', confirmLeavePage);
             
             var target_bg = '';
             //ketika sudah dipilih filenya
