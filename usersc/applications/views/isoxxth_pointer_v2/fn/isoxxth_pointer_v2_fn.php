@@ -1,4 +1,7 @@
 <script>
+     function confirmLeavePage(event) {
+        event.preventDefault();
+    }
 
     function generateUniqueToken() {
         var timestamp = new Date().getTime().toString(36);
@@ -672,6 +675,7 @@
         console.log(id_isoxxth_upload_filter);
         if (id_isoxxth_upload_filter > 0) {
             $('#konten').show();
+			window.addEventListener('beforeunload', confirmLeavePage);
             
             var target_bg = '';
             //ketika sudah dipilih filenya
