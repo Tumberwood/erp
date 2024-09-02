@@ -52,6 +52,9 @@
 					pivxxth.tanggal as tanggal,
 					pivxxth.subtotal as subtotal,
 					pivxxth.dpp_final as total_nilai,
+					pivxxth.is_pajak as is_pajak,
+					pivxxth.pajak_final as pajak_final,
+					pivxxth.grand_total as grand_total,
 					grlxxmh.nama as grlxxmh_nama
 				FROM pivxxth
 				LEFT JOIN grlxxmh ON grlxxmh.id = pivxxth.id_grlxxmh_supplier
@@ -76,8 +79,8 @@
 			->set('keterangan', $keterangan)
 			->set('jenis_transaksi',$jenis_transaksi)
 			->set('kode_transaksi',$rs_header['kode'])
-			->set('total_debit', $rs_header['total_nilai'])
-			->set('total_kredit', $rs_header['total_nilai'])
+			->set('total_debit', $rs_header['grand_total'])
+			->set('total_kredit', $rs_header['grand_total'])
 			->exec();
 		$last_id = $sql_insert_aglxxth->insertId();  // ambil id 
 
@@ -111,6 +114,27 @@
 			->set('kredit', 0)
 			->exec();
 
+		//jika ada pajak
+		if ($rs_header['pajak_final'] > 0 && $rs_header['is_pajak'] == 1) {
+
+			//insert pajak masukan
+			$qi_debit = $db
+			->query('insert', 'aglaktd')
+			->set('id_aglxxth', $last_id)
+			->set('id_aakxxmh', 56)
+			->set('id_transaksi_d', 0 )
+			->set('created_by',$rs_header['created_by'])
+			->set('keterangan',$keterangan)
+			->set('debit_kredit', 'Debit')
+			->set('debit', $rs_header['pajak_final'])
+			->set('kredit', 0)
+			->exec();
+
+			$total_kredit = $rs_header['total_nilai'] + $rs_header['pajak_final'];
+		} else {
+			$total_kredit = $rs_header['total_nilai'];
+		}
+
 		// insert Kredit
 		$qi_kredit = $db
 			->query('insert', 'aglaktd')
@@ -121,7 +145,7 @@
 			->set('keterangan',$keterangan)
 			->set('debit_kredit', 'Kredit')
 			->set('debit', 0)
-			->set('kredit', $rs_header['total_nilai'])
+			->set('kredit', $total_kredit)
 			->exec();
 		
 		//cek di Transaksi Sebelumnya (prcxxth), apakah nilainya berubah saat di invoice.

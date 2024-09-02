@@ -33,6 +33,8 @@
 				->setValue($s_id_gbrxxmh),
 			Field::inst( 'pivxxth.id_prcxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'pivxxth.id_iitxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'pivxxth.id_podxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'pivxxth.id_grlxxmh_supplier' )

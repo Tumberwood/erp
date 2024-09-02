@@ -69,6 +69,12 @@
 			$qs_prcxxth = $editor->db()
 				->query('select', 'prcxxth' )
 				->get([
+					'subtotal',
+					'diskon_jenis',
+					'diskon_value',
+					'diskon_persen',
+					'diskon_final',
+					'dpp',
 					'dpp_final',
 					'id_iitxxmh',
 					'is_pajak',
@@ -84,6 +90,12 @@
 
 			$qu_pivxxth = $editor->db()
 				->query('update', 'pivxxth')
+				->set('subtotal',$rs_prcxxth['subtotal'])
+				->set('diskon_jenis',$rs_prcxxth['diskon_jenis'])
+				->set('diskon_value',$rs_prcxxth['diskon_value'])
+				->set('diskon_persen',$rs_prcxxth['diskon_persen'])
+				->set('diskon_final',$rs_prcxxth['diskon_final'])
+				->set('dpp',$rs_prcxxth['dpp'])
 				->set('dpp_final',$rs_prcxxth['dpp_final'])
 				->set('id_iitxxmh',$rs_prcxxth['id_iitxxmh'])
 				->set('is_pajak',$rs_prcxxth['is_pajak'])
@@ -216,6 +228,12 @@
 				$qs_prcxxth = $editor->db()
 					->query('select', 'prcxxth' )
 					->get([
+						'subtotal',
+						'diskon_jenis',
+						'diskon_value',
+						'diskon_persen',
+						'diskon_final',
+						'dpp',
 						'dpp_final',
 						'id_iitxxmh',
 						'is_pajak',
@@ -231,6 +249,12 @@
 
 				$qu_pivxxth = $editor->db()
 					->query('update', 'pivxxth')
+					->set('subtotal',$rs_prcxxth['subtotal'])
+					->set('diskon_jenis',$rs_prcxxth['diskon_jenis'])
+					->set('diskon_value',$rs_prcxxth['diskon_value'])
+					->set('diskon_persen',$rs_prcxxth['diskon_persen'])
+					->set('diskon_final',$rs_prcxxth['diskon_final'])
+					->set('dpp',$rs_prcxxth['dpp'])
 					->set('dpp_final',$rs_prcxxth['dpp_final'])
 					->set('id_iitxxmh',$rs_prcxxth['id_iitxxmh'])
 					->set('is_pajak',$rs_prcxxth['is_pajak'])

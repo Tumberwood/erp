@@ -63,6 +63,69 @@
 								<editor-field name="pivxxth.id_prcxxth"></editor-field>
 							</div>
 						</div>
+						
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.subtotal"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.diskon_jenis"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.diskon_persen"></editor-field>
+								<editor-field name="pivxxth.diskon_value"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.diskon_final"></editor-field>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							<editor-field name="pivxxth.dpp_final"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.dpp"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.is_pajak"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.pajak_in_ex"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.pajak_jenis"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.pajak_persen"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.pajak_final"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="pivxxth.grand_total"></editor-field>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<editor-field name="pivxxth.keterangan"></editor-field>
@@ -300,6 +363,7 @@
 	var id_prcxxth_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_prcxxth;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prcittd_old = 0, id_iumxxmh_unit  = 0;
 	var jumlah_buy = 0;
+	var id_iitxxmh = 0, id_iitxxmh_old = 0;
 	var id_grlxxmh_supplier = 0;
 
 	// get tableRelation
@@ -355,10 +419,14 @@
 					type: "hidden",
 					def: 0
 				},
-				
 				{
 					label: "Kode PO",
 					name: "pivxxth.id_podxxth",
+					type: "hidden",
+				},
+				{
+					label: "pivxxth.id_iitxxmh",
+					name: "pivxxth.id_iitxxmh",
 					type: "hidden",
 				},
 				{
@@ -447,6 +515,86 @@
 					},
 					format: 'DD MMM YYYY'
 				},
+				{
+					label: "Subtotal",
+					name: "pivxxth.subtotal",
+					type: "readonly"
+				},
+				{
+					label: "Diskon",
+					name: "pivxxth.diskon_jenis",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "-", "value": 0 },
+						{ "label": "Percent", "value": 1 },
+						{ "label": "Value", "value": 2 }
+					]
+				},
+				{
+					label: "Diskon (%)",
+					name: "pivxxth.diskon_persen"
+				}, 	
+				{
+					label: "Diskon (Rp)",
+					name: "pivxxth.diskon_value"
+				}, 	
+				{
+					label: "Diskon Final",
+					name: "pivxxth.diskon_final",
+					type: "readonly"
+				},
+				{
+					label: "Total",
+					name: "pivxxth.dpp",
+					type: "readonly"
+				},
+				{
+					label: "dpp_final",
+					name: "pivxxth.dpp_final",
+					type: "hidden"
+				},
+				{
+					label: "Menggunakan Pajak",
+					name: "pivxxth.is_pajak",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Termasuk Pajak",
+					name: "pivxxth.pajak_in_ex",
+					type: "select",
+					def: 2,
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 2 }
+					]
+				},
+				{
+					label: "pajak_jenis",
+					name: "pivxxth.pajak_jenis",
+					type: "hidden"
+				},
+				{
+					label: "pajak_persen",
+					name: "pivxxth.pajak_persen",
+					type: "hidden"
+				},
+				{
+					label: "Pajak",
+					name: "pivxxth.pajak_final",
+					type: "readonly"
+				},
+				{
+					label: "Grand Total",
+					name: "pivxxth.grand_total",
+					type: "readonly"
+				},
 				
 				{
 					label: "Keterangan",
@@ -455,6 +603,14 @@
 				},
 			]
 		} );
+
+		edtpivxxth.field('pivxxth.subtotal').input().addClass('text-right');
+		edtpivxxth.field('pivxxth.diskon_persen').input().addClass('text-right');
+		edtpivxxth.field('pivxxth.diskon_value').input().addClass('text-right');
+		edtpivxxth.field('pivxxth.diskon_final').input().addClass('text-right');
+		edtpivxxth.field('pivxxth.dpp').input().addClass('text-right');
+		edtpivxxth.field('pivxxth.pajak_final').input().addClass('text-right');
+		edtpivxxth.field('pivxxth.grand_total').input().addClass('text-right');
 
 		edtpivxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -486,7 +642,62 @@
 				id_podxxth = autofillData.id_podxxth;
 				edtpivxxth.field('pivxxth.id_podxxth').val(id_podxxth);
 			}
+			return {}
+		}, {event: 'keyup change'});
 
+		edtpivxxth.dependent( 'pivxxth.diskon_jenis', function ( val, data, callback ) {
+			if (val == 1) {
+				edtpivxxth.field('pivxxth.diskon_persen').show();
+				edtpivxxth.field('pivxxth.diskon_value').hide();
+				
+				edtpivxxth.field('pivxxth.diskon_persen').val();
+				edtpivxxth.field('pivxxth.diskon_value').val('');
+			} else if (val == 2) {
+				edtpivxxth.field('pivxxth.diskon_persen').hide();
+				edtpivxxth.field('pivxxth.diskon_value').show();
+				
+				edtpivxxth.field('pivxxth.diskon_persen').val('');
+				edtpivxxth.field('pivxxth.diskon_value').val();
+			} else {
+				edtpivxxth.field('pivxxth.diskon_persen').hide();
+				edtpivxxth.field('pivxxth.diskon_value').hide();
+				
+				edtpivxxth.field('pivxxth.diskon_persen').val(0);
+				edtpivxxth.field('pivxxth.diskon_value').val(0);
+				edtpivxxth.field('pivxxth.diskon_final').val(0);
+			}
+			hitungDiskon(edtpivxxth, 'pivxxth');
+			hitungDpp(edtpivxxth, 'pivxxth');
+			hitungHeader(edtpivxxth,'pivxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtpivxxth.dependent( 'pivxxth.diskon_persen', function ( val, data, callback ) {
+			hitungDiskon(edtpivxxth, 'pivxxth');
+			hitungDpp(edtpivxxth, 'pivxxth');
+			hitungHeader(edtpivxxth,'pivxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup'});
+		
+		edtpivxxth.dependent( 'pivxxth.diskon_value', function ( val, data, callback ) {
+			hitungDiskon(edtpivxxth, 'pivxxth');
+			hitungDpp(edtpivxxth, 'pivxxth');
+			hitungHeader(edtpivxxth,'pivxxth', id_iitxxmh);
+			return {}
+		}, {event: 'keyup'});
+
+		edtpivxxth.dependent( 'pivxxth.is_pajak', function ( val, data, callback ) {
+			/**
+			 * is_pajak: menentukan apakah PO tersebut kena pajak atau tidak
+			 * nantinya bisa diambilkan dari master supplier. 
+			 * tergantung bisnis prosesnya
+			 */
+			hitungHeader(edtpivxxth,'pivxxth', id_iitxxmh);
+			return {}
+		}, {event: 'change'});
+
+		edtpivxxth.dependent( 'pivxxth.pajak_in_ex', function ( val, data, callback ) {
+			hitungHeader(edtpivxxth,'pivxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
 
@@ -496,6 +707,9 @@
 				id_grlxxmh_supplier = edtpivxxth.field('pivxxth.id_grlxxmh_supplier').val();
 				id_prcxxth    = edtpivxxth.field('pivxxth.id_prcxxth').val();
 				tanggal       = edtpivxxth.field('pivxxth.tanggal').val();
+				diskon_jenis  = edtpivxxth.field('pivxxth.diskon_jenis').val();
+				diskon_persen = edtpivxxth.field('pivxxth.diskon_persen').val();
+				diskon_value  = edtpivxxth.field('pivxxth.diskon_value').val();
 
 				validasiRequired(
 					edtpivxxth,
@@ -516,6 +730,28 @@
 					id_prcxxth,
 					id_pivxxth
 				);
+
+				if(diskon_jenis == 1){
+					validasiNumber(
+						edtpivxxth,
+						'pivxxth',
+						{
+							'diskon_persen': diskon_persen
+						},
+						0,
+						'>'
+					);
+				}else if(diskon_jenis == 2){
+					validasiNumber(
+						edtpivxxth,
+						'pivxxth',
+						{
+							'diskon_value': diskon_value
+						},
+						0,
+						'>'
+					);
+				}
 			
 			}
 			
@@ -575,7 +811,7 @@
 				{ data: "pivxxth.kode" },
 				{ data: "pivxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
-				{ data: "podxxth.kode" },
+				{ data: "pivxxth.kode" },
 				{ data: "prcxxth.kode" },
 				{ 
 					data: "pivxxth.transaction_state" ,
@@ -655,6 +891,8 @@
 			dpp_final_h    = pivxxth_data.dpp_final;
 			pajak_final_h  = pivxxth_data.pajak_final;
 			grand_total_h  = pivxxth_data.grand_total;
+			id_iitxxmh_old    = pivxxth_data.id_iitxxmh;
+			id_iitxxmh        = pivxxth_data.id_iitxxmh;
 			pivxxthUpdateFooter();
 
 			// atur hak akses
@@ -675,6 +913,8 @@
 			dpp_final_h    = 0;
 			pajak_final_h  = 0;
 			grand_total_h  = 0;
+			id_iitxxmh_old = 0;
+			id_iitxxmh = 0;
 			pivxxthUpdateFooter();
 
 			// atur hak akses
@@ -1076,6 +1316,7 @@
 			hitungHeaderDetail('pivxxth', 'pivittd', id_transaksi_h);
 			
 			tblpivxxth.ajax.reload(null, false);
+			tblpivxxth.rows().deselect();
 			tblpivittd.ajax.reload(null, false);
 		} );
 

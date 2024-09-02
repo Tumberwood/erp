@@ -943,7 +943,7 @@
 			dpp_final_h    = 0;
 			pajak_final_h  = 0;
 			grand_total_h  = 0;
-			podxxthUpdateFooter();
+			// podxxthUpdateFooter();
 
 			// atur hak akses
 			tbl_details = [tblpodittd];
@@ -983,7 +983,7 @@
 			dpp_final_h    = 0;
 			pajak_final_h  = 0;
 			grand_total_h  = 0;
-			podxxthUpdateFooter();
+			// podxxthUpdateFooter();
 
 			// atur hak akses
 			tbl_details = [tblpodittd];

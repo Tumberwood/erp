@@ -725,7 +725,7 @@
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
-									id_podxxth: id_podxxth,
+									id_podxxth: id_podxxth_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
