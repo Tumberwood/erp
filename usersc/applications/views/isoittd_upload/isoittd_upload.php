@@ -1394,6 +1394,7 @@
 
 		edtisoittd_upload.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
 		edtisoittd_upload.dependent( 'isoittd_upload.select_satuan', function ( val, data, callback ) {
@@ -1504,12 +1505,24 @@
 					id_isoittd_upload
 				);
 
-				if (transaksi_in != '' && transaksi_out != '') {
+				
+				if (transaksi_in != '') {
 					validasiNumber(
 						edtisoittd_upload,
 						'isoittd_upload',
 						{
 							'transaksi_in': transaksi_in,
+						},
+						0,
+						'>='
+					);
+				}
+
+				if (transaksi_out != '') {
+					validasiNumber(
+						edtisoittd_upload,
+						'isoittd_upload',
+						{
 							'transaksi_out': transaksi_out,
 						},
 						0,

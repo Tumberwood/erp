@@ -60,7 +60,7 @@
 									'system_path' => Upload::DB_SYSTEM_PATH,
 									'extn' 		  => Upload::DB_EXTN
 								) )
-								->validator( Validate::fileSize( 1000000, 'Ukuran file lampiran maksimal 1mb' ) )
+								->validator( Validate::fileSize( 5000000, 'Ukuran file lampiran maksimal 5mb' ) )
 								->validator( Validate::fileExtensions( array( 'pdf', 'png', 'jpg', 'jpeg' ), "Hanya diperbolehkan jenis pdf, png, jpg, atau jpeg" ) )
 							),
 						Field::inst( 'web_path' )
