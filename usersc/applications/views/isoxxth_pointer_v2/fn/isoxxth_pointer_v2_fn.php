@@ -489,7 +489,7 @@
                 },
                 {
                     label: "Keterangan",
-                    name: "isoittd_upload_fisik.keterangan",
+                    name: "isoittd_upload_fisik.keterangan_pointer",
                     type: "textarea"
                 }
             ]

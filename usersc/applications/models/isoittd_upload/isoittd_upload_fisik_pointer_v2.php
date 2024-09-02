@@ -29,6 +29,7 @@
 				Field::inst( 'isoittd_upload_fisik.kode' ),
 				Field::inst( 'isoittd_upload_fisik.nama' ),
 				Field::inst( 'isoittd_upload_fisik.keterangan' ),
+				Field::inst( 'isoittd_upload_fisik.keterangan_pointer' ),
 				Field::inst( 'isoittd_upload_fisik.created_by' ),
 				Field::inst( 'isoittd_upload_fisik.transaction_state' ),
 				Field::inst( 'isoittd_upload_fisik.approval_state' ),

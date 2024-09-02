@@ -93,7 +93,7 @@
 										jumlah_unit,
 										fisik,
 										kode,
-										keterangan
+										keterangan_pointer
 									)
 									SELECT 
 										:id_isoittd,
@@ -102,7 +102,7 @@
 										jumlah_unit,
 										fisik,
 										kode,
-										keterangan
+										keterangan_pointer
 									FROM isoittd_upload_fisik
 									WHERE id = :id;
 							');
