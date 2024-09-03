@@ -266,6 +266,10 @@
 
 						$('#moveCircleBtn').on( "click", function() {
 							mode = 'move';
+
+							canvas.getObjects('circle').forEach(function(circle) {
+								circle.selectable = true;
+							});
 						} );
 
 						$('#scrollBtn').on( "click", function() {
@@ -274,10 +278,18 @@
 
 						$('#zoomInBtn').on( "click", function() {
 							mode = 'zoomIn';
+							
+							canvas.getObjects('circle').forEach(function(circle) {
+								circle.selectable = false;
+							});
 						} );
 
 						$('#zoomOutBtn').on( "click", function() {
 							mode = 'zoomOut';
+
+							canvas.getObjects('circle').forEach(function(circle) {
+								circle.selectable = false;
+							});
 						} );
 
 						$('#undo').on( "click", function() {
