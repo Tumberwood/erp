@@ -631,7 +631,7 @@
 		function generateCard(id_isoxxth_upload_filter) {
 
 			$.ajax( {
-				url: "../../models/isoxxth_upload/dash_stock_opname.php",
+				url: "../../models/isoxxth_upload/dash_stock_opname_card.php",
 				dataType: 'json',
 				type: 'POST',
 				data: {
@@ -843,7 +843,7 @@
 			tblisoittd_upload_row = $('#tblisoittd_upload_row').DataTable( {
 				dom: dom0,
 				ajax: {
-					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					url: "../../models/isoxxth_upload/dash_stock_opname_selisih_row.php",
 					type: 'POST',
 					data: function (d){
 						d.id_isoxxth_upload = id_isoxxth_upload_filter;
@@ -908,7 +908,7 @@
 			tblisoittd_upload = $('#tblisoittd_upload').DataTable( {
 				dom: dom0,
 				ajax: {
-					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					url: "../../models/isoxxth_upload/dash_stock_opname_selisih_item.php",
 					type: 'POST',
 					data: function (d){
 						d.id_isoxxth_upload = id_isoxxth_upload_filter;
@@ -969,6 +969,16 @@
 				}
 			} );
 
+			tblisoittd_upload.on( 'preDraw', function () {
+				// atur hak akses
+				scrollPosition = $(window).scrollTop();
+			} );
+
+			tblisoittd_upload.on( 'draw', function () {
+				// atur hak akses
+				$(window).scrollTop(scrollPosition);
+			} );
+
 			tblisoittd_upload.on( 'init', function () {
 				// atur hak akses
 				CekInitHeaderH(tblisoittd_upload);
@@ -989,7 +999,7 @@
 			tblisoittd_upload_log = $('#tblisoittd_upload_log').DataTable( {
 				dom: dom0,
 				ajax: {
-					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					url: "../../models/isoxxth_upload/dash_stock_opname_log_user.php",
 					type: 'POST',
 					data: function (d){
 						d.id_isoxxth_upload = id_isoxxth_upload_filter;
@@ -1071,7 +1081,7 @@
 			tblisoittd_upload_skip = $('#tblisoittd_upload_skip').DataTable( {
 				dom: dom0,
 				ajax: {
-					url: "../../models/isoxxth_upload/dash_stock_opname.php",
+					url: "../../models/isoxxth_upload/dash_stock_opname_skip.php",
 					type: 'POST',
 					data: function (d){
 						d.id_isoxxth_upload = id_isoxxth_upload_filter;
