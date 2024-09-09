@@ -19,12 +19,13 @@
             ->bind(':id_isoxxth_upload', $id_isoxxth_upload)
             ->exec('SELECT
                         th.kode kode_sou,
-                        CONCAT(ifnull(GROUP_CONCAT(a.keterangan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS s_keterangan,
+                        DATE_FORMAT(th.tanggal, "%d %b %Y") AS tanggal,
+                        CONCAT(ifnull(GROUP_CONCAT(a.keterangan_penjelasan SEPARATOR ", "), ""), ifnull(GROUP_CONCAT(fis.keterangan SEPARATOR ", "),"")) AS s_keterangan,
                         a.*,
                         DATE_FORMAT(a.expired_date, "%d %b %Y") expired_date
                     FROM isoittd_upload AS a
-                    INNER JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
-                    INNER JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
+                    LEFT JOIN isoxxth_upload th ON th.id = a.id_isoxxth_upload
+                    LEFT JOIN isoittd_upload_fisik fis ON fis.id_isoittd_upload = a.id
                     WHERE (a.id_isoxxth_upload = :id_isoxxth_upload OR th.id_isoxxth_upload_parent = :id_isoxxth_upload) 
                     AND a.transaction_state <> -9 
                     GROUP BY a.id
@@ -32,7 +33,6 @@
                     );
         $rs_data = $qs_data->fetchAll();
 
-        $results = array();
 		$results = array();
         $results['data'] = array_map(function($row) {
             return array(
@@ -58,7 +58,7 @@
                 'is_skip' => $row['is_skip'],
                 'transaction_state' => $row['transaction_state'],
                 'id_isoxxth_upload' => $row['id_isoxxth_upload'],
-                // other fields...
+                'tanggal' => $row['tanggal'],
             );
         }, $rs_data);
         

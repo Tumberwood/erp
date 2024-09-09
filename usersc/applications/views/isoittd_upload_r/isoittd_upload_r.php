@@ -47,6 +47,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Kode SOU</th>
+									<th>Tanggal</th>
 									<th>Loc</th>
 									<th>LPN</th>
 									<th>SKU</th>
@@ -60,7 +61,6 @@
 									<th>Transaksi In</th>
 									<th>Transaksi Out</th>
 									<th>Selisih Final</th>
-									<th>Qty Penjelasan</th>
 									<th>SKIP</th>
 									<th>Hitung</th>
 									<th>Keterangan</th>
@@ -98,7 +98,8 @@
 		var edtisoittd_upload, tblisoittd_upload, show_deleted_isoittd_upload = 0, id_isoittd_upload;
 		// ------------- end of default variable
 		var id_isoxxth_upload_filter = 0;
-		var qty_penjelasan = 0;
+		var transaksi_in = 0;
+		var transaksi_out = 0;
 		var keterangan_penjelasan = '';
 
 		tableRelation('isoittd_upload');
@@ -173,8 +174,13 @@
 						def: 1
 					},
 					{
-						label: "Qty Penjelasan <sup class='text-danger'>*<sup>", 
-						name: "isoittd_upload.qty_penjelasan"
+						label: "Transaksi In",
+						name: "isoittd_upload.transaksi_in"
+					}, 	
+					
+					{
+						label: "Transaksi Out",
+						name: "isoittd_upload.transaksi_out"
 					}, 	
 					{
 						label: "Keterangan Penjelasan <sup class='text-danger'>*<sup>",
@@ -185,7 +191,8 @@
 			} );
 			
 			edtisoittd_upload.on( 'preOpen', function( e, mode, action ) {
-				edtisoittd_upload.field('isoittd_upload.qty_penjelasan').val(qty_penjelasan);
+				edtisoittd_upload.field('isoittd_upload.transaksi_in').val(transaksi_in);
+				edtisoittd_upload.field('isoittd_upload.transaksi_out').val(transaksi_out);
 				edtisoittd_upload.field('isoittd_upload.keterangan_penjelasan').val(keterangan_penjelasan);
 			});
 
@@ -197,27 +204,41 @@
 			edtisoittd_upload.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 
-					qty_penjelasan              = edtisoittd_upload.field('isoittd_upload.qty_penjelasan').val();
+					transaksi_in              = edtisoittd_upload.field('isoittd_upload.transaksi_in').val();
+					transaksi_out              = edtisoittd_upload.field('isoittd_upload.transaksi_out').val();
 					keterangan_penjelasan              = edtisoittd_upload.field('isoittd_upload.keterangan_penjelasan').val();
 
 					validasiRequired(
 						edtisoittd_upload,
 						'isoittd_upload',
 						{
-							'qty_penjelasan': qty_penjelasan,
 							'keterangan_penjelasan': keterangan_penjelasan,
 						}
 					);
 					
-					validasiNumber(
-						edtisoittd_upload,
-						'isoittd_upload',
-						{
-							'qty_penjelasan': qty_penjelasan,
-						},
-						0,
-						'>='
-					);
+					if (transaksi_in != '') {
+						validasiNumber(
+							edtisoittd_upload,
+							'isoittd_upload',
+							{
+								'transaksi_in': transaksi_in,
+							},
+							0,
+							'>='
+						);
+					}
+
+					if (transaksi_out != '') {
+						validasiNumber(
+							edtisoittd_upload,
+							'isoittd_upload',
+							{
+								'transaksi_out': transaksi_out,
+							},
+							0,
+							'>='
+						);
+					}
 				}
 				
 				if ( edtisoittd_upload.inError() ) {
@@ -278,6 +299,7 @@
 			columns: [
 				{ data: "id",visible:false },
 				{ data: "kode_sou" },
+				{ data: "tanggal" },
 				{ data: "lokasi" },
 				{ data: "lpn" },
 				{ data: "kode" },
@@ -348,10 +370,6 @@
 						orthogonal: 'sp',
 						show: true
 					}
-				},
-				{ 
-					data: "qty_penjelasan",
-					...renderNumber()
 				},
 				{ 
 					data: "is_skip",
@@ -487,7 +505,8 @@
 				isoittd_upload_data    = tblisoittd_upload.row( { selected: true } ).data();
 				// console.log(isoittd_upload_data);
 				id_isoittd_upload      = isoittd_upload_data.id;
-				qty_penjelasan      = isoittd_upload_data.qty_penjelasan;
+				transaksi_in      = isoittd_upload_data.transaksi_in;
+				transaksi_out      = isoittd_upload_data.transaksi_out;
 				keterangan_penjelasan      = isoittd_upload_data.keterangan_penjelasan;
 				// console.log(id_isoittd_upload);
 
@@ -498,7 +517,8 @@
 			tblisoittd_upload.on( 'deselect', function () {
 				// reset variable standar framework
 				siVarReset('isoittd_upload');
-				qty_penjelasan = 0;
+				transaksi_in = 0;
+				transaksi_out = 0;
 				keterangan_penjelasan = '';
 
 				// atur hak akses

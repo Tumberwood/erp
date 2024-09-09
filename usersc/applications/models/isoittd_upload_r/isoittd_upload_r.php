@@ -119,7 +119,7 @@
 					->where( 'isoittd_upload.transaction_state', -9, '<>');
 			}
 
-			// include( "isoittd_upload_r_extra.php" );
+			include( "isoittd_upload_r_extra.php" );
 
 			// BEGIN log
 			$nama_table = 'isoittd_upload';
