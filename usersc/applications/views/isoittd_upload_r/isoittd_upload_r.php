@@ -283,7 +283,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3,11,12,13]
+					targets: [1,2,3,4,12,13,14]
 				},
 				{
 					searchPanes:{
@@ -291,9 +291,9 @@
 					},
 					targets: '_all'
 				},
-				{ type: selisihDesc, targets: 11 }
+				{ type: selisihDesc, targets: 12 }
 			],
-			order: [[ 2, "asc" ]],
+			order: [[ 3, "asc" ]],
 			responsive: false,
 			scrollX: true,
 			columns: [
