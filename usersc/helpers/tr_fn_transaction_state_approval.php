@@ -80,7 +80,7 @@
                 */
             
             //Ambil kode transaksinya dulu
-            $qs_transaksi = $db
+            $qs_data_transaksi = $db
                 ->raw()
                 ->bind(':id_transaksi', $id_transaksi)
                 ->exec('SELECT
@@ -89,8 +89,8 @@
                         WHERE 
                             id = :id_transaksi
                 ');
-            $rs_transaksi = $qs_transaksi->fetch();
-            $kode = $rs_transaksi['kode'];
+            $rs_data_transaksi = $qs_data_transaksi->fetch();
+            $kode = $rs_data_transaksi['kode'];
             
             if($id_gaptpmh == 1){
                 
