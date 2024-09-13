@@ -2168,10 +2168,7 @@
 		} );
 		
 		tblhesxxtd = $('#tblhesxxtd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-2',
-			},
+			dom: dom0,
 			ajax: {
 				url: "../../models/hemxxmh/hesxxtd.php",
 				type: 'POST',
@@ -2182,18 +2179,6 @@
 			},
 			order: [[ 2, "desc" ]],
 			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: "_all"
-				}
 			],
 			responsive: false,
 			// scrollX: true,
@@ -2222,12 +2207,8 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
 			}
 		} );
-
-		tblhesxxtd.searchPanes.container().appendTo('#sphesxxtd');
-		tblhesxxtd.searchBuilder.container().appendTo( '#sbhesxxtd' );
 
 		tblhesxxtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
