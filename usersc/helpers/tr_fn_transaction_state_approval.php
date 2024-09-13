@@ -78,7 +78,20 @@
                 * 3: Group Level
                 * 
                 */
-    
+            
+            //Ambil kode transaksinya dulu
+            $qs_transaksi = $db
+                ->raw()
+                ->bind(':id_transaksi', $id_transaksi)
+                ->exec('SELECT
+                            kode 
+                        FROM '.$table_name.'
+                        WHERE 
+                            id = :id_transaksi
+                ');
+            $rs_transaksi = $qs_transaksi->fetch();
+            $kode = $rs_transaksi['kode'];
+            
             if($id_gaptpmh == 1){
                 
             }elseif($id_gaptpmh == 2){
@@ -187,7 +200,7 @@
                         ->set('id_users', $row_gapdusd['id_users'] )
                         ->set('id_users_pengaju', $rs_log['id_users_pengaju'])
                         ->set('id_transaksi', $id_transaksi )
-                        ->set('kode', $rs_transaksi['kode'])
+                        ->set('kode', $kode)
                         ->set('nama', $gtbrlsh_nama)
                         ->set('start_at', date('Y-m-d H:i:s'))
                         ->set('tbl_name', $table_name)
