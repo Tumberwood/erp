@@ -266,7 +266,7 @@
 													<th>id_hemxxmh</th>
 													<th>Kode</th>
 													<th>Status </th>
-                                					<th>Jenis Rotasi</th>
+                                					<th>Jenis</th>
 													<th>Tanggal Awal</th>
 													<th>Tanggal Akhir</th>
 													<th>Keterangan</th>
@@ -2268,8 +2268,6 @@
 
 		tblhemjbrd = $('#tblhemjbrd').DataTable( {
 			dom: dom0,
-			searchPanes:{
-			},
 			ajax: {
 				url: "../../models/hemxxmh/hemjbrd.php",
 				type: 'POST',
@@ -2279,8 +2277,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-			],
 			responsive: false,
 			// scrollX: true,
 			columns: [
@@ -2288,7 +2284,16 @@
 				{ data: "hemjbrd.id_hemxxmh",visible:false },
 				{ data: "hemjbrd.kode" },
 				{ data: "hesxxmh.nama" },
-				{ data: "harxxmh.nama" },
+				{ 
+					data: "harxxmh.nama",
+					render: function (data, type, row) {
+						if (row.hemjbrd.kode.includes('RTS')) { 
+							return 'Rotasi';
+						}else{
+							return data;
+						}
+					}
+				},
 				{ data: "hemjbrd.tanggal_awal" },
 				{ data: "hemjbrd.tanggal_akhir" },
 				{ data: "hemjbrd.keterangan" }
