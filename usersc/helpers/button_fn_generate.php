@@ -162,16 +162,6 @@
                             titleAttr: 'Export to Excel',
                             exportOptions: {
                                 columns: ':visible',
-                            },
-                            customize: function (xlsx) {
-                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                                
-                                // Select cells that match a certain pattern and set the style
-                                $('row c[r^="C"]', sheet).each(function () {
-                                    if ($(this).text().match(/^\d+E\d+$/)) {
-                                        $(this).attr('s', '49');  // Format cell as text in Excel
-                                    }
-                                });
                             }
                         },
 <?php
