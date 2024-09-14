@@ -161,7 +161,18 @@
                             className: 'btn btn-sm',
                             titleAttr: 'Export to Excel',
                             exportOptions: {
-                                columns: ':visible'
+                                columns: ':visible',
+                                format: {
+                                    body: function (data, row, column, node) {
+                                        // Cek apakah data mirip angka ilmiah (seperti 103E0101)
+                                        if (typeof data === 'string' && data.match(/^\d+E\d+$/)) {
+                                            // Tambahkan tanda petik hanya pada data yang mirip angka ilmiah
+                                            return "'" + data;
+                                        }
+                                        // Biarkan data tanggal dan angka tetap pada format aslinya
+                                        return data;
+                                    }
+                                }
                             }
                         },
 <?php
