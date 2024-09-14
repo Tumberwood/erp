@@ -162,17 +162,16 @@
                             titleAttr: 'Export to Excel',
                             exportOptions: {
                                 columns: ':visible',
-                                format: {
-                                    body: function (data, row, column, node) {
-                                        // Cek apakah data mirip angka ilmiah (seperti 103E0101)
-                                        if (typeof data === 'string' && data.match(/^\d+E\d+$/)) {
-                                            // Tambahkan tanda petik hanya pada data yang mirip angka ilmiah
-                                            return "'" + data;
-                                        }
-                                        // Biarkan data tanggal dan angka tetap pada format aslinya
-                                        return data;
+                            },
+                            customize: function (xlsx) {
+                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                
+                                // Select cells that match a certain pattern and set the style
+                                $('row c[r^="C"]', sheet).each(function () {
+                                    if ($(this).text().match(/^\d+E\d+$/)) {
+                                        $(this).attr('s', '49');  // Format cell as text in Excel
                                     }
-                                }
+                                });
                             }
                         },
 <?php
