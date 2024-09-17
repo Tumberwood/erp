@@ -161,7 +161,7 @@
                             className: 'btn btn-sm',
                             titleAttr: 'Export to Excel',
                             exportOptions: {
-                                columns: ':visible'
+                                columns: ':visible',
                             }
                         },
 <?php
