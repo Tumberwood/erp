@@ -172,7 +172,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/httlpmh/httlpmh_fn_opt.php",
+							url: "../../models/httlpmh/httlpmh_fn_opt_self.php",
 							dataType: 'json',
 							data: function (params) {
 								jenis = edthttlptd.field('httlptd.jenis').val();

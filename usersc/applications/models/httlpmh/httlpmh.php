@@ -41,6 +41,7 @@
 			Field::inst( 'httlpmh.finish_at' ),
 			Field::inst( 'httlpmh.is_defaultprogram' ),
 			Field::inst( 'httlpmh.is_nextprocess' ),
+			Field::inst( 'httlpmh.is_self_service' ),
 
 			Field::inst( 'httlpmh.is_potongcuti' ),
 			Field::inst( 'httlpmh.jenis' ),

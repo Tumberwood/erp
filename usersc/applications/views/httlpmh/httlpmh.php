@@ -24,6 +24,7 @@
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
                                 <th>Jenis</th>
+                                <th>Self Service</th>
                                 <th>Jenis Jam</th>
                                 <th>Potong Cuti</th>
                                 <th data-i18n="state"></th>
@@ -106,6 +107,16 @@
 					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "httlpmh.nama"
 				}, 	
+				{
+					label: "Self Service",
+					name: "httlpmh.is_self_service",
+					type: "select",
+					def : 0,
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
 				{
 					label: "Jenis <sup class='text-danger'>*<sup>",
 					name: "httlpmh.jenis",
@@ -288,6 +299,11 @@
 							return '<span class="badge badge-danger">INVALID</span>';
 						}
 					}
+				},
+				
+				{ 
+					data: "httlpmh.is_self_service" ,
+					...renderYaTidak()
 				},
 				{ 
 					data: "httlpmh.jenis_jam" ,
