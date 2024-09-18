@@ -21,39 +21,39 @@
 	use 
 		Carbon\Carbon;
 	
-	$editor = Editor::inst( $db, 'hlgxxmh' )
+	$editor = Editor::inst( $db, 'hgnlgmh' )
 		->debug(true)
 		->fields(
-			Field::inst( 'hlgxxmh.id' ),
-			Field::inst( 'hlgxxmh.kode' )
+			Field::inst( 'hgnlgmh.id' ),
+			Field::inst( 'hgnlgmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
 				} ),
-			Field::inst( 'hlgxxmh.nama' )
+			Field::inst( 'hgnlgmh.nama' )
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
-			Field::inst( 'hlgxxmh.keterangan' ),
-			Field::inst( 'hlgxxmh.created_by' ),
-			Field::inst( 'hlgxxmh.transaction_state' ),
-			Field::inst( 'hlgxxmh.approval_state' ),
-			Field::inst( 'hlgxxmh.start_at' ),
-			Field::inst( 'hlgxxmh.finish_at' ),
-			Field::inst( 'hlgxxmh.is_defaultprogram' ),
-			Field::inst( 'hlgxxmh.is_nextprocess' )
+			Field::inst( 'hgnlgmh.keterangan' ),
+			Field::inst( 'hgnlgmh.created_by' ),
+			Field::inst( 'hgnlgmh.transaction_state' ),
+			Field::inst( 'hgnlgmh.approval_state' ),
+			Field::inst( 'hgnlgmh.start_at' ),
+			Field::inst( 'hgnlgmh.finish_at' ),
+			Field::inst( 'hgnlgmh.is_defaultprogram' ),
+			Field::inst( 'hgnlgmh.is_nextprocess' )
 		);
 	
 	// do not erase
 	// function show / hide inactive document
-	if ( $_POST['show_deleted_hlgxxmh'] == 0){
+	if ( $_POST['show_deleted_hgnlgmh'] == 0){
 		$editor
-			->where( 'hlgxxmh.transaction_state', -9, '<>');
+			->where( 'hgnlgmh.transaction_state', -9, '<>');
 	}
 	
-	include( "hlgxxmh_extra.php" );
+	include( "hgnlgmh_extra.php" );
 
 	// BEGIN log
-	$nama_table = 'hlgxxmh';
+	$nama_table = 'hgnlgmh';
 	include( "../../../helpers/edt_log.php" );
 	// END log
 	

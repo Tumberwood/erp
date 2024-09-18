@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = 'hlgxxmh';
+	$nama_tabel    = 'hgnlgmh';
 	$nama_tabels_d = [];
 ?>
 
@@ -17,7 +17,7 @@
 		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblhlgxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                    <table id="tblhgnlgmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -50,101 +50,101 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hlgxxmh/fn/hlgxxmh_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hgnlgmh/fn/hgnlgmh_fn.php'; ?>
 
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
-	var edthlgxxmh, tblhlgxxmh, show_deleted_hlgxxmh = 0, id_hlgxxmh;
+	var edthgnlgmh, tblhgnlgmh, show_deleted_hgnlgmh = 0, id_hgnlgmh;
 	// ------------- end of default variable
 	
 	// get tableRelation
-	tableRelation('hlgxxmh');
+	tableRelation('hgnlgmh');
 
 	$(document).ready(function() {
-		// BEGIN hlgxxmh
-		edthlgxxmh = new $.fn.dataTable.Editor( {
+		// BEGIN hgnlgmh
+		edthgnlgmh = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/hlgxxmh/hlgxxmh.php",
+				url: "../../models/hgnlgmh/hgnlgmh.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_hlgxxmh = show_deleted_hlgxxmh;
+					d.show_deleted_hgnlgmh = show_deleted_hgnlgmh;
 				}
 			},
-			table: "#tblhlgxxmh",
+			table: "#tblhgnlgmh",
 			fields: [ 
 				{
-					label: "hlgxxmh.start_at",
-					name: "hlgxxmh.start_at",
+					label: "hgnlgmh.start_at",
+					name: "hgnlgmh.start_at",
 					type: "hidden"
 				},	
 				{
-					label: "hlgxxmh.finish_at",
-					name: "hlgxxmh.finish_at",
+					label: "hgnlgmh.finish_at",
+					name: "hgnlgmh.finish_at",
 					type: "hidden"
 				},	
 				{
 					label: "nama_tabel",
 					name: "nama_tabel",
-					def: "hlgxxmh",
+					def: "hgnlgmh",
 					type: "hidden"
 				},	
 				{
-					label: "hlgxxmh.transaction_state",
-					name: "hlgxxmh.transaction_state",
+					label: "hgnlgmh.transaction_state",
+					name: "hgnlgmh.transaction_state",
 					type: "hidden",
 					def: 0
 				},	
 				{
 					label: "Kode <sup class='text-danger'>*<sup>",
-					name: "hlgxxmh.kode"
+					name: "hgnlgmh.kode"
 				}, 	
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "hlgxxmh.nama"
+					name: "hgnlgmh.nama"
 				}, 	
 				{
 					label: "Keterangan",
-					name: "hlgxxmh.keterangan",
+					name: "hgnlgmh.keterangan",
 					type: "textarea"
 				}
 			]
 		} );
 
-		edthlgxxmh.on( 'preOpen', function( e, mode, action ) {
+		edthgnlgmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthlgxxmh.field('hlgxxmh.start_at').val(start_at);
+			edthgnlgmh.field('hgnlgmh.start_at').val(start_at);
 			
 			if(action == 'create'){
-				tblhlgxxmh.rows().deselect();
-				edthlgxxmh.field('hlgxxmh.kode').enable();
-				edthlgxxmh.field('hlgxxmh.nama').enable();
+				tblhgnlgmh.rows().deselect();
+				edthgnlgmh.field('hgnlgmh.kode').enable();
+				edthgnlgmh.field('hgnlgmh.nama').enable();
 			}else if(action == 'edit'){
 				if(transaction_state == 0){
-					edthlgxxmh.field('hlgxxmh.kode').enable();
-					edthlgxxmh.field('hlgxxmh.nama').enable();
+					edthgnlgmh.field('hgnlgmh.kode').enable();
+					edthgnlgmh.field('hgnlgmh.nama').enable();
 				}else{
-					edthlgxxmh.field('hlgxxmh.kode').disable();
-					edthlgxxmh.field('hlgxxmh.nama').disable();
+					edthgnlgmh.field('hgnlgmh.kode').disable();
+					edthgnlgmh.field('hgnlgmh.nama').disable();
 				}
 			}
 		});
 
-		edthlgxxmh.on("open", function (e, mode, action) {
+		edthgnlgmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();
 		});
 
-		edthlgxxmh.on( 'preSubmit', function (e, data, action) {
+		edthgnlgmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				kode = edthlgxxmh.field('hlgxxmh.kode').val();
-				nama = edthlgxxmh.field('hlgxxmh.nama').val();
+				kode = edthgnlgmh.field('hgnlgmh.kode').val();
+				nama = edthgnlgmh.field('hgnlgmh.nama').val();
 
 				validasiRequired(
-					edthlgxxmh,
-					'hlgxxmh',
+					edthgnlgmh,
+					'hgnlgmh',
 					{
 						'kode': kode,
 						'nama': nama
@@ -153,49 +153,49 @@
 
 				validasiUnique(
 					action,
-					edthlgxxmh,
-					'hlgxxmh',
+					edthgnlgmh,
+					'hgnlgmh',
 					'kode',
 					'kode',
 					'"'+kode+'"',
-					id_hlgxxmh
+					id_hgnlgmh
 				);
 
 				validasiUnique(
 					action,
-					edthlgxxmh,
-					'hlgxxmh',
+					edthgnlgmh,
+					'hgnlgmh',
 					'nama',
 					'nama',
 					'"'+nama+'"',
-					id_hlgxxmh
+					id_hgnlgmh
 				);
 			}
 			
-			if ( edthlgxxmh.inError() ) {
+			if ( edthgnlgmh.inError() ) {
 				return false;
 			}
 		});
 		
-		edthlgxxmh.on('initSubmit', function(e, action) {
+		edthgnlgmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthlgxxmh.field('hlgxxmh.finish_at').val(finish_at);
+			edthgnlgmh.field('hgnlgmh.finish_at').val(finish_at);
 		});
 
-		edthlgxxmh.on( 'close', function () {
-			edthlgxxmh.enable();
+		edthgnlgmh.on( 'close', function () {
+			edthgnlgmh.enable();
 		} );
 
-		tblhlgxxmh = $('#tblhlgxxmh').DataTable( {
+		tblhgnlgmh = $('#tblhgnlgmh').DataTable( {
 			dom: domPQ,
 			searchPanes:{
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/hlgxxmh/hlgxxmh.php",
+				url: "../../models/hgnlgmh/hgnlgmh.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_hlgxxmh = show_deleted_hlgxxmh;
+					d.show_deleted_hgnlgmh = show_deleted_hgnlgmh;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -214,22 +214,22 @@
 				}
 			],
 			columns: [
-				{ data: "hlgxxmh.id",visible:false },
-				{ data: "hlgxxmh.kode" },
-				{ data: "hlgxxmh.nama" },
-				{ data: "hlgxxmh.keterangan" },
+				{ data: "hgnlgmh.id",visible:false },
+				{ data: "hgnlgmh.kode" },
+				{ data: "hgnlgmh.nama" },
+				{ data: "hgnlgmh.keterangan" },
 				{ 
-					data: "hlgxxmh.transaction_state" ,
+					data: "hgnlgmh.transaction_state" ,
 					...renderTransactionStatus()
 				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
-					$id_table    = 'id_hlgxxmh';
-					$table       = 'tblhlgxxmh';
-					$edt         = 'edthlgxxmh';
-					$show_status = '_hlgxxmh';
+					$id_table    = 'id_hgnlgmh';
+					$table       = 'tblhgnlgmh';
+					$edt         = 'edthgnlgmh';
+					$show_status = '_hgnlgmh';
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
@@ -243,39 +243,39 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
-				if ( data.hlgxxmh.transaction_state == -9 ) {
+				if ( data.hgnlgmh.transaction_state == -9 ) {
 					$('td', row).addClass('text-danger');
-				}else if ( data.hlgxxmh.transaction_state == 0 ) {
+				}else if ( data.hgnlgmh.transaction_state == 0 ) {
 					$('td', row).addClass('text-warning');
 				}
 			}
 		} );
 
-		tblhlgxxmh.searchPanes.container().appendTo('#sphlgxxmh');
-		tblhlgxxmh.searchBuilder.container().appendTo( '#sbhlgxxmh' );
+		tblhgnlgmh.searchPanes.container().appendTo('#sphgnlgmh');
+		tblhgnlgmh.searchBuilder.container().appendTo( '#sbhgnlgmh' );
 		
-		tblhlgxxmh.on( 'init', function () {
+		tblhgnlgmh.on( 'init', function () {
 			// atur hak akses
-			CekInitHeaderH(tblhlgxxmh);
+			CekInitHeaderH(tblhgnlgmh);
 		} );
 		
-		tblhlgxxmh.on( 'select', function( e, dt, type, indexes ) {
+		tblhgnlgmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
-			siVarSet('hlgxxmh');
+			siVarSet('hgnlgmh');
 
 			// atur hak akses
-			CekSelectHeaderH(tblhlgxxmh);
+			CekSelectHeaderH(tblhgnlgmh);
 		} );
 
-		tblhlgxxmh.on( 'deselect', function () {
+		tblhgnlgmh.on( 'deselect', function () {
 			// reset variable standar framework
-			siVarReset('hlgxxmh');
+			siVarReset('hgnlgmh');
 
 			// atur hak akses
-			CekDeselectHeaderH(tblhlgxxmh);
+			CekDeselectHeaderH(tblhgnlgmh);
 		} );
 
-		// END hlgxxmh
+		// END hgnlgmh
 		
 	} );// end of document.ready
 
