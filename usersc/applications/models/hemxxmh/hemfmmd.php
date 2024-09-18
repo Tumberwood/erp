@@ -29,7 +29,7 @@
 			->fields(
 				Field::inst( 'hemfmmd.id' ),
 				Field::inst( 'hemfmmd.id_hemxxmh' ),
-				Field::inst( 'hemfmmd.id_hedlvmh' ),
+				Field::inst( 'hemfmmd.id_hgnedmh' ),
 				Field::inst( 'hemfmmd.kode' ),
 				Field::inst( 'hemfmmd.nama' ),
 				Field::inst( 'hemfmmd.keterangan' ),
@@ -56,9 +56,9 @@
 				Field::inst( 'hemfmmd.gender' ),
 				Field::inst( 'hemfmmd.pekerjaan' ),
 
-				Field::inst( 'hedlvmh.nama' )
+				Field::inst( 'hgnedmh.nama' )
 			)
-			->leftJoin( 'hedlvmh','hedlvmh.id','=','hemfmmd.id_hedlvmh' )
+			->leftJoin( 'hgnedmh','hgnedmh.id','=','hemfmmd.id_hgnedmh' )
 			->where('hemfmmd.id_hemxxmh',$_POST['id_hemxxmh']);
 		
 		// do not erase

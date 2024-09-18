@@ -30,7 +30,7 @@
 				Field::inst( 'hcdedmd.id_hcdxxmh' ),
 				Field::inst( 'hcdedmd.id_gctxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'hcdedmd.id_hedlvmh' )
+				Field::inst( 'hcdedmd.id_hgnedmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hcdedmd.kode' ),
 				Field::inst( 'hcdedmd.nama' ),
@@ -46,10 +46,10 @@
 				Field::inst( 'hcdedmd.nilai_akhir' ),
 
 				Field::inst( 'gctxxmh.nama' ),
-				Field::inst( 'hedlvmh.nama' )
+				Field::inst( 'hgnedmh.nama' )
 			)
 			->leftJoin( 'gctxxmh','gctxxmh.id','=','hcdedmd.id_gctxxmh' )
-			->leftJoin( 'hedlvmh','hedlvmh.id','=','hcdedmd.id_hedlvmh' )
+			->leftJoin( 'hgnedmh','hgnedmh.id','=','hcdedmd.id_hgnedmh' )
 			->where('hcdedmd.id_hcdxxmh',$_POST['id_hcdxxmh']);
 		
 		// do not erase

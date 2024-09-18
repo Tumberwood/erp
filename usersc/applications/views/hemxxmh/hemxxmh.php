@@ -320,7 +320,7 @@
 	tableRelation('hemxxmh');
 	
 	var id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hesxxmh_old = 0;
-	var id_hedlvmh_old = 0;
+	var id_hgnedmh_old = 0;
 	var id_gtxpkmh_old = 0;
 	var id_heyxxmd_old = 0;
 	var id_httlpmh_old = 0;
@@ -1212,18 +1212,18 @@
 					format: 'DD MMM YYYY'
 				},	{
 					label: "Pendidikan Terakhir",
-					name: "hemfmmd.id_hedlvmh",
+					name: "hemfmmd.id_hgnedmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/hedlvmh/hedlvmh_fn_opt.php",
+							url: "../../models/hgnedmh/hgnedmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_hedlvmh_old: id_hedlvmh_old,
+									id_hgnedmh_old: id_hgnedmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1345,7 +1345,7 @@
 				{ data: "hemfmmd.nama" },
 				{ data: "hemfmmd.gender" },
 				{ data: "hemfmmd.tanggal_lahir" },
-				{ data: "hedlvmh.nama" },
+				{ data: "hgnedmh.nama" },
 				{ data: "hemfmmd.pekerjaan" },
 			],
 			buttons: [
@@ -1385,14 +1385,14 @@
 			id_transaksi_log_d  = id_hemfmmd; // dipakai untuk log
 
 			transaction_state_d   = data_hemfmmd.transaction_state;
-			id_hedlvmh_old   = data_hemfmmd.id_hedlvmh;
+			id_hgnedmh_old   = data_hemfmmd.id_hgnedmh;
 			// atur hak akses
 			CekSelectDetailHD(tblhemxxmh, tblhemfmmd );
 		} );
 
 		tblhemfmmd.on( 'deselect', function() {
 			id_hemfmmd = 0;
-			id_hedlvmh_old = 0;
+			id_hgnedmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblhemxxmh, tblhemfmmd );
@@ -1808,14 +1808,14 @@
 			id_transaksi_log_d 	= id_httlptd; // dipakai untuk log
 
 			transaction_state_d  = data_httlptd.transaction_state;
-			id_hedlvmh_old   = data_httlptd.id_hedlvmh;
+			id_hgnedmh_old   = data_httlptd.id_hgnedmh;
 			// atur hak akses
 			CekSelectDetailHD(tblhemxxmh, tblhttlptd );
 		} );
 
 		tblhttlptd.on( 'deselect', function() {
 			id_httlptd = 0;
-			id_hedlvmh_old = 0;
+			id_hgnedmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblhemxxmh, tblhttlptd );
@@ -2024,14 +2024,14 @@
 			id_transaksi_log_d 	= id_hemtrmd; // dipakai untuk log
 
 			transaction_state_d  = data_hemtrmd.transaction_state;
-			// id_hedlvmh_old   = data_hemtrmd.id_hedlvmh;
+			// id_hgnedmh_old   = data_hemtrmd.id_hgnedmh;
 			// atur hak akses
 			CekSelectDetailHD(tblhemxxmh, tblhemtrmd );
 		} );
 
 		tblhemtrmd.on( 'deselect', function() {
 			id_hemtrmd = 0;
-			// id_hedlvmh_old = 0;
+			// id_hgnedmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblhemxxmh, tblhemtrmd );

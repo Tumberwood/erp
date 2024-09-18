@@ -28,7 +28,7 @@
 			->fields(
 				Field::inst( 'hcdfmmd.id' ),
 				Field::inst( 'hcdfmmd.id_hcdxxmh' ),
-				Field::inst( 'hcdfmmd.id_hedlvmh' )
+				Field::inst( 'hcdfmmd.id_hgnedmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hcdfmmd.id_gctxxmh_lahir' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
@@ -57,10 +57,10 @@
 				Field::inst( 'hcdfmmd.hubungan' ),
 				Field::inst( 'hcdfmmd.pekerjaan' ),
 
-				Field::inst( 'hedlvmh.nama' ),
+				Field::inst( 'hgnedmh.nama' ),
 				Field::inst( 'gctxxmh.nama' )
 			)
-			->leftJoin( 'hedlvmh','hedlvmh.id','=','hcdfmmd.id_hedlvmh' )
+			->leftJoin( 'hgnedmh','hgnedmh.id','=','hcdfmmd.id_hgnedmh' )
 			->leftJoin( 'gctxxmh','gctxxmh.id','=','hcdfmmd.id_gctxxmh_lahir' )
 			->where('hcdfmmd.id_hcdxxmh',$_POST['id_hcdxxmh']);
 		

@@ -936,8 +936,8 @@
    id_gctxxmh_edu_old = 0;
    id_gctxxmh_job_old = 0;
    id_hetxxmh_old = 0;
-   id_hedlvmh_fam_old = 0;
-   id_hedlvmh_edu_old = 0;
+   id_hgnedmh_fam_old = 0;
+   id_hgnedmh_edu_old = 0;
    var id_hcdxxmh =  0;
    console.log('id_hcdxxmh awal = '+id_hcdxxmh);
    var now = new Date();

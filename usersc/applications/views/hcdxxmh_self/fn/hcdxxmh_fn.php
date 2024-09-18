@@ -548,18 +548,18 @@
 						]
 					},	{
 						label: "Pendidikan Terakhir <sup class='text-danger'>*<sup>",
-						name: "hcdfmmd.id_hedlvmh",
+						name: "hcdfmmd.id_hgnedmh",
 						type: "select2",
 						opts: {
 							placeholder : "Select",
 							allowClear: true,
 							multiple: false,
 							ajax: {
-								url: "usersc/applications/models/hedlvmh/hedlvmh_fn_opt.php",
+								url: "usersc/applications/models/hgnedmh/hgnedmh_fn_opt.php",
 								dataType: 'json',
 								data: function (params) {
 									var query = {
-										id_hedlvmh_old: id_hedlvmh_fam_old,
+										id_hgnedmh_old: id_hgnedmh_fam_old,
 										search: params.term || '',
 										page: params.page || 1
 									}
@@ -643,12 +643,12 @@
 					}
 					// END of validasi hcdfmmd.gender 
 
-					// BEGIN of validasi hcdfmmd.id_hedlvmh 
-					id_hedlvmh = edthcdfmmd.field('hcdfmmd.id_hedlvmh').val();
-					if(!id_hedlvmh || id_hedlvmh == ''){
-						edthcdfmmd.field('hcdfmmd.id_hedlvmh').error( 'Wajib diisi!' );
+					// BEGIN of validasi hcdfmmd.id_hgnedmh 
+					id_hgnedmh = edthcdfmmd.field('hcdfmmd.id_hgnedmh').val();
+					if(!id_hgnedmh || id_hgnedmh == ''){
+						edthcdfmmd.field('hcdfmmd.id_hgnedmh').error( 'Wajib diisi!' );
 					}
-					// END of validasi hcdfmmd.id_hedlvmh 
+					// END of validasi hcdfmmd.id_hgnedmh 
 
 					// BEGIN of validasi hcdfmmd.pekerjaan 
 					pekerjaan = edthcdfmmd.field('hcdfmmd.pekerjaan').val();
@@ -696,7 +696,7 @@
 					{ data: "hcdfmmd.gender" },
 					{ data: "gctxxmh.nama" },
 					{ data: "hcdfmmd.tanggal_lahir" },
-					{ data: "hedlvmh.nama" },
+					{ data: "hgnedmh.nama" },
 					{ data: "hcdfmmd.pekerjaan" }
 				],
 				buttons: [
@@ -737,7 +737,7 @@
 				id_hcdfmmd   = data_hcdfmmd.id;
 				id_transaksi_d    = id_hcdfmmd; // dipakai untuk general
 				transaction_state_d       = data_hcdfmmd.transaction_state;
-				id_hedlvmh_fam_old       = data_hcdfmmd.id_hedlvmh;
+				id_hgnedmh_fam_old       = data_hcdfmmd.id_hgnedmh;
 				id_gctxxmh_lahir_fam_old       = data_hcdfmmd.id_gctxxmh_lahir;
 				
 			} );
@@ -745,7 +745,7 @@
 			tblhcdfmmd.on( 'deselect', function() {
 				id_hcdfmmd = '';
 				transaction_state_d = 0;
-				id_hedlvmh_fam_old = 0;
+				id_hgnedmh_fam_old = 0;
 				id_gctxxmh_lahir_fam_old = 0;
 			} );
 
@@ -797,18 +797,18 @@
                     def: 0
                 }, 	{
                     label: "Jenjang Pendidikan <sup class='text-danger'>*<sup>",
-                    name: "hcdedmd.id_hedlvmh",
+                    name: "hcdedmd.id_hgnedmh",
                     type: "select2",
                     opts: {
                         placeholder : "Select",
                         allowClear: true,
                         multiple: false,
                         ajax: {
-                            url: "usersc/applications/models/hedlvmh/hedlvmh_fn_opt.php",
+                            url: "usersc/applications/models/hgnedmh/hgnedmh_fn_opt.php",
                             dataType: 'json',
                             data: function (params) {
                                 var query = {
-                                    id_hedlvmh_old: id_hedlvmh_edu_old,
+                                    id_hgnedmh_old: id_hgnedmh_edu_old,
                                     search: params.term || '',
                                     page: params.page || 1
                                 }
@@ -914,12 +914,12 @@
                 }
                 // END of validasi hcdedmd.id_gctxxmh 
 
-                // BEGIN of validasi hcdedmd.id_hedlvmh 
-                id_hedlvmh = edthcdedmd.field('hcdedmd.id_hedlvmh').val();
-                if(!id_hedlvmh || id_hedlvmh == ''){
-                    edthcdedmd.field('hcdedmd.id_hedlvmh').error( 'Wajib diisi!' );
+                // BEGIN of validasi hcdedmd.id_hgnedmh 
+                id_hgnedmh = edthcdedmd.field('hcdedmd.id_hgnedmh').val();
+                if(!id_hgnedmh || id_hgnedmh == ''){
+                    edthcdedmd.field('hcdedmd.id_hgnedmh').error( 'Wajib diisi!' );
                 }
-                // END of validasi hcdedmd.id_hedlvmh 
+                // END of validasi hcdedmd.id_hgnedmh 
 
 
                 tahun_lulus = edthcdedmd.field('hcdedmd.tahun_lulus').val();
@@ -968,7 +968,7 @@
             columns: [
                 { data: "hcdedmd.id",visible:false },
                 { data: "hcdedmd.id_hcdxxmh",visible:false },
-                { data: "hedlvmh.nama" },
+                { data: "hgnedmh.nama" },
                 { data: "hcdedmd.nama" },
                 { data: "gctxxmh.nama" },
                 { data: "hcdedmd.tahun_lulus" },
@@ -1014,7 +1014,7 @@
             id_transaksi_d    = id_hcdedmd; // dipakai untuk general
             transaction_state_d       = data_hcdedmd.transaction_state;
             id_gctxxmh_edu_old       = data_hcdedmd.id_gctxxmh;
-            id_hedlvmh_edu_old       = data_hcdedmd.id_hedlvmh;
+            id_hgnedmh_edu_old       = data_hcdedmd.id_hgnedmh;
             
         } );
 
@@ -1022,7 +1022,7 @@
             id_hcdedmd = '';
             transaction_state_d = 0;
             id_gctxxmh_edu_old = 0;
-            id_hedlvmh_edu_old = 0;
+            id_hgnedmh_edu_old = 0;
         } );
         // --------- end _detail --------------- //		
     }
