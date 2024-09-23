@@ -874,6 +874,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tblhrremth.ajax.reload(null, false);
 		} );
 
 		edthrremth.on( 'close', function () {
