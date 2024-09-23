@@ -238,7 +238,7 @@
 	var edthrremth, tblhrremth, show_deleted_hrremth = 0, id_hrremth;
 	var edthrrertd, tblhrrertd, show_deleted_hrrertd = 0, id_hrrertd;
 	// ------------- end of default variable
-	var id_hgnedmh_old = 0, id_hemxxmh_old = 0, id_hgnlgmh_old = 0, id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hosxxmh_old = 0;
+	var replacement_select = 0, id_hgnedmh_old = 0, id_hemxxmh_old = 0, id_hgnlgmh_old = 0, id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hosxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('hrremth');
@@ -972,11 +972,25 @@
 			id_heyxxmh_old   = hrremth_data.id_heyxxmh;
 			id_hosxxmh_old   = hrremth_data.id_hosxxmh;
 			id_hgnedmh_old   = hrremth_data.id_hgnedmh;
+			replacement_select   = hrremth_data.replacement;
 			
 			// atur hak akses
 			tbl_details = [tblhrrertd];
 			CekSelectHeaderHD(tblhrremth, tbl_details);
 
+			cekDetail();
+			console.log(c_id);
+			console.log(replacement_select);
+
+			if (replacement_select > 0) {
+				if (c_id < replacement_select) {
+					tblhrrertd.button('btnCreate:name').enable();
+				} else {
+					tblhrrertd.button('btnCreate:name').disable();
+				}
+			} else {
+				tblhrrertd.button('btnCreate:name').disable();
+			}
 		} );
 		
 		tblhrremth.on( 'deselect', function () {
@@ -989,6 +1003,7 @@
 			id_heyxxmh_old   = 0;
 			id_hosxxmh_old   = 0;
 			id_hgnedmh_old   = 0;
+			replacement_select   = 0;
 
 			// atur hak akses
 			tbl_details = [tblhrrertd];
@@ -1192,6 +1207,20 @@
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhrrertd );
+			
+
+			if (replacement_select > 0) {
+				if (c_id < replacement_select) {
+					tblhrrertd.button('btnEdit:name').enable();
+					tblhrrertd.button('btnRemove:name').enable();
+				} else {
+					tblhrrertd.button('btnEdit:name').disable();
+					tblhrrertd.button('btnRemove:name').disable();
+				}
+			} else {
+				tblhrrertd.button('btnEdit:name').disable();
+				tblhrrertd.button('btnRemove:name').disable();
+			}
 		} );
 
 		tblhrrertd.on( 'deselect', function() {
