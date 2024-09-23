@@ -52,10 +52,10 @@
                     <table id="tbl_blankheader" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
+								<th>ID</th>
+								<th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -79,9 +79,8 @@
 									<tr>
 										<th>ID</th>
 										<th>id__blankheader</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
+										<th data-i18n="code"></th>
+										<th data-i18n="name"></th>
 									</tr>
 								</thead>
 							</table>
@@ -128,6 +127,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/_blankheader/fn/_blankheader_fn.php'; ?>
 
@@ -182,15 +182,15 @@
 					def: 0
 				},
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "_blankheader.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "_blankheader.nama"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "_blankheader.keterangan",
 					type: "textarea"
 				}
@@ -300,7 +300,7 @@
 				{ data: "_blankheader.id",visible:false },
 				{ data: "_blankheader.kode" },
 				{ data: "_blankheader.nama" },
-				{ data: "_blankheader.keterangan" }
+				{ data: "_blankheader.transaction_state" }
 			],
 			buttons: [
 
@@ -405,15 +405,15 @@
 					type: "hidden"
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "_blankdetail.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "_blankdetail.nama"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "_blankdetail.keterangan",
 					type: "textarea"
 				}
