@@ -845,7 +845,7 @@
 						{ "label": "Cerai", "value": "Cerai"}
 					]
 				}, 	{
-					label: "Email Pribadi",
+					label: "Email Pribadi <sup class='text-danger'>*<sup>",
 					name: "hcdcsmh.email_personal"
 				}, 	{
 					label: "No. WhatsApp<sup class='text-danger'>*<sup>",
@@ -866,7 +866,7 @@
 					label: "Tiktok",
 					name: "hcdcsmh.tiktok"
 				}, 	{
-					label: "No Handphone",
+					label: "No Handphone<sup class='text-danger'>*<sup>",
 					name: "hcdcsmh.handphone"
 				}, 	{
 					label: "Alamat Tinggal<sup class='text-danger'>*<sup>",
@@ -1173,6 +1173,18 @@
 				}
 				// END of validasi hcdxxmh.nama 
 
+				// BEGIN of validasi hcdcsmh.email_personal 
+				email_personal = edthcdxxmh.field('hcdcsmh.email_personal').val();
+				if(!email_personal || email_personal == ''){
+					edthcdxxmh.field('hcdcsmh.email_personal').error( 'Wajib diisi!' );
+				}
+				// END of validasi hcdcsmh.email_personal 
+
+				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailRegex.test(email_personal)) {
+					edthcdxxmh.field('hcdcsmh.email_personal').error('Format email tidak valid!');
+				}
+
 				// BEGIN of validasi hcdcsmh.alamat_tinggal 
 				alamat_tinggal = edthcdxxmh.field('hcdcsmh.alamat_tinggal').val();
 				if(!alamat_tinggal || alamat_tinggal == ''){
@@ -1195,6 +1207,22 @@
 					edthcdxxmh.field('hcdcsmh.whatsapp').error( 'Inputan harus berupa Angka!' );
 				}
 				// END of validasi hcdcsmh.whatsapp 
+
+				// BEGIN of validasi hcdcsmh.handphone 
+				handphone = edthcdxxmh.field('hcdcsmh.handphone').val();
+				if(!handphone || handphone == ''){
+					edthcdxxmh.field('hcdcsmh.handphone').error( 'Wajib diisi!' );
+				}
+				// validasi min atau max angka
+				if(handphone <= 0 ){
+					edthcdxxmh.field('hcdcsmh.handphone').error( 'Inputan harus > 0' );
+				}
+				
+				// validasi angka
+				if(isNaN(handphone) ){
+					edthcdxxmh.field('hcdcsmh.handphone').error( 'Inputan harus berupa Angka!' );
+				}
+				// END of validasi hcdcsmh.handphone 
 
 				// validasi angka berat badan dan tinggi badan
 				tinggi = edthcdxxmh.field('hcdxxmh.tinggi').val();
@@ -1238,9 +1266,6 @@
 				}
 				if(isNaN(vaksin) ){
 					edthcdxxmh.field('hcdxxmh.vaksin').error( 'Inputan harus berupa Angka!' );
-				}
-				if(isNaN(handphone) ){
-					edthcdxxmh.field('hcdcsmh.handphone').error( 'Inputan harus berupa Angka!' );
 				}
 				if(isNaN(rt) ){
 					edthcdxxmh.field('hcddcmh.rt').error( 'Inputan harus berupa Angka!' );
