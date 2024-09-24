@@ -853,7 +853,7 @@
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
 ?>
-<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hcdxxmh_self/fn/hcdxxmh_fn.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hcdxxmh/fn/hcdxxmh_fn.php'; ?>
 
 <script>
 	// ------------- default variable, do not erase

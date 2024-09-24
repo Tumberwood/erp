@@ -194,7 +194,6 @@
 													<th>Nama</th>
 													<th>Tahun Awal</th>
 													<th>Tahun Akhir</th>
-													<th>Nilai</th>
 												</tr>
 											</thead>
 										</table>
@@ -1771,7 +1770,6 @@
 				{ data: "hemedmd.nama" },
 				{ data: "hemedmd.tahun_awal" },
 				{ data: "hemedmd.tahun_akhir" },
-				{ data: "hemedmd.nilai_akhir" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
