@@ -217,6 +217,9 @@
 												</div>
 												<div class="row">
 													<div class="col-lg-6">
+														<editor-field name="hemwrmd.alamat"></editor-field>
+													</div>
+													<div class="col-lg-6">
 														<editor-field name="hemwrmd.id_gctxxmh"></editor-field>
 													</div>
 												</div>
@@ -230,29 +233,26 @@
 												</div>
 												<div class="row">
 													<div class="col-lg-6">
-														<editor-field name="hemwrmd.alamat"></editor-field>
+														<editor-field name="hemwrmd.alasan_keluar"></editor-field>
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.alasan_keluar"></editor-field>
-													</div>
 													<div class="col-lg-6">
 														<editor-field name="hemwrmd.nama_atasan"></editor-field>
 													</div>
-												</div>
-												<div class="row">
 													<div class="col-lg-6">
 														<editor-field name="hemwrmd.jabatan_atasan"></editor-field>
 													</div>
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.jabatan_awal"></editor-field>
-													</div>
 												</div>
 												<div class="row">
 													<div class="col-lg-6">
+														<editor-field name="hemwrmd.jabatan_awal"></editor-field>
+													</div>
+													<div class="col-lg-6">
 														<editor-field name="hemwrmd.jabatan_akhir"></editor-field>
 													</div>
+												</div>
+												<div class="row">
 													<div class="col-lg-6">
 														<editor-field name="hemwrmd.gaji_terakhir"></editor-field>
 													</div>
@@ -299,7 +299,7 @@
 							<div role="tabpanel" id="tabhadxxtd" class="tab-pane">
 								<div class="panel-body">
 									<div class="table-responsive">
-										<table id="tblhadxxtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<table id="tblhadxxtd" class="table table-striped table-bordered table-hover" width="100%">
 											<thead>
 												<tr>
 													<th>ID</th>
@@ -1686,7 +1686,7 @@
 					name: "hemedmd.jurusan"
 				},
 				{
-					label: "Nilai Akhir <sup class='text-danger'>*<sup>",
+					label: "Nilai Akhir",
 					name: "hemedmd.nilai_akhir"
 				}
 			]
@@ -1715,7 +1715,6 @@
 				tahun_awal     = edthemedmd.field('hemedmd.tahun_awal').val();
 				tahun_akhir     = edthemedmd.field('hemedmd.tahun_akhir').val();
 				id_hgnedmh     = edthemedmd.field('hemedmd.id_hgnedmh').val();
-				nilai_akhir     = edthemedmd.field('hemedmd.nilai_akhir').val();
 
 				validasiRequired(
 					edthemedmd,
@@ -1725,10 +1724,13 @@
 						'nama'      : nama,
 						'tahun_awal'    : tahun_awal,
 						'id_hgnedmh'    : id_hgnedmh,
-						'nilai_akhir'    : nilai_akhir,
 						'tahun_akhir'    : tahun_akhir,
 					}
 				);
+
+				if (tahun_awal > tahun_akhir) {
+					edthemedmd.field('hemedmd.tahun_awal').error( 'Tahun Awal harus lebih kecil dari Tahun Akhir!' );
+				}
 			}
 			
 			if ( edthemedmd.inError() ) {
@@ -1942,7 +1944,7 @@
 					type: "textarea"
 				},
 				{
-					label: "Alasan Keluar<sup class='text-danger'>*<sup>",
+					label: "Alasan Keluar",
 					name: "hemwrmd.alasan_keluar"
 				},
 				{
@@ -1979,6 +1981,17 @@
 			}
 		});
 
+		edthemwrmd.dependent( 'hemwrmd.tanggal_keluar', function ( val, data, callback ) {
+			//dependent validasi pre * bintang required
+			console.log(val);
+			if (val.trim() !== '') {
+				edthemwrmd.field('hemwrmd.alasan_keluar').label("Alasan Keluar <sup class='text-danger'>*<sup>")
+			} else {
+				edthemwrmd.field('hemwrmd.alasan_keluar').label("Alasan Keluar")
+			}
+			return {}
+		}, {event: 'keyup change'});
+
 		edthemwrmd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
@@ -1988,6 +2001,7 @@
 			if(action != 'remove'){
 				id_gctxxmh = edthemwrmd.field('hemwrmd.id_gctxxmh').val();
 				tanggal_masuk       = edthemwrmd.field('hemwrmd.tanggal_masuk').val();
+				tanggal_keluar       = edthemwrmd.field('hemwrmd.tanggal_keluar').val();
 				perusahaan     = edthemwrmd.field('hemwrmd.perusahaan').val();
 				jenis_usaha     = edthemwrmd.field('hemwrmd.jenis_usaha').val();
 				alamat     = edthemwrmd.field('hemwrmd.alamat').val();
@@ -2006,7 +2020,6 @@
 						'tanggal_masuk'      : tanggal_masuk,
 						'perusahaan'    : perusahaan,
 						'alamat'    : alamat,
-						'alasan_keluar'    : alasan_keluar,
 						'nama_atasan'    : nama_atasan,
 						'jabatan_atasan'    : jabatan_atasan,
 						'jabatan_awal'    : jabatan_awal,
@@ -2015,6 +2028,26 @@
 						'jenis_usaha'    : jenis_usaha,
 					}
 				);
+
+				// console.log(tanggal_keluar);
+				//jika tanggal keluar diisi
+				if (tanggal_keluar.trim() !== '') {
+
+					validasiRequired(
+						edthemwrmd,
+						'hemwrmd',
+						{
+							'alasan_keluar'    : alasan_keluar,
+						}
+					);
+
+					
+					if (tanggal_masuk > tanggal_keluar) {
+						edthemwrmd.field('hemwrmd.tanggal_masuk').error( 'Tanggal Masuk harus lebih kecil dari Tanggal Keluar!' );
+						edthemwrmd.field('hemwrmd.tanggal_keluar').error( 'Tanggal Keluar harus lebih besar dari Tanggal Masuk!' );
+					}
+				}
+
 				
 				validasiNumber(
 					edthemwrmd,
@@ -2623,14 +2656,14 @@
 					targets: [0,1,4,5]
 				}
 			],
-			responsive: false,
+			// responsive: false,
 			// scrollX: true,
 			columns: [
 				{ data: "hadxxtd.id",visible:false },
 				{ data: "hadxxtd.id_hemxxmh",visible:false },
 				{ data: "hadxxtd.kode" },
 				{ data: "hadxxmh.nama" },
-				{ data: "hadxxtd.nama" },
+				{ data: "havxxmh.nama" },
 				{ data: "hadxxtd.tanggal_awal" },
 				{ data: "hadxxtd.keterangan" }
 			],
@@ -2900,6 +2933,11 @@
 						'tanggal_akhir': tanggal_akhir,
 					}
 				);
+				
+				if (tanggal_awal > tanggal_akhir) {
+					edthemtrmd.field('hemtrmd.tanggal_awal').error( 'Tanggal Awal harus lebih kecil dari Tanggal Akhir!' );
+					edthemtrmd.field('hemtrmd.tanggal_akhir').error( 'Tanggal Akhir harus lebih besar dari Tanggal Awal!' );
+				}
 				
 			}
 			
