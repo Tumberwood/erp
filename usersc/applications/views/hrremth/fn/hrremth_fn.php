@@ -13,4 +13,16 @@
             }
         } );
     };
+
+    function getNamaPengaju(){
+        $.ajax( {
+            url: "../../models/hrremth/hrremth_fn_hemxxmh_pengaju.php",
+            dataType: 'json',
+            async: false,
+            type: 'POST',
+            success: function ( json ) {
+                namaPengaju = json.data.rs_hrremth.nama;
+            }
+        } );
+    };
 </script>

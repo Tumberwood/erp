@@ -104,6 +104,11 @@
 											<div class="col-lg-6">
 												<editor-field name="hrremth.jumlah"></editor-field>
 											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-6">
+												<editor-field name="pengaju"></editor-field>
+											</div>
 											<div class="col-lg-6">
 												<editor-field name="hrremth.tanggal_dibutuhkan"></editor-field>
 											</div>
@@ -239,7 +244,7 @@
 	var edthrremth, tblhrremth, show_deleted_hrremth = 0, id_hrremth;
 	var edthrrertd, tblhrrertd, show_deleted_hrrertd = 0, id_hrrertd;
 	// ------------- end of default variable
-	var replacement_select = 0, id_hgnedmh_old = 0, id_hemxxmh_old = 0, id_hgnlgmh_old = 0, id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hosxxmh_old = 0;
+	var replacement_select = 0, id_hgnedmh_old = 0, id_hemxxmh_old = 0, id_hemxxmh_pengaju_old = 0, id_hgnlgmh_old = 0, id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hosxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('hrremth');
@@ -647,6 +652,11 @@
 					name: "hrremth.jurusan"
 				}, 
 				{
+					label: "Diajukan Oleh",
+					name: "pengaju",
+					type: "readonly"
+				}, 
+				{
 					label: "Kemampuan Wajib",
 					name: "hrremth.kemampuan_wajib",
 					type: "textarea"
@@ -698,9 +708,17 @@
 		edthrremth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthrremth.field('hrremth.start_at').val(start_at);
-
+			
 			if(action == 'create'){
 				tblhrremth.rows().deselect();
+				getNamaPengaju();
+				console.log(namaPengaju);
+				edthrremth.field('pengaju').val(namaPengaju);
+			} else if (action == 'edit'){
+				autofillField('hemxxmh', id_hemxxmh_pengaju_old, 'nama');
+				nama = autofillData.nama;
+				console.log(nama);
+				edthrremth.field('pengaju').val(nama);
 			}
 		});
 
@@ -989,6 +1007,7 @@
 			id_heyxxmh_old   = hrremth_data.id_heyxxmh;
 			id_hosxxmh_old   = hrremth_data.id_hosxxmh;
 			id_hgnedmh_old   = hrremth_data.id_hgnedmh;
+			id_hemxxmh_pengaju_old   = hrremth_data.id_hemxxmh_pengaju;
 			replacement_select   = hrremth_data.replacement;
 			
 			// atur hak akses
@@ -1020,6 +1039,7 @@
 			id_heyxxmh_old   = 0;
 			id_hosxxmh_old   = 0;
 			id_hgnedmh_old   = 0;
+			id_hemxxmh_pengaju_old   = 0;
 			replacement_select   = 0;
 
 			// atur hak akses
