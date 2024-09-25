@@ -738,7 +738,6 @@
 				id_hodxxmh = edthrremth.field('hrremth.id_hodxxmh').val();
 				jumlah = edthrremth.field('hrremth.jumlah').val();
 				jenis_kelamin = edthrremth.field('hrremth.jenis_kelamin').val();
-				Pengalaman = edthrremth.field('hrremth.pengalaman').val();
 				addition = edthrremth.field('hrremth.addition').val();
 				replacement = edthrremth.field('hrremth.replacement').val();
 				tugas_umum = edthrremth.field('hrremth.tugas_umum').val();
@@ -761,7 +760,7 @@
 						'id_hodxxmh': id_hodxxmh,
 						'jumlah': jumlah,
 						'jenis_kelamin': jenis_kelamin,
-						'Pengalaman': Pengalaman,
+						'pengalaman': pengalaman,
 					
 					}
 				);
