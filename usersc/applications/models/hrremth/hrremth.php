@@ -97,7 +97,12 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
+				
+			Field::inst( 'hetxxmh.nama' ),
+			Field::inst( 'heyxxmh.nama' ),
 		)
+		->leftJoin( 'hetxxmh','hetxxmh.id','=','hrremth.id_hetxxmh' )
+		->leftJoin( 'heyxxmh','heyxxmh.id','=','hrremth.id_hetxxmh' )
 		->join(
 			Mjoin::inst( 'hgnlgmh' )
 				->link( 'hrremth.id', 'hrremth_hgnlgmh.id_hrremth' )

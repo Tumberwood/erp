@@ -14,7 +14,7 @@
 
 <!-- begin content here -->
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 
@@ -173,8 +173,9 @@
                                 <th>Tanggal</th>
                                 <th>Tanggal Dibutuhkan</th>
                                 <th>Jumlah</th>
+                                <th>Employee Title</th>
+                                <th>Employee Type</th>
                                 <th>State</th>
-                                <th>Approval</th>
                             </tr>
                         </thead>
                     </table>
@@ -183,7 +184,7 @@
         </div>
     </div>
 
-	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabhrrertd_1"> Detail</a></li>
@@ -539,7 +540,7 @@
 					name: "hrremth.replacement"
 				}, 	
 				{
-					label: "Jumlah <sup class='text-danger'>*<sup>",
+					label: "Jumlah",
 					name: "hrremth.jumlah",
 					type: "readonly"
 				}, 	
@@ -583,11 +584,11 @@
 					]
 				},
 				{
-					label: "Usia Min",
+					label: "Usia Min <sup class='text-danger'>*<sup>",
 					name: "hrremth.usia_min"
 				}, 
 				{
-					label: "Usia Max",
+					label: "Usia Max <sup class='text-danger'>*<sup>",
 					name: "hrremth.usia_max"
 				}, 
 				{
@@ -602,7 +603,7 @@
 					]
 				},
 				{
-					label: "Tahun Pengalaman",
+					label: "Tahun Pengalaman <sup class='text-danger'>*<sup>",
 					name: "hrremth.tahun_pengalaman"
 				}, 
 				{
@@ -713,9 +714,6 @@
 				replacement = parseFloat(edthrremth.field('hrremth.replacement').val()) || 0;
 				jumlah = addition + replacement; 
 
-				console.log(addition);
-				console.log(replacement);
-				console.log(jumlah);
 				edthrremth.field('hrremth.jumlah').val(jumlah);
 			return {}
 		}, {event: 'keyup change'});
@@ -725,6 +723,32 @@
 				replacement = parseFloat(edthrremth.field('hrremth.replacement').val()) || 0;
 				jumlah = addition + replacement; 
 				edthrremth.field('hrremth.jumlah').val(jumlah);
+			return {}
+		}, {event: 'keyup change'});
+
+		edthrremth.dependent( 'hrremth.pengalaman', function ( val, data, callback ) {
+				if (val == "Pengalaman") {
+					edthrremth.field('hrremth.tahun_pengalaman').show();
+					edthrremth.field('hrremth.tahun_pengalaman').val();
+				} else {
+					edthrremth.field('hrremth.tahun_pengalaman').hide();
+					edthrremth.field('hrremth.tahun_pengalaman').val('');
+				}
+			return {}
+		}, {event: 'keyup change'});
+		
+		edthrremth.dependent( 'hrremth.is_batasan_usia', function ( val, data, callback ) {
+				if (val == 1) {
+					edthrremth.field('hrremth.usia_min').show();
+					edthrremth.field('hrremth.usia_max').show();
+					edthrremth.field('hrremth.usia_min').val();
+					edthrremth.field('hrremth.usia_max').val();
+				} else {
+					edthrremth.field('hrremth.usia_min').hide();
+					edthrremth.field('hrremth.usia_max').hide();
+					edthrremth.field('hrremth.usia_min').val('');
+					edthrremth.field('hrremth.usia_max').val('');
+				}
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -765,39 +789,43 @@
 					}
 				);
 
-				validasiNumber(
-					edthrremth,
-					'hrremth',
-					{
-						'jumlah': jumlah
-					},
-					0,
-					'>'
-				);
-				
-				if (replacement != '') {
+				if (replacement == '' && addition == '') {
 					validasiNumber(
 						edthrremth,
 						'hrremth',
 						{
-							'replacement': replacement
+							'replacement': replacement,
+							'addition': addition,
 						},
 						0,
 						'>='
 					);
-				}
+				} else {
+					if (replacement != '') {
+						validasiNumber(
+							edthrremth,
+							'hrremth',
+							{
+								'replacement': replacement
+							},
+							0,
+							'>='
+						);
+					}
 
-				if (addition != '') {
-					validasiNumber(
-						edthrremth,
-						'hrremth',
-						{
-							'addition': addition
-						},
-						0,
-						'>='
-					);
+					if (addition != '') {
+						validasiNumber(
+							edthrremth,
+							'hrremth',
+							{
+								'addition': addition
+							},
+							0,
+							'>='
+						);
+					}
 				}
+				
 
 				if (pengalaman == "Pengalaman") {
 					validasiNumber(
@@ -809,42 +837,33 @@
 						0,
 						'>'
 					);
-				} else {
+				}
+
+				if (is_batasan_usia == 1) {
 					validasiNumber(
 						edthrremth,
 						'hrremth',
 						{
-							'tahun_pengalaman': tahun_pengalaman
+							'usia_min': usia_min,
+							'usia_max': usia_max,
 						},
 						0,
-						'>='
+						'>'
 					);
-				}
-				
-				validasiNumber(
-					edthrremth,
-					'hrremth',
-					{
-						'usia_min': usia_min,
-						'usia_max': usia_max,
-					},
-					0,
-					'>'
-				);
-
-				if (is_batasan_usia == 1) {
+					
 					if (parseFloat(usia_min) < 17) {
 						edthrremth.field('hrremth.usia_min').error( 'Batas Usia wajib 17 tahun keatas!' );
 					}
 					if (parseFloat(usia_max) < 17) {
 						edthrremth.field('hrremth.usia_max').error( 'Batas Usia wajib 17 tahun keatas!' );
 					}
+
+					if (parseFloat(usia_min) > parseFloat(usia_max)) {
+						edthrremth.field('hrremth.usia_min').error('Usia Min harus lebih kecil atau sama dengan Usia Max!');
+						edthrremth.field('hrremth.usia_max').error('Usia Max harus lebih besar atau sama dengan Usia Min!');
+					}
 				}
 				
-				if (parseFloat(usia_min) > parseFloat(usia_max)) {
-					edthrremth.field('hrremth.usia_min').error('Usia Min harus lebih kecil atau sama dengan Usia Max!');
-					edthrremth.field('hrremth.usia_max').error('Usia Max harus lebih besar atau sama dengan Usia Min!');
-				}
 
 				if (tugas_umum.length > 500) {
 					edthrremth.field('hrremth.tugas_umum').error( 'Maximum 500 karakter' );
@@ -915,14 +934,12 @@
 				{ data: "hrremth.tanggal" },
 				{ data: "hrremth.tanggal_dibutuhkan" },
 				{ data: "hrremth.jumlah" },
+				{ data: "hetxxmh.nama" },
+				{ data: "heyxxmh.nama" },
 				{ 
 					data: "hrremth.transaction_state" ,
 					...renderTransactionStatus()
 				},
-				{ 
-					data: "hrremth.approval_state" ,
-					...renderApprovalStatus()
-				}
 			],
 			buttons: [
 
