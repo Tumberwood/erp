@@ -667,58 +667,6 @@
 						{ "label": "Lain-lain", "value": "Lain-lain" }
 					]
 				},	{
-					label: "Apakah anda pernah melamar di group perusahaan ini sebelumnya? Kapan dan sebagai apa?",
-					name: "hcdjbmh.intrv_self_1",
-					type: "textarea"
-				},	{
-					label: "Selain di perusahaan ini, di Perusahaan mana lagi anda melamar saat ini dan sebagai apa?",
-					name: "hcdjbmh.intrv_self_2",
-					type: "textarea"
-				},	{
-					label: "Apakah anda mempunyai pekerjaan sampingan? Jelaskan.",
-					name: "hcdjbmh.intrv_self_3",
-					type: "textarea"
-				},	{
-					label: "Apakah anda mempunyai teman/keluarga yang bekerja di group perusahaan ini? Jelaskan.",
-					name: "hcdjbmh.intrv_self_4",
-					type: "textarea"
-				},	{
-					label: "Apakah anda pernah menderita sakit kronis / sakit keras / kecelakaan / operasi? Jelaskan.",
-					name: "hcdjbmh.intrv_self_5",
-					type: "textarea"
-				},	{
-					label: "Apakah anda pernah berurusan dengan polisi karena tindak kejahatan?",
-					name: "hcdjbmh.intrv_self_6",
-					type: "textarea"
-				},	{
-					label: "Apakah anda bersedia bertugas keluar kota?",
-					name: "hcdjbmh.intrv_self_7",
-					type: "textarea"
-				},	{
-					label: "Apakah anda bersedia ditempatkan keluar kota? Sebutkan nama kotanya",
-					name: "hcdjbmh.intrv_self_8",
-					type: "textarea"
-				},	{
-					label: "Jenis pekerjaan apa yang anda sukai?",
-					name: "hcdjbmh.intrv_self_9",
-					type: "textarea"
-				},	{
-					label: "Jenis pekerjaan apa yang tidak anda suka?",
-					name: "hcdjbmh.intrv_self_10",
-					type: "textarea"
-				},	{
-					label: "Gaji yang diharapkan",
-					name: "hcdjbmh.intrv_self_11",
-					type: "textarea"
-				},	{
-					label: "Fasilitas yang diharapkan",
-					name: "hcdjbmh.intrv_self_12",
-					type: "textarea"
-				},	{
-					label: "Kapankah anda dapat mulai bekerja?",
-					name: "hcdjbmh.intrv_self_13",
-					type: "textarea"
-				},	{
 					label: "Nama Lengkap <sup class='text-danger'>*<sup>",
 					name: "hcdxxmh.nama"
 				}, 	{
@@ -1137,6 +1085,8 @@
 			]
 		} );
 		
+		genForm('hcdxxmh', edthcdxxmh);
+		
 		edthcdxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthcdxxmh.field('hcdxxmh.start_at').val(start_at);
@@ -1161,6 +1111,7 @@
 
 		edthcdxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			edtFormButtonSaveConfirmHD();
 		});
 			
 		edthcdxxmh.on( 'preSubmit', function (e, data, action) {

@@ -1,0 +1,481 @@
+<?php
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+
+<?php
+	$nama_tabel       = 'gfrxxth';
+    $nama_tabels_d 	= [];
+    $nama_tabels_d[0] = 'gfrfltd';
+?>
+
+<!-- begin content here -->
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<div class="table-responsive">
+                    <table id="tblgfrxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Tabel</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+		<div class="tabs-container">
+			<ul class="nav nav-tabs" role="tablist">
+				<li><a class="nav-link active" data-toggle="tab" href="#tabgfrfltd_1"> Question</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" id="tabgfrfltd_1" class="tab-pane active">
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table id="tblgfrfltd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>id_gfrxxth</th>
+										<th>Question</th>
+										<th>Type</th>
+										<th>Field Name</th>
+									</tr>
+								</thead>
+							</table>
+						</div> <!-- end of table -->
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div> <!-- end of right col -->
+
+</div> <!-- end of row -->
+
+<?php
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+?>
+
+<!-- BEGIN JS -->
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/gfrxxth/fn/gfrxxth_fn.php'; ?>
+
+<!-- BEGIN javascript here -->
+<script type="text/javascript">
+	cekNotification();
+	// ------------- default variable, do not erase
+	var edtgfrxxth, tblgfrxxth, show_deleted_gfrxxth = 0, id_gfrxxth;
+	var edtgfrfltd, tblgfrfltd, show_deleted_gfrfltd = 0, id_gfrfltd;
+	// ------------- end of default variable
+
+	// get tableRelation
+	tableRelation('gfrxxth');
+
+	$(document).ready(function() {
+
+		// BEGIN gfrxxth
+		edtgfrxxth = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/gfrxxth/gfrxxth.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_gfrxxth = show_deleted_gfrxxth;
+				}
+			},
+			table: "#tblgfrxxth",
+			fields: [ 
+				{
+					label: "gfrxxth.start_at",
+					name: "gfrxxth.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "gfrxxth.finish_at",
+					name: "gfrxxth.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "gfrxxth",
+					type: "hidden"
+				},	
+				{
+					label: "gfrxxth.transaction_state",
+					name: "gfrxxth.transaction_state",
+					type: "hidden",
+					def: 0
+				},
+				{
+					label: "Nama Tabel <sup class='text-danger'>*<sup>",
+					name: "gfrxxth.nama_tabel",
+					type: "select2"
+				}, 	
+				{
+					label: "Keterangan",
+					name: "gfrxxth.keterangan",
+					type: "textarea"
+				}
+			]
+		} );
+		
+		edtgfrxxth.on( 'preOpen', function( e, mode, action ) {
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtgfrxxth.field('gfrxxth.start_at').val(start_at);
+
+			if(action == 'create'){
+				tblgfrxxth.rows().deselect();
+			}
+		});
+
+		edtgfrxxth.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			edtFormButtonSaveConfirmHD();
+		});
+		
+		edtgfrxxth.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				nama_tabel = edtgfrxxth.field('gfrxxth.nama_tabel').val();
+
+				validasiRequired(
+					edtgfrxxth,
+					'gfrxxth',
+					{
+						'nama_tabel': nama_tabel,
+					}
+				);
+
+				validasiUnique(
+					action,
+					edtgfrxxth,
+					'gfrxxth',
+					'nama_tabel',
+					'nama_tabel',
+					'"'+nama_tabel+'"',
+					id_gfrxxth
+				);
+			}
+			
+			if ( edtgfrxxth.inError() ) {
+				return false;
+			}
+		});
+
+		edtgfrxxth.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtgfrxxth.field('gfrxxth.finish_at').val(finish_at);
+		});
+		
+		edtgfrxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+		} );
+
+		edtgfrxxth.on( 'close', function () {
+			edtgfrxxth.enable();
+		} );
+		
+		tblgfrxxth = $('#tblgfrxxth').DataTable( {
+			dom: dom0,
+			ajax: {
+				url: "../../models/gfrxxth/gfrxxth.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_gfrxxth = show_deleted_gfrxxth;
+				}
+			},
+			order: [[ 1, "desc" ]],
+			columns: [
+				{ data: "gfrxxth.id",visible:false },
+				{ data: "gfrxxth.nama_tabel" },
+				{ data: "gfrxxth.keterangan" }
+			],
+			buttons: [
+
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_gfrxxth';
+					$table       = 'tblgfrxxth';
+					$edt         = 'edtgfrxxth';
+					$show_status = '_gfrxxth';
+					$table_name  = $nama_tabel;
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+				// END breaking generate button
+			],
+			rowCallback: function( row, data, index ) {
+				if ( data.gfrxxth.transaction_state == -9 ) {
+					$('td', row).addClass('text-danger');
+				}else if ( data.gfrxxth.transaction_state == 0 ) {
+					$('td', row).addClass('text-warning');
+				}
+			}
+		} );
+		
+		tblgfrxxth.on( 'init', function () {
+			// atur hak akses
+			tbl_details = [tblgfrfltd];
+			CekInitHeaderHD(tblgfrxxth, tbl_details);
+		} );
+		
+		tblgfrxxth.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSet('gfrxxth');
+			
+			// atur hak akses
+			tbl_details = [tblgfrfltd];
+			CekSelectHeaderHD(tblgfrxxth, tbl_details);
+
+		} );
+		
+		tblgfrxxth.on( 'deselect', function () {
+			// reset variable standar framework
+			siVarReset('gfrxxth');
+
+			// atur hak akses
+			tbl_details = [tblgfrfltd];
+			CekDeselectHeaderHD(tblgfrxxth, tbl_details);
+		} );
+		// END gfrxxth
+
+		// BEGIN gfrfltd
+		edtgfrfltd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/gfrxxth/gfrfltd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_gfrfltd = show_deleted_gfrfltd;
+					d.id_gfrxxth = id_gfrxxth;
+				}
+			},
+			table: "#tblgfrfltd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "gfrfltd.start_at",
+					name: "gfrfltd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "gfrfltd.finish_at",
+					name: "gfrfltd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "gfrfltd",
+					type: "hidden"
+				},	
+				{
+					label: "gfrfltd.transaction_state",
+					name: "gfrfltd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_gfrxxth",
+					name: "gfrfltd.id_gfrxxth",
+					type: "hidden"
+				},	
+				{
+					label: "Question <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.keterangan",
+					type: "textarea"
+				},
+				{
+					label: "Field Name <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.nama",
+					fieldInfo: "Contoh: hemxxmh.nama"
+				}, 		
+				{
+					label: "Type <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.type",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "text", "value": "text" },
+						{ "label": "textarea", "value": "textarea" },
+					]
+				},
+			]
+		} );
+			
+		edtgfrfltd.on( 'preOpen', function( e, mode, action ) {
+			edtgfrfltd.field('gfrfltd.id_gfrxxth').val(id_gfrxxth);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtgfrfltd.field('gfrfltd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblgfrfltd.rows().deselect();
+			}
+		});
+
+		edtgfrfltd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtgfrfltd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				type = edtgfrfltd.field('gfrfltd.type').val();
+				keterangan = edtgfrfltd.field('gfrfltd.keterangan').val();
+				nama = edtgfrfltd.field('gfrfltd.nama').val();
+
+				validasiRequired(
+					edtgfrfltd,
+					'gfrfltd',
+					{
+						'type': type,
+						'keterangan': keterangan,
+						'nama': nama,
+					}
+				);
+
+				validasiUnique(
+					action,
+					edtgfrfltd,
+					'gfrfltd',
+					'keterangan',
+					'keterangan',
+					'"'+keterangan+'"',
+					id_gfrfltd
+				);	
+
+				validasiUnique(
+					action,
+					edtgfrfltd,
+					'gfrfltd',
+					'nama',
+					'nama',
+					'"'+nama+'"',
+					id_gfrfltd
+				);	
+			}
+			
+			if ( edtgfrfltd.inError() ) {
+				return false;
+			}
+		});
+
+		edtgfrfltd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtgfrfltd.field('gfrfltd.finish_at').val(finish_at);
+		});
+			
+		edtgfrfltd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+		} );
+
+		edtgfrfltd.on( 'close', function () {
+			edtgfrfltd.enable();
+		} );
+		
+		tblgfrfltd = $('#tblgfrfltd').DataTable( {
+			ajax: {
+				url: "../../models/gfrxxth/gfrfltd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_gfrfltd = show_deleted_gfrfltd;
+					d.id_gfrxxth = id_gfrxxth;
+				}
+			},
+			order: [[ 0, "asc" ]],
+			columns: [
+				{ data: "gfrfltd.id",visible:false },
+				{ data: "gfrfltd.id_gfrxxth",visible:false },
+				{ data: "gfrfltd.keterangan" },
+				{ data: "gfrfltd.type" },
+				{ data: "gfrfltd.nama" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_gfrfltd';
+					$table       = 'tblgfrfltd';
+					$edt         = 'edtgfrfltd';
+					$show_status = '_gfrfltd';
+					$table_name  = $nama_tabels_d[0];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblgfrfltd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tblgfrfltd, 1 );
+			CekDrawDetailHDFinal(tblgfrxxth);
+		} );
+
+		tblgfrfltd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('gfrfltd');
+			
+			// atur hak akses
+			CekSelectDetailHD( tblgfrfltd );
+		} );
+
+		tblgfrfltd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('gfrfltd');
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblgfrfltd );
+		} );
+		// END gfrfltd
+		
+	} );// end of document.ready
+	
+</script>
+
+<!-- END javascript here -->
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>

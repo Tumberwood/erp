@@ -1143,3 +1143,39 @@ function filterFloating() {
         $('#modalFloatingFilter').modal('show');
     });
 }
+
+/**
+ * Generate Form Dinamis
+ * Tempatkan diatas preOpen
+ * 
+    genForm('hcdxxmh', edthcdxxmh);
+    edthcdxxmh.on( 'preOpen', function( e, mode, action ) {
+
+ */
+function genForm(nama_tabel, edt){
+
+    $.ajax( {
+        url: "../../models/hcdxxmh/hcdxxmh_fn_form.php",
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        data: {
+            nama_tabel: nama_tabel
+        },
+        success: function ( json ) {
+            data_gen_form = json.data.rs_gen_form;
+
+            data_gen_form.forEach(gen_form => {
+                // console.log(gen_form.nama);
+                // console.log(gen_form.keterangan);
+
+                edt.add({
+                    label: gen_form.keterangan,
+                    name: gen_form.nama,
+                    type: gen_form.type
+                });
+            });
+        }
+    } );
+
+};
