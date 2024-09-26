@@ -10,6 +10,7 @@
 	$nama_tabel       = 'gfrxxth';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'gfrfltd';
+    $nama_tabels_d[1] = 'gfrfltd';
 ?>
 
 <!-- begin content here -->
@@ -62,6 +63,26 @@
 	</div> <!-- end of right col -->
 
 </div> <!-- end of row -->
+<div class="row" id="select_opt" style="display: none">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<h3>Select Options</h3>
+				<div class="table-responsive">
+                    <table id="tblgfroptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>id_gfrfltd</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
@@ -87,7 +108,9 @@
 	// ------------- default variable, do not erase
 	var edtgfrxxth, tblgfrxxth, show_deleted_gfrxxth = 0, id_gfrxxth;
 	var edtgfrfltd, tblgfrfltd, show_deleted_gfrfltd = 0, id_gfrfltd;
+	var edtgfroptd, tblgfroptd, show_deleted_gfroptd = 0, id_gfroptd;
 	// ------------- end of default variable
+	var type_form = '';
 
 	// get tableRelation
 	tableRelation('gfrxxth');
@@ -243,6 +266,9 @@
 			// atur hak akses
 			tbl_details = [tblgfrfltd];
 			CekInitHeaderHD(tblgfrxxth, tbl_details);
+			tblgfroptd.button('btnCreate:name')
+			.nodes()
+            .css( 'display', 'none' );
 		} );
 		
 		tblgfrxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -252,12 +278,17 @@
 			// atur hak akses
 			tbl_details = [tblgfrfltd];
 			CekSelectHeaderHD(tblgfrxxth, tbl_details);
-
+			tblgfroptd.button('btnCreate:name')
+			.nodes()
+            .css( 'display', 'none' );
 		} );
 		
 		tblgfrxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('gfrxxth');
+			id_gfrfltd   = 0;
+			tblgfrfltd.rows().deselect();
+			tblgfrfltd.ajax.reload(null, false);
 
 			// atur hak akses
 			tbl_details = [tblgfrfltd];
@@ -327,6 +358,7 @@
 					options: [
 						{ "label": "text", "value": "text" },
 						{ "label": "textarea", "value": "textarea" },
+						{ "label": "select", "value": "select" },
 					]
 				},
 			]
@@ -404,6 +436,8 @@
 
 		edtgfrfltd.on( 'close', function () {
 			edtgfrfltd.enable();
+			tblgfrfltd.ajax.reload(null, false);
+			tblgfroptd.ajax.reload(null, false);
 		} );
 		
 		tblgfrfltd = $('#tblgfrfltd').DataTable( {
@@ -451,23 +485,220 @@
 			CekDrawDetailHD( tblgfrfltd, 1 );
 			CekDrawDetailHDFinal(tblgfrxxth);
 		} );
-
+		
 		tblgfrfltd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSetD('gfrfltd');
-			
+			type_form   = gfrfltd_data.type;
+
+			console.log(type_form);
+			if (type_form == 'select') {
+				$('#select_opt').show();
+			} else {
+				$('#select_opt').hide();
+			}
+
 			// atur hak akses
 			CekSelectDetailHD( tblgfrfltd );
+			tblgfroptd.ajax.reload(null, false);
+			tblgfroptd.button('btnCreate:name')
+			.nodes()
+            .css( 'display', 'block' );
 		} );
 
 		tblgfrfltd.on( 'deselect', function() {
 			// reset variable standar framework
 			siVarResetD('gfrfltd');
+			type_form = '';
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblgfrfltd );
+			tblgfroptd.ajax.reload(null, false);
+			tblgfroptd.button('btnCreate:name')
+			.nodes()
+            .css( 'display', 'none' );
 		} );
 		// END gfrfltd
+		
+		// BEGIN gfroptd
+		edtgfroptd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/gfrxxth/gfroptd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_gfroptd = show_deleted_gfroptd;
+					d.id_gfrfltd = id_gfrfltd;
+				}
+			},
+			table: "#tblgfroptd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "gfroptd.start_at",
+					name: "gfroptd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "gfroptd.finish_at",
+					name: "gfroptd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "gfroptd",
+					type: "hidden"
+				},	
+				{
+					label: "gfroptd.transaction_state",
+					name: "gfroptd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_gfrfltd",
+					name: "gfroptd.id_gfrfltd",
+					type: "hidden"
+				},	
+				{
+					label: "Option <sup class='text-danger'>*<sup>",
+					name: "gfroptd.nama"
+				}, 		
+				{
+					label: "Keterangan",
+					name: "gfroptd.keterangan",
+					type: "textarea"
+				},
+			]
+		} );
+			
+		edtgfroptd.on( 'preOpen', function( e, mode, action ) {
+			edtgfroptd.field('gfroptd.id_gfrfltd').val(id_gfrfltd);
+			console.log(id_gfrfltd);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtgfroptd.field('gfroptd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblgfroptd.rows().deselect();
+			}
+		});
+
+		edtgfroptd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtgfroptd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				nama = edtgfroptd.field('gfroptd.nama').val();
+
+				validasiRequired(
+					edtgfroptd,
+					'gfroptd',
+					{
+						'nama': nama,
+					}
+				);
+
+				validasiUnique(
+					action,
+					edtgfroptd,
+					'gfroptd',
+					'nama',
+					'nama',
+					'"'+nama+'"',
+					id_gfroptd
+				);	
+			}
+			
+			if ( edtgfroptd.inError() ) {
+				return false;
+			}
+		});
+
+		edtgfroptd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtgfroptd.field('gfroptd.finish_at').val(finish_at);
+		});
+			
+		edtgfroptd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tblgfroptd.ajax.reload(null, false);
+		} );
+
+		edtgfroptd.on( 'close', function () {
+			edtgfroptd.enable();
+		} );
+		
+		tblgfroptd = $('#tblgfroptd').DataTable( {
+			ajax: {
+				url: "../../models/gfrxxth/gfroptd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_gfroptd = show_deleted_gfroptd;
+					d.id_gfrfltd = id_gfrfltd;
+				}
+			},
+			order: [[ 0, "asc" ]],
+			columns: [
+				{ data: "gfroptd.id",visible:false },
+				{ data: "gfroptd.id_gfrfltd",visible:false },
+				{ data: "gfroptd.nama" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_gfroptd';
+					$table       = 'tblgfroptd';
+					$edt         = 'edtgfroptd';
+					$show_status = '_gfroptd';
+					$table_name  = $nama_tabels_d[1];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblgfroptd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tblgfroptd, 1 );
+			CekDrawDetailHDFinal(tblgfrxxth);
+		} );
+		
+		tblgfroptd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('gfroptd');
+			
+			// atur hak akses
+			CekSelectDetailHD( tblgfroptd );
+		} );
+
+		tblgfroptd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('gfroptd');
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblgfroptd );
+			CekDeselectHeaderHD(tblgfroptd, tbl_details);
+		} );
+		// END gfroptd
 		
 	} );// end of document.ready
 	

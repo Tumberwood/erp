@@ -911,7 +911,7 @@ function autoReloadInterval(content) {
  * @param {String} url 
  * @returns 
  */
-const checkFileExists = async (url) => {
+var checkFileExists = async (url) => {
     try {
         await $.ajax({
             url: url,
@@ -1053,7 +1053,7 @@ async function fnConfirm(tbl_name, tbl){
         }
 
         // Cek keberadaan file sebelum melakukan AJAX request.
-        const fileExists = await checkFileExists('../../models/' + tbl_name + '/' + tbl_name + '_post_confirm.php');
+        var fileExists = await checkFileExists('../../models/' + tbl_name + '/' + tbl_name + '_post_confirm.php');
         if (fileExists == true && is_error == 0) {
             let json6 = await $.ajax( {
                 url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_post_confirm.php',
@@ -1155,7 +1155,7 @@ function filterFloating() {
 function genForm(nama_tabel, edt){
 
     $.ajax( {
-        url: "../../models/hcdxxmh/hcdxxmh_fn_form.php",
+        url: "../../models/gfrxxth/gfrxxth_fn_gen_form.php",
         dataType: 'json',
         type: 'POST',
         async: false,
@@ -1166,15 +1166,48 @@ function genForm(nama_tabel, edt){
             data_gen_form = json.data.rs_gen_form;
 
             data_gen_form.forEach(gen_form => {
-                // console.log(gen_form.nama);
-                // console.log(gen_form.keterangan);
-
-                edt.add({
-                    label: gen_form.keterangan,
-                    name: gen_form.nama,
-                    type: gen_form.type
-                });
+                var id_gfrfltd = gen_form.id_gfrfltd;
+            
+                if (gen_form.type === 'select') {
+                    var options = []; 
+                    
+                    $.ajax({
+                        url: "../../models/gfrxxth/gfrxxth_fn_select_options.php",
+                        dataType: 'json',
+                        type: 'POST',
+                        async: false,
+                        data: {
+                            id_gfrfltd: id_gfrfltd
+                        },
+                        success: function (json) {
+                            var data_option_select = json.data.rs_option_select; // Ensure this is defined correctly
+                            
+                            data_option_select.forEach(option_select => {
+                                options.push({
+                                    label: option_select.nama, // Assuming option_select has a nama property for display
+                                    value: option_select.id    // Assuming option_select has an id property for the value
+                                });
+                            });
+            
+                            // Add the select element with formatted options
+                            edt.add({
+                                label: gen_form.keterangan,
+                                name: gen_form.nama,
+                                type: gen_form.type,
+                                placeholder: "Select",
+                                options: options // Use the formatted options array
+                            });
+                        }
+                    });
+                } else {
+                    edt.add({
+                        label: gen_form.keterangan,
+                        name: gen_form.nama,
+                        type: gen_form.type
+                    });
+                }
             });
+            
         }
     } );
 

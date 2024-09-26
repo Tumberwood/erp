@@ -13,25 +13,22 @@
     $morePages = 0;
     // END definisi variable untuk fn_ajax_results.php
 
-    $nama_tabel = $_POST['nama_tabel'];
+    $id_gfrfltd = $_POST['id_gfrfltd'];
 
-    $qs_gen_form = $db
+    $qs_option_select = $db
         ->raw()
-        ->bind(':nama_tabel', $nama_tabel)
+        ->bind(':id_gfrfltd', $id_gfrfltd)
         ->exec('SELECT
-                    b.nama,
-                    b.keterangan,
-                    b.type
-                FROM gfrfltd b
-                LEFT JOIN gfrxxth a ON a.id = b.id_gfrxxth
-                WHERE a.nama_tabel = :nama_tabel AND a.transaction_state = 1
+                    nama
+                FROM gfroptd
+                WHERE id_gfrfltd = :id_gfrfltd AND transaction_state <> -9
         '
         );
 
-    $rs_gen_form = $qs_gen_form->fetchAll();
+    $rs_option_select = $qs_option_select->fetchAll();
     
     $data = array(
-        'rs_gen_form' => $rs_gen_form,
+        'rs_option_select' => $rs_option_select,
     );
     
     // tampilkan results
