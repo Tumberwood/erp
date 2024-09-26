@@ -10,7 +10,7 @@
 	$nama_tabel       = 'gfrxxth';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'gfrfltd';
-    $nama_tabels_d[1] = 'gfrfltd';
+    $nama_tabels_d[1] = 'gfroptd';
 ?>
 
 <!-- begin content here -->
@@ -50,7 +50,6 @@
 										<th>id_gfrxxth</th>
 										<th>Question</th>
 										<th>Type</th>
-										<th>Field Name</th>
 									</tr>
 								</thead>
 							</table>
@@ -284,6 +283,7 @@
 		tblgfrxxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('gfrxxth');
+			id_gfrxxth   = gfrxxth_data.id;
 			
 			// atur hak akses
 			tbl_details = [tblgfrfltd];
@@ -357,11 +357,11 @@
 					name: "gfrfltd.keterangan",
 					type: "textarea"
 				},
-				{
-					label: "Field Name <sup class='text-danger'>*<sup>",
-					name: "gfrfltd.nama",
-					fieldInfo: "Contoh: hemxxmh.nama"
-				}, 		
+				// {
+				// 	label: "Field Name <sup class='text-danger'>*<sup>",
+				// 	name: "gfrfltd.nama",
+				// 	fieldInfo: "Contoh: hemxxmh.nama"
+				// }, 		
 				{
 					label: "Type <sup class='text-danger'>*<sup>",
 					name: "gfrfltd.type",
@@ -397,7 +397,6 @@
 
 				type = edtgfrfltd.field('gfrfltd.type').val();
 				keterangan = edtgfrfltd.field('gfrfltd.keterangan').val();
-				nama = edtgfrfltd.field('gfrfltd.nama').val();
 
 				validasiRequired(
 					edtgfrfltd,
@@ -405,7 +404,6 @@
 					{
 						'type': type,
 						'keterangan': keterangan,
-						'nama': nama,
 					}
 				);
 
@@ -417,17 +415,7 @@
 					'keterangan',
 					'"'+keterangan+'"',
 					id_gfrfltd
-				);	
-
-				validasiUnique(
-					action,
-					edtgfrfltd,
-					'gfrfltd',
-					'nama',
-					'nama',
-					'"'+nama+'"',
-					id_gfrfltd
-				);	
+				);		
 			}
 			
 			if ( edtgfrfltd.inError() ) {
@@ -467,7 +455,6 @@
 				{ data: "gfrfltd.id_gfrxxth",visible:false },
 				{ data: "gfrfltd.keterangan" },
 				{ data: "gfrfltd.type" },
-				{ data: "gfrfltd.nama" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
