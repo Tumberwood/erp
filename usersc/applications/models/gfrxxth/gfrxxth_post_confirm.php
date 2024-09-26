@@ -35,6 +35,7 @@
 				->exec('SELECT
 							a.id,
 							b.nama_tabel,
+							CONCAT(b.nama_tabel,".field_", a.id) nama,
 							CONCAT("field_", a.id) field_name
 						FROM gfrfltd a
 						LEFT JOIN gfrxxth b ON b.id = a.id_gfrxxth
@@ -45,7 +46,7 @@
 			foreach ($rs_gfrfltd as $key => $gfrfltd) {
 				$qu_gfrfltd = $db
 				->query('update', 'gfrfltd')
-				->set('nama',$gfrfltd['field_name'])
+				->set('nama',$gfrfltd['nama'])
 				->where('id',$gfrfltd['id'])
 				->exec();
 
