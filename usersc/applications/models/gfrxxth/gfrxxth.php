@@ -41,13 +41,7 @@
 			Field::inst( 'gfrxxth.finish_at' ),
 			Field::inst( 'gfrxxth.is_nextprocess' ),
 			Field::inst( 'gfrxxth.is_defaultprogram' ),
-			Field::inst( 'gfrxxth.nama_tabel' )
-				->setFormatter( Format::ifEmpty( 0 ) )
-				->options( Options::inst()
-					->table( 'v_tablelist' )
-					->value( 'id' )
-					->label( 'nama' )
-				),
+			Field::inst( 'gfrxxth.nama_tabel' ),
 		);
 
 	// do not erase

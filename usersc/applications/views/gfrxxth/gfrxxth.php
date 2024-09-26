@@ -23,7 +23,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nama Tabel</th>
+                                <th>Menu</th>
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
@@ -36,7 +36,8 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabgfrfltd_1"> Question</a></li>
+				<li id="detail"><a class="nav-link active" data-toggle="tab" href="#tabgfrfltd_1"> Question</a></li>
+				<li id="select_opt" style="display: none"><a class="nav-link" data-toggle="tab" href="#tabgfroptd"> Select Options</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabgfrfltd_1" class="tab-pane active">
@@ -57,32 +58,28 @@
 
 					</div>
 				</div>
+				<div role="tabpanel" id="tabgfroptd" class="tab-pane">
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table id="tblgfroptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>id_gfrfltd</th>
+										<th>Options</th>
+									</tr>
+								</thead>
+							</table>
+						</div> <!-- end of table -->
+
+					</div>
+				</div>
 			</div>
 
 		</div>
 	</div> <!-- end of right col -->
 
 </div> <!-- end of row -->
-<div class="row" id="select_opt" style="display: none">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-w-xs">
-		<div class="ibox ">
-			<div class="ibox-content">
-				<h3>Select Options</h3>
-				<div class="table-responsive">
-                    <table id="tblgfroptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>id_gfrfltd</th>
-                                <th>Options</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
@@ -153,7 +150,11 @@
 				{
 					label: "Nama Tabel <sup class='text-danger'>*<sup>",
 					name: "gfrxxth.nama_tabel",
-					type: "select2"
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Candidate", "value": "hcdxxmh" },
+					]
 				}, 	
 				{
 					label: "Keterangan",
@@ -233,7 +234,16 @@
 			order: [[ 1, "desc" ]],
 			columns: [
 				{ data: "gfrxxth.id",visible:false },
-				{ data: "gfrxxth.nama_tabel" },
+				{ 
+					data: "gfrxxth.nama_tabel",
+					render: function (data){	// render model icon
+						if (data == 'hcdxxmh'){
+							return 'Candidate';
+						}else{
+							return '';
+						}
+					}
+				},
 				{ data: "gfrxxth.keterangan" }
 			],
 			buttons: [
@@ -293,6 +303,8 @@
 			// atur hak akses
 			tbl_details = [tblgfrfltd];
 			CekDeselectHeaderHD(tblgfrxxth, tbl_details);
+			$('#select_opt').hide();
+			$('#detail a').tab('show');
 		} );
 		// END gfrxxth
 
@@ -496,6 +508,7 @@
 				$('#select_opt').show();
 			} else {
 				$('#select_opt').hide();
+				$('#detail a').tab('show');
 			}
 
 			// atur hak akses
@@ -517,6 +530,8 @@
 			tblgfroptd.button('btnCreate:name')
 			.nodes()
             .css( 'display', 'none' );
+			$('#select_opt').hide();
+			$('#detail a').tab('show');
 		} );
 		// END gfrfltd
 		
