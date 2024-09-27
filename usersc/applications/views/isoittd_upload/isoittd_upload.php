@@ -2172,8 +2172,16 @@
 					display: function ( fileId, counter ) {
 						if (fileId == 0){
 							return 'Belum ada lampiran';
-						}else{
-							return '<a href="'+edtisoittd_upload_fisik.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_upload_fisik.file( 'files', fileId ).filename + '</a>'; 
+						}else {
+							var filePath = edtisoittd_upload_fisik.file('files', fileId).web_path;
+							var fileName = edtisoittd_upload_fisik.file('files', fileId).filename;
+
+							// Check if the filePath does not contain "erpx"
+							if (!filePath.includes('erpx')) {
+								filePath = 'https://erpx.solusiprogram.top/' + filePath;
+							}
+
+							return '<a href="' + filePath + '" target="_blank">' + fileName + '</a>'; 
 						}
 					},
 				},	
