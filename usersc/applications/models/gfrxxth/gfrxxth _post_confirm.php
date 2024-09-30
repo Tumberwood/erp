@@ -35,8 +35,9 @@
 				->exec('SELECT
 							a.id,
 							b.nama_tabel,
-							CONCAT(b.nama_tabel,".field_", a.id) nama,
-							CONCAT("field_", a.id) field_name
+							a.type_data,
+							CONCAT(b.nama_tabel,".field_", a.urutan) nama,
+							CONCAT("field_", a.urutan) field_name
 						FROM gfrfltd a
 						LEFT JOIN gfrxxth b ON b.id = a.id_gfrxxth
 						WHERE a.id_gfrxxth = :id
@@ -50,10 +51,12 @@
 				->where('id',$gfrfltd['id'])
 				->exec();
 
+				// Ensure proper spaces between concatenated strings and backticks for table and column names
 				$q_alter_table = $db
-				->raw() 
-				->exec('ALTER TABLE ' . $gfrfltd['nama_tabel'] . '
-						ADD COLUMN IF NOT EXISTS ' . $gfrfltd['field_name'] . ' VARCHAR(255);');
+				->raw()
+				->exec('ALTER TABLE `' . $gfrfltd['nama_tabel'] . '` 
+						ADD COLUMN IF NOT EXISTS `' . $gfrfltd['field_name'] . '` ' . $gfrfltd['type_data'] . ';');
+
 
 			}
 		} // end if($state == 1)

@@ -208,57 +208,6 @@
 										<div class="col-lg-6">
 											<editor-field name="hcdjbmh.kendaraan_milik"></editor-field>
 										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_1"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_2"></editor-field>
-										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_3"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_4"></editor-field>
-										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_5"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_6"></editor-field>
-										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_7"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_8"></editor-field>
-										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_9"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_10"></editor-field>
-										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_11"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_12"></editor-field>
-										</div>
-										<div class="col-lg-6">
-											<editor-field name="hcdjbmh.intrv_self_13"></editor-field>
-										</div>
 									</div>
 								</div>
 							</div>

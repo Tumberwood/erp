@@ -184,22 +184,7 @@
 			Field::inst( 'hcdjbmh.tempat_tinggal' ),
 			Field::inst( 'hcdjbmh.kendaraan' ),
 			Field::inst( 'hcdjbmh.kendaraan_milik' ),
-			Field::inst( 'hcdjbmh.intrv_self_1' ),
-			Field::inst( 'hcdjbmh.intrv_self_2' ),
-			Field::inst( 'hcdjbmh.intrv_self_3' ),
-			Field::inst( 'hcdjbmh.intrv_self_4' ),
-			Field::inst( 'hcdjbmh.intrv_self_5' ),
-			Field::inst( 'hcdjbmh.intrv_self_6' ),
-			Field::inst( 'hcdjbmh.intrv_self_7' ),
-			Field::inst( 'hcdjbmh.intrv_self_8' ),
-			Field::inst( 'hcdjbmh.intrv_self_9' ),
-			Field::inst( 'hcdjbmh.intrv_self_10' ),
-			Field::inst( 'hcdjbmh.intrv_self_11' ),
-			Field::inst( 'hcdjbmh.intrv_self_12' ),
-			Field::inst( 'hcdjbmh.intrv_self_13' ),
-				
 			Field::inst( 'hetxxmh.nama' )
-			
 		)
 		// personal data
 		->leftJoin( 'gctxxmh as gctxxmh_lahir','gctxxmh_lahir.id','=','hcdxxmh.id_gctxxmh_lahir' )
@@ -231,7 +216,11 @@
 
 	// BEGIN log
 	$nama_table = 'hcdxxmh';
+	
 	include( "../../../helpers/edt_log.php" );
+
+	//generate form
+	include_once( "../../../helpers/generateForm.php" );
 	// END log
 	
 	$json = $editor

@@ -1153,6 +1153,7 @@ function filterFloating() {
 
  */
 function genForm(nama_tabel, edt){
+    var urutan = [];
 
     $.ajax( {
         url: "../../models/gfrxxth/gfrxxth_fn_gen_form.php",
@@ -1164,10 +1165,27 @@ function genForm(nama_tabel, edt){
         },
         success: function ( json ) {
             data_gen_form = json.data.rs_gen_form;
-
+            
             data_gen_form.forEach(gen_form => {
                 var id_gfrfltd = gen_form.id_gfrfltd;
-            
+                urutan.push(gen_form.urutan_awal);
+                
+                if (gen_form.is_required == 1) {
+                    var labelInput = gen_form.label + " <sup class='text-danger'>*<sup>";
+                    // console.log(gen_form.nama);
+
+                    edt.on( 'preSubmit', function (e, data, action) {
+                        if(action != 'remove'){
+                            if(!edt.field(gen_form.nama).val() || edt.field(gen_form.nama).val() == ''){
+                                edt.field(gen_form.nama).error( 'Wajib diisi!' );
+                            }
+                        }
+                    });
+
+                } else {
+                    var labelInput = gen_form.label;
+                }
+
                 if (gen_form.type === 'select') {
                     var options = []; 
                     
@@ -1180,28 +1198,77 @@ function genForm(nama_tabel, edt){
                             id_gfrfltd: id_gfrfltd
                         },
                         success: function (json) {
-                            var data_option_select = json.data.rs_option_select; // Ensure this is defined correctly
+                            var data_option_select = json.data.rs_option_select; 
                             
                             data_option_select.forEach(option_select => {
                                 options.push({
-                                    label: option_select.nama, // Assuming option_select has a nama property for display
-                                    value: option_select.id    // Assuming option_select has an id property for the value
+                                    label: option_select.nama, 
+                                    value: option_select.id    
                                 });
                             });
             
-                            // Add the select element with formatted options
                             edt.add({
-                                label: gen_form.keterangan,
+                                label: labelInput,
                                 name: gen_form.nama,
                                 type: gen_form.type,
                                 placeholder: "Select",
-                                options: options // Use the formatted options array
+                                options: options 
                             });
                         }
                     });
+                } else if (gen_form.type == 'datetime'){
+                    //IF date biasa
+                    if (gen_form.type_data == 'DATE') {
+                        edt.add({
+                            label: labelInput,
+                            name: gen_form.nama,
+                            type: gen_form.type,
+                            def: function () { 
+                                return new Date(); 
+                            },
+                            opts:{
+                                minDate: new Date('1900-01-01'),
+                                firstDay: 0
+                            },
+                            format: 'DD MMM YYYY'
+                        });
+                        
+                    //IF DATETIME
+                    } else if (gen_form.type_data == 'DATETIME') {
+                        edt.add({
+                            label: labelInput,
+                            name: gen_form.nama,
+                            type: gen_form.type,
+                            def: function () { 
+                                return new Date(); 
+                            },
+                            opts:{
+                                minDate: new Date('1900-01-01'),
+                                firstDay: 0
+                            },
+                            format: 'DD MMM YYYY HH:mm'
+                        });
+
+                    //IF TIME
+                    } else {
+                        edt.add({
+                            label: labelInput,
+                            name: gen_form.nama,
+                            type: gen_form.type,
+                            def: function () { 
+                                return new Date(); 
+                            },
+                            opts:{
+                                minDate: new Date('1900-01-01'),
+                                firstDay: 0
+                            },
+                            format: 'HH:mm'
+                        });
+                    }
+
                 } else {
                     edt.add({
-                        label: gen_form.keterangan,
+                        label: labelInput,
                         name: gen_form.nama,
                         type: gen_form.type
                     });
@@ -1211,4 +1278,35 @@ function genForm(nama_tabel, edt){
         }
     } );
 
+    // console.log(urutan);
+    
+    //ini untuk membuat form template dinamis
+    var templateObject = edt.template();
+
+    // cari panel body yang terakhir, ini nanti akan di append row dan col nya
+    var lastPanelBody = $(templateObject).find('div.panel-body:last'); 
+
+
+    for (let i = 0; i < urutan.length; i += 2) {
+        var newRow = $('<div class="row"></div>');
+
+        var newCol1 = $(`
+            <div class="col-lg-6">
+                <editor-field name="${nama_tabel}.field_${urutan[i]}"></editor-field>
+            </div>
+        `);
+
+        var newCol2 = $('<div class="col-lg-6"></div>');
+
+        // jika increment masih ada di urutan dan increment genap, maka akan ada di baris kedua yang kanan
+        if (i + 1 < urutan.length) {
+            newCol2.append(`
+                <editor-field name="${nama_tabel}.field_${urutan[i + 1]}"></editor-field>
+            `);
+        }
+
+        newRow.append(newCol1).append(newCol2);
+        
+        lastPanelBody.append(newRow);
+    }
 };

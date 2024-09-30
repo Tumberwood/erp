@@ -21,11 +21,15 @@
         ->exec('SELECT
                     b.id id_gfrfltd,
                     b.nama,
-                    b.keterangan,
+                    SUBSTRING_INDEX(SUBSTRING_INDEX(b.nama, "_", -1), ".", 1) urutan_awal,
+                    b.is_required,
+                    b.label,
+                    b.type_data,
                     b.type
                 FROM gfrfltd b
                 LEFT JOIN gfrxxth a ON a.id = b.id_gfrxxth
-                WHERE a.nama_tabel = :nama_tabel AND a.transaction_state = 1
+                WHERE a.nama_tabel = :nama_tabel AND a.transaction_state = 1 AND b.transaction_state <> -9
+                ORDER BY urutan
         '
         );
 

@@ -32,6 +32,7 @@
 				Field::inst( 'gfrfltd.kode' ),
 				Field::inst( 'gfrfltd.nama' ),
 				Field::inst( 'gfrfltd.keterangan' ),
+				Field::inst( 'gfrfltd.label' ),
 				Field::inst( 'gfrfltd.created_by' ),
 				Field::inst( 'gfrfltd.transaction_state' ),
 				Field::inst( 'gfrfltd.approval_state' ),
@@ -40,6 +41,10 @@
 				Field::inst( 'gfrfltd.is_nextprocess' ),
 				Field::inst( 'gfrfltd.is_defaultprogram' ),
 				Field::inst( 'gfrfltd.type' ),
+				Field::inst( 'gfrfltd.type_data' ),
+				Field::inst( 'gfrfltd.urutan' ),
+				Field::inst( 'gfrfltd.is_required' ),
+				Field::inst( 'gfrfltd.is_number' ),
 			)
 			->where('gfrfltd.id_gfrxxth',$_POST['id_gfrxxth']);
 		

@@ -43,13 +43,16 @@
 				<div role="tabpanel" id="tabgfrfltd_1" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblgfrfltd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblgfrfltd" class="table table-striped table-bordered table-hover" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_gfrxxth</th>
-										<th>Question</th>
+										<th>Label</th>
 										<th>Type</th>
+										<th>Type Data</th>
+										<th>Urutan</th>
+										<th>Required</th>
 									</tr>
 								</thead>
 							</table>
@@ -235,7 +238,7 @@
 				{ data: "gfrxxth.id",visible:false },
 				{ 
 					data: "gfrxxth.nama_tabel",
-					render: function (data){	// render model icon
+					render: function (data){	
 						if (data == 'hcdxxmh'){
 							return 'Candidate';
 						}else{
@@ -353,26 +356,53 @@
 					type: "hidden"
 				},	
 				{
-					label: "Question <sup class='text-danger'>*<sup>",
-					name: "gfrfltd.keterangan",
+					label: "Label <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.label",
 					type: "textarea"
-				},
-				// {
-				// 	label: "Field Name <sup class='text-danger'>*<sup>",
-				// 	name: "gfrfltd.nama",
-				// 	fieldInfo: "Contoh: hemxxmh.nama"
-				// }, 		
+				},	
 				{
 					label: "Type <sup class='text-danger'>*<sup>",
 					name: "gfrfltd.type",
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "text", "value": "text" },
-						{ "label": "textarea", "value": "textarea" },
-						{ "label": "select", "value": "select" },
+						{ "label": "Input", "value": "text" },
+						{ "label": "Textarea", "value": "textarea" },
+						{ "label": "Editor", "value": "quill" },
+						{ "label": "Select", "value": "select" },
+						{ "label": "Datepicker", "value": "datetime" },
 					]
 				},
+				{
+					label: "Tipe Data <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.type_data",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Sort Text", "value": "VARCHAR(200)" },
+						{ "label": "Long Text", "value": "VARCHAR(1000)" },
+						{ "label": "Decimal", "value": "DECIMAL(12,2)" },
+						{ "label": "Integer", "value": "INT(11)" },
+						{ "label": "DATE", "value": "DATE" },
+						{ "label": "TIME", "value": "TIME" },
+						{ "label": "DATETIME", "value": "DATETIME" },
+					]
+				},
+				{
+					label: "Urutan <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.urutan",
+				}, 	
+				{
+					label: "Required <sup class='text-danger'>*<sup>",
+					name: "gfrfltd.is_required",
+					type: "select",
+					def: 1,
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					],
+					fieldInfo: "Yes = Inputan Wajib Diisi | No = Tidak Wajib"
+				}, 	
 			]
 		} );
 			
@@ -381,6 +411,8 @@
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtgfrfltd.field('gfrfltd.start_at').val(start_at);
+			
+			getUrutan();
 			
 			if(action == 'create'){
 				tblgfrfltd.rows().deselect();
@@ -391,12 +423,54 @@
 			$(".modal-dialog").addClass("modal-lg");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
+
+		edtgfrfltd.dependent('gfrfltd.type', function (val, data, callback) {
+			var field = edtgfrfltd.field('gfrfltd.type_data'); 
+			var options = []; 
+
+			if (val === 'datetime') {
+				options.push({ "label": "DATE", "value": "DATE" });
+				options.push({ "label": "TIME", "value": "TIME" });
+				options.push({ "label": "DATETIME", "value": "DATETIME" });
+			} else {
+				if (val == 'select') {
+					edtgfrfltd.field('gfrfltd.type').fieldInfo('Jika memilih select, maka bisa isi detail options');
+				} else {
+					edtgfrfltd.field('gfrfltd.type').fieldInfo('');
+				}
+				options.push({ "label": "Sort Text", "value": "VARCHAR(200)" });
+				options.push({ "label": "Long Text", "value": "VARCHAR(1000)" });
+				options.push({ "label": "Decimal", "value": "DECIMAL(12,2)"  });
+				options.push({ "label": "Integer", "value": "INT(11)"  });
+			}
+			field.update(options);
+
+			return {};
+		}, { event: 'keyup change' });
+
+
+		edtgfrfltd.dependent( 'gfrfltd.type_data', function ( val, data, callback ) {
+			if (val == 'VARCHAR(200)') {
+				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Short Text: 200');
+			} else if (val == 'VARCHAR(1000)') {
+				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Long Text: 1000');
+			} else if (val == 'DECIMAL(12,2)') {
+				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Decimal: 12 Digit dengan 2 koma');
+			} else if (val == 'INT(11)') {
+				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Integer: 11 Digit');
+			} else {
+				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('');
+			}
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtgfrfltd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
 				type = edtgfrfltd.field('gfrfltd.type').val();
-				keterangan = edtgfrfltd.field('gfrfltd.keterangan').val();
+				keterangan = edtgfrfltd.field('gfrfltd.label').val();
+				urutan = edtgfrfltd.field('gfrfltd.urutan').val();
+				type_data = edtgfrfltd.field('gfrfltd.type_data').val();
 
 				validasiRequired(
 					edtgfrfltd,
@@ -404,6 +478,8 @@
 					{
 						'type': type,
 						'keterangan': keterangan,
+						'urutan': urutan,
+						'type_data': type_data,
 					}
 				);
 
@@ -414,6 +490,16 @@
 					'keterangan',
 					'keterangan',
 					'"'+keterangan+'"',
+					id_gfrfltd
+				);		
+
+				validasiUnique(
+					action,
+					edtgfrfltd,
+					'gfrfltd',
+					'urutan',
+					'urutan,id_gfrxxth',
+					urutan+','+id_gfrxxth,
 					id_gfrfltd
 				);		
 			}
@@ -449,12 +535,51 @@
 					d.id_gfrxxth = id_gfrxxth;
 				}
 			},
-			order: [[ 0, "asc" ]],
+			order: [[ 5, "asc" ]],
 			columns: [
 				{ data: "gfrfltd.id",visible:false },
 				{ data: "gfrfltd.id_gfrxxth",visible:false },
-				{ data: "gfrfltd.keterangan" },
-				{ data: "gfrfltd.type" },
+				{ data: "gfrfltd.label" },
+				
+				{ 
+					data: "gfrfltd.type",
+					render: function (data){	
+						if (data == 'text'){
+							return 'Input';
+						}else if (data == 'select'){
+							return 'Select';
+						}else if (data == 'datetime'){
+							return 'Datepicker';
+						}else if (data == 'textarea'){
+							return 'Textarea';
+						}else if (data == 'quill'){
+							return 'Editor';
+						}else{
+							return '';
+						}
+					}
+				},
+				{ 
+					data: "gfrfltd.type_data",
+					render: function (data){	
+						if (data == 'VARCHAR(200)'){
+							return 'Sort Text';
+						}else if (data == 'VARCHAR(1000)'){
+							return 'Long Text';
+						}else if (data == 'DATE'){
+							return 'DATE';
+						}else if (data == 'DATETIME'){
+							return 'DATETIME';
+						}else{
+							return '';
+						}
+					}
+				},
+				{ data: "gfrfltd.urutan" },
+				{ 
+					data: "gfrfltd.is_required",
+					...renderYaTidak()
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
