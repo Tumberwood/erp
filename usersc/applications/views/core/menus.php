@@ -18,7 +18,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
-                    <table id="tblmenus" class="table table-striped table-bordered table-hover" width="100%">
+                    <table id="tblmenus_extend" class="table table-striped table-bordered table-hover" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -59,7 +59,7 @@
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 		// ------------- default variable, do not erase
-		var edtmenus, tblmenus, id_menus;
+		var edtmenus, tblmenus_extend, id_menus;
 		// ------------- end of default variable
 
 		var id_menus_old = 0;
@@ -77,7 +77,7 @@
 					data: function (d){
 					}
 				},
-				table: "#tblmenus",
+				table: "#tblmenus_extend",
 				fields: [ 
 					{
 						label: "menus_extend.start_at",
@@ -193,7 +193,7 @@
 				edtmenus.field('menus_extend.start_at').val(start_at);
 				
 				if(action == 'create'){
-					tblmenus.rows().deselect();
+					tblmenus_extend.rows().deselect();
 				}
 			});
 
@@ -239,7 +239,7 @@
 			});
 
 			edtmenus.on( 'postSubmit', function (e, json, data, action, xhr) {
-				tblmenus.ajax.reload(null, false);
+				tblmenus_extend.ajax.reload(null, false);
 			});
 
 			edtmenus.on( 'close', function () {
@@ -247,7 +247,7 @@
 			} );
 			
 			//start datatables
-			tblmenus = $('#tblmenus').DataTable( {
+			tblmenus_extend = $('#tblmenus_extend').DataTable( {
 				dom: domPQ,
 				searchPanes:{
 					layout: 'columns-4',
@@ -318,7 +318,7 @@
 					// BEGIN breaking generate button
 					<?php
 						$id_table    = 'id_menus';
-						$table       = 'tblmenus';
+						$table       = 'tblmenus_extend';
 						$edt         = 'edtmenus';
 						$show_status = '_menus';
 						$table_name  = $nama_tabel;
@@ -338,38 +338,31 @@
 				}
 			} );
 
-			tblmenus.searchPanes.container().appendTo('#spmenus_extend');
-			tblmenus.searchBuilder.container().appendTo( '#sbmenus_extend' );
+			tblmenus_extend.searchPanes.container().appendTo('#spmenus_extend');
+			tblmenus_extend.searchBuilder.container().appendTo( '#sbmenus_extend' );
 			
-			tblmenus.on( 'init', function () {
+			tblmenus_extend.on( 'init', function () {
 				// atur hak akses
-				CekInitHeaderH(tblmenus);
+				CekInitHeaderH(tblmenus_extend);
 			} );
 			
-			tblmenus.on( 'select', function( e, dt, type, indexes ) {
-				menus_data    		= tblmenus.row( { selected: true } ).data().menus;
-				menus_extend_data   = tblmenus.row( { selected: true } ).data().menus_extend;
-				id_menus      		= menus_data.id;
-				id_transaksi_h 		= menus_extend_data.id; // dipakai untuk general
-				console.log(id_transaksi_h);
-				id_transaksi_log	= id_menus; // dipakai untuk general
-				transaction_state   = menus_extend_data.transaction_state;
-				approval_state   	= menus_extend_data.approval_state;
-				is_nextprocess 		= menus_extend_data.is_nextprocess;
-				
+			tblmenus_extend.on( 'select', function( e, dt, type, indexes ) {
+				siVarSet('menus_extend');
+				menus_data    		= tblmenus_extend.row( { selected: true } ).data().menus;
 				id_menus_old   = menus_data.parent;
 
 				// atur hak akses
-				CekSelectHeaderH(tblmenus);
+				CekSelectHeaderH(tblmenus_extend);
 			} );
 
-			tblmenus.on( 'deselect', function () {
+			tblmenus_extend.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
+				siVarReset('menus_extend');
 				id_menus = 0;
 				id_menus_old = 0;
 
 				// atur hak akses
-				CekDeselectHeaderH(tblmenus);
+				CekDeselectHeaderH(tblmenus_extend);
 			} );
 			
 		} );// end of document.ready
