@@ -350,7 +350,8 @@
 				menus_data    		= tblmenus.row( { selected: true } ).data().menus;
 				menus_extend_data   = tblmenus.row( { selected: true } ).data().menus_extend;
 				id_menus      		= menus_data.id;
-				id_transaksi_h 		= id_menus; // dipakai untuk general
+				id_transaksi_h 		= menus_extend_data.id; // dipakai untuk general
+				console.log(id_transaksi_h);
 				id_transaksi_log	= id_menus; // dipakai untuk general
 				transaction_state   = menus_extend_data.transaction_state;
 				approval_state   	= menus_extend_data.approval_state;

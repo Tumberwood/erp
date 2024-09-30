@@ -39,6 +39,8 @@
 
 			Field::inst( 'menus_parent.label' ),
 			Field::inst( 'menus_extend.created_by' ),
+			
+			Field::inst( 'menus_extend.id' ),
 			Field::inst( 'menus_extend.transaction_state' ),
 			Field::inst( 'menus_extend.approval_state' ),
 			Field::inst( 'menus_extend.start_at' ),
