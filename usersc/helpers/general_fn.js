@@ -1153,6 +1153,7 @@ function filterFloating() {
 
  */
 function genForm(nama_tabel, edt){
+    
     var urutan = [];
 
     $.ajax( {
@@ -1178,6 +1179,16 @@ function genForm(nama_tabel, edt){
                         if(action != 'remove'){
                             if(!edt.field(gen_form.nama).val() || edt.field(gen_form.nama).val() == ''){
                                 edt.field(gen_form.nama).error( 'Wajib diisi!' );
+                            }
+                            
+                            if (gen_form.type_data == 'DECIMAL(12,2)' || gen_form.type_data == 'INT(11)' || gen_form.is_number == 1) {
+                                if(edt.field(gen_form.nama).val() <= 0 ){
+                                    edt.field(gen_form.nama).error( 'Inputan harus > 0' );
+                                }
+                                
+                                if(isNaN(edt.field(gen_form.nama).val()) ){
+                                    edt.field(gen_form.nama).error( 'Inputan harus berupa Angka!' );
+                                }
                             }
                         }
                     });

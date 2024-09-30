@@ -403,9 +403,22 @@
 					],
 					fieldInfo: "Yes = Inputan Wajib Diisi | No = Tidak Wajib"
 				}, 	
+				{
+					label: "Input Number",
+					name: "gfrfltd.is_number",
+					type: "select",
+					def: 0,
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					],
+					fieldInfo: "Yes = Inputan Wajib Angka dan Inputan > 0 | No = Tidak ada Validasi Angka"
+				},
 			]
 		} );
 			
+		edtgfrfltd.field('gfrfltd.is_number').hide();
+		
 		edtgfrfltd.on( 'preOpen', function( e, mode, action ) {
 			edtgfrfltd.field('gfrfltd.id_gfrxxth').val(id_gfrxxth);
 			
@@ -429,6 +442,8 @@
 			var options = []; 
 
 			if (val === 'datetime') {
+				edtgfrfltd.field('gfrfltd.is_number').hide();
+
 				options.push({ "label": "DATE", "value": "DATE" });
 				options.push({ "label": "TIME", "value": "TIME" });
 				options.push({ "label": "DATETIME", "value": "DATETIME" });
@@ -451,12 +466,20 @@
 
 		edtgfrfltd.dependent( 'gfrfltd.type_data', function ( val, data, callback ) {
 			if (val == 'VARCHAR(200)') {
+				edtgfrfltd.field('gfrfltd.is_number').show();
+				edtgfrfltd.field('gfrfltd.is_number').val(0);
 				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Short Text: 200');
 			} else if (val == 'VARCHAR(1000)') {
+				edtgfrfltd.field('gfrfltd.is_number').show();
+				edtgfrfltd.field('gfrfltd.is_number').val(0);
 				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Long Text: 1000');
 			} else if (val == 'DECIMAL(12,2)') {
+				edtgfrfltd.field('gfrfltd.is_number').hide();
+				edtgfrfltd.field('gfrfltd.is_number').val(1);
 				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Decimal: 12 Digit dengan 2 koma');
 			} else if (val == 'INT(11)') {
+				edtgfrfltd.field('gfrfltd.is_number').hide();
+				edtgfrfltd.field('gfrfltd.is_number').val(1);
 				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('Max Char untuk Integer: 11 Digit');
 			} else {
 				edtgfrfltd.field('gfrfltd.type_data').fieldInfo('');

@@ -23,6 +23,7 @@
                     b.nama,
                     SUBSTRING_INDEX(SUBSTRING_INDEX(b.nama, "_", -1), ".", 1) urutan_awal,
                     b.is_required,
+                    b.is_number,
                     b.label,
                     b.type_data,
                     b.type
