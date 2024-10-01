@@ -48,16 +48,11 @@
                 )
         ');
 
-        $form_data = [
-            'nama' => $nama,
-        ];
-
         // Mengirim response sukses
         http_response_code(200);
         echo json_encode([
             "status" => "success", 
             "message" => "Data berhasil diterima",
-            "data" => $form_data,
         ]);
     } else {
         // Jika tidak ada data yang diterima
