@@ -17,11 +17,11 @@
         // Create the JSON
         $json = json_encode( $info );
         
-        $data_id = $info['data_id'];  
+        $m12 = $info['m12'];  
 
         $qi_si_training_peserta_m = $db
         ->raw()
-        ->bind(':data_id', $data_id)
+        ->bind(':m12', $m12)
         ->bind(':json', $json)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
@@ -35,13 +35,13 @@
                     1,
                     NOW(),
                     NOW(),
-                    :data_id,
+                    :m12,
                     :json
                 )
         ');
 
         $form_data = [
-            'data_id' => $data_id,
+            'm12' => $m12,
         ];
 
         // Mengirim response sukses
