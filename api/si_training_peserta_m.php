@@ -40,13 +40,13 @@
                     transaction_state,
                     start_at,
                     finish_at,
-                    nama,
-                    email,
-                    no_wa,
-                    domisili,
-                    sumber_info,
-                    profesi,
-                    alasan,
+                    -- nama,
+                    -- email,
+                    -- no_wa,
+                    -- domisili,
+                    -- sumber_info,
+                    -- profesi,
+                    -- alasan,
                     keterangan
                 )
                 VALUES 
@@ -54,13 +54,13 @@
                     1,
                     NOW(),
                     NOW(),
-                    :nama,
-                    :email,
-                    :no_wa,
-                    :domisili,
-                    :sumber_info,
-                    :profesi,
-                    :alasan,
+                    -- :nama,
+                    -- :email,
+                    -- :no_wa,
+                    -- :domisili,
+                    -- :sumber_info,
+                    -- :profesi,
+                    -- :alasan,
                     :json
                 )
         ');
