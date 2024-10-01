@@ -8,9 +8,9 @@ if ( ! empty( $_REQUEST ) ) {
     // Buat JSON
     $json = json_encode( $info );
     // Simpan dalam sebuah file
-    $filename = dirname( __FILE__ ) . '/nama_file.json';
-    // Kami tidak benar-benar memeriksa apakah file ada atau tidak
-    file_put_contents( $filename, $json );
+    $jsonData = file_get_contents('https://solusi-indonesia.com/eforms/pendaftaran-training-basic-salesmanship-online-copy/14/nama_file.json');
+$dataArray = json_decode($jsonData, true); // Mengubah JSON menjadi array PHP
+
 // Permintaan kosong, jadi keluar
 } else {
     echo 'Permintaan Buruk!';
