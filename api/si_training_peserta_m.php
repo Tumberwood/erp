@@ -21,7 +21,7 @@
         $nama = $info['nama'];  
         $no_wa = $info['no_wa'];  
         $domisili = $info['domisili'];  
-        $sumber_asal = $info['sumber_asal'];  
+        $sumber_info = $info['sumber_info'];  
         $profesi = $info['profesi'];  
         $alasan = $info['alasan'];  
         $email = $info['email'];  
@@ -32,7 +32,7 @@
         ->bind(':email', $email)
         ->bind(':no_wa', $no_wa)
         ->bind(':domisili', $domisili)
-        ->bind(':sumber_asal', $sumber_asal)
+        ->bind(':sumber_info', $sumber_info)
         ->bind(':profesi', $profesi)
         ->bind(':alasan', $alasan)
         ->bind(':json', $json)
@@ -44,7 +44,7 @@
                     email,
                     no_wa,
                     domisili,
-                    sumber_asal,
+                    sumber_info,
                     profesi,
                     alasan,
                     keterangan
@@ -58,7 +58,7 @@
                     :email,
                     :no_wa,
                     :domisili,
-                    :sumber_asal,
+                    :sumber_info,
                     :profesi,
                     :alasan,
                     :json
