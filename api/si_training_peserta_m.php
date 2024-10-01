@@ -26,21 +26,19 @@
                     transaction_state,
                     start_at,
                     finish_at,
-                    nama,
-                    keterangan
+                    nama
                 )
                 VALUES 
                 (
                     1,
                     NOW(),
                     NOW(),
-                    :data_id,
-                    '.$json.'
+                    :data_id
                 )
         ');
 
         $form_data = [
-            'nama' => $nama,
+            'data_id' => $data_id,
         ];
 
         // Mengirim response sukses
