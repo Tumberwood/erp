@@ -17,14 +17,14 @@
         // Create the JSON
         $json = json_encode( $info );
         
-        // $data_id = $info['data_id']; 
-        // $nama = $info['nama'];  
-        // $no_wa = $info['no_wa'];  
-        // $domisili = $info['domisili'];  
-        // $sumber_info = $info['sumber_info'];  
-        // $profesi = $info['profesi'];  
-        // $alasan = $info['alasan'];  
-        // $email = $info['email'];  
+        $data_id = $info['data_id']; 
+        $nama = $info['nama'];  
+        $no_wa = $info['no_wa'];  
+        $domisili = $info['domisili'];  
+        $sumber_info = $info['sumber_info'];  
+        $profesi = $info['profesi'];  
+        $alasan = $info['alasan'];  
+        $email = $info['email'];  
 
         $qi_si_training_peserta_m = $db
         ->raw()
@@ -38,21 +38,40 @@
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
-                    finish_at
+                    finish_at,
+                    nama,
+                    email,
+                    no_wa,
+                    domisili,
+                    sumber_info,
+                    profesi,
+                    alasan
                 )
                 VALUES 
                 (
                     1,
                     NOW(),
-                    NOW()
+                    NOW(),
+                    :nama,
+                    :email,
+                    :no_wa,
+                    :domisili,
+                    :sumber_info,
+                    :profesi,
+                    :alasan
                 )
         ');
+
+        $form_data = [
+            'nama' => $nama,
+        ];
 
         // Mengirim response sukses
         http_response_code(200);
         echo json_encode([
             "status" => "success", 
             "message" => "Data berhasil diterima",
+            "data" => $form_data,
         ]);
     } else {
         // Jika tidak ada data yang diterima
