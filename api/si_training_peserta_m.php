@@ -25,20 +25,16 @@ if (!empty($_REQUEST)) {
     // Save JSON to file
     file_put_contents($filename, $json);
 
-    // Handle incoming JSON data
-    $jsonData = file_get_contents('php://input');
-    // Convert JSON into a PHP array
-    $data = json_decode($jsonData, true);
+    // Prepare data for insertion into the database
+    $nama = isset($info['nama']) ? $info['nama'] : '';
+    $no_wa = isset($info['no_wa']) ? $info['no_wa'] : '';
+    $domisili = isset($info['domisili']) ? $info['domisili'] : '';
+    $profesi = isset($info['profesi']) ? $info['profesi'] : '';
+    $sumber_info = isset($info['sumber_info']) ? $info['sumber_info'] : ''; // Dapat info dari mana?
+    $alasan = isset($info['alasan']) ? $info['alasan'] : '';  // alasan 3 kata
 
-    // Check if data is received
-    if ($data) {
-        $nama = $data['nama'];
-        $no_wa = $data['no_wa'];
-        $domisili = $data['domisili'];
-        $profesi = $data['profesi'];
-        $sumber_info = $data['sumber_info'];
-        $alasan = $data['alasan'];
-
+    // Check if all required fields are present
+    if (!empty($nama) && !empty($no_wa) && !empty($domisili) && !empty($profesi) && !empty($sumber_info) && !empty($alasan)) {
         // Insert data into database
         $qi_si_training_peserta_m = $db
             ->raw()
@@ -87,13 +83,13 @@ if (!empty($_REQUEST)) {
         http_response_code(200);
         echo json_encode([
             "status" => "success",
-            "message" => "Data berhasil diterima",
+            "message" => "Data berhasil diterima dan disimpan.",
             "data" => $form_data,
         ]);
     } else {
-        // If no data is received
+        // If required fields are missing
         http_response_code(400);
-        echo json_encode(["status" => "error", "message" => "Tidak ada data yang diterima"]);
+        echo json_encode(["status" => "error", "message" => "Semua field diperlukan."]);
     }
 } else {
     // Request is empty, so exit
