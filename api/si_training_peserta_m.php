@@ -19,21 +19,34 @@
         
         $data_id = $info['data_id']; 
         // $nama = $info['nama_lengkap'];  
-        // $no_wa = $info['no_wa'];  
-        // $domisili = $info['domisili'];  
-        // $sumber_asal = $info['sumber_asal'];  
-        // $profesi = $info['profesi'];  
-        // $alasan = $info['alasan'];  
+        $no_wa = $info['no_wa'];  
+        $domisili = $info['domisili'];  
+        $sumber_asal = $info['sumber_asal'];  
+        $profesi = $info['profesi'];  
+        $alasan = $info['alasan'];  
+        $email = $info['email'];  
 
         $qi_si_training_peserta_m = $db
         ->raw()
         ->bind(':data_id', $data_id)
+        ->bind(':email', $email)
+        ->bind(':no_wa', $no_wa)
+        ->bind(':domisili', $domisili)
+        ->bind(':sumber_asal', $sumber_asal)
+        ->bind(':profesi', $profesi)
+        ->bind(':alasan', $alasan)
         ->bind(':json', $json)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
                     finish_at,
                     nama,
+                    email,
+                    no_wa,
+                    domisili,
+                    sumber_asal,
+                    profesi,
+                    alasan,
                     keterangan
                 )
                 VALUES 
@@ -42,6 +55,12 @@
                     NOW(),
                     NOW(),
                     :data_id,
+                    :email,
+                    :no_wa,
+                    :domisili,
+                    :sumber_asal,
+                    :profesi,
+                    :alasan,
                     :json
                 )
         ');
