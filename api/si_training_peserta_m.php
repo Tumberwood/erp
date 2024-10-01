@@ -18,6 +18,8 @@ if (!empty($_REQUEST)) {
     // Save HTTP METHOD for debugging
     $info['method'] = $_SERVER['REQUEST_METHOD'];
 
+    print_r($info['method']);
+
     // Create the JSON for storage in a file
     $json = json_encode($info);
     // Store it in a file
