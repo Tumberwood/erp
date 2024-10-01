@@ -19,53 +19,29 @@
     // Mengecek apakah data diterima
     if ($data) {
 
-        $nama = $data['nama'];  
-        $no_wa = $data['no_wa']; 
-        $domisili = $data['domisili']; 
-        $profesi = $data['profesi']; 
-        $sumber_info = $data['sumber_info']; //Dapat info dari mana?
-        $alasan = $data['alasan'];  //alasan 3 kata
+        $data_id = $data['data_id'];  
+       
 
         $qi_si_training_peserta_m = $db
         ->raw()
-        ->bind(':nama', $nama)
-        ->bind(':no_wa', $no_wa)
-        ->bind(':domisili', $domisili)
-        ->bind(':profesi', $profesi)
-        ->bind(':sumber_info', $sumber_info)
-        ->bind(':alasan', $alasan)
+        ->bind(':data_id', $data_id)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
                     finish_at,
-                    nama,
-                    no_wa,
-                    domisili,
-                    profesi,
-                    sumber_info,
-                    alasan
+                    nama
                 )
                 VALUES 
                 (
                     1,
                     NOW(),
                     NOW(),
-                    :nama,
-                    :no_wa,
-                    :domisili,
-                    :profesi,
-                    :sumber_info,
-                    :alasan
+                    :data_id
                 )
         ');
 
         $form_data = [
-            'nama' => $nama,
-            'no_wa' => $no_wa,
-            'domisili' => $domisili,
-            'profesi' => $profesi,
-            'sumber_info' => $sumber_info,
-            'alasan' => $alasan,
+            'data_id' => $data_id,
         ];
 
         // Mengirim response sukses
