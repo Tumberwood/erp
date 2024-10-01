@@ -46,6 +46,7 @@
 			Field::inst( 'si_training_peserta_m.profesi' ),
 			Field::inst( 'si_training_peserta_m.sumber_info' ),
 			Field::inst( 'si_training_peserta_m.alasan' ),
+			Field::inst( 'si_training_peserta_m.email' ),
 
 		)
 		;

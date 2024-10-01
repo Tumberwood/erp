@@ -23,6 +23,7 @@
                                 <th>ID</th>
                                 <th>Nama</th>
                                 <th>No Whatsapp</th>
+                                <th>Email</th>
                                 <th>Domisili</th>
                                 <th>Profesi saat ini </th>
                                 <th>Dapat Info Darimana</th>
@@ -113,6 +114,10 @@
 					name: "si_training_peserta_m.domisili",
 				},
 				{
+					label: "Email <sup class='text-danger'>*<sup>",
+					name: "si_training_peserta_m.email",
+				},
+				{
 					label: "Profesi saat ini <sup class='text-danger'>*<sup>",
 					name: "si_training_peserta_m.profesi",
 				},
@@ -156,6 +161,7 @@
 				no_wa = edtsi_training_peserta_m.field('si_training_peserta_m.no_wa').val();
 				nama = edtsi_training_peserta_m.field('si_training_peserta_m.nama').val();
 				domisili = edtsi_training_peserta_m.field('si_training_peserta_m.domisili').val();
+				email = edtsi_training_peserta_m.field('si_training_peserta_m.email').val();
 				profesi = edtsi_training_peserta_m.field('si_training_peserta_m.profesi').val();
 				sumber_info = edtsi_training_peserta_m.field('si_training_peserta_m.sumber_info').val();
 				alasan = edtsi_training_peserta_m.field('si_training_peserta_m.alasan').val();
@@ -167,11 +173,17 @@
 						'no_wa': no_wa,
 						'nama': nama,
 						'domisili': domisili,
+						'email': email,
 						'profesi': profesi,
 						'sumber_info': sumber_info,
 						'alasan': alasan,
 					}
 				);
+
+				var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailRegex.test(email)) {
+					edtsi_training_peserta_m.field('si_training_peserta_m.email').error('Format email tidak valid!');
+				}
 
 				validasiUnique(
 					action,
@@ -229,6 +241,7 @@
 				{ data: "si_training_peserta_m.id",visible:false },
 				{ data: "si_training_peserta_m.nama" },
 				{ data: "si_training_peserta_m.no_wa" },
+				{ data: "si_training_peserta_m.email" },
 				{ data: "si_training_peserta_m.domisili" },
 				{ data: "si_training_peserta_m.profesi" },
 				{ data: "si_training_peserta_m.sumber_info" },
