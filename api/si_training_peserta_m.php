@@ -35,33 +35,30 @@
         ->bind(':sumber_info', $sumber_info)
         ->bind(':profesi', $profesi)
         ->bind(':alasan', $alasan)
-        ->bind(':json', $json)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
                     finish_at,
-                    -- nama,
-                    -- email,
-                    -- no_wa,
-                    -- domisili,
-                    -- sumber_info,
-                    -- profesi,
-                    -- alasan,
-                    keterangan
+                    nama,
+                    email,
+                    no_wa,
+                    domisili,
+                    sumber_info,
+                    profesi,
+                    alasan
                 )
                 VALUES 
                 (
                     1,
                     NOW(),
                     NOW(),
-                    -- :nama,
-                    -- :email,
-                    -- :no_wa,
-                    -- :domisili,
-                    -- :sumber_info,
-                    -- :profesi,
-                    -- :alasan,
-                    :json
+                    :nama,
+                    :email,
+                    :no_wa,
+                    :domisili,
+                    :sumber_info,
+                    :profesi,
+                    :alasan
                 )
         ');
 
