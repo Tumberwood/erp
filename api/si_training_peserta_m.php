@@ -26,7 +26,7 @@
                     transaction_state,
                     start_at,
                     finish_at,
-                    data_id,
+                    nama,
                     keterangan
                 )
                 VALUES 
