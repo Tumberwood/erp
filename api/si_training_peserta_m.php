@@ -36,6 +36,8 @@
         ->bind(':alasan', $alasan)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
+                    start_at,
+                    finish_at,
                     nama,
                     no_wa,
                     domisili,
@@ -45,6 +47,8 @@
                 )
                 VALUES 
                 (
+                    NOW(),
+                    NOW(),
                     1,
                     :nama,
                     :no_wa,
