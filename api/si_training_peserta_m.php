@@ -47,9 +47,9 @@
                 )
                 VALUES 
                 (
-                    NOW(),
-                    NOW(),
                     1,
+                    NOW(),
+                    NOW(),
                     :nama,
                     :no_wa,
                     :domisili,
