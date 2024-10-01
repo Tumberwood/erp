@@ -19,12 +19,12 @@
     // Mengecek apakah data diterima
     if ($data) {
 
-        $nama = $data['form_data']['freetype'][0]['value'];
-        $no_wa = $data['form_data']['freetype'][1]['value'];
-        $domisili = $data['form_data']['freetype'][2]['value'];
-        $profesi = $data['form_data']['freetype'][3]['value'];
-        $sumber_info = $data['form_data']['freetype'][4]['value'];
-        $alasan = $data['form_data']['freetype'][5]['value'];
+        $nama = $data['nama'];  
+        $no_wa = $data['no_wa']; 
+        $domisili = $data['domisili']; 
+        $profesi = $data['profesi']; 
+        $sumber_info = $data['sumber_info']; //Dapat info dari mana?
+        $alasan = $data['alasan'];  //alasan 3 kata
 
         $qi_si_training_peserta_m = $db
         ->raw()
