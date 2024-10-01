@@ -18,7 +18,7 @@
         $json = json_encode( $info );
         
         $data_id = $info['data_id']; 
-        // $nama = $info['nama_lengkap'];  
+        $nama = $info['nama'];  
         $no_wa = $info['no_wa'];  
         $domisili = $info['domisili'];  
         $sumber_asal = $info['sumber_asal'];  
@@ -28,7 +28,7 @@
 
         $qi_si_training_peserta_m = $db
         ->raw()
-        ->bind(':data_id', $data_id)
+        ->bind(':nama', $nama)
         ->bind(':email', $email)
         ->bind(':no_wa', $no_wa)
         ->bind(':domisili', $domisili)
@@ -54,7 +54,7 @@
                     1,
                     NOW(),
                     NOW(),
-                    :data_id,
+                    :nama,
                     :email,
                     :no_wa,
                     :domisili,
@@ -66,7 +66,7 @@
         ');
 
         $form_data = [
-            'data_id' => $data_id,
+            'nama' => $nama,
         ];
 
         // Mengirim response sukses
