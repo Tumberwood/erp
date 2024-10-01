@@ -22,18 +22,21 @@
         $qi_si_training_peserta_m = $db
         ->raw()
         ->bind(':data_id', $data_id)
+        ->bind(':json', $json)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
                     finish_at,
-                    nama
+                    nama,
+                    keterangan
                 )
                 VALUES 
                 (
                     1,
                     NOW(),
                     NOW(),
-                    :data_id
+                    :data_id,
+                    :json
                 )
         ');
 
