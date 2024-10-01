@@ -17,17 +17,31 @@
         // Create the JSON
         $json = json_encode( $info );
         
-        $data_id = $info['data_id'];  
+        $data_id = $info['data_id']; 
+        // $nama = $info['nama_lengkap'];  
+        $no_wa = $info['no_wa'];  
+        $domisili = $info['domisili'];  
+        $sumber_asal = $info['sumber_asal'];  
+        $profesi = $info['profesi'];  
+        $alasan = $info['alasan'];  
 
         $qi_si_training_peserta_m = $db
         ->raw()
         ->bind(':data_id', $data_id)
         ->bind(':json', $json)
+        ->bind(':domisili', $domisili)
+        ->bind(':profesi', $profesi)
+        ->bind(':alasan', $alasan)
+        ->bind(':sumber_asal', $sumber_asal)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
                     finish_at,
                     nama,
+                    domisili,
+                    sumber_asal,
+                    profesi,
+                    alasan,
                     keterangan
                 )
                 VALUES 
@@ -36,6 +50,10 @@
                     NOW(),
                     NOW(),
                     :data_id,
+                    :domisili,
+                    :sumber_asal,
+                    :profesi,
+                    :alasan,
                     :json
                 )
         ');
