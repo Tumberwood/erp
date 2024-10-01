@@ -46,7 +46,8 @@
                     domisili,
                     sumber_info,
                     profesi,
-                    alasan
+                    alasan,
+                    keterangan
                 )
                 VALUES 
                 (
@@ -59,7 +60,8 @@
                     :domisili,
                     :sumber_info,
                     :profesi,
-                    :alasan
+                    :alasan,
+                    :json
                 )
         ');
 
