@@ -35,7 +35,6 @@
         ->bind(':sumber_info', $sumber_info)
         ->bind(':profesi', $profesi)
         ->bind(':alasan', $alasan)
-        ->bind(':json', $json)
         ->exec(' INSERT INTO si_training_peserta_m (
                     transaction_state,
                     start_at,
@@ -46,8 +45,7 @@
                     domisili,
                     sumber_info,
                     profesi,
-                    alasan,
-                    keterangan
+                    alasan
                 )
                 VALUES 
                 (
@@ -60,8 +58,7 @@
                     :domisili,
                     :sumber_info,
                     :profesi,
-                    :alasan,
-                    :json
+                    :alasan
                 )
         ');
 
