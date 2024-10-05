@@ -147,7 +147,7 @@
 	tableRelation('si_training_h');
 
 	$(document).ready(function() {
-		$('#end_date').datepicker('setDate', today_add_m_ymd);
+		$('#end_date').datepicker('setDate', today_add_m_dmy);
 
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
