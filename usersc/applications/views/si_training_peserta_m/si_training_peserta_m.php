@@ -23,6 +23,7 @@
                                 <th>ID</th>
                                 <th>Nama</th>
                                 <th>No Whatsapp</th>
+                                <th>WA Group</th>
                                 <th>Email</th>
                                 <th>Domisili</th>
                                 <th>Profesi saat ini </th>
@@ -108,6 +109,16 @@
 				{
 					label: "No Whatsapp <sup class='text-danger'>*<sup>",
 					name: "si_training_peserta_m.no_wa",
+				},
+				{
+					label: "Sudah Add WA GRoup",
+					name: "si_training_peserta_m.is_wa_grup",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
 				},
 				{
 					label: "Domisili <sup class='text-danger'>*<sup>",
@@ -241,6 +252,10 @@
 				{ data: "si_training_peserta_m.id",visible:false },
 				{ data: "si_training_peserta_m.nama" },
 				{ data: "si_training_peserta_m.no_wa" },
+				{ 
+					data: "si_training_peserta_m.is_wa_grup" ,
+					...renderYaTidak()
+				},
 				{ data: "si_training_peserta_m.email" },
 				{ data: "si_training_peserta_m.domisili" },
 				{ data: "si_training_peserta_m.profesi" },
