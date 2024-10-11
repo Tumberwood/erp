@@ -83,7 +83,7 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hrcivth</th>
-										<th>Jelaskan kenapa kami harus merekrut anda sebagai karyawan disini! </th>
+										<th id="interview"></th>
 									</tr>
 								</thead>
 							</table>
@@ -144,6 +144,8 @@
 
 	// get tableRelation
 	tableRelation('hrcivth');
+	interviewPertama();
+	
 
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
