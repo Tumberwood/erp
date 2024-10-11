@@ -156,6 +156,7 @@
 					placeholder : "Select",
 					options: [
 						{ "label": "Candidate", "value": "hcdxxmh" },
+						{ "label": "Interview Candidate", "value": "hrcivtd" },
 					]
 				}, 	
 				{
@@ -241,6 +242,8 @@
 					render: function (data){	
 						if (data == 'hcdxxmh'){
 							return 'Candidate';
+						}else if (data == 'hrcivtd'){
+							return 'Interview Candidate';
 						}else{
 							return '';
 						}
