@@ -83,9 +83,7 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hrcivth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
+										<th>Jelaskan kenapa kami harus merekrut anda sebagai karyawan disini! </th>
 									</tr>
 								</thead>
 							</table>
@@ -507,9 +505,7 @@
 			columns: [
 				{ data: "hrcivtd.id",visible:false },
 				{ data: "hrcivtd.id_hrcivth",visible:false },
-				{ data: "hrcivtd.kode" },
-				{ data: "hrcivtd.nama" },
-				{ data: "hrcivtd.keterangan" }
+				{ data: "hrcivtd.field_1" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
