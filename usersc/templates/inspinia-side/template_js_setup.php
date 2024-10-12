@@ -245,7 +245,7 @@
 		minViewMode: 'month' 
 	});
 	$('#start_date').datepicker('setDate', awal_bulan_dmy);
-	$('#end_date').datepicker('setDate', today_add_m_ymd);
+	$('#end_date').datepicker('setDate', today_add_m_dmy);
 	// END datepicker init
 	
 	
