@@ -49,10 +49,6 @@
 				</div>
 
 				<div class="table-responsive">
-					<div id="frmhrcivtd">
-						<div class="panel-body">
-						</div>
-					</div>
                     <table id="tblhrcivth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -78,6 +74,10 @@
 				<div role="tabpanel" id="tabhrcivtd_1" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
+							<div id="frmhrcivtd">
+								<div class="panel-body">
+								</div>
+							</div>
 							<table id="tblhrcivtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
@@ -386,7 +386,7 @@
 		tblhrcivth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('hrcivth');
-			
+			id_hrcemtd_old = hrcivth_data.id_hrcemtd;
 			// atur hak akses
 			tbl_details = [tblhrcivtd];
 			CekSelectHeaderHD(tblhrcivth, tbl_details);
@@ -396,6 +396,7 @@
 		tblhrcivth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hrcivth');
+			id_hrcemtd_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblhrcivtd];
@@ -488,6 +489,9 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tblhrcivth.ajax.reload(null, false);
+			tblhrcivtd.rows().deselect();
+			tblhrcivtd.ajax.reload(null, false);
 		} );
 
 		edthrcivtd.on( 'close', function () {

@@ -1,9 +1,9 @@
 <?php 
     /**
-     * Digunakan untuk populate options data _blank
-     * Table terkait    : _blank
+     * Digunakan untuk populate options data holxxmh
+     * Table terkait    : holxxmh
      * Parameter        : 
-     *  - id__blank_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_holxxmh_old       : data existing (untuk keperluan edit), dipakai di query self
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,73 +22,73 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id__blank_old'] > 0){
-        $id__blank_old = $_GET['id__blank_old'];
+    if($_GET['id_holxxmh_old'] > 0){
+        $id_holxxmh_old = $_GET['id_holxxmh_old'];
     }else{
-        $id__blank_old = 0;
+        $id_holxxmh_old = 0;
     }
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id__blank_old > 0){
-        $qs__blank_self = $db
-            ->query('select', '_blank')
+    if($id_holxxmh_old > 0){
+        $qs_holxxmh_self = $db
+            ->query('select', 'holxxmh')
             ->get([
-                '_blank.id as id',
+                'holxxmh.id as id',
                 'IF(
-                    _blank.kode IS NULL, 
-                    _blank.nama,
+                    holxxmh.kode IS NULL, 
+                    holxxmh.nama,
                     IF(
-                        _blank.nama IS NULL, 
-                        _blank.kode,
-                        CONCAT(_blank.kode," - ",_blank.nama)
+                        holxxmh.nama IS NULL, 
+                        holxxmh.kode,
+                        CONCAT(holxxmh.kode," - ",holxxmh.nama)
                     )
                 ) as text'
             ])
-            ->where('_blank..id', $id__blank_old )
+            ->where('holxxmh..id', $id_holxxmh_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
-        $rs__blank_self = $qs__blank_self->fetchAll();
+        $rs_holxxmh_self = $qs_holxxmh_self->fetchAll();
     }else{
-        $rs__blank_self = [];
+        $rs_holxxmh_self = [];
     }
     // END query options self
 
     // BEGIN query options all except self
-    $qs__blank_all = $db
-        ->query('select', '_blank')
+    $qs_holxxmh_all = $db
+        ->query('select', 'holxxmh')
         ->get([
-            '_blank.id as id',
+            'holxxmh.id as id',
             'IF(
-                _blank.kode IS NULL, 
-                _blank.nama,
+                holxxmh.kode IS NULL, 
+                holxxmh.nama,
                 IF(
-                    _blank.nama IS NULL, 
-                    _blank.kode,
-                    CONCAT(_blank.kode," - ",_blank.nama)
+                    holxxmh.nama IS NULL, 
+                    holxxmh.kode,
+                    CONCAT(holxxmh.kode," - ",holxxmh.nama)
                 )
             ) as text'
         ])
-        ->where('_blank.transaction_state',1)
-        ->where('_blank.id', $id__blank_old, '<>' )
+        ->where('holxxmh.transaction_state',1)
+        ->where('holxxmh.id', $id_holxxmh_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('_blank.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('_blank.nama', '%' . $q . '%', 'LIKE' );
+                ->where('holxxmh.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('holxxmh.nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
-    $rs__blank_all = $qs__blank_all->fetchAll();
+    $rs_holxxmh_all = $qs_holxxmh_all->fetchAll();
     // END query options all except self
     
     // BEGIN menggabungkan options
-    if(count($rs__blank_self) > 0){
-        $rs_opt = array_merge($rs__blank_self, $rs__blank_all);
+    if(count($rs_holxxmh_self) > 0){
+        $rs_opt = array_merge($rs_holxxmh_self, $rs_holxxmh_all);
     }else{
-        $rs_opt = $rs__blank_all;
+        $rs_opt = $rs_holxxmh_all;
     }
     $c_rs_opt = count($rs_opt);    
     // END menggabungkan options

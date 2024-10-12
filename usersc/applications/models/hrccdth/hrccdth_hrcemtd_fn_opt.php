@@ -37,7 +37,8 @@
                 'hrcemtd.id as id',
                 'hcdxxmh.nama as text'
             ])
-            ->where('hrcemtd..id', $id_hrcemtd_old )
+            ->join('hcdxxmh','hcdxxmh.id = hrcemtd.id_hcdxxmh','LEFT' )
+            ->where('hrcemtd.id', $id_hrcemtd_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
