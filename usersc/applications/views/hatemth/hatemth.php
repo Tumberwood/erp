@@ -79,7 +79,7 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hatemth</th>
-										<th>Kompensasi</th>
+										<th>Compensation</th>
 										<th>Nominal</th>
 									</tr>
 								</thead>
@@ -503,7 +503,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Kompensasi <sup class='text-danger'>*<sup>", 
+					label: "Compensation <sup class='text-danger'>*<sup>", 
 					name: "hatemtd.id_hpcxxmh",
 					type: "select2",
 					opts: {
