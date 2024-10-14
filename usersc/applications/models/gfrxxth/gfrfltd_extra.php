@@ -31,7 +31,7 @@
 			$q_alter_table = $editor->db()
 			->raw()
 			->exec('ALTER TABLE `' . $rs_gfrfltd['nama_tabel'] . '` 
-					ADD COLUMN IF NOT EXISTS `' . $rs_gfrfltd['field_name'] . '` ' . $type_data . ';'
+					ADD COLUMN `' . $rs_gfrfltd['field_name'] . '` ' . $type_data . ';'
 			);
 
 		})
