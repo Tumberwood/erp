@@ -602,7 +602,7 @@
 		});
 
 		edthrolxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirmHD();
 		});
 		
