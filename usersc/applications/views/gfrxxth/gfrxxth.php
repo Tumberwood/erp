@@ -157,6 +157,7 @@
 					options: [
 						{ "label": "Candidate", "value": "hcdxxmh" },
 						{ "label": "Interview Candidate", "value": "hrcivtd" },
+						{ "label": "Exit Interview", "value": "hateitd" },
 					]
 				}, 	
 				{
@@ -244,6 +245,8 @@
 							return 'Candidate';
 						}else if (data == 'hrcivtd'){
 							return 'Interview Candidate';
+						}else if (data == 'hateitd'){
+							return 'Exit Interview';
 						}else{
 							return '';
 						}
