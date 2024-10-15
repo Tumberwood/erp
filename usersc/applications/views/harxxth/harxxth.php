@@ -468,7 +468,7 @@
 		});
 
 		edtharxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();

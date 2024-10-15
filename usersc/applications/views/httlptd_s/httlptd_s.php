@@ -253,6 +253,7 @@
 				}
 			]
 		} );
+		edthttlptd.field('httlptd.jenis').hide();
 
 		edthttlptd.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -299,7 +300,7 @@
 				jenis_jam = autofillData.jenis_jam;
 				jenis = autofillData.jenis;
 				edthttlptd.field('httlptd.jenis').val(jenis);
-				
+
 				if (jenis == 2) {
 					//Jika Harian
 					

@@ -289,7 +289,7 @@
 				}
 			]
 		} );
-			edthttlptd.field('httlptd.jenis').disable();
+		edthttlptd.field('httlptd.jenis').hide();
 
 		edthttlptd.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
