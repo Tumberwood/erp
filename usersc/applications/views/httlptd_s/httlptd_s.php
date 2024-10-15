@@ -154,16 +154,6 @@
 					def: 0
 				},	
 				{
-					label: "Jenis",
-					name: "httlptd.jenis",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Hari", "value": 1 },
-						{ "label": "Jam", "value": 2 }
-					]
-				},
-				{
 					label: "Nama Izin/Cuti <sup class='text-danger'>*<sup>",
 					name: "httlptd.id_httlpmh",
 					type: "select2",
@@ -200,6 +190,16 @@
 							minimumResultsForSearch: -1,
 						},
 					}
+				},
+				{
+					label: "Jenis",
+					name: "httlptd.jenis",
+					type: "select",
+					placeholder : "",
+					options: [
+						{ "label": "Hari", "value": 1 },
+						{ "label": "Jam", "value": 2 }
+					]
 				},
 				{
 					label: "Tanggal Awal <sup class='text-danger'>*<sup>", 
@@ -295,10 +295,12 @@
 
 		edthttlptd.dependent( 'httlptd.id_httlpmh', function ( val, data, callback ) {
 			if (val > 0) {
-				jenis = edthttlptd.field('httlptd.jenis').val();
+				autofillField("httlpmh", val, "jenis_jam, jenis");
+				jenis_jam = autofillData.jenis_jam;
+				jenis = autofillData.jenis;
+				edthttlptd.field('httlptd.jenis').val(jenis);
+				
 				if (jenis == 2) {
-					autofillField("httlpmh", val, "jenis_jam");
-					jenis_jam = autofillData.jenis_jam;
 					//Jika Harian
 					
 					if(jenis_jam == 1){
