@@ -35,6 +35,7 @@
 				</div>
 			</div>
 		</div>
+    <button type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
 		<button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
 	</form>
 </div>	
@@ -45,13 +46,18 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModal1Label">Petunjuk disc Sesi 1</h5>
+        <h5 class="modal-title" id="myModal1Label">Instruksi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-    	<!-- <img src="part1/hint/1.jpg" style="width: 440px;"> -->
+        Setiap nomor dibawah ini memuat 4 (empat) kalimat. Tugas anda adalah:
+        <ul>
+          <li>Klik pada kolom dibawah huruf [<b>P</b>] di samping kalimat yang <b>PALING menggambarkan</b> diri anda</li>
+          <li>Klik pada kolom dibawah huruf [<b>K</b>] di samping kalimat yang <b>PALING TIDAK menggambarkan</b> diri anda</li>
+        </ul>
+        <p class="text-danger"> <b>PERHATIKAN</b>: Setiap nomor hanya ada 1 (satu) tanda dibawah masing-masing kolom <b>P</b> dan <b>K</b>.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -61,6 +67,7 @@
 </div>
 
 <div id="quiz1" style="display: none;">
+
 	<div class="ibox">
 		<div class="ibox-content">
 			<?php
