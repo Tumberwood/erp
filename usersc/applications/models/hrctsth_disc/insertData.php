@@ -1428,6 +1428,7 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
 
         $qi_hrctstd_disc = $editor->db()
             ->query('insert', 'hrctstd_disc')
+            ->set('transaction_state',1)
             ->set('id_hrctsth_disc',$id_hrctsth_disc)
             ->set('hasil_line1',$akhir_line1)
             ->set('hasil_line2',$akhir_line2)
