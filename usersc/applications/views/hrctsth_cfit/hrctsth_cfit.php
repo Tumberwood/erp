@@ -36,51 +36,47 @@
   }
 </style>
 <div class="container">
-    <form id="cfitForm">
-      
-      <div class="form-group row">
-        <label class="col-lg-2 col-form-label">Kode CFIT</label>
-        <div class="col-lg-5">
-          <input type="text" class="form-control" id="kode" name="kode" required>
-        </div>
+  <form id="cfitForm">
+    <div class="form-group row">
+      <label class="col-lg-2 col-form-label">Kode CFIT</label>
+      <div class="col-lg-5">
+        <input type="text" class="form-control" id="kode" name="kode" required>
       </div>
+    </div>
 
-      <div class="form-group row">
-        <label class="col-lg-2 col-form-label">Nama Kandidat</label>
-        <div class="col-lg-5">
-          <input type="text" class="form-control" id="nama" name="nama" disabled>
-        </div>
+    <div class="form-group row">
+      <label class="col-lg-2 col-form-label">Nama Kandidat</label>
+      <div class="col-lg-5">
+        <input type="text" class="form-control" id="nama" name="nama" disabled>
       </div>
+    </div>
 
-      <div class="form-group row">
-        <div class="col-lg-3">
-          <button type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Petunjuk Sesi 1</button>
-          <button type="button" id="button_modal2" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Petunjuk Sesi 2</button>
-          <button type="button" id="button_modal3" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Petunjuk Sesi 3</button>
-          <button type="button" id="button_modal4" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Petunjuk Sesi 4</button>
-        </div>
-        <div class="col-lg-3">
-        <button type="button" id="mulaiCFIT1" class="btn btn-primary" onclick="startQuiz()">Mulai Sesi 1</button>
-          <button type="button" id="mulaiCFIT2" class="btn btn-primary" onclick="startQuiz2()">Mulai Sesi 2</button>
-          <button type="button" id="mulaiCFIT3" class="btn btn-primary" onclick="startQuiz3()">Mulai Sesi 3</button>
-          <button type="button" id="mulaiCFIT4" class="btn btn-primary" onclick="startQuiz4()">Mulai Sesi 4</button>
-        </div>
+    <div class="form-group row">
+      <div class="col-lg-3">
+        <button type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Petunjuk Sesi 1</button>
+        <button type="button" id="button_modal2" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Petunjuk Sesi 2</button>
+        <button type="button" id="button_modal3" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Petunjuk Sesi 3</button>
+        <button type="button" id="button_modal4" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Petunjuk Sesi 4</button>
       </div>
+      <div class="col-lg-3">
+      <button type="button" id="mulaiCFIT1" class="btn btn-primary" onclick="startQuiz()">Mulai Sesi 1</button>
+        <button type="button" id="mulaiCFIT2" class="btn btn-primary" onclick="startQuiz2()">Mulai Sesi 2</button>
+        <button type="button" id="mulaiCFIT3" class="btn btn-primary" onclick="startQuiz3()">Mulai Sesi 3</button>
+        <button type="button" id="mulaiCFIT4" class="btn btn-primary" onclick="startQuiz4()">Mulai Sesi 4</button>
+      </div>
+    </div>
 
-      <div class="row" style="display: none">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label for="id_hcd"></label>
-            <input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
-          </div>
+    <div class="row" style="display: none">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="id_hcd"></label>
+          <input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
         </div>
       </div>
-      <button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
-		</div>
+    </div>
+    <button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
 	</form>
-  </div>	
-
-
+</div>	
 
 <!-- Modal -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">

@@ -1,0 +1,91 @@
+<?php
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+
+<?php
+	$nama_tabel    = 'hrctsth_disc';
+	$nama_tabels_d = [];
+?>
+
+<div class="container">
+	<form id="discForm">
+		<div class="form-group row">
+			<label class="col-lg-2 col-form-label">Kode DISC</label>
+			<div class="col-lg-5">
+				<input type="text" class="form-control" id="kode" name="kode" required>
+			</div>
+		</div>
+			
+		<div class="form-group row">
+			<label class="col-lg-2 col-form-label">Nama Kandidat</label>
+			<div class="col-lg-5">
+				<input type="text" class="form-control" id="nama" name="nama" disabled>
+			</div>
+		</div>
+		
+		<div class="row" style="display: none">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="id_hcd"></label>
+					<input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
+				</div>
+			</div>
+		</div>
+		<button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
+	</form>
+</div>	
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModal1Label">Petunjuk disc Sesi 1</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    	<!-- <img src="part1/hint/1.jpg" style="width: 440px;"> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="quiz1" style="display: none;">
+	<div class="ibox">
+		<div class="ibox-content">
+			<?php
+				include 'disc.php'; // Include the HTML file
+			?>
+		</div>
+	</div>
+</div>
+
+<!-- BEGIN JS -->
+<?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php'; ?>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hrctsth_disc/fn/hrctsth_disc_fn.php'; ?>
+
+<script>	
+	document.getElementById('id_hcd').style.display = 'none';
+	//hide sesi 1
+	// document.getElementById('mulaidisc1').style.display = 'none';
+	// document.getElementById('button_modal1').style.display = 'none';
+	document.getElementById('quiz1').style.display = 'none';
+</script>
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
