@@ -32,7 +32,7 @@
 					d.kode AS iumxxmh_kode,
 					a.jumlah_unit,
 					f.username user_create,
-					g.username user_approve,
+					IFNULL(g.username, "Auto Approve by System") user_approve,
 					b.tanggal
 				FROM prcittd a
 				LEFT JOIN prcxxth b ON b.id = a.id_prcxxth
@@ -122,10 +122,10 @@
 		<table width="100%">
 			<thead>
 				<tr>
-					<td class="text-center font-bold bas">Kode Barang</td>
-					<td class="text-center font-bold bas">Nama Barang</td>
-					<td class="text-center font-bold bas">Jumlah Unit PRC</td>
-					<td class="text-center font-bold bas">UoM Unit PRC</td>
+					<td class="text-center font-bold bas">Kode</td>
+					<td class="text-center font-bold bas">Nama</td>
+					<td class="text-center font-bold bas">Quantity</td>
+					<td class="text-center font-bold bas">UOM</td>
 				</tr>
 			</thead>
 			<tbody>
