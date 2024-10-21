@@ -98,7 +98,7 @@
     }
 
 </style>
-<h4 class="text-center">Hasil Tes Papi Kostik <?php echo $results_select['peg'] ?> </h4>
+<h5 class="text-center">Hasil Tes Papi Kostik <?php echo $results_select['peg'] ?> </h5>
 <!-- <h6 class="text-center"><?php echo $results_select['peg'] ?> </h6> -->
 <div class="container mt-4 d-flex justify-content-center align-items-center">
     <table>

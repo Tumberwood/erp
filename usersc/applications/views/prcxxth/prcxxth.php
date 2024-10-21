@@ -66,10 +66,13 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.id_iwhxxmh"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth.referensi_nomor"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth.referensi_nomor"></editor-field>
+								<editor-field name="prcxxth.mobil_nomor"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.supir_nama"></editor-field>
@@ -404,6 +407,10 @@
 					name: "prcxxth.supir_nama"
 				},
 				{
+					label: "No Kendaraan <sup class='text-danger'>*<sup>",
+					name: "prcxxth.mobil_nomor"
+				},
+				{
 					label: "Keterangan",
 					name: "prcxxth.keterangan",
 					type: "textarea"
@@ -455,6 +462,7 @@
 			if(action != 'remove'){
 
 				tanggal             = edtprcxxth.field('prcxxth.tanggal').val();
+				mobil_nomor             = edtprcxxth.field('prcxxth.mobil_nomor').val();
 				id_iwhxxmh          = edtprcxxth.field('prcxxth.id_iwhxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth.field('prcxxth.id_grlxxmh_supplier').val();
 				id_podxxth          = edtprcxxth.field('prcxxth.id_podxxth').val();
@@ -465,6 +473,7 @@
 					"prcxxth", 
 					{
 						"tanggal": tanggal, 
+						"mobil_nomor": mobil_nomor, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_podxxth": id_podxxth
 					}
@@ -563,15 +572,35 @@
 				?>
 				// END breaking generate button
 				{
+					extend: 'collection',
+					name: 'btnPrintCollection',
 					text: '<i class="fa fa-print"></i>',
-					name: 'btnPrintJurnal',
 					className: 'btn btn-sm btn-outline',
-					titleAttr: 'Print Jurnal',
-					action: function ( e, dt, node, config ) {
-						e.preventDefault(); 
-						var url = $(this).attr('href'); 
-						window.open('../../views/core/jv_print.php?jenis_transaksi=Goods Receive&id_transaksi='+id_prcxxth, '_blank');
-					}
+					autoClose: true,
+					buttons: [
+						{
+							text: 'Print Jurnal',
+							name: 'btnPrintJurnal',
+							className: 'btn btn-sm btn-outline',
+							titleAttr: 'Print Jurnal',
+							action: function ( e, dt, node, config ) {
+								e.preventDefault(); 
+								var url = $(this).attr('href'); 
+								window.open('../../views/core/jv_print.php?jenis_transaksi=Goods Receive&id_transaksi='+id_prcxxth, '_blank');
+							}
+						},
+						{
+							text: 'Print Slip',
+							name: 'btnPrintSlip',
+							className: 'btn btn-sm btn-outline',
+							titleAttr: 'Print Slip',
+							action: function ( e, dt, node, config ) {
+								e.preventDefault(); 
+								var url = $(this).attr('href'); 
+								window.open('prcxxth_print.php?id_transaksi='+id_prcxxth, '_blank');
+							}
+						}
+					]
 				}
 			],
 			initComplete: function() {
