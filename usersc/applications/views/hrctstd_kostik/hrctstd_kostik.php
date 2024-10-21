@@ -74,13 +74,13 @@
 <div id="detail_hasil" style="display: none">
 	<div class="ibox ">
 		<div class="ibox-content">
-			<div class="row">
-				<div class="col-lg-6">
+			<!-- <div class="row">
+				<div class="col-md-6 col-12"> -->
 					<div id="chartHasilKostik"></div>
-				</div>
-				<div class="col-lg-6">
+				<!-- </div>
+				<div class="col-md-6 col-12"> -->
 					<iframe id="tabelKostik" width="100%" height="600px" style="border: none;" scrolling="yes" onload="resizeIframe(this)"></iframe>
-				</div>
+				<!-- </div> -->
 			</div>
 		</div>
 	</div>
