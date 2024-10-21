@@ -183,7 +183,7 @@
 		'margin_top' => 30, // table ke header
 		'margin_bottom' => 5,
 		'margin_header' => 5,	// header
-		'margin_footer' => 5,	// footer
+		'margin_footer' => 2,	// footer
 		'format' => 'A5', // dalam mm | 'A4' | 'A5' 
 		
 	]);
