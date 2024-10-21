@@ -61,116 +61,118 @@
 
 	// generate tampilan
 	$html = '
-		<html>
-			<head>
-				
-			</head>
-			<body>
-	
-			<!--mpdf
-			<htmlpageheader name="myheader">
-				<table width="100%">
-					<tr>
-						<td colspan="12" class="text-center"><h3>Goods Receive</h3></td>
-					</tr>
-					<tr>
-						<td width="10%">Tanggal</td>
-						<td width="1%">:</td>
-						<td width="45%">'.$tanggal->format('d M Y').'</td>
-                        <td width="2%"></td>
-						
-						<td width="17%">Supplier</td>
-						<td width="1%">:</td>
-						<td width="">'.$rs_prcxxth[0]['nama_supplier'].'</td>
+    <html>
+        <head>
+            <style>
+                .header-table {
+                    margin-bottom: 40px; /* Jarak bawah untuk tabel header */
+                }
+                .content-table {
+                    margin-top: 20px; /* Jarak atas untuk tabel konten */
+                }
+            </style>
+        </head>
+        <body>
 
-					</tr>
-					<tr>
-						<td width="14%">No Transaksi</td>
-						<td width="1%">:</td>
-						<td width="45%">'.$rs_prcxxth[0]['kode_transaksi'].'</td>
-						<td width="2%"></td>
-						
-						<td width="17%">Kendaraan / Supir</td>
-						<td width="1%">:</td>
-						<td width="">'.$rs_prcxxth[0]['mobil_nomor'].' / '.$rs_prcxxth[0]['supir_nama'].'</td>
+        <!--mpdf
+        <htmlpageheader name="myheader">
+            <table width="100%" class="header-table">
+                <tr>
+                    <td colspan="12" class="text-center"><h3>Goods Receive</h3></td>
+                </tr>
+                <tr>
+                    <td width="10%">Tanggal</td>
+                    <td width="1%">:</td>
+                    <td width="45%">'.$tanggal->format('d M Y').'</td>
+                    <td width="2%"></td>
+                    
+                    <td width="17%">Supplier</td>
+                    <td width="1%">:</td>
+                    <td width="">'.$rs_prcxxth[0]['nama_supplier'].'</td>
+                </tr>
+                <tr>
+                    <td width="14%">No Transaksi</td>
+                    <td width="1%">:</td>
+                    <td width="45%">'.$rs_prcxxth[0]['kode_transaksi'].'</td>
+                    <td width="2%"></td>
+                    
+                    <td width="17%">Kendaraan / Supir</td>
+                    <td width="1%">:</td>
+                    <td width="">'.$rs_prcxxth[0]['mobil_nomor'].' / '.$rs_prcxxth[0]['supir_nama'].'</td>
+                </tr>
+                <tr>
+                    <td width="14%">Warehouse</td>
+                    <td width="1%">:</td>
+                    <td width="45%">'.$rs_prcxxth[0]['iwhxxmh_nama'].'</td>
+                    <td width="2%"></td>
+                </tr>
+            </table>
+        </htmlpageheader>
+        <htmlpagefooter name="myfooter">
+            <table width="100%">
+            </table>
+            
+            <div class="hr-footer">
+                Page {PAGENO} of {nb}
+            </div>
+        </htmlpagefooter>
+        
+        <sethtmlpageheader name="myheader" value="on" show-this-page="1" />
+        <sethtmlpagefooter name="myfooter" value="on" />
+        mpdf-->
 
-					</tr>
-					<tr>
-						<td width="14%">Warehouse</td>
-						<td width="1%">:</td>
-						<td width="45%">'.$rs_prcxxth[0]['iwhxxmh_nama'].'</td>
-						<td width="2%"></td>
-					</tr>
-				</table>
-			</htmlpageheader>
-			<br>
-			<br>
-			<htmlpagefooter name="myfooter">
-				<table width="100%">
-					
-				</table>
-				
-				<div class="hr-footer">
-					Page {PAGENO} of {nb}
-				</div>
-			</htmlpagefooter>
-			
-			<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
-			<sethtmlpagefooter name="myfooter" value="on" />
-		mpdf-->
-	
-		<table width="100%">
-			<thead>
-				<tr>
-					<td class="text-center font-bold bas">Kode</td>
-					<td class="text-center font-bold bas">Nama</td>
-					<td class="text-center font-bold bas">Quantity</td>
-					<td class="text-center font-bold bas">UOM</td>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- BEGIN ITEMS HERE -->
-				'.$tbody.'
-				<!-- END ITEMS HERE -->
-			</tbody>
-			<tfoot>
-				<tr>
-					<td class="bls bbs"></td>
-					<td class="bls bbs"></td>
-					<td class="bls bbs"></td>
-					<td class="bls bbs"></td>
-				</tr>
-			</tfoot>
-		</table>
+        <table width="100%" class="content-table">
+            <thead>
+                <tr>
+                    <td class="text-center font-bold bas">Kode</td>
+                    <td class="text-center font-bold bas">Nama</td>
+                    <td class="text-center font-bold bas">Quantity</td>
+                    <td class="text-center font-bold bas">UOM</td>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- BEGIN ITEMS HERE -->
+                '.$tbody.'
+                <!-- END ITEMS HERE -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="bls bbs"></td>
+                    <td class="bls bbs"></td>
+                    <td class="bls bbs"></td>
+                    <td class="bls bbs"></td>
+                </tr>
+            </tfoot>
+        </table>
 
-		<table width="100%">
-		</table>
-		<br>
-		<br>
-		<table width="100%">
-			<tr>
-				<td width="15%"></td>
-				<td width="50%">Created By</td>
-				
-				<td width="35%">Approved By</td>
-			</tr>
-		</table>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<table width="100%">
-			<tr>
-				<td width="15%"></td>
-				<td width="50%">'.$prcxxth['user_create'].'</td>
-				
-				<td width="35%">'.$prcxxth['user_approve'].'</td>
-			</tr>
-		</table>
-	</body>
-</html>
-';
+        <table width="100%">
+        </table>
+        <br>
+        <br>
+        <table width="100%">
+            <tr>
+                <td width="15%"></td>
+                <td width="50%">Created By</td>
+                
+                <td width="35%">Approved By</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <table width="100%">
+            <tr>
+                <td width="35%" class="text-center">'.$prcxxth['user_create'].'</td>
+                <td width="1%"></td>
+                
+                <td width="35%" class="text-center">'.$prcxxth['user_approve'].'</td>
+            </tr>
+        </table>
+    </body>
+</html>';
+
 
 	$stylesheet = file_get_contents('../../../templates/inspinia-side/assets/css/print_mpdf.css');
 
@@ -178,7 +180,7 @@
 	$mpdf = new \Mpdf\Mpdf([
 		'margin_left' => 5,
 		'margin_right' => 5,
-		'margin_top' => 25, // table ke header
+		'margin_top' => 30, // table ke header
 		'margin_bottom' => 5,
 		'margin_header' => 5,	// header
 		'margin_footer' => 5,	// footer
