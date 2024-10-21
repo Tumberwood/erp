@@ -55,7 +55,7 @@
         document.getElementById('quiz1').style.display = 'block';
 
         // default 720 detik
-        var timerDuration = 20; // Change this value to set the desired countdown time
+        var timerDuration = 720; // Change this value to set the desired countdown time
 
         // Start the countdown
         startCountdown(timerDuration);
