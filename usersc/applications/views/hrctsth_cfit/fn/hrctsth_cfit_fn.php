@@ -79,6 +79,7 @@
 
         // Set the countdown duration in 3 seconds
         var timerDuration = 180; // Change this value to set the desired countdown time
+        // var timerDuration = 3; // Change this value to set the desired countdown time
 
         // Start the countdown
         startCountdown(timerDuration);
@@ -284,6 +285,7 @@
     
       // Set the countdown duration2 in 4 seconds
         var timer2Duration22 = 240; // Change this value to set the desired countdown time
+        // var timer2Duration22 = 10; // Change this value to set the desired countdown time
       // Start the countdown
         startCountdown2(timer2Duration22);
     }
@@ -492,6 +494,7 @@
 
       // Set the countdown duration3 in 3 seconds
         var timerDuration3 = 180; // Change this value to set the desired countdown time
+        // var timerDuration3 = 20; // Change this value to set the desired countdown time
       // Start the countdown
         startCountdown3(timerDuration3);
     }

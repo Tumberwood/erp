@@ -464,14 +464,20 @@
             <div class="scroll_content" style="overflow-y: auto;">
               <div class="grid-container">
                   <script>
-                      for (let i = 1; i <= 13; i++) {
-                          var boxClass = "grid-box";
-                          document.write(`
-                              <div class="grid-item" onclick="logGrid(${i})">
-                                  <div class="${boxClass}" id="grid-${i}">${i}</div>
-                              </div>
-                          `);
-                      }
+                    for (let i = 1; i <= 13; i++) {
+                      var boxClass1 = "grid-box";
+                      document.write(`
+                        <div class="grid-item" onclick="goToQuestion1(${i - 1})">
+                          <div class="${boxClass1}" id="grid1-${i}">${i}</div>
+                        </div>
+                      `);
+                    }
+
+                    function goToQuestion1(questionIndex) {
+                      currentQuestionIndex = questionIndex;
+                      showCurrentQuestion();
+                      updateGridColors1(); // Update the grid color when navigating to a question
+                    }
                   </script>
               </div>
             </div>
@@ -505,9 +511,6 @@
         prevButton.style.display = currentQuestionIndex === 0 ? 'none' : 'block';
         nextButton.style.display = currentQuestionIndex === quizQuestions.length - 1 ? 'none' : 'block';
         finishButton.style.display = currentQuestionIndex === quizQuestions.length - 1 ? 'block' : 'none';
-
-        // Update grid background color based on current question
-        updateGridColors();
     }
 
     function selectImage(image) {
@@ -544,34 +547,18 @@
             }
         }
 
-        // Mark the question as answered
-        answeredQuestions[currentQuestionIndex] = true;
-    }
+      // Mark the question as answered if an image is selected
+      if (!answeredQuestions.includes(currentQuestionIndex)) {
+        answeredQuestions.push(currentQuestionIndex);
+      }
 
-    function logGrid(gridNumber) {
-        // Redirect to the question corresponding to the clicked grid number
-        currentQuestionIndex = gridNumber - 1; // Assuming grid numbers start from 1
-        showCurrentQuestion();
+      updateGridColors1();
     }
-
-    function updateGridColors() {
-        for (let i = 0; i < 13; i++) {
-            var gridItem = document.getElementById(`grid-${i + 1}`);
-            gridItem.classList.remove('bg-success', 'bg-success', 'text-white'); // Remove previous classes
-            if (i === currentQuestionIndex) {
-                gridItem.classList.add('bg-success', 'text-white'); // Current question
-            } else if (answeredQuestions[i]) {
-                gridItem.classList.add('bg-primary', 'text-white'); // Already answered
-            } else {
-                gridItem.classList.remove('bg-primary', 'bg-success'); // Default
-            }
-        }
-    }
-
     function previousQuestion() {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             showCurrentQuestion();
+            updateGridColors1();
         }
     }
 
@@ -579,9 +566,31 @@
         if (currentQuestionIndex < quizQuestions.length - 1) {
             currentQuestionIndex++;
             showCurrentQuestion();
+            updateGridColors1();
         }
     }
 
+    function updateGridColors1() {
+      for (let i = 0; i < quizQuestions.length; i++) {
+        var gridItem1 = document.getElementById(`grid1-${i + 1}`);
+        if (gridItem1) {  // Check if the element exists
+          if (i === currentQuestionIndex) {
+            // Current question: set to primary color
+            gridItem1.style.backgroundColor = '#007bff'; // Bootstrap 'primary' color
+            gridItem1.style.color = '#fff'; // Bootstrap 'primary' color
+          } else if (answeredQuestions.includes(i)) {
+            // Answered question: set to success color
+            gridItem1.style.backgroundColor = '#18a745'; // Bootstrap 'success' color
+            gridItem1.style.color = '#fff'; // Bootstrap 'primary' color
+          } else {
+            // Unanswered question: set to plain/default color
+            gridItem1.style.backgroundColor = '#f8f9fa'; // Bootstrap 'light' color
+            gridItem1.style.color = '#000'; // Bootstrap 'primary' color
+          }
+        }
+      }
+    }
+    
     function startCountdown(duration) {
         var timerElement = document.getElementById('timer');
         var timerInterval = setInterval(function() {
@@ -615,4 +624,5 @@
     }
 
     showCurrentQuestion();
+    updateGridColors1();
 </script>
