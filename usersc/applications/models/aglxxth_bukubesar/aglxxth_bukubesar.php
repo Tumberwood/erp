@@ -113,7 +113,8 @@
 			
 			if (!empty($rs_aglxxth_mutasi) ){
 				foreach($rs_aglxxth_mutasi as $key => $row){
-					$rs_aglxxth_mutasi[$key]['saldo'] = $saldo_final + $row['debit'] - $row['kredit'] ;
+					$hitung_saldo = $saldo_final + $row['debit'] - $row['kredit'];
+					$rs_aglxxth_mutasi[$key]['saldo'] = abs($hitung_saldo);
 					$saldo_final = $rs_aglxxth_mutasi[$key]['saldo'];
 				}
 
