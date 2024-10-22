@@ -53,34 +53,20 @@
 			->bind(':id_aakxxmh', $id_aakxxmh)
 			->bind(':start_date', $start_date)
 			->exec('SELECT
-						a.id as id,
-						ifnull(
-							CONCAT(c.kode," ",c.nama),
-							(
-								SELECT
-									CONCAT(kode," ",nama)
-								FROM aakxxmh
-								WHERE id = :id_aakxxmh
-							)
-						) as akun,
-						b.kode_transaksi as kode_transaksi,
-						date_format(b.tanggal,"%d %b %Y") as tanggal,
-						b.keterangan as keterangan,
-						IFNULL(
-							SUM(IF(a.debit_kredit = "Debit",a.debit,0)),
-							0
-						) AS debit,
-						IFNULL(
-							SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)),
-							0
-						) AS kredit,
-						SUM(IF(a.debit_kredit = "Debit",a.debit,0)) - SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)) AS saldo 
-					FROM aglaktd a
-					LEFT JOIN aglxxth b ON b.id = a.id_aglxxth
-					LEFT JOIN aakxxmh c ON c.id = a.id_aakxxmh
-					WHERE 1
-						AND c.id = :id_aakxxmh
-						AND b.tanggal < :start_date
+					a.id as id,
+					CONCAT(c.kode," ",c.nama) as akun,
+					b.kode_transaksi as kode_transaksi,
+					date_format(b.tanggal,"%d %b %Y") as tanggal,
+					b.keterangan as keterangan,
+					SUM(IF(a.debit_kredit = "Debit",a.debit,0)) AS debit,
+					SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)) AS kredit,
+					SUM(IF(a.debit_kredit = "Debit",a.debit,0)) - SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)) AS saldo 
+				FROM aglaktd a
+				LEFT JOIN aglxxth b ON b.id = a.id_aglxxth
+				LEFT JOIN aakxxmh c ON c.id = a.id_aakxxmh
+				WHERE 1
+					AND c.id = :id_aakxxmh
+					AND b.tanggal < :start_date
 			');
 		$rs_aglxxth_awal = $qs_aglxxth_awal->fetchAll();
 
@@ -127,8 +113,7 @@
 			
 			if (!empty($rs_aglxxth_mutasi) ){
 				foreach($rs_aglxxth_mutasi as $key => $row){
-					$hitung_saldo = $saldo_final + $row['debit'] - $row['kredit'];
-					$rs_aglxxth_mutasi[$key]['saldo'] = abs($hitung_saldo);
+					$rs_aglxxth_mutasi[$key]['saldo'] = $saldo_final + $row['debit'] - $row['kredit'] ;
 					$saldo_final = $rs_aglxxth_mutasi[$key]['saldo'];
 				}
 
