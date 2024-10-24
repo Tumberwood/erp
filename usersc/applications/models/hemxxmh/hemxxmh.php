@@ -78,8 +78,6 @@
 					->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg', 'pdf'), "Hanya boleh format png, jpg, jpeg dan pdf" ) )
 				),
 			Field::inst( 'hemxxmh.keterangan' ),
-			Field::inst( 'hemxxmh.kode_finger' ),
-			Field::inst( 'hemxxmh.is_tukar' ),	
 			Field::inst( 'hemxxmh.transaction_state' ),
 			Field::inst( 'hemxxmh.approval_state' ),
 			Field::inst( 'hemxxmh.created_by' ),
@@ -88,6 +86,10 @@
 			Field::inst( 'hemxxmh.is_pot_makan' ),
 			Field::inst( 'hemxxmh.is_defaultprogram' ),
 			Field::inst( 'hemxxmh.is_nextprocess' ),
+
+			Field::inst( 'hemxxmh.gender' ),
+			Field::inst( 'hemxxmh.agama' ),
+			Field::inst( 'hemxxmh.golongan_darah' ),
 			
 			Field::inst( 'hemjbmh.tanggal_masuk' )
 				->getFormatter( function ( $val, $data, $opts ) {
@@ -144,9 +146,6 @@
 			Field::inst( 'heyxxmh.nama' ),
 			Field::inst( 'heyxxmd.nama' ),
 			Field::inst( 'hesxxmh.nama' )
-			// ,
-			// Field::inst( 'v_hemxxmh_htsptth.pola_shift' ),
-			// Field::inst( 'v_hemxxmh_htsptth.grup_ke' )
 		)
 		->leftJoin( 'hemdcmh','hemdcmh.id_hemxxmh','=','hemxxmh.id' )
 		->leftJoin( 'hemjbmh','hemjbmh.id_hemxxmh','=','hemxxmh.id' )
@@ -158,7 +157,6 @@
 		->leftJoin( 'heyxxmh','heyxxmh.id','=','hemjbmh.id_heyxxmh' )
 		->leftJoin( 'heyxxmd','heyxxmd.id','=','hemjbmh.id_heyxxmd' )
 		->leftJoin( 'hesxxmh','hesxxmh.id','=','hemjbmh.id_hesxxmh' )
-		->where( 'hemxxmh.id', 7, '<>');
 		;
 	
 	// do not erase
