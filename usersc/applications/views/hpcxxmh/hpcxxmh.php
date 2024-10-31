@@ -133,7 +133,7 @@
 					name: "hpcxxmh.is_fix",
 					type: "select",
 					placeholder : "Select",
-					fieldInfo: "Variable = Dikalikan <br>Fix Proporsional = Gaji Pokok<br>Fix Tanpa Potongan = Tunjangan Jabatan",
+					fieldInfo: "Variable: Akan dikalikan sesuai syarat tertentu.<br>Fix Proporsional: Nilai tetap, akan diproposional kan berdasarkan syarat tertentu.<br>Fix Tanpa Potongan: Nilai tetap tanpa potongan apapun.",
 					def: 1,
 					options: [
 						{ "label": "Variable", "value": 0 },
