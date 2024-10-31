@@ -436,7 +436,7 @@
 
 		tblhtpr_hetxxmh.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('htpr_hetxxmh');
-			id_hpcxxmh_old      = hetxxmh_data.id_hpcxxmh;
+			id_hpcxxmh_old      = htpr_hetxxmh_data.id_hpcxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhtpr_hetxxmh );
