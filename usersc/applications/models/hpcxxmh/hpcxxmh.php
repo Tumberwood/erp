@@ -25,6 +25,8 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'hpcxxmh.id' ),
+			Field::inst( 'hpcxxmh.id_gtbrlsh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'hpcxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);

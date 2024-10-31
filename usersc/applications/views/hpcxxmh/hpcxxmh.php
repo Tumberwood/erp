@@ -62,6 +62,7 @@
 	// ------------- default variable, do not erase
 	var edthpcxxmh, tblhpcxxmh, show_deleted_hpcxxmh = 0, id_hpcxxmh;
 	// ------------- end of default variable
+	var id_gtbrlsh_old = 0;
 
 	// get tableRelation
 	tableRelation('hpcxxmh');		
@@ -156,10 +157,47 @@
 					name: "hpcxxmh.nominal"
 				},
 				{
+					label: "Menu <sup class='text-danger'>*<sup>",
+					name: "hpcxxmh.id_gtbrlsh",
+					type: "select2",
+					fieldInfo: "Menu sumber data komponen payroll",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/gtbrlsh/gtbrlsh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gtbrlsh_old: id_gtbrlsh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
 					label: "Keterangan",
 					name: "hpcxxmh.keterangan",
 					type: "textarea"
-				}
+				},
 			]
 		} );
 
@@ -181,6 +219,7 @@
 		edthpcxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				kode = edthpcxxmh.field('hpcxxmh.kode').val();
+				id_gtbrlsh = edthpcxxmh.field('hpcxxmh.id_gtbrlsh').val();
 				nama = edthpcxxmh.field('hpcxxmh.nama').val();
 				jenis = edthpcxxmh.field('hpcxxmh.jenis').val();
 				periode = edthpcxxmh.field('hpcxxmh.periode').val();
@@ -192,6 +231,7 @@
 					{
 						'nama': nama,
 						'kode': kode,
+						'id_gtbrlsh': id_gtbrlsh,
 						'jenis': jenis,
 						'periode': periode,
 						'periode': periode,
@@ -345,12 +385,14 @@
 		
 		tblhpcxxmh.on( 'select', function( e, dt, type, indexes ) {
 			siVarSet('hpcxxmh');
+			id_gtbrlsh_old = hpcxxmh_data.id_gtbrlsh;
 			// atur hak akses
 			CekSelectHeaderH(tblhpcxxmh);
 		} );
 
 		tblhpcxxmh.on( 'deselect', function () {
 			siVarReset('hpcxxmh');
+			id_gtbrlsh_old = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhpcxxmh);
