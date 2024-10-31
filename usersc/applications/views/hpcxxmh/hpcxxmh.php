@@ -26,7 +26,7 @@
                                 <th>Jenis</th>
                                 <th>Periode</th>
                                 <th>Komp Tetap</th>
-                                <th>Lain-lain</th>
+                                <!-- <th>Lain-lain</th> -->
                                 <th>Keterangan</th>
                                 <th>TX</th>
                             </tr>
@@ -133,22 +133,24 @@
 					name: "hpcxxmh.is_fix",
 					type: "select",
 					placeholder : "Select",
+					fieldInfo: "Variable = Dikalikan <br>Fix Proporsional = Gaji Pokok<br>Fix Tanpa Potongan = Tunjangan Jabatan",
 					def: 1,
 					options: [
 						{ "label": "Variable", "value": 0 },
-						{ "label": "Fix", "value": 1 }
+						{ "label": "Fix Proporsional", "value": 1 },
+						{ "label": "Fix Tanpa Potongan", "value": 2 }
 					]
 				},
-				{
-					label: "Lain-lain",
-					name: "hpcxxmh.is_lain",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Ya", "value": 1 },
-						{ "label": "Tidak", "value": 0 }
-					]
-				},	
+				// {
+				// 	label: "Lain-lain",
+				// 	name: "hpcxxmh.is_lain",
+				// 	type: "select",
+				// 	placeholder : "Select",
+				// 	options: [
+				// 		{ "label": "Ya", "value": 1 },
+				// 		{ "label": "Tidak", "value": 0 }
+				// 	]
+				// },	
 				{
 					label: "Nominal",
 					name: "hpcxxmh.nominal"
@@ -285,12 +287,20 @@
 				{ data: "hpcxxmh.periode" },
 				{ 
 					data: "hpcxxmh.is_fix" ,
-					...renderYaTidak()
+					render: function (data){
+						if (data == 1){
+							return 'Fix Proporsional';
+						}else if(data == 2){
+							return 'Fix Tanpa Potongan';
+						}else{
+							return 'Variable';
+						}
+					}
 				},
-				{ 
-					data: "hpcxxmh.is_lain" ,
-					...renderYaTidak()
-				},
+				// { 
+				// 	data: "hpcxxmh.is_lain" ,
+				// 	...renderYaTidak()
+				// },
 				{ data: "hpcxxmh.keterangan" },
 				{ 
 					data: "hpcxxmh.transaction_state" ,
