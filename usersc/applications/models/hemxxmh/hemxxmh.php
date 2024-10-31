@@ -145,7 +145,29 @@
 			Field::inst( 'hetxxmh.nama' ),
 			Field::inst( 'heyxxmh.nama' ),
 			Field::inst( 'heyxxmd.nama' ),
-			Field::inst( 'hesxxmh.nama' )
+			Field::inst( 'hesxxmh.nama' ),
+			
+			// contact & sosmed
+			Field::inst( 'hemcsmh.id_gctxxmh_tinggal' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'hemcsmh.email_personal' ),
+			Field::inst( 'hemcsmh.handphone' ),
+			Field::inst( 'hemcsmh.whatsapp' ),
+			Field::inst( 'hemcsmh.facebook' ),
+			Field::inst( 'hemcsmh.twitter' ),
+			Field::inst( 'hemcsmh.linkedin' ),
+			Field::inst( 'hemcsmh.instagram' ),
+			Field::inst( 'hemcsmh.tiktok' ),
+			Field::inst( 'hemcsmh.alamat_tinggal' ),
+			
+			// document
+			Field::inst( 'hemdcmh.id_gctxxmh_ktp' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'hemdcmh.id_gctxxmh_npwp' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'hemdcmh.sim_a' ),
+			Field::inst( 'hemdcmh.sim_b' ),
+			Field::inst( 'hemdcmh.sim_c' ),
 		)
 		->leftJoin( 'hemdcmh','hemdcmh.id_hemxxmh','=','hemxxmh.id' )
 		->leftJoin( 'hemjbmh','hemjbmh.id_hemxxmh','=','hemxxmh.id' )
@@ -157,6 +179,9 @@
 		->leftJoin( 'heyxxmh','heyxxmh.id','=','hemjbmh.id_heyxxmh' )
 		->leftJoin( 'heyxxmd','heyxxmd.id','=','hemjbmh.id_heyxxmd' )
 		->leftJoin( 'hesxxmh','hesxxmh.id','=','hemjbmh.id_hesxxmh' )
+		
+		// contact & Sosmed
+		->leftJoin( 'hemcsmh','hemcsmh.id_hemxxmh','=','hemxxmh.id' )
 		;
 	
 	// do not erase

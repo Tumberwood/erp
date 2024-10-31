@@ -25,97 +25,191 @@
 			<div class="ibox-content">
 				<!-- start Custom Form Datatables Editor -->
 				<div id="custom_hem">
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.nama"></editor-field>
+					<div class="tabs-container">
+						<ul class="nav nav-tabs" role="tablist">
+							<li><a class="nav-link active" data-toggle="tab" href="#tabpersonaldata"> Personal Data</a></li>
+							<li><a class="nav-link" data-toggle="tab" href="#tabsosmed"> Kontak & SosMed</a></li>
+							<li><a class="nav-link" data-toggle="tab" href="#tabdokumen"> Dokumen</a></li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" id= "tabpersonaldata" class="tab-pane active">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.nama"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.kode"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.tanggal_lahir"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.id_gctxxmh_lahir"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.agama"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.perkawinan"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.gender"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemmdmh.gol_darah"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_hovxxmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_hodxxmh"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_hevxxmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_hetxxmh"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_hesxxmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.id_gtxpkmh"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.tanggal_masuk"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.tanggal_keluar"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.is_pot_makan"></editor-field>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.kode"></editor-field>
+							<div role="tabpanel" id="tabsosmed" class="tab-pane">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.email_personal"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.whatsapp"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.twitter"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.facebook"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.linkedin"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.instagram"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.tiktok"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.handphone"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.alamat_tinggal"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemcsmh.id_gctxxmh_tinggal"></editor-field>
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.ktp_no"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.ktp_alamat"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.no_bpjs_tk"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.no_bpjs_kes"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.id_hovxxmh"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.id_hodxxmh"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.id_hevxxmh"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.id_hetxxmh"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.id_hesxxmh"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.id_gtxpkmh"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.tanggal_masuk"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.tanggal_keluar"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.is_pot_makan"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.is_npwp"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.npwp_no"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemdcmh.npwp_alamat"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.id_files_ktp"></editor-field>
-							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.id_files_npwp"></editor-field>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.keterangan"></editor-field>
+							<div role="tabpanel" id= "tabdokumen" class="tab-pane">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.ktp_no"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.ktp_alamat"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.id_gctxxmh_ktp"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.sim_a"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.sim_b"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.sim_c"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.no_bpjs_tk"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.no_bpjs_kes"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.is_npwp"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.npwp_no"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.npwp_alamat"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.id_files_ktp"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.id_files_npwp"></editor-field>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -436,8 +530,8 @@
 	var id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hesxxmh_old = 0;
 	var id_hgnedmh_old = 0;
 	var id_gtxpkmh_old = 0;
-	var id_heyxxmd_old = 0;
-	var id_httlpmh_old = 0, id_hgnlgmh_old = 0;
+	var id_heyxxmd_old = 0, id_gctxxmh_tinggal_old = 0, id_gctxxmh_ktp_old = 0;
+	var id_httlpmh_old = 0, id_hgnlgmh_old = 0, id_gctxxmh_lahir_old = 0;
 	var id_hesxxmh_pkwt = 0, id_gctxxmh_hemedmd = 0, id_gctxxmh_hemwrmd = 0;
 
 	$(document).ready(function() {
@@ -826,6 +920,212 @@
 					name: "hemdcmh.npwp_alamat",
 					type: "textarea"
 				},
+				{
+					label: "Email Pribadi <sup class='text-danger'>*<sup>",
+					name: "hemcsmh.email_personal"
+				}, 	{
+					label: "No. WhatsApp<sup class='text-danger'>*<sup>",
+					name: "hemcsmh.whatsapp"
+				}, 	{
+					label: "Twitter",
+					name: "hemcsmh.twitter"
+				}, 	{
+					label: "Facebook",
+					name: "hemcsmh.facebook"
+				}, 	{
+					label: "Linkedin",
+					name: "hemcsmh.linkedin"
+				}, 	{
+					label: "Instagram",
+					name: "hemcsmh.instagram"
+				}, 	{
+					label: "Tiktok",
+					name: "hemcsmh.tiktok"
+				}, 	{
+					label: "No Handphone<sup class='text-danger'>*<sup>",
+					name: "hemcsmh.handphone"
+				}, 	{
+					label: "Alamat Tinggal<sup class='text-danger'>*<sup>",
+					name: "hemcsmh.alamat_tinggal",
+					type: "textarea"
+				}, 	{
+					label: "Kota Tinggal",
+					name: "hemcsmh.id_gctxxmh_tinggal",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gctxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gctxxmh_old: id_gctxxmh_tinggal_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Kota KTP",
+					name: "hemdcmh.id_gctxxmh_ktp",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gctxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gctxxmh_old: id_gctxxmh_ktp_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},{
+					label: "SIM A",
+					name: "hemdcmh.sim_a"
+				},	{
+					label: "SIM B",
+					name: "hemdcmh.sim_b"
+				},	{
+					label: "SIM C",
+					name: "hemdcmh.sim_c"
+				},
+				{
+					label: "Jenis Kelamin <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.gender",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Laki-laki", "value": "Laki-laki" },
+						{ "label": "Perempuan", "value": "Perempuan" }
+					]
+				},{
+					label: "Golongan Darah",
+					name: "hemmdmh.gol_darah",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "A", "value": "A" },
+						{ "label": "B", "value": "B" },
+						{ "label": "AB", "value": "AB" },
+						{ "label": "O", "value": "O" }
+					]
+				},
+				{
+					label: "Tanggal Lahir <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.tanggal_lahir",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},	{
+					label: "Tempat Lahir <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.id_gctxxmh_lahir",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gctxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gctxxmh_old: id_gctxxmh_lahir_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},{
+					label: "Agama",
+					name: "hemxxmh.agama",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Islam", "value": "Islam" },
+						{ "label": "Kristen", "value": "Kristen" },
+						{ "label": "Katolik", "value": "Katolik" },
+						{ "label": "Hindu", "value": "Hindu" },
+						{ "label": "Budha", "value": "Budha" },
+						{ "label": "Konghucu", "value": "Konghucu" }
+					]
+				},{
+					label: "Status Perkawinan",
+					name: "hemxxmh.perkawinan",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Lajang", "value": "Lajang"},
+						{ "label": "Kawin", "value": "Kawin"},
+						{ "label": "Janda", "value": "Janda"},
+						{ "label": "Duda", "value": "Duda"},
+						{ "label": "Cerai", "value": "Cerai"}
+					]
+				},	{
+					label: "Suku Bangsa",
+					name: "hemxxmh.suku"
+				},
 			]
 		} );
 		
@@ -926,6 +1226,13 @@
 					}
 					// END of validasi hemxxmh.ktp_no  
 
+					// BEGIN of validasi hemdcmh.id_gtxpkmh 
+					id_gtxpkmh = edthemxxmh.field('hemdcmh.id_gtxpkmh').val();
+					if(!id_gtxpkmh || id_gtxpkmh == ''){
+						edthemxxmh.field('hemdcmh.id_gtxpkmh').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemxxmh.id_gtxpkmh  
+
 					// BEGIN of validasi hemdcmh.no_bpjs_kes 
 					no_bpjs_kes = edthemxxmh.field('hemdcmh.no_bpjs_kes').val();
 					if(!no_bpjs_kes || no_bpjs_kes == ''){
@@ -975,10 +1282,79 @@
 						// END of validasi hemdcmh.npwp_alamat 
 					}
 
-					if (action == 'create') {
-						
+					// BEGIN of validasi hemcsmh.email_personal 
+					email_personal = edthemxxmh.field('hemcsmh.email_personal').val();
+					if(!email_personal || email_personal == ''){
+						edthemxxmh.field('hemcsmh.email_personal').error( 'Wajib diisi!' );
 					}
+					// END of validasi hemcsmh.email_personal 
+
+					var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+					if (!emailRegex.test(email_personal)) {
+						edthemxxmh.field('hemcsmh.email_personal').error('Format email tidak valid!');
+					}
+
+					// BEGIN of validasi hemcsmh.alamat_tinggal 
+					alamat_tinggal = edthemxxmh.field('hemcsmh.alamat_tinggal').val();
+					if(!alamat_tinggal || alamat_tinggal == ''){
+						edthemxxmh.field('hemcsmh.alamat_tinggal').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemxxmh.alamat_tinggal 
+
+					// BEGIN of validasi hemcsmh.whatsapp 
+					whatsapp = edthemxxmh.field('hemcsmh.whatsapp').val();
+					if(!whatsapp || whatsapp == ''){
+						edthemxxmh.field('hemcsmh.whatsapp').error( 'Wajib diisi!' );
+					}
+					// validasi min atau max angka
+					if(whatsapp <= 0 ){
+						edthemxxmh.field('hemcsmh.whatsapp').error( 'Inputan harus > 0' );
+					}
+					
+					// validasi angka
+					if(isNaN(whatsapp) ){
+						edthemxxmh.field('hemcsmh.whatsapp').error( 'Inputan harus berupa Angka!' );
+					}
+					// END of validasi hemcsmh.whatsapp 
+
+					// BEGIN of validasi hemcsmh.handphone 
+					handphone = edthemxxmh.field('hemcsmh.handphone').val();
+					if(!handphone || handphone == ''){
+						edthemxxmh.field('hemcsmh.handphone').error( 'Wajib diisi!' );
+					}
+					// validasi min atau max angka
+					if(handphone <= 0 ){
+						edthemxxmh.field('hemcsmh.handphone').error( 'Inputan harus > 0' );
+					}
+					
+					// validasi angka
+					if(isNaN(handphone) ){
+						edthemxxmh.field('hemcsmh.handphone').error( 'Inputan harus berupa Angka!' );
+					}
+					// END of validasi hemcsmh.handphone 
+
+					// BEGIN of validasi hemxxmh.tanggal_lahir 
+					tanggal_lahir = edthemxxmh.field('hemxxmh.tanggal_lahir').val();
+					if(!tanggal_lahir || tanggal_lahir == ''){
+						edthemxxmh.field('hemxxmh.tanggal_lahir').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemxxmh.tanggal_lahir 
+
+					// BEGIN of validasi hemxxmh.id_gctxxmh_lahir 
+					id_gctxxmh_lahir = edthemxxmh.field('hemxxmh.id_gctxxmh_lahir').val();
+					if(!id_gctxxmh_lahir || id_gctxxmh_lahir == ''){
+						edthemxxmh.field('hemxxmh.id_gctxxmh_lahir').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemxxmh.id_gctxxmh_lahir 
+
+					// BEGIN of validasi hemxxmh.gender 
+					jenis_kelamin = edthemxxmh.field('hemxxmh.gender').val();
+					if(!jenis_kelamin || jenis_kelamin == ''){
+						edthemxxmh.field('hemxxmh.gender').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemxxmh.gender 
 				}
+
 				
 				if ( edthemxxmh.inError() ) {
 					return false;
@@ -1094,6 +1470,7 @@
 			transaction_state   = hemxxmh_data.transaction_state;
 			approval_state   	= hemxxmh_data.approval_state;
 			is_nextprocess 		= hemxxmh_data.is_nextprocess;
+			id_gctxxmh_lahir_old 		= hemxxmh_data.id_gctxxmh_lahir;
 			
 			data_hemjbmh = tblhemxxmh.row( { selected: true } ).data().hemjbmh;
 			id_hovxxmh_old   = data_hemjbmh.id_hovxxmh;
@@ -1107,7 +1484,11 @@
 
 			data_hemdcmh = tblhemxxmh.row( { selected: true } ).data().hemdcmh;
 			id_gtxpkmh_old   = data_hemdcmh.id_gtxpkmh;
+			id_gctxxmh_ktp_old   = data_hemdcmh.id_gctxxmh_ktp;
 			
+			data_hemcsmh = tblhemxxmh.row( { selected: true } ).data().hemcsmh;
+			id_gctxxmh_tinggal_old = data_hemcsmh.id_gctxxmh_tinggal;
+
 			// atur hak akses
 			tbl_details = [
 				tblhemfmmd, tblhadxxtd
@@ -1142,7 +1523,7 @@
 		
 		tblhemxxmh.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
-			id_hemxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0;
+			id_hemxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_gctxxmh_ktp_old = 0, id_gctxxmh_tinggal_old = 0, id_gctxxmh_lahir_old=0;
 
 			// atur hak akses
 			tbl_details = [
