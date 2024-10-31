@@ -123,6 +123,7 @@
 					type: "select",
 					placeholder : "Select",
 					options: [
+						{ "label": "One Time", "value": "One Time" },
 						{ "label": "Jam", "value": "Jam" },
 						{ "label": "Harian", "value": "Harian" },
 						{ "label": "Mingguan", "value": "Mingguan" },
@@ -152,6 +153,16 @@
 				// 		{ "label": "Tidak", "value": 0 }
 				// 	]
 				// },	
+				{
+					label: "Kena Pajak",
+					name: "hpcxxmh.is_kena_pajak",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},	
 				{
 					label: "Nominal",
 					name: "hpcxxmh.nominal"
