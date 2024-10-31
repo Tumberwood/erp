@@ -7,17 +7,17 @@
 ?>
 
 <?php
-	$nama_tabel       = 'hemxxmh';
-    $nama_tabels_d 	= [];
-    $nama_tabels_d[0] = 'hemfmmd';
-    $nama_tabels_d[1] = 'hadxxtd';
-    $nama_tabels_d[4] = 'httlptd';
-    $nama_tabels_d[5] = 'hemtrmd';
-    $nama_tabels_d[6] = 'hesxxtd';
-    $nama_tabels_d[7] = 'hemjbrd';
-    $nama_tabels_d[8] = 'hemedmd';
-    $nama_tabels_d[9] = 'hemwrmd';
-    $nama_tabels_d[10] = 'hemlgmd';
+	$nama_tabel        = 'hemxxmh';
+	$nama_tabels_d     = [];
+	$nama_tabels_d[0]  = 'hemfmmd';
+	$nama_tabels_d[1]  = 'hadxxtd';
+	$nama_tabels_d[4]  = 'httlptd';
+	$nama_tabels_d[5]  = 'hemtrmd';
+	$nama_tabels_d[6]  = 'hesxxtd';
+	$nama_tabels_d[7]  = 'hemjbrd';
+	$nama_tabels_d[8]  = 'hemedmd';
+	$nama_tabels_d[9]  = 'hemwrmd';
+	$nama_tabels_d[10] = 'hemlgmd';
 ?>
 <div class="row">
 	<div class="col">
@@ -35,9 +35,6 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-6">
-								<editor-field name="hemxxmh.kode_finger"></editor-field>
-							</div>
 							<div class="col-lg-6">
 								<editor-field name="hemdcmh.ktp_no"></editor-field>
 							</div>
@@ -91,9 +88,6 @@
 							<div class="col-lg-6">
 								<editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field>
 							</div>
-							<div class="col-lg-6">
-								<editor-field name="hemjbmh.grup_hk"></editor-field>
-							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
@@ -133,7 +127,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>NIP</th>
-                                <th>Kode Finger</th>
                                 <th>No KTP</th>
                                 <th>Nama</th>
                                 <th>Level</th>
@@ -143,7 +136,6 @@
                                 <th>Tanggal Masuk</th>
                                 <th>Tanggal Akhir PKWT</th>
                                 <th>Tanggal Keluar</th>
-                                <th>Grup HK</th>
                             </tr>
                         </thead>
                     </table>
@@ -493,10 +485,6 @@
 					name: "hemxxmh.kode"
 				}, 	
 				{
-					label: "Kode Finger<sup class='text-danger'>*<sup>",
-					name: "hemxxmh.kode_finger"
-				}, 	
-				{
 					label: "No KTP <sup class='text-danger'>*<sup>",
 					name: "hemdcmh.ktp_no"
 				}, 	
@@ -760,16 +748,6 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Grup Hari Kerja <sup class='text-danger'>*<sup>",
-					name: "hemjbmh.grup_hk",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "5 HK", "value": 1 },
-						{ "label": "6 HK", "value": 2 }
-					]
-				},
-				{
 					label: "Potong Makan <sup class='text-danger'>*<sup>",
 					name: "hemxxmh.is_pot_makan",
 					type: "select2",
@@ -780,15 +758,6 @@
 						{ "label": "Tidak Dipotong Makan", "value": 0 }
 					]
 				},
-				// {
-				// 	label: "Tukar Jadwal <sup class='text-danger'>*<sup>",
-				// 	name: "hemxxmh.is_tukar",
-				// 	type: "select2",
-				// 	options: [
-				// 		{ "label": "Ya", "value": 1 },
-				// 		{ "label": "Tidak", "value": -9 }
-				// 	]
-				// },
 				{
 					label: "Keterangan",
 					name: "hemxxmh.keterangan",
@@ -870,7 +839,6 @@
 				edthemxxmh.field('hemjbmh.tanggal_keluar').disable();
 				edthemxxmh.field('hemxxmh.nama').enable();
 				// edthemxxmh.field('hemxxmh.kode').enable();
-				// edthemxxmh.field('hemxxmh.kode_finger').enable();
 				
 			}else if(action == 'edit'){
 				edthemxxmh.field('hemjbmh.tanggal_keluar').enable();
@@ -878,11 +846,9 @@
 				if(transaction_state == 0){
 					edthemxxmh.field('hemxxmh.nama').enable();
 					// edthemxxmh.field('hemxxmh.kode').enable();
-					// edthemxxmh.field('hemxxmh.kode_finger').enable();
 				}else{
 					edthemxxmh.field('hemxxmh.nama').disable();
-					// edthemxxmh.field('hemxxmh.kode').disable();
-					// edthemxxmh.field('hemxxmh.kode_finger').disable();
+					// edthemxxmh.field('hemxxmh.kode').disable();					
 				}
 			}
 		});
@@ -952,20 +918,13 @@
 						edthemxxmh.field('hemxxmh.is_pot_makan').error( 'Wajib diisi!' );
 					}
 					// END of validasi hemxxmh.is_pot_makan 
-					
-					// BEGIN of validasi hemxxmh.is_tukar 
-					// is_tukar = edthemxxmh.field('hemxxmh.is_tukar').val();
-					// if(!is_tukar || is_tukar == ''){
-					// 	edthemxxmh.field('hemxxmh.is_tukar').error( 'Wajib diisi!' );
-					// }
-					// END of validasi hemxxmh.is_tukar 
 
 					// BEGIN of validasi hemdcmh.ktp_no 
 					ktp_no = edthemxxmh.field('hemdcmh.ktp_no').val();
 					if(!ktp_no || ktp_no == ''){
 						edthemxxmh.field('hemdcmh.ktp_no').error( 'Wajib diisi!' );
 					}
-					// END of validasi hemxxmh.kode_finger 
+					// END of validasi hemxxmh.ktp_no  
 
 					// BEGIN of validasi hemdcmh.no_bpjs_kes 
 					no_bpjs_kes = edthemxxmh.field('hemdcmh.no_bpjs_kes').val();
@@ -981,13 +940,6 @@
 					}
 					// END of validasi hemxxmh.no_bpjs_tk 
 
-					// BEGIN of validasi hemxxmh.kode_finger 
-					kode_finger = edthemxxmh.field('hemxxmh.kode_finger').val();
-					if(!kode_finger || kode_finger == ''){
-						edthemxxmh.field('hemxxmh.kode_finger').error( 'Wajib diisi!' );
-					}
-					// END of validasi hemxxmh.kode_finger 
-
 					// BEGIN of validasi hemjbmh.id_hovxxmh 
 					id_hovxxmh = edthemxxmh.field('hemjbmh.id_hovxxmh').val();
 					if(!id_hovxxmh || id_hovxxmh == ''){
@@ -1001,13 +953,6 @@
 						edthemxxmh.field('hemjbmh.id_hodxxmh').error( 'Wajib diisi!' );
 					}
 					// END of validasi hemjbmh.id_hodxxmh 
-
-					// BEGIN of validasi hemjbmh.id_hevxxmh 
-					// id_hevxxmh = edthemxxmh.field('hemjbmh.id_hevxxmh').val();
-					// if(!id_hevxxmh || id_hevxxmh == ''){
-					// 	edthemxxmh.field('hemjbmh.id_hevxxmh').error( 'Wajib diisi!' );
-					// }
-					// END of validasi hemjbmh.id_hevxxmh 
 
 					// BEGIN of validasi hemjbmh.id_hetxxmh 
 					id_hetxxmh = edthemxxmh.field('hemjbmh.id_hetxxmh').val();
@@ -1030,36 +975,8 @@
 						// END of validasi hemdcmh.npwp_alamat 
 					}
 
-					// // BEGIN of validasi hemjbmh.id_hesxxmh 
-					// id_hesxxmh = edthemxxmh.field('hemjbmh.id_hesxxmh').val();
-					// if(!id_hesxxmh || id_hesxxmh == ''){
-					// 	edthemxxmh.field('hemjbmh.id_hesxxmh').error( 'Wajib diisi!' );
-					// }
-					// // END of validasi hemjbmh.id_hesxxmh 
-					// if (id_hesxxmh != 1 && id_hesxxmh  != 5) {
-					// 	// console.log(111111111);
-					// 	// BEGIN of validasi hemjbmh.tanggal_keluar 
-					// 	tanggal_keluar = edthemxxmh.field('hemjbmh.tanggal_keluar').val();
-					// 	if(!tanggal_keluar || tanggal_keluar == ''){
-					// 		edthemxxmh.field('hemjbmh.tanggal_keluar').error( 'Wajib diisi!' );
-					// 	}
-					// 	// END of validasi hemjbmh.tanggal_keluar 
-
-					// 	// BEGIN of validasi hemjbmh.tanggal_masuk 
-					// 	tanggal_masuk = edthemxxmh.field('hemjbmh.tanggal_masuk').val();
-					// 	if(!tanggal_masuk || tanggal_masuk == ''){
-					// 		edthemxxmh.field('hemjbmh.tanggal_masuk').error( 'Wajib diisi!' );
-					// 	}
-					// 	// END of validasi hemjbmh.tanggal_masuk 
-					// } 
-
 					if (action == 'create') {
-						// BEGIN of validasi hemjbmh.grup_hk 
-						grup_hk = edthemxxmh.field('hemjbmh.grup_hk').val();
-						if(!grup_hk || grup_hk == ''){
-							edthemxxmh.field('hemjbmh.grup_hk').error( 'Wajib diisi!' );
-						}
-						// END of validasi hemjbmh.grup_hk 
+						
 					}
 				}
 				
@@ -1106,36 +1023,21 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: ['_all']
 				}
 			],
 			columns: [
 				{ data: "hemxxmh.id",visible:false },
-					{ data: "hemxxmh.kode" },
-					{ data: "hemxxmh.kode_finger" },
-					{ data: "hemdcmh.ktp_no" },
-					{ data: "hemxxmh.nama" }, //4
-					{ data: "hevxxmh.nama" },
-					{ data: "hodxxmh.nama" },
-					{ data: "hetxxmh.nama" },
-					{ data: "hesxxmh.nama" },//10
-					{ data: "hemjbmh.tanggal_masuk" },
-					{ data: "hemjbmh.tanggal_akhir_pkwt" },
-					{ data: "hemjbmh.tanggal_keluar" },
-					{ 
-						data: "hemjbmh.grup_hk",
-						render: function (data){
-							if (data == 0){
-								return '';
-							}else if(data == 1){
-								return '5HK';
-							}else if(data == 2){
-								return '6HK';
-							}else{
-								return '<span class="text-danger"> Data Invalid</span>';
-							}
-						}
-					},
+				{ data: "hemxxmh.kode" },
+				{ data: "hemdcmh.ktp_no" },
+				{ data: "hemxxmh.nama" }, //4
+				{ data: "hevxxmh.nama" },
+				{ data: "hodxxmh.nama" },
+				{ data: "hetxxmh.nama" },
+				{ data: "hesxxmh.nama" },//10
+				{ data: "hemjbmh.tanggal_masuk" },
+				{ data: "hemjbmh.tanggal_akhir_pkwt" },
+				{ data: "hemjbmh.tanggal_keluar" }
 			],
 			buttons: [
 
