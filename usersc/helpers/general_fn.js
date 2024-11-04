@@ -1418,6 +1418,9 @@ function uploadMaster(nama_tabel, tbl, url) {
     });
 }
 
+/**
+ * Sama seperti uploadMaster, tapi ini harus dipasang di Select dan Deselect Header untuk mendapatkan id_header secara realtime.
+ */
 function uploadDetail(id_header, nama_tabel, tbl, url) {
     if (id_header > 0) {
         tbl.button('btnUploadData:name').enable();
