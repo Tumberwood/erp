@@ -344,14 +344,7 @@
 						e.preventDefault(); 
 						var timestamp = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
 
-						notifyprogress = $.notify({
-							message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-						},{
-							z_index: 9999,
-							allow_dismiss: false,
-							type: 'info',
-							delay: 0
-						});
+						toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
 
 						$.ajax( {
 							url: "../../models/hpyxxth/hpyxxth_fn_gen_payroll_dinamis.php",
@@ -364,15 +357,16 @@
 								timestamp		: timestamp
 							},
 							success: function ( json ) {
+								// hilangkan toastr awal
+								toastr.clear();
 
-								$.notify({
-									message: json.data.message
-								},{
-									type: json.data.type_message
-								});
+								full_message = json.data.message + '</br>';
+								toast_type   = json.data.type_message;
+
+								// tampilkan toastr baru
+								toastr[toast_type](full_message, 'INFO');
 
 								tblhpyxxth.ajax.reload(function ( json ) {
-									notifyprogress.close();
 								}, false);
 							}
 						} );
