@@ -385,12 +385,15 @@
 
 			// atur hak akses
 			CekSelectHeaderH(tblhttlpmh);
+			tblhttlpmh.button('btnEdit:name')
+			.nodes()
+            .css( 'display', 'block' );
 		} );
-
+		
 		tblhttlpmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('httlpmh');
-
+			
 			// atur hak akses
 			CekDeselectHeaderH(tblhttlpmh);
 		} );
