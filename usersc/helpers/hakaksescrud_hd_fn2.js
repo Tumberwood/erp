@@ -41,6 +41,7 @@
  * hak_l        : hak akses Close data
  * hak_e        : hak akses Export Excel, Export pdf, Copy Clipboard
  * hak_p        : hak akses Print
+ * hak_up       : hak akses Upload Data
  * 
  * Variable lain yang berpengaruh
  * cek_c_detail : digunakan untuk menentukan apakah table detail wajib diisi minimal 1 baris. 

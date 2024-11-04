@@ -1336,7 +1336,7 @@ function genForm(nama_tabel, edt){
 function uploadMaster(nama_tabel, tbl, url) {
     // Create and append the modal HTML
     const modalHTML = `
-    <div class="modal" id="modalUpload" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal" id="modalUpload${nama_tabel}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content animated bounceInRight">
                 <form class="form-horizontal" id="frmUploadMaster" enctype="multipart/form-data">
@@ -1406,7 +1406,7 @@ function uploadMaster(nama_tabel, tbl, url) {
 
                         $("#frmUploadItem").val('');
                         tbl.ajax.reload(null, false);
-                        $('#modalUpload').modal('toggle');
+                        $('#modalUpload'+nama_tabel).modal('toggle');
                     },
                     error: function(xhr, Status, err) {
                         toastr.remove(toastrWaiting);
@@ -1416,4 +1416,95 @@ function uploadMaster(nama_tabel, tbl, url) {
             }
         }
     });
+}
+
+function uploadDetail(id_header, nama_tabel, tbl, url) {
+    if (id_header > 0) {
+        tbl.button('btnUploadData:name').enable();
+        // Create and append the modal HTML
+        const modalHTML = `
+        <div class="modal" id="modalUpload${nama_tabel}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content animated bounceInRight">
+                    <form class="form-horizontal" id="frmUploadDetail" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload Detail</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">File Excel</label>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="file" name="filename" class="form-control" id="frmUploadItem">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="button" class="btn btn-success" onclick="window.open('../../../${url}');">
+                                        <i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">Template</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>`;
+    
+        // Append modal to the body
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+        // Initialize validation and submission for the form
+        var frmUploadDetail = $("#frmUploadDetail").validate({
+            submitHandler: function(form) {
+                // toastr awal
+                toastr.info('Harap tunggu ...', 'Proses Upload', {
+                    progressBar: false,
+                    timeOut: 0, // Infinite timeout
+                    extendedTimeOut: 0
+                });
+    
+                // detail
+                var fd_detail = new FormData();
+                var detail = $('#frmUploadItem')[0].files[0];
+                if (detail != undefined) {
+                    fd_detail.append('filename', detail);
+                    fd_detail.append('id_header',id_header);
+    
+                    $.ajax({
+                        url: "../../models/" + nama_tabel + "/" + nama_tabel + "_upload.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: fd_detail,
+                        async: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(json) {
+                            // Hilangkan toastr awal
+                            toastr.clear();
+    
+                            var full_message = json.data.message + '</br>';
+                            var toast_type = json.data.type_message;
+    
+                            // Tampilkan toastr baru
+                            toastr[toast_type](full_message, 'INFO');
+    
+                            $("#frmUploadItem").val('');
+                            tbl.ajax.reload(null, false);
+                            $('#modalUpload'+nama_tabel).modal('toggle');
+                        },
+                        error: function(xhr, Status, err) {
+                            toastr.remove(toastrWaiting);
+                            toastr['error']('Upload gagal. Silakan coba lagi.', 'Error');
+                        }
+                    });
+                }
+            }
+        });
+    } else {
+        tbl.button('btnUploadData:name').disable();
+    }
 }

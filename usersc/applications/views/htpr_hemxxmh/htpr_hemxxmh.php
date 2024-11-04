@@ -180,6 +180,8 @@
 			id_gbuxxmh_old      		= hemxxmh_data.id_gbuxxmh;
 			id_gctxxmh_old      		= hemxxmh_data.id_gctxxmh;
 			id_fpytmmh_old      = hemxxmh_data.id_fpytmmh;
+
+			uploadDetail(id_hemxxmh, 'htpr_hemxxmh', tblhtpr_hemxxmh, 'files/template_file_upload/Master Gaji Karyawan.xlsx')
 			
 			// atur hak akses
 			tbl_details = [tblhtpr_hemxxmh];
@@ -193,6 +195,8 @@
 			// atur hak akses
 			tbl_details = [tblhtpr_hemxxmh];
 			CekDeselectHeaderHD(tblhemxxmh, tbl_details);
+
+			uploadDetail(id_hemxxmh, 'htpr_hemxxmh', tblhtpr_hemxxmh, 'files/template_file_upload/Master Gaji Karyawan.xlsx')
 		} );
 		// END hemxxmh
 
@@ -416,7 +420,7 @@
 					$show_status = '_htpr_hemxxmh';
 					$table_name  = $nama_tabels_d[0];
 
-					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis','upload'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>

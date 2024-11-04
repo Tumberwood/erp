@@ -237,7 +237,7 @@
                             className: 'btn btn-sm',
                             titleAttr: 'Upload Data',
                             action: function ( e, dt, node, config ) {
-                                $('#modalUpload').modal('toggle');
+                                $('#modalUpload<?php echo $table_name;?>').modal('toggle');
                             }
                         },
 <?php
