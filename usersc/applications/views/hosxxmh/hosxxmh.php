@@ -274,7 +274,7 @@
 					$show_status = '_hosxxmh';
 					$table_name  = $nama_tabel;
 
-					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis','upload'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
@@ -320,6 +320,8 @@
 		} );
 
 		// END hosxxmh
+		
+		uploadMaster('hosxxmh', tblhosxxmh, 'files/template_file_upload/Master Section.xlsx');
 		
 	} );// end of document.ready
 

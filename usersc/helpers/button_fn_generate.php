@@ -228,6 +228,24 @@
 ?>
 
 <?php
+                    // BEGIN button upload
+                    if($value == 'upload'){
+?>
+                        { 
+                            text: '<i class="fa fa-file-excel-o"></i>&nbsp;Upload Data',
+                            name: 'btnUploadData',
+                            className: 'btn btn-sm',
+                            titleAttr: 'Upload Data',
+                            action: function ( e, dt, node, config ) {
+                                $('#modalUpload').modal('toggle');
+                            }
+                        },
+<?php
+                    }
+                    // END button upload
+?>
+
+<?php
                 }
                 // END of foreach arr_buttons_tools
 ?>

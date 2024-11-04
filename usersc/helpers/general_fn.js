@@ -1321,3 +1321,99 @@ function genForm(nama_tabel, edt){
         lastPanelBody.append(newRow);
     }
 };
+
+/** FUNCTION UPLOAD MASTER, HTML DAN JS AUTO
+ * MOHON DIPASTIKAN MEMBERI NAMA FILE DENGAN AKHIRAN _upload.php di models.
+ * 
+ * @param {*} nama_tabel = "hosxxmh"
+ * @param {*} tbl        = tbl datatables
+ * @param {*} url        = Lokasi Foto dengan files/folder/nama file.xlsx
+ * 
+ * // END hosxxmh
+		
+    uploadMaster('hosxxmh', tblhosxxmh, 'files/template_file_upload/Master Section.xlsx');
+ */
+function uploadMaster(nama_tabel, tbl, url) {
+    // Create and append the modal HTML
+    const modalHTML = `
+    <div class="modal" id="modalUpload" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated bounceInRight">
+                <form class="form-horizontal" id="frmUploadMaster" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Upload Master</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label">File Excel</label>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="file" name="filename" class="form-control" id="frmUploadItem">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-success" onclick="window.open('../../../${url}');">
+                                    <i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">Template</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>`;
+
+    // Append modal to the body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Initialize validation and submission for the form
+    var frmUploadMaster = $("#frmUploadMaster").validate({
+        submitHandler: function(form) {
+            // toastr awal
+            toastr.info('Harap tunggu ...', 'Proses Upload', {
+                progressBar: false,
+                timeOut: 0, // Infinite timeout
+                extendedTimeOut: 0
+            });
+
+            // item
+            var fd_item = new FormData();
+            var item = $('#frmUploadItem')[0].files[0];
+            if (item != undefined) {
+                fd_item.append('filename', item);
+
+                $.ajax({
+                    url: "../../models/" + nama_tabel + "/" + nama_tabel + "_upload.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: fd_item,
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(json) {
+                        // Hilangkan toastr awal
+                        toastr.clear();
+
+                        var full_message = json.data.message + '</br>';
+                        var toast_type = json.data.type_message;
+
+                        // Tampilkan toastr baru
+                        toastr[toast_type](full_message, 'INFO');
+
+                        $("#frmUploadItem").val('');
+                        tbl.ajax.reload(null, false);
+                        $('#modalUpload').modal('toggle');
+                    },
+                    error: function(xhr, Status, err) {
+                        toastr.remove(toastrWaiting);
+                        toastr['error']('Upload gagal. Silakan coba lagi.', 'Error');
+                    }
+                });
+            }
+        }
+    });
+}
