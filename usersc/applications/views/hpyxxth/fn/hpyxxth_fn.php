@@ -80,7 +80,7 @@
     }
 
     function generateTable(id_hpyxxth) {
-        $('#tabel_atas').empty();
+        // $('#tabel_atas').empty();
         $.ajax({
             url: "../../models/hpyxxth/hpyemtd_dinamis.php",
             dataType: 'json',
