@@ -10,7 +10,7 @@
 			type: 'POST',
 			success: function (json) {
 				// Create an empty table
-				var str1 = '<table id="tblhpyemtd" class="table table-striped table-bordered table-hover nowrap" width="100%">';
+				var str1 = '<table id="tblhpyemtd" class="table table-striped table-bordered table-hover" width="100%">';
 				str1 += '<thead>';
 				str1 += '<tr>';
 				var sum1 = 0; // Sum of columns starting with "1"
@@ -91,7 +91,7 @@
             success: function (json) {
                 if (json.data.length > 0) {
                     // Create an empty table
-                    var str1 = '<table id="tblhpyemtd" class="table table-striped table-bordered table-hover nowrap" width="100%">';
+                    var str1 = '<table id="tblhpyemtd" class="table table-striped table-bordered table-hover" width="100%">';
                     str1 += '<thead>';
                     str1 += '<tr>';
                     var sum1 = 0; // Sum of columns starting with "1"
@@ -155,6 +155,16 @@
 
                     // Update the table element
                     $('#tabel_atas').html(str1);
+                    $('#tblhpyemtd').DataTable({
+                        lengthChange: false,
+                        responsive: false,
+                        fixedHeader: {
+                            header: false,
+                        },
+                        buttons: [
+                            // Add your buttons configuration here
+                        ],
+                    });
                 } else {
                     tableAwal();
                 }
