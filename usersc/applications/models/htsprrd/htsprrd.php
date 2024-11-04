@@ -108,15 +108,15 @@
 	// 		->where( 'htsprrd.approval_state', $_POST['status_approve']);
 	// }
 
-	if ( $_POST['start_date'] != null){
-		$editor
-			->where( 'htsprrd.tanggal', $_POST['start_date'], '>=');
-	}
+	// if ( $_POST['start_date'] != null){
+	// 	$editor
+	// 		->where( 'htsprrd.tanggal', $_POST['start_date'], '>=');
+	// }
 
-	if ( $_POST['end_date'] != null){
-		$editor
-			->where( 'htsprrd.tanggal', $_POST['end_date'], '<=');
-	}
+	// if ( $_POST['end_date'] != null){
+	// 	$editor
+	// 		->where( 'htsprrd.tanggal', $_POST['end_date'], '<=');
+	// }
 
 	include( "htsprrd_extra.php" );
 

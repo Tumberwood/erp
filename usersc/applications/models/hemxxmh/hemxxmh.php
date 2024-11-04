@@ -86,6 +86,8 @@
 			Field::inst( 'hemxxmh.is_pot_makan' ),
 			Field::inst( 'hemxxmh.is_defaultprogram' ),
 			Field::inst( 'hemxxmh.is_nextprocess' ),
+			Field::inst( 'hemxxmh.id_gctxxmh_lahir' )
+			->setFormatter( Format::ifEmpty( 0 ) ),
 
 			Field::inst( 'hemxxmh.gender' ),
 			Field::inst( 'hemxxmh.agama' ),

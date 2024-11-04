@@ -75,56 +75,7 @@
 				<div role="tabpanel" id="tabhpyemtd_1" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblhpyemtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>id_hpyxxth</th>
-										<th>NIK</th>
-										<th>Nama</th>
-										<th>Department</th>
-										<th>Jabatan</th>
-										<th>Status</th>
-										<th>Level</th>
-										<!-- 8 -->
-										<th>Gaji Pokok</th> 
-										<th>Gaji BPJS</th>
-										<th>Tunjangan Level</th>
-										<th>JHT Perusahaan</th>
-										<th>JKK Perusahaan</th>
-										<th>JKM Perusahaan</th>
-										<th>JP Perusahaan</th>
-										<th>BPJS Kesehatan Perusahaan</th>
-										<th class="text-danger">JHT Karyawan</th>
-										<th class="text-danger">JP Karyawan</th>
-										<th class="text-danger">BPJS Kesehatan Karyawan</th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th>Total</th>
-										
-										<th id="hpy_8"></th>
-										<th id="hpy_9"></th>
-										<th id="hpy_10"></th>
-										<th id="hpy_11"></th>
-										<th id="hpy_12"></th>
-										<th id="hpy_13"></th>
-										<th id="hpy_14"></th>
-										<th id="hpy_15"></th>
-										<th id="hpy_16"></th>
-										<th id="hpy_17"></th>
-										<th id="hpy_18"></th>
-									</tr>
-								</tfoot>
-							</table>
+							<div id="tabel_atas"></div>
 						</div> <!-- end of table -->
 
 					</div>
@@ -181,8 +132,10 @@
 
 	// get tableRelation
 	tableRelation('hpyxxth');
+	generateTable(id_hpyxxth);
 
 	$(document).ready(function() {
+		
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
@@ -401,7 +354,7 @@
 						});
 
 						$.ajax( {
-							url: "../../models/hpyxxth/hpyxxth_fn_gen_payroll_ferry.php",
+							url: "../../models/hpyxxth/hpyxxth_fn_gen_payroll_dinamis.php",
 							dataType: 'json',
 							type: 'POST',
 							data: {
@@ -458,6 +411,7 @@
 			tbl_details = [tblhpyemtd];
 			CekSelectHeaderHD(tblhpyxxth, tbl_details);
 			tblhpyxxth.button('btnGenPayroll:name').enable();
+			generateTable(id_hpyxxth);
 		} );
 		
 		tblhpyxxth.on( 'deselect', function () {
@@ -470,128 +424,9 @@
 			tbl_details = [tblhpyemtd];
 			CekDeselectHeaderHD(tblhpyxxth, tbl_details);
 			tblhpyxxth.button('btnGenPayroll:name').disable();
+			tableAwal();
 		} );
 		// END hpyxxth
-
-		// BEGIN hpyemtd
-		edthpyemtd = new $.fn.dataTable.Editor( {
-			ajax: {
-				url: "../../models/hpyxxth/hpyemtd.php",
-				type: 'POST',
-				data: function (d){
-					d.show_deleted_hpyemtd = show_deleted_hpyemtd;
-					d.id_hpyxxth = id_hpyxxth;
-				}
-			},
-			table: "#tblhpyemtd",
-			formOptions: {
-				main: {
-					focus: 3
-				}
-			},
-			fields: [ 
-				{
-					label: "hpyemtd.start_at",
-					name: "hpyemtd.start_at",
-					type: "hidden"
-				},	
-				{
-					label: "hpyemtd.finish_at",
-					name: "hpyemtd.finish_at",
-					type: "hidden"
-				},	
-				{
-					label: "nama_tabel",
-					name: "nama_tabel",
-					def: "hpyemtd",
-					type: "hidden"
-				},	
-				{
-					label: "hpyemtd.transaction_state",
-					name: "hpyemtd.transaction_state",
-					type: "hidden",
-					def: 0
-				},	
-				{
-					label: "id_hpyxxth",
-					name: "hpyemtd.id_hpyxxth",
-					type: "hidden"
-				},	
-				{
-					label: "Kode <sup class='text-danger'>*<sup>",
-					name: "hpyemtd.kode"
-				}, 	
-				{
-					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "hpyemtd.nama"
-				}, 	
-				{
-					label: "Keterangan",
-					name: "hpyemtd.keterangan",
-					type: "textarea"
-				}
-			]
-		} );
-			
-		edthpyemtd.on( 'preOpen', function( e, mode, action ) {
-			edthpyemtd.field('hpyemtd.id_hpyxxth').val(id_hpyxxth);
-			
-			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthpyemtd.field('hpyemtd.start_at').val(start_at);
-			
-			if(action == 'create'){
-				tblhpyemtd.rows().deselect();
-			}
-		});
-
-		edthpyemtd.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
-			$('div.DTE_Form_Buttons button:eq(2)').hide();
-		});
-		
-		edthpyemtd.on( 'preSubmit', function (e, data, action) {
-			if(action != 'remove'){
-
-				kode = edthpyemtd.field('hpyemtd.kode').val();
-
-				validasiRequired(
-					edthpyemtd,
-					'hpyemtd',
-					{
-						'kode': kode
-					}
-				);
-
-				validasiUnique(
-					action,
-					edthpyemtd,
-					'hpyemtd',
-					'kode',
-					'kode',
-					'"'+kode+'"',
-					id_hpyemtd
-				);	
-			}
-			
-			if ( edthpyemtd.inError() ) {
-				return false;
-			}
-		});
-
-		edthpyemtd.on('initSubmit', function(e, action) {
-			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edthpyemtd.field('hpyemtd.finish_at').val(finish_at);
-		});
-			
-		edthpyemtd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
-		} );
-
-		edthpyemtd.on( 'close', function () {
-			edthpyemtd.enable();
-		} );
 		
 		tblhpyemtd = $('#tblhpyemtd').DataTable( {
 			ajax: {
@@ -605,69 +440,6 @@
 			order: [[ 2, "desc" ]],
 			responsive: false,
 			columns: [
-				{ data: "hpyemtd.id",visible:false },
-				{ data: "hpyemtd.id_hpyxxth",visible:false },
-				{ data: "kode" },
-				{ data: "nama" },
-				{ data: "hodxxmh.nama" },
-				{ data: "hetxxmh.nama" },
-				{ data: "hesxxmh.nama" },
-				{ data: "hevxxmh.nama" },
-				{ 
-					data: "hpyemtd.gp",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.gpbpjs",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.tlev",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.jht_p",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.jkk_p",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.jkm_p",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.jp_p",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.bpjss_p",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.jht_k",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.jp_k",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
-				{ 
-					data: "hpyemtd.bpjss_k",
-					render: $.fn.dataTable.render.number( ',', '.', 2,'','' ),
-					class: "text-right"
-				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
