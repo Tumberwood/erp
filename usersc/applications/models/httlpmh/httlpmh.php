@@ -42,6 +42,7 @@
 			Field::inst( 'httlpmh.is_defaultprogram' ),
 			Field::inst( 'httlpmh.is_nextprocess' ),
 			Field::inst( 'httlpmh.is_self_service' ),
+			Field::inst( 'httlpmh.is_dashboard_personal' ),
 
 			Field::inst( 'httlpmh.is_potongcuti' ),
 			Field::inst( 'httlpmh.jenis' ),

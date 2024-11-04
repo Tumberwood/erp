@@ -27,6 +27,7 @@
                                 <th>Self Service</th>
                                 <th>Jenis Jam</th>
                                 <th>Potong Cuti</th>
+                                <th>Dashboard Personal</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -142,6 +143,16 @@
 				{
 					label: "Potong Cuti",
 					name: "httlpmh.is_potongcuti",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Dashboard Personal",
+					name: "httlpmh.is_dashboard_personal",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -321,6 +332,10 @@
 				},
 				{ 
 					data: "httlpmh.is_potongcuti" ,
+					...renderYaTidak()
+				},
+				{ 
+					data: "httlpmh.is_dashboard_personal" ,
 					...renderYaTidak()
 				},
 				{ 
