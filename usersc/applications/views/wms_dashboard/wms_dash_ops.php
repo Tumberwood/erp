@@ -22,18 +22,14 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<form role="form" class="form-inline">
-							<div class="form-group">
-								<label>Periode</label>
-								<div class="input-group input-daterange" id="periode">
-									<input type="text" id="start_date" class="form-control">
-									<div class="input-group-addon">
-										<span class="fa fa-calendar"></span>
-									</div>
-									<input type="text" id="end_date" class="form-control">
-								</div>
+						<label>Periode</label>
+						<div class="input-group input-daterange" id="periode">
+							<input type="text" id="start_date" class="form-control">
+							<div class="input-group-addon">
+								<span class="fa fa-calendar"></span>
 							</div>
-						</form>
+							<input type="text" id="end_date" class="form-control">
+						</div>
 					</div>
 					<div class="form-group row">												
 						<div class="col-sm-6">
@@ -233,28 +229,42 @@
 
 	$(document).ready(function() {
 
-		reload_dashboard_data();
+		// reload_dashboard_data();
 
-		$("#select_id_iwhxxmh").change(function(){		
-			reload_dashboard_data();
-			$('#modalFloatingFilter').modal('toggle');
-		});
+		// $("#select_id_iwhxxmh").change(function(){		
+		// 	reload_dashboard_data();
+		// 	$('#modalFloatingFilter').modal('toggle');
+		// });
 
-		$("#start_date").change(function(){
-			reload_dashboard_data();
-			$('#modalFloatingFilter').modal('toggle');
-		});
+		// $("#start_date").change(function(){
+		// 	reload_dashboard_data();
+		// 	$('#modalFloatingFilter').modal('toggle');
+		// });
 
-		$("#end_date").change(function(){
-			reload_dashboard_data();
-			$('#modalFloatingFilter').modal('toggle');
-		});
+		// $("#end_date").change(function(){
+		// 	reload_dashboard_data();
+		// 	$('#modalFloatingFilter').modal('toggle');
+		// });
 
 		autoReloadInterval(function () {
 			var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-			// console.log(scrollPosition);
-			//tambahkan function reload tabel atau function generate card
 			reload_dashboard_data();
+		});
+
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+				
+			},
+			submitHandler: function(frmFilter) {
+				id_iwhxxmh  = $('#select_id_iwhxxmh').val();
+
+				if (id_iwhxxmh > 0) {
+					reload_dashboard_data();
+					$('#modalFloatingFilter').modal('toggle');
+				}
+			}
 		});
 	} );// end of document.ready
 
