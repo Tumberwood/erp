@@ -418,8 +418,7 @@
 				},
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "wloxxmh.nama",
-					type: "readonly"
+					name: "wloxxmh.nama"
 				},
 				{
 					label: "Smaller Location",
