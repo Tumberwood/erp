@@ -332,9 +332,11 @@
 
 		edthttlptd.dependent( 'httlptd.id_httlpmh', function ( val, data, callback ) {
 			if (val > 0) {
-				autofillField("httlpmh", val, "jenis_jam, jenis");
+				autofillField("httlpmh", val, "jenis_jam, jenis,hari");
 				jenis_jam = autofillData.jenis_jam;
 				jenis = autofillData.jenis;
+				hari = autofillData.hari;
+				console.log(hari);
 				edthttlptd.field('httlptd.jenis').val(jenis);
 				
 				if (jenis == 2) {
@@ -440,6 +442,22 @@
 								'jam_akhir': jam_akhir,
 							}
 						);
+					}
+				}
+				autofillField("httlpmh", id_httlpmh, "hari");
+				hari = autofillData.hari;
+
+				if (hari > 0) {
+					if (id_hemxxmh > 0) {
+						hariKerja(id_hemxxmh,tanggal_awal,tanggal_akhir);
+						var diff = hariKerja(id_hemxxmh,tanggal_awal,tanggal_akhir);
+					} else {
+						var diff = moment(tanggal_akhir).diff(moment(tanggal_awal), 'days'); // Menghitung selisih dalam hari
+					}
+					console.log(diff);
+
+					if (diff > hari) {
+						edthttlptd.field('httlptd.tanggal_akhir').error(`Total Hari tidak boleh melebihi ${hari} hari! <br>inputan sekarang adalah ${diff} hari`);
 					}
 				}
 
