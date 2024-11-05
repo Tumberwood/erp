@@ -73,7 +73,7 @@
             ->exec('SELECT
                         a.id,
                         CASE
-                            WHEN a.level > 0 THEN (a.rack)
+                            WHEN a.level > 0 THEN (a.rack - 1)
                             WHEN a.level = 0 THEN (SELECT MAX(rack) FROM wloxxmh WHERE level > 0 AND id_iwhxxmh = :id_iwhxxmh AND id_wloctmh = :id_wloctmh)
                             ELSE a.rack
                         END AS rack,
