@@ -752,7 +752,7 @@
 
 		tbliimxxmh.searchPanes.container().appendTo('#spiimxxmh');
 		tbliimxxmh.searchBuilder.container().appendTo( '#sbiimxxmh' );
-		
+
 		tbliimxxmh.on( 'init', function () {
 			// atur hak akses
 			tbl_details = [tbliimummd, tblwimlotd];
@@ -781,6 +781,17 @@
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).enable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).enable();
 
+			//cek detail UoM default
+			cekUoMDefault(id_iimxxmh);
+			// console.log(c_id);
+			if (c_id == 1) {
+				tbliimxxmh.button('btnConfirm:name').enable();
+			} else {
+				full_message = 'Item ini tidak memiliki UoM Default!</br> Silahkan edit Detail UoM</br>';
+				toast_type   = 'error';
+				toastr[toast_type](full_message, 'INFO');
+				tbliimxxmh.button('btnConfirm:name').disable();
+			}
 		} );
 		
 		tbliimxxmh.on( 'deselect', function () {
