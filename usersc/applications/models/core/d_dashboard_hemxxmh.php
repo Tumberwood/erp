@@ -32,13 +32,13 @@
                     hodxxmh.nama AS hodxxmh_nama,
                     hetxxmh.nama AS hetxxmh_nama,
                     CONCAT(
-                        TIMESTAMPDIFF(YEAR, hemjbmh.tanggal_masuk, CURDATE()), " Tahun", 
+                        TIMESTAMPDIFF(YEAR, hemjbmh.tanggal_masuk, CURDATE()), " Year", 
                         CASE 
                             WHEN TIMESTAMPDIFF(YEAR, hemjbmh.tanggal_masuk, CURDATE()) != 1 THEN "s" 
                             ELSE "" 
                         END, 
                         " ", 
-                        TIMESTAMPDIFF(MONTH, hemjbmh.tanggal_masuk, CURDATE()) % 12, " Bulan", 
+                        TIMESTAMPDIFF(MONTH, hemjbmh.tanggal_masuk, CURDATE()) % 12, " Month", 
                         CASE 
                             WHEN TIMESTAMPDIFF(MONTH, hemjbmh.tanggal_masuk, CURDATE()) % 12 != 1 THEN "s" 
                             ELSE "" 
