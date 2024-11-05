@@ -49,6 +49,20 @@
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
+			Field::inst( 'hemxxmh.id_files_foto' )
+				->setFormatter( Format::ifEmpty( 0 ) )
+				// ->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/ktp/__ID__.__EXTN__' )
+				->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/hemxxmh_foto/__ID__.__EXTN__' )
+					->db( 'files', 'id', array(
+						'filename'		=> Upload::DB_FILE_NAME,
+						'filesize'		=> Upload::DB_FILE_SIZE,
+						'web_path'		=> Upload::DB_WEB_PATH,
+						'system_path'	=> Upload::DB_SYSTEM_PATH,
+						'extn'		=> Upload::DB_EXTN
+					) )
+					->validator( Validate::fileSize( 1000000, 'Ukuran lampiran maksimal 1Mb' ) )
+					->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg'), "Hanya boleh format png, jpg, dan jpeg" ) )
+				),
 			Field::inst( 'hemxxmh.id_files_ktp' )
 				->setFormatter( Format::ifEmpty( 0 ) )
 				// ->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/ktp/__ID__.__EXTN__' )

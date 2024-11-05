@@ -107,6 +107,9 @@
 										<div class="col-lg-6">
 											<editor-field name="hemxxmh.is_pot_makan"></editor-field>
 										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.id_files_foto"></editor-field>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -591,6 +594,20 @@
 				{
 					label: "Foto KTP",
 					name: "hemxxmh.id_files_ktp",
+					type: "upload",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edthemxxmh.file( 'files', fileId ).web_path+'" target="_blank">'+ edthemxxmh.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				},
+				
+				{
+					label: "Foto Karyawan",
+					name: "hemxxmh.id_files_foto",
 					type: "upload",
 					display: function ( fileId, counter ) {
 						if (fileId == 0){

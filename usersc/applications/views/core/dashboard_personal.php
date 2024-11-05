@@ -17,7 +17,7 @@
 <div class="row">
 	<div class="col=lg-4 col-md-4 col-sm-12 col-xs-12">
 		<div class="profile-image">
-			<img src="../../../files/uploads/def_male.png" class="rounded-circle circle-border m-b-md" alt="profile">
+			<div id="foto_profile"></div>
 		</div>
 		<div class="profile-info">
 			<div class="">
@@ -56,6 +56,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		loadFoto();
 		loadKehadiran();
 		loadProfile();
 		loadKedisiplinan();

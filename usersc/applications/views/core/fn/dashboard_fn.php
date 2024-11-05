@@ -19,6 +19,26 @@
     // END highchart generate options
     // Sample data array
     
+    function loadFoto(){
+        $.ajax( {
+            url: "../../models/core/dashboard_foto.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+            },
+            success: function ( json ) {
+                var url_foto = json.data.hemxxmh.url_foto;
+
+                const html = `
+                    <img src="${url_foto}" class="rounded-circle circle-border m-b-md" alt="profile">
+                `;
+
+                // Append to the div
+                document.getElementById('foto_profile').innerHTML = html;
+            }
+        } );
+    };
+    
     function loadKehadiran(){
         $.ajax( {
             url: "../../models/core/dashboard_kehadiran.php",
