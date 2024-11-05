@@ -129,6 +129,10 @@
 					]
 				},
 				{
+					label: "Jumlah Hari <sup class='text-danger'>*<sup>",
+					name: "httlpmh.hari",
+				},
+				{
 					label: "Jenis Jam <sup class='text-danger'>*<sup>",
 					name: "httlpmh.jenis_jam",
 					type: "select",
@@ -198,9 +202,15 @@
 			if (val == 1) {
 				edthttlpmh.field('httlpmh.jenis_jam').hide();
 				edthttlpmh.field('httlpmh.jenis_jam').val('');
+
+				edthttlpmh.field('httlpmh.hari').show();
+				edthttlpmh.field('httlpmh.hari').val();
 			} else {
 				edthttlpmh.field('httlpmh.jenis_jam').show();
 				edthttlpmh.field('httlpmh.jenis_jam').val();
+
+				edthttlpmh.field('httlpmh.hari').hide();
+				edthttlpmh.field('httlpmh.hari').val('');
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -212,6 +222,7 @@
 				nama = edthttlpmh.field('httlpmh.nama').val();
 				jenis = edthttlpmh.field('httlpmh.jenis').val();
 				jenis_jam = edthttlpmh.field('httlpmh.jenis_jam').val();
+				hari = edthttlpmh.field('httlpmh.hari').val();
 
 				validasiRequired(
 					edthttlpmh,
@@ -251,6 +262,16 @@
 					'nama',
 					'"'+nama+'"',
 					id_httlpmh
+				);
+
+				validasiNumber(
+					edthttlpmh,
+					'httlpmh',
+					{
+						'hari': hari,
+					},
+					0,
+					'>='
 				);
 			}
 			

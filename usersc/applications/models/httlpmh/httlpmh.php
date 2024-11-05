@@ -45,6 +45,7 @@
 			Field::inst( 'httlpmh.is_dashboard_personal' ),
 
 			Field::inst( 'httlpmh.is_potongcuti' ),
+			Field::inst( 'httlpmh.hari' ),
 			Field::inst( 'httlpmh.jenis' ),
 			Field::inst( 'httlpmh.jenis_jam' ),
 		);
