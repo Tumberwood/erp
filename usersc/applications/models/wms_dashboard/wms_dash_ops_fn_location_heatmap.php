@@ -72,7 +72,11 @@
             ->bind(':end_date', $end_date)
             ->exec('SELECT
                         a.id,
-                        ifnull(a.rack,0) as rack,
+                        CASE
+                            WHEN a.level > 0 THEN (a.rack)
+                            WHEN a.level = 0 THEN (SELECT MAX(rack) FROM wloxxmh WHERE level > 0 AND id_iwhxxmh = :id_iwhxxmh AND id_wloctmh = :id_wloctmh)
+                            ELSE a.rack
+                        END AS rack,
                         ifnull(a.bay,0) as bay,
                         SUM(ifnull(b.occurance,0)) AS occurance
                     FROM wloxxmh a
