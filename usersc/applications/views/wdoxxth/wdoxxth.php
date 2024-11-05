@@ -125,7 +125,7 @@
 	var edtwdoittd, tblwdoittd, show_deleted_wdoittd = 0, id_wdoittd;
 	// ------------- end of default variable
 
-	var id_grlxxmh_old = 0;
+	var id_grlxxmh_old = 0, id_wttxxmh_old = 0;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_iumxxmh_unit  = 0;
 
 	// get tableRelation
@@ -217,6 +217,42 @@
 					}
 				},			
 				{
+					label: "Transaction Type <sup class='text-danger'>*<sup>",
+					name: "wdoxxth.id_wttxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wttxxmh/wttxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wttxxmh_old: id_wttxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},			
+				{
 					label: "Tanggal <sup class='text-danger'>*<sup>",
 					name: "wdoxxth.tanggal",
 					type: "datetime",
@@ -259,6 +295,7 @@
 			if(action != 'remove'){
 
 				id_grlxxmh_customer = edtwdoxxth.field('wdoxxth.id_grlxxmh_customer').val();
+				id_wttxxmh = edtwdoxxth.field('wdoxxth.id_wttxxmh').val();
 				tanggal       = edtwdoxxth.field('wdoxxth.tanggal').val();
 
 				validasiRequired(
@@ -266,6 +303,7 @@
 					'wdoxxth',
 					{
 						'id_grlxxmh_customer': id_grlxxmh_customer,
+						'id_wttxxmh': id_wttxxmh,
 						'tanggal'   : tanggal
 					}
 				);
@@ -373,6 +411,7 @@
 		tblwdoxxth.on( 'select', function( e, dt, type, indexes ) {
 			siVarSet('wdoxxth');
 			id_grlxxmh_old    = wdoxxth_data.id_grlxxmh_customer;
+			id_wttxxmh_old    = wdoxxth_data.id_wttxxmh;
 
 			// atur hak akses
 			tbl_details = [tblwdoittd];
@@ -383,6 +422,7 @@
 		tblwdoxxth.on( 'deselect', function () {
 			siVarReset('wdoxxth');
 			id_grlxxmh_old = 0;
+			id_wttxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblwdoittd];

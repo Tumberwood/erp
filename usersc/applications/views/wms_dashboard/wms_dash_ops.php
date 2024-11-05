@@ -13,12 +13,15 @@
 
 <!-- begin content here -->
 
-<div class="row">
-	<div class="col-md-12">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="row p-xs">
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmFilter">
+				<div class="modal-header">
+					<h4 class="modal-title">Filter</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
 						<form role="form" class="form-inline">
 							<div class="form-group">
 								<label>Periode</label>
@@ -32,14 +35,25 @@
 							</div>
 						</form>
 					</div>
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="form-group row">												
-							<div class="col-sm-6">
-								<select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh"></select>
-							</div>
+					<div class="form-group row">												
+						<div class="col-sm-6">
+							<select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh"></select>
 						</div>
 					</div>
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-8">
 				<div class="row">
 					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
 						<div class="ibox">
@@ -166,6 +180,8 @@
 <script type="text/javascript">
 	// get tableRelation
 	// tableRelation('_blank');
+	//Aktivasi Filter Floating
+	filterFloating();
 
 	var id_iwhxxmh, id_iwhxxmh_old = 0;
 
@@ -202,6 +218,7 @@
 	});
 
 	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 
 	function reload_dashboard_data(){
 		id_iwhxxmh = $('#select_id_iwhxxmh').val();
@@ -220,16 +237,25 @@
 
 		$("#select_id_iwhxxmh").change(function(){		
 			reload_dashboard_data();
+			$('#modalFloatingFilter').modal('toggle');
 		});
 
 		$("#start_date").change(function(){
 			reload_dashboard_data();
+			$('#modalFloatingFilter').modal('toggle');
 		});
 
 		$("#end_date").change(function(){
 			reload_dashboard_data();
+			$('#modalFloatingFilter').modal('toggle');
 		});
 
+		autoReloadInterval(function () {
+			var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+			// console.log(scrollPosition);
+			//tambahkan function reload tabel atau function generate card
+			reload_dashboard_data();
+		});
 	} );// end of document.ready
 
 </script>
