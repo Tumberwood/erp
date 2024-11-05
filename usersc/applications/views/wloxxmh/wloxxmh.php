@@ -44,6 +44,11 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.is_generate_nama"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wloxxmh.rack_name"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -171,7 +176,7 @@
 	// ------------- end of default variable
 
 	var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0;
-
+	var is_generate_nama;
 	var id_wlotpmh, wloxxmh_kode, rack_name, bay_name, level_name, position_name;
 
 	// get tableRelation
@@ -397,6 +402,17 @@
 					}
 				},
 				{
+					label: "Generate Nama Otomatis",
+					name: "wloxxmh.is_generate_nama",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					],
+					fieldInfo: "Jika Yes: Location akan di generate otomatis berdasarkan Warehouse, Rack, Bay, Level, Position"
+				},
+				{
 					label: "Rack / Block",
 					name: "wloxxmh.rack_name",
 					fieldInfo: "Gunakan Huruf atau Angka, misal A atau AA atau 01"
@@ -418,8 +434,7 @@
 				},
 				{
 					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "wloxxmh.nama",
-					type: "readonly"
+					name: "wloxxmh.nama"
 				},
 				{
 					label: "Smaller Location",
@@ -446,21 +461,22 @@
 			if(action == 'create'){
 				tblwloxxmh.rows().deselect();
 
-				edtwloxxmh.field('wloxxmh.nama').enable();
 				edtwloxxmh.field('wloxxmh.id_iwhxxmh').enable();
 			}else if(action == 'edit'){
 				
 				if(transaction_state == 0){
-					edtwloxxmh.field('wloxxmh.nama').enable();
 					edtwloxxmh.field('wloxxmh.id_iwhxxmh').enable();
 				}else{
-					edtwloxxmh.field('wloxxmh.nama').disable();
 					edtwloxxmh.field('wloxxmh.id_iwhxxmh').disable();
 				}
 
 				autofillField('iwhxxmh', id_iwhxxmh, 'kode');
 				iwhxxmh_kode = autofillData.kode;
-				wloxxmh_generate_nama();
+
+				is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+				if(is_generate_nama == 1){
+					wloxxmh_generate_nama();
+				}
 
 			}
 		});
@@ -476,31 +492,56 @@
 			id_iwhxxmh = val;
 			autofillField('iwhxxmh', id_iwhxxmh, 'kode');
 			iwhxxmh_kode = autofillData.kode;
-			wloxxmh_generate_nama();
+
+			is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+			if(is_generate_nama == 1){
+				wloxxmh_generate_nama();
+			}
+			
 			return {}
 		}, {event: 'keyup change'});
 
 		edtwloxxmh.dependent( 'wloxxmh.rack_name', function ( val, data, callback ) {
 			rack_name = val;
-			wloxxmh_generate_nama();
+			
+			is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+			if(is_generate_nama == 1){
+				wloxxmh_generate_nama();
+			}
+
 			return {}
 		}, {event: 'keyup change'});
 
 		edtwloxxmh.dependent( 'wloxxmh.bay_name', function ( val, data, callback ) {
 			bay_name = val;
-			wloxxmh_generate_nama();
+			
+			is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+			if(is_generate_nama == 1){
+				wloxxmh_generate_nama();
+			}
+
 			return {}
 		}, {event: 'keyup change'});
 
 		edtwloxxmh.dependent( 'wloxxmh.level_name', function ( val, data, callback ) {
 			level_name = val;
-			wloxxmh_generate_nama();
+			
+			is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+			if(is_generate_nama == 1){
+				wloxxmh_generate_nama();
+			}
+
 			return {}
 		}, {event: 'keyup change'});
 
 		edtwloxxmh.dependent( 'wloxxmh.position_name', function ( val, data, callback ) {
 			position_name = val;
-			wloxxmh_generate_nama();
+			
+			is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+			if(is_generate_nama == 1){
+				wloxxmh_generate_nama();
+			}
+
 			return {}
 		}, {event: 'keyup change'});
 
@@ -519,7 +560,8 @@
 					{
 						'id_iwhxxmh': id_iwhxxmh,
 						'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas,
-						'rack_name': rack_name
+						'rack_name': rack_name,
+						'nama': nama
 					}
 				);
 
