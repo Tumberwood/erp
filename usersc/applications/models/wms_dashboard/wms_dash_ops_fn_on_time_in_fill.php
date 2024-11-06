@@ -78,7 +78,7 @@
                     SELECT
                         COUNT(id_wplittd) c_id_wplittd,
                         SUM(c_lunas) lunas,
-                        (SUM(c_lunas) / COUNT(id_wplittd)) * 100 persen
+                        ifnull((SUM(c_lunas) / COUNT(id_wplittd)) * 100,0) persen
                     FROM hasil 
                 ');
         $rs_otif = $qs_otif->fetch();
