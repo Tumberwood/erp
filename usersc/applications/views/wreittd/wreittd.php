@@ -659,7 +659,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= ['sp', 'sb'];
-					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -694,9 +694,19 @@
 			id_iimxxmh = wreittd_data.id_iimxxmh;
 			id_iimxxmh_old = wreittd_data.id_iimxxmh;
 			id_iumxxmh_unit_old = wreittd_data.id_iumxxmh_unit;
-
+			console.log(is_nextprocess);
 			// atur hak akses
 			CekSelectHeaderH(tblwreittd);
+
+			if (is_nextprocess == 1) {
+				tblwreittd.button('btnRemove:name')
+				.nodes()
+				.css( 'display', 'none' );
+			} else {
+				tblwreittd.button('btnRemove:name')
+				.nodes()
+				.css( 'display', 'block' );
+			}
 		} );
 
 		tblwreittd.on( 'deselect', function () {
