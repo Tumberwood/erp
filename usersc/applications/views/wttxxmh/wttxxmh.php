@@ -108,7 +108,7 @@
 					name: "wttxxmh.nama"
 				}, 	
 				{
-					label: "Jenis",
+					label: "Jenis <sup class='text-danger'>*<sup>",
 					name: "wttxxmh.jenis",
 					type: "select",
 					placeholder : "Select",
