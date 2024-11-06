@@ -28,6 +28,7 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'wptittd.id' ),
+			Field::inst( 'wptittd.id_wreittd' ),
 			Field::inst( 'wptittd.id_gcpxxmh' )
 				->set( Field::SET_CREATE )
 				->setValue($s_id_gcpxxmh),
