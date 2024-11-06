@@ -23,7 +23,7 @@
                                 <th>ID</th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
-                                <th data-i18n="notes"></th>
+                                <th>Jenis</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -108,6 +108,17 @@
 					name: "wttxxmh.nama"
 				}, 	
 				{
+					label: "Jenis",
+					name: "wttxxmh.jenis",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Goods Receive", "value": 1 },
+						{ "label": "Goods Issue", "value": 2 },
+						{ "label": "Goods Transfer", "value": 3 }
+					]
+				},
+				{
 					label: getTranslation('notes'),
 					name: "wttxxmh.keterangan",
 					type: "textarea"
@@ -145,13 +156,15 @@
 			if(action != 'remove'){
 				kode = edtwttxxmh.field('wttxxmh.kode').val();
 				nama = edtwttxxmh.field('wttxxmh.nama').val();
+				jenis = edtwttxxmh.field('wttxxmh.jenis').val();
 
 				validasiRequired(
 					edtwttxxmh,
 					'wttxxmh',
 					{
 						'kode': kode,
-						'nama': nama
+						'nama': nama,
+						'jenis': jenis
 
 					}
 				);
@@ -205,7 +218,21 @@
 				{ data: "wttxxmh.id",visible:false },
 				{ data: "wttxxmh.kode" },
 				{ data: "wttxxmh.nama" },
-				{ data: "wttxxmh.keterangan" },
+				{ 
+					data: "wttxxmh.jenis" ,
+					render: function (data){
+							if(data == 1){
+								return 'Goods Receive';
+							}else if(data == 2){
+								return 'Goods Issue';
+							}else if(data == 3){
+								return 'Goods Transfer';
+							}else{
+								return '<span class="badge badge-warning">INVALID</span>';
+							}
+						}
+
+				},
 				{ 
 					data: "wttxxmh.transaction_state" ,
 					...renderTransactionStatus()

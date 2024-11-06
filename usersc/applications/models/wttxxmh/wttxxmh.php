@@ -40,7 +40,8 @@
 			Field::inst( 'wttxxmh.start_at' ),
 			Field::inst( 'wttxxmh.finish_at' ),
 			Field::inst( 'wttxxmh.is_defaultprogram' ),
-			Field::inst( 'wttxxmh.is_nextprocess' )
+			Field::inst( 'wttxxmh.is_nextprocess' ),
+			Field::inst( 'wttxxmh.jenis' )
 		);
 	
 	// do not erase
