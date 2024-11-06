@@ -7,7 +7,7 @@
 ?>
 
 <?php
-	$nama_tabel    = '_blank';
+	$nama_tabel    = 'wms_log_r';
 	$nama_tabels_d = [];
 ?>
 
@@ -151,6 +151,25 @@
 	</div>
 </div>
 
+<div class="row">
+	<div class="col-12">
+		<div class="table-responsive">
+			<table id="tblwms_log_r" class="table table-striped table-bordered table-hover nowrap" width="100%">
+				<thead>
+					<tr>
+						<th>User</th>
+						<th>RE</th>
+						<th>PT</th>
+						<th>PC</th>
+						<th>DP</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
@@ -178,6 +197,7 @@
 	// tableRelation('_blank');
 	//Aktivasi Filter Floating
 	filterFloating();
+	var edtwms_log_r, tblwms_log_r, show_deleted_wms_log_r = 0, id_wms_log_r;
 
 	var id_iwhxxmh, id_iwhxxmh_old = 0;
 
@@ -228,7 +248,74 @@
 	}
 
 	$(document).ready(function() {
+		id_iwhxxmh = $('#select_id_iwhxxmh').val();
+		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+			
+		tblwms_log_r = $('#tblwms_log_r').DataTable( {
+			dom: domPQ,
+			searchPanes:{
+				layout: 'columns-1',
+			},
+			ajax: {
+				url: "../../models/wms_dashboard/wms_dash_ops_log_r.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wms_log_r = show_deleted_wms_log_r;
+					d.start_date = start_date;
+					d.end_date = end_date;
+					d.id_iwhxxmh = id_iwhxxmh;
+				}
+			},
+			columnDefs:[
+				{
+					searchPanes:{
+						show: true,
+					},
+					targets: [0]
+				},
+				{
+					searchPanes:{
+						show: false,
+					},
+					targets: '_all'
+				}
+			],
+			order: [[ 0, "desc" ]],
+			columns: [
+				{ data: "username" },
+				{ data: "re"},
+				{ data: "pt"},
+				{ data: "pc"},
+				{ data: "dp"},
+				{ data: "total"},
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_wms_log_r';
+					$table       = 'tblwms_log_r';
+					$edt         = 'edtwms_log_r';
+					$show_status = '_wms_log_r';
+					$table_name  = $nama_tabel;
 
+					$arr_buttons_tools 		= ['copy','excel','colvis'];
+					$arr_buttons_tools2 	= [ 'sp', 'sb'];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+		
+		tblwms_log_r.searchPanes.container().appendTo('#spwms_log_r');
+		tblwms_log_r.searchBuilder.container().appendTo( '#sbwms_log_r' );
+		
 		// reload_dashboard_data();
 
 		// $("#select_id_iwhxxmh").change(function(){		
@@ -249,6 +336,7 @@
 		autoReloadInterval(function () {
 			var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 			reload_dashboard_data();
+			tblwms_log_r.ajax.reload(null, false);
 		});
 
 		$("#frmFilter").submit(function(e) {
@@ -262,6 +350,7 @@
 
 				if (id_iwhxxmh > 0) {
 					reload_dashboard_data();
+					tblwms_log_r.ajax.reload(null, false);
 					$('#modalFloatingFilter').modal('toggle');
 				}
 			}
