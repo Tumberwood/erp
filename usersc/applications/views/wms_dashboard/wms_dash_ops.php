@@ -122,6 +122,7 @@
 								<small></small>
 							</div>
 						</div>
+						<div id="otif"></div>
 					</div>
 				</div>
 			</div>
@@ -245,6 +246,7 @@
 		load_dashboard_wms_ops_location_heatmap(end_date);
 		load_dashboard_wms_ops_location_capacity(end_date);
 		load_dashboard_wms_ops_man_hours(start_date,end_date);
+		otif(start_date,end_date);
 	}
 
 	$(document).ready(function() {

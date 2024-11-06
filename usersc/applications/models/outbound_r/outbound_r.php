@@ -24,7 +24,7 @@
 	
 	$qs_wpllptd = $db
 		->raw()
-		->exec('SELECT
+		->exec('SELECT DISTINCT
 					b.kode iimxxmh_kode,
 					b.nama iimxxmh_nama,
 					a.wlpxxmh_kode,

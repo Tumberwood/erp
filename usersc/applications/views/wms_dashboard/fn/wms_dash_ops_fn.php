@@ -345,4 +345,45 @@
             }
         } );
     }
+
+    function otif(start_date,end_date){
+        $('#otif').empty();
+
+        $.ajax( {
+            url: "../../models/wms_dashboard/wms_dash_ops_fn_on_time_in_fill.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                start_date: start_date,
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
+            },
+            success: function ( json ) {
+                persen_otif = json.data.rs_otif.persen;
+
+                html = `
+                <div class="ibox">
+                    <div class="ibox-content p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-9">
+                                <h4 class="font-bold ">OTIF</h4>
+                            </div>
+                        </div>
+                        <div class="row vertical-align">
+                            <div class="col-9">
+                                <h1 class="">${persen_otif}%</h1>
+                            </div>
+                        </div>
+                        <div class="progress progress-small">
+                            <div style="width: ${persen_otif}%;" class="progress-bar"></div>
+                        </div>
+                        <small class="font-bold">On Time In Fill</small>
+                    </div>
+                </div>
+                `;
+
+                $('#otif').html(html);
+            }
+        } );
+    }
 </script>
