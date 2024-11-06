@@ -284,11 +284,11 @@
 			order: [[ 0, "desc" ]],
 			columns: [
 				{ data: "username" },
-				{ data: "re"},
-				{ data: "pt"},
-				{ data: "pc"},
-				{ data: "dp"},
-				{ data: "total"},
+				{ data: "re", ...renderNumber()},
+				{ data: "pt", ...renderNumber()},
+				{ data: "pc", ...renderNumber()},
+				{ data: "dp", ...renderNumber()},
+				{ data: "total", ...renderNumber()},
 			],
 			buttons: [
 				// BEGIN breaking generate button
