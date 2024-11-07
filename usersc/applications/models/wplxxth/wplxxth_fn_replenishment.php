@@ -90,7 +90,7 @@
 				WHERE c.id = :id_transaksi_h 
 				AND b.keterangan <> :uniqueToken 
 				AND a.id_iimxxmh = :id_iimxxmh
-				'.$where_wh.'
+				'.$where_wh.' AND b.iimxxmh_status = 1
 				AND (
 						(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
 						OR
