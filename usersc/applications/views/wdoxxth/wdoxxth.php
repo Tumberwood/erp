@@ -230,6 +230,7 @@
 							data: function (params) {
 								var query = {
 									id_wttxxmh_old: id_wttxxmh_old,
+									ids_wttxxmh: '2',
 									search: params.term || '',
 									page: params.page || 1
 								}

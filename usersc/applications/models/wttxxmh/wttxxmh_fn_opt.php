@@ -28,6 +28,14 @@
         $id_wttxxmh_old = 0;
     }
 
+    if(isset($_GET['ids_wttxxmh'])){
+        $ids_wttxxmh = '('.$_GET['ids_wttxxmh'].')';
+        $w_like = 'IN';
+    }else{
+        $ids_wttxxmh = '(-9)';
+        $w_like = 'NOT IN';
+    }
+
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_wttxxmh_old > 0){
@@ -57,6 +65,7 @@
         ->order('kode')
         ->where('transaction_state',1)
         ->where('id', $id_wttxxmh_old, '<>' )
+        ->where('id', $ids_wttxxmh, $w_like, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
