@@ -181,7 +181,7 @@
 						d.uniqueToken = uniqueToken;
 					}
 				},
-				order: [[ 2, "asc" ]],
+				order: [[ 2, "asc" ], [4, "asc"]],
 				columns: [
 					{ data: "id",visible:false },
 					{ data: "id_wpcxxth",visible:false },
