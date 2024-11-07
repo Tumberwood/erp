@@ -67,7 +67,7 @@
                 LEFT JOIN iumxxmh m_def ON m_def.id = def.id_iumxxmh
                 WHERE 
                     iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
-                    '.$where_wloctmh.' AND iivxxrd.keterangan <> :uniqueToken
+                    '.$where_wloctmh.' AND iivxxrd.keterangan <> :uniqueToken AND iivxxrd.iimxxmh_status = 1
                 GROUP BY
                     iivxxrd.id_iimxxmh,
                     iivxxrd.iimxxmh_kode,

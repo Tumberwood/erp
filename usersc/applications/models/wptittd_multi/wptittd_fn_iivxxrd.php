@@ -70,7 +70,7 @@
                 LEFT JOIN iimummd unit ON unit.id_iimxxmh = iivxxrd.id_iimxxmh AND unit.id_iumxxmh = iivxxrd.id_iumxxmh_unit
                 LEFT JOIN iumxxmh m_def ON m_def.id = def.id_iumxxmh
                 WHERE 
-                    iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
+                    iivxxrd.wlpxxmh_kode = :wlpxxmh_kode AND iivxxrd.iimxxmh_status = 1
                     '.$where_wloctmh.'
                     '.$where_keterangan.'
                 GROUP BY
