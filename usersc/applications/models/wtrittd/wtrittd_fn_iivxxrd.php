@@ -64,6 +64,7 @@
                     iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
                     AND iivxxrd.id_wloctmh = 3 AND iivxxrd.keterangan <> :uniqueToken
                     AND iivxxrd.id_wloxxmh = :id_wloxxmh_asal
+                    AND iivxxrd.iimxxmh_status = 1
                 GROUP BY
                     iivxxrd.id_iimxxmh,
                     iivxxrd.iimxxmh_kode,
