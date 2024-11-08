@@ -36,7 +36,7 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabdash_outbound_1"> Komponen</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabdash_outbound_1"> Detail</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabdash_outbound_1" class="tab-pane active">
@@ -48,12 +48,12 @@
 								<thead>
 									<tr>
 										<th>id_wdoxxth</th>
-										<th>Kode</th>
+										<th>Delivery Order</th>
 										<th>Jumlah PL</th>
 										<th>Jumlah PC</th>
 										<th>Jumlah DP</th>
-										<th>Persen PC</th>
-										<th>Persen DP</th>
+										<th>% Picking</th>
+										<th>% Dispatch</th>
 									</tr>
 								</thead>
 							</table>
