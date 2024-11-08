@@ -37,52 +37,89 @@
 							ELSE ""
 						END
 						activity,
+						-- id_wloxxmh
 						CASE 
 							WHEN a.nama = "wreittd" then (
 								select
-									kode
+									id_wloxxmh
 								from wreittd
 								where id = a.id_transaksi
 							)
 							WHEN a.nama = "wptittd" then (
 								select
-									kode
+									id_wloxxmh_tujuan
 								from wptittd
 								where id = a.id_transaksi
 							)
 							WHEN a.nama = "wtrittd" then (
 								select
-									kode
-								from wtrittd
-								where id = a.id_transaksi
-							)
-							WHEN a.nama = "wtrittd" then (
-								select
-									kode
+									id_wloxxmh_tujuan
 								from wtrittd
 								where id = a.id_transaksi
 							)
 							WHEN a.nama = "iivxxrd_audit" then (
 								select
-									kode
+									id_wloxxmh
 								from iivxxrd_audit
 								where id = a.id_transaksi
 							)
 							WHEN a.nama = "wpclptd" then (
 								select
-									kode
+									id_wloxxmh_tujuan
 								from wpclptd
 								where id = a.id_transaksi
 							)
 							WHEN a.nama = "wdplptd" then (
 								select
-									kode
+									id_wloxxmh_tujuan
 								from wdplptd
 								where id = a.id_transaksi
 							)
 							ELSE ""
 						END
-						kode_transaksi,
+						id_wloxxmh,
+						
+						-- id_iwhxxmh
+						CASE 
+							WHEN a.nama = "wreittd" then (
+								select
+									id_iwhxxmh
+								from wreittd
+								where id = a.id_transaksi
+							)
+							WHEN a.nama = "wptittd" then (
+								select
+									id_iwhxxmh
+								from wptittd
+								where id = a.id_transaksi
+							)
+							WHEN a.nama = "wtrittd" then (
+								select
+									id_iwhxxmh
+								from wtrittd
+								where id = a.id_transaksi
+							)
+							WHEN a.nama = "iivxxrd_audit" then (
+								select
+									id_iwhxxmh
+								from iivxxrd_audit
+								where id = a.id_transaksi
+							)
+							WHEN a.nama = "wpclptd" then (
+								select
+									id_iwhxxmh
+								from wpclptd
+								where id = a.id_transaksi
+							)
+							WHEN a.nama = "wdplptd" then (
+								select
+									id_iwhxxmh
+								from wdplptd
+								where id = a.id_transaksi
+							)
+							ELSE ""
+						END
+						id_iwhxxmh,
 						a.username,
 						DATE_FORMAT(a.start_on, "%d %b %Y %H:%i:%s") AS start_on,
 						DATE_FORMAT(b.finish_on, "%d %b %Y %H:%i:%s") AS finish_on,
@@ -98,22 +135,12 @@
 				wms_log AS (
 					select
 						z.*,
-						ifnull(iv.wloxxmh_nama, "") wloxxmh_nama,
-						ifnull(iv.iwhxxmh_kode, "") iwhxxmh_kode,
-						ifnull(iv.id_iwhxxmh, 0 ) id_iwhxxmh
+						ifnull(loc.nama, "") wloxxmh_nama,
+						ifnull(wh.nama, "") iwhxxmh_kode
 					from log z
-					LEFT JOIN (
-						SELECT
-							kode,
-							wloxxmh_nama,
-							iwhxxmh_kode,
-							id_iwhxxmh,
-							id_wloxxmh
-						FROM iivxxrd
-						WHERE jumlah_terkecil > 0
-						ORDER BY id desc
-					) iv on iv.kode = z.kode_transaksi
-					WHERE iv.id_iwhxxmh = :id_iwhxxmh
+					LEFT JOIN wloxxmh loc on loc.id = z.id_wloxxmh
+					LEFT JOIN iwhxxmh wh on wh.id = z.id_iwhxxmh
+					WHERE z.id_iwhxxmh = :id_iwhxxmh
 					GROUP BY z.id
 				)
 				SELECT
