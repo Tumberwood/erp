@@ -219,7 +219,7 @@
 				usort($rs_iivxxrd, $movementMethodOrder);
 
 				foreach ($rs_iivxxrd as $key => $iiv) {
-					//insert ke detail LPN
+					//insert ke Job Picking
 					// echo $iiv['expired_date'] . '/n';
 					$qs_cek_sisa = $db
 						->query('select', 'wplittd' )
@@ -268,7 +268,7 @@
 							// }
 						}
 						
-						//insert detail LPN
+						//insert Job Picking
 						$qi_lpn_d = $db
 							->query('insert', 'wpllptd')
 							->set('id_wplxxth',$id_transaksi_h)
@@ -379,24 +379,24 @@
 			
 			$db->commit();
 			$status_code  = 200;
-			$message      = 'Detail LPN Berhasil Ditambahkan';
+			$message      = 'Job Picking Berhasil di Generate';
 			$type_message = 'success';
 			
 		}else{
 			$db->rollback();
 			$status_code  = 500;
-			$message      = 'Detail LPN Gagal Ditambahkan!';
+			$message      = 'Job Picking Gagal di Generate!';
 			$type_message = 'error';
 		}
 	}catch(PDOException $e){
 		$db->rollback();
 		$status_code  = 500;
-		$message      = 'Detail LPN Gagal Ditambahkan! ' . $e->getMessage();
+		$message      = 'Job Picking Gagal di Generate! ' . $e->getMessage();
 		$type_message = 'error';
 	}catch (Exception $e) {
 		$db->rollback();
 		$status_code = 500;
-		$message = 'Detail LPN Gagal Ditambahkan!, ' . $e->getMessage();
+		$message = 'Job Picking Gagal di Generate!, ' . $e->getMessage();
 		$type_message = 'error';
 	}
 	// build response

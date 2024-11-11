@@ -93,24 +93,24 @@
 			
 			$db->commit();
 			$status_code  = 200;
-			$message      = 'Detail LPN Berhasil Direset';
+			$message      = 'Job Picking Berhasil Direset';
 			$type_message = 'success';
 			
 		}else{
 			$db->rollback();
 			$status_code  = 500;
-			$message      = 'Detail LPN Gagal Direset!';
+			$message      = 'Job Picking Gagal Direset!';
 			$type_message = 'error';
 		}
 	}catch(PDOException $e){
 		$db->rollback();
 		$status_code  = 500;
-		$message      = 'Detail LPN Gagal Direset! ' . $e->getMessage();
+		$message      = 'Job Picking Gagal Direset! ' . $e->getMessage();
 		$type_message = 'error';
 	}catch (Exception $e) {
 		$db->rollback();
 		$status_code = 500;
-		$message = 'Detail LPN Gagal Direset!, ' . $e->getMessage();
+		$message = 'Job Picking Gagal Direset!, ' . $e->getMessage();
 		$type_message = 'error';
 	}
 	// build response
