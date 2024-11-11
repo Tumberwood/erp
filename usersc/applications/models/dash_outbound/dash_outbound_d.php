@@ -20,6 +20,7 @@
 		->raw()
 		->bind(':id_dash_outbound_h',$id_dash_outbound_h)
 		->exec('SELECT  
+					b.id_wdoxxth,
 					b.id_wdoxxth,       
 					a.wdoxxth_kode,
 					SUM(a.subtotal_jumlah_unit) jumlah_unit_pl,
@@ -35,26 +36,26 @@
 				-- picking
 				LEFT JOIN (
 					SELECT
-						pl.id_wplittd,
+						wd.id_wdoxxth,
 						SUM(pc.jumlah_unit) jumlah_unit
 					FROM wpllptd pl
 					LEFT JOIN wpclptd pc ON pc.id_wpllptd = pl.id
 					LEFT JOIN wdoittd wd ON wd.id = pc.id_wdoittd
 					LEFT JOIN wplxxth plth ON plth.id = pl.id_wplxxth
 					WHERE wd.id_wdoxxth = :id_dash_outbound_h AND plth.transaction_state NOT IN (9, -9)
-				) e ON e.id_wplittd = a.id
+				) e ON e.id_wdoxxth = b.id
 				
 				-- dispatch
 				LEFT JOIN (
 					SELECT
-						pl.id_wplittd,
+						wd.id_wdoxxth,
 						SUM(dp.jumlah_unit) jumlah_unit
 					FROM wpllptd pl
 					LEFT JOIN wdplptd dp ON dp.id_wpllptd = pl.id
 					LEFT JOIN wdoittd wd ON wd.id = dp.id_wdoittd
 					LEFT JOIN wplxxth plth ON plth.id = pl.id_wplxxth
 					WHERE wd.id_wdoxxth = :id_dash_outbound_h AND plth.transaction_state NOT IN (9, -9)
-				) f ON f.id_wplittd = a.id
+				) f ON f.id_wdoxxth = b.id
 				
 				WHERE b.id_wdoxxth = :id_dash_outbound_h AND c.transaction_state NOT IN (9, -9)
 				GROUP BY b.id_wdoxxth
