@@ -122,15 +122,16 @@
     
                         if (id_wjtxxmh == 2) {
                             btnSubmit = `
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                                 <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit & Confirm</button>
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`
+                                `
                                 ;
                             $('#confirmBtn').hide();
                         } else {
                             $('#confirmBtn').show();
                             btnSubmit = `
-                                    <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit</button>
                                     <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit</button>
                                 `;
                         }
                         
