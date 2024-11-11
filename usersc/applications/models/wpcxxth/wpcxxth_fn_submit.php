@@ -138,12 +138,12 @@
 			if (!empty($qu_iivxxrd)) {
 				$db->commit();
 				$status_code  = 200;
-				$message      = 'Picking LPN Berhasil Ditambahkan';
+				$message      = 'Picking Berhasil Dilakukan';
 				$type_message = 'success';
 			} else{
 				$db->rollback();
 				$status_code  = 500;
-				$message      = 'Picking LPN Gagal Ditambahkan!';
+				$message      = 'Picking Gagal Dilakukan!';
 				$type_message = 'error';
 			}
 
@@ -461,12 +461,12 @@
 				
 				$db->commit();
 				$status_code  = 200;
-				$message      = 'Picking LPN Berhasil Ditambahkan';
+				$message      = 'Picking Berhasil Dilakukan';
 				$type_message = 'success';
 			} else{
 				$db->rollback();
 				$status_code  = 500;
-				$message      = 'Picking LPN Gagal Ditambahkan!';
+				$message      = 'Picking Gagal Dilakukan!';
 				$type_message = 'error';
 			}
 			
@@ -474,12 +474,12 @@
 	}catch(PDOException $e){
 		$db->rollback();
 		$status_code  = 500;
-		$message      = 'Picking LPN Gagal Ditambahkan! ' . $e->getMessage();
+		$message      = 'Picking Gagal Dilakukan! ' . $e->getMessage();
 		$type_message = 'error';
 	}catch (Exception $e) {
 		$db->rollback();
 		$status_code = 500;
-		$message = 'Picking LPN Gagal Ditambahkan!, ' . $e->getMessage();
+		$message = 'Picking Gagal Dilakukan!, ' . $e->getMessage();
 		$type_message = 'error';
 	}
 	// build response

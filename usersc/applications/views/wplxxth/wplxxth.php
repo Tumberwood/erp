@@ -1087,6 +1087,9 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
+				if ( data.wplittd.jumlah_unit != data.wplittd.subtotal_jumlah_unit ) {
+					$('td', row).addClass('text-warning');
+				}
 			},
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       	= this.api(), data;
