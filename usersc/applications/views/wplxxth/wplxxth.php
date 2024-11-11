@@ -1087,11 +1087,10 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
-				if ( data.wplittd.subtotal_jumlah_unit != data.wplittd.jumlah_unit ) {
-					$('td:eq(8)', row).addClass('text-warning');
-				}
 				if ( data.wplittd.subtotal_jumlah_unit = 0 ) {
 					$('td:eq(8)', row).addClass('text-danger');
+				} else if ( data.wplittd.subtotal_jumlah_unit != data.wplittd.jumlah_unit ) {
+					$('td:eq(8)', row).addClass('text-warning');
 				}
 			},
 			footerCallback: function ( row, data, start, end, display ) {
