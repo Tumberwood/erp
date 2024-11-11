@@ -43,7 +43,7 @@
 					LEFT JOIN wdoittd wd ON wd.id = pc.id_wdoittd
 					LEFT JOIN wplxxth plth ON plth.id = pl.id_wplxxth
 					WHERE wd.id_wdoxxth = :id_dash_outbound_h AND plth.transaction_state NOT IN (9, -9)
-				) e ON e.id_wdoxxth = b.id
+				) e ON e.id_wdoxxth = b.id_wdoxxth
 				
 				-- dispatch
 				LEFT JOIN (
@@ -55,7 +55,7 @@
 					LEFT JOIN wdoittd wd ON wd.id = dp.id_wdoittd
 					LEFT JOIN wplxxth plth ON plth.id = pl.id_wplxxth
 					WHERE wd.id_wdoxxth = :id_dash_outbound_h AND plth.transaction_state NOT IN (9, -9)
-				) f ON f.id_wdoxxth = b.id
+				) f ON f.id_wdoxxth = b.id_wdoxxth
 				
 				WHERE b.id_wdoxxth = :id_dash_outbound_h AND c.transaction_state NOT IN (9, -9)
 				GROUP BY b.id_wdoxxth
