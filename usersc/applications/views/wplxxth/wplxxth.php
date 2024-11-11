@@ -1088,9 +1088,10 @@
 			},
 			rowCallback: function( row, data, index ) {
 				if ( data.wplittd.subtotal_jumlah_unit == 0 ) {
-					$('td:eq(8)', row).addClass('bg-danger');
+					console.log($('td:eq(8)', row));
+					$('td:eq(6)', row).addClass('bg-warning');
 				} else if ( data.wplittd.subtotal_jumlah_unit != data.wplittd.jumlah_unit ) {
-					$('td:eq(8)', row).addClass('bg-warning');
+					$('td:eq(6)', row).addClass('bg-warning');
 				}
 			},
 			footerCallback: function ( row, data, start, end, display ) {
