@@ -21,13 +21,18 @@
 	use 
 		Carbon\Carbon;
 	
-	
+	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
+
 	$qs_wpllptd = $db
 		->raw()
+		->bind(':start_date', $start_date)
+		->bind(':end_date', $end_date)
 		->exec('SELECT DISTINCT
 					b.kode iimxxmh_kode,
 					b.nama iimxxmh_nama,
 					a.wlpxxmh_kode,
+					DATE_FORMAT(wdo.tanggal, "%d %b %Y") tanggal,
 					ifnull(do_rl.kode, wdo.kode) kode_do,
 					ifnull(h.jumlah_unit_do, wdt.jumlah_unit) jumlah_do,
 					CONCAT(plth.kode, " - ", a.kode) kode_pl,	
@@ -54,6 +59,7 @@
 				LEFT JOIN wdoxxth wdo ON wdo.id = wdt.id_wdoxxth			
 				LEFT JOIN wdoxxth_wdnxxth h ON h.id_wdoxxth = g.id_wdoxxth AND h.id_wdnxxth = g.id
 				LEFT JOIN wdoxxth do_rl ON do_rl.id = h.id_wdoxxth
+				WHERE wdo.tanggal BETWEEN :start_date AND :end_date
 				ORDER BY a.wlpxxmh_kode
 	'
 				
