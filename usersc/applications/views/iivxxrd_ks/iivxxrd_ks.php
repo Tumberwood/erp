@@ -59,7 +59,7 @@
 						</div>
 					</div>
 				</div>
-				<h3 id="nama_item"></h3>
+				<div id="nama_item"></div>
 				<table id="tbliivxxrd_ks" class="table table-striped table-bordered table-hover nowrap" width="100%">
 					<thead>
 						<tr>
@@ -93,6 +93,8 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iivxxrd_ks/fn/iivxxrd_ks_fn.php'; ?>
 
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
@@ -288,14 +290,7 @@
 				id_iwhxxmh = $('#select_id_iwhxxmh').val();
 				id_iimxxmh = $('#select_id_iimxxmh').val();
 
-				autofillField('iimxxmh', id_iimxxmh, 'kode,nama');
-				iimxxmh_nama = autofillData.nama;
-				iimxxmh_kode = autofillData.kode;
-
-				autofillField('iwhxxmh', id_iwhxxmh, 'kode,nama');
-				iwhxxmh_nama = autofillData.nama;
-
-				$('#nama_item').html(iimxxmh_kode + ' - ' + iimxxmh_nama + ' - ' +iwhxxmh_nama);
+				getTitle();
 
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tbliivxxrd_ks.rows().deselect();
