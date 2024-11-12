@@ -59,6 +59,7 @@
 						</div>
 					</div>
 				</div>
+				<h3 id="nama_item"></h3>
 				<table id="tbliivxxrd_ks" class="table table-striped table-bordered table-hover nowrap" width="100%">
 					<thead>
 						<tr>
@@ -286,6 +287,15 @@
 				end_date   = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				id_iwhxxmh = $('#select_id_iwhxxmh').val();
 				id_iimxxmh = $('#select_id_iimxxmh').val();
+
+				autofillField('iimxxmh', id_iimxxmh, 'kode,nama');
+				iimxxmh_nama = autofillData.nama;
+				iimxxmh_kode = autofillData.kode;
+
+				autofillField('iwhxxmh', id_iwhxxmh, 'kode,nama');
+				iwhxxmh_nama = autofillData.nama;
+
+				$('#nama_item').html(iimxxmh_kode + ' - ' + iimxxmh_nama + ' - ' +iwhxxmh_nama);
 
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tbliivxxrd_ks.rows().deselect();
