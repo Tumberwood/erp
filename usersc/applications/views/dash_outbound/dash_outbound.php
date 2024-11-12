@@ -111,7 +111,7 @@
 					d.show_deleted_dash_outbound_h = show_deleted_dash_outbound_h;
 				}
 			},
-			// order: [[ 1, "desc" ]],
+			order: [[ 1, "desc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
