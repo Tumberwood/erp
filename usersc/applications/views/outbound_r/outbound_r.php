@@ -64,6 +64,7 @@
 								<th rowspan=2>Item Code</th>
 								<th rowspan=2>Item Name</th>
 								<th rowspan=2>LPN</th>
+								<th rowspan=2>Customer</th>
 								<th colspan=2 >Delivery Order</th>
 								<th colspan=3 class="bg-green-light">Picking List</th>
 								<th colspan=3 class="bg-beige">Picking</th>
@@ -155,20 +156,31 @@
 						},
 						targets: '_all'
 					},
+					// { 
+					// 	className: 'bg-green-light', targets: [5,6]
+					// },
+					// { 
+					// 	className: 'bg-beige', targets: [8,9]
+					// },
+					// { 
+					// 	className: 'bg-blue-light', targets: [11,12]
+					// },
 					{ 
-						className: 'bg-green-light', targets: [5,6]
+						className: 'bg-green-light', targets: [6, 7]
 					},
 					{ 
-						className: 'bg-beige', targets: [8,9]
+						className: 'bg-beige', targets: [9, 10]
 					},
 					{ 
-						className: 'bg-blue-light', targets: [11,12]
+						className: 'bg-blue-light', targets: [12, 13]
 					},
+
 				],
 				columns: [
 					{ data: "iimxxmh_kode" },
 					{ data: "iimxxmh_nama" },
 					{ data: "wlpxxmh_kode" },
+					{ data: "customer" },
 					{ data: "kode_do" },
 					{ 
 						data: "jumlah_do", //4
@@ -219,21 +231,21 @@
 				},
 				rowCallback: function( row, data, index ) {
 					if ( data.ket_pl != 'Lunas' ) {
-						$('td:eq(7)', row).addClass('bg-warning');
+						$('td:eq(8)', row).addClass('bg-warning');
 					} else {
-						$('td:eq(7)', row).addClass('bg-green-light');
+						$('td:eq(8)', row).addClass('bg-green-light');
 					}
 
 					if ( data.ket_pc != 'Lunas' ) {
-						$('td:eq(10)', row).addClass('bg-warning');
+						$('td:eq(11)', row).addClass('bg-warning');
 					}else {
-						$('td:eq(10)', row).addClass('bg-beige');
+						$('td:eq(11)', row).addClass('bg-beige');
 					}
 
 					if ( data.ket_dp != 'Lunas' ) {
-						$('td:eq(13)', row).addClass('bg-warning');
+						$('td:eq(14)', row).addClass('bg-warning');
 					} else {
-						$('td:eq(13)', row).addClass('bg-blue-light');
+						$('td:eq(14)', row).addClass('bg-blue-light');
 					}
 				}
 			} );

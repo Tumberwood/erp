@@ -32,6 +32,7 @@
 					b.kode iimxxmh_kode,
 					b.nama iimxxmh_nama,
 					a.wlpxxmh_kode,
+					customer.nama customer,
 					DATE_FORMAT(wdo.tanggal, "%d %b %Y") tanggal,
 					ifnull(do_rl.kode, wdo.kode) kode_do,
 					ifnull(h.jumlah_unit_do, wdt.jumlah_unit) jumlah_do,
@@ -56,7 +57,9 @@
 				LEFT JOIN wdnxxth g ON g.id = f.id_wdnxxth
 				LEFT JOIN wplittd plt ON plt.id = a.id_wplittd
 				LEFT JOIN wdoittd wdt ON wdt.id = plt.id_wdoittd	
-				LEFT JOIN wdoxxth wdo ON wdo.id = wdt.id_wdoxxth			
+				LEFT JOIN wdoxxth wdo ON wdo.id = wdt.id_wdoxxth		
+				LEFT JOIN grlxxmh customer ON customer.id = wdo.id_grlxxmh_customer		
+
 				LEFT JOIN wdoxxth_wdnxxth h ON h.id_wdoxxth = g.id_wdoxxth AND h.id_wdnxxth = g.id
 				LEFT JOIN wdoxxth do_rl ON do_rl.id = h.id_wdoxxth
 				WHERE wdo.tanggal BETWEEN :start_date AND :end_date
