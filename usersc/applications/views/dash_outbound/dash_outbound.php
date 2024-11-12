@@ -282,6 +282,8 @@
 
 		// Function that is called on auto reload interval
 		autoReloadInterval(function () {
+			// Select the label element by its ID
+
 			var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
 			var rowToSelect = tbldash_outbound_h.row(lastSelectedId);
@@ -307,6 +309,12 @@
 
 			lastSelectedId++;
 		});
+
+		//custom label auto reload
+		var label = document.getElementById('label-auto-reload');
+
+		label.classList.remove('col-lg-2');
+		label.classList.add('col-lg-4');
 
 
 // --------- end _detail --------------- //		

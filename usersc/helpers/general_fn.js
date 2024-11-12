@@ -859,7 +859,7 @@ function autoReloadInterval(content) {
     //ketika function autoReloadInterval() dipanggil, maka otomatis membuat form switch checkbox
     var autoReloadCheckbox = `
         <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Auto Reload</label>
+            <label id="label-auto-reload" class="col-lg-2 col-form-label">Auto Reload</label>
             <div class="col-lg-5">
                 <input id="isAutoReload" type="checkbox" class="js-switch"/>
             </div>
