@@ -18,6 +18,8 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="table-responsive">
+					<div id="frmFilter">
+					</div>
                     <table id="tbldash_outbound_h" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -41,8 +43,6 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabdash_outbound_1" class="tab-pane active">
 					<div class="panel-body">
-						<div id="frmFilter">
-						</div>
 						<div class="table-responsive">
 							<table id="tbldash_outbound" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
@@ -278,10 +278,36 @@
 		tbldash_outbound.on( 'deselect', function() {
 		} );
 		
+		let lastSelectedId = 0; // Variable to track the last selected ID
+
+		// Function that is called on auto reload interval
 		autoReloadInterval(function () {
 			var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+			var rowToSelect = tbldash_outbound_h.row(lastSelectedId);
+			// console.log(lastSelectedId);
+			
+			// If the row exists, select it
+			if (rowToSelect.length) {
+				// console.log('ok');
+				tbldash_outbound_h.row(lastSelectedId).select();
+				tbldash_outbound_h.row(lastSelectedId - 1).deselect();
+			} else {
+				// console.log('no');
+				// Handle if the ID exceeds the number of rows
+				tbldash_outbound_h.row(lastSelectedId - 1).deselect();
+				lastSelectedId = 0; // Reset to 0 to start over or adjust as needed
+				tbldash_outbound_h.row(0).select(); // Optionally select the first row
+			}
+
+			data_dash_outbound_h = tbldash_outbound_h.row( { selected: true } ).data();
+			id_dash_outbound_h = data_dash_outbound_h.id_wdoxxth;
+			// console.log(data_dash_outbound_h);
 			tbldash_outbound.ajax.reload(null, false);
+
+			lastSelectedId++;
 		});
+
 
 // --------- end _detail --------------- //		
 	} );// end of document.ready
