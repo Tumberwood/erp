@@ -159,10 +159,10 @@
 				<thead>
 					<tr>
 						<th>User</th>
-						<th>RE</th>
-						<th>PT</th>
-						<th>PC</th>
-						<th>DP</th>
+						<th>Receive Entry</th>
+						<th>Putaway</th>
+						<th>Picking</th>
+						<th>Dispatch</th>
 						<th>Total</th>
 					</tr>
 				</thead>
