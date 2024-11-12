@@ -37,6 +37,7 @@
 				LEFT JOIN grlxxmh e ON e.id = b.id_grlxxmh_customer
 				WHERE a.transaction_state NOT IN (9, -9)
 				GROUP BY d.id
+				ORDER BY tanggal DESC
 				;
 		');
 	$rs_dash = $qs_dash->fetchAll();
