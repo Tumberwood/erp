@@ -59,6 +59,7 @@
 				
 				WHERE b.id_wdoxxth = :id_dash_outbound_h AND c.transaction_state NOT IN (9, -9)
 				GROUP BY b.id_wdoxxth
+				ORDER BY tanggal DESC
 				;
 		');
 	$rs_dash = $qs_dash->fetchAll();
