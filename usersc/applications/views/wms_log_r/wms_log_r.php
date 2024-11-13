@@ -56,7 +56,7 @@
                                 <th>Activity</th>
                                 <th>Kode</th>
                                 <th>Warehouse</th>
-                                <th>Location</th>
+                                <th data-toggle="tooltip" data-placement="top" title="" data-original-title="Lokasi tujuan">Location</th>
                                 <th>Username</th>
                                 <th>Start</th>
                                 <th>Finish</th>
