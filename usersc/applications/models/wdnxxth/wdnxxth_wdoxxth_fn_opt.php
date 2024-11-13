@@ -82,6 +82,30 @@
         $id_string = '(-9)';
     }
 
+    //Hanya DO yang sudah dilakukan Dispatch saja yang muncul di Delivery Note
+    $qs_disp = $db
+        ->raw()
+        ->exec('SELECT DISTINCT
+                    a.id
+                FROM wdoxxth a
+                LEFT JOIN wdoittd b ON b.id_wdoxxth = a.id
+                INNER JOIN wdplptd c ON c.id_wdoittd = b.id
+        '
+        );
+
+    $rs_disp = $qs_disp->fetchAll();
+    $id_do_dp = [];
+
+    if (!empty($rs_disp)) {
+        foreach ($rs_disp as $row) {
+            $id_do_dp[] = $row['id'];
+        }
+
+        $id_do_where_in = '(' . implode(',', $id_do_dp) . ')';
+    } else {
+        $id_do_where_in = '(-9)';
+    }
+
     // BEGIN query options all except self
     $qs_wdoxxth_all = $db
         ->query('select', 'wdoxxth')
@@ -93,6 +117,7 @@
         ->where('wdoxxth.id_grlxxmh_customer', $id_grlxxmh_customer)
         ->where('wdoxxth.id', $id_wdoxxth_old, '<>' )
         ->where('wdoxxth.id', $id_string, 'NOT IN', false )
+        ->where('wdoxxth.id', $id_do_where_in, 'IN', false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r->where('wdoxxth.kode', '%' . $q . '%', 'LIKE' );
