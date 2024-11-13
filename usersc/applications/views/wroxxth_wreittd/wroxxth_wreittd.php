@@ -169,6 +169,13 @@
 					this.api().searchPanes.rebuildPane();
 				},
 				rowCallback: function( row, data, index ) {
+					if ( data.sisa == 0 ) {
+						$('td:eq(7)', row).addClass('bg-primary');
+					} else if ( data.sisa == data.jumlah_unit_re ) {
+						$('td:eq(7)', row).addClass('bg-danger');
+					} else {
+						$('td:eq(7)', row).addClass('bg-warning');
+					}
 				}
 			} );
 
