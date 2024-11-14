@@ -73,6 +73,19 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.koord_x"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.koord_y"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.koord_z"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wloxxmh.keterangan"></editor-field>
 							</div>
 							<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -139,6 +152,9 @@
                                 <th>Bay</th>
                                 <th>Level</th>
                                 <th>Position</th>
+                                <th>Koordinat X</th>
+                                <th>Koordinat Y</th>
+                                <th>Koordinat Z</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -447,6 +463,18 @@
 					]
 				},
 				{
+					label: "Koordinat X <sup class='text-danger'>*<sup>",
+					name: "wloxxmh.koord_x"
+				},
+				{
+					label: "Koordinat Y <sup class='text-danger'>*<sup>",
+					name: "wloxxmh.koord_y"
+				},
+				{
+					label: "Koordinat Z <sup class='text-danger'>*<sup>",
+					name: "wloxxmh.koord_z"
+				},
+				{
 					label: "Keterangan",
 					name: "wloxxmh.keterangan",
 					type: "textarea"
@@ -552,6 +580,9 @@
 				kapasitas            = edtwloxxmh.field('wloxxmh.kapasitas').val();
 				id_iumxxmh_kapasitas = edtwloxxmh.field('wloxxmh.id_iumxxmh_kapasitas').val();
 				rack_name            = edtwloxxmh.field('wloxxmh.rack_name').val();
+				koord_x            = edtwloxxmh.field('wloxxmh.koord_x').val();
+				koord_y            = edtwloxxmh.field('wloxxmh.koord_y').val();
+				koord_z            = edtwloxxmh.field('wloxxmh.koord_z').val();
 				bay_name             = edtwloxxmh.field('wloxxmh.bay_name').val();
 
 				validasiRequired(
@@ -561,6 +592,9 @@
 						'id_iwhxxmh': id_iwhxxmh,
 						'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas,
 						'rack_name': rack_name,
+						'koord_x': koord_x,
+						'koord_y': koord_y,
+						'koord_z': koord_z,
 						'nama': nama
 					}
 				);
@@ -587,6 +621,19 @@
 					'wloxxmh',
 					{
 						'kapasitas': kapasitas,
+					},
+					0,
+					'>='
+				);
+				
+				//validasi number koordinat
+				validasiNumber(
+					edtwloxxmh,
+					'wloxxmh',
+					{
+						'koord_x': koord_x,
+						'koord_y': koord_y,
+						'koord_z': koord_z,
 					},
 					0,
 					'>='
@@ -940,6 +987,9 @@
 				{ data: "wloxxmh.bay_name" },
 				{ data: "wloxxmh.level_name" },
 				{ data: "wloxxmh.position_name" },
+				{ data: "wloxxmh.koord_x" },
+				{ data: "wloxxmh.koord_y" },
+				{ data: "wloxxmh.koord_z" },
 				{ 
 					data: "wloxxmh.transaction_state" ,
 					...renderTransactionStatus()

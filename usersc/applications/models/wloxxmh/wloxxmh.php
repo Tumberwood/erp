@@ -75,6 +75,10 @@
 					return strtoupper($val);
 				} ),
 			
+			Field::inst( 'wloxxmh.koord_x' ),
+			Field::inst( 'wloxxmh.koord_y' ),
+			Field::inst( 'wloxxmh.koord_z' ),
+			
 			Field::inst( 'iwhxxmh.nama' ),
 			Field::inst( 'wloctmh.nama' ),
 			Field::inst( 'wlotpmh.nama' ),
