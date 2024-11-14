@@ -622,6 +622,7 @@
 			// atur hak akses
 			tbl_details = [tblprcittd];
 			CekInitHeaderHD(tblprcxxth, tbl_details);
+			tblprcxxth.button('btnPrintSlip:name').disable();
 		} );
 		
 		tblprcxxth.on( 'select', function( e, dt, type, indexes ) {
@@ -636,6 +637,7 @@
 			// atur hak akses
 			tbl_details = [tblprcittd];
 			CekSelectHeaderHD(tblprcxxth, tbl_details);
+			tblprcxxth.button('btnPrintSlip:name').enable();
 
 		} );
 		
@@ -647,6 +649,7 @@
 			// atur hak akses
 			tbl_details = [tblprcittd];
 			CekDeselectHeaderHD(tblprcxxth, tbl_details);
+			tblprcxxth.button('btnPrintSlip:name').disable();
 		} );
 		// END prcxxth
 
