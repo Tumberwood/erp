@@ -1,9 +1,9 @@
 <?php 
     /**
-     * Digunakan untuk populate options data _blank
-     * Table terkait    : _blank
+     * Digunakan untuk populate options data wreittd
+     * Table terkait    : wreittd
      * Parameter        : 
-     *  - id__blank_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_wreittd_old       : data existing (untuk keperluan edit), dipakai di query self
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,73 +22,57 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id__blank_old'] > 0){
-        $id__blank_old = $_GET['id__blank_old'];
+    if($_GET['id_wreittd_old'] > 0){
+        $id_wreittd_old = $_GET['id_wreittd_old'];
     }else{
-        $id__blank_old = 0;
+        $id_wreittd_old = 0;
     }
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id__blank_old > 0){
-        $qs__blank_self = $db
-            ->query('select', '_blank')
+    if($id_wreittd_old > 0){
+        $qs_wreittd_self = $db
+            ->query('select', 'wreittd')
             ->get([
-                '_blank.id as id',
-                'IF(
-                    _blank.kode IS NULL, 
-                    _blank.nama,
-                    IF(
-                        _blank.nama IS NULL, 
-                        _blank.kode,
-                        CONCAT(_blank.kode," - ",_blank.nama)
-                    )
-                ) as text'
+                'wreittd.id as id',
+                ' wreittd.kode as text'
             ])
-            ->where('_blank..id', $id__blank_old )
+            ->where('wreittd..id', $id_wreittd_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
-        $rs__blank_self = $qs__blank_self->fetchAll();
+        $rs_wreittd_self = $qs_wreittd_self->fetchAll();
     }else{
-        $rs__blank_self = [];
+        $rs_wreittd_self = [];
     }
     // END query options self
 
     // BEGIN query options all except self
-    $qs__blank_all = $db
-        ->query('select', '_blank')
+    $qs_wreittd_all = $db
+        ->query('select', 'wreittd')
         ->get([
-            '_blank.id as id',
-            'IF(
-                _blank.kode IS NULL, 
-                _blank.nama,
-                IF(
-                    _blank.nama IS NULL, 
-                    _blank.kode,
-                    CONCAT(_blank.kode," - ",_blank.nama)
-                )
-            ) as text'
+            'wreittd.id as id',
+            ' wreittd.kode as text'
         ])
-        ->where('_blank.transaction_state',1)
-        ->where('_blank.id', $id__blank_old, '<>' )
+        ->where('wreittd.transaction_state',1)
+        ->where('wreittd.id', $id_wreittd_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('_blank.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('_blank.nama', '%' . $q . '%', 'LIKE' );
+                ->where('wreittd.kode', '%' . $q . '%', 'LIKE' )
+                ;
         } )
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
-    $rs__blank_all = $qs__blank_all->fetchAll();
+    $rs_wreittd_all = $qs_wreittd_all->fetchAll();
     // END query options all except self
     
     // BEGIN menggabungkan options
-    if(count($rs__blank_self) > 0){
-        $rs_opt = array_merge($rs__blank_self, $rs__blank_all);
+    if(count($rs_wreittd_self) > 0){
+        $rs_opt = array_merge($rs_wreittd_self, $rs_wreittd_all);
     }else{
-        $rs_opt = $rs__blank_all;
+        $rs_opt = $rs_wreittd_all;
     }
     $c_rs_opt = count($rs_opt);    
     // END menggabungkan options
