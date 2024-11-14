@@ -16,10 +16,19 @@
 
 		
 	$end_date = new Carbon($_POST['end_date']);
+	$id_wloctmh = $_POST['id_wloctmh'];
+
+	if ($id_wloctmh != "()") {
+		$kondisi_wloctmh = 'AND id_wloctmh IN '.$id_wloctmh;
+	} else {
+		$kondisi_wloctmh = '';
+	}
+	
 	$qs_iivxxrd = $db
 		->raw()
 		->bind(':end_date', $end_date->format('Y-m-d') )
 		->exec('SELECT
+					a.id_wloctmh,
 					a.iwhxxmh_kode,
 					a.wloxxmh_nama,
 					a.iimxxmh_kode,
@@ -60,7 +69,7 @@
 					id_wloxxmh,
 					wlpxxmh_kode
 				having jumlah_terkecil > 0
-			');
+			' . $kondisi_wloctmh);
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 	if (!empty($rs_iivxxrd)) {
 		echo json_encode( ['data' => $rs_iivxxrd]);

@@ -37,6 +37,12 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group row">												
+										<label class="col-sm-2 col-form-label">Location Category</label>
+										<div class="col-sm-6">
+											<select class="form-control" id="select_id_wloctmh" name="select_id_wloctmh"></select>
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -113,11 +119,48 @@
 <!-- BEGIN datatables here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
-	var tbliivxxrd, show_deleted_iivxxrd = 0;
+	var tbliivxxrd, show_deleted_iivxxrd = 0, id_wloctmh_old = 0, id_wloctmh = 0;
 	// ------------- end of default variable
+	
+	// BEGIN select2 init
+	$("#select_id_wloctmh").select2({
+		dropdownParent: $("#modalSFiivxxrd"),
+		placeholder : "Select",
+		allowClear: true,
+		multiple: true,
+		ajax: {
+			url: "../../models/wloctmh/wloctmh_fn_opt.php",
+			dataType: 'json',
+			data: function (params) {
+				var query = {
+					id_wloctmh_old: id_wloctmh_old,
+					search: params.term || '',
+					page: params.page || 1
+				}
+					return query;
+			},
+			processResults: function (data, params) {
+				return {
+					results: data.results,
+					pagination: {
+						more: true
+					}
+				};
+			},
+			cache: true,
+			minimumInputLength: 1,
+			maximum: 10,
+			delay: 500,
+			maximumSelectionLength: 5,
+			minimumResultsForSearch: -1,
+		},
+	});
 
 	$(document).ready(function() {
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+		id_wloctmh = $('#select_id_wloctmh').val();
+		id_wloctmh = '(' + id_wloctmh.join(',') + ')';
+		console.log(id_wloctmh);
 
 		//start datatables
 		tbliivxxrd = $('#tbliivxxrd').DataTable( {
@@ -131,6 +174,7 @@
 				data: function (d){
 					d.show_deleted_iivxxrd = show_deleted_iivxxrd;
 					d.end_date = end_date;
+					d.id_wloctmh = id_wloctmh;
 				}
 			},
 			responsive: false,
@@ -233,6 +277,10 @@
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				id_wloctmh = $('#select_id_wloctmh').val();
+				id_wloctmh = '(' + id_wloctmh.join(',') + ')';
+				console.log(id_wloctmh);
+
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tbliivxxrd.rows().deselect();
 				tbliivxxrd.ajax.reload(function ( json ) {
