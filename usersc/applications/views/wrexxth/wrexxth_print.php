@@ -21,6 +21,7 @@
 		->exec('SELECT DISTINCT
                     b.kode kode_transaksi,
                     b.keterangan,
+                    a.wlpxxmh_kode,
                     driver,
                     b.plat_nomor,
                     supplier.nama AS nama_supplier,
