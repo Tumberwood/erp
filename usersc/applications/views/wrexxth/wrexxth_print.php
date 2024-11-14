@@ -166,7 +166,7 @@
             <table width="100%">
                 <tr>
                     <td width="8%" class="text-center"></td>
-                    <td width="25%" class="text-center">Ferry Ibnu Al daruasdadssadasdasdasdas</td>
+                    <td width="25%" class="text-center">'.$wrexxth['user_create'].'</td>
                     <td width="20%" class="text-center"></td>
                     
                     <td width="6%" class="text-center"></td>
