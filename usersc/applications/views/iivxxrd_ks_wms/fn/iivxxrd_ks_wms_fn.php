@@ -32,6 +32,7 @@
                         <h3>UoM: ${iumxxmh_kode}</h3>
                     </div>
 				</div>
+                <hr>
                 `;
 
 				$('#nama_item').html(html);
