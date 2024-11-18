@@ -627,13 +627,35 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
+			rowGroup: {
+				dataSrc: function (row) {
+					return  row.iimxxmh.kode + ' - ' + row.iimxxmh.nama
+				},
+				endRender: function(rows, group) {
+					var sumSubtotal = rows
+						.data()
+						.pluck('wreittd.jumlah_unit')
+						.reduce( function (a, b) {
+							return parseInt(a) + parseInt(b);
+						}, 0);
+					sumSubtotal = $.fn.dataTable.render.number(',', '.', 0, '').display( sumSubtotal )
+
+					return $('<tr/>')
+						.append( '<td class="font-bold text-success">Subtotal</td>' )
+						.append( '<td class="font-bold text-success"></td>' )
+						.append( '<td class="font-bold text-success"></td>' )
+						.append( '<td class="text-right font-bold bg-warning">'+sumSubtotal+'</td>' );
+
+				}
+				
+			},
 			columns: [
 				{ data: "wrexxth_wreittd.id",visible:false },
 				{ data: "wrexxth_wreittd.id_wrexxth",visible:false },
 				{ data: "wreittd.kode" },
 				{ data: "wreittd.wlpxxmh_kode" },
-				{ data: "iimxxmh.kode" },
-				{ data: "iimxxmh.nama" },
+				{ data: "iimxxmh.kode",visible:false },
+				{ data: "iimxxmh.nama",visible:false },
 				{ data: "iumxxmh.kode" },
 				{ 
 					data: "wreittd.jumlah_unit" ,
