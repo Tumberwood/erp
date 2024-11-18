@@ -46,6 +46,11 @@
 		'
 		);
 	$rs_wrexxth = $qs_wrexxth->fetchAll();
+    $status = "DRAFT";
+
+    if ($rs_wrexxth[0]['kode_transaksi'] != '') {
+        $status = "CONFIRM";
+    }
 
     if (!empty($rs_wrexxth)) {
         $tanggal = new Carbon($rs_wrexxth[0]['tanggal']);
@@ -228,6 +233,8 @@
 		'format' => 'A5', // dalam mm | 'A4' | 'A5' 
 		
 	]);
+    $mpdf->SetWatermarkText($status);
+    $mpdf->showWatermarkText = true;
 	$mpdf->AddPage('L');	// L: Landscape
 	$mpdf->SetProtection(array('print'));
 	$mpdf->SetTitle("Slip");
