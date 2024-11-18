@@ -22,8 +22,8 @@
                     b.kode kode_transaksi,
                     b.keterangan,
                     a.wlpxxmh_kode,
-                    driver,
-                    b.plat_nomor,
+                    ifnull(driver, " - ") driver,
+                    ifnull(b.plat_nomor, " - ") plat_nomorg,
                     supplier.nama AS nama_supplier,
                     e.nama AS iwhxxmh_nama,
                     c.nama AS iimxxmh_nama,
@@ -41,7 +41,7 @@
                 LEFT JOIN grlxxmh supplier ON supplier.id = a.id_grlxxmh_supplier
                 LEFT JOIN iwhxxmh e ON e.id = a.id_iwhxxmh
                 LEFT JOIN activity_log_ml f ON f.id_transaksi = b.id AND f.kode = "CREATE" AND f.nama = "wrexxth"
-                LEFT JOIN activity_log_ml g ON g.id_transaksi = b.id AND g.kode = "APPROVE" AND f.nama = "wrexxth"
+                LEFT JOIN activity_log_ml g ON g.id_transaksi = b.id AND g.kode = "APPROVE" AND g.nama = "wrexxth"
                 WHERE b.id = :id_transaksi
 		'
 		);
