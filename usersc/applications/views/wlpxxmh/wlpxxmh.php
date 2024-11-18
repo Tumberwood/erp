@@ -182,7 +182,7 @@
 
 		edtwlpxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
-			edtFormButtonSaveConfirmHD();
+			// edtFormButtonSaveConfirmHD();
 		});
 		
 		edtwlpxxmh.on( 'preSubmit', function (e, data, action) {
