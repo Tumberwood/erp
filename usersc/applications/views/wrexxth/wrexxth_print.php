@@ -42,7 +42,7 @@
                 LEFT JOIN iwhxxmh e ON e.id = a.id_iwhxxmh
                 LEFT JOIN activity_log_ml f ON f.id_transaksi = b.id AND f.kode = "CREATE" AND f.nama = "wrexxth"
                 LEFT JOIN activity_log_ml g ON g.id_transaksi = b.id AND g.kode = "APPROVE" AND g.nama = "wrexxth"
-                WHERE b.id = :id_transaksi
+                WHERE b.id = :id_transaksi AND b.transaction_state = 1
 		'
 		);
 	$rs_wrexxth = $qs_wrexxth->fetchAll();
