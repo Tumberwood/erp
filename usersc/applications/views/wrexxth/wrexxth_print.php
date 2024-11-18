@@ -68,6 +68,8 @@
         $status_transaksi = "CLOSED";
     } else if ($rs_wrexxth[0]['transaction_state'] == 0) {
         $status_transaksi = "DRAFT";
+    } else {
+        $status_transaksi = "DELETED";
     }
 
     if (!empty($rs_wrexxth)) {
