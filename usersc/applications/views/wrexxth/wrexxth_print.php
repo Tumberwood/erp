@@ -235,6 +235,8 @@
 	]);
     $mpdf->SetWatermarkText($status);
     $mpdf->showWatermarkText = true;
+    $mpdf->watermarkTextAlpha = 0.1;
+    
 	$mpdf->AddPage('L');	// L: Landscape
 	$mpdf->SetProtection(array('print'));
 	$mpdf->SetTitle("Slip");
