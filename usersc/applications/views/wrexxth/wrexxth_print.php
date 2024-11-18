@@ -143,6 +143,7 @@
                         <td class="bls bbs"></td>
                         <td class="bls bbs"></td>
                         <td class="bls bbs"></td>
+                        <td class="bls bbs"></td>
                     </tr>
                 </tfoot>
             </table>
