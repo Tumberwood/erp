@@ -31,7 +31,7 @@
                     d.kode AS iumxxmh_kode,
                     a.jumlah_unit,
                     f.username user_create,
-                    IFNULL(g.username, "Auto Approve by System") user_approve,
+                    IFNULL(IFNULL(g.username, IF(b.transaction_state = 1, "Auto Approve by System", "")) user_approve,
                     b.tanggal
                 FROM wreittd a
                 LEFT JOIN wrexxth_wreittd slip on slip.id_wreittd = a.id
@@ -42,7 +42,7 @@
                 LEFT JOIN iwhxxmh e ON e.id = a.id_iwhxxmh
                 LEFT JOIN activity_log_ml f ON f.id_transaksi = b.id AND f.kode = "CREATE" AND f.nama = "wrexxth"
                 LEFT JOIN activity_log_ml g ON g.id_transaksi = b.id AND g.kode = "APPROVE" AND g.nama = "wrexxth"
-                WHERE b.id = :id_transaksi AND b.transaction_state = 1
+                WHERE b.id = :id_transaksi
 		'
 		);
 	$rs_wrexxth = $qs_wrexxth->fetchAll();
