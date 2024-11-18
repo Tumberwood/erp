@@ -31,7 +31,7 @@
                     d.kode AS iumxxmh_kode,
                     a.jumlah_unit,
                     f.username user_create,
-                    IFNULL(IFNULL(g.username, IF(b.transaction_state = 1, "Auto Approve by System", "")) user_approve,
+                    IFNULL(g.username, IF(b.transaction_state = 1, "Auto Approve by System", "")) user_approve,
                     b.tanggal
                 FROM wreittd a
                 LEFT JOIN wrexxth_wreittd slip on slip.id_wreittd = a.id
