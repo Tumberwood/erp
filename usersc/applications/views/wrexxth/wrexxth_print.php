@@ -10,6 +10,19 @@
 	 * referensi: https://mpdf.github.io/reference/html-control-tags/overview.html
 	 * htmlpageheader
 	 * htmlpagefooter
+     * 
+    * Status Transaksi
+    * Status Transaksi didapatkan dari nilai transaction_state yang terdapat pada masing-masing table
+    * +------+----------------+--------+------+---------+----------+----------------------------+
+    * | Kode | Status         | Cancel | Edit | Next    | Approval | Notes                      |
+    * |      |                |        |      | Process |          |                            |
+    * +------+----------------+--------+------+---------+----------+----------------------------+
+    * | -9   | Deleted        | No     | No   | No      | No       | Doc dihapus (Soft)         |
+    * |      |                |        |      |         |          | Hanya bisa jika 1          |
+    * | 0    | Draft          | No     | Yes  | No      | No       | Doc belum siap dilanjutkan |
+    * | 1    | Confirmed      | Yes    | No   | Yes     | Yes      | Doc siap dilanjutkan       |
+    * | 9    | Closed         | No     | No   | No      | Already  | Doc Selesai                |
+    * +------+----------------+--------+------+---------+---------------------------------------+
 	 */
 
 	// get data
@@ -32,7 +45,8 @@
                     a.jumlah_unit,
                     f.username user_create,
                     IFNULL(g.username, IF(b.transaction_state = 1, "Auto Approve by System", "")) user_approve,
-                    b.tanggal
+                    b.tanggal,
+                    b.transaction_state
                 FROM wreittd a
                 LEFT JOIN wrexxth_wreittd slip on slip.id_wreittd = a.id
                 LEFT JOIN wrexxth b ON b.id = slip.id_wrexxth
@@ -46,10 +60,14 @@
 		'
 		);
 	$rs_wrexxth = $qs_wrexxth->fetchAll();
-    $status = "DRAFT";
+    $status_transaksi = "DRAFT";
 
-    if ($rs_wrexxth[0]['kode_transaksi'] != '') {
-        $status = "CONFIRM";
+    if ($rs_wrexxth[0]['transaction_state'] == 1) {
+        $status_transaksi = "CONFIRMED";
+    } else if ($rs_wrexxth[0]['transaction_state'] == 9) {
+        $status_transaksi = "CLOSED";
+    } else if ($rs_wrexxth[0]['transaction_state'] == 0) {
+        $status_transaksi = "DRAFT";
     }
 
     if (!empty($rs_wrexxth)) {
@@ -233,10 +251,10 @@
 		'format' => 'A5', // dalam mm | 'A4' | 'A5' 
 		
 	]);
-    $mpdf->SetWatermarkText($status);
+    $mpdf->SetWatermarkText($status_transaksi);
     $mpdf->showWatermarkText = true;
     $mpdf->watermarkTextAlpha = 0.1;
-    
+
 	$mpdf->AddPage('L');	// L: Landscape
 	$mpdf->SetProtection(array('print'));
 	$mpdf->SetTitle("Slip");
