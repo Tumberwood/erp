@@ -367,7 +367,16 @@
 			// atur hak akses
 			tbl_details = [tbliivxxrd];
 			CekSelectHeaderHD(tblwlpxxmh, tbl_details);
-
+			
+			if (transaction_state == 1) {
+				tblwlpxxmh.button('btnConfirm:name')
+				.nodes()
+				.css( 'display', 'none' );
+			} else {
+				tblwlpxxmh.button('btnConfirm:name')
+				.nodes()
+				.css( 'display', 'block' );
+			}
 		} );
 		
 		tblwlpxxmh.on( 'deselect', function () {
@@ -438,28 +447,6 @@
 			},
 			rowCallback: function( row, data, index ) {
 			}
-		} );
-
-		tbliivxxrd.on( 'draw', function( e, settings ) { 
-			// atur hak akses
-			CekDrawDetailHD( tbliivxxrd, 0 );
-			CekDrawDetailHDFinal(tblwlpxxmh);
-		} );
-
-		tbliivxxrd.on( 'select', function( e, dt, type, indexes ) {
-			// set variable standar framework
-			siVarSetD('iivxxrd');
-			
-			// atur hak akses
-			CekSelectDetailHD( tbliivxxrd );
-		} );
-
-		tbliivxxrd.on( 'deselect', function() {
-			// reset variable standar framework
-			siVarResetD('iivxxrd');
-			
-			// atur hak akses
-			CekDeselectDetailHD( tbliivxxrd );
 		} );
 		// END iivxxrd
 		
