@@ -635,7 +635,10 @@
 				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
 				{ data: "iumxxmh.kode" },
-				{ data: "wreittd.jumlah_unit" },
+				{ 
+					data: "wreittd.jumlah_unit" ,
+					...renderNumber()
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button

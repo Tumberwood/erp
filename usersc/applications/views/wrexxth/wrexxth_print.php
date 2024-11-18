@@ -42,7 +42,7 @@
                     c.nama AS iimxxmh_nama,
                     c.kode AS iimxxmh_kode,
                     d.kode AS iumxxmh_kode,
-                    a.jumlah_unit,
+                    SUM(a.jumlah_unit) jumlah_unit,
                     f.username user_create,
                     IFNULL(g.username, IF(b.transaction_state = 1, "Auto Approve by System", "")) user_approve,
                     b.tanggal,
@@ -57,6 +57,7 @@
                 LEFT JOIN activity_log_ml f ON f.id_transaksi = b.id AND f.kode = "CREATE" AND f.nama = "wrexxth"
                 LEFT JOIN activity_log_ml g ON g.id_transaksi = b.id AND g.kode = "APPROVE" AND g.nama = "wrexxth"
                 WHERE b.id = :id_transaksi
+                GROUP BY c.id
 		'
 		);
 	$rs_wrexxth = $qs_wrexxth->fetchAll();
