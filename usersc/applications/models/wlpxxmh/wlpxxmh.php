@@ -21,6 +21,12 @@
 	use 
 		Carbon\Carbon;
 	
+	if ($_POST['is_in_use'] == 1) {
+		$is_in_use = $_POST['is_in_use'];
+	} else {
+		$is_in_use = null;
+	}
+
 	$editor = Editor::inst( $db, 'wlpxxmh' )
 		->debug(true)
 		->fields(
@@ -41,7 +47,9 @@
 			Field::inst( 'wlpxxmh.finish_at' ),
 			Field::inst( 'wlpxxmh.is_defaultprogram' ),
 			Field::inst( 'wlpxxmh.is_nextprocess' ),
-		);
+		)
+		->where( 'wlpxxmh.is_nextprocess', $is_in_use);
+		;
 	
 	// do not erase
 	// function show / hide inactive document

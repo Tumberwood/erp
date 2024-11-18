@@ -16,7 +16,34 @@
 <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
-			<div class="ibox-content">
+			<div class="ibox-content"><div class="modal" id="modalSFwlpxxmh" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmFilter">
+								<div class="modal-header">
+									<h4 class="modal-title">Filter</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row" id="input_jenis">
+										<label class="col-lg-2 col-form-label">Status</label>
+										<div class="col-lg-5">
+											<div class="input-group">
+												<select class="form-control" id="is_in_use" name="is_in_use">
+													<option value="0">Open</option>
+													<option value="1">In Use</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblwlpxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -97,12 +124,15 @@
 
 	$(document).ready(function() {
 		// BEGIN wlpxxmh
+		is_in_use =  $('#is_in_use').val();
+		
 		edtwlpxxmh = new $.fn.dataTable.Editor( {
 			ajax: {
 				url: "../../models/wlpxxmh/wlpxxmh.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wlpxxmh = show_deleted_wlpxxmh;
+					d.is_in_use = is_in_use;
 				}
 			},
 			table: "#tblwlpxxmh",
@@ -134,10 +164,6 @@
 					name: "wlpxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "wlpxxmh.nama"
-				}, 	
-				{
 					label: "Keterangan",
 					name: "wlpxxmh.keterangan",
 					type: "textarea"
@@ -163,14 +189,12 @@
 			if(action != 'remove'){
 
 				kode = edtwlpxxmh.field('wlpxxmh.kode').val();
-				nama = edtwlpxxmh.field('wlpxxmh.nama').val();
 
 				validasiRequired(
 					edtwlpxxmh,
 					'wlpxxmh',
 					{
 						'kode': kode,
-						'nama': nama
 					}
 				);
 
@@ -181,16 +205,6 @@
 					'kode',
 					'kode',
 					'"'+kode+'"',
-					id_wlpxxmh
-				);
-
-				validasiUnique(
-					action,
-					edtwlpxxmh,
-					'wlpxxmh',
-					'nama',
-					'nama',
-					'"'+nama+'"',
 					id_wlpxxmh
 				);
 			}
@@ -225,6 +239,7 @@
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wlpxxmh = show_deleted_wlpxxmh;
+					d.is_in_use = is_in_use;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -273,7 +288,7 @@
 					$table_name  = $nama_tabel;
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
-					$arr_buttons_tools2 	= ['sp', 'sb'];
+					$arr_buttons_tools2 	= ['sf','sp', 'sb'];
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
@@ -365,6 +380,25 @@
 			tbl_details = [tbliivxxrd];
 			CekDeselectHeaderHD(tblwlpxxmh, tbl_details);
 		} );
+
+		// BEGIN form filter
+		$("#frmFilter").submit(function(e) {
+			e.preventDefault();
+		}).validate({
+			rules: {
+			},
+			submitHandler: function(frmFilter) {
+				is_in_use =  $('#is_in_use').val();
+				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+				tblwlpxxmh.rows().deselect();
+				tblwlpxxmh.ajax.reload(function ( json ) {
+				toastr.remove();
+				toastr["success"]("Load data berhasil","INFO")
+				$('#modalSFwlpxxmh').modal('toggle');
+			}, false);
+				return false;
+			}
+		});
 		// END wlpxxmh
 
 		tbliivxxrd = $('#tbliivxxrd').DataTable( {
