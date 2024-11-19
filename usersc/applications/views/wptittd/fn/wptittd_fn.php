@@ -214,7 +214,7 @@
     
     function hitungKonversi() {
         id_iimxxmh = edtwptittd.field('wptittd.id_iimxxmh').val();
-
+        console.log(id_iumxxmh_unit_old);
         $.ajax( {
             url: "../../models/wptittd/wptittd_fn_konversi_unit.php",
             dataType: 'json',
