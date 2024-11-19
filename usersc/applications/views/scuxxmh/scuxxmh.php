@@ -356,7 +356,7 @@
 					name: "grlxxmh.npwp"
 				},
 				{
-					label: "Batas Expired Date",
+					label: "Batas Expired Date (Bulan) <sup class='text-danger'>*<sup>",
 					name: "grlxxmh.batas_expired_date"
 				},
 				{
