@@ -753,7 +753,8 @@
 			uniqueToken = 'wplxxth_id_'+id_transaksi_h;
 
 			
-			if (transaction_state == 1 || transaction_state == -9) {
+			// console.log(transaction_state);
+			if (transaction_state != 0) {
 				tblwplxxth.button('btnGenerateLPN:name').disable();
 				tblwplxxth.button('btnReset:name').disable();
 			} else {
@@ -1088,7 +1089,7 @@
 			},
 			rowCallback: function( row, data, index ) {
 				if ( data.wplittd.subtotal_jumlah_unit == 0 ) {
-					console.log($('td:eq(8)', row));
+					// console.log($('td:eq(8)', row));
 					$('td:eq(6)', row).addClass('bg-warning');
 				} else if ( data.wplittd.subtotal_jumlah_unit != data.wplittd.jumlah_unit ) {
 					$('td:eq(6)', row).addClass('bg-warning');
