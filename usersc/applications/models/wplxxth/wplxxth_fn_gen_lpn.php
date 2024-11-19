@@ -190,6 +190,7 @@
 									OR
 									(c.is_crossdocking <> 1 AND b.id_wloctmh = 3)
 								)
+							AND expired_date >= DATE_ADD(CURDATE(), INTERVAL f.batas_expired_date MONTH)
 							GROUP BY 
 								b.id_wloxxmh,
 								a.id_iimxxmh,

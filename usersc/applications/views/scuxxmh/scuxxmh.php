@@ -69,6 +69,9 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="grlxxmh.batas_expired_date"></editor-field>
+							</div>
+							<div class="col-lg-6">
 								<editor-field name="grlxxmh.keterangan"></editor-field>
 							</div>
 						</div>
@@ -353,6 +356,10 @@
 					name: "grlxxmh.npwp"
 				},
 				{
+					label: "Batas Expired Date",
+					name: "grlxxmh.batas_expired_date"
+				},
+				{
 					label: getTranslation('notes'),
 					name: "grlxxmh.keterangan",
 					type: "textarea"
@@ -408,6 +415,7 @@
 				id_gbuxxmh = edtgrlxxmh.field('grlxxmh.id_gbuxxmh').val();
 				id_fpytmmh = edtgrlxxmh.field('grlxxmh.id_fpytmmh').val();
 				email      = edtgrlxxmh.field('grlxxmh.email').val();
+				batas_expired_date      = edtgrlxxmh.field('grlxxmh.batas_expired_date').val();
 
 				validasiRequired(
 					edtgrlxxmh,
@@ -428,6 +436,16 @@
 					{
 						'email': email
 					}
+				);
+
+				validasiNumber(
+					edtgrlxxmh,
+					'grlxxmh',
+					{
+						'batas_expired_date': batas_expired_date
+					},
+					0,
+					'>='
 				);
 				
 			}
