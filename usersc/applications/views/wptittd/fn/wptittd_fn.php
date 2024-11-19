@@ -139,7 +139,13 @@
                                             } else {
                                                 edtwptittd.field('wptittd.wlpxxmh_kode').error('');
                                                 // is_valid_lpn = 1;
-                                                smallerValidation(id_iimxxmh);
+                                                
+                                                autofillField('ggswmsh', 1, 'is_replenishment');
+                                                is_replenishment = autofillData.is_replenishment;
+
+                                                if (is_replenishment == 1) {
+                                                    smallerValidation(id_iimxxmh);
+                                                }
                                             }
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {
