@@ -132,11 +132,14 @@
                                         }
 
                                         if (id_iimxxmh > 0) {
+                                            console.log('ada iimxm');
                                             lpnBooking();
                                             if (sisa_unit <= 0) {
+                                                console.log('LPN Habis Terpakai');
                                                 edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini sudah habis terpakai!' );
                                                 is_valid_lpn = 0;
                                             } else {
+                                                console.log('LPN Ada Isinya');
                                                 edtwptittd.field('wptittd.wlpxxmh_kode').error('');
                                                 // is_valid_lpn = 1;
                                                 
@@ -145,10 +148,13 @@
 
                                                 if (is_replenishment == 1) {
                                                     smallerValidation(id_iimxxmh);
+                                                } else {
+                                                    is_valid_lpn = 1;
                                                 }
                                             }
                                             // $('div.DTE_Form_Buttons button:eq(1)').click();
                                         } else {
+                                            console.log('tidak ada iimxm');
                                             edtwptittd.field('wptittd.wlpxxmh_kode').error( 'LPN ini tidak ditemukan dalam report inventory!' );
                                             is_valid_lpn = 0;
                                         }
@@ -214,7 +220,7 @@
     
     function hitungKonversi() {
         id_iimxxmh = edtwptittd.field('wptittd.id_iimxxmh').val();
-        console.log(id_iumxxmh_unit_old);
+        // console.log(id_iumxxmh_unit_old);
         $.ajax( {
             url: "../../models/wptittd/wptittd_fn_konversi_unit.php",
             dataType: 'json',
