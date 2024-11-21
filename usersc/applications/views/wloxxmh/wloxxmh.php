@@ -193,6 +193,7 @@
 
 	var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0;
 	var is_generate_nama;
+	var selectedIds;
 	var id_wlotpmh, wloxxmh_kode, rack_name, bay_name, level_name, position_name;
 
 	// get tableRelation
@@ -1034,6 +1035,18 @@
 						},
 					]
 				},
+				{
+					text: '<i class="fa fa-print"></i>',
+					name: 'btnPrint',
+					className: 'btn btn-outline',
+					titleAttr: 'Print Quotation',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault();
+						var queryString = selectedIds.join(',');
+						var url = $(this).attr('href'); 
+						window.open('wloxxmh_print.php?ids_wloxxmh='+queryString, '_blank');
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -1058,6 +1071,8 @@
 		tblwloxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('wloxxmh');
+			selectedIds = getSelectedRowIds();
+
 			id_iwhxxmh_old           = wloxxmh_data.id_iwhxxmh;
 			id_wloctmh_old           = wloxxmh_data.id_wloctmh;
 			id_wlotpmh_old           = wloxxmh_data.id_wlotpmh;
@@ -1071,6 +1086,7 @@
 		tblwloxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wloxxmh');
+			var selectedIds = getSelectedRowIds();
 			id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0, id_iwhxxmh = 0;
 
 			// atur hak akses

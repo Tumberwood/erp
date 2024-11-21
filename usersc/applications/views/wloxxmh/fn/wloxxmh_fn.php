@@ -8,8 +8,14 @@
         edtwloxxmh.field('wloxxmh.nama').val(wloxxmh_nama);
     };
 
-    function validasiKapasitas(){
-        
-    }
+    function getSelectedRowIds() {
+        var selectedData = tblwloxxmh.rows({ selected: true }).data();
+        var ids = [];
 
+        for (var i = 0; i < selectedData.length; i++) {
+            ids.push(selectedData[i].wloxxmh.id);
+        }
+
+        return ids;
+    }
 </script>
