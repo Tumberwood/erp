@@ -498,18 +498,18 @@
 				{ data: "qwhittd.iimxxmh_kode" },
 				{ data: "qwhittd.iimxxmh_nama" },
 				{ 
-					data: "qwhittd.jumlah_default",
-					...renderNumber()
-				},
-				{ 
-					data: "qwhittd.iumxxmh_default_kode",
-				},
-				{ 
 					data: "qwhittd.jumlah_terkecil",
 					...renderNumber()
 				},
 				{ 
 					data: "qwhittd.iumxxmh_terkecil_kode",
+				},
+				{ 
+					data: "qwhittd.jumlah_default",
+					...renderNumber()
+				},
+				{ 
+					data: "qwhittd.iumxxmh_default_kode",
 				},
 				{ data: "qwhittd.batch_number" },
 				{ data: "qwhittd.expired_date" },
