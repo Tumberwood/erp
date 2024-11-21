@@ -241,6 +241,15 @@
 					name: "wtrittd.jumlah_unit"
 				},
 				{
+					label: "Transfer ke LPN Baru <sup class='text-danger'>*<sup>",
+					name: "wtrittd.is_lpn_baru",
+					type: 'radio',
+					options: [
+						{ label: 'Tidak', value: 0 },
+						{ label: 'Ya', value: 1 }
+					]
+				},
+				{
 					label: "Lokasi Tujuan <sup class='text-danger'>*<sup>",
 					name: "wloxxmh_nama_scan"
 				},
@@ -296,6 +305,7 @@
 			edtwtrittd.field('wtrittd.id_iumxxmh_unit').hide();
 			edtwtrittd.field('wtrittd.keterangan').hide();
 			edtwtrittd.field('wtrittd.jumlah_unit').hide();
+			edtwtrittd.field('wtrittd.is_lpn_baru').hide();
 			edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
 			edtwtrittd.field('wloxxmh_nama_scan').hide();
 			edtwtrittd.field('wtrittd.is_gabung_lpn').hide();
@@ -368,10 +378,16 @@
 		}, {event: 'change'});
 
 		edtwtrittd.dependent( 'wtrittd.is_gabung_lpn', function ( val, data, callback ) {
+			is_lpn_baru = edtwtrittd.field('wtrittd.is_lpn_baru').val();
 			if (val == 0) {
-				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
-				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val('');
+				if (is_lpn_baru == 1) {
+					edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').show();
+					edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val();
+				} else {
+					edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
+					edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val('');
 
+				}
 				edtwtrittd.field('wtrittd.is_ikut_baru').hide();
 			} else {
 				edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').show();
@@ -386,12 +402,19 @@
 		edtwtrittd.dependent( 'wtrittd.wlpxxmh_kode_tujuan', function ( val, data, callback ) {
 			if (val != "") {
 				is_gabung_lpn = edtwtrittd.field('wtrittd.is_gabung_lpn').val();
-				if (is_gabung_lpn == 1) {
-					validasiLpnTujuan();
+				is_lpn_baru = edtwtrittd.field('wtrittd.is_lpn_baru').val();
+
+				if (is_lpn_baru == 1) {
+					validasiLPNBaru();
+				} else {
+					if (is_gabung_lpn == 1) {
+						validasiLpnTujuan();
+					}
 				}
 			}
 			return {}
-		}, {event: 'change'});
+		// }, {event: 'change'});
+		}, {event: 'keyup'});
 
 		edtwtrittd.dependent( 'wloxxmh_nama_scan', function ( val, data, callback ) {
 			if(val != ''){
@@ -650,11 +673,29 @@
 									$('div.DTE_Form_Buttons button:eq(3)').show();
 									// console.log('uniqueToken start' +uniqueToken);
 									booking(1);
+                                    edtwtrittd.field('wtrittd.is_lpn_baru').show();
 									edtwtrittd.field('wtrittd.is_gabung_lpn').show();
 									edtwtrittd.field('wloxxmh_nama_scan').show();
 									edtwtrittd.field('wloxxmh_nama_scan').focus();
 									edtwtrittd.field('wtrittd.id_iumxxmh_unit').disable();
 									edtwtrittd.field('wtrittd.jumlah_unit').disable();
+									
+									edtwtrittd.dependent( 'wtrittd.is_lpn_baru', function ( val, data, callback ) {
+										if (val == 0) {
+											edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').hide();
+											edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val('');
+
+											edtwtrittd.field('wtrittd.is_ikut_baru').hide();
+											edtwtrittd.field('wtrittd.is_gabung_lpn').show();
+										} else {
+											edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').show();
+											edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val();
+
+											edtwtrittd.field('wtrittd.is_ikut_baru').hide();
+											edtwtrittd.field('wtrittd.is_gabung_lpn').hide();
+										}
+										return {}
+									}, {event: 'change'});
 								}
 
 								if ( edtwtrittd.inError() ) {

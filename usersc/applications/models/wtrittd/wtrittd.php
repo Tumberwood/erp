@@ -81,6 +81,7 @@
 			Field::inst( 'wtrittd.expired_date_tujuan' ),
 			Field::inst( 'wtrittd.batch_number_tujuan' ),
 			Field::inst( 'wtrittd.is_replenishment' ),
+			Field::inst( 'wtrittd.is_lpn_baru' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),

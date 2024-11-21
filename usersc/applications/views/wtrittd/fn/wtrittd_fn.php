@@ -216,6 +216,7 @@
     function validasiLocation() {
         wloxxmh_nama_scan = edtwtrittd.field('wloxxmh_nama_scan').val();
         is_gabung_lpn = edtwtrittd.field('wtrittd.is_gabung_lpn').val();
+        is_lpn_baru = edtwtrittd.field('wtrittd.is_lpn_baru').val();
         id_iimxxmh = edtwtrittd.field('wtrittd.id_iimxxmh').val();
         id_iumxxmh_unit = edtwtrittd.field('wtrittd.id_iumxxmh_unit').val();
         console.log('is_gabung_lpn = '+is_gabung_lpn);
@@ -246,7 +247,11 @@
                         if (status_code == 500) {
                             edtwtrittd.field('wloxxmh_nama_scan').error( json.data.message );
                             edtwtrittd.field('wloxxmh_nama_scan').val('');
-                            edtwtrittd.field('wtrittd.is_gabung_lpn').show();
+                            if (is_lpn_baru == 1) {
+                                edtwtrittd.field('wtrittd.is_gabung_lpn').hide();
+                            } else {
+                                edtwtrittd.field('wtrittd.is_gabung_lpn').show();
+                            }
                         } else {
                             id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
                             edtwtrittd.field('wloxxmh_nama_scan').error( '' );
@@ -354,5 +359,25 @@
                 }
             } );
         }
+    }
+
+    function validasiLPNBaru() {
+        wlpxxmh_kode_tujuan = edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val();
+        $.ajax( {
+            url: "../../models/wtrittd/wtrittd_fn_cek_lpn_baru.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                wlpxxmh_kode: wlpxxmh_kode_tujuan
+            },
+            success: function ( json ) {
+                if(json.data.status_code == 500){
+                    edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').error( json.data.message );
+                    edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').val( '' );
+                }else{
+                    edtwtrittd.field('wtrittd.wlpxxmh_kode_tujuan').error('');
+                }
+            }
+        } );
     }
 </script>
