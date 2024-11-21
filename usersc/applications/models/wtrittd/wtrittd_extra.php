@@ -345,6 +345,13 @@
 			
 			
 			if ($is_lpn_baru == 1) {
+				//update wlpxxmh.is_nextprocess
+				$qu_wlpxxmh = $editor->db()
+					->query('update', 'wlpxxmh')
+					->set('is_nextprocess',1)
+					->where('kode',$wlpxxmh_kode_tujuan)
+					->exec();
+
 				//Location diminuskan
 				$qi_iivxxrd = $editor->db()
 					->raw()
