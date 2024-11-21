@@ -260,35 +260,68 @@
 			edtqwhxxth.field('qwhxxth.tanggal').hide();
 
 			edtqwhxxth.on( 'preOpen', function( e, mode, action ) {
-			console.log(iimxxmh_status);
-			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtqwhxxth.field('iimxxmh_status').val(iimxxmh_status);
-			edtqwhxxth.field('id_iivxxrd').val(id_iivxxrd);
-			edtqwhxxth.field('start_at').val(start_at);
-			edtqwhxxth.field('end_date').val(end_date);
+				console.log(iimxxmh_status);
+				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtqwhxxth.field('iimxxmh_status').val(iimxxmh_status);
+				edtqwhxxth.field('id_iivxxrd').val(id_iivxxrd);
+				edtqwhxxth.field('start_at').val(start_at);
+				edtqwhxxth.field('end_date').val(end_date);
 			});
 
 			edtqwhxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
-			$('div.DTE_Form_Buttons button:eq(2)').hide();
+				$(".modal-dialog").addClass("modal-lg");
+				$('div.DTE_Form_Buttons button:eq(2)').hide();
 			});
 
-			edtqwhxxth.on( 'preSubmit', function (e, data, action) {
-			if(action != 'remove'){
-				iimxxmh_status = edtqwhxxth.field('iimxxmh_status').val();
-				if(iimxxmh_status == null || iimxxmh_status == ''){
-					edtqwhxxth.field('iimxxmh_status').error( 'Wajib diisi!' );
-				}
-			}
+			let swalConfirmed = false;
 
-			if ( edtqwhxxth.inError() ) {
+			edtqwhxxth.on( 'preSubmit', function (e, data, action) {
+				if(action != 'remove'){
+					iimxxmh_status = edtqwhxxth.field('iimxxmh_status').val();
+					if(iimxxmh_status == null || iimxxmh_status == ''){
+						edtqwhxxth.field('iimxxmh_status').error( 'Wajib diisi!' );
+					}
+				}
+
+				if ( edtqwhxxth.inError() ) {
+					return false;
+				}
+				
+				// If already confirmed, allow submission
+				if (swalConfirmed) {
+					swalConfirmed = false; // Reset the flag for future submissions
+					return true;
+				}
+
+				// Prevent the default submission initially
+				e.preventDefault();
+
+				// Show SweetAlert confirmation dialog
+				swal({
+					text: "Apakah Anda Yakin?",
+					icon: "info",
+					buttons: {
+						cancel: "Batal",
+						confirm: "Ya, Simpan"
+					},
+				}).then((willConfirm) => {
+					if (willConfirm) {
+						// Set the flag and re-trigger the submit process
+						swalConfirmed = true;
+						edtqwhxxth.submit(); // Submit the data
+					} else {
+						// If the user cancels, do nothing
+						// console.log("Submission canceled by the user.");
+					}
+				});
+
+				// Return false to prevent automatic submission until confirmed
 				return false;
-			}
 			});
 
 			edtqwhxxth.on('initSubmit', function(e, action) {
-			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
-			edtqwhxxth.field('finish_at').val(finish_at);
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtqwhxxth.field('finish_at').val(finish_at);
 			});
 
 			edtqwhxxth.on( 'postSubmit', function (e, json, data, action, xhr) {
@@ -297,7 +330,7 @@
 			} );
 
 			edtqwhxxth.on( 'close', function () {
-			edtqwhxxth.enable();
+				edtqwhxxth.enable();
 			} );
 
 		//start datatables
