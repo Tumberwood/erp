@@ -143,6 +143,12 @@
 					->exec('SELECT
 								:id_transaksi_h,
 								ifnull(h.urutan,0) AS urutan,
+								max(b.id) id_iivxxrd,
+								(
+							        SELECT a_inner.iimxxmh_status
+							        FROM iivxxrd a_inner
+							        WHERE a_inner.id = MAX(b.id) -- Correlates with the outer query
+							    ) AS iimxxmh_status_max_id,
 								b.id AS id_iiv,
 								b.id_wloctmh,
 								wlpxxmh_kode,
@@ -184,18 +190,18 @@
 							LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 							LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
 							WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
-							'.$where_wh.' AND b.iimxxmh_status = 1
-							AND (
-									(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
-									OR
-									(c.is_crossdocking <> 1 AND b.id_wloctmh = 3)
-								)
+							'.$where_wh.' AND
+							(
+								(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
+								OR
+								(c.is_crossdocking <> 1 AND b.id_wloctmh = 3)
+							)
 							AND expired_date >= DATE_ADD(CURDATE(), INTERVAL f.batas_expired_date MONTH)
 							GROUP BY 
 								b.id_wloxxmh,
 								a.id_iimxxmh,
 								wlpxxmh_kode
-							HAVING SUM(b.jumlah_terkecil) > 0
+							HAVING SUM(b.jumlah_terkecil) > 0 AND iimxxmh_status_max_id = 1
 				');
 				$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 
