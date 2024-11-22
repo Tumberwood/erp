@@ -76,9 +76,10 @@
 						GROUP BY id_wpclptd
 					) f ON f.id_wpclptd = a.id
 					LEFT JOIN wdplptd book on book.id_wpclptd = a.id AND book.keterangan = :uniqueToken
-					WHERE 
+					WHERE
+						a.transaction_state <> -9
 						-- a.jumlah_terkecil_os > 0 AND
-						a.id = '.$id_wpclptd
+						AND a.id = '.$id_wpclptd
 					
 			);
 		$rs_wpllptd = $qs_wpllptd->fetchAll();
