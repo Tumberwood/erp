@@ -66,6 +66,7 @@
 								<th>Jumlah Unit</th>
 								<th>Batch Number</th>
 								<th>Expired Date</th>
+								<th>Status Dispatch</th>
 							</tr>
 						</thead>
                     </table>
@@ -146,6 +147,8 @@
 						targets: '_all'
 					}
 				],
+				responsive: false,
+				scrollX: true,
 				columns: [
 					{ data: "wpclptd.id",visible:false },
 					{ data: "wpclptd.id_wpcxxth",visible:false },
@@ -165,6 +168,20 @@
 					},
 					{ data: "wpclptd.batch_number" },
 					{ data: "wpclptd.expired_date" },
+					{ 
+						data: "wpclptd.status_dispatch",
+						render: function (data) {
+							if (data == 1) {
+								return '<span class="badge badge-plain">Open</span>';
+							} else if (data == 2) {
+								return '<span class="badge badge-warning">Parsial</span>';
+							} else if (data == 3) {
+								return '<span class="badge badge-primary">Full</span>';
+							} else {
+								return '<span class="badge badge-danger">INVALID</span>';
+							}
+						}
+					},
 				],
 				buttons: [
 					// BEGIN breaking generate button

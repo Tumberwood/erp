@@ -63,6 +63,7 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'wpclptd.is_nextprocess' ),
+			Field::inst( 'wpclptd.status_dispatch' ),
 
 			Field::inst( 'activity_log_ml_confirm.finish_on as tanggal_confirm' )
 				->getFormatter( 'Format::datetime', array(
