@@ -315,7 +315,7 @@
         var defVal = $('#uom_select' + itemId + ' option:selected').attr('data-defVal');
 
         $('#input_jumlah'+itemId).val(defVal);
-        validasiJumlah(itemId);
+        // validasiJumlah(itemId);
         // $('#uom_select' + itemId).prop('disabled', false);
         // $('#input_jumlah' + itemId).prop('disabled', false);
     }
