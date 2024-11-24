@@ -108,7 +108,8 @@ $.extend( true, $.fn.dataTable.defaults, {
 	// scroller: true,
 	// deferRender: true,
 	
-	// colReorder: true,
+	colReorder: true,
+	stateSave: true,
 	// fixedColumns: true,
 	// fixedHeader: {
 	// 	header: true
