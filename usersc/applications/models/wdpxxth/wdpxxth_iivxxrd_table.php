@@ -79,7 +79,7 @@
 					WHERE 
 						-- a.transaction_state <> -9
 						-- a.jumlah_terkecil_os > 0 AND
-						AND a.id_wpcxxth = '.$id_wpcxxth_old. '
+						a.id_wpcxxth = '.$id_wpcxxth_old. '
 					HAVING sisa_terkecil_now > 0'
 					
 			);
