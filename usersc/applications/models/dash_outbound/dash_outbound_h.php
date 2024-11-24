@@ -35,7 +35,7 @@
 				LEFT JOIN wdoittd c ON c.id = b.id_wdoittd
 				LEFT JOIN wdoxxth d ON d.id = c.id_wdoxxth
 				LEFT JOIN grlxxmh e ON e.id = b.id_grlxxmh_customer
-				WHERE a.transaction_state NOT IN (9, -9)
+				WHERE a.transaction_state = 1
 				GROUP BY d.id
 				ORDER BY tanggal DESC
 				;
