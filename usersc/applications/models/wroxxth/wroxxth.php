@@ -83,6 +83,7 @@
 			Field::inst( 'wroxxth.pajak_persen' ),
 			Field::inst( 'wroxxth.pajak_final' ),
 			Field::inst( 'wroxxth.grand_total' ),
+			Field::inst( 'wroxxth.no_ref' ),
 
 			Field::inst( 'iitxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' )

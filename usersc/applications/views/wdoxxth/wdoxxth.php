@@ -53,6 +53,7 @@
 							<th>Nomor</th>
 							<th>Tanggal</th>
 							<th>Customer</th>
+							<th>No Referensi</th>
 							<th>Status</th>
 						</tr>
 					</thead>
@@ -267,6 +268,10 @@
 					format: 'DD MMM YYYY'
 				},
 				{
+					label: "No Referensi <sup class='text-danger'>*<sup>",
+					name: "wdoxxth.no_ref",
+				},
+				{
 					label: "Keterangan",
 					name: "wdoxxth.keterangan",
 					type: "textarea"
@@ -297,6 +302,7 @@
 
 				id_grlxxmh_customer = edtwdoxxth.field('wdoxxth.id_grlxxmh_customer').val();
 				id_wttxxmh = edtwdoxxth.field('wdoxxth.id_wttxxmh').val();
+				no_ref = edtwdoxxth.field('wdoxxth.no_ref').val();
 				tanggal       = edtwdoxxth.field('wdoxxth.tanggal').val();
 
 				validasiRequired(
@@ -305,6 +311,7 @@
 					{
 						'id_grlxxmh_customer': id_grlxxmh_customer,
 						'id_wttxxmh': id_wttxxmh,
+						'no_ref': no_ref,
 						'tanggal'   : tanggal
 					}
 				);
@@ -366,6 +373,7 @@
 				{ data: "wdoxxth.kode" },
 				{ data: "wdoxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
+				{ data: "wdoxxth.no_ref" },
 				{ 
 					data: "wdoxxth.transaction_state" ,
 					...renderTransactionStatus()
