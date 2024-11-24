@@ -55,7 +55,7 @@
 						a.jumlah_terkecil_os,
 						a.jumlah_terkecil_next,
 						a.jumlah_konversi,
-						a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
+						-- a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
 						def.kode AS iumxxmh_default_kode,
 						d.nama AS wloxxmh_out_nama,
 						a.status_dispatch,
