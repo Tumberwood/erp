@@ -90,6 +90,8 @@
                 FROM wdoxxth a
                 LEFT JOIN wdoittd b ON b.id_wdoxxth = a.id
                 INNER JOIN wdplptd c ON c.id_wdoittd = b.id
+                LEFT JOIN wdpxxth d ON d.id = c.id_wdpxxth
+                WHERE d.transaction_state = 1
         '
         );
 
