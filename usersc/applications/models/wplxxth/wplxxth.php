@@ -66,7 +66,9 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'wpmxxmh.nama' ),
+			Field::inst( 'wdoxxth.kode' ),
 		)
+		->leftJoin( 'wdoxxth','wdoxxth.id','=','wplxxth.id_wdoxxth' )
 		->leftJoin( 'wpmxxmh','wpmxxmh.id','=','wplxxth.id_wpmxxmh' )
 		->join(
 			Mjoin::inst( 'wdoxxth' )
@@ -84,8 +86,7 @@
 							} )
 							->order( 'kode' )
 						),
-					Field::inst( 'kode' ),
-					Field::inst( 'id_grlxxmh_customer' ),
+					Field::inst( 'kode' )
 				)
 		)
 		;
