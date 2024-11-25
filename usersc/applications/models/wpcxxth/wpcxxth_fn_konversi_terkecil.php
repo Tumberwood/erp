@@ -29,7 +29,7 @@
 	                f.jumlah_konversi
                 FROM '.$nama_table.' c -- now
                 LEFT JOIN '.$nama_table_before.' a ON a.id = c.id_'.$nama_table_before.' -- before
-                LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.id_iumxxmh = a.id_iumxxmh_unit -- UoM unit
+                LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.id_iumxxmh = c.id_iumxxmh_unit -- UoM unit
                 LEFT JOIN iimummd e ON e.id_iimxxmh = a.id_iimxxmh AND e.is_terkecil = 1 -- UoM terkecil
                 LEFT JOIN iimummd f ON f.id_iimxxmh = a.id_iimxxmh AND f.is_default = 1 -- UoM Default
                 WHERE c.id = '.$id.'
