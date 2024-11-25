@@ -196,7 +196,8 @@
                                                         type="text" 
                                                         id="input_jumlah${kontenData.id}" 
                                                         value="${id_submit_d > 0 ? kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '') : 
-                                                        kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" 
+                                                        // kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" 
+                                                        kontenData.sisa_default.toString().replace(/\.?0+$/, '')}" 
                                                         class="form-control form-control-sm quantity" 
                                                         min="0">
                                                 </div>
