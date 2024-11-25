@@ -78,9 +78,9 @@
                                         
                                         Jumlah Pick : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
                                         <br>
-                                        Jumlah Dispatch : ${kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        Jumlah Dispatch : ${kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
                                         <br>
-                                        Jumlah Sisa : ${kontenData.sisa_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+                                        Jumlah Sisa : ${kontenData.sisa_default.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
                                     </p>
                                 </div>`
 
@@ -91,8 +91,8 @@
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <div class="d-flex align-items-center">
                                             <select class="form-select fw-bold" id="uom_select${kontenData.id}" onchange="jumlahSatuan(${kontenData.id})" style="font-size: 9px; height: 28px">
-                                                <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.sisa_terkecil_now.toString().replace(/\.?0+$/, '')}">${kontenData.iumxxmh_terkecil_kode}</option>
-                                                <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" selected>${kontenData.iumxxmh_default_kode}</option>
+                                                <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.sisa_terkecil_now.toString().replace(/\.?0+$/, '')}" ${kontenData.uom_pl == kontenData.iumxxmh_terkecil_kode ? 'selected' : ''}>${kontenData.iumxxmh_terkecil_kode}</option>
+                                                <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" ${kontenData.uom_pl == kontenData.iumxxmh_default_kode ? 'selected' : ''}>${kontenData.iumxxmh_default_kode}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -104,7 +104,7 @@
                                                     type="text" 
                                                     id="input_jumlah${kontenData.id}" 
                                                     value="${id_submit_d > 0 ? kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '') : 
-                                                    kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" 
+                                                    kontenData.sisa_default.toString().replace(/\.?0+$/, '')}" 
                                                     class="form-control form-control-sm quantity" 
                                                     min="0">
                                             </div>
