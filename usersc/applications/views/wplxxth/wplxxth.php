@@ -56,6 +56,7 @@
                                 <th>ID</th>
                                 <th>Kode PL</th>
                                 <th>Kode DO</th>
+								<th>Customer</th>
                                 <th>Tanggal</th>
                                 <th>Picking Method</th>
                                 <th>Cross Docking</th>
