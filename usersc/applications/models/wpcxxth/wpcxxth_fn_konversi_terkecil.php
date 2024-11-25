@@ -29,7 +29,7 @@
 	                f.jumlah_konversi
                 FROM '.$nama_table.' c -- now
                 LEFT JOIN '.$nama_table_before.' a ON a.id = c.id_'.$nama_table_before.' -- before
-                LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.id_iumxxmh = a.id_iumxxmh_unit -- UoM unit
+                LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.id_iumxxmh = c.id_iumxxmh_unit -- UoM unit
                 LEFT JOIN iimummd e ON e.id_iimxxmh = a.id_iimxxmh AND e.is_terkecil = 1 -- UoM terkecil
                 LEFT JOIN iimummd f ON f.id_iimxxmh = a.id_iimxxmh AND f.is_default = 1 -- UoM Default
                 WHERE c.id = '.$id.'
@@ -62,14 +62,14 @@
                     a.jumlah_unit unit_before,
                     sum(c.jumlah_unit) unit_after,
                     d.jumlah_konversi,
-                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)) AS terkecil,
+                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_terkecil)) AS terkecil,
                     a.jumlah_terkecil,
-                    (a.jumlah_terkecil) - SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)) AS jumlah_terkecil_os,
-                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)) AS jumlah_terkecil_next,
-                    ((a.jumlah_terkecil) - SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi))) / d.jumlah_konversi AS sisa_unit,
-                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi))
+                    (a.jumlah_terkecil) - SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_terkecil)) AS jumlah_terkecil_os,
+                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_terkecil)) AS jumlah_terkecil_next,
+                    ((a.jumlah_terkecil) - SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_terkecil))) / d.jumlah_konversi AS sisa_unit,
+                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_terkecil))
                     / (f.jumlah_konversi) AS jumlah_default,
-                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi))
+                    SUM(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_terkecil))
                     / (d.jumlah_konversi) AS jumlah_unit_next,
                     f.jumlah_konversi
                 FROM '.$nama_table.' c -- now
