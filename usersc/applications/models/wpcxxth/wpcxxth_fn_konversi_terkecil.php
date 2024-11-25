@@ -23,7 +23,7 @@
                     c.jumlah_unit unit_now,
                     e.id_iumxxmh id_iumxxmh_terkecil,
                     f.id_iumxxmh id_iumxxmh_default,
-                    if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi) AS jumlah_terkecil,
+                    ROUND(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)) AS jumlah_terkecil,
                     if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)
                     / (f.jumlah_konversi) AS jumlah_default,
 	                f.jumlah_konversi
