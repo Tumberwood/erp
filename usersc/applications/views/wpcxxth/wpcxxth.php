@@ -86,7 +86,7 @@
 						<th>Item Code</th>
 						<th>Item Name</th>
 						<th>UoM</th>
-						<th>Jumlah PL</th>
+						<th id="jumlah_asal"></th>
 						<th>Jumlah Pick</th>
 						<th>Jumlah Sisa</th>
 						<th>Status Picking</th>
@@ -376,6 +376,16 @@
 				$('#selectKode').prop('disabled', true);
 				// Log selected values
 				id_wpcxxth_old  = $('#selectKode').val();
+				autofillField('wpcxxth', id_wpcxxth_old, 'id_wplxxth, id_wktxxth');
+				id_wktxxth = autofillData.id_wktxxth;
+				id_wplxxth = autofillData.id_wplxxth;
+
+				if (id_wplxxth > 0 && id_wktxxth == 0) {
+					$('#jumlah_asal').html('Jumlah PL');
+				} else if (id_wplxxth == 0 && id_wktxxth > 0) {
+					$('#jumlah_asal').html('Jumlah Kitting');
+				}
+
 				tblwpcxxth.ajax.reload(null, false);
 				//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
 				isPickingUsed(id_wpcxxth_old, 1, uniqueToken);

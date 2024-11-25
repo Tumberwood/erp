@@ -124,7 +124,7 @@
 				$qi_wpcxxth = $db
 					->query('insert', 'wpcxxth')
 					->set('id_grlxxmh_customer',$id_grlxxmh_customer)
-					// ->set('id_wktxxth',$id)
+					->set('id_wktxxth',$id)
 					->set('id_wjtxxmh',$id_wjtxxmh)
 					->set('id_wloxxmh_out',$id_wloxxmh_out)
 					->exec();
