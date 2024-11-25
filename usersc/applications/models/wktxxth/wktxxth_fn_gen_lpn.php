@@ -66,6 +66,7 @@
 				'a.id as id_wktittd',
 				'id_iimxxmh',
 				'jumlah_unit',
+				'jumlah_konversi',
 				'jumlah_terkecil',
 				'id_iumxxmh_unit',
 				'movement_method',
@@ -186,10 +187,10 @@
 		$rs_hasil_terkecil = $qs_hasil_terkecil->fetch();
 		//hasil terkecil setelah perhitungan
 		$jumlah_unit_tersedia = $rs_hasil_terkecil['jumlah_unit_tersedia'];
-		$jumlah_terkecil_tersedia = $rs_hasil_terkecil['jumlah_terkecil_tersedia'];
 
 		if ($is_replenishment == 1) {
 			foreach ($rs_items as $key => $item) {
+				$jumlah_terkecil_tersedia = $jumlah_unit_tersedia * $item['jumlah_konversi'];
 				$id_wktittd = $item['id_wktittd'];
 				$id_iimxxmh = $item['id_iimxxmh'];
 				$jumlah_unit_detail = $item['jumlah_unit'];
@@ -244,6 +245,7 @@
 		} else {
 			//Bukan Replenishment
 			foreach ($rs_items as $key => $item) {
+				$jumlah_terkecil_tersedia = $jumlah_unit_tersedia * $item['jumlah_konversi'];
 				$id_wktittd = $item['id_wktittd'];
 				$jumlah_unit_detail = $item['jumlah_unit'];
 				$jumlah_terkecil_detail = $item['jumlah_terkecil'];
