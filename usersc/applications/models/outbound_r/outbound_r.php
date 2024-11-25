@@ -45,7 +45,7 @@
 					e.kode kode_dp,
 					e.jumlah_unit jumlah_dp,
 					if(e.jumlah_terkecil_os = 0 OR g.transaction_state = 1, "Lunas", CONCAT("sisa = ",ROUND(e.jumlah_terkecil_os / e.jumlah_konversi))) ket_dp,
-					IFNULL(g.kode, "Draft DN") kode_dn,
+					IF(g.id > 0, IFNULL(g.kode, "Draft DN"), "") kode_dn,
 					f.jumlah_unit jumlah_dn
 				FROM wpllptd a
 				LEFT JOIN wplxxth plth ON plth.id = a.id_wplxxth
