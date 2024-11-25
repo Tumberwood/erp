@@ -29,8 +29,8 @@
 						ifnull(book.id,0) as id_submit_d,
 						ifnull(book.jumlah_default, 0) AS jumlah_default_now,
 						ifnull(book.jumlah_terkecil, 0) AS jumlah_terkecil_now,
-						(a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_default, 0) as sisa_default_now,
-						(a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_default, 0) as jumlah_default_os,
+						(a.jumlah_terkecil_os / uom_def.jumlah_konversi) + ifnull(book.jumlah_default, 0) as sisa_default_now,
+						(a.jumlah_terkecil_os / uom_def.jumlah_konversi) + ifnull(book.jumlah_default, 0) as jumlah_default_os,
 						-- (a.jumlah_terkecil_os / a.jumlah_konversi) - ifnull(book.jumlah_default, 0) as sisa_default,
 						a.jumlah_terkecil_os + ifnull(book.jumlah_terkecil, 0) as sisa_terkecil_now,
 						a.id,
@@ -65,6 +65,7 @@
 					LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
 					LEFT JOIN iumxxmh terkecil ON terkecil.id = a.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh def ON def.id = a.id_iumxxmh_default
+					LEFT JOIN iimummd uom_def ON uom_def.id_iumxxmh = a.id_iumxxmh_default AND uom_def.id_iimxxmh = b.id
 					LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 					LEFT JOIN wpcxxth c ON c.id = a.id_wpcxxth
 					LEFT JOIN wloxxmh d ON d.id = c.id_wloxxmh_out
