@@ -65,6 +65,7 @@
 					LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
 					LEFT JOIN iumxxmh terkecil ON terkecil.id = a.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh def ON def.id = a.id_iumxxmh_default
+					LEFT JOIN iimummd uom_def ON uom_def.id_iumxxmh = a.id_iumxxmh_default AND uom_def.id_iimxxmh = b.id
 					LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 					LEFT JOIN wpcxxth c ON c.id = a.id_wpcxxth
 					LEFT JOIN wloxxmh d ON d.id = c.id_wloxxmh_out
