@@ -29,6 +29,7 @@
 						ifnull(book.id,0) as id_submit_d,
 						ifnull(book.jumlah_terkecil / a.jumlah_konversi, 0) AS jumlah_default_now,
 						ifnull(book.jumlah_terkecil, 0) AS jumlah_terkecil_now,
+						book.id_iumxxmh_unit id_iumxxmh_unit_select,
 						(a.jumlah_terkecil_os / uom_def.jumlah_konversi) + ifnull(book.jumlah_default, 0) as sisa_default_now,
 						(a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_terkecil / a.jumlah_konversi, 0) as jumlah_default_os,
 						-- (a.jumlah_terkecil_os / a.jumlah_konversi) - ifnull(book.jumlah_default, 0) as sisa_default,
