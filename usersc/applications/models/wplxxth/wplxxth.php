@@ -66,9 +66,9 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'wpmxxmh.nama' ),
-			Field::inst( 'wdoxxth.kode' ),
+			Field::inst( 'wpl_wdo_customer.customer as customer' ),
 		)
-		->leftJoin( 'wdoxxth','wdoxxth.id','=','wplxxth.id_wdoxxth' )
+		->leftJoin( 'wpl_wdo_customer','wpl_wdo_customer.id_wplxxth','=','wplxxth.id' )
 		->leftJoin( 'wpmxxmh','wpmxxmh.id','=','wplxxth.id_wpmxxmh' )
 		->join(
 			Mjoin::inst( 'wdoxxth' )
