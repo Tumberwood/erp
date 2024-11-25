@@ -26,7 +26,7 @@
                     ROUND(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi)) AS jumlah_terkecil,
                     ROUND(if(e.id_iumxxmh = c.id_iumxxmh_unit, c.jumlah_unit, c.jumlah_unit * d.jumlah_konversi))
                     / (f.jumlah_konversi) AS jumlah_default,
-	                f.jumlah_konversi
+	                d.jumlah_konversi
                 FROM '.$nama_table.' c -- now
                 LEFT JOIN '.$nama_table_before.' a ON a.id = c.id_'.$nama_table_before.' -- before
                 LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.id_iumxxmh = c.id_iumxxmh_unit -- UoM unit
