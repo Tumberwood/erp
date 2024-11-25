@@ -99,7 +99,7 @@
 						ifnull(book.jumlah_default, 0) AS jumlah_default_now,
 						ifnull(book.jumlah_terkecil, 0) AS jumlah_terkecil_now,
 						-- (a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_default, 0) as sisa_default_now,
-						(a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_terkecil / book.jumlah_konversi, 0) as jumlah_default_os,
+						(a.jumlah_terkecil_os / a.jumlah_konversi) + ifnull(book.jumlah_terkecil / a.jumlah_konversi, 0) as jumlah_default_os,
 						-- (a.jumlah_terkecil_os / a.jumlah_konversi) - ifnull(book.jumlah_default, 0) as sisa_default,
 						a.jumlah_terkecil_os + ifnull(book.jumlah_terkecil, 0) as sisa_terkecil_now,
 						a.id,
