@@ -68,6 +68,12 @@
     </div>
 
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+		<div class="alert alert-info alert-dismissable">
+			<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+			Harap isi Quantity per satu paket Kit pada detail Item!
+			<br>
+			Harap Picking semua detail Kitting di Menu Picking agar dapat melanjutkan ke Finalisasi Kitting!	
+		</div>
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabwktittd_1"> Item</a></li>
@@ -180,6 +186,7 @@
 	var edtwktxxth, tblwktxxth, show_deleted_wktxxth = 0, id_wktxxth;
 	var edtwktittd, tblwktittd, show_deleted_wktittd = 0, id_wktittd;
 	var edtwktlptd, tblwktlptd, show_deleted_wktlptd = 0, id_wktlptd;
+	var edtwktrstd_create;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -584,6 +591,139 @@
 		edtwktxxth.on( 'close', function () {
 			edtwktxxth.enable();
 		} );
+
+		
+		// BEGIN wktrstd_create
+		edtwktrstd_create = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/wktxxth/wktrstd_create.php",
+				type: 'POST',
+				data: function (d){
+					d.id_wktxxth = id_wktxxth;
+				}
+			},
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "wktrstd",
+					type: "hidden"
+				},	
+				{
+					label: "wktrstd.id_wktxxth",
+					name: "wktrstd.id_wktxxth",
+					type: "hidden"
+				},
+				{
+					label: "wktrstd.id_iimxxmh",
+					name: "wktrstd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "wktrstd.id_iumxxmh_unit",
+					name: "wktrstd.id_iumxxmh_unit",
+					type: "hidden"
+				},
+				{
+					label: "wktrstd.id_wloxxmh",
+					name: "wktrstd.id_wloxxmh",
+					type: "hidden"
+				},
+				{
+					label: "wktrstd.wloxxmh_nama",
+					name: "wktrstd.wloxxmh_nama",
+					type: "hidden"
+				},
+				{
+					label: "wktrstd.id_iwhxxmh",
+					name: "wktrstd.id_iwhxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Jumlah Finalisasi <sup class='text-danger'>*<sup>" ,
+					name: "wktrstd.jumlah_unit"
+				},
+			]
+			} );
+
+			edtwktrstd_create.on( 'preOpen', function( e, mode, action ) {
+				edtwktrstd_create.field('wktrstd.id_wktxxth').val(id_wktxxth);
+				edtwktrstd_create.field('wktrstd.id_wloxxmh').val(id_wloxxmh_out_old);
+				autofillField('wloxxmh', id_wloxxmh_out_old, 'id_iwhxxmh, nama');
+				id_iwhxxmh = autofillData.id_iwhxxmh;
+				wloxxmh_nama = autofillData.nama;
+
+				edtwktrstd_create.field('wktrstd.id_iwhxxmh').val(id_iwhxxmh);
+				edtwktrstd_create.field('wktrstd.wloxxmh_nama').val(wloxxmh_nama);
+				edtwktrstd_create.field('wktrstd.id_iimxxmh').val(id_iimxxmh_old_kitting);
+				edtwktrstd_create.field('wktrstd.id_iumxxmh_unit').val(id_iumxxmh_unit_old_kitting);
+				
+				start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtwktrstd_create.field('start_at').val(start_at);
+
+				sisa = min_jumlah_unit - s_jumlah_unit;
+				edtwktrstd_create.field('wktrstd.jumlah_unit').fieldInfo('Jumlah Finalisasi tidak boleh lebih dari '+sisa);
+			});
+
+			edtwktrstd_create.on("open", function (e, mode, action) {
+				$(".modal-dialog").addClass("modal-lg");
+				$('div.DTE_Form_Buttons button:eq(2)').hide();
+			});
+
+			edtwktrstd_create.on( 'preSubmit', function (e, data, action) {
+				if(action != 'remove'){
+					jumlah_unit = edtwktrstd_create.field('wktrstd.jumlah_unit').val();
+					validasiNumber(
+						edtwktrstd_create,
+						'wktrstd',
+						{
+							'jumlah_unit': jumlah_unit
+						},
+						0,
+						'>'
+					);
+
+					// console.log(s_jumlah_unit);
+					// console.log(min_jumlah_unit);
+					sisa = min_jumlah_unit - s_jumlah_unit;
+
+					if (jumlah_unit > sisa) {
+						edtwktrstd_create.field('wktrstd.jumlah_unit').error('Jumlah Finalisasi tidak boleh lebih dari '+sisa);
+					}
+				}
+
+				if ( edtwktrstd_create.inError() ) {
+					return false;
+				}
+			});
+
+			edtwktrstd_create.on('initSubmit', function(e, action) {
+				finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+				edtwktrstd_create.field('finish_at').val(finish_at);
+			});
+
+			edtwktrstd_create.on( 'postSubmit', function (e, json, data, action, xhr) {
+				tblwktxxth.ajax.reload(null,false);
+			} );
+
+			edtwktrstd_create.on( 'close', function () {
+				edtwktrstd_create.enable();
+			} );
 		
 		tblwktxxth = $('#tblwktxxth').DataTable( {
 			dom: domPQ,
@@ -712,6 +852,14 @@
 						} );
 					}
 				},
+				{
+					extend: 'create',
+					text: 'Finalisasi',
+					name: 'btnFinalisasi',
+					className: 'btn btn-xs btn-outline',
+					editor: edtwktrstd_create, 
+					titleAttr: 'Finalisasi',
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -733,6 +881,7 @@
 			tbl_details = [tblwktittd, tblwktlptd];
 			CekInitHeaderHD(tblwktxxth, tbl_details);
 			tblwktxxth.button('btnGenerateLPN:name').disable();
+			tblwktxxth.button('btnFinalisasi:name').disable();
 			tblwktxxth.button('btnReset:name').disable();
 			tblwktxxth.button('btnReset:name')
 				.nodes()
@@ -750,6 +899,7 @@
 			id_wpmxxmh_old      = wktxxth_data.id_wpmxxmh;
 			id_iwhxxmh_old = wktxxth_data.id_iwhxxmh;
 			id_wloxxmh_old = wktxxth_data.id_wloxxmh_out;
+			id_wloxxmh_out_old = wktxxth_data.id_wloxxmh_out;
 			// atur hak akses
 			tbl_details = [tblwktittd, tblwktlptd];
 			CekSelectHeaderHD(tblwktxxth, tbl_details);
@@ -788,6 +938,7 @@
 				}
 			}
 			cekBelumConfirm();
+			cekDonePicking();
 		} );
 		
 		tblwktxxth.on( 'deselect', function () {
@@ -798,6 +949,7 @@
 			id_iimxxmh_old_kitting = 0;
 			id_iumxxmh_unit_old_kitting = 0;
 			id_wpmxxmh_old = 0;
+			id_wloxxmh_out_old = 0;
 			uniqueToken = '';
 
 			// atur hak akses
@@ -813,6 +965,7 @@
 				.nodes()
 				.css( 'display', 'block' );
 			tblwktxxth.button('btnEdit:name').disable();
+			tblwktxxth.button('btnFinalisasi:name').disable();
 		} );
 		// END wktxxth
 
@@ -936,7 +1089,8 @@
 				},	
 				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
-					name: "wktittd.jumlah_unit"
+					name: "wktittd.jumlah_unit",
+					fieldInfo: "Harap isi jumlah per satu paket. Contoh: Indomie 1, Kopi 2"
 				}, 	
 				{
 					label: "Keterangan",

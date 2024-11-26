@@ -29,7 +29,7 @@
                         wlpxxmh_kode
                     FROM iivxxrd b
                     GROUP BY b.wlpxxmh_kode
-        )
+                )
     ');
     $rs_wlpxxmh = $qs_wlpxxmh->fetch();
 

@@ -60,7 +60,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content animated bounceInRight">
 					<div class="modal-header">
-						<h4 class="modal-title">Dispatch</h4>
+						<h4 class="modal-title" id="h4_dispatch"></h4>
 					</div>
 					<div class="modal-body">
 						<div class="row" id="kontenDispatch">
@@ -78,7 +78,8 @@
 			<table id="tblwpcxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
 				<thead>
 					<tr>
-						<th>ID</th>
+						<th>id_wpllptd</th>
+						<th>id_wktlptd</th>
 						<th>id_wdoxxth</th>
 						<th>status_picking_number</th>
 						<th>LPN</th>
@@ -98,14 +99,15 @@
 					<th></th>
 					<th></th>
 					<th></th>
+					<th></th>
 					<th>Total</th>
 					<th></th>
 					<th></th>
 					<th></th>
 					<th></th>
-					<th id="s_8"></th>
 					<th id="s_9"></th>
 					<th id="s_10"></th>
+					<th id="s_11"></th>
 					<th></th>
 					<th></th>
 					<th></th>
@@ -141,6 +143,7 @@
 		var edtwpcxxth, tblwpcxxth, show_deleted_wpcxxth = 0, id_wpcxxth;
 		// ------------- end of default variable
 		var id_wpllptd = 0;
+		var id_wktlptd = 0;
 		var id_wpcxxth_old = 0;
 		var selectedValues = 0;
 		var start_at = "";
@@ -148,6 +151,7 @@
 		var finish_at = "";
 		var confirm_at = "";
 		var uniqueToken = '';
+
 
 		// get tableRelation
 		tableRelation('wpcxxth');
@@ -207,7 +211,8 @@
 				},
 				order: [[ 2, "asc" ], [4, "asc"]],
 				columns: [
-					{ data: "id",visible:false },
+					{ data: "id_wpllptd",visible:false },
+					{ data: "id_wktlptd",visible:false },
 					{ data: "id_wpcxxth",visible:false },
 					{ 
 						data: "status_picking",visible:false },
@@ -318,7 +323,7 @@
 					var api = this.api();
 					var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 					
-					for (var i = 8; i <= 10; i++) {
+					for (var i = 9; i <= 11; i++) {
 						var columnIndex = i;
 						var sum_all = api.column(columnIndex).data().sum();
 						// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
@@ -347,17 +352,31 @@
 				var selectedRowData = tblwpcxxth.rows({ selected: true }).data()[0];
 				if (selectedRowData) {
 					// console.log('Selected ID:', selectedRowData.id);
-					id_wpllptd = selectedRowData.id;
+					id_wpllptd = selectedRowData.id_wpllptd;
+					id_wktlptd = selectedRowData.id_wktlptd;
+
+					console.log(id_wpllptd);
+					console.log(id_wktlptd);
 					$('#modalLPN').modal('toggle');
-					generateKonten();
-					setTimeout(function() {
-						$(`#locAsal${id_wpllptd}`).focus();
-					}, 800);
+
+					if (id_wpllptd > 0 && id_wktlptd == 0) {
+						generateKonten();
+						setTimeout(function() {
+							$(`#locAsal${id_wpllptd}`).focus();
+						}, 800);
+					} else if (id_wktlptd > 0 && id_wpllptd == 0) {
+						generateKontenKitting();
+						setTimeout(function() {
+							$(`#locAsal${id_wktlptd}`).focus();
+						}, 800);
+						
+					}
 				}
 			} );
 
 			tblwpcxxth.on( 'deselect', function () {
 				id_wpllptd = 0;
+				id_wktlptd = 0;
 				$('#konten').empty();
 				// siVarReset('wpcxxth');
 
@@ -381,10 +400,17 @@
 				id_wplxxth = autofillData.id_wplxxth;
 
 				if (id_wplxxth > 0 && id_wktxxth == 0) {
+					wloxxmh_out = "Dispatch";
+					formModalDispatch(wloxxmh_out);
+					$('#h4_dispatch').html(wloxxmh_out);
 					$('#jumlah_asal').html('Jumlah PL');
 				} else if (id_wplxxth == 0 && id_wktxxth > 0) {
+					wloxxmh_out = "Lokasi Kitting";
+					formModalDispatch(wloxxmh_out)
+					$('#h4_dispatch').html(wloxxmh_out);
 					$('#jumlah_asal').html('Jumlah Kitting');
 				}
+				console.log(wloxxmh_out);
 
 				tblwpcxxth.ajax.reload(null, false);
 				//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan

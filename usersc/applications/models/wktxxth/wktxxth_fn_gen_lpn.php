@@ -313,6 +313,7 @@
 								OR
 								(c.is_crossdocking <> 1 AND b.id_wloctmh = 3)
 							)
+							AND expired_date >= CURDATE()
 							GROUP BY 
 								b.id_wloxxmh,
 								a.id_iimxxmh,
@@ -460,7 +461,7 @@
 							->set('iumxxmh_unit_nama',$iiv['iumxxmh_unit_nama'])
 							->set('tanggal',$iiv['tanggal'])
 							->set('is_fisik',0)
-							->set('imtxxmh_kode',211)
+							->set('imtxxmh_kode',219)
 							->set('imtxxmh_movement_type','Picking List')
 							->set('iumxxmh_terkecil_kode',$iiv['iumxxmh_terkecil_kode'])
 							->set('iumxxmh_terkecil_nama',$iiv['iumxxmh_terkecil_nama'])

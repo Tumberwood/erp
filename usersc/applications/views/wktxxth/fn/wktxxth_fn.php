@@ -52,6 +52,30 @@
         } );
 
     }
+    
+    function cekDonePicking() {
+        $.ajax( {
+            url: "../../models/wktxxth/wktxxth_fn_done_picking.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_wktxxth: id_wktxxth
+            },
+            success: function ( json ) {
+                c_id = json.data.c_id;
+                s_jumlah_unit = json.data.s_jumlah_unit;
+                min_jumlah_unit = json.data.min_jumlah_unit;
+
+                if (c_id == 0 && s_jumlah_unit < min_jumlah_unit) {
+                    tblwktxxth.button('btnFinalisasi:name').enable();
+                } else {
+                    tblwktxxth.button('btnFinalisasi:name').disable();
+                }
+            }
+        } );
+
+    }
 
     function confirmLeavePage(event) {
         event.preventDefault();

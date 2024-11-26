@@ -231,19 +231,230 @@
             }
         } );
     }
+
+    function generateKontenKitting() {
+        $('#konten').empty();
+        $('.btnLPN').empty();
+
+        $.ajax( {
+            url: "../../models/wpcxxth/wpcxxth_iivxxrd_card_kitting.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_wktlptd: id_wktlptd,
+                uniqueToken: uniqueToken,
+            },
+            success: function ( json ) {
+                dataKonten = json.data;
+                window.addEventListener('beforeunload', confirmLeavePage);
+
+                if (dataKonten.length >= 2 && dataKonten.length < 3) {
+                    class_col = "col-lg-6";
+                } else if (dataKonten.length > 3) {
+                    class_col = "col-lg-4";
+                } else {
+                    class_col = "col-lg-12";
+                }
+
+                genKonten = '';
+                autofillField('ggswmsh', 1, 'is_replenishment');
+				is_replenishment = autofillData.is_replenishment;
+                cekDataInventory(dataKonten[0].id_wktxxth, dataKonten[0].wlpxxmh_kode, dataKonten[0].id_wloxxmh, dataKonten[0].jumlah_pl);
+                if (is_replenishment == 1 && status_code_rep == 500) {
+                    $('.btnLPN').append(`<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`);
+                    $('#konten').html(`<h3>${message_rep}</h3>`);
+                } else {
+
+                    dataKonten.sort((a, b) => a.status_picking - b.status_picking);
+                    dataKonten.forEach(kontenData => {
+                        wloxxmh_nama = kontenData.wloxxmh_nama;
+                        status_picking = kontenData.status_picking;
+                        id_wjtxxmh = kontenData.id_wjtxxmh;
+                        wloxxmh_out_nama = kontenData.wloxxmh_out_nama;
+                        sisa_terkecil_now = kontenData.sisa_terkecil_now;
+                        id_submit_d = kontenData.id_submit_d;
+                        console.log(id_submit_d);
     
-    genDispatchConfirm = `
-        <div class="col-lg-12">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-                <div class="d-flex align-items-center">
-                    <div class="quantity-input">
-                        <input type="text" id="locDispatch" onkeyup="confirmDispatch()" class="form-control form-control-sm quantity" placeholder="Dispatch">
+                        if (id_submit_d > 0) {
+                            displayInputan = 'style="display: none"';
+                            displayText = '';
+                            h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
+                            displayInputJumlah = '';
+                            if (status_picking == 1) {
+                                statusPickingText = '<span class="badge badge-plain">Open</span>';
+                            } else if (status_picking == 2) {  
+                                statusPickingText = '<span class="badge badge-warning">Parsial</span>';
+                            } else if (status_picking == 3) {
+                                statusPickingText = '<span class="badge badge-primary">Full</span>';
+                            }
+                            
+                            displaySubmitBtn = '';
+                        } else {
+                            if (status_picking == 1) {
+                                displayInputan = '';
+                                statusPickingText = '<span class="badge badge-plain">Open</span>';
+                                displayText = 'style="display: none"';
+                                h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            } else if (status_picking == 2) {
+                                displayInputan = '';
+                                displayText = 'style="display: none"';
+                                statusPickingText = '<span class="badge badge-warning">Parsial</span>';
+                                h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            } else if (status_picking == 3) {
+                                if (sisa_terkecil_now > 0) {
+                                    displayInputJumlah = '';
+                                } else {
+                                    displayInputJumlah = 'style="display: none"';
+                                }
+                                displayInputan = 'style="display: none"';
+                                displayText = '';
+                                statusPickingText = '<span class="badge badge-primary">Full</span>';
+                                h3CardLocation = `<h3>${kontenData.wlpxxmh_kode} - ${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            } else {
+                                displayInputan = '';
+                                statusPickingText = '';
+                                displayText = 'style="display: none"';
+                                h3CardLocation = `<h3>${wloxxmh_nama}</h3>`;
+                                displayInputJumlah = 'style="display: none"';
+                            }
+
+                            displaySubmitBtn = 'style="display:none"';
+                        }
+    
+    
+                        if (id_wjtxxmh == 2) {
+                            btnSubmit = `
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit & Confirm</button>
+                                `
+                                ;
+                            $('#confirmBtn').hide();
+                        } else {
+                            $('#confirmBtn').show();
+                            btnSubmit = `
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit</button>
+                                `;
+                        }
+                        
+                        kontenValid = `
+                                    <div ${displayText} id="textItem${kontenData.id}">
+                                        <p>
+                                            <b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
+                                        </p>
+                                        <p class="m-t-n-sm">
+                                            Batch Number : ${kontenData.batch_number}
+                                            <br>
+                                            Expired Date : ${kontenData.expired_date}
+                                            <br>
+                                            Dispatch Location : ${kontenData.wloxxmh_out_nama}
+                                            <br>
+                                            Status Picking : ${statusPickingText}
+                                            <br>
+                                            
+                                            Jumlah Kitting : ${kontenData.jumlah_default_os.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                            <br>
+                                            Jumlah Pick : ${kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                            <br>
+                                            Jumlah Sisa : ${kontenData.sisa_default.toString().replace(/\.?0+$/, '')} ${kontenData.uom_pl}
+                                        </p>
+                                    </div>`
+    
+                        kontenInput = `
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="d-flex align-items-center">
+                                            <div class="quantity-input">
+                                                <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <h3 style="display: none" id="textLPN${kontenData.id}">${kontenData.wlpxxmh_kode}</h3>
+                                    
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="quantity-input">
+                                                <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    ${kontenValid}
+    
+                                    <div class="form-group m-t-n-sm" id="input${kontenData.id}"  ${displayInputJumlah}>
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <div class="d-flex align-items-center">
+                                                <select class="form-select fw-bold" id="uom_select${kontenData.id}" onchange="jumlahSatuan(${kontenData.id})" style="font-size: 9px; height: 28px">
+                                                    <option value="${kontenData.id_iumxxmh_terkecil}" data-defVal="${kontenData.sisa_terkecil_now.toString().replace(/\.?0+$/, '')}" ${kontenData.uom_pl == kontenData.iumxxmh_terkecil_kode ? 'selected' : ''}>${kontenData.iumxxmh_terkecil_kode}</option>
+                                                    <option value="${kontenData.id_iumxxmh_default}" data-defVal="${kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" ${kontenData.uom_pl == kontenData.iumxxmh_default_kode ? 'selected' : ''}>${kontenData.iumxxmh_default_kode}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <div class="d-flex align-items-center">
+                                                <div class="quantity-input">
+                                                    <input 
+                                                        type="text" 
+                                                        id="input_jumlah${kontenData.id}" 
+                                                        value="${id_submit_d > 0 ? kontenData.jumlah_default_now.toString().replace(/\.?0+$/, '') : 
+                                                        // kontenData.sisa_default_now.toString().replace(/\.?0+$/, '')}" 
+                                                        kontenData.sisa_default.toString().replace(/\.?0+$/, '')}" 
+                                                        class="form-control form-control-sm quantity" 
+                                                        min="0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-center justify-content-between m-t-n-sm">
+                                        <div class="d-flex align-items-center">
+                                            <div class="quantity-input">
+                                                <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
+                                            </div>
+                                        </div>
+                                    </div>
+                        `;	
+                        ;
+                        
+                        genKonten = genKonten+ `
+                            <div class="${class_col}">
+                                ${h3CardLocation}
+                                ${kontenInput}
+                            </div>
+                        `;	
+                    });
+                    $('.btnLPN').append(btnSubmit);
+                    $('#konten').html(genKonten);
+                }
+
+                // $(`#locAsal${dataKonten[0].id}`).focus();
+            }
+        } );
+    }
+
+    var wloxxmh_out = '';
+
+    function formModalDispatch(wloxxmh_out) {
+        genDispatchConfirm = `
+            <div class="col-lg-12">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center">
+                        <div class="quantity-input">
+                            <input type="text" id="locDispatch" onkeyup="confirmDispatch()" class="form-control form-control-sm quantity" placeholder="${wloxxmh_out}">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `;	
-    $('#kontenDispatch').html(genDispatchConfirm);
+        `;	
+        $('#kontenDispatch').html(genDispatchConfirm);
+    }
+    
     
     function validasiLocation(itemId, iwloxxmh_nama) {
         // Disable all elements starting with 'locAsal' except for $('#locAsal' + itemId)
@@ -416,32 +627,62 @@
         console.log(jumlah_unit_input);
         console.log(id_iumxxmh_input);
         $(`#submit${itemId}`).hide();
+        console.log(id_wpllptd);
+        console.log(id_wktlptd);
 
-        $.ajax( {
-            url: "../../models/wpcxxth/wpcxxth_fn_submit.php",
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                id_lpn: itemId,
-                id_picking: selectedValues,
-                id_iumxxmh_input: id_iumxxmh_input,
-                jumlah_unit_input: jumlah_unit_input,
-                start_at: start_at,
-                finish_at: finish_at,
-                uniqueToken: uniqueToken,
-            },
-            success: function ( json ) {
-                status_code = json.data.status_code;
-                if (status_code == 200) {
-                    toastr[json.data.type_message](json.data.message,"INFO");
-				    tblwpcxxth.ajax.reload(null, false);
-                    generateKonten();
-                    
-                    $('#modalLPN').modal('toggle');
-                    cekDetailSubmit();
+        if (id_wktlptd > 0) {
+            $.ajax( {
+                url: "../../models/wpcxxth/wpcxxth_fn_submit_kitting.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    id_lpn: itemId,
+                    id_picking: selectedValues,
+                    id_iumxxmh_input: id_iumxxmh_input,
+                    jumlah_unit_input: jumlah_unit_input,
+                    start_at: start_at,
+                    finish_at: finish_at,
+                    uniqueToken: uniqueToken,
+                },
+                success: function ( json ) {
+                    status_code = json.data.status_code;
+                    if (status_code == 200) {
+                        toastr[json.data.type_message](json.data.message,"INFO");
+                        tblwpcxxth.ajax.reload(null, false);
+                        generateKontenKitting();
+                        
+                        $('#modalLPN').modal('toggle');
+                        cekDetailSubmit();
+                    }
                 }
-            }
-        } );
+            } );
+        } else {
+            $.ajax( {
+                url: "../../models/wpcxxth/wpcxxth_fn_submit.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    id_lpn: itemId,
+                    id_picking: selectedValues,
+                    id_iumxxmh_input: id_iumxxmh_input,
+                    jumlah_unit_input: jumlah_unit_input,
+                    start_at: start_at,
+                    finish_at: finish_at,
+                    uniqueToken: uniqueToken,
+                },
+                success: function ( json ) {
+                    status_code = json.data.status_code;
+                    if (status_code == 200) {
+                        toastr[json.data.type_message](json.data.message,"INFO");
+                        tblwpcxxth.ajax.reload(null, false);
+                        generateKonten();
+                        
+                        $('#modalLPN').modal('toggle');
+                        cekDetailSubmit();
+                    }
+                }
+            } );
+        }
     }
 
     function cekDetailSubmit() {
@@ -465,64 +706,20 @@
         } );
     }
 
-    // function confirmData() {
-    //     // console.log(wloxxmh_out_nama);
-        
-    //     swal({
-    //         text: "Masukkan Lokasi Dispatch",
-    //         content: {
-    //             element: "input",
-    //             attributes: {
-    //                 placeholder: "Enter Dispatch Location",
-    //                 type: "text",
-    //             },
-    //         },
-    //         buttons: {
-    //             cancel: true,
-    //             confirm: true,
-    //         },
-    //     })
-    //     .then((value) => {
-    //         if (value !== null && value.trim() !== "") {
-    //             // Lakukan sesuatu jika nilai dispatch location sesuai dengan wloxxmh_out_nama
-    //             if (value == wloxxmh_out_nama) {
-    //                 confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
-    //                 console.log(confirm_at);
-    //                 $.ajax( {
-    //                     url: "../../models/wpcxxth/wpcxxth_fn_confirm.php",
-    //                     dataType: 'json',
-    //                     type: 'POST',
-    //                     data: {
-    //                         id_picking: selectedValues,
-    //                         start_at: start_at,
-    //                         confirm_at: confirm_at,
-    //                         uniqueToken: uniqueToken,
-    //                     },
-    //                     success: function ( json ) {
-    //                         status_code = json.data.status_code;
-    //                         if (status_code == 200) {
-    //                             toastr[json.data.type_message](json.data.message,"INFO");
-    //                             // generateKonten();
-    //                             window.removeEventListener('beforeunload', confirmLeavePage);
-    //                             location.reload();
-    //                         }
-    //                     }
-    //                 } );
-    //             } else {
-    //                 // Tindakan jika nilai tidak sesuai
-    //                 swal("Error", "Dispatch Location tidak sesuai.", "error");
-    //             }
-    //         } else {
-    //             // Tindakan jika nilai tidak diisi atau dibatalkan
-    //             swal("Error", "Anda harus memasukkan Lokasi Dispatch.", "error");
-    //         }
-    //     });
-    // }
     function confirmData() {
         confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
+        var url_submit = '';
+        console.log(id_wpllptd);
+        console.log(id_wktlptd);
+
+        if (id_wktlptd > 0) {
+            url_submit = "../../models/wpcxxth/wpcxxth_fn_confirm_kitting.php";
+        } else {
+            url_submit = "../../models/wpcxxth/wpcxxth_fn_confirm.php";
+        }
 
         $.ajax( {
-            url: "../../models/wpcxxth/wpcxxth_fn_confirm.php",
+            url: url_submit,
             dataType: 'json',
             type: 'POST',
             data: {
@@ -549,6 +746,9 @@
         var inputDispatch = inputDispatchConfirm.val();
         console.log(inputDispatch);
         console.log(wloxxmh_out_nama);
+        
+        console.log(id_wpllptd);
+        console.log(id_wktlptd);
 
         if (inputDispatch == '') {
             inputDispatchConfirm.removeClass('is-invalid');
@@ -560,7 +760,7 @@
                 console.log('salah');
                 inputDispatchConfirm.addClass('is-invalid');
                 inputDispatchConfirm.next('.invalid-feedback').remove();
-                inputDispatchConfirm.after('<div class="invalid-feedback">Dispatch tidak sesuai.</div>');
+                inputDispatchConfirm.after('<div class="invalid-feedback">'+wloxxmh_out+' tidak sesuai.</div>');
                 inputDispatchConfirm.val('');
             } else {
                 console.log('benar');
@@ -581,7 +781,15 @@
         var jsonData = JSON.stringify(data);
         // console.log(jsonData);
         // Send data asynchronously using navigator.sendBeacon
-        navigator.sendBeacon('../../models/wpcxxth/wpcxxth_fn_is_used.php', jsonData);
+        
+        console.log(id_wpllptd);
+        console.log(id_wktlptd);
+
+        if (id_wktlptd > 0) {
+            navigator.sendBeacon('../../models/wpcxxth/wpcxxth_fn_is_used_kitting.php', jsonData);
+        } else {
+            navigator.sendBeacon('../../models/wpcxxth/wpcxxth_fn_is_used.php', jsonData);
+        }
     }
 
     function generateUniqueToken() {
