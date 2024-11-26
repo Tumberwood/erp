@@ -480,6 +480,14 @@
 					name: "wdnxxth.mobil_nomor"
 				},
 				{
+					label: "No Container",
+					name: "wdnxxth.no_container"
+				},
+				{
+					label: "No Seal",
+					name: "wdnxxth.no_seal"
+				},
+				{
 					label: "Keterangan",
 					name: "wdnxxth.keterangan",
 					type: "textarea"
@@ -664,19 +672,23 @@
 						})
 						.then((willConfirm) => {
 							if (willConfirm) {
-								swal({
-									text: 'List barang yang akan masuk ke lokasi return: \n \n'+pesan_retur,
-									icon: "info",
-									buttons: {
-										cancel: true,
-										confirm: true
-									},
-								})
-								.then((willConfirm) => {
-									if (willConfirm) {
-										fnConfirm('<?php echo $table_name;?>', <?php echo $table;?> );
-									}
-								});
+								if (pesan_retur != '') {
+									swal({
+										text: 'List barang yang akan masuk ke lokasi return: \n \n'+pesan_retur,
+										icon: "info",
+										buttons: {
+											cancel: true,
+											confirm: true
+										},
+									})
+									.then((willConfirm) => {
+										if (willConfirm) {
+											fnConfirm('<?php echo $table_name;?>', <?php echo $table;?> );
+										}
+									});
+								} else {
+									fnConfirm('<?php echo $table_name;?>', <?php echo $table;?> );
+								}
 							}
 						});
 

@@ -56,6 +56,8 @@
 			Field::inst( 'wdnxxth.is_nextprocess' ),
 			Field::inst( 'wdnxxth.is_defaultprogram' ),
 			Field::inst( 'wdnxxth.is_all_wh' ),
+			Field::inst( 'wdnxxth.no_container' ),
+			Field::inst( 'wdnxxth.no_seal' ),
 
 			Field::inst( 'wdnxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
