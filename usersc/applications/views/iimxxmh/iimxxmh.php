@@ -1255,6 +1255,7 @@
 		});
 
 		edtiimummd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbliimxxmh.ajax.reload(null, false);
 			tbliimummd.ajax.reload(null, false);
 		} );
 
@@ -1627,8 +1628,8 @@
 		});
 
 		edtwimlotd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
-			tblwimlotd.ajax.reload(null, false);
 			tbliimxxmh.ajax.reload(null, false);
+			tblwimlotd.ajax.reload(null, false);
 		} );
 
 		
