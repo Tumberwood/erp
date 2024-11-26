@@ -150,7 +150,7 @@
 						LEFT JOIN iimxxmh d ON d.id = a.id_iimxxmh
 						LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 						LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
-						WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh IN (SELECT id_iimxxmh FROM wktittd WHERE id_wktxxth = 1 )
+						WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh IN (SELECT id_iimxxmh FROM wktittd WHERE id_wktxxth = :id_transaksi_h )
 						AND (
 								(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
 								OR
