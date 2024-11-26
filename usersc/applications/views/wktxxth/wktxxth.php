@@ -519,7 +519,7 @@
 		
 		edtwktxxth.dependent( 'wktxxth.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
-			id_wloxxmh_old = 0;
+			// id_wloxxmh_old = 0;
 
 			if (id_wloxxmh_old == 0) {
 				edtwktxxth.field('wktxxth.id_wloxxmh_out').val('');
