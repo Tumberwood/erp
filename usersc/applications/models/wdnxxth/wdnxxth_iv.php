@@ -692,7 +692,7 @@
 								LEFT JOIN wplxxth h ON h.id = a.id_wplxxth
 								LEFT JOIN wloxxmh asal ON asal.id = a.id_wloxxmh
 								LEFT JOIN iwhxxmh iwh ON iwh.id = asal.id_iwhxxmh
-								LEFT JOIN wloxxmh wlo ON wlo.id_iwhxxmh = iwh.id AND wlo.nama = "Location Return"
+								LEFT JOIN wloxxmh wlo ON wlo.id_iwhxxmh = iwh.id AND wlo.id_wloctmh = 7 AND wlo.is_default = 1
 								LEFT JOIN grlxxmh cs ON cs.id = h.id_grlxxmh_customer
 								LEFT JOIN iimxxmh item ON item.id = a.id_iimxxmh
 								LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
@@ -958,7 +958,7 @@
 							LEFT JOIN wpcxxth h ON h.id = a.id_wpcxxth
 							LEFT JOIN wloxxmh asal ON asal.id = a.id_wloxxmh_tujuan
 							LEFT JOIN iwhxxmh iwh ON iwh.id = asal.id_iwhxxmh
-							LEFT JOIN wloxxmh wlo ON wlo.id_iwhxxmh = iwh.id AND wlo.nama = "Location Return"
+							LEFT JOIN wloxxmh wlo ON wlo.id_iwhxxmh = iwh.id AND wlo.id_wloctmh = 7 AND wlo.is_default = 1
 							LEFT JOIN grlxxmh cs ON cs.id = h.id_grlxxmh_customer
 							LEFT JOIN iimxxmh item ON item.id = a.id_iimxxmh
 							LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
@@ -1199,7 +1199,7 @@
 							LEFT JOIN wdpxxth h ON h.id = a.id_wdpxxth
 							LEFT JOIN wloxxmh asal ON asal.id = a.id_wloxxmh_tujuan
 							LEFT JOIN iwhxxmh iwh ON iwh.id = asal.id_iwhxxmh
-							LEFT JOIN wloxxmh wlo ON wlo.id_iwhxxmh = iwh.id AND wlo.nama = "Location Return"
+							LEFT JOIN wloxxmh wlo ON wlo.id_iwhxxmh = iwh.id AND wlo.id_wloctmh = 7 AND wlo.is_default = 1
 							LEFT JOIN grlxxmh cs ON cs.id = h.id_grlxxmh_customer
 							LEFT JOIN iimxxmh item ON item.id = a.id_iimxxmh
 							LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil

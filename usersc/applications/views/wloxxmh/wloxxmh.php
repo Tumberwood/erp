@@ -83,6 +83,9 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wloxxmh.koord_z"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.is_default"></editor-field>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -155,6 +158,7 @@
                                 <th>Koordinat X</th>
                                 <th>Koordinat Y</th>
                                 <th>Koordinat Z</th>
+                                <th>Default</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -476,6 +480,16 @@
 					name: "wloxxmh.koord_z"
 				},
 				{
+					label: "Default Location <sup class='text-danger'>*<sup>",
+					name: "wloxxmh.is_default",
+					type: "select",
+					placeholder : "Pilih",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				}, 
+				{
 					label: "Keterangan",
 					name: "wloxxmh.keterangan",
 					type: "textarea"
@@ -650,6 +664,10 @@
 		edtwloxxmh.on('initSubmit', function(e, action) {
 			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwloxxmh.field('wloxxmh.finish_at').val(finish_at);
+		});
+		
+		edtwloxxmh.on('postSubmit', function(e, json, data, action, xhr) {
+			tblwloxxmh.ajax.reload(null, false);
 		});
 
 		edtwloxxmh.on( 'close', function () {
@@ -992,9 +1010,19 @@
 				{ data: "wloxxmh.koord_y" },
 				{ data: "wloxxmh.koord_z" },
 				{ 
+					data: "wloxxmh.is_default" ,
+					render: function (data) {
+						if (data == 1) {
+							return '<span class="badge badge-primary">Ya</span>';
+						} else {
+							return '<span class="badge badge-plain">Tidak</span>';
+						}
+					}
+				},
+				{ 
 					data: "wloxxmh.transaction_state" ,
 					...renderTransactionStatus()
-				}
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -1066,6 +1094,8 @@
 		tblwloxxmh.on( 'init', function () {
 			// atur hak akses
 			CekInitHeaderH(tblwloxxmh);
+			tblwloxxmh.button('btnEdit:name').nodes()
+            .css( 'display', 'none' );
 		} );
 		
 		tblwloxxmh.on( 'select', function( e, dt, type, indexes ) {
@@ -1081,8 +1111,10 @@
 			id_iwhxxmh               = wloxxmh_data.id_iwhxxmh;
 			// atur hak akses
 			CekSelectHeaderH(tblwloxxmh);
+			tblwloxxmh.button('btnEdit:name').nodes()
+            .css( 'display', 'block' );
 		} );
-
+		
 		tblwloxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wloxxmh');
@@ -1091,6 +1123,8 @@
 
 			// atur hak akses
 			CekDeselectHeaderH(tblwloxxmh);
+			tblwloxxmh.button('btnEdit:name').nodes()
+            .css( 'display', 'none' );
 		} );
 		
 		// END wloxxmh
