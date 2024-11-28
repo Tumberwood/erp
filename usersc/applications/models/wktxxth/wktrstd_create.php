@@ -73,7 +73,7 @@
 								b.kode
 							FROM wktlptd a
 							LEFT JOIN wktxxth b ON b.id = a.id_wktxxth
-							WHERE a.id_wktxxth = 1
+							WHERE a.id_wktxxth = :id_wktxxth
 							ORDER BY expired_date
 				');
 				$rs_exp_date = $qs_exp_date->fetch();
