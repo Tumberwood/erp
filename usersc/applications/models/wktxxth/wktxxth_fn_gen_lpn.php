@@ -351,6 +351,7 @@
 							'jumlah_terkecil',
 							'subtotal_jumlah_terkecil',
 							'jumlah_unit',
+							'jumlah_konversi',
 							'subtotal_jumlah_unit',
 							'jumlah_default',
 							'subtotal_jumlah_default'
@@ -363,10 +364,25 @@
 					$jumlah_terkecil = $jumlah_terkecil_tersedia * $rs_cek_sisa['jumlah_unit'];
 					$subtotal_jumlah_terkecil = $rs_cek_sisa['subtotal_jumlah_terkecil'];
 
-					$jumlah_unit = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
+					$jumlah_unit = $jumlah_terkecil * $rs_cek_sisa['jumlah_konversi'];
 					$subtotal_jumlah_unit = $rs_cek_sisa['subtotal_jumlah_unit'];
 
-					$jumlah_default = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
+					// BEGIN get UoM default
+					$qs_iumxxmh_default = $db
+						->query('select', 'iimummd' )
+						->get([
+							'id_iumxxmh as id_iumxxmh_default',
+							'jumlah_konversi as jumlah_konversi_default'
+						] )
+						->where('iimummd.id_iimxxmh', $id_iimxxmh )
+						->where('iimummd.is_default', 1 )
+						->exec();
+					$rs_iumxxmh_default = $qs_iumxxmh_default->fetch();
+
+					$id_iumxxmh_default         = $rs_iumxxmh_default['id_iumxxmh_default'];
+					$jumlah_konversi_default    = $rs_iumxxmh_default['jumlah_konversi_default'];
+
+					$jumlah_default = $jumlah_terkecil / $jumlah_konversi_default;
 					$subtotal_jumlah_default = $rs_cek_sisa['subtotal_jumlah_default'];
 
 					// print_r($jumlah_terkecil);
