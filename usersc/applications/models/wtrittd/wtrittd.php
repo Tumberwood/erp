@@ -124,8 +124,8 @@
 	
 	// BEGIN log
 	$nama_table = 'wtrittd';
-	include( "wtrittd_extra.php" );
 	include( "../../../helpers/edt_log.php" );
+	include( "wtrittd_extra.php" );
 	// END log
 	
 	$json = $editor

@@ -24,61 +24,153 @@
 				->set('transaction_state',1)
 				->where('id',$id)
 				->exec();
+			
+			function integerToRoman($integer){
+				// Convert the integer into an integer (just to make sure)
+				$integer = intval($integer);
+				$result = '';
+			
+				// Create a lookup array that contains all of the Roman numerals.
+				$lookup = array(
+					'M' => 1000,
+					'CM' => 900,
+					'D' => 500,
+					'CD' => 400,
+					'C' => 100,
+					'XC' => 90,
+					'L' => 50,
+					'XL' => 40,
+					'X' => 10,
+					'IX' => 9,
+					'V' => 5,
+					'IV' => 4,
+					'I' => 1);
+			
+				foreach($lookup as $roman => $value){
+					// Determine the number of matches
+					$matches = intval($integer/$value);
+			
+					// Add the same number of characters to the string
+					$result .= str_repeat($roman,$matches);
+			
+					// Set the integer to be the remainder of the integer and the value
+					$integer = $integer % $value;
+				}
+			
+				// The Roman numeral should be built, return it
+				return $result;
+			}
 
-			$qi_log = $editor->db()
-				->query('insert', 'activity_log_ml')
-				->set('id_transaksi',$id)
-				->set('kode','CONFIRM')
-				->set('nama', $nama_table )
-				->set('keterangan', 'CONFIRM wtrittd id = '.$id )
-				->set('created_by', $s_id_users )
-				->set('username',$s_username)
-				->set('start_on', date("Y-m-d H:i:s"))
-				->set('finish_on', date("Y-m-d H:i:s"))
-				->set('durasi_detik', 0)
-			->exec();
-
-			//SELECT GENERATE KODE
-			$qs_genKode = $editor->db()
+			$qs_gdnxxsh = $editor->db()
 				->raw()
-				->exec('WITH genKode as (
-							SELECT
-								LPAD(COUNT(activity_log_ml.id), 4, "0") AS c_id_new,
-								CONCAT(
-										SUBSTR(CURDATE(), 3, 2),
-										SUBSTR(CURDATE(), 6, 2) 
-									) AS tanggal,
-									CURDATE(),
-								c.prefix,
-								c.`separator` AS strip
-							FROM wtrittd
-							LEFT JOIN activity_log_ml ON
-								activity_log_ml.id_transaksi = wtrittd.id 
-								AND  activity_log_ml.kode = "CONFIRM" 
-								AND activity_log_ml.nama = "wtrittd" 
-							LEFT JOIN gdnxxsh c ON c.nama_tabel = "wtrittd"
-							WHERE activity_log_ml.kode = "CONFIRM" AND activity_log_ml.nama = "wtrittd"
-								AND YEAR(activity_log_ml.created_on) = YEAR(curdate()) AND MONTH(activity_log_ml.created_on) = MONTH(curdate()) 
-						)
-						SELECT
-							CONCAT(prefix, strip, tanggal, strip, c_id_new) AS kode
-						FROM genKode
-					'
-			);
-			$rs_genKode = $qs_genKode->fetch();
-			$new_kode = $rs_genKode['kode'];
+				->exec('
+					SELECT
+						*
+					FROM 
+						gdnxxsh
+					WHERE 
+						nama_tabel = "wtrittd"'
+				);
+			$rs_gdnxxsh = $qs_gdnxxsh->fetch();
+			$prefix                 = $rs_gdnxxsh['prefix'];
+			$total_digit            = $rs_gdnxxsh['total_digit'];
+			$separator              = $rs_gdnxxsh['separator'];
+
+			$nama_field_tanggal = 'activity_log_ml.created_on';
+			$field_tanggal 		= date('Y-m-d');
+			$field_tanggal_dt	= strtotime($field_tanggal);
+			$tahun = substr($field_tanggal,2,2);
+			$bulan = substr($field_tanggal,5,2);
+
+			$tanggal = $field_tanggal;
+			$where = " WHERE activity_log_ml.kode = 'CREATE' AND activity_log_ml.nama = '" . $nama_table . "' ";
+			$where = $where . " AND YEAR(".$nama_field_tanggal.") = YEAR('" . $tanggal . "') AND MONTH(".$nama_field_tanggal.") = MONTH('" . $tanggal . "') ";
+	
+			$start_at = date("Y-m-d H:i:s");
+			$finish_at = date("Y-m-d H:i:s");
+			General::logChange( $editor->db() , $nama_table, $s_id_users, $s_username, 'CONFIRM', $id, 'CONFIRM wtrittd id = '.$id, $start_at , $finish_at );
+
+			$id_transaksi = $id;
+			$qs_c_id_new = $editor->db()
+				->raw()
+				->exec('
+					SELECT
+						count(activity_log_ml.id) as c_id_new
+					FROM '.$nama_table.'
+					LEFT JOIN activity_log_ml ON
+						activity_log_ml.id_transaksi = '.$nama_table.'.id 
+						AND  activity_log_ml.kode = "CREATE" 
+						AND activity_log_ml.nama = "'.$nama_table.'" 
+					' 
+					. $where 
+
+				);
+			$rs_c_id_new 	= $qs_c_id_new->fetch();
+			$new_number  	= $rs_c_id_new['c_id_new'];
+			$tr_kode 		= str_pad($new_number,$total_digit,"0",STR_PAD_LEFT);
+
+			$formatted_kode = $prefix . $separator . $tahun . $bulan . $separator . $tr_kode;
+			
+			$result = $editor->db()
+				->query('update', $nama_table)
+				->set('kode',$formatted_kode)
+				->where('id',$id_transaksi)
+				->exec();
+
+			// $qi_log = $editor->db()
+			// 	->query('insert', 'activity_log_ml')
+			// 	->set('id_transaksi',$id)
+			// 	->set('kode','CONFIRM')
+			// 	->set('nama', $nama_table )
+			// 	->set('keterangan', 'CONFIRM wtrittd id = '.$id )
+			// 	->set('created_by', $s_id_users )
+			// 	->set('username',$s_username)
+			// 	->set('start_on', date("Y-m-d H:i:s"))
+			// 	->set('finish_on', date("Y-m-d H:i:s"))
+			// 	->set('durasi_detik', 0)
+			// ->exec();
+
+			// //SELECT GENERATE KODE
+			// $qs_genKode = $editor->db()
+			// 	->raw()
+			// 	->exec('WITH genKode as (
+			// 				SELECT
+			// 					LPAD(COUNT(activity_log_ml.id), 4, "0") AS c_id_new,
+			// 					CONCAT(
+			// 							SUBSTR(CURDATE(), 3, 2),
+			// 							SUBSTR(CURDATE(), 6, 2) 
+			// 						) AS tanggal,
+			// 						CURDATE(),
+			// 					c.prefix,
+			// 					c.`separator` AS strip
+			// 				FROM wtrittd
+			// 				LEFT JOIN activity_log_ml ON
+			// 					activity_log_ml.id_transaksi = wtrittd.id 
+			// 					AND  activity_log_ml.kode = "CONFIRM" 
+			// 					AND activity_log_ml.nama = "wtrittd" 
+			// 				LEFT JOIN gdnxxsh c ON c.nama_tabel = "wtrittd"
+			// 				WHERE activity_log_ml.kode = "CONFIRM" AND activity_log_ml.nama = "wtrittd"
+			// 					AND YEAR(activity_log_ml.created_on) = YEAR(curdate()) AND MONTH(activity_log_ml.created_on) = MONTH(curdate()) 
+			// 			)
+			// 			SELECT
+			// 				CONCAT(prefix, strip, tanggal, strip, c_id_new) AS kode
+			// 			FROM genKode
+			// 		'
+			// );
+			// $rs_genKode = $qs_genKode->fetch();
+			// $new_kode = $rs_genKode['kode'];
 
 			//UPDATE KODE
-			$qu_kode = $editor->db()
-				->raw()
-				->bind(':new_kode', $new_kode)
-				->bind(':id_transaksi', $id)
-				->exec('UPDATE wtrittd a
-						SET 
-							a.kode = :new_kode
-						WHERE a.id = :id_transaksi
-					'
-			);
+			// $qu_kode = $editor->db()
+			// 	->raw()
+			// 	->bind(':new_kode', $new_kode)
+			// 	->bind(':id_transaksi', $id)
+			// 	->exec('UPDATE wtrittd a
+			// 			SET 
+			// 				a.kode = :new_kode
+			// 			WHERE a.id = :id_transaksi
+			// 		'
+			// );
 
 			
 			// BEGIN ambil data confirmed_at dari table activity_log_ml
