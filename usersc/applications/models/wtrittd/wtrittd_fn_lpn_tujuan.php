@@ -26,7 +26,7 @@
                     a.batch_number,
                     a.expired_date
                 FROM iivxxrd a
-                WHERE a.wlpxxmh_kode = :wlpxxmh_kode_tujuan AND a.id_wloctmh = 3 AND a.id_wloxxmh = :id_wloxxmh_tujuan AND a.jumlah_terkecil > 0
+                WHERE a.wlpxxmh_kode = :wlpxxmh_kode_tujuan AND a.id_wloctmh IN (3,7) AND a.id_wloxxmh = :id_wloxxmh_tujuan AND a.jumlah_terkecil > 0
         '
         );
     $rs_lpn = $qs_lpn->fetch();

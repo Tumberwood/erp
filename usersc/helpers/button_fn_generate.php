@@ -556,6 +556,23 @@
                                                 transaction_state : 9
                                             },
                                             success: function ( json ) {
+                                                <?php 
+                                                    if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_close.php")) {
+                                                ?>
+                                                    $.ajax( {
+                                                        url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_close.php',
+                                                        dataType: 'json',
+                                                        type: 'POST',
+                                                        data: {
+                                                            id_transaksi : id_transaksi_h,
+                                                            transaction_state : 9
+                                                        },
+                                                        success: function ( json ) {
+                                                        }
+                                                    } );
+                                                <?php
+                                                    }
+                                                ?>
                                                 toast_type   = json.data.type_message;
                                                 full_message = json.data.message;
                                                 toastr[toast_type](full_message, 'INFO');

@@ -100,6 +100,7 @@
         ->join('grlxxmh','grlxxmh.id = wpcxxth.id_grlxxmh_customer','LEFT' )
         // ->where('wpcxxth.transaction_state',1)
         ->where('wpcxxth.id', $id_wpcxxth_old, '<>' )
+        ->where('wpcxxth.id_wktxxth', 0 )
         ->where('wpcxxth.is_in_use', 0 )
         ->where('wpcxxth.id_wpcxxth', 0, '<>' )
         ->where('wpcxxth.transaction_state', '(8,9,-9)', 'NOT IN', false )
