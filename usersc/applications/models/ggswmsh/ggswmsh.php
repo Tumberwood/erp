@@ -46,6 +46,7 @@
 			Field::inst( 'ggswmsh.is_replenishment' ),
 			Field::inst( 'ggswmsh.is_one_way_do' ),
 			Field::inst( 'ggswmsh.pick_and_pack' ),
+			Field::inst( 'ggswmsh.format_lpn_kitting' ),
 		);
 	
 	// do not erase

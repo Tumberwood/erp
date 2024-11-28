@@ -719,7 +719,11 @@
 			});
 
 			edtwktrstd_create.on( 'postSubmit', function (e, json, data, action, xhr) {
-				toastr["success"]("Finalisasi Kitting Berhasil","INFO");
+				if (xhr.status == 200) {
+					toastr["success"]("Finalisasi Kitting Berhasil","INFO");
+				} else {
+					toastr["error"]("Finalisasi Kitting Gagal","INFO");
+				}
 				tblwktxxth.ajax.reload(null,false);
 			} );
 

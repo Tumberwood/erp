@@ -46,23 +46,48 @@
 				$nama_table = 'wktrstd';
 				General::konversiUom($editor->db(), $nama_table, $id);
 
+				$qs_ggswmsh = $editor->db()
+					->query('select', 'ggswmsh' )
+					->get(['format_lpn_kitting'] )
+					->where('id', 1 )
+					->exec();
+				$rs_ggswmsh = $qs_ggswmsh->fetch();
+				$format_lpn_kitting = $rs_ggswmsh['format_lpn_kitting'];
+				
 				//LPN baru
-				$qs_wlpxxmh = $editor->db()
+				$qs_same_lpn_kit = $editor->db()
 					->raw()
+					->bind(':id_wktxxth', $id_wktxxth)
 					->exec('SELECT
-								a.kode
-							FROM wlpxxmh a
-							WHERE a.is_nextprocess IS NULL
-							AND kode NOT IN
-							(
-								SELECT
-									wlpxxmh_kode
-								FROM iivxxrd b
-								GROUP BY b.wlpxxmh_kode
-							)
+								a.wlpxxmh_kode
+							FROM wktrstd a
+							WHERE a.id_wktxxth = :id_wktxxth AND wlpxxmh_kode IS NOT NULL
+							ORDER BY id DESC
 				');
-				$rs_wlpxxmh = $qs_wlpxxmh->fetch();
-				$wlpxxmh_kode = $rs_wlpxxmh['kode'];
+				$rs_same_lpn_kit = $qs_same_lpn_kit->fetch();
+				
+				if ($format_lpn_kitting && !empty($rs_same_lpn_kit)) {
+					$same_kit_wlpxxmh_kode = $rs_same_lpn_kit['wlpxxmh_kode'];
+					$wlpxxmh_kode = $same_kit_wlpxxmh_kode;
+				} else {
+					//LPN baru
+					$qs_wlpxxmh = $editor->db()
+						->raw()
+						->exec('SELECT
+									a.kode
+								FROM wlpxxmh a
+								WHERE a.is_nextprocess IS NULL
+								AND kode NOT IN
+								(
+									SELECT
+										wlpxxmh_kode
+									FROM iivxxrd b
+									GROUP BY b.wlpxxmh_kode
+								)
+					');
+					$rs_wlpxxmh = $qs_wlpxxmh->fetch();
+					$wlpxxmh_kode = $rs_wlpxxmh['kode'];
+				}
 				
 				// cari expired_date dari detail item yg terdekat dari today
 				$qs_exp_date = $editor->db()
@@ -88,7 +113,6 @@
 					->set('wlpxxmh_kode',$wlpxxmh_kode)
 					->where('id',$id)
 					->exec();
-				
 				
 				$qu_wlpxxmh = $editor->db()
 					->query('update', 'wlpxxmh')

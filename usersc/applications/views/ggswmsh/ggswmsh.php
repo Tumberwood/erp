@@ -26,6 +26,7 @@
 								<th>Replenishment</th>
 								<th>One Way DO</th>
 								<th>Pick and Pack</th>
+								<th>Format LPN Kitting</th>
                             </tr>
                         </thead>
                     </table>
@@ -151,6 +152,16 @@
 						{ "label": "No", "value": 0 }
 					]
 				},
+				{
+					label: "Format LPN Kitting",
+					name: "ggswmsh.format_lpn_kitting",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Always Generate", "value": 0 },
+						{ "label": "Same per Kitting Number", "value": 1 }
+					]
+				},
 			]
 		} );
 
@@ -223,6 +234,18 @@
 				{ data: "ggswmsh.is_replenishment", ...renderYaTidak() },
 				{ data: "ggswmsh.is_one_way_do", ...renderYaTidak() },
 				{ data: "ggswmsh.pick_and_pack", ...renderYaTidak() },
+				{ 
+					data: "ggswmsh.format_lpn_kitting",
+					render: function (data) {
+						if (data == 0) {
+							return '<span class="badge badge-success">Always Generate</span>';
+						} else if (data == 1) {
+							return '<span class="badge badge-success">Same per Kitting Number</span>';
+						} else {
+							return '<span class="badge badge-warning">INVALID</span>';
+						}
+					}
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button
