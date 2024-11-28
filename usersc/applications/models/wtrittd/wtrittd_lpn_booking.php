@@ -23,7 +23,7 @@
                     SUM(a.jumlah_terkecil) s_terkecil,
                     SUM(a.jumlah_unit) s_unit
                 FROM iivxxrd a
-                WHERE a.wlpxxmh_kode = :wlpxxmh_kode AND a.id_wloctmh IN (3,7) AND a.is_fisik = 0
+                WHERE a.wlpxxmh_kode = :wlpxxmh_kode AND a.id_wloctmh IN (3,4) AND a.is_fisik = 0
                 HAVING s_unit < 0
         '
         );

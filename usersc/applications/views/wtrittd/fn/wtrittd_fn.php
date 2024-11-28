@@ -299,10 +299,11 @@
                 id_loc = json.data.id_loc;
                 id_iwhxxmh = json.data.id_iwhxxmh;
                 id_wloctmh = json.data.id_wloctmh;
+                console.log(id_wloctmh);
                 // console.log('ajax id_loc = '+id_loc);
                 
                 if (id_loc > 0) {
-                    if (id_wloctmh == 3) {
+                    if (id_wloctmh == 3 || id_wloctmh == 4) {
                         edtwtrittd.field('wtrittd.id_wloxxmh_asal').val(id_loc);
                         edtwtrittd.field('wloxxmh_nama_asal').error( '' );
                         edtwtrittd.field('wtrittd.id_iwhxxmh').val(id_iwhxxmh);
@@ -310,7 +311,7 @@
                         edtwtrittd.field('wtrittd.wlpxxmh_kode').show();
                         edtwtrittd.field('wtrittd.wlpxxmh_kode').focus();
                     } else {
-                        edtwtrittd.field('wloxxmh_nama_asal').error( 'Lokasi Scan harus Lokasi Storage!' );
+                        edtwtrittd.field('wloxxmh_nama_asal').error( 'Lokasi Scan harus Lokasi Storage! atau Rework' );
                         edtwtrittd.field('wloxxmh_nama_asal').val( '' );
                     }
                 } else {

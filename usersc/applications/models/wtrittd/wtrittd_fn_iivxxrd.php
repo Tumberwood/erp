@@ -62,7 +62,7 @@
                 LEFT JOIN iumxxmh m_def ON m_def.id = def.id_iumxxmh
                 WHERE 
                     iivxxrd.wlpxxmh_kode = :wlpxxmh_kode
-                    AND iivxxrd.id_wloctmh IN (3,7) AND iivxxrd.keterangan <> :uniqueToken
+                    AND iivxxrd.id_wloctmh IN (3,4) AND iivxxrd.keterangan <> :uniqueToken
                     AND iivxxrd.id_wloxxmh = :id_wloxxmh_asal
                     AND iivxxrd.iimxxmh_status = 1
                 GROUP BY
