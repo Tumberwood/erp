@@ -79,10 +79,10 @@
 					-- if(a.jumlah_terkecil > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), a.jumlah_terkecil) jumlah_terkecil_lpn,
 					-- if(a.jumlah_default > SUM(b.jumlah_default), SUM(b.jumlah_default), a.jumlah_default) jumlah_default_lpn,
 					
-					if(:jumlah_unit_tersedia > SUM(b.jumlah_default), SUM(b.jumlah_default), :jumlah_unit_tersedia) jumlah_unit,
+					if(:jumlah_terkecil_tersedia > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), :jumlah_terkecil_tersedia) / unit.jumlah_konversi jumlah_unit,
 					a.jumlah_konversi,
 					if(:jumlah_terkecil_tersedia > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), :jumlah_terkecil_tersedia) jumlah_terkecil_lpn,
-					if(:jumlah_unit_tersedia > SUM(b.jumlah_default), SUM(b.jumlah_default), :jumlah_unit_tersedia) jumlah_default_lpn,
+					if(:jumlah_terkecil_tersedia > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), :jumlah_terkecil_tersedia) / def.jumlah_konversi jumlah_default_lpn,
     				-- iiv
 					SUM(b.jumlah_default) AS jumlah_unit_iv,
 					a.jumlah_konversi,
@@ -99,6 +99,8 @@
 				LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 				LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
 				LEFT JOIN wloxxmh i ON i.id = b.id_wloxxmh
+				LEFT JOIN iimummd def ON def.id_iimxxmh = a.id_iimxxmh AND def.is_default = 1
+				LEFT JOIN iimummd unit ON unit.id_iimxxmh = a.id_iimxxmh AND unit.id_iumxxmh = a.id_iumxxmh_unit
 				WHERE c.id = :id_transaksi_h 
 				AND b.keterangan <> :uniqueToken 
 				AND a.id_iimxxmh = :id_iimxxmh
@@ -173,6 +175,7 @@
 				'jumlah_terkecil',
 				'subtotal_jumlah_terkecil',
 				'jumlah_unit',
+				'jumlah_konversi',
 				'subtotal_jumlah_unit',
 				'jumlah_default',
 				'subtotal_jumlah_default'
@@ -185,10 +188,31 @@
 		$jumlah_terkecil = $jumlah_terkecil_tersedia * $rs_cek_sisa['jumlah_unit'];
 		$subtotal_jumlah_terkecil = $rs_cek_sisa['subtotal_jumlah_terkecil'];
 
-		$jumlah_unit = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
+		// $jumlah_unit = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
+		// $subtotal_jumlah_unit = $rs_cek_sisa['subtotal_jumlah_unit'];
+
+		// $jumlah_default = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
+		// $subtotal_jumlah_default = $rs_cek_sisa['subtotal_jumlah_default'];
+
+		$jumlah_unit = $jumlah_terkecil * $rs_cek_sisa['jumlah_konversi'];
 		$subtotal_jumlah_unit = $rs_cek_sisa['subtotal_jumlah_unit'];
 
-		$jumlah_default = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
+		// BEGIN get UoM default
+		$qs_iumxxmh_default = $db
+			->query('select', 'iimummd' )
+			->get([
+				'id_iumxxmh as id_iumxxmh_default',
+				'jumlah_konversi as jumlah_konversi_default'
+			] )
+			->where('iimummd.id_iimxxmh', $id_iimxxmh )
+			->where('iimummd.is_default', 1 )
+			->exec();
+		$rs_iumxxmh_default = $qs_iumxxmh_default->fetch();
+
+		$id_iumxxmh_default         = $rs_iumxxmh_default['id_iumxxmh_default'];
+		$jumlah_konversi_default    = $rs_iumxxmh_default['jumlah_konversi_default'];
+
+		$jumlah_default = $jumlah_terkecil / $jumlah_konversi_default;
 		$subtotal_jumlah_default = $rs_cek_sisa['subtotal_jumlah_default'];
 
 		// print_r($jumlah_terkecil);
