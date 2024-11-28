@@ -294,10 +294,10 @@
 								b.iumxxmh_terkecil_nama,
 								b.iumxxmh_default_kode,
 								b.iumxxmh_default_nama,
-								if(:jumlah_unit_tersedia > SUM(b.jumlah_default), SUM(b.jumlah_default), :jumlah_unit_tersedia) jumlah_unit,
+								if(:jumlah_terkecil_tersedia > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), :jumlah_terkecil_tersedia) / unit.jumlah_konversi jumlah_unit,
 								a.jumlah_konversi,
 								if(:jumlah_terkecil_tersedia > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), :jumlah_terkecil_tersedia) jumlah_terkecil_lpn,
-								if(:jumlah_unit_tersedia > SUM(b.jumlah_default), SUM(b.jumlah_default), :jumlah_unit_tersedia) jumlah_default_lpn,
+								if(:jumlah_terkecil_tersedia > SUM(b.jumlah_terkecil), SUM(b.jumlah_terkecil), :jumlah_terkecil_tersedia) / def.jumlah_konversi jumlah_default_lpn,
 								max(batch_number) batch_number,
 								max(expired_date) as expired_date
 							FROM wktittd a
@@ -306,6 +306,8 @@
 							LEFT JOIN iimxxmh d ON d.id = a.id_iimxxmh
 							LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 							LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
+							LEFT JOIN iimummd def ON def.id_iimxxmh = a.id_iimxxmh AND def.is_default = 1
+							LEFT JOIN iimummd unit ON unit.id_iimxxmh = a.id_iimxxmh AND unit.id_iumxxmh = a.id_iumxxmh_unit
 							WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
 							'.$where_wh.' AND 
 							(
