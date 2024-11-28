@@ -67,10 +67,14 @@
                 s_jumlah_unit = json.data.s_jumlah_unit;
                 min_jumlah_unit = json.data.min_jumlah_unit;
 
-                if (c_id == 0 && s_jumlah_unit < min_jumlah_unit) {
-                    tblwktxxth.button('btnFinalisasi:name').enable();
-                } else {
+                if (transaction_state == 9) {
                     tblwktxxth.button('btnFinalisasi:name').disable();
+                } else {
+                    if (c_id == 0 && s_jumlah_unit < min_jumlah_unit) {
+                        tblwktxxth.button('btnFinalisasi:name').enable();
+                    } else {
+                        tblwktxxth.button('btnFinalisasi:name').disable();
+                    }
                 }
             }
         } );
