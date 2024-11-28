@@ -248,7 +248,7 @@
 		load_dashboard_wms_ops_man_hours(start_date,end_date);
 		otif(start_date,end_date);
 	}
-
+	reload_dashboard_data();
 	$(document).ready(function() {
 		id_iwhxxmh = $('#select_id_iwhxxmh').val();
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
