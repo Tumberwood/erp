@@ -238,9 +238,9 @@
 					data: "ggswmsh.format_lpn_kitting",
 					render: function (data) {
 						if (data == 0) {
-							return '<span class="badge badge-success">Always Generate</span>';
+							return '<span class="badge badge-primary">Always Generate</span>';
 						} else if (data == 1) {
-							return '<span class="badge badge-success">Same per Kitting Number</span>';
+							return '<span class="badge badge-primary">Same per Kitting Number</span>';
 						} else {
 							return '<span class="badge badge-warning">INVALID</span>';
 						}
