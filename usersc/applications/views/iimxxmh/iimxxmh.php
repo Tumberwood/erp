@@ -563,9 +563,16 @@
 		});
 
 		edtiimxxmh.dependent( 'iimxxmh.id_iitxxmh', function ( val, data, callback ) {
+			id_iicxxmh = edtiimxxmh.field('iimxxmh.id_iicxxmh').val();
+			
 			if (val == 1) {
-				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
-				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
+				if (id_iicxxmh == 4 ) {
+					edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
+					edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
+				} else {
+					edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
+					edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
+				}
 
 				edtiimxxmh.field('iimxxmh.movement_method').show();
 				edtiimxxmh.field('iimxxmh.is_batch_number').show();
@@ -584,6 +591,18 @@
 		
 		edtiimxxmh.dependent( 'iimxxmh.id_iigxxmh', function ( val, data, callback ) {
 			id_iigxxmh = val;
+			// code here
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtiimxxmh.dependent( 'iimxxmh.id_iicxxmh', function ( val, data, callback ) {
+			if (val == 4) {
+				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
+				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
+			} else {
+				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
+				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
+			}
 			// code here
 			return {}
 		}, {event: 'keyup change'});
@@ -606,33 +625,35 @@
 						'id_iicxxmh': id_iicxxmh
 					}
 				);
-
-				if (id_iitxxmh == 1) {
-					id_iigxxmh      = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
-					id_iibxxmh      = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
-					movement_method = edtiimxxmh.field('iimxxmh.movement_method').val();
-					movement_method2 = edtiimxxmh.field('iimxxmh.movement_method2').val();
-					is_batch_number = edtiimxxmh.field('iimxxmh.is_batch_number').val();
-					is_expired_date = edtiimxxmh.field('iimxxmh.is_expired_date').val();
-					
-					validasiRequired(
-						edtiimxxmh, 
-						"iimxxmh", 
-						{
-							"id_iigxxmh": id_iigxxmh,
-							"id_iibxxmh": id_iibxxmh,
-							'movement_method': movement_method,
-							'movement_method2': movement_method2,
+				
+				if (id_iicxxmh != 4) {
+					if (id_iitxxmh == 1) {
+						id_iigxxmh      = edtiimxxmh.field('iimxxmh.id_iigxxmh').val();
+						id_iibxxmh      = edtiimxxmh.field('iimxxmh.id_iibxxmh').val();
+						movement_method = edtiimxxmh.field('iimxxmh.movement_method').val();
+						movement_method2 = edtiimxxmh.field('iimxxmh.movement_method2').val();
+						is_batch_number = edtiimxxmh.field('iimxxmh.is_batch_number').val();
+						is_expired_date = edtiimxxmh.field('iimxxmh.is_expired_date').val();
+						
+						validasiRequired(
+							edtiimxxmh, 
+							"iimxxmh", 
+							{
+								"id_iigxxmh": id_iigxxmh,
+								"id_iibxxmh": id_iibxxmh,
+								'movement_method': movement_method,
+								'movement_method2': movement_method2,
+							}
+						);
+	
+						if(movement_method == movement_method2){
+							edtiimxxmh.field('iimxxmh.movement_method2').error( 'Movement Method kedua tidak boleh sama dengan Movement Method pertama' );
 						}
-					);
-
-					if(movement_method == movement_method2){
-						edtiimxxmh.field('iimxxmh.movement_method2').error( 'Movement Method kedua tidak boleh sama dengan Movement Method pertama' );
+	
+						// if(!is_expired_date){
+						// 	edtiimxxmh.field('iimxxmh.is_expired_date').error( 'Wajib Diisi!' );
+						// }
 					}
-
-					// if(!is_expired_date){
-					// 	edtiimxxmh.field('iimxxmh.is_expired_date').error( 'Wajib Diisi!' );
-					// }
 				}
 
 				validasiUnique(

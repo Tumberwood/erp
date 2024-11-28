@@ -261,11 +261,12 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_iicxxmh.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old_kitting,
+									ids_iicxxmh: 4,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -718,6 +719,7 @@
 			});
 
 			edtwktrstd_create.on( 'postSubmit', function (e, json, data, action, xhr) {
+				toastr["success"]("Finalisasi Kitting Berhasil","INFO");
 				tblwktxxth.ajax.reload(null,false);
 			} );
 
