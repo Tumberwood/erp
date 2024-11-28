@@ -78,7 +78,13 @@ $.ajax( {
  */
 function cekApproval(){
 
-    if(is_need_approval == 1 && approval_state == 9){
+    /**
+     * [11.44, 28/11/2024] Pak Danny Solusi Indo: is_need_approval itu kayanya tidak dipakai lagi, karena approval state nya sudah diatur langsung 9 atau tidak
+       [11.44, 28/11/2024] Ferry Ibnu: siap pak Danny, akan saya revisikan, terimakasih informasinya.
+     */
+    
+    // if(is_need_approval == 1 && approval_state == 9){
+    if(approval_state == 9){
         is_final_approve = 1;
     }else{
         is_final_approve == 0;
