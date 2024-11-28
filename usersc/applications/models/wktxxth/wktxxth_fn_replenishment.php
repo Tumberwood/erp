@@ -182,13 +182,13 @@
 		$rs_cek_sisa = $qs_cek_sisa->fetch();
 
 		//untuk yang subtotal_jumlah, defaultnya 0
-		$jumlah_terkecil = $jumlah_terkecil_tersedia * $rs_cek_sisa['jumlah_default'];
+		$jumlah_terkecil = $jumlah_terkecil_tersedia * $rs_cek_sisa['jumlah_unit'];
 		$subtotal_jumlah_terkecil = $rs_cek_sisa['subtotal_jumlah_terkecil'];
 
-		$jumlah_unit = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_default'];
+		$jumlah_unit = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
 		$subtotal_jumlah_unit = $rs_cek_sisa['subtotal_jumlah_unit'];
 
-		$jumlah_default = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_default'];
+		$jumlah_default = $jumlah_unit_tersedia * $rs_cek_sisa['jumlah_unit'];
 		$subtotal_jumlah_default = $rs_cek_sisa['subtotal_jumlah_default'];
 
 		// print_r($jumlah_terkecil);
