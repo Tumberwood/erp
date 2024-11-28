@@ -184,13 +184,16 @@
     }
 
     function lpnBooking() {
+        id_wloxxmh_asal = edtwtrittd.field('wtrittd.id_wloxxmh_asal').val();
+        console.log(id_wloxxmh_asal);
         $.ajax( {
             url: "../../models/wtrittd/wtrittd_lpn_booking.php",
             dataType: 'json',
             type: 'POST',
             async: false,
             data: {
-                wlpxxmh_kode: wlpxxmh_kode
+                wlpxxmh_kode: wlpxxmh_kode,
+                id_wloxxmh_asal: id_wloxxmh_asal,
             },
             success: function ( json ) {
                 c_id = json.data.c_id;
