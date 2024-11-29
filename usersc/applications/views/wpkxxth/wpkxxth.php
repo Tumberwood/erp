@@ -67,7 +67,6 @@
 								<th>Batch Number</th>
 								<th>Expired Date</th>
 								<th>Status Dispatch</th>
-								<th>Sudah Packing</th>
 							</tr>
 						</thead>
                     </table>
@@ -187,7 +186,6 @@
 							}
 						}
 					},
-					{ data: "wpclptd.is_packing", ...renderYaTidak() },
 				],
 				buttons: [
 					// BEGIN breaking generate button
