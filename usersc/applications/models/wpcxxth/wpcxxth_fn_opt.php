@@ -35,16 +35,14 @@
             ->query('select', 'wpcxxth')
             ->get([
                 'wpcxxth.id as id',
-                'IF(
-                wpcxxth.kode IS NULL, 
-                grlxxmh.nama,
-                IF(
-                    grlxxmh.nama IS NULL, 
-                    wpcxxth.kode,
-                    CONCAT(grlxxmh.nama," - ",wpcxxth.kode)
-                    
-                )
-            ) as text'
+                '
+                CASE 
+                    WHEN wpcxxth.id_wplxxth > 0 THEN 
+                        CONCAT(grlxxmh.nama, " - ", wpcxxth.kode)
+                    ELSE 
+                        CONCAT("KIT - ", wpcxxth.kode)
+                END as text
+                '
             ])
             ->join('grlxxmh','grlxxmh.id = wpcxxth.id_grlxxmh_customer','LEFT' )
             ->where('wpcxxth.id', $id_wpcxxth_old )
@@ -87,15 +85,14 @@
         ->query('select', 'wpcxxth')
         ->get([
             'wpcxxth.id as id',
-            'IF(
-                wpcxxth.kode IS NULL, 
-                grlxxmh.nama,
-                IF(
-                    grlxxmh.nama IS NULL, 
-                    wpcxxth.kode,
-                    CONCAT(grlxxmh.nama," - ",wpcxxth.kode)
-                )
-            ) as text'
+            '
+            CASE 
+                WHEN wpcxxth.id_wplxxth > 0 THEN 
+                    CONCAT(grlxxmh.nama, " - ", wpcxxth.kode)
+                ELSE 
+                    CONCAT("KIT - ", wpcxxth.kode)
+            END as text
+            '
         ])
         ->join('grlxxmh','grlxxmh.id = wpcxxth.id_grlxxmh_customer','LEFT' )
         // ->where('wpcxxth.transaction_state',1)
