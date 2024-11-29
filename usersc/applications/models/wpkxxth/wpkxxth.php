@@ -98,7 +98,8 @@
 		->where( 'activity_log_ml_confirm.finish_on', $start_date, '>=' )
 		->where( 'activity_log_ml_confirm.finish_on', $end_date, '<=' )
 		->where( 'wpclptd.status_dispatch', 1)
-		->where( 'wpclptd.is_packing', 0);
+		->where( 'wpclptd.is_packing', 0)
+		// ->where( 'wpclptd.id_wktlptd', 0)
 		;
 
 	// do not erase
