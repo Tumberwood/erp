@@ -25,6 +25,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'udpxxsh.id' ),
+			Field::inst( 'udpxxsh.id_gcpxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'udpxxsh.id_gbrxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'udpxxsh.id_iwhxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'udpxxsh.id_users' ),
 			Field::inst( 'users.id' ),
 			Field::inst( 'users.email' ),

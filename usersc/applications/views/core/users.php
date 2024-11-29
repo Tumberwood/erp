@@ -72,6 +72,17 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="udpxxsh.id_gcpxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="udpxxsh.id_gbrxxmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="udpxxsh.id_iwhxxmh"></editor-field>
+							</div>
+							<div class="col-lg-6">
 								<editor-field name="users.active"></editor-field>
 							</div>
 						</div>
@@ -213,6 +224,7 @@
 	var id_iwhxxmh_old = 0;
 	var btnPass = '';
 	var btnConfirmPass = '';
+	var id_gcpxxmh_header_old = 0, id_gbrxxmh_header_old = 0, id_iwhxxmh_header_old = 0;
 
 	// get tableRelation
 	tableRelation('udpxxsh');
@@ -316,7 +328,115 @@
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
 					]
-				}, 	
+				}, 	 	
+				{
+					label: "Company",
+					name: "udpxxsh.id_gcpxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gcpxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gcpxxmh_old: id_gcpxxmh_header_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Branch",
+					name: "udpxxsh.id_gbrxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gbrxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gbrxxmh_old: id_gbrxxmh_header_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Warehouse",
+					name: "udpxxsh.id_iwhxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iwhxxmh_old: id_iwhxxmh_header_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
 					label: "Status User",
 					name: "users.active",
@@ -665,6 +785,9 @@
 			siVarSet('udpxxsh');
 			id_users     = udpxxsh_data.id_users;
 			id_users_old = udpxxsh_data.id_users;
+			id_gcpxxmh_header_old = udpxxsh_data.id_gcpxxmh;
+			id_gbrxxmh_header_old = udpxxsh_data.id_gbrxxmh;
+			id_iwhxxmh_header_old = udpxxsh_data.id_iwhxxmh;
 			
 			// atur hak akses
 			tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd, tbludpwhsd];
@@ -682,6 +805,10 @@
 			// reset variable standar framework
 			siVarReset('udpxxsh');
 			id_users = 0, id_users_old = 0;
+			id_gcpxxmh_header_old = 0;
+			id_gbrxxmh_header_old = 0;
+			id_iwhxxmh_header_old = 0;
+
 
 			// atur hak akses
 			tbl_details = [tblucudasd, tbludpbrsd, tbludpodsd, tbludpwhsd];
