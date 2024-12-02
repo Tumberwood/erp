@@ -66,7 +66,7 @@
 			$rs_iivxxrd_awal[0]['keterangan'] = '';
 
 		}else{
-
+			$rs_iivxxrd_awal[0]['imtxxmh_movement_type'] = '';
 			$rs_iivxxrd_awal[0]['tanggal'] = date('d M Y', strtotime("-1 day", strtotime($start_date)));
 			$rs_iivxxrd_awal[0]['saldo'] = $rs_iivxxrd_awal[0]['jumlah_in'] + $rs_iivxxrd_awal[0]['jumlah_out'];
 
