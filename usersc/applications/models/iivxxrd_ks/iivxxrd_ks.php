@@ -58,6 +58,7 @@
 			$rs_iivxxrd_awal[0]['tanggal'] = date('d M Y', strtotime("-1 day", strtotime($start_date)));
 			$rs_iivxxrd_awal[0]['kode'] = 'SALDO AWAL';
 			$rs_iivxxrd_awal[0]['relasi'] = '';
+			$rs_iivxxrd_awal[0]['imtxxmh_movement_type'] = '';
 			$rs_iivxxrd_awal[0]['jumlah_in'] = '';
 			$rs_iivxxrd_awal[0]['jumlah_out'] = '';
 			$rs_iivxxrd_awal[0]['saldo'] = 0;
@@ -87,6 +88,7 @@
 					date_format(a.tanggal,"%d %b %Y") as tanggal,
 					a.kode as kode,
 					a.relasi_m_nama as relasi,
+					a.imtxxmh_movement_type,
 					IF(a.jumlah_terkecil>0,a.jumlah_terkecil,0) AS jumlah_in,
 					-IF(a.jumlah_terkecil<0,a.jumlah_terkecil,0) AS jumlah_out,
 					a.id_iumxxmh_unit,
