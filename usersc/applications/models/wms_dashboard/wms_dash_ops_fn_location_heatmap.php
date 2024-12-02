@@ -43,9 +43,9 @@
                         distinct rack_name
                     FROM wloxxmh a
                     WHERE 1
-                        AND a.transaction_state = :transaction_state
+                        AND a.transaction_state = 1
                         AND a.id_iwhxxmh = :id_iwhxxmh
-                        AND a.id_wloctmh = :id_wloctmh
+                        AND a.id_wloctmh = 3
                     ORDER BY a.rack, a.bay');
         $rs_wloxxmh_rack_name = $qs_wloxxmh_rack_name->fetchAll();
 
@@ -66,16 +66,13 @@
 
         $qs_wloxxmh_occurance = $db
             ->raw()
-            ->bind(':transaction_state', 1)
             ->bind(':id_iwhxxmh', $id_iwhxxmh) 
-            ->bind(':id_wloctmh', 3)
             ->bind(':end_date', $end_date)
             ->exec('SELECT
                         a.id,
                         CASE
-                            WHEN a.level > 0 THEN (a.rack - 1)
-                            WHEN a.level = 0 THEN (SELECT MAX(rack) FROM wloxxmh WHERE level > 0 AND id_iwhxxmh = :id_iwhxxmh AND id_wloctmh = :id_wloctmh)
-                            ELSE a.rack
+                            WHEN a.level > 0 AND a.id_wloznmh > 0 THEN (a.rack - 1)
+                            ELSE a.level = 0 THEN (SELECT MAX(rack) FROM wloxxmh WHERE level > 0 AND id_iwhxxmh = :id_iwhxxmh AND id_wloctmh = 3 AND id_wloznmh > 0)
                         END AS rack,
                         ifnull(a.bay,0) as bay,
                         SUM(ifnull(b.occurance,0)) AS occurance
@@ -88,26 +85,24 @@
                         FROM iivxxrd
                         LEFT JOIN wloxxmh ON wloxxmh.id = iivxxrd.id_wloxxmh
                         WHERE 1
-                            AND wloxxmh.transaction_state = :transaction_state
+                            AND wloxxmh.transaction_state = 1
                             AND iivxxrd.is_fisik = 1
                             AND iivxxrd.id_iwhxxmh = :id_iwhxxmh
-                            AND wloxxmh.id_wloctmh = :id_wloctmh
+                            AND wloxxmh.id_wloctmh = 3
                             AND iivxxrd.tanggal <= :end_date
                         GROUP BY wloxxmh.id
                     ) b ON b.id_wloxxmh  = a.id
                     WHERE 1
                         AND a.transaction_state = 1
                         AND a.id_iwhxxmh = :id_iwhxxmh
-                        AND a.id_wloctmh = :id_wloctmh
+                        AND a.id_wloctmh = 3
                     GROUP BY a.rack, a.bay
                     ORDER BY a.rack, a.bay');
         $rs_wloxxmh_occurance = $qs_wloxxmh_occurance->fetchAll();
 
         $qs_wloxxmh_occurance_max = $db
             ->raw()
-            ->bind(':transaction_state', 1)
             ->bind(':id_iwhxxmh', $id_iwhxxmh) 
-            ->bind(':id_wloctmh', 3)
             ->bind(':end_date', $end_date)
             ->exec('SELECT
                         MAX(s_occurance) AS max_s_occurance
@@ -124,10 +119,10 @@
                             FROM iivxxrd
                             LEFT JOIN wloxxmh ON wloxxmh.id = iivxxrd.id_wloxxmh
                             WHERE 1
-                                AND wloxxmh.transaction_state = :transaction_state
+                                AND wloxxmh.transaction_state = 1
                                 AND iivxxrd.id_iwhxxmh = :id_iwhxxmh
                                 AND iivxxrd.is_fisik = 1
-                                AND wloxxmh.id_wloctmh = :id_wloctmh
+                                AND wloxxmh.id_wloctmh = 3
                                 AND iivxxrd.tanggal <= :end_date
                             GROUP BY wloxxmh.id
                             ) b ON b.id_wloxxmh  = a.id
