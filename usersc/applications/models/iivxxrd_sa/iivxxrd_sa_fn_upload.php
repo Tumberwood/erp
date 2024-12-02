@@ -275,6 +275,7 @@
 							->set('jumlah_terkecil',$jumlah_terkecil)
 							->set('iumxxmh_kode_terkecil',$iumxxmh_kode_terkecil)
 							->set('lpn',$lpn)							
+							->set('transaction_state',1)							
 							->set('expired_date',$expired_date_ymd)
 							->set('batch_number',$batch_number)
 							->set('upload_state', $upload_state)
@@ -303,8 +304,8 @@
 										e1.id AS id_iimxxmh_kode,
 										e2.id AS id_iimxxmh_nama,
 										f.id AS id_iumxxmh_terkecil,
-										a.imtxxmh_kode,
-										a.imtxxmh_movement_type,
+										g.kode imtxxmh_kode,
+										g.movement_type imtxxmh_movement_type,
 										CASE
 											WHEN b.id IS NULL OR
 												c.id IS NULL OR
