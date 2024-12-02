@@ -70,7 +70,7 @@
                         a.id,
                         CASE
                             WHEN a.level > 0 AND a.id_wloznmh > 0 THEN (a.rack - 1)
-                            ELSE a.level = 0 THEN (SELECT MAX(rack) FROM wloxxmh WHERE level > 0 AND id_iwhxxmh = :id_iwhxxmh AND id_wloctmh = 3 AND id_wloznmh > 0)
+                            ELSE (SELECT MAX(rack) FROM wloxxmh WHERE level > 0 AND id_iwhxxmh = :id_iwhxxmh AND id_wloctmh = 3 AND id_wloznmh > 0)
                         END AS rack,
                         ifnull(a.bay,0) as bay,
                         SUM(ifnull(b.occurance,0)) AS occurance
