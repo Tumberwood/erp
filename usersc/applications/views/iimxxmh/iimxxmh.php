@@ -690,7 +690,7 @@
 			id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
 			if (id_iitxxmh != 1) {
 				
-				edtiimxxmh.field('iimxxmh.movement_method').val(0);
+				// edtiimxxmh.field('iimxxmh.movement_method').val(0);
 				edtiimxxmh.field('iimxxmh.is_batch_number').val(0);
 				edtiimxxmh.field('iimxxmh.is_expired_date').val(0);
 			}
