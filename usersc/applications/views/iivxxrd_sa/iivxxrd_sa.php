@@ -61,7 +61,7 @@
 											<div class="input-group">
 												<input type="file" placeholder="Select File" id="inputfileUpload" name="inputfileUpload" class="form-control">
 												<div class="input-group-append">
-													<button type="button" class="btn btn-success" onclick="window.open('../../../files/uploads/template_upload.xlsx');">
+													<button type="button" class="btn btn-success" onclick="window.open('../../../files/template_file_upload/Inventory Upload.xlsx');">
 														<i class="fa fa-download"></i>&nbsp;Template
 													</button>
 												</div>

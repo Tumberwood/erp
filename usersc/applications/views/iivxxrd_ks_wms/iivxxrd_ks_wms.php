@@ -76,6 +76,7 @@
 						<tr>
 							<th>Tanggal</th>
 							<th>Kode</th>
+							<th>Movement Type</th>
 							<th>Relasi</th>
 							<th>Keterangan</th>
 							<th>In</th>
@@ -221,6 +222,7 @@
 			columns: [
 				{ data: "tanggal" },
 				{ data: "kode" },
+				{ data: "imtxxmh_movement_type" },
 				{ data: "relasi" },
 				{ data: "keterangan" },
 				{ 
