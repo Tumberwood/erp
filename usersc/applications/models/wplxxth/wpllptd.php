@@ -29,15 +29,21 @@
 			->fields(
 				Field::inst( 'wpllptd.id' ),
 				Field::inst( 'wpllptd.id_wplxxth' ),
+				Field::inst( 'wpllptd.id_iumxxmh_unit' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.id_iumxxmh_default' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.id_iumxxmh_terkecil' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'wpllptd.id_iwhxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.id_wloxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.id_wpcxxth' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'wpllptd.id_wplittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.kode' ),
 				Field::inst( 'wpllptd.nama' ),

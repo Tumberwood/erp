@@ -89,6 +89,7 @@
 					Field::inst( 'kode' )
 				)
 		)
+		->where( 'wplxxth.is_backdate',0 )
 		;
 	
 	if($_POST['start_date'] != ''){

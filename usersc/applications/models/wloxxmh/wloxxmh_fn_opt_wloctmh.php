@@ -37,11 +37,11 @@
     }
     
     if(isset($_GET['ids_wloctmh']) && !empty($_GET['ids_wloctmh']) ){
-        $id_wloctmh = $_GET['ids_wloctmh'];
-        $w_wloctmh = '=';
+        $id_wloctmh = '('.$_GET['ids_wloctmh'].')';
+        $w_wloctmh = 'IN';
     }else{
-        $id_wloctmh = 0;
-        $w_wloctmh = '<>';
+        $id_wloctmh = '(-9)';
+        $w_wloctmh = 'NOT IN';
     }
 
     // BEGIN query self.
@@ -71,7 +71,7 @@
         ->where('transaction_state',1)
         ->where('id', $id_wloxxmh_old, '<>' )
         ->where('id_iwhxxmh', $id_iwhxxmh, $w_iwhxxmh )
-        ->where('id_wloctmh', $id_wloctmh, $w_wloctmh )
+        ->where('id_wloctmh', $id_wloctmh, $w_wloctmh, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r->where('nama', '%' . $q . '%', 'LIKE' );
