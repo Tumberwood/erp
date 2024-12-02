@@ -92,6 +92,7 @@
 				) ),
 			Field::inst( 'wptittd.batch_number' ),
 			Field::inst( 'wptittd.is_cancel_drop' ),
+			Field::inst( 'wptittd.is_backdate' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
@@ -104,6 +105,7 @@
 		->leftJoin( 'wloxxmh','wloxxmh.id','=','wptittd.id_wloxxmh_tujuan' )
 		->where( 'DATE(wptittd.start_at)', $start_date, '>=' )
 		->where( 'DATE(wptittd.start_at)', $end_date, '<=' )
+		->where( 'wptittd.is_backdate', 0)
 		;
 	
 	// do not erase

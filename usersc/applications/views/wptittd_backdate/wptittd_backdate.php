@@ -123,7 +123,7 @@
 		// BEGIN wptittd
 		edtwptittd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/wptittd/wptittd.php",
+				url: "../../models/wptittd/wptittd_backdate.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wptittd = show_deleted_wptittd;
@@ -154,6 +154,12 @@
 					name: "wptittd.transaction_state",
 					type: "hidden",
 					def: 0
+				},	
+				{
+					label: "wptittd.is_backdate",
+					name: "wptittd.is_backdate",
+					type: "hidden",
+					def: 1
 				},	
 				{
 					label: "LPN <sup class='text-danger'>*<sup>",
@@ -581,6 +587,7 @@
 			// console.log(json);
 			// id_transaksi = json.data[0].wptittd.id;
 			// konversiUom('wptittd', id_transaksi );
+			console.log(json.data);
 			id_transaksi_h = json.data[0].wptittd.id;
 			fnConfirm('wptittd', tblwptittd );
 			// tblwptittd.rows().deselect();
@@ -600,7 +607,7 @@
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/wptittd/wptittd.php",
+				url: "../../models/wptittd/wptittd_backdate.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wptittd = show_deleted_wptittd;
