@@ -36,9 +36,7 @@
         // kapasitas gudang tanpa overflow
 		$qs_wloxxmh_rack_name = $db
             ->raw()
-            ->bind(':transaction_state', 1)
             ->bind(':id_iwhxxmh', $id_iwhxxmh)
-            ->bind(':id_wloctmh', 3)
             ->exec('SELECT
                         distinct rack_name
                     FROM wloxxmh a
