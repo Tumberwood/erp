@@ -46,6 +46,67 @@
 		'application/vnd.msexcel', 
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 	);
+
+	function integerToRoman($integer){
+		// Convert the integer into an integer (just to make sure)
+		$integer = intval($integer);
+		$result = '';
+	
+		// Create a lookup array that contains all of the Roman numerals.
+		$lookup = array(
+			'M' => 1000,
+			'CM' => 900,
+			'D' => 500,
+			'CD' => 400,
+			'C' => 100,
+			'XC' => 90,
+			'L' => 50,
+			'XL' => 40,
+			'X' => 10,
+			'IX' => 9,
+			'V' => 5,
+			'IV' => 4,
+			'I' => 1);
+	
+		foreach($lookup as $roman => $value){
+			// Determine the number of matches
+			$matches = intval($integer/$value);
+	
+			// Add the same number of characters to the string
+			$result .= str_repeat($roman,$matches);
+	
+			// Set the integer to be the remainder of the integer and the value
+			$integer = $integer % $value;
+		}
+	
+		// The Roman numeral should be built, return it
+		return $result;
+	}
+
+	$nama_tabel = "iivxxrd_sa";
+	$qs_gdnxxsh = $db
+		->raw()
+		->exec('
+			SELECT
+				*
+			FROM 
+				gdnxxsh
+			WHERE 
+				nama_tabel = "iivxxrd_sa"'
+		);
+	$rs_gdnxxsh = $qs_gdnxxsh->fetch();
+	$prefix                 = $rs_gdnxxsh['prefix'];
+	$total_digit            = $rs_gdnxxsh['total_digit'];
+	$separator              = $rs_gdnxxsh['separator'];
+
+	$nama_field_tanggal = 'a.finish_at';
+	$field_tanggal 		= date('Y-m-d');
+	$field_tanggal_dt	= strtotime($field_tanggal);
+	$tahun = substr($field_tanggal,2,2);
+	$bulan = substr($field_tanggal,5,2);
+
+	$tanggal = $field_tanggal;
+	$where = " WHERE YEAR(".$nama_field_tanggal.") = YEAR('" . $tanggal . "') AND MONTH(".$nama_field_tanggal.") = MONTH('" . $tanggal . "') ";
 	
 	if(isset($_FILES['inputfileUpload']['name']) && in_array($_FILES['inputfileUpload']['type'], $file_mimes)) {
 
@@ -53,7 +114,24 @@
 		$c_failed      = 0;
 		$c_skipped_row = 0;
 
-		$token = getRandomStringRandomInt();
+		$qs_c_id_new = $db
+		->raw()
+		->exec('SELECT
+					a.kode
+				FROM iivxxrd_sa a
+				'.$where.'
+				GROUP BY a.kode
+			'
+		);
+		$rs_c_id_new 	= $qs_c_id_new->fetchAll();
+		$c_id_new = count($rs_c_id_new) + 1;
+
+		$new_number  	= $c_id_new;
+		$tr_kode 		= str_pad($new_number,$total_digit,"0",STR_PAD_LEFT);
+
+		$kode_generate = $prefix . $separator . $tahun . $bulan . $separator . $tr_kode;
+		
+		// $kode_generate = getRandomStringRandomInt();
 		$file  = $_FILES['inputfileUpload']['tmp_name'];
 
 		try {
@@ -183,10 +261,11 @@
 							}
 						
 						}
+						$finish_at = date("Y-m-d H:i:s");
 
 						$qi_iivxxrd_sa = $db
 							->query('insert', 'iivxxrd_sa')
-							->set('kode',$token)
+							->set('kode',$kode_generate)
 							->set('gbrxxmh_nama',$gbrxxmh_nama)
 							->set('iwhxxmh_nama',$iwhxxmh_nama)
 							->set('wloxxmh_nama',$wloxxmh_nama)
@@ -199,6 +278,7 @@
 							->set('expired_date',$expired_date_ymd)
 							->set('batch_number',$batch_number)
 							->set('upload_state', $upload_state)
+							->set('finish_at', $finish_at)
 							->exec();
 
 						if($qi_iivxxrd_sa){
@@ -210,7 +290,7 @@
 						// ambil dan update id_parent
 						$qs_parent = $db
 							->raw()
-							->bind(':token', $token )
+							->bind(':token', $kode_generate )
 							->exec('
 								UPDATE iivxxrd_sa p
 								LEFT JOIN 
@@ -223,6 +303,8 @@
 										e1.id AS id_iimxxmh_kode,
 										e2.id AS id_iimxxmh_nama,
 										f.id AS id_iumxxmh_terkecil,
+										a.imtxxmh_kode,
+										a.imtxxmh_movement_type,
 										CASE
 											WHEN b.id IS NULL OR
 												c.id IS NULL OR
@@ -239,12 +321,15 @@
 									LEFT JOIN iimxxmh e1 ON e1.kode = a.iimxxmh_kode
 									LEFT JOIN iimxxmh e2 ON e2.nama = a.iimxxmh_nama
 									LEFT JOIN iumxxmh f ON f.kode = a.iumxxmh_kode_terkecil
+									LEFT JOIN imtxxmh g ON g.kode = 901
 									WHERE 1
 										AND a.kode = :token
 								) q ON p.id = q.id_iivxxrd_sa
 								SET
 									p.id_gbrxxmh = q.id_gbrxxmh,
 									p.id_iwhxxmh = q.id_iwhxxmh,
+									p.imtxxmh_kode = q.imtxxmh_kode,
+									p.imtxxmh_movement_type = q.imtxxmh_movement_type,
 									p.id_wloxxmh = q.id_wloxxmh,
 									p.id_iimxxmh = q.id_iimxxmh_kode,
 									p.id_iumxxmh_terkecil = q.id_iumxxmh_terkecil

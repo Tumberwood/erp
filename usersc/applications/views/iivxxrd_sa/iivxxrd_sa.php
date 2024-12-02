@@ -108,6 +108,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Kode Transaksi</th>
                                 <th>Branch</th>
                                 <th>Warehouse</th>
                                 <th>Location</th>
@@ -276,6 +277,7 @@
 			],
 			columns: [
 				{ data: "iivxxrd_sa.id",visible:false },
+				{ data: "iivxxrd_sa.kode" },
 				{ data: "iivxxrd_sa.gbrxxmh_nama" },
 				{ data: "iivxxrd_sa.iwhxxmh_nama" },
 				{ data: "iivxxrd_sa.wloxxmh_nama" },
@@ -428,6 +430,7 @@
 						toastr[toast_type](full_message, 'INFO');
 						$("#frmUpload")[0].reset();
 						tbliivxxrd_sa.ajax.reload(null,false);
+						$('#mdlfrmUpload').modal('toggle');
 					},
 				} );
 				return false;
