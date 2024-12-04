@@ -10,7 +10,8 @@
 				->raw()
 				->bind(':id', $id)
 				->exec('SELECT
-							b.is_backdate
+							b.is_backdate,
+							a.id_wplittd
 						FROM wpllptd a
 						LEFT JOIN wplxxth b on b.id = a.id_wplxxth
 						WHERE a.id = :id
@@ -18,6 +19,7 @@
 			
 			$rs_backdate = $qs_backdate->fetch();
 			$is_backdate = $rs_backdate['is_backdate'];
+			$id_wplittd = $rs_backdate['id_wplittd'];
 			
 			if ($is_backdate == 1) {
 				General::konversiUom($editor->db(), $nama_table, $id);
@@ -134,7 +136,8 @@
 				->raw()
 				->bind(':id', $id)
 				->exec('SELECT
-							b.is_backdate
+							b.is_backdate,
+							a.id_wplittd
 						FROM wpllptd a
 						LEFT JOIN wplxxth b on b.id = a.id_wplxxth
 						WHERE a.id = :id
@@ -142,6 +145,7 @@
 			
 			$rs_backdate = $qs_backdate->fetch();
 			$is_backdate = $rs_backdate['is_backdate'];
+			$id_wplittd = $rs_backdate['id_wplittd'];
 			
 			if ($is_backdate == 1) {
 				General::konversiUom($editor->db(), $nama_table, $id);
@@ -150,7 +154,7 @@
 					->query('delete', 'iivxxrd')
 					->where('keterangan','backdate wpllptd_' .$id)
 					->exec();
-					
+
 				//Booking Plus sesuai jumlah finalisasi, lawan Confirm Picking item Kitting
 				$qi_iivxxrd_det = $editor->db()
 					->raw()
