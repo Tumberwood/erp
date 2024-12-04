@@ -325,7 +325,7 @@
 
 						$arr_buttons_tools 		= ['copy', 'excel'];
 						$arr_buttons_tools2 	= ['sp', 'sb'];
-						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'log'];
+						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'view', 'log','noaction'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
