@@ -67,7 +67,7 @@
 
     if(empty($rs_loc_pref)){
         $status_code = 500;
-        $message = 'Lokasi tidak terdaftar di Location Preference!';
+        $message = 'Lokasi tidak terdaftar!';
         $type_message = 'error';
 
         $id_wloxxmh_tujuan = 0;
