@@ -57,6 +57,7 @@
 			Field::inst( 'wktxxth.is_all_wh' ),
 			Field::inst( 'wktxxth.jumlah_unit' ),
 			Field::inst( 'wktxxth.jumlah_final' ),
+			Field::inst( 'wktxxth.is_backdate' ),
 			Field::inst( 'wktxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
@@ -72,6 +73,7 @@
 			Field::inst( 'wpmxxmh.nama' ),
 		)
 		->leftJoin( 'wpmxxmh','wpmxxmh.id','=','wktxxth.id_wpmxxmh' )
+		->where( 'wktxxth.is_backdate', 0 );
 		;
 	
 	if($_POST['start_date'] != ''){

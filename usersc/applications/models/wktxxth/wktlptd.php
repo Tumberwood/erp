@@ -29,17 +29,24 @@
 			->fields(
 				Field::inst( 'wktlptd.id' ),
 				Field::inst( 'wktlptd.id_wktxxth' ),
+				Field::inst( 'wktlptd.id_iumxxmh_unit' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wktlptd.id_iumxxmh_default' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wktlptd.id_iumxxmh_terkecil' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wktlptd.id_iimxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'wktlptd.id_iwhxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wktlptd.id_wloxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wktlptd.id_wpcxxth' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'wktlptd.id_wktittd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wktlptd.kode' ),
+				Field::inst( 'wktlptd.wloxxmh_nama' ),
 				Field::inst( 'wktlptd.nama' ),
 				Field::inst( 'wktlptd.keterangan' ),
 				Field::inst( 'wktlptd.created_by' ),
@@ -52,6 +59,9 @@
 				Field::inst( 'wktlptd.jumlah_unit' ),
 				Field::inst( 'wktlptd.jumlah_terkecil' ),
 				Field::inst( 'wktlptd.jumlah_default' ),
+				Field::inst( 'wktlptd.id_wjtxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue('1'),
 				
 				Field::inst( 'wktlptd.wlpxxmh_kode' ),
 				Field::inst( 'wktlptd.expired_date' )

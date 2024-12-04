@@ -75,7 +75,7 @@
 								a.id_wplxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								f.id_wloctmh,
-								a.kode,
+								CONCAT("backdate wpllptd_", a.id) AS kode,
 								a.wlpxxmh_kode,
 								a.id_iwhxxmh,
 								a.id_wloxxmh,
@@ -84,7 +84,7 @@
 								a.id_iumxxmh_unit,
 								a.id_iumxxmh_terkecil,
 								a.id_iumxxmh_default,
-								CONCAT("backdate wpllptd_", a.id) AS keterangan,
+								CONCAT("wplxxth_id_", a.id_wplxxth) AS keterangan,
 								e.kode AS iwhxxmh_kode,
 								e.nama AS iwhxxmh_nama,
 								f.kode AS wloxxmh_kode,
@@ -126,6 +126,30 @@
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
 				');
+
+				//Update subtotal detail items
+				$qu_wplittd = $editor->db()
+					->raw()
+					->bind(':id_wplittd', $id_wplittd)
+					->exec('UPDATE wplittd a
+							LEFT JOIN (
+								SELECT
+									id_wplittd,
+									SUM(a.jumlah_unit) jumlah_unit_insert,
+									SUM(a.jumlah_terkecil) jumlah_terkecil_insert,
+									SUM(a.jumlah_default) jumlah_default_insert
+								FROM wpllptd a
+								WHERE a.id_wplittd = :id_wplittd
+							) z on z.id_wplittd = :id_wplittd
+							SET 
+								a.subtotal_jumlah_terkecil = z.subtotal_jumlah_terkecil,
+								a.subtotal_jumlah_default = z.subtotal_jumlah_default,
+								a.subtotal_jumlah_unit = z.subtotal_jumlah_unit
+							WHERE a.id = :id_wplittd
+							;
+					
+					'
+				);
 			}
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
@@ -152,7 +176,7 @@
 
 				$qd_iivxxrd = $editor->db()
 					->query('delete', 'iivxxrd')
-					->where('keterangan','backdate wpllptd_' .$id)
+					->where('kode','backdate wpllptd_' .$id)
 					->exec();
 
 				//Booking Plus sesuai jumlah finalisasi, lawan Confirm Picking item Kitting
@@ -206,7 +230,7 @@
 								a.id_wplxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								f.id_wloctmh,
-								a.kode,
+								CONCAT("backdate wpllptd_", a.id) AS kode,
 								a.wlpxxmh_kode,
 								a.id_iwhxxmh,
 								a.id_wloxxmh,
@@ -215,7 +239,7 @@
 								a.id_iumxxmh_unit,
 								a.id_iumxxmh_terkecil,
 								a.id_iumxxmh_default,
-								CONCAT("backdate wpllptd_", a.id) AS keterangan,
+								CONCAT("wplxxth_id_", a.id_wplxxth) AS keterangan,
 								e.kode AS iwhxxmh_kode,
 								e.nama AS iwhxxmh_nama,
 								f.kode AS wloxxmh_kode,
@@ -257,6 +281,30 @@
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
 				');
+
+				//Update subtotal detail items
+				$qu_wplittd = $editor->db()
+					->raw()
+					->bind(':id_wplittd', $id_wplittd)
+					->exec('UPDATE wplittd a
+							LEFT JOIN (
+								SELECT
+									id_wplittd,
+									SUM(a.jumlah_unit) subtotal_jumlah_unit,
+									SUM(a.jumlah_terkecil) subtotal_jumlah_terkecil,
+									SUM(a.jumlah_default) subtotal_jumlah_default
+								FROM wpllptd a
+								WHERE a.id_wplittd = :id_wplittd
+							) z on z.id_wplittd = :id_wplittd
+							SET 
+								a.subtotal_jumlah_terkecil = z.subtotal_jumlah_terkecil,
+								a.subtotal_jumlah_default = z.subtotal_jumlah_default,
+								a.subtotal_jumlah_unit = z.subtotal_jumlah_unit
+							WHERE a.id = :id_wplittd
+							;
+					
+					'
+				);
 			}
 		})
 		->on('preRemove',function( $editor, $id, $values ) {

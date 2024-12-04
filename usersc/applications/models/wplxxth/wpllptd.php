@@ -46,6 +46,7 @@
 				Field::inst( 'wpllptd.id_wplittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'wpllptd.kode' ),
+				Field::inst( 'wpllptd.wloxxmh_nama' ),
 				Field::inst( 'wpllptd.nama' ),
 				Field::inst( 'wpllptd.keterangan' ),
 				Field::inst( 'wpllptd.created_by' ),
@@ -58,6 +59,9 @@
 				Field::inst( 'wpllptd.jumlah_unit' ),
 				Field::inst( 'wpllptd.jumlah_terkecil' ),
 				Field::inst( 'wpllptd.jumlah_default' ),
+				Field::inst( 'wpllptd.id_wjtxxmh' )
+				->set( Field::SET_CREATE )
+				->setValue('1'),
 				
 				Field::inst( 'wpllptd.wlpxxmh_kode' ),
 				Field::inst( 'wpllptd.expired_date' )

@@ -1204,6 +1204,11 @@
 					}
 				},
 				{
+					label: "wloxxmh_nama",
+					name: "wpllptd.wloxxmh_nama",
+					type: "hidden"
+				},	
+				{
 					label: "LPN <sup class='text-danger'>*<sup>",
 					name: "wpllptd.wlpxxmh_kode"
 				}, 	
@@ -1347,7 +1352,15 @@
 			}
 			return {}
 		}, {event: 'keyup change'});
-
+		
+		edtwpllptd.dependent( 'wpllptd.id_wloxxmh', function ( val, data, callback ) {
+			if (val > 0) {
+				autofillField('wloxxmh', val, 'nama');
+				wloxxmh_nama = autofillData.nama;
+				edtwpllptd.field('wpllptd.wloxxmh_nama').val(wloxxmh_nama);
+			}
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtwpllptd.on( 'preSubmit', function (e, data, action) {
 
@@ -1412,8 +1425,8 @@
 					async: false,
 					data: {
 						table_name      : 'wpllptd',
-						nama_field      : 'wlpxxmh_kode',
-						nama_field_value: '"'+wlpxxmh_kode+'"',
+						nama_field      : 'id_wplxxth,wlpxxmh_kode',
+						nama_field_value: id_wplxxth+',"'+wlpxxmh_kode+'"',
 						id_transaksi    : id_wpllptd
 					},
 					success: function ( json ) {
@@ -1486,7 +1499,8 @@
 				tblwpllptd.rows().deselect();
 			}
 			tblwpllptd.ajax.reload(null, false);
-
+			tblwplittd.ajax.reload(null, false);
+			tblwplxxth.ajax.reload(null, false);
 		});
 
 		edtwpllptd.on( 'close', function () {
