@@ -327,7 +327,7 @@
 					text: '<i class="fa fa-print"></i>',
 					name: 'btnPrint',
 					className: 'btn btn-outline',
-					titleAttr: 'Print Quotation',
+					titleAttr: 'Print LPN',
 					action: function ( e, dt, node, config ) {
 						e.preventDefault();
 						var queryString = selectedIds.join(',');
