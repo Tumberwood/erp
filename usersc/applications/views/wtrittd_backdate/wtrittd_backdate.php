@@ -121,7 +121,7 @@
 		// BEGIN wtrittd
 		edtwtrittd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/wtrittd/wtrittd.php",
+				url: "../../models/wtrittd/wtrittd_backdate.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wtrittd = show_deleted_wtrittd;
@@ -153,6 +153,12 @@
 					type: "hidden",
 					def: 0
 				},	
+				{
+					label: "wtrittd.is_backdate",
+					name: "wtrittd.is_backdate",
+					type: "hidden",
+					def: 1
+				},
 				{
 					label: "Lokasi Asal <sup class='text-danger'>*<sup>",
 					name: "wloxxmh_nama_asal"
@@ -546,7 +552,7 @@
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/wtrittd/wtrittd.php",
+				url: "../../models/wtrittd/wtrittd_backdate.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_wtrittd = show_deleted_wtrittd;

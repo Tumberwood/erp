@@ -82,6 +82,7 @@
 			Field::inst( 'wtrittd.batch_number_tujuan' ),
 			Field::inst( 'wtrittd.is_replenishment' ),
 			Field::inst( 'wtrittd.is_lpn_baru' ),
+			Field::inst( 'wtrittd.is_backdate' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
@@ -112,6 +113,7 @@
 		->where( 'DATE(wtrittd.start_at)', $start_date, '>=' )
 		->where( 'DATE(wtrittd.start_at)', $end_date, '<=' )
 		->where( 'wtrittd.is_replenishment', null) //tampilkan yang bukan replensihment.
+		->where( 'wtrittd.is_backdate', 0) //tampilkan yang bukan replensihment.
 		;
 	
 	// do not erase
