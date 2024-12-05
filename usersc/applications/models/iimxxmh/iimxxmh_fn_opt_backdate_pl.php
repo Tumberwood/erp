@@ -49,6 +49,23 @@
     }
     // END query self
 
+    $qs_avalaible = $db
+        ->raw()
+        ->exec('SELECT
+                    a.id,
+                    a.subtotal_jumlah_terkecil,
+                    a.subtotal_jumlah_unit,
+                    a.subtotal_jumlah_default,
+                    
+                    a.jumlah_terkecil jumalah_terkecil_kt
+                FROM wplittd a
+                LEFT JOIN wplxxth b ON b.id = a.id_wplxxth
+                HAVING subtotal_jumlah_terkecil < jumalah_terkecil_kt
+    ');
+    $rs_avalaible = $qs_avalaible->fetchAll();
+    $ids = array_column($rs_avalaible, 'id');
+    $ids_wplittd = '(' . implode(',', $ids) . ')';
+
     // BEGIN query options all except self
     $qs_iimxxmh_all = $db
         ->query('select', 'wplittd')
@@ -59,6 +76,7 @@
         ->join('iimxxmh','iimxxmh.id = wplittd.id_iimxxmh','LEFT' )
         ->where('wplittd.id', $id_wplittd_old, '<>' )
         ->where('wplittd.id_wplxxth', $id_wplxxth, $w_iitp )
+        ->where('wplittd.id', $ids_wplittd, 'IN' , false)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

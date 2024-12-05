@@ -196,7 +196,7 @@
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, id_iumxxmh_unit_old_lpn = 0;
 	
 	uniqueToken = '';
-	var c_id = 0;
+	var c_id = 0, jumlah_terkecil_lpn = 0;
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wplittd_old = 0, id_iwhxxmh_old_lpn = 0;
 
 	$(document).ready(function() {
@@ -1481,6 +1481,20 @@
 						}
 					);
 				}
+				
+				//validasi Jumlah Outstanding Backdate
+				autofillField('wplittd', id_wplittd, 'jumlah_terkecil, subtotal_jumlah_terkecil');
+				jumlah_terkecil_td = autofillData.jumlah_terkecil;
+				subtotal_jumlah_terkecil_td = autofillData.subtotal_jumlah_terkecil;
+				sisa_terkecil = jumlah_terkecil_td - parseFloat(subtotal_jumlah_terkecil_td) + parseFloat(jumlah_terkecil_lpn);
+				konversiJumlah(id_iimxxmh, id_iumxxmh_unit);
+				// console.log(jumlah_konversi);
+				jumlah_terkecil_input = jumlah_unit * jumlah_konversi;
+
+				if (jumlah_terkecil_input > sisa_terkecil) {
+					sisa_unit = sisa_terkecil / jumlah_konversi;
+					edtwpllptd.field('wpllptd.jumlah_unit').error( 'Jumlah unit tidak boleh lebih dari '+sisa_unit );
+				}
 			}
 			
 			if ( edtwpllptd.inError() ) {
@@ -1642,6 +1656,7 @@
 			id_iwhxxmh_old_lpn = wpllptd_data.id_iwhxxmh;
 			id_wloxxmh_old_lpn = wpllptd_data.id_wloxxmh;
 			id_iumxxmh_unit_old_lpn = wpllptd_data.id_iumxxmh_unit;
+			jumlah_terkecil_lpn     = wpllptd_data.jumlah_terkecil;
 		} );
 
 		tblwpllptd.on( 'deselect', function() {
@@ -1653,6 +1668,7 @@
 			id_iwhxxmh_old_lpn = 0;
 			id_wloxxmh_old_lpn = 0;
 			id_iumxxmh_unit_old_lpn = 0;
+			jumlah_terkecil_lpn = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblwpllptd );

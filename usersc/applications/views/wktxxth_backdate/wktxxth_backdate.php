@@ -1689,6 +1689,7 @@
 					);
 				}
 				
+				//validasi Jumlah Outstanding Backdate
 				autofillField('wktittd', id_wktittd, 'jumlah_unit, subtotal_jumlah_terkecil');
 				jumlah_unit_td = autofillData.jumlah_unit;
 				subtotal_jumlah_terkecil_td = autofillData.subtotal_jumlah_terkecil;

@@ -49,4 +49,20 @@
         }
     };
     
+    function konversiJumlah(id_iimxxmh, id_iumxxmh_unit){
+        $.ajax( {
+            url: "../../models/wktxxth/wktxxth_backdate_konversi_jumlah.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_iimxxmh: id_iimxxmh,
+                id_iumxxmh_unit: id_iumxxmh_unit,
+            },
+            success: function ( json ) {
+                jumlah_konversi = json.data.jumlah_konversi;
+            }
+        } );
+    };
+    
 </script>
