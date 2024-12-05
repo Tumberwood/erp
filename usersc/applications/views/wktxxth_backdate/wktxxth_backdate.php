@@ -196,7 +196,7 @@
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wktittd_old = 0, id_iwhxxmh_old_lpn = 0, id_iumxxmh_unit_old_lpn = 0;
 	
 	uniqueToken = '';
-	var c_id = 0;
+	var c_id = 0, jumlah_terkecil_old = 0;
 
 	$(document).ready(function() {
 		cekBelumConfirm();
@@ -904,6 +904,7 @@
 			id_iumxxmh_unit_old_kitting      = wktxxth_data.id_iumxxmh_unit;
 			is_generate_lpn      = wktxxth_data.is_generate_lpn;
 			id_wpmxxmh_old      = wktxxth_data.id_wpmxxmh;
+			jumlah_terkecil_old      = wktxxth_data.jumlah_terkecil;
 			id_iwhxxmh_old = wktxxth_data.id_iwhxxmh;
 			id_wloxxmh_old = wktxxth_data.id_wloxxmh_out;
 			id_wloxxmh_out_old = wktxxth_data.id_wloxxmh_out;
@@ -955,6 +956,7 @@
 			id_iwhxxmh = 0;
 			id_iimxxmh_old_kitting = 0;
 			id_iumxxmh_unit_old_kitting = 0;
+			jumlah_terkecil_old = 0;
 			id_wpmxxmh_old = 0;
 			id_wloxxmh_out_old = 0;
 			uniqueToken = '';
@@ -1576,9 +1578,9 @@
 			if(action != 'remove'){
 				autofillField('ggswmsh', 1, 'is_replenishment');
 				is_replenishment = autofillData.is_replenishment;
-
-				wlpxxmh_kode    = edtwktlptd.field('wktlptd.wlpxxmh_kode').val();
+				
 				id_wktittd      = edtwktlptd.field('wktlptd.id_wktittd').val();
+				wlpxxmh_kode    = edtwktlptd.field('wktlptd.wlpxxmh_kode').val();
 				id_iimxxmh      = edtwktlptd.field('wktlptd.id_iimxxmh').val();
 				id_wloxxmh      = edtwktlptd.field('wktlptd.id_wloxxmh').val();
 				id_iwhxxmh      = edtwktlptd.field('wktlptd.id_iwhxxmh').val();
@@ -1685,6 +1687,19 @@
 							'expired_date'   : expired_date,
 						}
 					);
+				}
+				
+				autofillField('wktittd', id_wktittd, 'jumlah_unit, subtotal_jumlah_terkecil');
+				jumlah_unit_td = autofillData.jumlah_unit;
+				subtotal_jumlah_terkecil_td = autofillData.subtotal_jumlah_terkecil;
+				sisa_terkecil = (jumlah_terkecil_old * jumlah_unit_td) - subtotal_jumlah_terkecil_td;
+				konversiJumlah(id_iimxxmh, id_iumxxmh_unit);
+				// console.log(jumlah_konversi);
+				jumlah_terkecil_input = jumlah_unit * jumlah_konversi;
+
+				if (jumlah_terkecil_input > sisa_terkecil) {
+					sisa_unit = sisa_terkecil / jumlah_konversi;
+					edtwktlptd.field('wktlptd.jumlah_unit').error( 'Jumlah unit tidak boleh lebih dari '+sisa_unit );
 				}
 			}
 			

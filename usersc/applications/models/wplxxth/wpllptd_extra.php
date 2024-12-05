@@ -135,9 +135,9 @@
 							LEFT JOIN (
 								SELECT
 									id_wplittd,
-									SUM(a.jumlah_unit) jumlah_unit_insert,
-									SUM(a.jumlah_terkecil) jumlah_terkecil_insert,
-									SUM(a.jumlah_default) jumlah_default_insert
+									SUM(a.jumlah_unit) subtotal_jumlah_unit,
+									SUM(a.jumlah_terkecil) subtotal_jumlah_terkecil,
+									SUM(a.jumlah_default) subtotal_jumlah_default
 								FROM wpllptd a
 								WHERE a.id_wplittd = :id_wplittd
 							) z on z.id_wplittd = :id_wplittd

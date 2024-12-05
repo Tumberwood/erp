@@ -126,6 +126,30 @@
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
 				');
+				
+				//Update subtotal detail items
+				$qu_wktittd = $editor->db()
+					->raw()
+					->bind(':id_wktittd', $id_wktittd)
+					->exec('UPDATE wktittd a
+							LEFT JOIN (
+								SELECT
+									id_wktittd,
+									SUM(a.jumlah_unit) subtotal_jumlah_unit,
+									SUM(a.jumlah_terkecil) subtotal_jumlah_terkecil,
+									SUM(a.jumlah_default) subtotal_jumlah_default
+								FROM wktlptd a
+								WHERE a.id_wktittd = :id_wktittd
+							) z on z.id_wktittd = :id_wktittd
+							SET 
+								a.subtotal_jumlah_terkecil = z.subtotal_jumlah_terkecil,
+								a.subtotal_jumlah_default = z.subtotal_jumlah_default,
+								a.subtotal_jumlah_unit = z.subtotal_jumlah_unit
+							WHERE a.id = :id_wktittd
+							;
+					
+					'
+				);
 			}
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
@@ -257,6 +281,30 @@
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
 				');
+				
+				//Update subtotal detail items
+				$qu_wktittd = $editor->db()
+					->raw()
+					->bind(':id_wktittd', $id_wktittd)
+					->exec('UPDATE wktittd a
+							LEFT JOIN (
+								SELECT
+									id_wktittd,
+									SUM(a.jumlah_unit) subtotal_jumlah_unit,
+									SUM(a.jumlah_terkecil) subtotal_jumlah_terkecil,
+									SUM(a.jumlah_default) subtotal_jumlah_default
+								FROM wktlptd a
+								WHERE a.id_wktittd = :id_wktittd
+							) z on z.id_wktittd = :id_wktittd
+							SET 
+								a.subtotal_jumlah_terkecil = z.subtotal_jumlah_terkecil,
+								a.subtotal_jumlah_default = z.subtotal_jumlah_default,
+								a.subtotal_jumlah_unit = z.subtotal_jumlah_unit
+							WHERE a.id = :id_wktittd
+							;
+					
+					'
+				);
 			}
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
