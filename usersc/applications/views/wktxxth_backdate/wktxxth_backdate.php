@@ -192,7 +192,7 @@
 	// get tableRelation
 	tableRelation('wktxxth');
 	var id_iimxxmh_old_kitting = 0, id_iumxxmh_unit_old = 0, id_iumxxmh_unit_old_kitting = 0, id_iimxxmh = 0, id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0;
-	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0;
+	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, jumlah_terkecil_lpn = 0;
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wktittd_old = 0, id_iwhxxmh_old_lpn = 0, id_iumxxmh_unit_old_lpn = 0;
 	
 	uniqueToken = '';
@@ -1692,7 +1692,7 @@
 				autofillField('wktittd', id_wktittd, 'jumlah_unit, subtotal_jumlah_terkecil');
 				jumlah_unit_td = autofillData.jumlah_unit;
 				subtotal_jumlah_terkecil_td = autofillData.subtotal_jumlah_terkecil;
-				sisa_terkecil = (jumlah_terkecil_old * jumlah_unit_td) - subtotal_jumlah_terkecil_td;
+				sisa_terkecil = (jumlah_terkecil_old * jumlah_unit_td) - parseFloat(subtotal_jumlah_terkecil_td) + parseFloat(jumlah_terkecil_lpn);
 				konversiJumlah(id_iimxxmh, id_iumxxmh_unit);
 				// console.log(jumlah_konversi);
 				jumlah_terkecil_input = jumlah_unit * jumlah_konversi;
@@ -1858,6 +1858,7 @@
 			CekSelectDetailHD( tblwktlptd );
 
 			id_iimxxmh          = wktlptd_data.id_iimxxmh;
+			jumlah_terkecil_lpn          = wktlptd_data.jumlah_terkecil;
 			id_iimxxmh_old      = wktlptd_data.id_iimxxmh;
 			id_wktittd_old      = wktlptd_data.id_wktittd;
 			id_iwhxxmh_old_lpn = wktlptd_data.id_iwhxxmh;
@@ -1869,8 +1870,8 @@
 			// reset variable standar framework
 			siVarResetD('wktlptd');
 			id_iimxxmh_old = 0;
+			jumlah_terkecil_lpn = 0;
 			id_wktittd_old = 0;
-			id_iumxxmh_unit_old= 0;
 			id_iwhxxmh_old_lpn = 0;
 			id_wloxxmh_old_lpn = 0;
 			id_iumxxmh_unit_old_lpn = 0;
