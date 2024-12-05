@@ -47,6 +47,8 @@
 			Field::inst( 'ggswmsh.is_one_way_do' ),
 			Field::inst( 'ggswmsh.pick_and_pack' ),
 			Field::inst( 'ggswmsh.format_lpn_kitting' ),
+			Field::inst( 'ggswmsh.is_koordinat' ),
+			Field::inst( 'ggswmsh.koefisien_level' ),
 		);
 	
 	// do not erase

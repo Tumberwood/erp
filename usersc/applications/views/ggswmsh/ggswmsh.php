@@ -27,6 +27,8 @@
 								<th>One Way DO</th>
 								<th>Pick and Pack</th>
 								<th>Format LPN Kitting</th>
+								<th>Movement Algorithm</th>
+								<th>Koefisien Level</th>
                             </tr>
                         </thead>
                     </table>
@@ -162,6 +164,20 @@
 						{ "label": "Same per Kitting Number", "value": 1 }
 					]
 				},
+				{
+					label: "Movement Algorithm",
+					name: "ggswmsh.is_koordinat",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Urutan", "value": 0 },
+						{ "label": "Koordinat", "value": 1 }
+					]
+				},
+				{
+					label: "Koefisien Level",
+					name: "ggswmsh.koefisien_level",
+				},
 			]
 		} );
 
@@ -183,7 +199,16 @@
 
 		edtggswmsh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-
+				koefisien_level = edtggswmsh.field('ggswmsh.koefisien_level').val();
+				validasiNumber(
+					edtggswmsh,
+					'ggswmsh',
+					{
+						'koefisien_level': koefisien_level
+					},
+					0,
+					'>'
+				);
 			}
 			
 			if ( edtggswmsh.inError() ) {
@@ -246,6 +271,19 @@
 						}
 					}
 				},
+				{ 
+					data: "ggswmsh.is_koordinat",
+					render: function (data) {
+						if (data == 0) {
+							return '<span class="badge badge-primary">Urutan</span>';
+						} else if (data == 1) {
+							return '<span class="badge badge-primary">Koordinat</span>';
+						} else {
+							return '<span class="badge badge-warning">INVALID</span>';
+						}
+					}
+				},
+				{ data: "ggswmsh.koefisien_level", ...renderNumber() },
 			],
 			buttons: [
 				// BEGIN breaking generate button
