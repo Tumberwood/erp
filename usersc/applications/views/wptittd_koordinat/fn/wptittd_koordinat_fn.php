@@ -97,7 +97,7 @@
                                 wptittd_details = wptittd_details + 'Outstanding: ' + (parseFloat(json.data.sisa_default) + parseFloat(jumlah_unit_old)) + ' ';
                                 wptittd_details = wptittd_details + json.data.iumxxmh_default_kode + '\n';
                                 $.ajax( {
-                                    url: "../../models/wptittd/wptittd_fn_wloxxmh.php",
+                                    url: "../../models/wptittd/wptittd_fn_wloxxmh_koordinat.php",
                                     dataType: 'json',
                                     type: 'POST',
                                     data: {
