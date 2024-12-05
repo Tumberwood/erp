@@ -65,7 +65,7 @@
         ->order('kode')
         ->where('transaction_state',1)
         ->where('id', $id_wttxxmh_old, '<>' )
-        ->where('id', $ids_wttxxmh, $w_like, false )
+        ->where('jenis', $ids_wttxxmh, $w_like, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
