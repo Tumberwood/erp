@@ -263,7 +263,10 @@
 					->bind(':id_transaksi_h', $id_transaksi_h)
 					->exec('SELECT
 								:id_transaksi_h,
-								ifnull(h.urutan,0) AS urutan,
+								if(is_koordinat = 0, 
+									ifnull(h.urutan,0), -- kalo urutan maka ambil dari urutan di loc pref
+									ABS(tujuan.koord_x - asal.koord_x) + ABS(tujuan.koord_y - asal.koord_y) + (ABS(tujuan.koord_z - asal.koord_z) * koefisien_level)
+								) urutan,
 								max(b.id) id_iivxxrd,
 								(
 							        SELECT a_inner.iimxxmh_status
@@ -306,6 +309,9 @@
 							LEFT JOIN iimxxmh d ON d.id = a.id_iimxxmh
 							LEFT JOIN iumxxmh g ON g.id = a.id_iumxxmh_unit
 							LEFT JOIN wimlotd h ON h.id_iimxxmh = a.id_iimxxmh AND h.id_wloxxmh = b.id_wloxxmh
+							LEFT JOIN wloxxmh asal ON asal.id = c.id_wloxxmh_out
+							LEFT JOIN wloxxmh tujuan ON tujuan.id = b.id_wloxxmh
+							LEFT JOIN ggswmsh gg on gg.id = 1
 							LEFT JOIN iimummd def ON def.id_iimxxmh = a.id_iimxxmh AND def.is_default = 1
 							LEFT JOIN iimummd unit ON unit.id_iimxxmh = a.id_iimxxmh AND unit.id_iumxxmh = a.id_iumxxmh_unit
 							WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
