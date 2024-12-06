@@ -103,7 +103,7 @@
 				{
 					label: "Ganti Lokasi Putaway",
 					name: "ggswmsh.is_ganti_lokasi_putaway",
-					fieldInfo: "Bisa Ganti Lokasi di Putaway, terlepas dari lokasi yang dipilih sistem",
+					fieldInfo: "User diperbolehkan mengganti lLokasi saat putaway, tidak mengikuti yang ditentukan oleh WMS",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -127,17 +127,18 @@
 					name: "ggswmsh.is_replenishment",
 					type: "select",
 					placeholder : "Select",
-					fieldInfo: "Pilih Yes untuk mengaktifkan Replenishment ",
+					fieldInfo: "Apakah menggunakan fitur Replenishment?",
 					options: [
 						{ "label": "Yes", "value": 1 },
 						{ "label": "No", "value": 0 }
 					]
 				},
 				{
-					label: "One Way DO",
+					label: "One Way Delivery Ordder",
 					name: "ggswmsh.is_one_way_do",
 					type: "select",
 					placeholder : "Select",
+					fieldInfo: "Delivery Order hanya dapat dipakai 1x di Picking List. Jika tidak terpenuhi, maka harus buat Delivery Order baru",
 					options: [
 						{ "label": "Yes", "value": 1 },
 						{ "label": "No", "value": 0 }
@@ -148,10 +149,10 @@
 					name: "ggswmsh.pick_and_pack",
 					type: "select",
 					placeholder : "Select",
-					fieldInfo: "Yes: Melakukan Picking dan Packing secara bersamaan.",
+					fieldInfo: "Picking dan Packing dilakukan bersamaan atau tidak",
 					options: [
-						{ "label": "Yes", "value": 1 },
-						{ "label": "No", "value": 0 }
+						{ "label": "Yes (Picking dan Packing dilakukan bersamaan)", "value": 1 },
+						{ "label": "No (Packing dilakukan setelah Picking)" , "value": 0 }
 					]
 				},
 				{
@@ -159,6 +160,7 @@
 					name: "ggswmsh.format_lpn_kitting",
 					type: "select",
 					placeholder : "Select",
+					fieldInfo: "LPN untuk hasil Finalisasi Kitting apakah akan sama dalam setiap nomor Kitting",
 					options: [
 						{ "label": "Always Generate", "value": 0 },
 						{ "label": "Same per Kitting Number", "value": 1 }
@@ -169,14 +171,16 @@
 					name: "ggswmsh.is_koordinat",
 					type: "select",
 					placeholder : "Select",
+					fieldInfo: "Algoritma Movement yang digunakan",
 					options: [
-						{ "label": "Urutan", "value": 0 },
-						{ "label": "Koordinat", "value": 1 }
+						{ "label": "Urutan (Harus mengisi field `Urutan` di Master Location", "value": 0 },
+						{ "label": "Koordinat (Harus mengisi fields `Koordinat X, Y dan Z` di Master Location", "value": 1 }
 					]
 				},
 				{
 					label: "Koefisien Level",
 					name: "ggswmsh.koefisien_level",
+					fieldInfo: "Koefisien pengali untuk Location Level.",
 				},
 			]
 		} );
