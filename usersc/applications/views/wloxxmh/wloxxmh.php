@@ -654,7 +654,7 @@
 					};
 
 					// Example: Accessing or printing the coordinates
-					console.log(arr_koordinat); 
+					// console.log(arr_koordinat); 
 
 					Object.keys(arr_koordinat).forEach(koord => {
 						var koord_val = arr_koordinat[koord];
