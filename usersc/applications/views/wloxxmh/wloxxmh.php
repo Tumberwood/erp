@@ -468,15 +468,12 @@
 					]
 				},
 				{
-					label: "Koordinat X <sup class='text-danger'>*<sup>",
 					name: "wloxxmh.koord_x"
 				},
 				{
-					label: "Koordinat Y <sup class='text-danger'>*<sup>",
 					name: "wloxxmh.koord_y"
 				},
 				{
-					label: "Koordinat Z <sup class='text-danger'>*<sup>",
 					name: "wloxxmh.koord_z"
 				},
 				{
@@ -521,6 +518,18 @@
 					wloxxmh_generate_nama();
 				}
 
+			}
+			autofillField('ggswmsh', 1, 'is_koordinat');
+			is_koordinat = autofillData.is_koordinat;
+
+			if (is_koordinat == 1) {
+				edtwloxxmh.field('wloxxmh.koord_x').label("Koordinat X <sup class='text-danger'>*<sup>");
+				edtwloxxmh.field('wloxxmh.koord_y').label("Koordinat Y <sup class='text-danger'>*<sup>");
+				edtwloxxmh.field('wloxxmh.koord_z').label("Koordinat Z <sup class='text-danger'>*<sup>");
+			} else {
+				edtwloxxmh.field('wloxxmh.koord_x').label("Koordinat X");
+				edtwloxxmh.field('wloxxmh.koord_y').label("Koordinat Y");
+				edtwloxxmh.field('wloxxmh.koord_z').label("Koordinat Z");
 			}
 		});
 
@@ -607,12 +616,63 @@
 						'id_iwhxxmh': id_iwhxxmh,
 						'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas,
 						'rack_name': rack_name,
-						'koord_x': koord_x,
-						'koord_y': koord_y,
-						'koord_z': koord_z,
 						'nama': nama
 					}
 				);
+
+				autofillField('ggswmsh', 1, 'is_koordinat');
+				is_koordinat = autofillData.is_koordinat;
+				if (is_koordinat == 1) {
+					validasiRequired(
+						edtwloxxmh,
+						'wloxxmh',
+						{
+							'koord_x': koord_x,
+							'koord_y': koord_y,
+							'koord_z': koord_z,
+						}
+					);
+
+					//validasi number koordinat
+					validasiNumber(
+						edtwloxxmh,
+						'wloxxmh',
+						{
+							'koord_x': koord_x,
+							'koord_y': koord_y,
+							'koord_z': koord_z,
+						},
+						0,
+						'>'
+					);
+
+				} else {
+					var arr_koordinat = {
+						'koord_x': koord_x,
+						'koord_y': koord_y,
+						'koord_z': koord_z
+					};
+
+					// Example: Accessing or printing the coordinates
+					console.log(arr_koordinat); 
+
+					Object.keys(arr_koordinat).forEach(koord => {
+						var koord_val = arr_koordinat[koord];
+						if (koord_val != '' && koord_val != null) {
+							//validasi number koordinat
+							validasiNumber(
+								edtwloxxmh,
+								'wloxxmh',
+								{
+									[koord]: koord_val,
+								},
+								0,
+								'>'
+							);							
+						}
+					});
+
+				}
 
 				/**
 				 * ini harusnya ada kondisi OR
@@ -640,20 +700,6 @@
 					0,
 					'>='
 				);
-				
-				//validasi number koordinat
-				validasiNumber(
-					edtwloxxmh,
-					'wloxxmh',
-					{
-						'koord_x': koord_x,
-						'koord_y': koord_y,
-						'koord_z': koord_z,
-					},
-					0,
-					'>='
-				);
-
 			}
 			
 			if ( edtwloxxmh.inError() ) {
