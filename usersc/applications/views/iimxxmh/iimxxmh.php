@@ -574,7 +574,8 @@
 					edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
 				}
 
-				// edtiimxxmh.field('iimxxmh.movement_method').show();
+				edtiimxxmh.field('iimxxmh.movement_method').show();
+				edtiimxxmh.field('iimxxmh.movement_method2').show();
 				edtiimxxmh.field('iimxxmh.is_batch_number').show();
 				edtiimxxmh.field('iimxxmh.is_expired_date').show();
 		
@@ -582,7 +583,8 @@
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
 
-				// edtiimxxmh.field('iimxxmh.movement_method').hide();
+				edtiimxxmh.field('iimxxmh.movement_method').hide();
+				edtiimxxmh.field('iimxxmh.movement_method2').hide();
 				edtiimxxmh.field('iimxxmh.is_batch_number').hide();
 				edtiimxxmh.field('iimxxmh.is_expired_date').hide();
 			}
