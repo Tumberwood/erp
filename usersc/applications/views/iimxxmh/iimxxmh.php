@@ -1527,6 +1527,16 @@
 					id_wimlotd
 				);
 
+				validasiUnique(
+					action,
+					edtwimlotd,
+					'wimlotd',
+					'urutan',
+					'id_iimxxmh, urutan',
+					id_iimxxmh + ',' + urutan,
+					id_wimlotd
+				);
+
 			}
 			
 			if ( edtwimlotd.inError() ) {
