@@ -134,7 +134,7 @@
 					]
 				},
 				{
-					label: "One Way Delivery Ordder",
+					label: "One Way Delivery Order",
 					name: "ggswmsh.is_one_way_do",
 					type: "select",
 					placeholder : "Select",
