@@ -25,6 +25,8 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'wttxxmh.id' ),
+			Field::inst( 'wttxxmh.id_imtxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wttxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -41,8 +43,11 @@
 			Field::inst( 'wttxxmh.finish_at' ),
 			Field::inst( 'wttxxmh.is_defaultprogram' ),
 			Field::inst( 'wttxxmh.is_nextprocess' ),
-			Field::inst( 'wttxxmh.jenis' )
-		);
+			Field::inst( 'imtxxmh.movement_type_group' ),
+			Field::inst( 'imtxxmh.nama' ),
+		)
+		->leftJoin( 'imtxxmh','imtxxmh.id','=','wttxxmh.id_imtxxmh' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document

@@ -112,9 +112,9 @@
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "GR", "value": "GR" },
-						{ "label": "GI", "value": "GI" },
-						{ "label": "GT", "value": "GT" }
+						{ "label": "Goods Receive", "value": 1 },
+						{ "label": "Goods Issue", "value": 2 },
+						{ "label": "Goods Transfer", "value": 3 }
 					]
 				},
 				{
@@ -170,6 +170,7 @@
 
 				kode = edtimtxxmh.field('imtxxmh.kode').val();
 				movement_type = edtimtxxmh.field('imtxxmh.movement_type').val();
+				movement_type_group = edtimtxxmh.field('imtxxmh.movement_type_group').val();
 				module = edtimtxxmh.field('imtxxmh.module').val();
 
 				validasiRequired(
@@ -178,6 +179,7 @@
 					{
 						'kode': kode,
 						'movement_type': movement_type,
+						'movement_type_group': movement_type_group,
 						'module': module
 					}
 				);
@@ -240,7 +242,21 @@
 				{ data: "imtxxmh.kode" },
 				{ data: "imtxxmh.movement_type" },
 				{ data: "imtxxmh.module" },
-				{ data: "imtxxmh.movement_type_group" },
+				{ 
+					data: "imtxxmh.movement_type_group" ,
+					render: function (data){
+							if(data == 1){
+								return 'Goods Receive';
+							}else if(data == 2){
+								return 'Goods Issue';
+							}else if(data == 3){
+								return 'Goods Transfer';
+							}else{
+								return '<span class="badge badge-warning">INVALID</span>';
+							}
+						}
+
+				},
 				{ data: "imtxxmh.keterangan" },
 				{ 
 					data: "imtxxmh.transaction_state" ,

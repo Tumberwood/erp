@@ -21,9 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Movement Type</th>
+                                <th>Jenis</th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
-                                <th>Jenis</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -60,6 +61,7 @@
 	// ------------- default variable, do not erase
 	var edtwttxxmh, tblwttxxmh, show_deleted_wttxxmh = 0, id_wttxxmh;
 	// ------------- end of default variable
+	var id_imtxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('wttxxmh');
@@ -98,7 +100,42 @@
 					name: "wttxxmh.transaction_state",
 					type: "hidden",
 					def: 0
-				},	
+				},	{
+					label: "Movement Type <sup class='text-danger'>*<sup>",
+					name: "wttxxmh.id_imtxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/imtxxmh/imtxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_imtxxmh_old: id_imtxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
 					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "wttxxmh.kode"
@@ -107,17 +144,6 @@
 					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "wttxxmh.nama"
 				}, 	
-				{
-					label: "Jenis <sup class='text-danger'>*<sup>",
-					name: "wttxxmh.jenis",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Goods Receive", "value": 1 },
-						{ "label": "Goods Issue", "value": 2 },
-						{ "label": "Goods Transfer", "value": 3 }
-					]
-				},
 				{
 					label: getTranslation('notes'),
 					name: "wttxxmh.keterangan",
@@ -156,7 +182,7 @@
 			if(action != 'remove'){
 				kode = edtwttxxmh.field('wttxxmh.kode').val();
 				nama = edtwttxxmh.field('wttxxmh.nama').val();
-				jenis = edtwttxxmh.field('wttxxmh.jenis').val();
+				id_imtxxmh = edtwttxxmh.field('wttxxmh.id_imtxxmh').val();
 
 				validasiRequired(
 					edtwttxxmh,
@@ -164,7 +190,7 @@
 					{
 						'kode': kode,
 						'nama': nama,
-						'jenis': jenis
+						'id_imtxxmh': id_imtxxmh
 
 					}
 				);
@@ -216,10 +242,9 @@
 			order: [[ 1, "asc" ]],
 			columns: [
 				{ data: "wttxxmh.id",visible:false },
-				{ data: "wttxxmh.kode" },
-				{ data: "wttxxmh.nama" },
+				{ data: "imtxxmh.nama" },
 				{ 
-					data: "wttxxmh.jenis" ,
+					data: "imtxxmh.movement_type_group" ,
 					render: function (data){
 							if(data == 1){
 								return 'Goods Receive';
@@ -233,6 +258,8 @@
 						}
 
 				},
+				{ data: "wttxxmh.kode" },
+				{ data: "wttxxmh.nama" },
 				{ 
 					data: "wttxxmh.transaction_state" ,
 					...renderTransactionStatus()
@@ -273,6 +300,7 @@
 		tblwttxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('wttxxmh');
+			imtxxmh_old = wttxxmh_data.imtxxmh;
 
 			// atur hak akses
 			CekSelectHeaderH(tblwttxxmh);
@@ -281,6 +309,7 @@
 		tblwttxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('wttxxmh');
+			imtxxmh_old = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblwttxxmh);

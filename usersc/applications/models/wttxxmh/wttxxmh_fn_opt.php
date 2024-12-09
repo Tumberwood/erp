@@ -42,10 +42,11 @@
         $qs_wttxxmh_self = $db
             ->query('select', 'wttxxmh')
             ->get([
-                'id as id',
-                'CONCAT(kode," - ",nama) as text'
+                'wttxxmh.id as id',
+                'CONCAT(wttxxmh.kode," - ",wttxxmh.nama) as text'
             ])
-            ->where('id', $id_wttxxmh_old )
+            ->join('imtxxmh','imtxxmh.id = wttxxmh.id_imtxxmh','LEFT' )
+            ->where('wttxxmh.id', $id_wttxxmh_old )
             ->limit($resultCount)
             ->offset($offset)
             ->exec();
@@ -59,18 +60,19 @@
     $qs_wttxxmh_all = $db
         ->query('select', 'wttxxmh')
         ->get([
-            'id as id',
-            'CONCAT(kode," - ",nama) as text'
+            'wttxxmh.id as id',
+            'CONCAT(wttxxmh.kode," - ",wttxxmh.nama) as text'
         ])
-        ->order('kode')
-        ->where('transaction_state',1)
-        ->where('id', $id_wttxxmh_old, '<>' )
-        ->where('jenis', $ids_wttxxmh, $w_like, false )
+        ->join('imtxxmh','imtxxmh.id = wttxxmh.id_imtxxmh','LEFT' )
+        ->order('wttxxmh.kode')
+        ->where('wttxxmh.transaction_state',1)
+        ->where('wttxxmh.id', $id_wttxxmh_old, '<>' )
+        ->where('wttxxmh.jenis', $ids_wttxxmh, $w_like, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('nama', '%' . $q . '%', 'LIKE' );
+                ->where('wttxxmh.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('wttxxmh.nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)

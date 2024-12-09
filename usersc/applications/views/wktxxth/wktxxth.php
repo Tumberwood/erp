@@ -554,6 +554,16 @@
 					}
 				);
 
+				validasiNumber(
+					edtwktxxth,
+					'wktxxth',
+					{
+						'jumlah_unit': jumlah_unit
+					},
+					0,
+					'>'
+				);
+
 				if (is_all_wh == 0) {
 					
 					validasiRequired(
