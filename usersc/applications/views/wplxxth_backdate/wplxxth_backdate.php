@@ -196,7 +196,7 @@
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, id_iumxxmh_unit_old_lpn = 0;
 	
 	uniqueToken = '';
-	var c_id = 0, jumlah_terkecil_lpn = 0;
+	var c_id = 0, jumlah_terkecil_lpn = 0,jumlah_konversi = 0;
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wplittd_old = 0, id_iwhxxmh_old_lpn = 0;
 
 	$(document).ready(function() {

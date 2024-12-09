@@ -513,7 +513,7 @@
 						SET 
 							a.subtotal_jumlah_terkecil = a.subtotal_jumlah_terkecil + :jumlah_terkecil_insert,
 							a.subtotal_jumlah_default = a.subtotal_jumlah_default + :jumlah_default_insert,
-							a.subtotal_jumlah_unit = a.subtotal_jumlah_unit + :jumlah_unit_insert
+							a.subtotal_jumlah_unit = a.subtotal_jumlah_unit + (:jumlah_terkecil_insert / jumlah_konversi)
 						WHERE a.id = :id_wplittd
 						;
 				

@@ -21,7 +21,7 @@
 			$is_backdate = $rs_backdate['is_backdate'];
 			$id_wplittd = $rs_backdate['id_wplittd'];
 			
-			if ($is_backdate == 1) {
+			// if ($is_backdate == 1) {
 				General::konversiUom($editor->db(), $nama_table, $id);
 
 				//Booking Plus sesuai jumlah finalisasi, lawan Confirm Picking item Kitting
@@ -75,7 +75,7 @@
 								a.id_wplxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								f.id_wloctmh,
-								CONCAT("backdate wpllptd_", a.id) AS kode,
+								a.kode AS kode,
 								a.wlpxxmh_kode,
 								a.id_iwhxxmh,
 								a.id_wloxxmh,
@@ -150,7 +150,7 @@
 					
 					'
 				);
-			}
+			// }
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// script diletakkan disini
@@ -161,6 +161,7 @@
 				->bind(':id', $id)
 				->exec('SELECT
 							b.is_backdate,
+							b.id_wplxxth,
 							a.id_wplittd
 						FROM wpllptd a
 						LEFT JOIN wplxxth b on b.id = a.id_wplxxth
@@ -169,6 +170,7 @@
 			
 			$rs_backdate = $qs_backdate->fetch();
 			$is_backdate = $rs_backdate['is_backdate'];
+			$id_wplxxth = $rs_backdate['id_wplxxth'];
 			$id_wplittd = $rs_backdate['id_wplittd'];
 			
 			if ($is_backdate == 1) {
@@ -176,8 +178,9 @@
 
 				$qd_iivxxrd = $editor->db()
 					->query('delete', 'iivxxrd')
-					->where('kode','backdate wpllptd_' .$id)
-					->exec();
+					->where('id_transaksi_d',$id)
+					->where('keterangan','wplxxth_id_' .$id_wplxxth)
+				->exec();
 
 				//Booking Plus sesuai jumlah finalisasi, lawan Confirm Picking item Kitting
 				$qi_iivxxrd_det = $editor->db()
@@ -230,7 +233,7 @@
 								a.id_wplxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								f.id_wloctmh,
-								CONCAT("backdate wpllptd_", a.id) AS kode,
+								a.kode AS kode,
 								a.wlpxxmh_kode,
 								a.id_iwhxxmh,
 								a.id_wloxxmh,
@@ -308,6 +311,26 @@
 			}
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
+			$qs_backdate = $editor->db()
+				->raw()
+				->bind(':id', $id)
+				->exec('SELECT
+							b.is_backdate,
+							id_wplxxth,
+							a.id_wplittd
+						FROM wpllptd a
+						LEFT JOIN wplxxth b on b.id = a.id_wplxxth
+						WHERE a.id = :id
+			');
+			
+			$rs_backdate = $qs_backdate->fetch();
+			$id_wplxxth = $rs_backdate['id_wplxxth'];
+
+			$qd_iivxxrd = $editor->db()
+				->query('delete', 'iivxxrd')
+				->where('id_transaksi_d',$id)
+				->where('keterangan','wplxxth_id_' .$id_wplxxth)
+				->exec();
 		})
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
