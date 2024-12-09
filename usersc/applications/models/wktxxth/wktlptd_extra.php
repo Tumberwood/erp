@@ -21,7 +21,7 @@
 			$is_backdate = $rs_backdate['is_backdate'];
 			$id_wktittd = $rs_backdate['id_wktittd'];
 			
-			if ($is_backdate == 1) {
+			// if ($is_backdate == 1) {
 				General::konversiUom($editor->db(), $nama_table, $id);
 
 				//Booking Plus sesuai jumlah finalisasi, lawan Confirm Picking item Kitting
@@ -75,7 +75,7 @@
 								a.id_wktxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								f.id_wloctmh,
-								CONCAT("backdate wktlptd_", a.id) AS kode,
+								a.kode AS kode,
 								a.wlpxxmh_kode,
 								a.id_iwhxxmh,
 								a.id_wloxxmh,
@@ -126,7 +126,7 @@
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
 				');
-				
+
 				//Update subtotal detail items
 				$qu_wktittd = $editor->db()
 					->raw()
@@ -150,7 +150,7 @@
 					
 					'
 				);
-			}
+			// }
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// script diletakkan disini
@@ -161,6 +161,7 @@
 				->bind(':id', $id)
 				->exec('SELECT
 							b.is_backdate,
+							b.id_wktxxth,
 							a.id_wktittd
 						FROM wktlptd a
 						LEFT JOIN wktxxth b on b.id = a.id_wktxxth
@@ -169,6 +170,7 @@
 			
 			$rs_backdate = $qs_backdate->fetch();
 			$is_backdate = $rs_backdate['is_backdate'];
+			$id_wktxxth = $rs_backdate['id_wktxxth'];
 			$id_wktittd = $rs_backdate['id_wktittd'];
 			
 			if ($is_backdate == 1) {
@@ -176,8 +178,9 @@
 
 				$qd_iivxxrd = $editor->db()
 					->query('delete', 'iivxxrd')
-					->where('kode','backdate wktlptd_' .$id)
-					->exec();
+					->where('id_transaksi_d',$id)
+					->where('keterangan','wktxxth_id_' .$id_wktxxth)
+				->exec();
 
 				//Booking Plus sesuai jumlah finalisasi, lawan Confirm Picking item Kitting
 				$qi_iivxxrd_det = $editor->db()
@@ -230,7 +233,7 @@
 								a.id_wktxxth AS id_transaksi_h,
 								a.id AS id_transaksi_d,
 								f.id_wloctmh,
-								CONCAT("backdate wktlptd_", a.id) AS kode,
+								a.kode AS kode,
 								a.wlpxxmh_kode,
 								a.id_iwhxxmh,
 								a.id_wloxxmh,
@@ -281,7 +284,7 @@
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
 				');
-				
+
 				//Update subtotal detail items
 				$qu_wktittd = $editor->db()
 					->raw()
@@ -308,6 +311,51 @@
 			}
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
+			$qs_backdate = $editor->db()
+				->raw()
+				->bind(':id', $id)
+				->exec('SELECT
+							b.is_backdate,
+							id_wktxxth,
+							a.id_wktittd
+						FROM wktlptd a
+						LEFT JOIN wktxxth b on b.id = a.id_wktxxth
+						WHERE a.id = :id
+			');
+			
+			$rs_backdate = $qs_backdate->fetch();
+			$id_wktxxth = $rs_backdate['id_wktxxth'];
+			$id_wktittd = $rs_backdate['id_wktittd'];
+
+			$qd_iivxxrd = $editor->db()
+				->query('delete', 'iivxxrd')
+				->where('id_transaksi_d',$id)
+				->where('keterangan','wktxxth_id_' .$id_wktxxth)
+				->exec();
+			
+			//Update subtotal detail items
+			$qu_wktittd = $editor->db()
+				->raw()
+				->bind(':id_wktittd', $id_wktittd)
+				->bind(':id', $id)
+				->exec('UPDATE wktittd a
+						LEFT JOIN (
+							SELECT
+								id_wktittd,
+								SUM(a.jumlah_unit) subtotal_jumlah_unit,
+								SUM(a.jumlah_terkecil) subtotal_jumlah_terkecil,
+								SUM(a.jumlah_default) subtotal_jumlah_default
+							FROM wktlptd a
+							WHERE a.id_wktittd = :id_wktittd AND a.id <> :id
+						) z on z.id_wktittd = :id_wktittd
+						SET 
+							a.subtotal_jumlah_terkecil = IFNULL(z.subtotal_jumlah_terkecil, 0),
+							a.subtotal_jumlah_default = IFNULL(z.subtotal_jumlah_default, 0),
+							a.subtotal_jumlah_unit = IFNULL(z.subtotal_jumlah_unit, 0)
+						WHERE a.id = :id_wktittd
+						;
+				'
+			);
 		})
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini

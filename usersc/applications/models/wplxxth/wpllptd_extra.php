@@ -330,7 +330,31 @@
 				->query('delete', 'iivxxrd')
 				->where('id_transaksi_d',$id)
 				->where('keterangan','wplxxth_id_' .$id_wplxxth)
-				->exec();
+			->exec();
+			
+			//Update subtotal detail items
+			$qu_wplittd = $editor->db()
+				->raw()
+				->bind(':id_wplittd', $id_wplittd)
+				->bind(':id', $id)
+				->exec('UPDATE wplittd a
+						LEFT JOIN (
+							SELECT
+								id_wplittd,
+								SUM(a.jumlah_unit) subtotal_jumlah_unit,
+								SUM(a.jumlah_terkecil) subtotal_jumlah_terkecil,
+								SUM(a.jumlah_default) subtotal_jumlah_default
+							FROM wpllptd a
+							WHERE a.id_wplittd = :id_wplittd AND a.id <> :id
+						) z on z.id_wplittd = :id_wplittd
+						SET 
+							a.subtotal_jumlah_terkecil = IFNULL(z.subtotal_jumlah_terkecil, 0),
+							a.subtotal_jumlah_default = IFNULL(z.subtotal_jumlah_default, 0),
+							a.subtotal_jumlah_unit = IFNULL(z.subtotal_jumlah_unit, 0)
+						WHERE a.id = :id_wplittd
+						;
+				'
+			);
 		})
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini

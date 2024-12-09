@@ -192,10 +192,11 @@
 	// get tableRelation
 	tableRelation('wktxxth');
 	var id_iimxxmh_old_kitting = 0, id_iumxxmh_unit_old = 0, id_iumxxmh_unit_old_kitting = 0, id_iimxxmh = 0, id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0;
-	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0;
+	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, jumlah_terkecil_lpn = 0;
+	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wktittd_old = 0, id_iwhxxmh_old_lpn = 0, id_iumxxmh_unit_old_lpn = 0;
 	
 	uniqueToken = '';
-	var c_id = 0;
+	var c_id = 0, jumlah_terkecil_old = 0, jumlah_konversi = 0;
 
 	$(document).ready(function() {
 		cekBelumConfirm();
@@ -916,6 +917,7 @@
 			id_iwhxxmh_old = wktxxth_data.id_iwhxxmh;
 			id_wloxxmh_old = wktxxth_data.id_wloxxmh_out;
 			id_wloxxmh_out_old = wktxxth_data.id_wloxxmh_out;
+			jumlah_terkecil_old      = wktxxth_data.jumlah_terkecil;
 			// atur hak akses
 			tbl_details = [tblwktittd, tblwktlptd];
 			CekSelectHeaderHD(tblwktxxth, tbl_details);
@@ -967,6 +969,7 @@
 			id_wpmxxmh_old = 0;
 			id_wloxxmh_out_old = 0;
 			uniqueToken = '';
+			jumlah_terkecil_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblwktittd, tblwktlptd];
@@ -1287,6 +1290,455 @@
 		} );
 		// END wktittd
 		
+		// BEGIN wktlptd
+		edtwktlptd = new $.fn.dataTable.Editor( {
+			formOptions: {
+				main: {
+					focus: 5,
+				}
+			},
+			ajax: {
+				url: "../../models/wktxxth/wktlptd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wktlptd = show_deleted_wktlptd;
+					d.id_wktxxth = id_wktxxth;
+				}
+			},
+			table: "#tblwktlptd",
+			fields: [ 
+				{
+					label: "wktlptd.start_at",
+					name: "wktlptd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "wktlptd.finish_at",
+					name: "wktlptd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "wktlptd",
+					type: "hidden"
+				},	
+				{
+					label: "wktlptd.transaction_state",
+					name: "wktlptd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_wktxxth",
+					name: "wktlptd.id_wktxxth",
+					type: "hidden"
+				},	
+				{
+					label: "Warehouse  <sup class='text-danger'>*<sup>",
+					name: "wktlptd.id_iwhxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iwhxxmh_old: id_iwhxxmh_old_lpn,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Location <sup class='text-danger'>*<sup>",
+					name: "wktlptd.id_wloxxmh",
+					id: "select_wloxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_wloctmh.php",
+							dataType: 'json',
+							data: function (params) {
+								var id_iwhxxmh = edtwktlptd.field('wktlptd.id_iwhxxmh').val();
+								console.log(id_iwhxxmh);
+								var query = {
+									id_wloxxmh_old: id_wloxxmh_old_lpn,
+									ids_wloctmh: "1,3",
+									id_iwhxxmh: id_iwhxxmh,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+                                var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								return {
+									results: options,
+									pagination: {
+										more: true
+									}
+								};
+                            },
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "wloxxmh_nama",
+					name: "wktlptd.wloxxmh_nama",
+					type: "hidden"
+				},	
+				{
+					label: "LPN <sup class='text-danger'>*<sup>",
+					name: "wktlptd.wlpxxmh_kode"
+				}, 	
+				{
+					label: "Item <sup class='text-danger'>*<sup>",
+					name: "wktlptd.id_wktittd",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt_backdate_kitting.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wktittd_old: id_wktittd_old,
+									id_wktxxth: id_wktxxth,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Item <sup class='text-danger'>*<sup>",
+					name: "wktlptd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "UoM <sup class='text-danger'>*<sup>",
+					name: "wktlptd.id_iumxxmh_unit",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh: id_iimxxmh,
+									id_iumxxmh_unit_old: id_iumxxmh_unit_old_lpn,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Jumlah <sup class='text-danger'>*<sup>",
+					name: "wktlptd.jumlah_unit"
+				},
+				{
+					label: "Batch Number <sup class='text-danger'>*<sup>",
+					name: "wktlptd.batch_number"
+				},
+				{
+					label: "Expired Date",
+					name: "wktlptd.expired_date",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},
+				{
+					label: "Keterangan",
+					name: "wktlptd.keterangan",
+					type: "textarea"
+				}
+			]
+		} );
+
+		edtwktlptd.on( 'preOpen', function( e, mode, action ) {
+			edtwktlptd.field('wktlptd.id_wktxxth').val(id_wktxxth);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwktlptd.field('wktlptd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblwktlptd.rows().deselect();
+			}
+		});
+
+		edtwktlptd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+
+		});
+		
+		edtwktlptd.dependent( 'wktlptd.id_iwhxxmh', function ( val, data, callback ) {
+			id_iwhxxmh = val;
+			edtwktlptd.field('wktlptd.id_wloxxmh').input().val(null).trigger('change');
+			
+			return {}
+		}, {event: 'keyup change'});
+
+		edtwktlptd.dependent( 'wktlptd.id_wktittd', function ( val, data, callback ) {
+			if (val > 0) {
+				autofillField('wktittd', val, 'id_iimxxmh');
+				id_iimxxmh = autofillData.id_iimxxmh;
+				edtwktlptd.field('wktlptd.id_iimxxmh').val(id_iimxxmh);
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtwktlptd.dependent( 'wktlptd.id_wloxxmh', function ( val, data, callback ) {
+			if (val > 0) {
+				autofillField('wloxxmh', val, 'nama');
+				wloxxmh_nama = autofillData.nama;
+				edtwktlptd.field('wktlptd.wloxxmh_nama').val(wloxxmh_nama);
+			}
+			return {}
+		}, {event: 'keyup change'});
+		
+		edtwktlptd.on( 'preSubmit', function (e, data, action) {
+
+			if(action == 'create'){
+				id_transaksi = 0;
+			}else{
+				id_transaksi = id_wktlptd;
+			}
+
+			if(action != 'remove'){
+				autofillField('ggswmsh', 1, 'is_replenishment');
+				is_replenishment = autofillData.is_replenishment;
+				
+				id_wktittd      = edtwktlptd.field('wktlptd.id_wktittd').val();
+				wlpxxmh_kode    = edtwktlptd.field('wktlptd.wlpxxmh_kode').val();
+				id_iimxxmh      = edtwktlptd.field('wktlptd.id_iimxxmh').val();
+				id_wloxxmh      = edtwktlptd.field('wktlptd.id_wloxxmh').val();
+				id_iwhxxmh      = edtwktlptd.field('wktlptd.id_iwhxxmh').val();
+				id_iumxxmh_unit = edtwktlptd.field('wktlptd.id_iumxxmh_unit').val();
+				jumlah_unit     = edtwktlptd.field('wktlptd.jumlah_unit').val();
+				expired_date     = edtwktlptd.field('wktlptd.expired_date').val();
+				batch_number     = edtwktlptd.field('wktlptd.batch_number').val();
+
+				validasiRequired(
+					edtwktlptd,
+					'wktlptd',
+					{
+						'wlpxxmh_kode'   : wlpxxmh_kode,
+						'id_wktittd'     : id_wktittd,
+						'id_wloxxmh'     : id_wloxxmh,
+						'id_iwhxxmh'     : id_iwhxxmh,
+						'id_iumxxmh_unit': id_iumxxmh_unit
+					}
+				);
+
+				validasiNumber(
+					edtwktlptd,
+					'wktlptd',
+					{
+						'jumlah_unit': jumlah_unit
+					},
+					0,
+					'>'
+				);
+
+				validasiTanggalValid(
+					edtwktlptd, 
+					'wktlptd', 
+					{
+						'expired_date'   : expired_date
+					}
+				)
+
+				if(action == 'create'){
+					id_transaksi = 0;
+				} else {
+
+				}
+				
+				$.ajax( {
+					url: '../../../helpers/validate_fn_unique.php',
+					dataType: 'json',
+					type: 'POST',
+					async: false,
+					data: {
+						table_name      : 'wktlptd',
+						nama_field      : 'id_wktxxth,wlpxxmh_kode',
+						nama_field_value: id_wktxxth+',"'+wlpxxmh_kode+'"',
+						id_transaksi    : id_wktlptd
+					},
+					success: function ( json ) {
+						if(json.data.count > 0){
+							edtwktlptd.field('wktlptd.wlpxxmh_kode').error( 'LPN sudah pernah dipakai' );
+						}
+					}
+				} );
+				
+				// validasiUnique(
+				//     action,
+				//     edtwktlptd,
+				//     'wktlptd',
+				//     'wlpxxmh_kode',
+				//     'wlpxxmh_kode',
+				//     '"'+wlpxxmh_kode+'"',
+				//     id_wktlptd
+				// );
+
+				wlpxxmh_kode_validasi();
+
+				validasiTanggalToday(
+					edtwktlptd, 'wktlptd', 'expired_date', expired_date, '>='
+				)
+
+				if (is_replenishment == 1) {
+					uomReplenishment(id_iimxxmh, id_iumxxmh_unit);
+
+					
+				}
+				
+				autofillField('iimxxmh', id_iimxxmh, 'is_batch_number, is_expired_date');
+				is_batch_number = autofillData.is_batch_number;
+				is_expired_date = autofillData.is_expired_date;
+
+				if (is_batch_number == 1) {
+					validasiRequired(
+						edtwktlptd,
+						'wktlptd',
+						{
+							'batch_number'   : batch_number,
+						}
+					);
+				}
+
+				if (is_expired_date == 1) {
+					validasiRequired(
+						edtwktlptd,
+						'wktlptd',
+						{
+							'expired_date'   : expired_date,
+						}
+					);
+				}
+				
+				//validasi Jumlah Outstanding Backdate
+				autofillField('wktittd', id_wktittd, 'jumlah_unit, subtotal_jumlah_terkecil');
+				jumlah_unit_td = autofillData.jumlah_unit;
+				subtotal_jumlah_terkecil_td = autofillData.subtotal_jumlah_terkecil;
+				sisa_terkecil = (jumlah_terkecil_old * jumlah_unit_td) - parseFloat(subtotal_jumlah_terkecil_td) + parseFloat(jumlah_terkecil_lpn);
+				konversiJumlah(id_iimxxmh, id_iumxxmh_unit);
+				// console.log(jumlah_konversi);
+				jumlah_terkecil_input = jumlah_unit * jumlah_konversi;
+				console.log(jumlah_terkecil_input);
+				console.log(sisa_terkecil);
+				if (jumlah_terkecil_input > sisa_terkecil) {
+					sisa_unit = sisa_terkecil / jumlah_konversi;
+					edtwktlptd.field('wktlptd.jumlah_unit').error( 'Jumlah unit tidak boleh lebih dari '+sisa_unit );
+				}
+			}
+			
+			if ( edtwktlptd.inError() ) {
+				return false;
+			}
+		});
+		
+		edtwktlptd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwktlptd.field('wktlptd.finish_at').val(finish_at);
+		});
+
+		edtwktlptd.on('postSubmit', function(e, json, data, action, xhr) {
+			
+			if (action != 'remove') {
+				tblwktlptd.rows().deselect();
+			}
+			tblwktlptd.ajax.reload(null, false);
+			tblwktxxth.ajax.reload(null, false);
+
+		});
+
+		edtwktlptd.on( 'close', function () {
+			edtwktlptd.enable();
+		} );
+
 		tblwktlptd = $('#tblwktlptd').DataTable( {
 			ajax: {
 				url: "../../models/wktxxth/wktlptd.php",
@@ -1374,7 +1826,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= [];
-					$arr_buttons_action 	= [];
+					$arr_buttons_action 	= ['create', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button

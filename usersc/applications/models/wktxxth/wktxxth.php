@@ -56,6 +56,7 @@
 			Field::inst( 'wktxxth.is_generate_lpn' ),
 			Field::inst( 'wktxxth.is_all_wh' ),
 			Field::inst( 'wktxxth.jumlah_unit' ),
+			Field::inst( 'wktxxth.jumlah_terkecil' ),
 			Field::inst( 'wktxxth.jumlah_final' ),
 			Field::inst( 'wktxxth.is_backdate' ),
 			Field::inst( 'wktxxth.tanggal' )
