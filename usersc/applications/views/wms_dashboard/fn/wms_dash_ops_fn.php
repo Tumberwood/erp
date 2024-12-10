@@ -117,7 +117,7 @@
                     },
                     colorAxis: {
                         min: 0,
-                        max: max_s_occurance,
+                        // max: max_s_occurance,
                         minColor: '#ffffff',
                         // minColor: '#1ab394', // green for minimum values
                         maxColor: '#DF5353', // red for maximum values
