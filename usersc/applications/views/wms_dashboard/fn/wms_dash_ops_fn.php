@@ -156,6 +156,7 @@
 
                     series: [{
                         name: 'Location Heatmap',
+                        turboThreshold: 0,
                         borderWidth: 0,
                         data: heatmap_data,
                         dataLabels: {
