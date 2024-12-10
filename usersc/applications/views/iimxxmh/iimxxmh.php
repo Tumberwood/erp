@@ -1469,7 +1469,6 @@
 					}
 				},
 				{
-					label: "Order <sup class='text-danger'>*<sup>",
 					name: "wimlotd.urutan"
 				}
 				
@@ -1486,13 +1485,21 @@
 				tblwimlotd.rows().deselect();
 			}
 
+			autofillField('ggswmsh', 1, 'is_koordinat');
+			is_koordinat = autofillData.is_koordinat;
+			
+			if (is_koordinat == 0) {
+				edtwimlotd.field('wimlotd.urutan').label("Urutan <sup class='text-danger'>*<sup>");
+			} else {
+				edtwimlotd.field('wimlotd.urutan').label("Urutan");
+			}
 		});
 
 		edtwimlotd.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-lg");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
-		
+
 		edtwimlotd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
@@ -1505,18 +1512,7 @@
 					'wimlotd',
 					{
 						'id_wloxxmh': id_wloxxmh,
-						'urutan': urutan
 					}
-				);
-				
-				validasiNumber(
-					edtwimlotd,
-					'wimlotd',
-					{
-						'urutan': urutan
-					},
-					0,
-					'>'
 				);
 
 				validasiUnique(
@@ -1529,16 +1525,31 @@
 					id_wimlotd
 				);
 
-				validasiUnique(
-					action,
-					edtwimlotd,
-					'wimlotd',
-					'urutan',
-					'id_iimxxmh, urutan',
-					id_iimxxmh + ',' + urutan,
-					id_wimlotd
-				);
+				autofillField('ggswmsh', 1, 'is_koordinat');
+				is_koordinat = autofillData.is_koordinat;
+				
+				if (is_koordinat == 0) {
+					
+					validasiNumber(
+						edtwimlotd,
+						'wimlotd',
+						{
+							'urutan': urutan
+						},
+						0,
+						'>'
+					);
 
+					validasiUnique(
+						action,
+						edtwimlotd,
+						'wimlotd',
+						'urutan',
+						'id_iimxxmh, urutan',
+						id_iimxxmh + ',' + urutan,
+						id_wimlotd
+					);
+				}
 			}
 			
 			if ( edtwimlotd.inError() ) {
