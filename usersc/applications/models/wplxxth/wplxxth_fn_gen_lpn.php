@@ -115,12 +115,12 @@
 			$rs_det = $qs_det->fetch();
 
 			if (empty($rs_valid)) {
-				$pesan .= 'Item '.$rs_det['item']. ' kosong atau tidak ditemukan di Inventory<br>';
+				$pesan .= '<br>Item '.$rs_det['item']. ' kosong atau tidak ditemukan di Inventory<br>';
 			} else {
 				$is_valid_ed = $rs_valid['is_valid_ed'];
 				// echo $is_valid_ed;
 				if ($is_valid_ed == 0) {
-					$pesan .= 'Item '.$rs_det['item']. ' tidak bisa terpenuhi karena batas Expired Date<br>';
+					$pesan .= '<br>Item '.$rs_det['item']. ' tidak bisa terpenuhi karena batas Expired Date<br>';
 				}
 			}
 		}
@@ -492,7 +492,7 @@
 		}else{
 			$db->rollback();
 			$status_code  = 500;
-			$message      = 'Job Picking Gagal di Generate!'. '<br><br>' . $pesan;
+			$message      = 'Job Picking Gagal di Generate!'. '<br>' . $pesan;
 			$type_message = 'error';
 		}
 	}catch(PDOException $e){
