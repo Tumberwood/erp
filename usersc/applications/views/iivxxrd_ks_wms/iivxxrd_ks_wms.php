@@ -219,6 +219,8 @@
 					targets: '_all'
 				}
 			],
+			lengthMenu: [[-1], ["All"]],
+        	pageLength: -1,
 			columns: [
 				{ data: "tanggal" },
 				{ data: "kode" },
