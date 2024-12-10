@@ -115,12 +115,12 @@
 			$rs_det = $qs_det->fetch();
 
 			if (empty($rs_valid)) {
-				$pesan .= '<br>Item '.$rs_det['item']. ' kosong atau tidak ditemukan di Inventory<br>';
+				$pesan .= '<br>Item '.$rs_det['item']. ' <b>kosong atau tidak ditemukan di Inventory</b><br>';
 			} else {
 				$is_valid_ed = $rs_valid['is_valid_ed'];
 				// echo $is_valid_ed;
 				if ($is_valid_ed == 0) {
-					$pesan .= '<br>Item '.$rs_det['item']. ' tidak bisa terpenuhi karena batas Expired Date<br>';
+					$pesan .= '<br>Item '.$rs_det['item']. ' <b>tidak bisa terpenuhi karena batas Expired Date</b><br>';
 				}
 			}
 		}
