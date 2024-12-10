@@ -118,10 +118,12 @@
                     colorAxis: {
                         min: 0,
                         max: max_s_occurance,
-                        minColor: '#1ab394', // green for minimum values
+                        minColor: '#ffffff',
+                        // minColor: '#1ab394', // green for minimum values
                         maxColor: '#DF5353', // red for maximum values
                         stops: [
-                            [0, '#1ab394'], // green
+                            [0, '#ffffff'], // green
+                            [0.01, '#1ab394'], // green
                             [0.5, '#DDDF0D'], // yellow
                             [1, '#DF5353'] // red
                         ]
