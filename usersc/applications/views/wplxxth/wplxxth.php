@@ -667,13 +667,13 @@
 							},
 							success: function ( json ) {
 								status_code = json.data.status_code;
-								if (status_code == 200) {
+								// if (status_code == 200) {
 									toastr[json.data.type_message](json.data.message,"INFO");
 									cekBelumConfirm();
 									tblwplxxth.ajax.reload(null, false);
 									tblwpllptd.ajax.reload(null, false);
 									tblwplxxth.rows().deselect();
-								}
+								// }
 							}
 						} );
 					}

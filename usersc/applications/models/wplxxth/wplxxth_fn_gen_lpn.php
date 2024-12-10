@@ -35,6 +35,95 @@
 		$id_transaksi_h    = $_POST['id_transaksi_h'];
 		$uniqueToken    = $_POST['uniqueToken'];
 		$timestamp    = $_POST['timestamp'];
+		$pesan = "";
+
+		function cekDataNotif($db, &$pesan, $id_wplittd){
+			$qs_valid = $db
+				->raw()
+				->bind(':id_wplittd', $id_wplittd)
+				->exec('SELECT
+							a.id_wloctmh,
+							e.id_iimxxmh item_pl,
+							f.batas_expired_date,
+							if(expired_date >= DATE_ADD(CURDATE(), INTERVAL f.batas_expired_date MONTH), 1, 0) is_valid_ed,
+							a.iwhxxmh_kode,
+							a.wloxxmh_nama,
+							a.iimxxmh_kode,
+							a.iimxxmh_nama,
+							a.iumxxmh_default_kode,
+							a.iumxxmh_terkecil_kode,
+							SUM(a.jumlah_default * is_fisik) as jumlah_default,
+							SUM(a.jumlah_terkecil * is_fisik) as jumlah_terkecil,
+							ifnull(jumlah_default_booking,0) as jumlah_default_booking,
+							ifnull(jumlah_terkecil_booking,0) as jumlah_terkecil_booking,
+							(SUM(a.jumlah_default * is_fisik)) - ifnull(jumlah_default_booking,0) as jumlah_default_ava,
+							(SUM(a.jumlah_terkecil * is_fisik)) - ifnull(jumlah_terkecil_booking,0) as jumlah_terkecil_ava,
+							a.wlpxxmh_kode,
+							max(batch_number) batch_number,
+							max(date_format(expired_date,"%d %b %Y")) as expired_date
+						FROM iivxxrd a
+						LEFT JOIN (
+							SELECT
+								wloxxmh_nama,
+								iimxxmh_kode,
+								SUM(jumlah_default) * -1 as jumlah_default_booking,
+								SUM(jumlah_terkecil) * -1 as jumlah_terkecil_booking,
+								wlpxxmh_kode
+							FROM iivxxrd
+							WHERE tanggal <= curdate() AND is_fisik = 0
+							GROUP BY 
+								-- id_gbrxxmh, 
+								id_iwhxxmh,
+								id_iimxxmh,
+								id_wloxxmh,
+								wlpxxmh_kode
+						) AS b ON b.wloxxmh_nama = a.wloxxmh_nama AND b.iimxxmh_kode = a.iimxxmh_kode AND b.wlpxxmh_kode = a.wlpxxmh_kode
+						
+						LEFT JOIN wplittd e ON e.id = :id_wplittd
+						LEFT JOIN grlxxmh f ON f.id = e.id_grlxxmh_customer
+						LEFT JOIN wplxxth g ON g.id = e.id_wplxxth
+						WHERE a.tanggal <= curdate()
+						AND 
+						(
+							(g.is_crossdocking = 1 AND a.id_wloctmh IN (1, 3))
+							OR
+							(g.is_crossdocking <> 1 AND a.id_wloctmh = 3)
+						)
+						GROUP BY 
+							-- id_gbrxxmh, 
+							a.id_iwhxxmh,
+							a.id_iimxxmh,
+							a.id_wloxxmh,
+							a.wlpxxmh_kode
+						having jumlah_terkecil > 0 
+						AND id_iimxxmh = item_pl
+						ORDER BY expired_date DESC
+			');
+			
+			$rs_valid = $qs_valid->fetch();
+
+			$qs_det = $db
+				->raw()
+				->bind(':id_wplittd', $id_wplittd)
+				->exec('SELECT
+							CONCAT(b.kode, " - ", b.nama) item
+						FROM wplittd a
+						LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
+						WHERE a.id = :id_wplittd
+			');
+			
+			$rs_det = $qs_det->fetch();
+
+			if (empty($rs_valid)) {
+				$pesan .= 'Item '.$rs_det['item']. ' kosong atau tidak ditemukan di Inventory' . PHP_EOL;
+			} else {
+				$is_valid_ed = $rs_valid['is_valid_ed'];
+				// echo $is_valid_ed;
+				if ($is_valid_ed == 0) {
+					$pesan .= 'Item '.$rs_det['item']. ' tidak bisa terpenuhi karena batas Expired Date' . PHP_EOL;
+				}
+			}
+		}
 
 		$qs_ggswmsh = $db
 			->query('select', 'ggswmsh' )
@@ -81,6 +170,8 @@
 				$id_iumxxmh_unit = $item['id_iumxxmh_unit'];
 				$movement_method = $item['movement_method'];
 				$movement_method2 = $item['movement_method2'];
+
+				cekDataNotif($db, $pesan, $id_wplittd);
 
 				//ambil 
 				$qs_uom_replenishment = $db
@@ -133,6 +224,9 @@
 				$id_iimxxmh = $item['id_iimxxmh'];
 				$movement_method = $item['movement_method'];
 				$movement_method2 = $item['movement_method2'];
+
+				
+				cekDataNotif($db, $pesan, $id_wplittd);
 
 				//select di inventory
 				$qs_iivxxrd = $db
@@ -375,7 +469,7 @@
 			}
 		}
 		
-		if(!empty($rs_items)){
+		if($pesan == ''){
 			$qu_wpxxth = $db
 				->raw()
 				->bind(':id_transaksi_h', $id_transaksi_h)
@@ -398,7 +492,7 @@
 		}else{
 			$db->rollback();
 			$status_code  = 500;
-			$message      = 'Job Picking Gagal di Generate!';
+			$message      = 'Job Picking Gagal di Generate!'. PHP_EOL . $pesan;
 			$type_message = 'error';
 		}
 	}catch(PDOException $e){
