@@ -51,7 +51,7 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="row">
-					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div class="ibox">
 							<div class="ibox-content bg-primary p-xs">
 								<div class="row vertical-align">
@@ -68,7 +68,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div class="ibox">
 							<div class="ibox-content bg-primary p-xs">
 								<div class="row vertical-align">
@@ -86,7 +86,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
+						<div id="inbound"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div class="ibox">
 							<div class="ibox-content bg-warning p-xs">
 								<div class="row vertical-align">
@@ -104,7 +109,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div class="ibox">
 							<div class="ibox-content bg-warning p-xs">
 								<div class="row vertical-align">
@@ -122,6 +127,8 @@
 								<small></small>
 							</div>
 						</div>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div id="otif"></div>
 					</div>
 				</div>
@@ -247,6 +254,7 @@
 		load_dashboard_wms_ops_location_capacity(end_date);
 		load_dashboard_wms_ops_man_hours(start_date,end_date);
 		otif(start_date,end_date);
+		inboundData(end_date, id_iwhxxmh);
 	}
 	reload_dashboard_data();
 	$(document).ready(function() {

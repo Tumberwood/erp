@@ -389,4 +389,40 @@
             }
         } );
     }
+
+    function inboundData(end_date, id_iwhxxmh){
+        $('#inbound').empty();
+
+        $.ajax( {
+            url: "../../models/wms_dashboard/wms_dash_ops_count_inbound.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
+            },
+            success: function ( json ) {
+                c_inbound = json.data.rs_inbound.c_inbound;
+
+                html = `
+                <div class="ibox">
+                    <div class="ibox-content bg-info p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-9">
+                                <h3 class="font-bold ">Inbound</h3>
+                            </div>
+                        </div>
+                        <div class="row vertical-align">
+                            <div class="col-11">
+                                <h1 class="text-right font-bold">${c_inbound}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#inbound').html(html);
+            }
+        } );
+    }
 </script>
