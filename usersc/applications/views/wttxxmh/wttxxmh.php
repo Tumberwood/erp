@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Movement Type</th>
-                                <th>Jenis</th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
+                                <th>Movement Type</th>
+                                <th>Jenis</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -61,7 +61,7 @@
 	// ------------- default variable, do not erase
 	var edtwttxxmh, tblwttxxmh, show_deleted_wttxxmh = 0, id_wttxxmh;
 	// ------------- end of default variable
-	var id_imtxxmh_old = 0;
+	var imtxxmh_kode_old = 0;
 
 	// get tableRelation
 	tableRelation('wttxxmh');
@@ -102,18 +102,18 @@
 					def: 0
 				},	{
 					label: "Movement Type <sup class='text-danger'>*<sup>",
-					name: "wttxxmh.id_imtxxmh",
+					name: "wttxxmh.imtxxmh_kode",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/imtxxmh/imtxxmh_fn_opt.php",
+							url: "../../models/imtxxmh/imtxxmh_fn_opt_kode.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_imtxxmh_old: id_imtxxmh_old,
+									imtxxmh_kode_old: imtxxmh_kode_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -182,7 +182,7 @@
 			if(action != 'remove'){
 				kode = edtwttxxmh.field('wttxxmh.kode').val();
 				nama = edtwttxxmh.field('wttxxmh.nama').val();
-				id_imtxxmh = edtwttxxmh.field('wttxxmh.id_imtxxmh').val();
+				imtxxmh_kode = edtwttxxmh.field('wttxxmh.imtxxmh_kode').val();
 
 				validasiRequired(
 					edtwttxxmh,
@@ -190,7 +190,7 @@
 					{
 						'kode': kode,
 						'nama': nama,
-						'id_imtxxmh': id_imtxxmh
+						'imtxxmh_kode': imtxxmh_kode
 
 					}
 				);
@@ -242,6 +242,8 @@
 			order: [[ 1, "asc" ]],
 			columns: [
 				{ data: "wttxxmh.id",visible:false },
+				{ data: "wttxxmh.kode" },
+				{ data: "wttxxmh.nama" },
 				{ data: "imtxxmh.nama" },
 				{ 
 					data: "imtxxmh.movement_type_group" ,
@@ -258,8 +260,6 @@
 						}
 
 				},
-				{ data: "wttxxmh.kode" },
-				{ data: "wttxxmh.nama" },
 				{ 
 					data: "wttxxmh.transaction_state" ,
 					...renderTransactionStatus()

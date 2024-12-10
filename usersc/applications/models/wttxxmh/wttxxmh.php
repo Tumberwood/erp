@@ -25,7 +25,7 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'wttxxmh.id' ),
-			Field::inst( 'wttxxmh.id_imtxxmh' )
+			Field::inst( 'wttxxmh.imtxxmh_kode' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'wttxxmh.kode' )
 				->setFormatter( function ( $val ) {
@@ -46,7 +46,7 @@
 			Field::inst( 'imtxxmh.movement_type_group' ),
 			Field::inst( 'imtxxmh.nama' ),
 		)
-		->leftJoin( 'imtxxmh','imtxxmh.id','=','wttxxmh.id_imtxxmh' )
+		->leftJoin( 'imtxxmh','imtxxmh.kode','=','wttxxmh.imtxxmh_kode' )
 		;
 	
 	// do not erase
