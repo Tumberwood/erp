@@ -1,24 +1,4 @@
 <script>
-    function cekBelumConfirm() {
-        $.ajax( {
-            url: "../../models/wkdxxth/wkdxxth_fn_count_pl.php",
-            dataType: 'json',
-            type: 'POST',
-            async: false,
-            data: {
-            },
-            success: function ( json ) {
-                c_id = json.data.c_id;
-
-                if (c_id == 0) {
-			        window.removeEventListener('beforeunload', confirmLeavePage)
-                } else {
-                    window.addEventListener('beforeunload', confirmLeavePage);
-                }
-            }
-        } );
-
-    }
     
     function cekDonePicking() {
         $.ajax( {
@@ -63,13 +43,6 @@
                 wlpxxmh_kode_kit = json.data.rs_kit.wlpxxmh_kode;
             }
         } );
-
-    }
-
-    function confirmLeavePage(event) {
-        event.preventDefault();
-        console.log(c_id);
-        toastr["warning"]("Terdapat "+c_id+" Data PL yang sudah di generate namun belum confirm!","WARNING")
 
     }
     

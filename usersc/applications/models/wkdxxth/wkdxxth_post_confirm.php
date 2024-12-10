@@ -30,173 +30,259 @@
 	try{
 		
 		if($state == 1){
+			//updatekan LPN
 			
-			$start_at = date("Y-m-d H:i:s");
-			
-			function integerToRoman($integer){
-				// Convert the integer into an integer (just to make sure)
-				$integer = intval($integer);
-				$result = '';
-			
-				// Create a lookup array that contains all of the Roman numerals.
-				$lookup = array(
-					'M' => 1000,
-					'CM' => 900,
-					'D' => 500,
-					'CD' => 400,
-					'C' => 100,
-					'XC' => 90,
-					'L' => 50,
-					'XL' => 40,
-					'X' => 10,
-					'IX' => 9,
-					'V' => 5,
-					'IV' => 4,
-					'I' => 1);
-			
-				foreach($lookup as $roman => $value){
-					// Determine the number of matches
-					$matches = intval($integer/$value);
-			
-					// Add the same number of characters to the string
-					$result .= str_repeat($roman,$matches);
-			
-					// Set the integer to be the remainder of the integer and the value
-					$integer = $integer % $value;
-				}
-			
-				// The Roman numeral should be built, return it
-				return $result;
-			}
+			$qs_wkdlptd = $db
+				->query('select', 'wkdlptd' )
+				->get(['id'] )
+				->where('id_wkdxxth', $id )
+				->exec();
+			$rs_wkdlptd = $qs_wkdlptd->fetchAll();
 
-			$nama_tabel = "wpcxxth";
-			$qs_gdnxxsh = $db
-				->raw()
-				->exec('
-					SELECT
-						*
-					FROM 
-						gdnxxsh
-					WHERE 
-						nama_tabel = "wpcxxth"'
-				);
-			$rs_gdnxxsh = $qs_gdnxxsh->fetch();
-			$prefix                 = $rs_gdnxxsh['prefix'];
-			$total_digit            = $rs_gdnxxsh['total_digit'];
-			$separator              = $rs_gdnxxsh['separator'];
-
-			$nama_field_tanggal = 'activity_log_ml.created_on';
-			$field_tanggal 		= date('Y-m-d');
-			$field_tanggal_dt	= strtotime($field_tanggal);
-			$tahun = substr($field_tanggal,2,2);
-			$bulan = substr($field_tanggal,5,2);
-
-			$tanggal = $field_tanggal;
-			$where = " WHERE activity_log_ml.kode = 'CREATE' AND activity_log_ml.nama = '" . $nama_tabel . "' ";
-			$where = $where . " AND YEAR(".$nama_field_tanggal.") = YEAR('" . $tanggal . "') AND MONTH(".$nama_field_tanggal.") = MONTH('" . $tanggal . "') ";
-
-			//select detail LPN, lihat job type nya apa aja
-			$qs_lpn_d = $db
-				->raw()
-				->bind(':id', $id)
-				->exec('SELECT
-							a.id_wjtxxmh,
-							b.id_grlxxmh_customer,
-							id_wloxxmh_out
-						FROM wktlptd a
-						LEFT JOIN wktittd b on b.id = a.id_wktittd
-						LEFT JOIN wktxxth c on c.id = a.id_wktxxth
-						WHERE a.id_wktxxth = :id
-						GROUP BY 
-							a.id_wjtxxmh
-							-- , b.id_grlxxmh_customer
-				'
-				);
-
-			$rs_lpn_d = $qs_lpn_d->fetchAll();
-
-			foreach ($rs_lpn_d as $key => $lpn) {
-				$id_wjtxxmh = $lpn['id_wjtxxmh'];
-				$id_wloxxmh_out = $lpn['id_wloxxmh_out'];
-				$id_grlxxmh_customer = $lpn['id_grlxxmh_customer'];
-
-				//insert picking header
-				$qi_wpcxxth = $db
-					->query('insert', 'wpcxxth')
-					->set('id_grlxxmh_customer',$id_grlxxmh_customer)
-					->set('id_wktxxth',$id)
-					->set('id_wjtxxmh',$id_wjtxxmh)
-					->set('id_wloxxmh_out',$id_wloxxmh_out)
-					->exec();
-				$id_picking = $qi_wpcxxth->insertId();
-				
-				$finish_at = date("Y-m-d H:i:s");
-				General::logChange( $db , 'wpcxxth', $s_id_users, $s_username, 'CREATE', $id_picking, 'Insert Picking dari Picking List id'.$id, $start_at , $finish_at );
-
-				//id picking
-				$id_transaksi = $id_picking;
-				$qs_c_id_new = $db
+			foreach ($rs_wkdlptd as $key => $wkdlptd) {
+				$qs_wlpxxmh = $db
 					->raw()
-					->exec('
-						SELECT
-							count(activity_log_ml.id) as c_id_new
-						FROM '.$nama_tabel.'
-						LEFT JOIN activity_log_ml ON
-							activity_log_ml.id_transaksi = '.$nama_tabel.'.id 
-							AND  activity_log_ml.kode = "CREATE" 
-							AND activity_log_ml.nama = "'.$nama_tabel.'" 
-						' 
-						. $where 
+					->exec('SELECT
+								a.kode
+							FROM wlpxxmh a
+							WHERE a.is_nextprocess IS NULL
+							AND kode NOT IN
+							(
+								SELECT
+									wlpxxmh_kode
+								FROM iivxxrd b
+								GROUP BY b.wlpxxmh_kode
+							)
+				');
+				$rs_wlpxxmh = $qs_wlpxxmh->fetch();
+				$wlpxxmh_kode = $rs_wlpxxmh['kode'];
 
-					);
-				$rs_c_id_new 	= $qs_c_id_new->fetch();
-				$new_number  	= $rs_c_id_new['c_id_new'];
-				$tr_kode 		= str_pad($new_number,$total_digit,"0",STR_PAD_LEFT);
-
-				$formatted_kode = $prefix . $separator . $tahun . $bulan . $separator . $tr_kode;
-				
-				$result = $db
-					->query('update', $nama_tabel)
-					->set('kode',$formatted_kode)
-					->where('id',$id_transaksi)
+				$qu_wkdlptd = $db
+					->query('update', 'wkdlptd')
+					->set('wlpxxmh_kode',$wlpxxmh_kode)
+					->where('id',$wkdlptd['id'])
 					->exec();
-
-				//detail LPN Picking List
-				// $qs_lpn_d = $db
-				// ->raw()
-				// ->bind(':id', $id)
-				// ->bind(':id_transaksi', $id_transaksi)
-				// ->bind(':id_wjtxxmh', $id_wjtxxmh)
-				// ->bind(':id_grlxxmh_customer', $id_grlxxmh_customer)
-				// ->bind(':formatted_kode', $formatted_kode)
-				// ->exec('UPDATE wktlptd a
-				// 		LEFT JOIN wktittd b on b.id = a.id_wktittd
-				// 		SET 
-				// 			a.kode = :formatted_kode,
-				// 			a.id_wpcxxth = :id_transaksi
-				// 		WHERE a.id_wktxxth = :id AND a.id_wjtxxmh = :id_wjtxxmh AND b.id_grlxxmh_customer = :id_grlxxmh_customer
-				// '
-				// );
-
-				$qu_wktlptd = $db
-					->query('update', 'wktlptd')
-					->set('kode',$formatted_kode)
-					->set('id_wpcxxth',$id_transaksi)
-					->where('id_wjtxxmh',$id_wjtxxmh)
-					// ->where('id_grlxxmh_customer',$id_grlxxmh_customer)
-					->where('id_wktxxth',$id)
+				
+				$qu_wlpxxmh = $db
+					->query('update', 'wlpxxmh')
+					->set('is_nextprocess',1)
+					->where('kode',$wlpxxmh_kode)
 				->exec();
 			}
+
+			
+			//insert minus Kitting Set
+			$qi_iivxxrd_head = $db
+				->raw()
+				->bind(':id', $id)
+				->exec('INSERT INTO iivxxrd (
+							id_gcpxxmh,
+							id_gbrxxmh,
+							id_transaksi_h,
+							id_transaksi_d,
+							id_wloctmh,
+							kode,
+							wlpxxmh_kode,
+							id_iwhxxmh,
+							id_wloxxmh,
+							id_relasi_m,
+							id_iimxxmh,
+							id_iumxxmh_unit,
+							id_iumxxmh_terkecil,
+							id_iumxxmh_default,
+							keterangan,
+							iwhxxmh_kode,
+							iwhxxmh_nama,
+							wloxxmh_kode,
+							wloxxmh_nama,
+							relasi_m_kode,
+							relasi_m_nama,
+							iimxxmh_kode,
+							iimxxmh_nama,
+							iumxxmh_unit_kode,
+							iumxxmh_unit_nama,
+							imtxxmh_kode,
+							imtxxmh_movement_type,
+							tanggal,
+							is_fisik,
+							iumxxmh_terkecil_kode,
+							iumxxmh_terkecil_nama,
+							iumxxmh_default_kode,
+							iumxxmh_default_nama,
+							jumlah_unit,
+							jumlah_konversi,
+							jumlah_terkecil,
+							jumlah_default,
+							expired_date,
+							batch_number
+						)
+						SELECT DISTINCT
+							h.id_gcpxxmh,
+							e.id_gbrxxmh,
+							b.id AS id_transaksi_h,
+							b.id AS id_transaksi_d,
+							f.id_wloctmh,
+							b.kode,
+							b.wlpxxmh_kode_kitting,
+							f.id_iwhxxmh,
+							b.id_wloxxmh_out,
+							b.id_grlxxmh_customer id_relasi_m,
+							b.id_iimxxmh,
+							b.id_iumxxmh_unit,
+							b.id_iumxxmh_terkecil,
+							b.id_iumxxmh_default,
+							CONCAT("wkdxxth_", b.id) AS keterangan,
+							e.kode AS iwhxxmh_kode,
+							e.nama AS iwhxxmh_nama,
+							f.kode AS wloxxmh_kode,
+							f.nama AS wloxxmh_nama,
+							c.kode AS relasi_m_kode,
+							c.nama AS relasi_m_nama,
+							d.kode AS iimxxmh_kode,
+							d.nama AS iimxxmh_nama,
+							iumxxmh_unit.kode AS iumxxmh_unit_kode,
+							iumxxmh_unit.nama AS iumxxmh_unit_nama,
+							219,
+							g.movement_type,
+							curdate(),
+							1,
+							iumxxmh_terkecil.kode AS iumxxmh_terkecil_kode,
+							iumxxmh_terkecil.nama AS iumxxmh_terkecil_nama,
+							iumxxmh_default.kode AS iumxxmh_default_kode,
+							iumxxmh_default.nama AS iumxxmh_default_nama,
+							-b.jumlah_unit,
+							b.jumlah_konversi,
+							-b.jumlah_terkecil,
+							-b.jumlah_default,
+							iv.expired_date,
+							iv.batch_number
+
+						FROM wkdxxth b
+						LEFT JOIN grlxxmh c ON c.id = b.id_grlxxmh_customer
+						LEFT JOIN iimxxmh d ON d.id = b.id_iimxxmh
+						LEFT JOIN iumxxmh iumxxmh_unit ON iumxxmh_unit.id = b.id_iumxxmh_unit
+						LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = b.id_iumxxmh_terkecil
+						LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = b.id_iumxxmh_default
+						LEFT JOIN wloxxmh f ON f.id = b.id_wloxxmh_out
+						LEFT JOIN iwhxxmh e ON e.id = f.id_iwhxxmh
+						LEFT JOIN imtxxmh g ON g.kode = 219
+						LEFT JOIN gbrxxmh h ON h.id = e.id_gbrxxmh
+						LEFT JOIN iivxxrd iv ON iv.wlpxxmh_kode = b.wlpxxmh_kode_kitting AND iv.id_wloxxmh = b.id_wloxxmh_out
+						WHERE b.id = :id
+			');
+			
+			//insert plus ke detail yang pecahan
+			$qi_iivxxrd_det = $db
+				->raw()
+				->bind(':id', $id)
+				->exec('INSERT INTO iivxxrd (
+							id_gcpxxmh,
+							id_gbrxxmh,
+							id_transaksi_h,
+							id_transaksi_d,
+							id_wloctmh,
+							kode,
+							wlpxxmh_kode,
+							id_iwhxxmh,
+							id_wloxxmh,
+							id_relasi_m,
+							id_iimxxmh,
+							id_iumxxmh_unit,
+							id_iumxxmh_terkecil,
+							id_iumxxmh_default,
+							keterangan,
+							iwhxxmh_kode,
+							iwhxxmh_nama,
+							wloxxmh_kode,
+							wloxxmh_nama,
+							relasi_m_kode,
+							relasi_m_nama,
+							iimxxmh_kode,
+							iimxxmh_nama,
+							iumxxmh_unit_kode,
+							iumxxmh_unit_nama,
+							imtxxmh_kode,
+							imtxxmh_movement_type,
+							tanggal,
+							is_fisik,
+							iumxxmh_terkecil_kode,
+							iumxxmh_terkecil_nama,
+							iumxxmh_default_kode,
+							iumxxmh_default_nama,
+							jumlah_unit,
+							jumlah_konversi,
+							jumlah_terkecil,
+							jumlah_default,
+							expired_date,
+							batch_number
+						)
+						SELECT DISTINCT
+							h.id_gcpxxmh,
+							e.id_gbrxxmh,
+							a.id_wkdxxth AS id_transaksi_h,
+							a.id AS id_transaksi_d,
+							f.id_wloctmh,
+							b.kode,
+							a.wlpxxmh_kode,
+							f.id_iwhxxmh,
+							b.id_wloxxmh_out,
+							b.id_grlxxmh_customer id_relasi_m,
+							a.id_iimxxmh,
+							a.id_iumxxmh_unit,
+							a.id_iumxxmh_terkecil,
+							a.id_iumxxmh_default,
+							CONCAT("wkdxxth_", a.id_wkdxxth) AS keterangan,
+							e.kode AS iwhxxmh_kode,
+							e.nama AS iwhxxmh_nama,
+							f.kode AS wloxxmh_kode,
+							f.nama AS wloxxmh_nama,
+							c.kode AS relasi_m_kode,
+							c.nama AS relasi_m_nama,
+							d.kode AS iimxxmh_kode,
+							d.nama AS iimxxmh_nama,
+							iumxxmh_unit.kode AS iumxxmh_unit_kode,
+							iumxxmh_unit.nama AS iumxxmh_unit_nama,
+							219,
+							g.movement_type,
+							curdate(),
+							1,
+							iumxxmh_terkecil.kode AS iumxxmh_terkecil_kode,
+							iumxxmh_terkecil.nama AS iumxxmh_terkecil_nama,
+							iumxxmh_default.kode AS iumxxmh_default_kode,
+							iumxxmh_default.nama AS iumxxmh_default_nama,
+							a.jumlah_unit,
+							a.jumlah_konversi,
+							a.jumlah_terkecil,
+							a.jumlah_default,
+							
+							a.expired_date,
+							a.batch_number
+
+						FROM wkdlptd a
+						LEFT JOIN wkdxxth b ON b.id = a.id_wkdxxth
+						LEFT JOIN grlxxmh c ON c.id = b.id_grlxxmh_customer
+						LEFT JOIN iimxxmh d ON d.id = a.id_iimxxmh
+						LEFT JOIN iumxxmh iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
+						LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
+						LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
+						LEFT JOIN wloxxmh f ON f.id = b.id_wloxxmh_out
+						LEFT JOIN iwhxxmh e ON e.id = f.id_iwhxxmh
+						LEFT JOIN imtxxmh g ON g.kode = 219
+						LEFT JOIN gbrxxmh h ON h.id = e.id_gbrxxmh
+						LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
+						WHERE b.id = :id
+			');
+
 		} // end if($state == 1)
 
-		if(!empty($qi_wpcxxth)){
+		if(!empty($qi_iivxxrd_det)){
 			$status_code  = 200;
-			$message = "Picking Berhasil Ditambahkan";
+			$message = "Confirm Berhasil ";
 			$type_message = "success";
 			// parameter lain
 		}else{
 			$status_code  = 500;
-			$message = "Picking Gagal Ditambahkan";
+			$message = "Confirm Gagal ";
 			$type_message = 'error';
 			// parameter lain
 		}

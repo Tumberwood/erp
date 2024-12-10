@@ -934,6 +934,33 @@ async function fnConfirm(tbl_name, tbl){
     try {
         full_message = '';
 
+        // Cek keberadaan file sebelum melakukan AJAX request.
+        var fileExists_pre = await checkFileExists('../../models/' + tbl_name + '/' + tbl_name + '_pre_confirm.php');
+        if (fileExists_pre == true && is_error == 0) {
+            let json0 = await $.ajax( {
+                url: '../../models/'+ tbl_name +  '/'  + tbl_name +'_pre_confirm.php',
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    table_name       : tbl_name,
+                    id_transaksi     : id_transaksi_h,
+                    transaction_state: 1
+                },
+                success: function ( json ) {
+                    status_code  = json.data.status_code;
+                    if(status_code == 500){
+                        is_error = 1;
+                    }else{
+                        is_update_transaction_state = 1;
+                    }
+                    full_message = full_message + json.data.message + '</br>';
+                    toast_type   = json.data.type_message;
+
+                }
+
+            } );  
+        }
+
         let json1 = await $.ajax( {
             url: '../../../helpers/tr_fn_transaction_state.php',
             dataType: 'json',
@@ -1006,28 +1033,30 @@ async function fnConfirm(tbl_name, tbl){
                 }
             } );
         } else {
-            //untuk yang setting tblrelation is_need_approval = 0, maka dibuat approve = 9
-            //ditambahkan approve = 9
-            let json3 = await $.ajax( {
-                url: '../../../helpers/tr_fn_transaction_state_approval.php',
-                dataType: 'json',
-                type: 'POST',
-                data: {
-                    state       : 0,
-                    id_transaksi: id_transaksi_h,
-                    table_name  : tbl_name,
-                },
-                success: function ( json ) {
-                    status_code  = json.data.status_code;
-                    if(status_code == 500){
-                        is_error = 1;
-                    }else{
-                        is_generate_kode = 1;
+            if (is_error == 0) {
+                //untuk yang setting tblrelation is_need_approval = 0, maka dibuat approve = 9
+                //ditambahkan approve = 9
+                let json3 = await $.ajax( {
+                    url: '../../../helpers/tr_fn_transaction_state_approval.php',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        state       : 0,
+                        id_transaksi: id_transaksi_h,
+                        table_name  : tbl_name,
+                    },
+                    success: function ( json ) {
+                        status_code  = json.data.status_code;
+                        if(status_code == 500){
+                            is_error = 1;
+                        }else{
+                            is_generate_kode = 1;
+                        }
+                        toast_type = json.data.type_message;
+                        full_message = full_message + json.data.message + '</br>';
                     }
-                    toast_type = json.data.type_message;
-                    full_message = full_message + json.data.message + '</br>';
-                }
-            } );
+                } );
+            }
         }
 
         if(is_need_inventory == 1 && is_error == 0){

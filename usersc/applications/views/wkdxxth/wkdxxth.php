@@ -67,12 +67,6 @@
     </div>
 
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
-		<div class="alert alert-info alert-dismissable">
-			<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-			Harap isi Quantity per satu paket Kit pada detail Item!
-			<br>
-			Harap Picking semua detail Kitting di Menu Picking agar dapat melanjutkan ke Finalisasi Kitting!	
-		</div>
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabwkdlptd"> LPN</a></li>
@@ -165,7 +159,6 @@
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wplittd_old = 0, id_iwhxxmh_old_lpn = 0, id_iumxxmh_unit_old_lpn = 0, jumlah_terkecil_lpn = 0;
 
 	$(document).ready(function() {
-		cekBelumConfirm();
 
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
@@ -541,7 +534,7 @@
 				console.log(id_iimxxmh_kit);
 				console.log(iimxxmh_nama_kit);
 				console.log(wlpxxmh_kode_kit);
-				edtwkdxxth.field('wkdxxth.id_iimxxmh').val(iimxxmh_nama_kit);
+				edtwkdxxth.field('wkdxxth.id_iimxxmh').val(id_iimxxmh_kit);
 				edtwkdxxth.field('iimxxmh_nama').val(iimxxmh_nama_kit);
 				edtwkdxxth.field('wkdxxth.wlpxxmh_kode_kitting').val(wlpxxmh_kode_kit);
 			}
@@ -741,7 +734,6 @@
 					tblwkdxxth.button('btnEdit:name').enable();
 				}
 			}
-			cekBelumConfirm();
 			cekDonePicking();
 		} );
 		
