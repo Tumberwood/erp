@@ -28,6 +28,15 @@
         $imtxxmh_kode_old = 0;
     }
 
+    // if(isset($_GET['module'])){
+    //     $module = '('.$_GET['module'].')';
+    //     $w_like = 'IN';
+    // }else{
+    //     $module = '(-9)';
+    //     $w_like = 'NOT IN';
+    // }
+    $module = $_GET['module'];
+
     // BEGIN query self.
     // Hanya dipanggil jika field ada nilai id nya
     if($imtxxmh_kode_old > 0){
@@ -59,6 +68,8 @@
         ->order('kode')
         ->where('transaction_state',1)
         ->where('id', $imtxxmh_kode_old, '<>' )
+        // ->where('module', $module, $w_like, false )
+        ->where('module', $module)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
