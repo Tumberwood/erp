@@ -49,7 +49,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<div class="row">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div class="ibox">
@@ -85,9 +85,6 @@
 								<h4 class="" id="avg_putaway"></h4>
 							</div>
 						</div>
-					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
-						<div id="inbound"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -130,6 +127,43 @@
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 						<div id="otif"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="row">
+					<div class="col-12">
+						<div id="inbound"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-md">
+					<div class="col-12">
+						<div id="outbound"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-md">
+					<div class="col-12">
+						<div id="storage"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-md">
+					<div class="col-12">
+						<div id="rework"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-md">
+					<div class="col-12">
+						<div id="transit"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-md">
+					<div class="col-12">
+						<div id="drop"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-md">
+					<div class="col-12">
+						<div id="return"></div>
 					</div>
 				</div>
 			</div>

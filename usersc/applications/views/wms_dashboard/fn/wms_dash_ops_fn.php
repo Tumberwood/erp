@@ -392,6 +392,12 @@
 
     function inboundData(end_date, id_iwhxxmh){
         $('#inbound').empty();
+        $('#outbound').empty();
+        $('#storage').empty();
+        $('#rework').empty();
+        $('#transit').empty();
+        $('#drop').empty();
+        $('#return').empty();
 
         $.ajax( {
             url: "../../models/wms_dashboard/wms_dash_ops_count_inbound.php",
@@ -402,18 +408,17 @@
                 id_iwhxxmh: id_iwhxxmh
             },
             success: function ( json ) {
+                //inbound
                 c_inbound = json.data.rs_inbound.c_inbound;
 
-                html = `
+                html_inbound = `
                 <div class="ibox">
-                    <div class="ibox-content bg-info p-xs">
+                    <div class="ibox-content bg-primary p-xs">
                         <div class="row vertical-align">
-                            <div class="col-9">
+                            <div class="col-6">
                                 <h3 class="font-bold ">Inbound</h3>
                             </div>
-                        </div>
-                        <div class="row vertical-align">
-                            <div class="col-11">
+                            <div class="col-6">
                                 <h1 class="text-right font-bold">${c_inbound}</h1>
                             </div>
                         </div>
@@ -421,7 +426,127 @@
                 </div>
                 `;
 
-                $('#inbound').html(html);
+                $('#inbound').html(html_inbound);
+
+                //outbound
+                c_outbound = json.data.rs_outbound.c_outbound;
+
+                html_outbound = `
+                <div class="ibox">
+                    <div class="ibox-content bg-danger p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-6">
+                                <h3 class="font-bold ">Outbound</h3>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="text-right font-bold">${c_outbound}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#outbound').html(html_outbound);
+
+                //storage
+                c_storage = json.data.rs_storage.c_storage;
+
+                html_storage = `
+                <div class="ibox">
+                    <div class="ibox-content bg-warning p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-6">
+                                <h3 class="font-bold ">Storage</h3>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="text-right font-bold">${c_storage}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#storage').html(html_storage);
+
+                //rework
+                c_rework = json.data.rs_rework.c_rework;
+
+                html_rework = `
+                <div class="ibox">
+                    <div class="ibox-content bg-info p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-6">
+                                <h3 class="font-bold ">Rework</h3>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="text-right font-bold">${c_rework}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#rework').html(html_rework);
+
+                //transit
+                c_transit = json.data.rs_transit.c_transit;
+
+                html_transit = `
+                <div class="ibox">
+                    <div class="ibox-content bg-danger p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-6">
+                                <h3 class="font-bold ">Transit Out</h3>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="text-right font-bold">${c_transit}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#transit').html(html_transit);
+
+                //drop
+                c_drop = json.data.rs_drop.c_drop;
+
+                html_drop = `
+                <div class="ibox">
+                    <div class="ibox-content p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-6">
+                                <h3 class="font-bold ">Drop</h3>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="text-right font-bold">${c_drop}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#drop').html(html_drop);
+
+                //return
+                c_return = json.data.rs_return.c_return;
+
+                html_return = `
+                <div class="ibox">
+                    <div class="ibox-content bg-light p-xs">
+                        <div class="row vertical-align">
+                            <div class="col-6">
+                                <h3 class="font-bold ">Return</h3>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="text-right font-bold">${c_return}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                $('#return').html(html_return);
             }
         } );
     }
