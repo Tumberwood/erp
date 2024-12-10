@@ -28,11 +28,11 @@
         $id_wttxxmh_old = 0;
     }
 
-    if(isset($_GET['ids_wttxxmh'])){
-        $ids_wttxxmh = '('.$_GET['ids_wttxxmh'].')';
+    if(isset($_GET['movement_type_group'])){
+        $movement_type_group = '('.$_GET['movement_type_group'].')';
         $w_like = 'IN';
     }else{
-        $ids_wttxxmh = '(-9)';
+        $movement_type_group = '(-9)';
         $w_like = 'NOT IN';
     }
 
@@ -45,7 +45,7 @@
                 'wttxxmh.id as id',
                 'CONCAT(wttxxmh.kode," - ",wttxxmh.nama) as text'
             ])
-            ->join('imtxxmh','imtxxmh.id = wttxxmh.id_imtxxmh','LEFT' )
+            ->join('imtxxmh','imtxxmh.kode = wttxxmh.imtxxmh_kode','LEFT' )
             ->where('wttxxmh.id', $id_wttxxmh_old )
             ->limit($resultCount)
             ->offset($offset)
@@ -63,11 +63,11 @@
             'wttxxmh.id as id',
             'CONCAT(wttxxmh.kode," - ",wttxxmh.nama) as text'
         ])
-        ->join('imtxxmh','imtxxmh.id = wttxxmh.id_imtxxmh','LEFT' )
+        ->join('imtxxmh','imtxxmh.kode = wttxxmh.imtxxmh_kode','LEFT' )
         ->order('wttxxmh.kode')
         ->where('wttxxmh.transaction_state',1)
         ->where('wttxxmh.id', $id_wttxxmh_old, '<>' )
-        ->where('wttxxmh.jenis', $ids_wttxxmh, $w_like, false )
+        ->where('imtxxmh.movement_type_group', $movement_type_group, $w_like, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
