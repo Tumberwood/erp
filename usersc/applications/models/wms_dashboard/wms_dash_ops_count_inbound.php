@@ -98,8 +98,8 @@
                 ');
         $rs_outbound = $qs_outbound->fetch();
 
-        //storage
-		$qs_storage = $db
+        //overflow
+		$qs_overflow = $db
             ->raw()
             ->bind(':end_date', $end_date)
             ->bind(':id_iwhxxmh', $id_iwhxxmh)
@@ -125,13 +125,13 @@
                             a.id_iimxxmh,
                             a.id_wloxxmh,
                             a.wlpxxmh_kode
-                        having jumlah_terkecil > 0 AND a.id_wloctmh = 3 AND a.id_iwhxxmh = :id_iwhxxmh
+                        having jumlah_terkecil > 0 AND a.id_wloctmh = 8 AND a.id_iwhxxmh = :id_iwhxxmh
                     )
                     SELECT
-                        COUNT(wlpxxmh_kode) c_storage
+                        COUNT(wlpxxmh_kode) c_overflow
                     FROM iiv
                 ');
-        $rs_storage = $qs_storage->fetch();
+        $rs_overflow = $qs_overflow->fetch();
 
         //rework
 		$qs_rework = $db
@@ -277,7 +277,7 @@
             "status_code" => 200,
             "rs_inbound" => $rs_inbound,
             "rs_outbound" => $rs_outbound,
-            "rs_storage" => $rs_storage,
+            "rs_overflow" => $rs_overflow,
             "rs_rework" => $rs_rework,
             "rs_transit" => $rs_transit,
             "rs_drop" => $rs_drop,

@@ -203,7 +203,7 @@
                             plotBackgroundImage: null,
                             plotBorderWidth: 0,
                             plotShadow: false,
-                            height: '60%'
+                            height: '45%'
                         },
 
                         title: {
@@ -393,7 +393,7 @@
     function inboundData(end_date, id_iwhxxmh){
         $('#inbound').empty();
         $('#outbound').empty();
-        $('#storage').empty();
+        $('#overflow').empty();
         $('#rework').empty();
         $('#transit').empty();
         $('#drop').empty();
@@ -448,32 +448,32 @@
 
                 $('#outbound').html(html_outbound);
 
-                //storage
-                c_storage = json.data.rs_storage.c_storage;
+                //overflow
+                c_overflow = json.data.rs_overflow.c_overflow;
 
-                html_storage = `
+                html_overflow = `
                 <div class="ibox">
                     <div class="ibox-content bg-warning p-xs">
                         <div class="row vertical-align">
                             <div class="col-6">
-                                <h3 class="font-bold ">Storage</h3>
+                                <h3 class="font-bold ">Overflow</h3>
                             </div>
                             <div class="col-6">
-                                <h1 class="text-right font-bold">${c_storage}</h1>
+                                <h1 class="text-right font-bold">${c_overflow}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
                 `;
 
-                $('#storage').html(html_storage);
+                $('#overflow').html(html_overflow);
 
                 //rework
                 c_rework = json.data.rs_rework.c_rework;
 
                 html_rework = `
                 <div class="ibox">
-                    <div class="ibox-content bg-info p-xs">
+                    <div class="ibox-content bg-warning p-xs">
                         <div class="row vertical-align">
                             <div class="col-6">
                                 <h3 class="font-bold ">Rework</h3>
@@ -513,7 +513,7 @@
 
                 html_drop = `
                 <div class="ibox">
-                    <div class="ibox-content p-xs">
+                    <div class="ibox-content bg-primary p-xs">
                         <div class="row vertical-align">
                             <div class="col-6">
                                 <h3 class="font-bold ">Drop</h3>
@@ -533,7 +533,7 @@
 
                 html_return = `
                 <div class="ibox">
-                    <div class="ibox-content bg-light p-xs">
+                    <div class="ibox-content bg-warning p-xs">
                         <div class="row vertical-align">
                             <div class="col-6">
                                 <h3 class="font-bold ">Return</h3>

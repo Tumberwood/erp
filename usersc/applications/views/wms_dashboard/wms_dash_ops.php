@@ -138,17 +138,12 @@
 				</div>
 				<div class="row m-t-n-md">
 					<div class="col-12">
+						<div id="drop"></div>
+					</div>
+				</div>
+				<div class="row m-t-n-sm">
+					<div class="col-12">
 						<div id="outbound"></div>
-					</div>
-				</div>
-				<div class="row m-t-n-md">
-					<div class="col-12">
-						<div id="storage"></div>
-					</div>
-				</div>
-				<div class="row m-t-n-md">
-					<div class="col-12">
-						<div id="rework"></div>
 					</div>
 				</div>
 				<div class="row m-t-n-md">
@@ -156,20 +151,33 @@
 						<div id="transit"></div>
 					</div>
 				</div>
-				<div class="row m-t-n-md">
-					<div class="col-12">
-						<div id="drop"></div>
-					</div>
-				</div>
-				<div class="row m-t-n-md">
-					<div class="col-12">
-						<div id="return"></div>
-					</div>
-				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="ibox">
 					<div class="ibox-content p-xs" id="hc_location_capacity">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-4">
+						<div class="row m-t-n-md">
+							<div class="col-12">
+								<div id="overflow"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="row m-t-n-md">
+							<div class="col-12">
+								<div id="rework"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="row m-t-n-md">
+							<div class="col-12">
+								<div id="return"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
