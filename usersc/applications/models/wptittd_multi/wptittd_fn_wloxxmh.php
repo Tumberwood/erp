@@ -125,7 +125,7 @@
                             b.nama as wloxxmh_nama
                         FROM wreittd a
                         LEFT JOIN wloxxmh b ON b.id_iwhxxmh = a.id_iwhxxmh
-                        WHERE b.id_wloctmh = 8 AND a.wlpxxmh_kode = :wlpxxmh_kode
+                        WHERE b.id_wloctmh = 8 AND b.is_default = 1 AND a.wlpxxmh_kode = :wlpxxmh_kode
                         LIMIT 1
                     ) overflow
                 ) loc

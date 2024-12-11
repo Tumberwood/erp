@@ -37,7 +37,7 @@
                     b.id_iumxxmh_kapasitas,
                     c.kode
                 FROM wimlotd a
-                LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh OR (b.id_wloctmh = 8)
+                LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh OR (b.id_wloctmh = 8 AND b.is_default = 1)
                 LEFT JOIN iumxxmh c ON c.id = b.id_iumxxmh_kapasitas
                 WHERE a.id_iimxxmh = :id_iimxxmh AND b.nama = :wloxxmh_nama_scan
                 GROUP BY b.id
