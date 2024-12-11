@@ -368,6 +368,7 @@
         wlpxxmh_kode = wlpxxmh_kode_sel;
         wloxxmh_nama_scan = edtwptittd.field('wloxxmh_nama_scan').val();
         id_iumxxmh_unit = edtwptittd.field('wptittd.id_iumxxmh_unit').val();
+        id_iwhxxmh = edtwptittd.field('wptittd.id_iwhxxmh').val();
 
         $.ajax( {
             url: "../../models/wptittd_multi/wptittd_fn_location_setting.php",
@@ -377,6 +378,7 @@
             data: {
                 keterangan: 'putaway_multi_id_wptittd_'+idTransaksi,
                 id_iimxxmh: id_iimxxmh,
+                id_iwhxxmh: id_iwhxxmh,
                 id_iumxxmh_unit: id_iumxxmh_unit,
                 wloxxmh_nama_scan: wloxxmh_nama_scan,
                 wlpxxmh_kode: wlpxxmh_kode,

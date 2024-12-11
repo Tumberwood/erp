@@ -325,8 +325,9 @@
     function validasiLocation() {
         wloxxmh_nama_scan = edtwptittd.field('wloxxmh_nama_scan').val();
         id_iimxxmh = edtwptittd.field('wptittd.id_iimxxmh').val();
+        id_iwhxxmh = edtwptittd.field('wptittd.id_iwhxxmh').val();
         id_iumxxmh_unit = edtwptittd.field('wptittd.id_iumxxmh_unit').val();
-
+        // console.log(id_iwhxxmh);
         $.ajax( {
             url: "../../models/wptittd/wptittd_fn_location_setting.php",
             dataType: 'json',
@@ -335,6 +336,7 @@
             data: {
                 keterangan: uniqueToken,
                 id_iimxxmh: id_iimxxmh,
+                id_iwhxxmh: id_iwhxxmh,
                 id_iumxxmh_unit: id_iumxxmh_unit,
                 wloxxmh_nama_scan: wloxxmh_nama_scan,
                 wlpxxmh_kode: wlpxxmh_kode,

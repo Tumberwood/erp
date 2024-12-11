@@ -16,6 +16,7 @@
     $wloxxmh_nama_scan = $_POST['wloxxmh_nama_scan'];
     $wlpxxmh_kode = $_POST['wlpxxmh_kode'];
     $id_iimxxmh = $_POST['id_iimxxmh'];
+    $id_iwhxxmh = $_POST['id_iwhxxmh'];
     $id_iumxxmh_unit = $_POST['id_iumxxmh_unit'];
     $keterangan = $_POST['keterangan'];
     
@@ -28,9 +29,11 @@
         ->raw()
         ->bind(':wloxxmh_nama_scan', $wloxxmh_nama_scan)
         ->bind(':id_iimxxmh', $id_iimxxmh)
+        ->bind(':id_iwhxxmh', $id_iwhxxmh)
         ->exec('SELECT
                     b.id id_wloxxmh_tujuan,
                     b.nama,
+                    b.id_wloctmh,
                     a.urutan,
                     a.id_iimxxmh,
                     b.kapasitas,
@@ -39,7 +42,8 @@
                 FROM wimlotd a
                 LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh OR (b.id_wloctmh = 8 AND b.is_default = 1)
                 LEFT JOIN iumxxmh c ON c.id = b.id_iumxxmh_kapasitas
-                WHERE a.id_iimxxmh = :id_iimxxmh AND b.nama = :wloxxmh_nama_scan
+                WHERE a.id_iimxxmh = :id_iimxxmh AND b.nama = :wloxxmh_nama_scan 
+                AND b.id_iwhxxmh = :id_iwhxxmh
                 GROUP BY b.id
                 ORDER BY
                 CASE
@@ -65,121 +69,128 @@
         $id_iumxxmh_kapasitas = $rs_loc_pref['id_iumxxmh_kapasitas'];
         $kode = $rs_loc_pref['kode'];
         $kapasitas = $rs_loc_pref['kapasitas'];
+        $id_wloctmh = $rs_loc_pref['id_wloctmh'];
         
-        $qs_kapasitas = $db
-        ->raw()
-        ->bind(':id_wloxxmh_tujuan', $id_wloxxmh_tujuan)
-        ->bind(':id_iumxxmh_unit', $id_iumxxmh_unit)
-        ->exec('SELECT
-                    COUNT(a.id) AS c_id,
-                    a.id_iumxxmh_terkecil,
-                    SUM(a.jumlah_terkecil) AS s_terkecil,
-                    b.jumlah_konversi,
-                    SUM((a.jumlah_terkecil) / b.jumlah_konversi) AS jumlah_unit,
-                    c.kode
-                FROM iivxxrd a
-                LEFT JOIN iimummd b ON b.id_iimxxmh = a.id_iimxxmh AND b.id_iumxxmh = :id_iumxxmh_unit
-                LEFT JOIN iumxxmh c ON c.id = b.id_iumxxmh
-                WHERE a.id_wloxxmh = :id_wloxxmh_tujuan AND a.is_fisik = 1
-                GROUP BY a.wlpxxmh_kode
-                HAVING s_terkecil > 0;
-        '
-        );
-        $rs_kapasitas = $qs_kapasitas->fetchAll();
-
-        $qs_inputan = $db
-        ->raw()
-        ->bind(':keterangan', $keterangan)
-        ->exec('SELECT
-                    (a.jumlah_terkecil * -1) terkecil_input,
-                    (a.jumlah_terkecil * -1) / b.jumlah_konversi AS jumlah_unit
-                FROM iivxxrd a
-                LEFT JOIN iimummd b ON b.id_iimxxmh = a.id_iimxxmh AND b.id_iumxxmh = 2
-                LEFT JOIN iumxxmh c ON c.id = b.id_iumxxmh
-                WHERE a.keterangan = :keterangan
-                ;
-        '
-        );
-        $rs_inputan = $qs_inputan->fetch();
-
-        if (empty($rs_inputan)) {
-            $jumlah_unit_inputan = 0;
-        } else {
-            $jumlah_unit_inputan = $rs_inputan['jumlah_unit'];
-        }
-
-        // echo $jumlah_unit_inputan;
-        $is_melebihi_kapasitas = 0;
-
-        if (empty($rs_kapasitas)) {
-            // echo 1111;
-            if ($id_iumxxmh_kapasitas != 14) {
-                if ($jumlah_unit_inputan > $kapasitas) {
-                    $is_melebihi_kapasitas = 1;
-                    $uom_kapasitas = $kode;
-                } else {
-                    $is_next = 1;
-                }
-            } else {
-                $is_next = 1;
-            }
-            //kalau kosong itu berarti lokasi masih belum ada di iiv, bisa digunakan
-            // print_r($is_inventory);
-            
-        } else {
-            $lpn = 0;
-            $jumlah_unit = $jumlah_unit_inputan;
-            
-            foreach ($rs_kapasitas as $key => $loc_cap) {
-                $lpn++;
-                $jumlah_unit = $jumlah_unit + $loc_cap['jumlah_unit'];
-                $c_id = $loc_cap['c_id'];
-                $kode = $loc_cap['kode'];
-            }
-            
-
-            // print_r($c_id);
-            // if ($c_id > 0) {
-            //     $is_inventory = 0;
-            // } else {
-                $is_inventory = 1;
-            // }
-
-            //jika LPN
-            if ($id_iumxxmh_kapasitas == 14) {
-                if ($lpn >= $kapasitas) {
-                    $is_melebihi_kapasitas = 1;
-                    $uom_kapasitas = "LPN";
-                    $is_next = 0;
-                } else {
-                    $is_next = 1;
-                }
-            //Jika bukan LPN seperti Box pcs dsb 
-            } else {
-                if ($jumlah_unit > $kapasitas) {
-                    $is_melebihi_kapasitas = 1;
-                    $uom_kapasitas = $kode;
-                    $is_next = 0;
-                } else {
-                    $is_next = 1;
-                }
-            }
-
-        }
-
-        if($is_melebihi_kapasitas){
-            $status_code = 500;
-            $message = 'Kapasitas di lokasi tujuan sudah penuh! (Max '.$kapasitas. ' ' .$uom_kapasitas.')<br>Silahkan ganti lokasi atau gunakan gabung LPN!';
-            $type_message = 'error';
-            $id_wloxxmh_tujuan = 0;
-        }
-        
-        if ($is_next == 1) {
+        //Jika Overflow maka tidak perlu dicek validasi jumlah
+        if ($id_wloctmh == 8) {
             $status_code = 200;
             $message = '';
             $type_message = 'success';
+        } else {
+            $qs_kapasitas = $db
+            ->raw()
+            ->bind(':id_wloxxmh_tujuan', $id_wloxxmh_tujuan)
+            ->bind(':id_iumxxmh_unit', $id_iumxxmh_unit)
+            ->exec('SELECT
+                        COUNT(a.id) AS c_id,
+                        a.id_iumxxmh_terkecil,
+                        SUM(a.jumlah_terkecil) AS s_terkecil,
+                        b.jumlah_konversi,
+                        SUM((a.jumlah_terkecil) / b.jumlah_konversi) AS jumlah_unit,
+                        c.kode
+                    FROM iivxxrd a
+                    LEFT JOIN iimummd b ON b.id_iimxxmh = a.id_iimxxmh AND b.id_iumxxmh = :id_iumxxmh_unit
+                    LEFT JOIN iumxxmh c ON c.id = b.id_iumxxmh
+                    WHERE a.id_wloxxmh = :id_wloxxmh_tujuan AND a.is_fisik = 1
+                    GROUP BY a.wlpxxmh_kode
+                    HAVING s_terkecil > 0;
+            '
+            );
+            $rs_kapasitas = $qs_kapasitas->fetchAll();
+    
+            $qs_inputan = $db
+            ->raw()
+            ->bind(':keterangan', $keterangan)
+            ->exec('SELECT
+                        (a.jumlah_terkecil * -1) terkecil_input,
+                        (a.jumlah_terkecil * -1) / b.jumlah_konversi AS jumlah_unit
+                    FROM iivxxrd a
+                    LEFT JOIN iimummd b ON b.id_iimxxmh = a.id_iimxxmh AND b.id_iumxxmh = 2
+                    LEFT JOIN iumxxmh c ON c.id = b.id_iumxxmh
+                    WHERE a.keterangan = :keterangan
+                    ;
+            '
+            );
+            $rs_inputan = $qs_inputan->fetch();
+    
+            if (empty($rs_inputan)) {
+                $jumlah_unit_inputan = 0;
+            } else {
+                $jumlah_unit_inputan = $rs_inputan['jumlah_unit'];
+            }
+    
+            // echo $jumlah_unit_inputan;
+            $is_melebihi_kapasitas = 0;
+    
+            if (empty($rs_kapasitas)) {
+                // echo 1111;
+                if ($id_iumxxmh_kapasitas != 14) {
+                    if ($jumlah_unit_inputan > $kapasitas) {
+                        $is_melebihi_kapasitas = 1;
+                        $uom_kapasitas = $kode;
+                    } else {
+                        $is_next = 1;
+                    }
+                } else {
+                    $is_next = 1;
+                }
+                //kalau kosong itu berarti lokasi masih belum ada di iiv, bisa digunakan
+                // print_r($is_inventory);
+                
+            } else {
+                $lpn = 0;
+                $jumlah_unit = $jumlah_unit_inputan;
+                
+                foreach ($rs_kapasitas as $key => $loc_cap) {
+                    $lpn++;
+                    $jumlah_unit = $jumlah_unit + $loc_cap['jumlah_unit'];
+                    $c_id = $loc_cap['c_id'];
+                    $kode = $loc_cap['kode'];
+                }
+                
+    
+                // print_r($c_id);
+                // if ($c_id > 0) {
+                //     $is_inventory = 0;
+                // } else {
+                    $is_inventory = 1;
+                // }
+    
+                //jika LPN
+                if ($id_iumxxmh_kapasitas == 14) {
+                    if ($lpn >= $kapasitas) {
+                        $is_melebihi_kapasitas = 1;
+                        $uom_kapasitas = "LPN";
+                        $is_next = 0;
+                    } else {
+                        $is_next = 1;
+                    }
+                //Jika bukan LPN seperti Box pcs dsb 
+                } else {
+                    if ($jumlah_unit > $kapasitas) {
+                        $is_melebihi_kapasitas = 1;
+                        $uom_kapasitas = $kode;
+                        $is_next = 0;
+                    } else {
+                        $is_next = 1;
+                    }
+                }
+    
+            }
+    
+            if($is_melebihi_kapasitas){
+                $status_code = 500;
+                $message = 'Kapasitas di lokasi tujuan sudah penuh! (Max '.$kapasitas. ' ' .$uom_kapasitas.')<br>Silahkan ganti lokasi atau gunakan gabung LPN!';
+                $type_message = 'error';
+                $id_wloxxmh_tujuan = 0;
+            }
+            
+            if ($is_next == 1) {
+                $status_code = 200;
+                $message = '';
+                $type_message = 'success';
+            }
         }
-        
     }
 
     // $qs_iiv = $db
