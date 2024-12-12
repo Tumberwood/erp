@@ -79,7 +79,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
-
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/rwpxxmh/fn/rwpxxmh_fn.php'; ?>
 
 <!-- BEGIN javascript here -->

@@ -94,7 +94,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
-
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/iivxxrd_ks/fn/iivxxrd_ks_fn.php'; ?>
 
 <!-- BEGIN datatables here -->

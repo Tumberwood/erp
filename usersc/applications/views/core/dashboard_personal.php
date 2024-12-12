@@ -51,7 +51,7 @@
 <?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php'; ?>
 <?php require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; ?>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
-
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/core/fn/dashboard_fn.php'; ?>
 
 <script type="text/javascript">
