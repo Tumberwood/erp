@@ -259,7 +259,7 @@
 				{
 					label: "Item Kitting",
 					name: "iimxxmh_nama",
-					type: "readonly"
+					type: "hidden"
 				},
 				// {
 				// 	label: "Item Kitting <sup class='text-danger'>*<sup>",
