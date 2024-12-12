@@ -20,7 +20,7 @@
 		->raw()
 		->bind(':end_date', $end_date->format('Y-m-d') )
 		->exec('WITH reserved AS (
-					SELECT
+					SELECT DISTINCT
 						a.iwhxxmh_kode,
 						a.wloxxmh_nama,
 						a.iimxxmh_kode,
@@ -57,6 +57,24 @@
 								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
 								LIMIT 1
 							)
+							WHEN a.imtxxmh_movement_type = "Kitting" THEN
+							(
+								SELECT
+									if(z.id_wpcxxth = 0, "Draft Kitting", CONCAT(j.kode, " - ",z.kode)) AS kode_d
+								FROM wktlptd z
+								LEFT JOIN wktxxth j ON j.id = id_wktxxth
+								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
+								LIMIT 1
+							)
+							WHEN a.imtxxmh_movement_type = "Delivery Note" THEN
+							(
+								SELECT
+									if(j.kode IS NULL, "Draft Delivery Note", CONCAT(j.kode)) AS kode_d
+								FROM wdnlptd z
+								LEFT JOIN wdnxxth j ON j.id = id_wdnxxth
+								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
+								LIMIT 1
+							)
 							WHEN a.imtxxmh_movement_type = "Putaway" THEN "Draft Putaway"
 							WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "Draft Items Transfer"
 							ELSE ""
@@ -66,10 +84,26 @@
 							WHEN a.imtxxmh_movement_type = "Picking" THEN "wpclptd"
 							WHEN a.imtxxmh_movement_type = "Picking List" THEN "wpllptd"
 							WHEN a.imtxxmh_movement_type = "Putaway" THEN "wptittd"
+							WHEN a.imtxxmh_movement_type = "Kitting" THEN "wktlptd"
+							WHEN a.imtxxmh_movement_type = "Delivery Note" THEN "wdnxxth"
 							WHEN a.imtxxmh_movement_type = "Items Transfer" THEN "wtrittd"
 							ELSE ""
 						END AS nama_tabel,
-						max(a.id_transaksi_d) AS id_transaksi
+						CASE 
+							WHEN a.imtxxmh_movement_type = "Delivery Note" THEN
+							(
+								SELECT
+									j.id
+								FROM wdnlptd z
+								LEFT JOIN wdnxxth j ON j.id = id_wdnxxth
+								WHERE z.id = max(a.id_transaksi_d) AND z.wlpxxmh_kode = a.wlpxxmh_kode
+								LIMIT 1
+							)
+							ELSE max(a.id_transaksi_d) 
+						END AS id_transaksi,
+					a.keterangan,
+					a.kode,
+					max(a.id) m_id
 					FROM iivxxrd a
 					WHERE tanggal <= :end_date AND is_fisik = 0
 					GROUP BY 
