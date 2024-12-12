@@ -499,7 +499,8 @@
 			$type_message = 'success';
 			
 		}else{
-			$db->rollback();
+			// $db->rollback();
+			$db->commit();
 			$status_code  = 500;
 			$message      = 'Job Picking Gagal di Generate!'. '<br>' . $pesan;
 			$type_message = 'error';
