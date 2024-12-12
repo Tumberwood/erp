@@ -240,9 +240,9 @@
 												Reserved Default : ${kontenData.jumlah_default_booking.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
 												
 												<br>
-												<b>Avalaible Terkecil : ${kontenData.jumlah_terkecil_ava.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}</b>
+												<b>Available Terkecil : ${kontenData.jumlah_terkecil_ava.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}</b>
 												<br>
-												<b>Avalaible Default : ${kontenData.jumlah_default_ava.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}</b>
+												<b>Available Default : ${kontenData.jumlah_default_ava.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}</b>
 											</p>`;
 							} else {
 								kontenValid = '<p>Data Tidak Ditemukan!</p>';

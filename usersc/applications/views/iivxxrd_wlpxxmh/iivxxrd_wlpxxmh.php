@@ -63,7 +63,7 @@
 						<th style="vertical-align: middle" rowspan="3">Nama</th>
 						<th colspan="4" class="text-center bg-success">On Hand</th>
 						<th colspan="4" class="text-center bg-warning">Reserved</th>
-						<th colspan="4" class="text-center bg-primary">Avalaible</th>
+						<th colspan="4" class="text-center bg-primary">Available</th>
 						<th style="vertical-align: middle" rowspan="3">Batch Number</th>
 						<th style="vertical-align: middle" rowspan="3">Expired Date</th>
 					</tr>
@@ -226,7 +226,7 @@
 				},
 				{ data: "iumxxmh_default_kode" },
 
-				//Avalaible
+				//Available
 				{ 
 					data: "jumlah_terkecil_ava",
 					...renderNumber(0)
