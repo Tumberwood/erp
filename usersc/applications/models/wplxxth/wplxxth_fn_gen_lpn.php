@@ -116,14 +116,14 @@
 
 			$keterangan_validasi = '';
 			if (empty($rs_valid)) {
-				$keterangan_validasi = '<br>Item '.$rs_det['item']. ' <b>kosong atau tidak ditemukan di Inventory</b><br>';
-				$pesan .= $keterangan_validasi;
+				$keterangan_validasi ='Kosong atau tidak ditemukan di Inventory';
+				$pesan .= '<br>'.'Item '.$rs_det['item']. ' <b>' .$keterangan_validasi. '</b><br>';
 			} else {
 				$is_valid_ed = $rs_valid['is_valid_ed'];
 				// echo $is_valid_ed;
 				if ($is_valid_ed == 0) {
-					$keterangan_validasi = '<br>Item '.$rs_det['item']. ' <b>tidak bisa terpenuhi karena batas Expired Date</b><br>';
-					$pesan .= $keterangan_validasi;
+					$keterangan_validasi ='Tidak bisa terpenuhi karena batas Expired Date';
+					$pesan .= '<br>'.'Item '.$rs_det['item']. ' <b>' .$keterangan_validasi. '</b><br>';
 				}
 			}
 			

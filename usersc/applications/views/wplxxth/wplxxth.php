@@ -91,6 +91,7 @@
 											<th>UoM</th>
 											<th>Qty DO</th>
 											<th>Qty PL</th>
+											<th>Keterangan</th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -101,6 +102,7 @@
 											<th></th>
 											<th></th>
 											<th id="c_item"></th>
+											<th></th>
 											<th></th>
 											<th></th>
 											<th></th>
@@ -1071,6 +1073,7 @@
 					data: "wplittd.subtotal_jumlah_unit",
 					...renderNumber( 0, "")
 				},
+				{ data: "wplittd.keterangan" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
