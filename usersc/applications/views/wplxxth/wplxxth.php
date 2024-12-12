@@ -949,7 +949,7 @@
 				{
 					label: "Keterangan",
 					name: "wplittd.keterangan",
-					type: "textarea"
+					type: "quill"
 				}
 			]
 		} );
