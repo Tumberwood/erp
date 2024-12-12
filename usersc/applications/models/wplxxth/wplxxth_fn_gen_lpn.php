@@ -114,15 +114,24 @@
 			
 			$rs_det = $qs_det->fetch();
 
+			$keterangan_validasi = '';
 			if (empty($rs_valid)) {
-				$pesan .= '<br>Item '.$rs_det['item']. ' <b>kosong atau tidak ditemukan di Inventory</b><br>';
+				$keterangan_validasi = '<br>Item '.$rs_det['item']. ' <b>kosong atau tidak ditemukan di Inventory</b><br>';
+				$pesan .= $keterangan_validasi;
 			} else {
 				$is_valid_ed = $rs_valid['is_valid_ed'];
 				// echo $is_valid_ed;
 				if ($is_valid_ed == 0) {
-					$pesan .= '<br>Item '.$rs_det['item']. ' <b>tidak bisa terpenuhi karena batas Expired Date</b><br>';
+					$keterangan_validasi = '<br>Item '.$rs_det['item']. ' <b>tidak bisa terpenuhi karena batas Expired Date</b><br>';
+					$pesan .= $keterangan_validasi;
 				}
 			}
+			
+			$qu_wplittd = $db
+			->query('update', 'wplittd')
+			->set('keterangan', $keterangan_validasi)
+			->where('id',$id_wplittd)
+			->exec();
 		}
 
 		$qs_ggswmsh = $db
