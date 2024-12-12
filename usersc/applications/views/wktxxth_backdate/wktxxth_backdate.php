@@ -942,7 +942,7 @@
 				}
 			}
 			cekBelumConfirm();
-			cekDonePicking();
+			// cekDonePicking();
 		} );
 		
 		tblwktxxth.on( 'deselect', function () {
