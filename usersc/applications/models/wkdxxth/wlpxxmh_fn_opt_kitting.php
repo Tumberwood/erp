@@ -82,7 +82,7 @@
                     id_iimxxmh,
                     id_wloxxmh,
                     wlpxxmh_kode
-                having jumlah_terkecil > 0 
+                having jumlah_terkecil_ava > 0 
                 AND id_wloctmh = 4
                 AND id_iicxxmh = 4
                 AND id = :id_wlpxxmh_old
@@ -146,7 +146,7 @@
                     id_iimxxmh,
                     id_wloxxmh,
                     wlpxxmh_kode
-                having jumlah_terkecil > 0 
+                having jumlah_terkecil_ava > 0 
                 AND id_wloctmh = 4
                 AND id_iicxxmh = 4
                 AND id <> :id_wlpxxmh_old

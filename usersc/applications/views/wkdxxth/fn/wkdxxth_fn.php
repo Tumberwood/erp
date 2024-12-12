@@ -41,9 +41,26 @@
                 id_iimxxmh_kit = json.data.rs_kit.id_iimxxmh;
                 iimxxmh_nama_kit = json.data.rs_kit.iimxxmh_nama;
                 wlpxxmh_kode_kit = json.data.rs_kit.wlpxxmh_kode;
+                jumlah_terkecil_ava = json.data.rs_kit.jumlah_terkecil_ava;
             }
         } );
-
     }
+
+    
+    function konversiJumlah(id_iimxxmh, id_iumxxmh_unit){
+        $.ajax( {
+            url: "../../models/wktxxth/wktxxth_backdate_konversi_jumlah.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_iimxxmh: id_iimxxmh,
+                id_iumxxmh_unit: id_iumxxmh_unit,
+            },
+            success: function ( json ) {
+                jumlah_konversi = json.data.jumlah_konversi;
+            }
+        } );
+    };
     
 </script>

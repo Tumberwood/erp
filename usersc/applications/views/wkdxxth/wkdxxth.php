@@ -154,7 +154,7 @@
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, id_wlpxxmh_old_kitting = 0, id_iimxxmh_kit = 0;
 	
 	uniqueToken = '';
-	var c_id = 0;
+	var c_id = 0, jumlah_konversi = 0;
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wplittd_old = 0, id_iwhxxmh_old_lpn = 0, id_iumxxmh_unit_old_lpn = 0, jumlah_terkecil_lpn = 0;
 
 	$(document).ready(function() {
@@ -551,6 +551,7 @@
 				id_iwhxxmh = edtwkdxxth.field('wkdxxth.id_iwhxxmh').val();
 				is_all_wh = edtwkdxxth.field('wkdxxth.is_all_wh').val();
 				id_wloxxmh_out = edtwkdxxth.field('wkdxxth.id_wloxxmh_out').val();
+				id_iimxxmh = edtwkdxxth.field('wkdxxth.id_iimxxmh').val();
 
 				validasiRequired(
 					edtwkdxxth,
@@ -586,7 +587,15 @@
 						}
 					);
 				}
-
+				
+				kittingData(id_wlpxxmh);
+				console.log(jumlah_terkecil_ava);
+				konversiJumlah(id_iimxxmh, id_iumxxmh_unit);
+				console.log(jumlah_konversi);
+				sisa_unit = jumlah_terkecil_ava / jumlah_konversi;
+				if (jumlah_unit > sisa_unit) {
+					edtwkdxxth.field('wkdxxth.jumlah_unit').error('Jumlah unit tidak boleh lebih dari '+sisa_unit );
+				}
 			}
 			
 			if ( edtwkdxxth.inError() ) {
