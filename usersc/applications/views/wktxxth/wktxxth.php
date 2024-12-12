@@ -867,7 +867,7 @@
 				},
 				{
 					extend: 'create',
-					text: 'Finalisasi',
+					text: '<i class="fa fa-flag-checkered"></i>',
 					name: 'btnFinalisasi',
 					className: 'btn btn-xs btn-outline',
 					editor: edtwktrstd_create, 
