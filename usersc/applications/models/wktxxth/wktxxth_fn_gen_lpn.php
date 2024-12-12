@@ -487,7 +487,7 @@
 							->set('tanggal',$iiv['tanggal'])
 							->set('is_fisik',0)
 							->set('imtxxmh_kode',219)
-							->set('imtxxmh_movement_type','Picking List')
+							->set('imtxxmh_movement_type','Kitting')
 							->set('iumxxmh_terkecil_kode',$iiv['iumxxmh_terkecil_kode'])
 							->set('iumxxmh_terkecil_nama',$iiv['iumxxmh_terkecil_nama'])
 							->set('iumxxmh_default_kode',$iiv['iumxxmh_default_kode'])

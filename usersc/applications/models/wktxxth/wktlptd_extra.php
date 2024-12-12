@@ -95,7 +95,7 @@
 								d.nama AS iimxxmh_nama,
 								iumxxmh_unit.kode AS iumxxmh_unit_kode,
 								iumxxmh_unit.nama AS iumxxmh_unit_nama,
-								211,
+								219,
 								g.movement_type,
 								curdate(),
 								0,
@@ -121,7 +121,7 @@
 							LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 							LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 							LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh
-							LEFT JOIN imtxxmh g ON g.kode = 211
+							LEFT JOIN imtxxmh g ON g.kode = 219
 							LEFT JOIN gbrxxmh h ON h.id = e.id_gbrxxmh
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
@@ -253,7 +253,7 @@
 								d.nama AS iimxxmh_nama,
 								iumxxmh_unit.kode AS iumxxmh_unit_kode,
 								iumxxmh_unit.nama AS iumxxmh_unit_nama,
-								211,
+								219,
 								g.movement_type,
 								curdate(),
 								0,
@@ -279,7 +279,7 @@
 							LEFT JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 							LEFT JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 							LEFT JOIN wloxxmh f ON f.id = a.id_wloxxmh
-							LEFT JOIN imtxxmh g ON g.kode = 211
+							LEFT JOIN imtxxmh g ON g.kode = 219
 							LEFT JOIN gbrxxmh h ON h.id = e.id_gbrxxmh
 							LEFT JOIN iimummd j ON j.id_iimxxmh = a.id_iimxxmh AND j.is_default = 1
 							WHERE a.id = :id
