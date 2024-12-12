@@ -90,7 +90,7 @@
     function confirmLeavePage(event) {
         event.preventDefault();
         console.log(c_id);
-        toastr["warning"]("Terdapat "+c_id+" Data PL yang sudah di generate namun belum confirm!","WARNING")
+        toastr["warning"]("Terdapat "+c_id+" Data Kitting yang sudah di generate namun belum confirm!","WARNING")
 
     }
     

@@ -56,8 +56,7 @@
                                 <th>ID</th>
                                 <th>Kode</th>
                                 <th>Tanggal</th>
-                                <th>Picking Method</th>
-                                <th>Cross Docking</th>
+                                <th>Items</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -175,6 +174,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wktxxth/fn/wktxxth_fn.php'; ?>
 
@@ -775,11 +775,7 @@
 				{ data: "wktxxth.id",visible:false },
 				{ data: "wktxxth.kode" },
 				{ data: "wktxxth.tanggal" },
-				{ data: "wpmxxmh.nama" },
-				{ 
-					data: "wktxxth.is_crossdocking",
-					...renderYaTidak()
-				},
+				{ data: "iimxxmh.nama" },
 				{ 
 					data: "wktxxth.transaction_state",
 					...renderTransactionStatus()

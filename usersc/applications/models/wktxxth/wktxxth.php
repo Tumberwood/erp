@@ -72,8 +72,10 @@
 					'to' =>   'Y-m-d'
 				) ),
 			Field::inst( 'wpmxxmh.nama' ),
+			Field::inst( 'iimxxmh.nama' ),
 		)
 		->leftJoin( 'wpmxxmh','wpmxxmh.id','=','wktxxth.id_wpmxxmh' )
+		->leftJoin( 'iimxxmh','iimxxmh.id','=','wktxxth.id_iimxxmh' )
 		->where( 'wktxxth.is_backdate', 0 );
 		;
 	
