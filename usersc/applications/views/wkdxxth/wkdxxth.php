@@ -56,7 +56,6 @@
                                 <th>Kode</th>
                                 <th>Tanggal</th>
                                 <th>Picking Method</th>
-                                <th>Cross Docking</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -480,16 +479,6 @@
 					}
 				},
 				{
-					label: "Cross Docking?",
-					name: "wkdxxth.is_crossdocking",
-					type: "select",
-					def: 1,
-					options: [
-						{ "label": "Ya", "value": 1 },
-						{ "label": "Tidak", "value": 0 }
-					]
-				},
-				{
 					label: "Keterangan",
 					name: "wkdxxth.keterangan",
 					type: "textarea"
@@ -659,10 +648,6 @@
 				{ data: "wkdxxth.kode" },
 				{ data: "wkdxxth.tanggal" },
 				{ data: "wpmxxmh.nama" },
-				{ 
-					data: "wkdxxth.is_crossdocking",
-					...renderYaTidak()
-				},
 				{ 
 					data: "wkdxxth.transaction_state",
 					...renderTransactionStatus()
