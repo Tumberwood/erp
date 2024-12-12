@@ -230,9 +230,14 @@
 												Expired Date : ${kontenData.expired_date}
 												<br>
 												
-												Jumlah Terkecil : ${kontenData.jumlah_terkecil.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
+												On Hand Terkecil : ${kontenData.jumlah_terkecil.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
 												<br>
-												Jumlah Default : ${kontenData.jumlah_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+												On Hand Default : ${kontenData.jumlah_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
+												
+												<br>
+												Reserved Terkecil : ${kontenData.jumlah_terkecil_booking.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
+												<br>
+												Reserved Default : ${kontenData.jumlah_default_booking.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
 											</p>`;
 							} else {
 								kontenValid = '<p>Data Tidak Ditemukan!</p>';
@@ -283,6 +288,7 @@
 										status_code = json.data.status_code;
 										if (status_code == 200) {
 											toastr[json.data.type_message](json.data.message,"INFO");
+											$('#konten').empty();
 										}
 									}
 								} );

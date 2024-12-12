@@ -28,7 +28,7 @@
 		$rs_lpn = $qs_lpn->fetch();
 		$wlpxxmh_kode = $rs_lpn['kode'];
 
-		$where = $where . ' AND b.id = '.$id_wlpxxmh_filter;
+		$where = $where . ' AND c.id = '.$id_wlpxxmh_filter;
 	}
 
 	if (isset($_POST['id_wloxxmh_filter']) && $_POST['id_wloxxmh_filter'] > 0) {
@@ -74,10 +74,10 @@
 					iwhxxmh_kode,
 					iwhxxmh_nama,
 					wloxxmh_kode,
-					wloxxmh_nama,
+					a.wloxxmh_nama,
 					relasi_m_kode,
 					relasi_m_nama,
-					iimxxmh_kode,
+					a.iimxxmh_kode,
 					iimxxmh_nama,
 					iumxxmh_unit_kode,
 					iumxxmh_unit_nama,
@@ -93,6 +93,10 @@
 					jumlah_konversi,
 					SUM(a.jumlah_terkecil) jumlah_terkecil,
 					SUM(a.jumlah_default) jumlah_default,
+					ifnull(jumlah_default_booking,0) as jumlah_default_booking,
+					ifnull(jumlah_terkecil_booking,0) as jumlah_terkecil_booking,
+					(SUM(jumlah_default * is_fisik)) - ifnull(jumlah_default_booking,0) as jumlah_default_ava,
+					(SUM(jumlah_terkecil * is_fisik)) - ifnull(jumlah_terkecil_booking,0) as jumlah_terkecil_ava,
 					a.wlpxxmh_kode,
 					DATE_FORMAT(max(expired_date), "%d %b %Y") expired_date,
 					max(expired_date) expired_date_ymd,
@@ -104,7 +108,23 @@
 						), 1, 0
 					) AS is_audit
 				FROM iivxxrd a
-				LEFT JOIN wlpxxmh b ON b.kode = a.wlpxxmh_kode
+				LEFT JOIN (
+					SELECT
+						wloxxmh_nama,
+						iimxxmh_kode,
+						SUM(jumlah_default) * -1 as jumlah_default_booking,
+						SUM(jumlah_terkecil) * -1 as jumlah_terkecil_booking,
+						wlpxxmh_kode
+					FROM iivxxrd
+					WHERE tanggal <= curdate() AND is_fisik = 0
+					GROUP BY 
+						-- id_gbrxxmh, 
+						id_iwhxxmh,
+						id_iimxxmh,
+						id_wloxxmh,
+						wlpxxmh_kode
+				) AS b ON b.wloxxmh_nama = a.wloxxmh_nama AND b.iimxxmh_kode = a.iimxxmh_kode AND b.wlpxxmh_kode = a.wlpxxmh_kode
+				LEFT JOIN wlpxxmh c ON c.kode = a.wlpxxmh_kode
 				WHERE a.is_fisik = 1 '.$where.'
 				GROUP BY 
 					id_gbrxxmh, 
