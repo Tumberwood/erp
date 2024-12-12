@@ -99,7 +99,7 @@
 								}
 							})
 							->validator( Validate::fileSize( 1000000, 'Ukuran file lampiran maksimal 1mb' ) )
-							->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg' ), "Hanya diperbolehkan jenis png, jpg, atau jpeg" ) )
+							->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg', 'webp' ), "Hanya diperbolehkan jenis png, jpg, jpeg atau webp" ) )
 						),
 					Field::inst( 'web_path' )
 				)
