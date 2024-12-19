@@ -38,6 +38,7 @@
 			Field::inst( 'ggsxxsh.start_at' ),
 			Field::inst( 'ggsxxsh.finish_at' ),
 			Field::inst( 'ggsxxsh.is_defaultprogram' ),
+			Field::inst( 'ggsxxsh.is_autocreateusers' ),
 
 			Field::inst( 'ggsxxsh.id_files_company_logo' )
                 ->upload(

@@ -25,6 +25,7 @@
                                 <th>Posisi Logo</th>
                                 <th>UoM Berat</th>
                                 <th>UoM Panjang</th>
+                                <th>Auto Create User</th>
                             </tr>
                         </thead>
                     </table>
@@ -122,6 +123,15 @@
 						label: "Keterangan",
 						name: "ggsxxsh.keterangan",
 						type: "textarea"
+					},
+					{
+						label: "Auto Create User",
+						name: "ggsxxsh.is_autocreateusers",
+						type: "select",
+						options: [
+							{ "label": "Ya", "value": 1 },
+							{ "label": "Tidak", "value": 2 }
+						]
 					},
 					{
 						label: "UoM Panjang",  
@@ -250,7 +260,8 @@
 						}
                     },
 					{ data: "berat.nama"},
-					{ data: "panjang.nama" }
+					{ data: "panjang.nama" },
+					{ data: "ggsxxsh.is_autocreateusers", ...renderYaTidak() },
 				],
 				buttons: [
 					// BEGIN breaking generate button

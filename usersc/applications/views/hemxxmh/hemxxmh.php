@@ -87,7 +87,7 @@
 											<editor-field name="hemjbmh.id_hesxxmh"></editor-field>
 										</div>
 										<div class="col-lg-6">
-											<editor-field name="hemdcmh.id_gtxpkmh"></editor-field>
+											<editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field>
 										</div>
 									</div>
 									<div class="row">
@@ -96,11 +96,6 @@
 										</div>
 										<div class="col-lg-6">
 											<editor-field name="hemjbmh.tanggal_keluar"></editor-field>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6">
-											<editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field>
 										</div>
 									</div>
 									<div class="row">
@@ -202,6 +197,11 @@
 										</div>
 										<div class="col-lg-6">
 											<editor-field name="hemdcmh.npwp_alamat"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemdcmh.id_gtxpkmh"></editor-field>
 										</div>
 									</div>
 									<div class="row">
