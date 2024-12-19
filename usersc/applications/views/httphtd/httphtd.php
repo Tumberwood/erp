@@ -18,6 +18,7 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 
+				<!-- filter -->
 				<div class="modal" id="modalSFhttphtd" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content animated bounceInRight">
@@ -48,12 +49,43 @@
 					</div>
 				</div>
 
+				<!-- upload -->
+								
+				<div class="modal" id="modalUpload" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content animated bounceInRight">
+							<form class="form-horizontal" id="frmUploaHoliday" enctype="multipart/form-data">
+								<div class="modal-header">
+									<h4 class="modal-title">Upload Public Holiday</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-lg-2 col-form-label">File Excel</label>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<input type="file" name="filename" class="form-control" id="frmUploadHoliday">
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<button type="button" class="btn btn-success" onclick="window.open('../../../files/template_file_upload/template_public_holiday.xlsx');">
+												<i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">Template</span>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<table id="tblhttphtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Tanggal</th>
-							<th>Kode</th>
 							<th>Nama</th>
 							<th>TX</th>
 							<th>Approval</th>
@@ -297,7 +329,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3,4,5]
+					targets: [1,2,3,4]
 				},
 				{
 					searchPanes:{
@@ -309,7 +341,6 @@
 			columns: [
 				{ data: "httphtd.id",visible:false },
 				{ data: "httphtd.tanggal" },
-				{ data: "httphtd.kode" },
 				{ data: "httphtd.nama" },
 				{ 
 					data: "httphtd.transaction_state" ,
@@ -335,6 +366,16 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
+				
+				{
+					name: 'btnUpload',
+					text: '<i class="fa fa-file-excel-o"></i>',
+					className: 'btn btn-primary',
+					titleAttr: 'Upload Public Holiday',
+					action: function ( e, dt, node, config ) {
+						$('#modalUpload').modal('toggle');
+					}
+				}
 				// END breaking generate button
 			],
 			initComplete: function() {
@@ -388,6 +429,7 @@
 
 		// END httphtd
 		
+		//filter periode
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
 		}).validate({
@@ -407,6 +449,48 @@
 			}
 		});
 		
+		//Upload
+		
+		var frmUploaHoliday = $("#frmUploaHoliday").submit(function(e) {
+			e.preventDefault();
+			// $('#submit_ceklok').hide();
+		}).validate({
+
+			submitHandler: function(form) { 
+				
+				toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+
+				//holiday
+				var fd_holiday = new FormData();
+				var holiday = $('#frmUploadHoliday')[0].files[0];
+				if (holiday != undefined) {
+					fd_holiday.append('filename',holiday);
+		
+					$.ajax( {
+						url: "../../models/httphtd/httphtd_upload_holiday.php",
+						type: 'POST',
+						dataType: 'json',
+						data: fd_holiday,
+						async: false,
+						contentType: false,
+						processData: false,
+						success: function ( json ) {
+							
+							full_message = json.data.message + '</br>';
+							toast_type   = json.data.type_message;
+							toastr[toast_type](full_message, 'INFO');
+							$("#frmUploadHoliday").val('');
+							tblhttphtd.ajax.reload(null,false);
+							$('#modalUpload').modal('toggle');
+							// $('#submit_ceklok').show();
+						},
+						error: function (xhr, Status, err){
+							// console.log('x');
+						}
+					} );
+				}
+			}
+		});
 		// BEGIN httphtd_d
 
 		edthttphtd_d = new $.fn.dataTable.Editor( {
