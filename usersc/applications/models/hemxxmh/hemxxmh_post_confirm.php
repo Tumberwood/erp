@@ -18,66 +18,71 @@
 	$morePages = 0;
 	// END definisi variable untuk fn_ajax_results.php
 
-	$id_transaksi_h = $_POST['id_transaksi_h'];
+	$id_transaksi = $_POST['id_transaksi'];
 
 		try{
 			$db->transaction();
+
 			
-			$qs_hemxxmh = $db
-				->query('select', 'hemxxmh')
-				->get([
-					'kode',
-					'nama'
-				])
-				->where('id',$id_transaksi_h)
+			$qs_ggsxxsh = $db
+				->query('select', 'ggsxxsh' )
+				->get(['is_autocreateusers'] )
+				->where('id', 1 )
 				->exec();
-			$rs_hemxxmh = $qs_hemxxmh->fetch();
-			$kode       = $rs_hemxxmh['kode'] ;
-			$nama       = $rs_hemxxmh['nama'] ;
-			$email      = $kode . '@solusi-indonesia.com';
+			$rs_ggsxxsh = $qs_ggsxxsh->fetch();
+			$is_autocreateusers = $rs_ggsxxsh['is_autocreateusers'];
+			if ($is_autocreateusers == 1) {
+				$qs_hemxxmh = $db
+					->query('select', 'hemxxmh')
+					->get([
+						'kode',
+						'nama'
+					])
+					->where('id',$id_transaksi)
+					->exec();
+				$rs_hemxxmh = $qs_hemxxmh->fetch();
+				$kode       = $rs_hemxxmh['kode'] ;
+				$nama       = $rs_hemxxmh['nama'] ;
+				$email      = $kode . '@solusi-indonesia.com';
+	
+				$harini = new Carbon();
+	
+				// BEGIN create user
+				$qs_users = $db
+					->query('insert', 'users' )
+					->set('username', $kode )
+					->set('fname', $nama )
+					->set('lname', '' )
+					->set('email', $email )
+					->set('password', password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]), )
+					->set('permissions', 1)
+					->set('email_verified', 1)
+					->set('join_date', $harini->format('Y-m-d H:i:s') )
+					->set('vericode', randomstring(15) )
+					->exec();
+	
+				$id_users = $qs_users->insertId();
+	
+				$qu_hemxxmh = $db
+					->query('update', 'hemxxmh' )
+					->set('id_users', $id_users )
+					->where('id', $id_transaksi )
+					->exec();
+	
+				$user_permission_matches = $db
+					->query('insert', 'user_permission_matches')
+					->set('user_id',$id_users)
+					->set('permission_id', 1)
+					->exec();
 
-			$harini = new Carbon();
-
-			// BEGIN create user
-			$qs_users = $db
-				->query('insert', 'users' )
-				->set('username', $kode )
-				->set('fname', $nama )
-				->set('lname', 'LJI' )
-				->set('email', $email )
-				->set('password', password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]), )
-				->set('permissions', 1)
-				->set('email_verified', 1)
-				->set('join_date', $harini->format('Y-m-d H:i:s') )
-				->set('vericode', randomstring(15) )
-				->exec();
-
-			$id_users = $qs_users->insertId();
-
-			$qu_hemxxmh = $db
-				->query('update', 'hemxxmh' )
-				->set('id_users', $id_users )
-				->where('id', $id_transaksi_h )
-				->exec();
-
-			$user_permission_matches = $db
-				->query('insert', 'user_permission_matches')
-				->set('user_id',$id_users)
-				->set('permission_id', 1)
-				->exec();
-
-			$user_permission_matches = $db
-				->query('insert', 'user_permission_matches')
-				->set('user_id',$id_users)
-				->set('permission_id', 5)
-				->exec();
-
-			//Data Permission
-			$user_udp = $db
-				->query('insert', 'udpxxsh')
-				->set('id_users',$id_users)
-				->set('data_permission', 1)
-				->exec();
+				//Data Permission
+				$user_udp = $db
+					->query('insert', 'udpxxsh')
+					->set('id_users',$id_users)
+					->set('data_permission', 1)
+					->set('transaction_state', 1)
+					->exec();
+			}
 
 			//insert saldo cuti
 			$qi_saldo = $db
@@ -126,7 +131,7 @@
 
 			$db->commit();
 			$data = array(
-				'id_transaksi_h'=>$id_transaksi_h
+				'id_transaksi'=>$id_transaksi
 			);
 		}catch(PDOException $e){
 			// rollback on error
