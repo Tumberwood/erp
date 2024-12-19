@@ -56,6 +56,13 @@
 				) )
 		);
 	
+	if($_POST['start_date'] != ''){
+		$editor->where( 'httphtd.tanggal',$_POST['start_date'], '>=' );
+	}
+	if($_POST['end_date'] != ''){
+		$editor->where( 'httphtd.tanggal', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_httphtd'] == 0){

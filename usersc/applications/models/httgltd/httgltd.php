@@ -63,9 +63,17 @@
 			->where( 'httgltd.transaction_state', -9, '<>');
 	}
 
+	//kalo pake row id, tidak perlu filter tanggal
 	if ( isset($_POST['rowId']) && $_POST['rowId'] > 0){
 		$editor
 			->where( 'httgltd.id', $_POST['rowId']);
+	} else {
+		if($_POST['start_date'] != ''){
+			$editor->where( 'httgltd.tanggal',$_POST['start_date'], '>=' );
+		}
+		if($_POST['end_date'] != ''){
+			$editor->where( 'httgltd.tanggal', $_POST['end_date'], '<=' );
+		}
 	}
 	
 	include( "httgltd_extra.php" );
