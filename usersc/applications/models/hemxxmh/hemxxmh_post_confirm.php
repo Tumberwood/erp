@@ -24,13 +24,13 @@
 			$db->transaction();
 
 			
-			$qs_ggsxxsh = $db
-				->query('select', 'ggsxxsh' )
+			$qs_ggshrsh = $db
+				->query('select', 'ggshrsh' )
 				->get(['is_autocreateusers'] )
 				->where('id', 1 )
 				->exec();
-			$rs_ggsxxsh = $qs_ggsxxsh->fetch();
-			$is_autocreateusers = $rs_ggsxxsh['is_autocreateusers'];
+			$rs_ggshrsh = $qs_ggshrsh->fetch();
+			$is_autocreateusers = $rs_ggshrsh['is_autocreateusers'];
 			if ($is_autocreateusers == 1) {
 				$qs_hemxxmh = $db
 					->query('select', 'hemxxmh')

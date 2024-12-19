@@ -1199,7 +1199,7 @@
 					
 					// BEGIN of cek unik hemxxmh.kode 
 					if(action == 'create'){
-						id_hemxxmh = 0;
+						id_transaksi_h = 0;
 					}
 					
 					$.ajax( {
@@ -1211,7 +1211,7 @@
 							table_name: 'hemxxmh',
 							nama_field: 'kode',
 							nama_field_value: '"'+kode+'"',
-							id_transaksi: id_hemxxmh
+							id_transaksi: id_transaksi_h
 						},
 						success: function ( json ) {
 							if(json.data.count == 1){
