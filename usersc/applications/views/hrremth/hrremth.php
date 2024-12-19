@@ -1233,7 +1233,7 @@
 
 		tblhrrertd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			CekDrawDetailHD( tblhrrertd, 1 );
+			CekDrawDetailHD( tblhrrertd, 0 );
 			CekDrawDetailHDFinal(tblhrremth);
 		} );
 
