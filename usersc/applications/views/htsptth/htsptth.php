@@ -624,13 +624,50 @@
 			// atur hak akses
 			CekDrawDetailHD( tblhtststd, 1 );
 			CekDrawDetailHDFinal(tblhtsptth);
+			tblhtststd.button('btnEdit:name')
+			.nodes()
+			.css( 'display', 'none' );
+
+			tblhtststd.button('btnRemove:name')
+			.nodes()
+			.css( 'display', 'none' );
+			
+			tblhtststd.button('btnCreate:name')
+			.nodes()
+			.css( 'display', 'none' );
 		} );
 
 		tblhtststd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('htststd');			
-			id_htsxxmh_old = data_htststd.id_htsxxmh;
+			id_htsxxmh_old = htststd_data.id_htsxxmh;
 
 			CekSelectDetailHD( tblhtststd );
+			if (transaction_state == 1) {
+				tblhtststd.button('btnEdit:name')
+				.nodes()
+				.css( 'display', 'none' );
+
+				tblhtststd.button('btnRemove:name')
+				.nodes()
+				.css( 'display', 'none' );
+				
+				tblhtststd.button('btnCreate:name')
+				.nodes()
+				.css( 'display', 'none' );
+			} else {
+				tblhtststd.button('btnEdit:name')
+				.nodes()
+				.css( 'display', 'block' );
+
+				tblhtststd.button('btnRemove:name')
+				.nodes()
+				.css( 'display', 'block' );
+				
+				tblhtststd.button('btnCreate:name')
+				.nodes()
+				.css( 'display', 'block' );
+
+			}
 		} );
 
 		tblhtststd.on( 'deselect', function() {
@@ -639,7 +676,17 @@
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblhtststd );
+			tblhtststd.button('btnEdit:name')
+			.nodes()
+			.css( 'display', 'none' );
+
+			tblhtststd.button('btnRemove:name')
+			.nodes()
+			.css( 'display', 'none' );
 			
+			tblhtststd.button('btnCreate:name')
+			.nodes()
+			.css( 'display', 'none' );
 		} );
 
 		// END htststd
@@ -869,7 +916,7 @@
 
 		tblhtsemtd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('htsemtd');			
-			id_hemxxmh_old = data_htsemtd.id_hemxxmh;
+			id_hemxxmh_old = htsemtd_data.id_hemxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhtsemtd );
