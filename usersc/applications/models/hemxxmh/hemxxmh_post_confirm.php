@@ -31,6 +31,7 @@
 				->exec();
 			$rs_ggshrsh = $qs_ggshrsh->fetch();
 			$is_autocreateusers = $rs_ggshrsh['is_autocreateusers'];
+
 			if ($is_autocreateusers == 1) {
 				$qs_hemxxmh = $db
 					->query('select', 'hemxxmh')
@@ -130,11 +131,25 @@
 			);
 
 			$db->commit();
-			$data = array(
-				'id_transaksi'=>$id_transaksi
-			);
+			$status_code  = 200;
+			$message = "Confirm Berhasil ";
+			$type_message = "success";
 		}catch(PDOException $e){
 			// rollback on error
 			$db->rollback();
+			$status_code  = 500;
+			$message = "Confirm Gagal ";
+			$type_message = 'error';
 		}
+
+		// build response
+		$data = array(
+			'status_code'    => $status_code,
+			'message'        => $message,
+			'type_message'   => $type_message
+		);	
+	
+		// tampilkan results
+		include( "../../../../usersc/helpers/fn_ajax_results.php" );
+	
 ?>
