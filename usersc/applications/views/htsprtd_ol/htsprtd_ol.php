@@ -166,6 +166,8 @@
 				getLocation();
 			}
 
+			edthtsprtd.field('htsprtd.jam').disable();
+			edthtsprtd.field('htsprtd.tanggal').disable();
 			edthtsprtd.field('htsprtd.lokasi').disable();
 			// console.log(username_ha);
 			
