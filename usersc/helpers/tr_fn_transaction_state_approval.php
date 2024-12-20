@@ -123,34 +123,50 @@
                     *  prqxxth, ada id_hodxxmh
                     *  maka harus dicari di table gapdusd yang group nya d
                     */
-                $qs_gapdusd = $db
-                    ->query('select', 'gapdusd' )
+                    $qs_gapdusd = $db
+                    ->query('select', 'gapdusd')
                     ->get([
                         'gapdusd.tblheader as tblheader',
                         'gapdusd.tbl_group_nama as tbl_group_nama'
-                    ] )
-                    ->join('gaptbtd','gaptbtd.id_gapxxsh = gapdusd.id_gapxxsh','LEFT' )
-                    ->where('gaptbtd.id_gtbrlsh', $id_gtbrlsh )
+                    ])
+                    ->join('gaptbtd', 'gaptbtd.id_gapxxsh = gapdusd.id_gapxxsh', 'LEFT')
+                    ->where('gaptbtd.id_gtbrlsh', $id_gtbrlsh)
                     ->exec();
-                $rs_gapdusd = $qs_gapdusd->fetch();
-    
-                // ambil data Divisi atau Department dari table transaksi
-                $qs_transaksi_group = $db
-                    ->raw()
-                    ->bind(':id_transaksi', $id_transaksi)
-                    ->exec('SELECT
-                            id_'.$rs_gapdusd['tblheader'].',
-                            '.$rs_gapdusd['tblheader'].'.nama as tbl_group_nama
-                        FROM '.$table_name.'
-                        LEFT JOIN '.$rs_gapdusd['tblheader'].' ON '.$rs_gapdusd['tblheader'].'.id = '.$table_name.'.id_'.$rs_gapdusd['tblheader'].' 
-                        WHERE 
-                            '.$table_name.'.id = :id_transaksi
-                    ');
-                $rs_transaksi_group = $qs_transaksi_group->fetch();
-    
-                // generate where_group_nama
-                $where_group_nama = 'AND gapdusd.tblheader = "' . $rs_gapdusd['tblheader'] . '" AND gapdusd.tbl_group_nama = "' . $rs_transaksi_group['tbl_group_nama'] .'"';
-    
+                
+                $rs_gapdusd = $qs_gapdusd->fetchAll();
+                
+                $where_group_nama .= 'AND (';
+                
+                // Loop melalui data gapdusd
+                foreach ($rs_gapdusd as $gapdusd) {
+                    // Ambil data dari tabel transaksi
+                    $qs_transaksi_group = $db
+                        ->raw()
+                        ->bind(':id_transaksi', $id_transaksi)
+                        ->exec('SELECT
+                                id_' . $gapdusd['tblheader'] . ',
+                                ' . $gapdusd['tblheader'] . '.nama as tbl_group_nama
+                            FROM ' . $table_name . '
+                            LEFT JOIN ' . $gapdusd['tblheader'] . ' ON ' . $gapdusd['tblheader'] . '.id = ' . $table_name . '.id_' . $gapdusd['tblheader'] . '
+                            WHERE
+                                ' . $table_name . '.id = :id_transaksi
+                        ');
+                
+                    $rs_transaksi_group = $qs_transaksi_group->fetchAll();
+                
+                    // Loop melalui data transaksi_group
+                    foreach ($rs_transaksi_group as $index => $transaksi_group) {
+                        // Generate where_group_nama
+                        $where_group_nama .= 'gapdusd.tblheader = "' . $gapdusd['tblheader'] . '" AND gapdusd.tbl_group_nama = "' . $transaksi_group['tbl_group_nama'] . '"';
+                
+                        // Tambahkan "OR" jika elemen saat ini bukan yang terakhir
+                        if ($index < count($rs_transaksi_group) - 1) {
+                            $where_group_nama .= ' OR ';
+                        }
+                    }
+                }
+                
+                $where_group_nama .= ')';                
     
             }else{
     
