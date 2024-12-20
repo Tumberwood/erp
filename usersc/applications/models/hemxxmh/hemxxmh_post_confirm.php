@@ -99,6 +99,62 @@
 					->set('data_permission', 1)
 					->set('transaction_state', 1)
 					->exec();
+					
+				$id_udpxxsh = $user_udp->insertId();
+				
+				// cek user_permission_matches
+				$rq_user_permission_matches = $db
+					->query('select', 'user_permission_matches')
+					->get('permission_id as permission_id')
+					->where( 'user_id', $id_users)
+					->exec();
+				$rss_user_permission_matches = $rq_user_permission_matches->fetchAll();
+				
+				$arr_permission_id = array();
+				foreach ($rss_user_permission_matches as $row) {
+					array_push($arr_permission_id,$row['permission_id']);
+				}
+				
+				// select id_pages yang sudah ada
+				$qs_ucudasd_in = $db
+					->query('select', 'ucudasd')
+					->get('id_pages')
+					->where('id_users',$id_users)
+					->exec();
+				$rss_ucudasd_in = $qs_ucudasd_in->fetchAll();
+				$arr_id_pages = array();
+				foreach ($rss_ucudasd_in as $row) {
+					array_push($arr_id_pages,$row['id_pages']);
+				}
+				
+				// cek permission_page_matches
+				// id_pages yang sudah ada di ucudasd tidak dipilih lagi 
+				$rs_permission_page_matches = $db
+					->query('select', 'permission_page_matches')
+					->get('permission_page_matches.page_id as page_id')
+					->join('pages', 'pages.id=permission_page_matches.page_id','LEFT')
+					->join('pages_extend', 'pages_extend.id=pages.id','LEFT')
+					->where_in( ' permission_page_matches.permission_id', $arr_permission_id)
+					->where_in( ' permission_page_matches.page_id NOT', $arr_id_pages)
+					->where( 'pages_extend.is_setting', 0)
+					->where( 'pages_extend.is_crud', 1)
+					->exec();
+				$rss_permission_page_matches = $rs_permission_page_matches->fetchAll();
+
+				if(count($rss_permission_page_matches) > 0){
+					// INSERT data pages baru
+					foreach ($rss_permission_page_matches as $row) {
+						$qi_ucudasd = $db
+							->query('insert', 'ucudasd')
+							->set('id_udpxxsh',$id_udpxxsh)
+							->set('id_users', $id_users)
+							->set('id_pages', $row['page_id'])
+							->exec();
+					}
+
+					$c_newpage = count($rss_permission_page_matches);
+					$messsage_newpage = ' ' . $c_newpage . ' pages baru berhasil ditambahkan.';
+				}
 			}
 
 			//insert saldo cuti
