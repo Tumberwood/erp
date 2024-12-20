@@ -36,14 +36,22 @@
 				$qs_hemxxmh = $db
 					->query('select', 'hemxxmh')
 					->get([
-						'kode',
-						'nama'
+						'hemxxmh.kode as kode',
+						'hemjbmh.id_gcpxxmh as id_gcpxxmh',
+						'hemjbmh.id_gbrxxmh as id_gbrxxmh',
+						'hemxxmh.fname as fname',
+						'hemxxmh.lname as lname'
 					])
-					->where('id',$id_transaksi)
+					->join('hemjbmh','hemjbmh.id_hemxxmh = hemxxmh.id','LEFT' )
+					->where('hemxxmh.id',$id_transaksi)
 					->exec();
 				$rs_hemxxmh = $qs_hemxxmh->fetch();
+
 				$kode       = $rs_hemxxmh['kode'] ;
-				$nama       = $rs_hemxxmh['nama'] ;
+				$id_gcpxxmh       = $rs_hemxxmh['id_gcpxxmh'] ;
+				$id_gbrxxmh       = $rs_hemxxmh['id_gbrxxmh'] ;
+				$fname       = $rs_hemxxmh['fname'] ;
+				$lname       = $rs_hemxxmh['lname'] ;
 				$email      = $kode . '@solusi-indonesia.com';
 	
 				$harini = new Carbon();
@@ -52,8 +60,8 @@
 				$qs_users = $db
 					->query('insert', 'users' )
 					->set('username', $kode )
-					->set('fname', $nama )
-					->set('lname', '' )
+					->set('fname', $fname )
+					->set('lname', $lname )
 					->set('email', $email )
 					->set('password', password_hash('password', PASSWORD_BCRYPT, ['cost' => 12]), )
 					->set('permissions', 1)
@@ -75,11 +83,19 @@
 					->set('user_id',$id_users)
 					->set('permission_id', 1)
 					->exec();
+	
+				$user_permission_matches = $db
+					->query('insert', 'user_permission_matches')
+					->set('user_id',$id_users)
+					->set('permission_id', 27)
+					->exec();
 
 				//Data Permission
 				$user_udp = $db
 					->query('insert', 'udpxxsh')
 					->set('id_users',$id_users)
+					->set('id_gcpxxmh',$id_gcpxxmh)
+					->set('id_gbrxxmh',$id_gbrxxmh)
 					->set('data_permission', 1)
 					->set('transaction_state', 1)
 					->exec();

@@ -1540,3 +1540,22 @@ function uploadDetail(id_header, nama_tabel, tbl, url) {
         tbl.button('btnUploadData:name').disable();
     }
 }
+
+/**
+ * 
+ * @param {nama tabel database} tbl_name 
+ * @param {editor} edt 
+ * 
+    cek_is_need_generate_kode('hemxxmh', edthemxxmh);
+ */
+function cek_is_need_generate_kode(tbl_name, edt) {
+    tableRelation(tbl_name);
+
+    //jika is_generate_kode = 1 di gtbrlsh
+    if (is_need_generate_kode == 1) {
+        //Jika fields kode di editor ada, maka dihide saja
+        if (edt.field(tbl_name+'.kode')) {
+            edt.field(tbl_name+'.kode').hide();
+        }
+    }
+}

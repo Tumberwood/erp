@@ -49,6 +49,14 @@
 				->setFormatter( function ( $val ) {
 					return ucwords($val);
 				} ),
+			Field::inst( 'hemxxmh.fname' )
+				->setFormatter( function ( $val ) {
+					return ucwords($val);
+				} ),
+			Field::inst( 'hemxxmh.lname' )
+				->setFormatter( function ( $val ) {
+					return ucwords($val);
+				} ),
 			Field::inst( 'hemxxmh.id_files_foto' )
 				->setFormatter( Format::ifEmpty( 0 ) )
 				// ->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/uploads/ktp/__ID__.__EXTN__' )
@@ -145,6 +153,10 @@
 				) ),
 			Field::inst( 'hemjbmh.grup_hk' ),
 			Field::inst( 'hemjbmh.jumlah_grup' ),
+			Field::inst( 'hemjbmh.id_gcpxxmh' )
+			->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'hemjbmh.id_gbrxxmh' )
+			->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'hovxxmh.nama' ),
 			Field::inst( 'hodxxmh.nama' ),
 			Field::inst( 'hemdcmh.id_gtxpkmh' )

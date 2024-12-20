@@ -36,6 +36,14 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-lg-6">
+											<editor-field name="hemxxmh.fname"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemxxmh.lname"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
 											<editor-field name="hemxxmh.nama"></editor-field>
 										</div>
 										<div class="col-lg-6">
@@ -64,6 +72,14 @@
 										</div>
 										<div class="col-lg-6">
 											<editor-field name="hemmdmh.gol_darah"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_gcpxxmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hemjbmh.id_gbrxxmh"></editor-field>
 										</div>
 									</div>
 									<div class="row">
@@ -533,7 +549,7 @@
 	
 	var id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hesxxmh_old = 0;
 	var id_hgnedmh_old = 0;
-	var id_gtxpkmh_old = 0;
+	var id_gtxpkmh_old = 0, id_gcpxxmh_old = 0, id_gbrxxmh_old = 0;
 	var id_heyxxmd_old = 0, id_gctxxmh_tinggal_old = 0, id_gctxxmh_ktp_old = 0;
 	var id_httlpmh_old = 0, id_hgnlgmh_old = 0, id_gctxxmh_lahir_old = 0;
 	var id_hesxxmh_pkwt = 0, id_gctxxmh_hemedmd = 0, id_gctxxmh_hemwrmd = 0;
@@ -575,8 +591,17 @@
 					def: 0
 				},
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.nama"
+					label: "Nama Lengkap",
+					name: "hemxxmh.nama",
+					type: "readonly"
+				}, 	
+				{
+					label: "First Name <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.fname"
+				}, 	
+				{
+					label: "Last Name <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.lname"
 				}, 	
 				{
 					label: "NIP <sup class='text-danger'>*<sup>",
@@ -840,6 +865,78 @@
 							data: function (params) {
 								var query = {
 									id_heyxxmh_old: id_heyxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Company <sup class='text-danger'>*<sup>",
+					name: "hemjbmh.id_gcpxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gcpxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gcpxxmh_old: id_gcpxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Branch <sup class='text-danger'>*<sup>",
+					name: "hemjbmh.id_gbrxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gbrxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gbrxxmh_old: id_gbrxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1186,22 +1283,27 @@
 		edthemxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthemxxmh.field('hemxxmh.start_at').val(start_at);
+			//cek_is_need_generate_kode
+			cek_is_need_generate_kode('hemxxmh', edthemxxmh);
 
 			if(action == 'create'){
 				tblhemxxmh.rows().deselect();
 
 				edthemxxmh.field('hemjbmh.tanggal_keluar').disable();
-				edthemxxmh.field('hemxxmh.nama').enable();
+				edthemxxmh.field('hemxxmh.fname').enable();
+				edthemxxmh.field('hemxxmh.lname').enable();
 				// edthemxxmh.field('hemxxmh.kode').enable();
 				
 			}else if(action == 'edit'){
 				edthemxxmh.field('hemjbmh.tanggal_keluar').enable();
 				
 				if(transaction_state == 0){
-					edthemxxmh.field('hemxxmh.nama').enable();
+					edthemxxmh.field('hemxxmh.fname').enable();
+					edthemxxmh.field('hemxxmh.lname').enable();
 					// edthemxxmh.field('hemxxmh.kode').enable();
 				}else{
-					edthemxxmh.field('hemxxmh.nama').disable();
+					edthemxxmh.field('hemxxmh.fname').disable();
+					edthemxxmh.field('hemxxmh.lname').disable();
 					// edthemxxmh.field('hemxxmh.kode').disable();					
 				}
 			}
@@ -1213,6 +1315,24 @@
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirmHD();
 		});
+
+		edthemxxmh.dependent( 'hemxxmh.fname', function ( val, data, callback ) {
+			fname = edthemxxmh.field('hemxxmh.fname').val();
+			lname = edthemxxmh.field('hemxxmh.lname').val();
+
+			nama_lengkap = fname + " " + lname;
+			edthemxxmh.field('hemxxmh.nama').val(nama_lengkap)
+			return {}
+		}, {event: 'keyup change'});
+
+		edthemxxmh.dependent( 'hemxxmh.lname', function ( val, data, callback ) {
+			fname = edthemxxmh.field('hemxxmh.fname').val();
+			lname = edthemxxmh.field('hemxxmh.lname').val();
+
+			nama_lengkap = fname + " " + lname;
+			edthemxxmh.field('hemxxmh.nama').val(nama_lengkap)
+			return {}
+		}, {event: 'keyup change'});
 
 		edthemxxmh.dependent( 'hemdcmh.is_npwp', function ( val, data, callback ) {
 				if (val == 1) {
@@ -1232,42 +1352,49 @@
 			edthemxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
 					// BEGIN of validasi hemxxmh.kode 
-					kode = edthemxxmh.field('hemxxmh.kode').val();
-					if(!kode || kode == ''){
-						edthemxxmh.field('hemxxmh.kode').error( 'Wajib diisi!' );
-					}
+					// kode = edthemxxmh.field('hemxxmh.kode').val();
+					// if(!kode || kode == ''){
+					// 	edthemxxmh.field('hemxxmh.kode').error( 'Wajib diisi!' );
+					// }
 					
-					// BEGIN of cek unik hemxxmh.kode 
-					if(action == 'create'){
-						id_transaksi_h = 0;
-					}
+					// // BEGIN of cek unik hemxxmh.kode 
+					// if(action == 'create'){
+					// 	id_transaksi_h = 0;
+					// }
 					
-					$.ajax( {
-						url: '../../../helpers/validate_fn_unique.php',
-						dataType: 'json',
-						type: 'POST',
-						async: false,
-						data: {
-							table_name: 'hemxxmh',
-							nama_field: 'kode',
-							nama_field_value: '"'+kode+'"',
-							id_transaksi: id_transaksi_h
-						},
-						success: function ( json ) {
-							if(json.data.count == 1){
-								edthemxxmh.field('hemxxmh.kode').error( 'Data tidak boleh kembar!' );
-							}
-						}
-					} );
+					// $.ajax( {
+					// 	url: '../../../helpers/validate_fn_unique.php',
+					// 	dataType: 'json',
+					// 	type: 'POST',
+					// 	async: false,
+					// 	data: {
+					// 		table_name: 'hemxxmh',
+					// 		nama_field: 'kode',
+					// 		nama_field_value: '"'+kode+'"',
+					// 		id_transaksi: id_transaksi_h
+					// 	},
+					// 	success: function ( json ) {
+					// 		if(json.data.count == 1){
+					// 			edthemxxmh.field('hemxxmh.kode').error( 'Data tidak boleh kembar!' );
+					// 		}
+					// 	}
+					// } );
 					// END of cek unik hemxxmh.kode 
 					// END of validasi hemxxmh.kode 
 
-					// BEGIN of validasi hemxxmh.nama 
-					nama = edthemxxmh.field('hemxxmh.nama').val();
-					if(!nama || nama == ''){
-						edthemxxmh.field('hemxxmh.nama').error( 'Wajib diisi!' );
+					// BEGIN of validasi hemxxmh.fname 
+					fname = edthemxxmh.field('hemxxmh.fname').val();
+					if(!fname || fname == ''){
+						edthemxxmh.field('hemxxmh.fname').error( 'Wajib diisi!' );
 					}
-					// END of validasi hemxxmh.nama 
+					// END of validasi hemxxmh.fname 
+
+					// BEGIN of validasi hemxxmh.lname 
+					lname = edthemxxmh.field('hemxxmh.lname').val();
+					if(!lname || lname == ''){
+						edthemxxmh.field('hemxxmh.lname').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemxxmh.lname 
 					
 					// BEGIN of validasi hemxxmh.is_pot_makan 
 					is_pot_makan = edthemxxmh.field('hemxxmh.is_pot_makan').val();
@@ -1282,6 +1409,20 @@
 						edthemxxmh.field('hemjbmh.id_heyxxmh').error( 'Wajib diisi!' );
 					}
 					// END of validasi hemjbmh.id_heyxxmh 
+					
+					// BEGIN of validasi hemjbmh.id_gcpxxmh 
+					id_gcpxxmh = edthemxxmh.field('hemjbmh.id_gcpxxmh').val();
+					if(!id_gcpxxmh || id_gcpxxmh == ''){
+						edthemxxmh.field('hemjbmh.id_gcpxxmh').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemjbmh.id_gcpxxmh 
+					
+					// BEGIN of validasi hemjbmh.id_gbrxxmh 
+					id_gbrxxmh = edthemxxmh.field('hemjbmh.id_gbrxxmh').val();
+					if(!id_gbrxxmh || id_gbrxxmh == ''){
+						edthemxxmh.field('hemjbmh.id_gbrxxmh').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemjbmh.id_gbrxxmh 
 
 					// BEGIN of validasi hemdcmh.ktp_no 
 					ktp_no = edthemxxmh.field('hemdcmh.ktp_no').val();
@@ -1543,6 +1684,8 @@
 			id_hevxxmh_old   = data_hemjbmh.id_hevxxmh;
 			id_hetxxmh_old   = data_hemjbmh.id_hetxxmh;
 			id_heyxxmh_old   = data_hemjbmh.id_heyxxmh;
+			id_gcpxxmh_old   = data_hemjbmh.id_gcpxxmh;
+			id_gbrxxmh_old   = data_hemjbmh.id_gbrxxmh;
 			id_heyxxmd_old   = data_hemjbmh.id_heyxxmd;
 			id_hesxxmh_old   = data_hemjbmh.id_hesxxmh;
 
@@ -1588,6 +1731,9 @@
 		tblhemxxmh.on( 'deselect', function () {
 			// reload dipanggil di function CekDeselectHeader
 			id_hemxxmh = 0, id_gctxxmh_old = 0, id_gbuxxmh_old = 0, id_gpvxxmh_old = 0, id_gctxxmh_ktp_old = 0, id_gctxxmh_tinggal_old = 0, id_gctxxmh_lahir_old=0;
+			id_heyxxmh_old = 0;
+			id_gcpxxmh_old = 0;
+			id_gbrxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [
