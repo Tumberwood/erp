@@ -138,7 +138,7 @@
                 $where_group_nama .= 'AND (';
                 
                 // Loop melalui data gapdusd
-                foreach ($rs_gapdusd as $gapdusd) {
+                foreach ($rs_gapdusd as $index => $gapdusd) {
                     // Ambil data dari tabel transaksi
                     $qs_transaksi_group = $db
                         ->raw()
@@ -151,18 +151,18 @@
                             WHERE
                                 ' . $table_name . '.id = :id_transaksi
                         ');
-                
+                    
                     $rs_transaksi_group = $qs_transaksi_group->fetchAll();
                 
                     // Loop melalui data transaksi_group
-                    foreach ($rs_transaksi_group as $index => $transaksi_group) {
+                    foreach ($rs_transaksi_group as $transaksi_group) {
                         // Generate where_group_nama
                         $where_group_nama .= 'gapdusd.tblheader = "' . $gapdusd['tblheader'] . '" AND gapdusd.tbl_group_nama = "' . $transaksi_group['tbl_group_nama'] . '"';
+                    }
                 
-                        // Tambahkan "OR" jika elemen saat ini bukan yang terakhir
-                        if ($index < count($rs_transaksi_group) - 1) {
-                            $where_group_nama .= ' OR ';
-                        }
+                    // Tambahkan "OR" jika elemen saat ini bukan elemen terakhir dari $rs_gapdusd
+                    if ($index < count($rs_gapdusd) - 1) {
+                        $where_group_nama .= ' OR ';
                     }
                 }
                 
