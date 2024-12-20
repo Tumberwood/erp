@@ -16,7 +16,7 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
-			<div class="modal" id="modalSFhtssctd" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal" id="modalSFhtssctd" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content animated bounceInRight">
 							<form class="form-horizontal" id="frmFilter">
@@ -144,6 +144,9 @@
 		},
 	});
 	
+	$('#start_date').datepicker('setDate', moment().toDate());
+	$('#end_date').datepicker('setDate', moment().toDate());
+
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
 		end_date   = moment($('#end_date').val()).format('YYYY-MM-DD');
