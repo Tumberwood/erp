@@ -131,7 +131,10 @@
 				// id_pages yang sudah ada di ucudasd tidak dipilih lagi 
 				$rs_permission_page_matches = $db
 					->query('select', 'permission_page_matches')
-					->get('permission_page_matches.page_id as page_id')
+					->get(
+						'permission_page_matches.page_id as page_id',
+						'pages.title as page_title'
+						)
 					->join('pages', 'pages.id=permission_page_matches.page_id','LEFT')
 					->join('pages_extend', 'pages_extend.id=pages.id','LEFT')
 					->where_in( ' permission_page_matches.permission_id', $arr_permission_id)
@@ -141,13 +144,33 @@
 					->exec();
 				$rss_permission_page_matches = $rs_permission_page_matches->fetchAll();
 
+				$hak_c = 0;
+				$hak_u = 0;
+				$hak_d = 0;
 				if(count($rss_permission_page_matches) > 0){
 					// INSERT data pages baru
 					foreach ($rss_permission_page_matches as $row) {
+						if ($row['page_title'] == "Presensi Online") {
+							$hak_c = 1;
+							$hak_u = 0;
+							$hak_d = 0;
+						} else if ($row['page_title'] == "Leave &amp; Permission") {
+							$hak_c = 1;
+							$hak_u = 1;
+							$hak_d = 1;
+						} else {
+							$hak_c = 0;
+							$hak_u = 0;
+							$hak_d = 0;
+						}
+
 						$qi_ucudasd = $db
 							->query('insert', 'ucudasd')
 							->set('id_udpxxsh',$id_udpxxsh)
 							->set('id_users', $id_users)
+							->set('hak_c', $hak_c)
+							->set('hak_u', $hak_u)
+							->set('hak_d', $hak_d)
 							->set('id_pages', $row['page_id'])
 							->exec();
 					}
