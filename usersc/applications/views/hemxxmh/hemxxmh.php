@@ -84,10 +84,11 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-6">
-											<editor-field name="hemjbmh.id_hesxxmh"></editor-field>
+											<editor-field name="hemjbmh.id_heyxxmh"></editor-field>
 										</div>
 										<div class="col-lg-6">
-											<editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field>
+											<editor-field name="hemjbmh.id_hesxxmh"></editor-field>
+											<!-- <editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field> -->
 										</div>
 									</div>
 									<div class="row">
@@ -231,7 +232,7 @@
                                 <th>Jabatan</th>
                                 <th>Status</th>
                                 <th>Tanggal Masuk</th>
-                                <th>Tanggal Akhir PKWT</th>
+                                <!-- <th>Tanggal Akhir PKWT</th> -->
                                 <th>Tanggal Keluar</th>
                             </tr>
                         </thead>
@@ -508,7 +509,7 @@
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hemxxmh/fn/hemxxmh_fn.php'; ?>
 
@@ -803,6 +804,42 @@
 								var query = {
 									id_hesxxmh: 0,
 									id_hesxxmh_old: id_hesxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Type <sup class='text-danger'>*<sup>",
+					name: "hemjbmh.id_heyxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/heyxxmh/heyxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_heyxxmh_old: id_heyxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1172,6 +1209,9 @@
 
 		edthemxxmh.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
+			
+			// enable disable tombol Save & Confirm
+			edtFormButtonSaveConfirmHD();
 		});
 
 		edthemxxmh.dependent( 'hemdcmh.is_npwp', function ( val, data, callback ) {
@@ -1235,6 +1275,13 @@
 						edthemxxmh.field('hemxxmh.is_pot_makan').error( 'Wajib diisi!' );
 					}
 					// END of validasi hemxxmh.is_pot_makan 
+					
+					// BEGIN of validasi hemjbmh.id_heyxxmh 
+					id_heyxxmh = edthemxxmh.field('hemjbmh.id_heyxxmh').val();
+					if(!id_heyxxmh || id_heyxxmh == ''){
+						edthemxxmh.field('hemjbmh.id_heyxxmh').error( 'Wajib diisi!' );
+					}
+					// END of validasi hemjbmh.id_heyxxmh 
 
 					// BEGIN of validasi hemdcmh.ktp_no 
 					ktp_no = edthemxxmh.field('hemdcmh.ktp_no').val();
@@ -1429,7 +1476,7 @@
 				{ data: "hetxxmh.nama" },
 				{ data: "hesxxmh.nama" },//10
 				{ data: "hemjbmh.tanggal_masuk" },
-				{ data: "hemjbmh.tanggal_akhir_pkwt" },
+				// { data: "hemjbmh.tanggal_akhir_pkwt" },
 				{ data: "hemjbmh.tanggal_keluar" }
 			],
 			buttons: [
@@ -1805,8 +1852,7 @@
 
 		tblhemfmmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhemxxmh, tblhemfmmd, 'hemfmmd' );
+			CekDrawDetailHD(tblhemfmmd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -2093,8 +2139,7 @@
 
 		tblhemedmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhemxxmh, tblhemedmd, 'hemedmd' );
+			CekDrawDetailHD(tblhemedmd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -2420,8 +2465,7 @@
 
 		tblhemwrmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhemxxmh, tblhemwrmd, 'hemwrmd' );
+			CekDrawDetailHD(tblhemwrmd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -2675,8 +2719,7 @@
 
 		tblhemlgmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 1;
-			CekDrawDetailHD(tblhemxxmh, tblhemlgmd, 'hemlgmd' );
+			CekDrawDetailHD(tblhemlgmd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -2990,9 +3033,7 @@
 
 		tblhadxxtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 0;
-			// is_valid_cek_detail = 1;
-			CekDrawDetailHD(tblhemxxmh, tblhadxxtd, 'hadxxtd' );
+			CekDrawDetailHD(tblhadxxtd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -3099,9 +3140,7 @@
 
 		tblhttlptd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 0;
-			// is_valid_cek_detail = 1;
-			CekDrawDetailHD(tblhemxxmh, tblhttlptd, 'httlptd' );
+			CekDrawDetailHD(tblhttlptd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -3321,9 +3360,7 @@
 
 		tblhemtrmd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 0;
-			// is_valid_cek_detail = 1;
-			CekDrawDetailHD(tblhemxxmh, tblhemtrmd, 'hemtrmd' );
+			CekDrawDetailHD(tblhemtrmd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -3550,8 +3587,7 @@
 
 		tblhesxxtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 0;
-			CekDrawDetailHD(tblhemxxmh, tblhesxxtd, 'hesxxtd' );
+			CekDrawDetailHD(tblhesxxtd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
@@ -3630,9 +3666,7 @@
 
 		tblhemjbrd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			cek_c_detail= 0;
-			// is_valid_cek_detail = 1;
-			CekDrawDetailHD(tblhemxxmh, tblhemjbrd, 'hemjbrd' );
+			CekDrawDetailHD(tblhemjbrd, 0 );
 			CekDrawDetailHDFinal(tblhemxxmh);
 		} );
 
