@@ -180,7 +180,7 @@
 					render: function (data, type, row) {
 						folder              = row.gaplgtd.tbl_name;
 						id_transaksi_tujuan = row.gaplgtd.id_transaksi;
-						url = '/erpx/usersc/applications/views/' + folder + '/' + folder + '.php?rowid=' +id_transaksi_tujuan;
+						url = '/usersc/applications/views/' + folder + '/' + folder + '.php?rowId=' +id_transaksi_tujuan;
 						if(data){
 							return '<a href="'+url+'" target="_blank">'+ data + '</a>';
 						}else{
