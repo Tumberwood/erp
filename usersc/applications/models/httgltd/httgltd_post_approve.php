@@ -126,68 +126,9 @@
                     WHERE 
                         tanggal = :tanggal
                     '.$where_kecuali.'
-                    AND keterangan = CONCAT("Cuti Bersama - ", :nama) 
+                    AND htssctd.keterangan = CONCAT("Cuti Bersama - ", :nama) 
                 ');
             // END insert pengaju
-
-            // Update Untuk mendapatkan flag
-            // $qu_tanggal = $db
-            //     ->raw()
-            //     ->bind(':tanggal', $rs_httgltd["tanggal"])
-            //     ->exec('UPDATE htssctd AS jad
-            //             LEFT JOIN 
-            //             (
-            //                 SELECT
-            //                     a.id_hemxxmh,
-            //                     "sisa saldo cuti",
-            //                     :tanggal,
-            //                     SUM(
-            //                         CASE
-            //                             WHEN ifnull(a.saldo, 0) > 0 THEN ifnull(a.saldo, 0) - (COALESCE(cb.c_cb, 0) + IFNULL(c_rd,0))
-            //                             ELSE 0
-            //                         END
-            //                     ) AS sisa_saldo
-            //                 FROM httxxrd AS a
-            //                 -- employee
-            //                 LEFT JOIN hemxxmh AS peg ON peg.id = a.id_hemxxmh
-            //                 LEFT JOIN hemjbmh AS jb ON jb.id_hemxxmh = peg.id
-            //                 -- Izin yang memotong Cuti
-            //                 LEFT JOIN (
-            //                     SELECT
-            //                         rh.id_hemxxmh,
-            //                         COUNT(rh.id) AS c_cb
-            //                     FROM httxxrd AS rh
-            //                     LEFT JOIN httlpmh AS mh ON mh.id = rh.id_httlpmh
-            //                     WHERE YEAR(rh.tanggal) = YEAR(:tanggal) AND rh.jenis = 1 AND mh.is_potongcuti = 1
-            //                     GROUP BY rh.id_hemxxmh
-            //                 ) AS cb ON cb.id_hemxxmh = a.id_hemxxmh
-                            
-            //                 LEFT JOIN (
-            //                     SELECT
-            //                         a.id AS id_presensi,
-            //                         id_hemxxmh,
-            //                         COUNT(a.id) AS c_rd
-            //                     FROM htsprrd AS a
-            //                     WHERE YEAR(a.tanggal) = YEAR(:tanggal) AND a.status_presensi_in = "AL"
-            //                     GROUP BY id_hemxxmh
-            //                 ) AS rd ON rd.id_hemxxmh = a.id_hemxxmh
-                            
-            //                 WHERE YEAR(a.tanggal) = YEAR(:tanggal) AND jb.is_checkclock = 1 AND a.nama = "saldo"
-            //                 GROUP BY a.id_hemxxmh
-            //             ) AS sal ON sal.id_hemxxmh = jad.id_hemxxmh
-            //             LEFT JOIN hemjbmh AS jb ON jb.id_hemxxmh = jad.id_hemxxmh
-            //             SET 
-            //                 jad.is_pot_hk = 
-            //                     case 
-            //                         when ifnull(sisa_saldo,0) = 0 AND jad.jam_awal <> "00:00:00" then 1
-            //                         when ifnull(sisa_saldo,0) = 0 AND jad.keterangan LIKE "%cuti bersama%" then 1
-            //                     ELSE 0
-            //                     END ,
-            //                 jad.is_pot_cuti = if(IFNULL(sisa_saldo,0) > 0 AND jad.keterangan LIKE "%cuti bersama%", 1, 0)
-            //             WHERE jad.tanggal = :tanggal
-            //             AND jad.transaction_state = 1;
-            //     ');
-            //End flag is_pot_hk dan is_pot_cuti
 
             //Delete Absen Hari, pada tanggal Cuti, karena akan digantikan sama CB Cuti Bersama
             $qd_absen_lama_same_day = $db
@@ -224,6 +165,7 @@
                             httlpmh_kode,
                             htlgrmh_kode,
                             jumlah,
+                            saldo,
                             jam_awal,
                             jam_akhir
                         )
@@ -240,6 +182,7 @@
                         "C",
                         "C",
                         1,
+                        -1,
                         null,
                         null
                         FROM

@@ -60,6 +60,20 @@
 			//Jika Jenis == Harian
 			if ($jenis == 1) {
 				$tt = '';
+
+				$qs_httlpmh = $db
+					->query('select', 'httlpmh' )
+					->get(['is_potongcuti'] )
+					->where('id', $rs_httlptd['id_httlpmh'] )
+					->exec();
+				$rs_httlpmh = $qs_httlpmh->fetch();
+	
+				if ($rs_httlpmh['is_potongcuti'] == 1) {
+					$pot_saldo_cuti = -1;
+				} else {
+					$pot_saldo_cuti = 0;
+				}
+
 				for ($x = 0; $x < $jumlah_hari; $x++) {
 					$tanggal_ymd = $tanggal;
 
@@ -90,6 +104,7 @@
 							->set('tanggal', $tanggal_ymd->format('Y-m-d') )
 							->set('keterangan', $rs_httlptd['keterangan'] )
 							->set('jenis', $jenis )
+							->set('saldo', $pot_saldo_cuti )
 							->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
 							->set('jumlah', 1 )
 							->set('jam_awal', null )
@@ -100,58 +115,6 @@
 					$tanggal->add(1, 'days');
 				}
 				
-				$qs_httlpmh = $db
-					->query('select', 'httlpmh' )
-					->get(['is_potongcuti'] )
-					->where('id', $rs_httlptd['id_httlpmh'] )
-					->exec();
-				$rs_httlpmh = $qs_httlpmh->fetch();
-	
-				if ($rs_httlpmh['is_potongcuti'] == 1) {
-					$qi_sisa_saldo = $db
-						->raw()
-						->bind(':id_hemxxmh', $rs_httlptd['id_hemxxmh'])
-						->bind(':id_transaksi', $rs_httlptd['id_transaksi'])
-						->bind(':tanggal_awal', $tanggal_awal)
-						->exec(' INSERT INTO httxxrd (
-									id_transaksi,
-									transaction_state,
-									id_hemxxmh,
-									nama,
-									tanggal,
-									saldo
-								)
-								SELECT
-									:id_transaksi,
-									1,
-									a.id_hemxxmh,
-									"sisa saldo cuti",
-									:tanggal_awal,
-									SUM(
-										CASE
-											WHEN ifnull(a.saldo, 0) > 0 THEN ifnull(a.saldo, 0) - (COALESCE(cb.c_cb, 0))
-											ELSE 0
-										END
-									) AS sisa_saldo
-								FROM httxxrd AS a
-								-- employee
-								LEFT JOIN hemxxmh AS peg ON peg.id = a.id_hemxxmh
-								LEFT JOIN hemjbmh AS jb ON jb.id_hemxxmh = peg.id
-								-- Izin yang memotong Cuti
-								LEFT JOIN (
-									SELECT
-										rh.id_hemxxmh,
-										COUNT(rh.id) AS c_cb
-									FROM httxxrd AS rh
-									LEFT JOIN httlpmh AS mh ON mh.id = rh.id_httlpmh
-									WHERE YEAR(rh.tanggal) = YEAR(:tanggal_awal) AND rh.jenis = 1 AND mh.is_potongcuti = 1 AND DAY(rh.tanggal) <> 7
-									GROUP BY rh.id_hemxxmh
-								) AS cb ON cb.id_hemxxmh = a.id_hemxxmh
-								
-								WHERE YEAR(a.tanggal) = YEAR(:tanggal_awal) AND jb.is_checkclock = 1 AND a.nama = "saldo" AND a.id_hemxxmh = :id_hemxxmh
-								'
-					);
-				}
 			} else {
 				$qi = $db
 				->query('insert', 'httxxrd')
@@ -179,12 +142,6 @@
 				->where('jenis', $jenis )
 				->exec();
 
-			$qd_httxxrd = $db
-				->query('delete', 'httxxrd')
-				->where('id_transaksi', $id_httlptd )
-				->where('nama', "sisa saldo cuti" )
-				->exec();
-
 		}elseif($approval_state == -9){
 			$qu_httxxrd = $db
 				->query('update', 'httxxrd')
@@ -197,12 +154,6 @@
 				->query('delete', 'httxxrd')
 				->where('id_transaksi', $id_httlptd )
 				->where('jenis', $jenis )
-				->exec();
-
-			$qd_httxxrd = $db
-				->query('delete', 'httxxrd')
-				->where('id_transaksi', $id_httlptd )
-				->where('nama', "sisa saldo cuti" )
 				->exec();
 		}
 
