@@ -194,9 +194,9 @@
 						b.id_hemxxmh,
 						IF( YEAR(b.tanggal_masuk) <> YEAR(CURDATE()) AND DATE_ADD(b.tanggal_masuk, INTERVAL 1 YEAR) < CURDATE(), 
 							IF(
-								TIMESTAMPDIFF(MONTH, b.tanggal_masuk, DATE_FORMAT(CURDATE(), "%Y-01-01")) >= 12,
-								12,
-								12 - MONTH(b.tanggal_masuk)
+								TIMESTAMPDIFF(MONTH, b.tanggal_masuk, DATE_FORMAT(CURDATE(), "%Y-01-01")) >= ggs.def_cuti_tahunan,
+								ggs.def_cuti_tahunan,
+								ggs.def_cuti_tahunan - MONTH(b.tanggal_masuk)
 							),
 							0
 						) 
@@ -208,7 +208,7 @@
 						hemxxmh AS a
 					LEFT JOIN
 						hemjbmh AS b ON b.id_hemxxmh = a.id
-	
+					LEFT JOIN ggshrsh ggs on ggs.id = 1
 					LEFT JOIN (
 						SELECT
 							rh.id_hemxxmh,

@@ -22,6 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Auto Create User</th>
+                                <th>Default Cuti Tahunan</th>
                             </tr>
                         </thead>
                     </table>
@@ -94,6 +95,10 @@
 					def: 0
 				},	
 				{
+					label: "Default Cuti Tahunan <sup class='text-danger'>*<sup>",  
+					name: "ggshrsh.def_cuti_tahunan",
+				},	
+				{
 					label: "Auto Create User",
 					name: "ggshrsh.is_autocreateusers",
 					type: "select",
@@ -123,7 +128,17 @@
 
 		edtggshrsh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-			
+				def_cuti_tahunan     = edtggshrsh.field('ggshrsh.def_cuti_tahunan').val();
+				
+				validasiNumber(
+					edtggshrsh,
+					'ggshrsh',
+					{
+						'def_cuti_tahunan': def_cuti_tahunan
+					},
+					0,
+					'>'
+				);
 			}
 			
 			if ( edtggshrsh.inError() ) {
@@ -169,7 +184,14 @@
 			],
 			columns: [
 				{ data: "ggshrsh.id",visible:false },
-				{ data: "ggshrsh.is_autocreateusers", ...renderYaTidak() },
+				{ 
+					data: "ggshrsh.is_autocreateusers", 
+					...renderYaTidak() 
+				},
+				{ 
+					data: "ggshrsh.def_cuti_tahunan", 
+					...renderNumber() 
+				},
 			],
 			buttons: [
 				// BEGIN breaking generate button

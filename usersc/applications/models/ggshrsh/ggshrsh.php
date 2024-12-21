@@ -42,6 +42,7 @@
 			Field::inst( 'ggshrsh.is_defaultprogram' ),
 			Field::inst( 'ggshrsh.is_nextprocess' ),
 			Field::inst( 'ggshrsh.is_autocreateusers' ),
+			Field::inst( 'ggshrsh.def_cuti_tahunan' ),
 		);
 	
 	// do not erase
