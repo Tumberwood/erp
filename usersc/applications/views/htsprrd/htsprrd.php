@@ -58,8 +58,8 @@
                                 <th>Jadwal</th>
                                 <th>Clock In</th>
                                 <th>Clock Out</th>
-                                <th>Check CI</th>
-                                <th>Check CO</th>
+                                <!-- <th>Check CI</th>
+                                <th>Check CO</th> -->
                                 <th>Status In</th>
                                 <th>Status Out</th>
                                 <th>Keterangan</th>
@@ -254,8 +254,8 @@
 				{ data: "htsprrd.st_jadwal" },
 				{ data: "htsprrd.clock_in" },
 				{ data: "htsprrd.clock_out" },
-				{ data: "htsprrd.st_clock_in" },
-				{ data: "htsprrd.st_clock_out" },
+				// { data: "htsprrd.st_clock_in" },
+				// { data: "htsprrd.st_clock_out" },
 				{ data: "htsprrd.status_presensi_in" },
 				{ data: "htsprrd.status_presensi_out" },
 				{ data: "htsprrd.keterangan" },
