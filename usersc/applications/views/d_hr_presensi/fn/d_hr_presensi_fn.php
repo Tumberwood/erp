@@ -91,12 +91,12 @@
             success: function ( json ) {
                 optionschartEmpIzin.series[0] = json.data.results_emp_izin[1];
               
-                console.log(optionschartEmpIzin.series[0]);
+                // console.log(optionschartEmpIzin.series[0]);
 
                 //isi drilldown dengan variable dari json yang isinya adalah series dan data
                 optionschartEmpIzin.drilldown = json.data.results_emp_izin[2];
-                console.log(optionschartEmpIzin.drilldown); 
-                console.log(optionschartEmpIzin); 
+                // console.log(optionschartEmpIzin.drilldown); 
+                // console.log(optionschartEmpIzin); 
                 Highcharts.chart('chartEmpIzin', optionschartEmpIzin);
             }
         } );
@@ -177,12 +177,12 @@
             success: function ( json ) {
                 optionschartEmpAbsen.series[0] = json.data.results_emp_absen[1];
               
-                console.log(optionschartEmpAbsen.series[0]);
+                // console.log(optionschartEmpAbsen.series[0]);
 
                 //isi drilldown dengan variable dari json yang isinya adalah series dan data
                 optionschartEmpAbsen.drilldown = json.data.results_emp_absen[2];
-                console.log(optionschartEmpAbsen.drilldown); 
-                console.log(optionschartEmpAbsen); 
+                // console.log(optionschartEmpAbsen.drilldown); 
+                // console.log(optionschartEmpAbsen); 
                 Highcharts.chart('chartEmpAbsen', optionschartEmpAbsen);
             }
         } );

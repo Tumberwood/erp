@@ -33,7 +33,7 @@
             success: function ( json ) {
                 var c_laki = 0;
                 var c_perempuan = 0;
-                console.log(json.data.hemxxmh_gender);
+                // console.log(json.data.hemxxmh_gender);
                 json.data.hemxxmh_gender.forEach(gender => {
                     if (gender.hemxxmh_gender == "Laki-laki") {
                         c_laki = gender['c_gender'];
