@@ -253,14 +253,8 @@
 							
 						} else {
 							// notifyprogress.close();
-							notifyprogress = $.notify({
-								message: 'Tidak ada data pada tanggal tersebut!'
-							}, {
-								z_index: 9999,
-								allow_dismiss: false,
-								type: 'danger',
-								delay: 3
-							});
+							
+							toastr['error']('Tidak ada data pada tanggal tersebut!', 'ERROR');
 						}
 					}
 				});
