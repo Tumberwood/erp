@@ -174,13 +174,13 @@
 
 								sub_tanggal = dataReport.substring(0, 10);
 								httlpmh	 = dataReport.substring(0, 7);
-
+								
 								if (dataReport == "JK") {
-									str1 += '<th rowspan=2 class="text-center bg-warning" style="vertical-align: middle;">'+dataReport+'</th>';
+									str1 += '<th rowspan=2 class="text-center bg-warning" title="Jadwal Kerja" style="vertical-align: middle;">' + dataReport + '</th>';
 								} else if (dataReport == "OFF") {
-									str1 += '<th rowspan=2 class="text-center" style="vertical-align: middle">'+dataReport+'</th>';
+									str1 += '<th rowspan=2 class="text-center" title="Jadwal Libur" style="vertical-align: middle;">' + dataReport + '</th>';
 								} else if (dataReport == "No Jadwal") {
-									str1 += '<th rowspan=2 class="text-center" style="vertical-align: middle">'+dataReport+'</th>';
+									str1 += '<th rowspan=2 class="text-center" title="Tidak Ada Jadwal" style="vertical-align: middle;">' + dataReport + '</th>';
 								}
 
 								if (httlpmh	 == "httlpmh") {
