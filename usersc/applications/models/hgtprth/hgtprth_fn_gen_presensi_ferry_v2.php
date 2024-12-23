@@ -247,7 +247,7 @@
                             WHEN st_clock_in = "NO CI" AND st_clock_out = "NO CO" AND jam_shift = "00:00:00" THEN "OFF"
                             WHEN st_clock_in = "OK" AND st_clock_out = "OK" THEN "HK"
                             WHEN simbol_ijin_in IS NOT NULL AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) <> "" THEN concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") )
-                            WHEN simbol_ijin_in IS NULL AND st_clock_in NOT IN ("OK", "Late 1") THEN "TF"
+                            WHEN simbol_ijin_in IS NULL AND st_clock_in NOT IN ("OK", "Late 1") THEN "No CI"
                             WHEN simbol_ijin_in IS NULL AND simbol_cuti IS NULL AND st_clock_in = "OK" THEN "HK"
                             WHEN simbol_ijin_in IS NULL AND st_clock_in = "Late 1" THEN "TL 1"
                             ELSE NULL
@@ -261,7 +261,7 @@
                             WHEN st_clock_in = "NO CI" AND st_clock_out = "NO CO" AND jam_shift = "00:00:00" THEN "OFF"
                             WHEN st_clock_in = "OK" AND st_clock_out = "OK" THEN "HK"
                             WHEN simbol_ijin_out IS NOT NULL AND concat(ifnull(ket_cuti,""), ifnull(ket_izin_in,""), ifnull(ket_izin_out,""), ifnull(ket_izin_mid, "") ) <> "" THEN concat(ifnull(simbol_cuti,""), ifnull(simbol_ijin_in,""), ifnull(simbol_ijin_out,""), ifnull(simbol_ijin_mid, "") )
-                            WHEN simbol_ijin_out IS NULL AND st_clock_out <> "OK" THEN "TF"
+                            WHEN simbol_ijin_out IS NULL AND st_clock_out <> "OK" THEN "No CO"
                             WHEN simbol_ijin_out IS NULL AND simbol_cuti IS NULL AND st_clock_out = "OK" THEN "HK"
                             ELSE NULL
                         END AS status_presensi_out
