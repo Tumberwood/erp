@@ -221,12 +221,17 @@
 
 				edthttlpmh.field('httlpmh.hari').show();
 				edthttlpmh.field('httlpmh.hari').val();
+				edthttlpmh.field('httlpmh.is_cuti_khusus').show();
+				edthttlpmh.field('httlpmh.is_cuti_khusus').val();
 			} else {
 				edthttlpmh.field('httlpmh.jenis_jam').show();
 				edthttlpmh.field('httlpmh.jenis_jam').val();
 
 				edthttlpmh.field('httlpmh.hari').hide();
 				edthttlpmh.field('httlpmh.hari').val('');
+
+				edthttlpmh.field('httlpmh.is_cuti_khusus').hide();
+				edthttlpmh.field('httlpmh.is_cuti_khusus').val('');
 			}
 			return {}
 		}, {event: 'keyup change'});
