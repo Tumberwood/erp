@@ -43,6 +43,8 @@
 			Field::inst( 'httlpmh.is_nextprocess' ),
 			Field::inst( 'httlpmh.is_self_service' ),
 			Field::inst( 'httlpmh.is_dashboard_personal' ),
+			Field::inst( 'httlpmh.urutan' ),
+			Field::inst( 'httlpmh.is_cuti_khusus' ),
 
 			Field::inst( 'httlpmh.is_potongcuti' ),
 			Field::inst( 'httlpmh.hari' ),

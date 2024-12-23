@@ -28,6 +28,8 @@
                                 <th>Jenis Jam</th>
                                 <th>Potong Cuti</th>
                                 <th>Dashboard Personal</th>
+                                <th>Cuti Khusus</th>
+                                <th>Urutan</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -165,6 +167,20 @@
 					]
 				},
 				{
+					label: "Cuti Khusus",
+					name: "httlpmh.is_cuti_khusus",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Urutan <sup class='text-danger'>*<sup>",
+					name: "httlpmh.urutan",
+				},
+				{
 					label: getTranslation('notes'),
 					name: "httlpmh.keterangan",
 					type: "textarea"
@@ -223,6 +239,7 @@
 				jenis = edthttlpmh.field('httlpmh.jenis').val();
 				jenis_jam = edthttlpmh.field('httlpmh.jenis_jam').val();
 				hari = edthttlpmh.field('httlpmh.hari').val();
+				urutan = edthttlpmh.field('httlpmh.urutan').val();
 
 				validasiRequired(
 					edthttlpmh,
@@ -272,6 +289,27 @@
 					},
 					0,
 					'>='
+				);
+
+				validasiNumber(
+					edthttlpmh,
+					'httlpmh',
+					{
+						'urutan': urutan
+					},
+					0,
+					'>'
+				);
+
+				
+				validasiUnique(
+					action,
+					edthttlpmh,
+					'httlpmh',
+					'urutan',
+					'urutan',
+					'"'+urutan+'"',
+					id_httlpmh
 				);
 			}
 			
@@ -359,6 +397,8 @@
 					data: "httlpmh.is_dashboard_personal" ,
 					...renderYaTidak()
 				},
+				{ data: "httlpmh.is_cuti_khusus",...renderYaTidak()},
+				{ data: "httlpmh.urutan", ...renderNumber() },
 				{ 
 					data: "httlpmh.transaction_state" ,
 					...renderTransactionStatus()
