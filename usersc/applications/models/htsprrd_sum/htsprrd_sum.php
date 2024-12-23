@@ -16,41 +16,41 @@ $end_date = $_POST['end_date'];
 // print_r($end_date);
 
 //ALL
-$qs_htlgrmh = $db
+$qs_httlpmh = $db
     ->raw()
     ->exec('SELECT
             kode
-            FROM htlgrmh
-            ORDER BY urutan
+            FROM httlpmh
+            -- ORDER BY urutan
         ');
-$rs_htlgrmh = $qs_htlgrmh->fetchAll();
+$rs_httlpmh = $qs_httlpmh->fetchAll();
 
 //Harian
-$qs_htlgrmh_c = $db
+$qs_httlpmh_c = $db
     ->raw()
     ->exec('SELECT
             kode
-            FROM htlgrmh
-            where id NOT IN (1,5,6,8,9,10,11,17)
-            ORDER BY urutan
+            FROM httlpmh
+            WHERE jenis = 1
+            -- ORDER BY urutan
         ');
-$rs_htlgrmh_c = $qs_htlgrmh_c->fetchAll();
+$rs_httlpmh_c = $qs_httlpmh_c->fetchAll();
 
 //Jam atau izin
-$qs_htlgrmh_i = $db
+$qs_httlpmh_i = $db
     ->raw()
     ->exec('SELECT
             kode
-            FROM htlgrmh
-            where id IN (5,6,9,10,11,17)
-            ORDER BY urutan
+            FROM httlpmh
+            WHERE jenis = 2
+            -- ORDER BY urutan
         ');
-$rs_htlgrmh_i = $qs_htlgrmh_i->fetchAll();
-// print_r($rs_htlgrmh);
+$rs_httlpmh_i = $qs_httlpmh_i->fetchAll();
+// print_r($rs_httlpmh);
 
 $case_sum = '';
-$arr_htlgrmh = [];
-foreach ($rs_htlgrmh as $key => $htl) {
+$arr_httlpmh = [];
+foreach ($rs_httlpmh as $key => $htl) {
     $kode_htl_trim = str_replace(' ', '', $htl['kode']);
     // print_r($kode_htl_trim);
     $case_sum .= ' 
@@ -172,23 +172,23 @@ if (count($rs_payroll) > 0) {
             //Untuk HK
             $total = 0;
             $total = $total + $hk;
-            $pivotedData[$id_hemxxmh]['htlgrmhHK'] = ceil($hk);
+            $pivotedData[$id_hemxxmh]['httlpmhHK'] = ceil($hk);
 
             //Ini foreach column dan data pivot untuk simbol harian
-            foreach ($rs_htlgrmh_c as $key => $htl) {
+            foreach ($rs_httlpmh_c as $key => $htl) {
                 $kode_htl_trim = str_replace(' ', '', $htl['kode']);
                 
                 $kode_htl = $kode_htl_trim;
                 $data_htl = $row['s_in_'.$kode_htl_trim];
                 $total = $total + $data_htl;
 
-                $pivotedData[$id_hemxxmh]['htlgrmh'.$kode_htl] = ceil($data_htl);
+                $pivotedData[$id_hemxxmh]['httlpmh'.$kode_htl] = ceil($data_htl);
                 // print_r($data_htl."<br>");
             }
             $pivotedData[$id_hemxxmh]['Total'] = ceil($total);
 
             //Ini foreach column dan data pivot untuk simbol jam
-            foreach ($rs_htlgrmh_i as $key => $htl_jam) {
+            foreach ($rs_httlpmh_i as $key => $htl_jam) {
                 $kode_htl_jam_trim = str_replace(' ', '', $htl_jam['kode']);
                 
                 $kode_htl_jam = $kode_htl_jam_trim;

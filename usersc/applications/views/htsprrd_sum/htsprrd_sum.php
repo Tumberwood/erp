@@ -129,22 +129,22 @@
 								// console.log(colObj.data);
 								dataReport = colObj.data;
 								subs_ceklok = dataReport.substring(10);
-								label_htlgrmh = dataReport.substring(7);
+								label_httlpmh = dataReport.substring(7);
 								// console.log(dataReport);
 
 								sub_tanggal = dataReport.substring(0, 10);
-								htlgrmh	 = dataReport.substring(0, 7);
+								httlpmh	 = dataReport.substring(0, 7);
 
 								var parsedDate = moment(sub_tanggal, "YYYY-MM-DD");
 
 								// Format the parsed date as "26-Mar-24"
-								var formattedDate = parsedDate.format("DD-MMM-YY");
+								var formattedDate = parsedDate.format("DD MMM YYYY");
 
-								if (dataReport == "htlgrmhHK") {
-									str1 += '<th colspan=10 class="text-center" style="vertical-align: middle">Presensi</th>';
+								if (dataReport == "httlpmhHK") {
+									str1 += '<th colspan=17 class="text-center" style="vertical-align: middle">Presensi</th>';
 								}
 
-								if (dataReport == "htlgJAMBAI") {
+								if (dataReport == "htlgJAMDL") {
 									str1 += '<th colspan=6 class="text-center" style="vertical-align: middle">Ijin</th>';
 								}
 
@@ -172,11 +172,11 @@
 								
 								dataReport = colObj.data;
 								subs_ceklok = dataReport.substring(10);
-								label_htlgrmh = dataReport.substring(7);
+								label_httlpmh = dataReport.substring(7);
 								// console.log(dataReport);
 
 								sub_tanggal = dataReport.substring(0, 10);
-								htlgrmh	 = dataReport.substring(0, 7);
+								httlpmh	 = dataReport.substring(0, 7);
 
 								if (dataReport == "JK") {
 									str1 += '<th rowspan=2 class="text-center bg-warning" style="vertical-align: middle;">'+dataReport+'</th>';
@@ -186,12 +186,12 @@
 									str1 += '<th rowspan=2 class="text-center" style="vertical-align: middle">'+dataReport+'</th>';
 								}
 
-								if (htlgrmh	 == "htlgrmh") {
-									str1 += '<th rowspan=2 class="text-center bg-warning" style="vertical-align: middle">'+label_htlgrmh+'</th>';
+								if (httlpmh	 == "httlpmh") {
+									str1 += '<th rowspan=2 class="text-center bg-warning" style="vertical-align: middle">'+label_httlpmh+'</th>';
 								}
 
-								if (htlgrmh	 == "htlgJAM") {
-									str1 += '<th rowspan=2 class="text-center" style="vertical-align: middle">'+label_htlgrmh+'</th>';
+								if (httlpmh	 == "htlgJAM") {
+									str1 += '<th rowspan=2 class="text-center" style="vertical-align: middle">'+label_httlpmh+'</th>';
 								}
 
 								if (subs_ceklok == "In" || subs_ceklok == "Out") {
