@@ -278,18 +278,17 @@
 					start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
 					end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
 					
-					notifyprogress = $.notify({
-						message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-					},{
-						z_index: 9999,
-						allow_dismiss: false,
-						type: 'info',
-						delay: 0
+					// toastr awal
+					toastr.info('Harap tunggu ...', 'Proses Upload', {
+						progressBar: false, 
+						timeOut: 0, // Infinite timeout
+						extendedTimeOut: 0
 					});
+
 					// tblhtsprrd.destroy();
 					generateTable(start_date)
-					
-					notifyprogress.close();
+					toastr.clear();
+					$('#modalFloatingFilter').modal('toggle');
 					return false; 
 				}
 			});
