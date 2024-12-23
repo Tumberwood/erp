@@ -11,37 +11,32 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="row">
-    <div class="col">
-        <div class="ibox collapsed" id="iboxfilter">
-            <div class="ibox-title">
-                <h5 class="text-navy">Filter</h5>&nbsp
-                <button class="btn btn-primary btn-xs collapse-link"><i class="fa fa-chevron-up"></i></button>
-            </div>
-            <div class="ibox-content">
-                <form class="form-horizontal" id="frmFilter">
-                    <div class="form-group row">
-						<label class="col-lg-2 col-form-label">Periode</label>
-                        <div class="col-lg-5">
-                            <div class="input-group input-daterange" id="periode">
-                                <input type="text" id="start_date" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" id="end_date" class="form-control">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-calendar"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <button class="btn btn-primary" type="submit" id="go">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmFilter">
+				<div class="modal-header">
+					<h4 class="modal-title">Filter</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Periode</label>
+						<div class="input-group input-daterange" id="periode">
+							<input type="text" id="start_date" class="form-control">
+							<div class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</div>
+							<input type="text" id="end_date" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <div class="row" id="report" style="display: none">
@@ -82,6 +77,7 @@
 		// ------------- default variable, do not erase
 		var edthtsprrd_sum, tblhtsprrd_sum, show_deleted_htsprrd_sum = 0, id_htsprrd_sum;
 		// ------------- end of default variable
+		filterFloating();
 
 		$('#periode').datepicker({
 			setDate: new Date(),
@@ -97,6 +93,7 @@
 		$(document).ready(function() {
 			start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
 			end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
+			generateTable(start_date);
 
 			//GENERATE TABLE
 			function generateTable(start_date) {
