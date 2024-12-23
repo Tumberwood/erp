@@ -29,7 +29,7 @@
                 COUNT(peg.id) AS c_izin
             FROM httxxrd AS a
             LEFT JOIN hemxxmh AS peg ON peg.id = a.id_hemxxmh
-            LEFT JOIN htpxxmh AS izin ON izin.id = a.id_httlpmh
+            LEFT JOIN httlpmh AS izin ON izin.id = a.id_httlpmh
             WHERE a.jenis = 2 
                 AND a.transaction_state = 1 
                 AND a.tanggal BETWEEN :start_date AND :end_date
@@ -76,7 +76,7 @@
                     dep.nama AS department
                 FROM httxxrd AS a
                 LEFT JOIN hemxxmh AS peg ON peg.id = a.id_hemxxmh
-                LEFT JOIN htpxxmh AS izin ON izin.id = a.id_httlpmh
+                LEFT JOIN httlpmh AS izin ON izin.id = a.id_httlpmh
                 LEFT JOIN hemjbmh AS job ON job.id_hemxxmh = peg.id
                 LEFT JOIN hodxxmh AS dep ON dep.id = job.id_hodxxmh
                 WHERE a.jenis = 2 
