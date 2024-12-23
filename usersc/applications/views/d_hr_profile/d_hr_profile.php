@@ -1,0 +1,160 @@
+<?php
+    require_once '../../../../users/init.php';
+    require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+    if (!securePage($_SERVER['PHP_SELF'])) {
+        die();
+    }
+?>
+
+<?php
+	$nama_tabel    = 'd_hr_profile';
+	$nama_tabels_d = [];
+?>
+
+<!-- begin content here -->
+
+<div class="row">
+	<div class="col">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<div class="row m-b-n">
+                    <div class="col-lg-3">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-success float-right">Current</span>
+                                </div>
+                                <h5>by Gender</h5>
+                            </div>
+                            <div class="ibox-content">
+								<div class="row">
+									<div class="col-6">
+										<i class="fa fa-male fa-3x"></i>
+									</div>
+									<div class="col-6">
+									<i class="fa fa-female fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6">
+										<h2 class="font-bold m-b-xxs" id="c_laki"></h2>
+										<small class="font-bold text-success" id="p_laki"></small>
+									</div>
+									<div class="col-6">
+										<h2 class="font-bold m-b-xxs" id="c_perempuan"></h2>
+										<small class="font-bold text-success" id="p_perempuan"></small>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox ">
+                            <div class="ibox-content">
+                                <div id="chartEmpType"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox ">
+                            <div class="ibox-content">
+								<div id="chartEmpStatus"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox ">
+                            <div class="ibox-content">
+								<div id="chartEmpLevel"></div>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="" id="chartEmpDept"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="" id="chartEmpAge"></div>
+					</div>
+					<div class="col-lg-6">
+						<div class="" id="chartEmpMK"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
+?>
+
+<!-- BEGIN JS -->
+<?php 
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
+	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
+?>
+
+<script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
+
+<!-- load highcharts -->
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/highcharts.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/highcharts-more.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/exporting.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/no-data-to-display.js"></script>
+
+<?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/d_hr_profile/fn/d_hr_profile_fn.php'; ?>
+
+<!-- BEGIN javascript here -->
+<script type="text/javascript">
+	// ------------- default variable, do not erase
+	var edtd_hr_profile, tbld_hr_profile, show_deleted_d_hr_profile = 0, id_d_hr_profile;
+	// ------------- end of default variable
+	
+	// get tableRelation
+	// tableRelation('d_hr_profile');
+
+	$(document).ready(function() {
+		boxEmpGender();
+		chartEmpType();
+		chartEmpStatus();
+		chartEmpLevel();
+		chartEmpDept();
+		chartEmpAge();
+		chartEmpMK();
+					
+	} );// end of document.ready
+
+</script>
+
+<!-- END javascript here -->
+
+<!-- end content here -->
+
+<!-- do not erase -->
+<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
