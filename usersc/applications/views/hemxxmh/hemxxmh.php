@@ -117,7 +117,7 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-6">
-											<editor-field name="hemxxmh.is_checkclock"></editor-field>
+											<editor-field name="hemjbmh.is_checkclock"></editor-field>
 										</div>
 										<div class="col-lg-6">
 											<editor-field name="hemxxmh.id_files_foto"></editor-field>
@@ -1394,12 +1394,12 @@
 					}
 					// END of validasi hemxxmh.lname 
 					
-					// BEGIN of validasi hemxxmh.is_checkclock 
-					is_checkclock = edthemxxmh.field('hemxxmh.is_checkclock').val();
+					// BEGIN of validasi hemjbmh.is_checkclock 
+					is_checkclock = edthemxxmh.field('hemjbmh.is_checkclock').val();
 					if(!is_checkclock || is_checkclock == ''){
-						edthemxxmh.field('hemxxmh.is_checkclock').error( 'Wajib diisi!' );
+						edthemxxmh.field('hemjbmh.is_checkclock').error( 'Wajib diisi!' );
 					}
-					// END of validasi hemxxmh.is_checkclock 
+					// END of validasi hemjbmh.is_checkclock 
 					
 					// BEGIN of validasi hemjbmh.id_heyxxmh 
 					id_heyxxmh = edthemxxmh.field('hemjbmh.id_heyxxmh').val();
