@@ -13,6 +13,7 @@ use
 $start_date = $_POST['start_date'];
 // print_r($start_date);
 $end_date = $_POST['end_date'];
+$is_cuti_khusus = $_POST['is_cuti_khusus'];
 // print_r($end_date);
 
 //ALL
@@ -21,7 +22,7 @@ $qs_httlpmh = $db
     ->exec('SELECT
             kode
             FROM httlpmh
-            -- ORDER BY urutan
+            ORDER BY urutan
         ');
 $rs_httlpmh = $qs_httlpmh->fetchAll();
 
@@ -29,10 +30,11 @@ $rs_httlpmh = $qs_httlpmh->fetchAll();
 $qs_httlpmh_c = $db
     ->raw()
     ->exec('SELECT
-            kode
+            kode,
+            is_cuti_khusus
             FROM httlpmh
             WHERE jenis = 1
-            -- ORDER BY urutan
+            ORDER BY urutan
         ');
 $rs_httlpmh_c = $qs_httlpmh_c->fetchAll();
 
@@ -43,7 +45,7 @@ $qs_httlpmh_i = $db
             kode
             FROM httlpmh
             WHERE jenis = 2
-            -- ORDER BY urutan
+            ORDER BY urutan
         ');
 $rs_httlpmh_i = $qs_httlpmh_i->fetchAll();
 // print_r($rs_httlpmh);
@@ -175,16 +177,40 @@ if (count($rs_payroll) > 0) {
             $pivotedData[$id_hemxxmh]['httlpmhHK'] = ceil($hk);
 
             //Ini foreach column dan data pivot untuk simbol harian
-            foreach ($rs_httlpmh_c as $key => $htl) {
-                $kode_htl_trim = str_replace(' ', '', $htl['kode']);
-                
-                $kode_htl = $kode_htl_trim;
-                $data_htl = $row['s_in_'.$kode_htl_trim];
-                $total = $total + $data_htl;
+            $sum_cuti_khusus = 0; // Initialize sum for cuti khusus
 
-                $pivotedData[$id_hemxxmh]['httlpmh'.$kode_htl] = ceil($data_htl);
-                // print_r($data_htl."<br>");
+            foreach ($rs_httlpmh_c as $key => $htl) {
+                $is_cuti_khusus_query = $htl['is_cuti_khusus'];
+
+                $kode_htl_trim = str_replace(' ', '', $htl['kode']);
+                $data_htl = $row['s_in_'.$kode_htl_trim];
+
+                if ($is_cuti_khusus == 0) {
+                    if ($is_cuti_khusus_query == 1) {
+                        // Sum the values for cuti khusus
+                        $sum_cuti_khusus += $data_htl;
+                    } else {
+                        // Process other cases
+                        $kode_htl = $kode_htl_trim;
+                        $total += $data_htl;
+                        $pivotedData[$id_hemxxmh]['httlpmh'.$kode_htl] = ceil($data_htl);
+                    }
+                } else {
+                    // Process other cases
+                    $kode_htl = $kode_htl_trim;
+                    $total += $data_htl;
+                    $pivotedData[$id_hemxxmh]['httlpmh'.$kode_htl] = ceil($data_htl);
+                    
+                }
             }
+
+            // After summing, assign to 'cKhusus'
+            if ($is_cuti_khusus == 0) {
+                $kode_htl = 'Cuti Khusus';
+                $total += $sum_cuti_khusus;
+                $pivotedData[$id_hemxxmh]['httlpmh'.$kode_htl] = ceil($sum_cuti_khusus);
+            }
+
             $pivotedData[$id_hemxxmh]['Total'] = ceil($total);
 
             //Ini foreach column dan data pivot untuk simbol jam
@@ -200,17 +226,17 @@ if (count($rs_payroll) > 0) {
             }
         }
 		
-        $clock_in = $row['clock_in'];
-        $clock_out = $row['clock_out'];
+        // $clock_in = $row['clock_in'];
+        // $clock_out = $row['clock_out'];
 
-        $clock_in_format = $row['clock_in_format'];
-        $clock_out_format = $row['clock_out_format'];
-        $tanggal = $row['tanggal'];
+        // $clock_in_format = $row['clock_in_format'];
+        // $clock_out_format = $row['clock_out_format'];
+        // $tanggal = $row['tanggal'];
 
-        // print_r($total);
-        // $pivotedData[$id_hemxxmh][$tanggal] = $clock_in. " - " .$clock_out;
-        $pivotedData[$id_hemxxmh][$tanggal.'In'] = $clock_in_format;
-        $pivotedData[$id_hemxxmh][$tanggal.'Out'] = $clock_out_format;
+        // // print_r($total);
+        // // $pivotedData[$id_hemxxmh][$tanggal] = $clock_in. " - " .$clock_out;
+        // $pivotedData[$id_hemxxmh][$tanggal.'In'] = $clock_in_format;
+        // $pivotedData[$id_hemxxmh][$tanggal.'Out'] = $clock_out_format;
     }
 
     // Convert the associative array into a numeric indexed array (optional)
