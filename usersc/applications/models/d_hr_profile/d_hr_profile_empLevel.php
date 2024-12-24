@@ -20,18 +20,17 @@
     $tanggal_akhir = new Carbon();
 
     $qs_hemxxmh = $db
-        ->query('select', 'hemjbmh' )
-        ->get([
-            'hevxxmh.nama as hevxxmh_nama',
-            'COUNT(*) as c_hevxxmh_nama'
-        ] )
-        ->join('hevxxmh','hevxxmh.id = hemjbmh.id_hevxxmh','LEFT' )
-        ->join('hemxxmh','hemxxmh.id = hemjbmh.id_hemxxmh','LEFT' )
-        ->where( 'hemxxmh.transaction_state', 1)
-        ->where( 'hemjbmh.id_hevxxmh', 0, '<>')
-        ->group_by('hevxxmh.id')
-        ->order('hevxxmh.id')
-        ->exec();
+        ->raw()
+        ->exec('SELECT
+                    a.id,
+                    a.nama as hevxxmh_nama,
+                    if(c.id, COUNT(c.id), 0) c_hevxxmh_nama
+                FROM hevxxmh a
+                LEFT JOIN hemjbmh b ON b.id_hevxxmh = a.id
+                LEFT JOIN hemxxmh c ON c.id = b.id_hemxxmh AND c.transaction_state = 1
+                GROUP BY a.id
+                ORDER BY a.id
+        ');
     $rs_hemxxmh = $qs_hemxxmh->fetchAll();
 
     $category = array();
