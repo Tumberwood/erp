@@ -268,11 +268,10 @@
         var optionschartEmpDept = {
             chart: {
                 type: 'column',
-                // marginBottom: 75,
-                // spacingBottom: 50
+                //  marginTop: 10, 
             },
             title: {
-                text: 'Karyawan per Department',
+                text: 'Karyawan Dept',
                 align: 'left'
             },
             // subtitle: {
@@ -281,7 +280,7 @@
             //     align: 'left'
             // },
             xAxis: {
-                categories: [],
+                type: 'category',
                 crosshair: true,
                 accessibility: {
                     description: ''
@@ -292,6 +291,9 @@
                 title: {
                     text: 'Jumlah'
                 }
+            },
+            legend: {
+                enabled: false 
             },
             tooltip: {
                 valueSuffix: ' orang'
@@ -307,7 +309,16 @@
                     }
                 }
             },
-            series: []
+            series: [],
+            //ADD BY FERRY 26 AUG 23
+            //tambahkan drilldown cukup seperti dibawah ini, TIDAK PERLU menambahkan series didalamnya.
+            drilldown: {
+                breadcrumbs: {
+                    position: {
+                        align: 'right'
+                    }
+                },
+            }
         };
 
         $.ajax( {
@@ -316,12 +327,16 @@
             type: 'POST',
             async: false,
             data: {
-                
             },
             success: function ( json ) {
-                optionschartEmpDept.xAxis.categories = json.data.results_empdept[0]['data'];
-                optionschartEmpDept.series[0] = json.data.results_empdept[1];
-                optionschartEmpDept.series[1] = json.data.results_empdept[2];
+                optionschartEmpDept.series[0] = json.data.results_emp_dept[1];
+              
+                // console.log(optionschartEmpDept.series[0]);
+
+                //isi drilldown dengan variable dari json yang isinya adalah series dan data
+                optionschartEmpDept.drilldown = json.data.results_emp_dept[2];
+                // console.log(optionschartEmpDept.drilldown); 
+                // console.log(optionschartEmpDept); 
                 Highcharts.chart('chartEmpDept', optionschartEmpDept);
             }
         } );
