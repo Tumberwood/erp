@@ -101,10 +101,10 @@
 			format: "dd M yyyy",
 			minViewMode: 'month' 
 		});
-		// $('#start_date').datepicker('setDate', '');
-		// $('#end_date').datepicker('setDate', '');
-		$('#start_date').datepicker('setDate', awal_bulan_dmy);
-		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+		$('#start_date').datepicker('setDate', '');
+		$('#end_date').datepicker('setDate', '');
+		// $('#start_date').datepicker('setDate', awal_bulan_dmy);
+		// $('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 		
 		$(document).ready(function() {
 			start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
@@ -120,7 +120,6 @@
 				$('#searchPanes1').empty();
 				mulai 		= moment($('#start_date').val()).format('DD MMM YYYY');
 				selesai 		= moment($('#end_date').val()).format('DD MMM YYYY');
-				$('#judul').html("Presensi Karyawan Tanggal " + mulai + " s/d " + selesai);
 				
 				$.ajax({
 					url: "../../models/htsprrd_sum/htsprrd_sum.php",
@@ -133,6 +132,7 @@
 					},
 					success: function (json) {
 						if (json.data.length > 0) {
+							$('#judul').html("Presensi Karyawan Tanggal " + mulai + " s/d " + selesai);
 							namaLeave();
 							// Create an empty table
 							var str1 = '<table id="tblhtsprrd1" class="table table-striped table-bordered table-hover nowrap">';
@@ -293,6 +293,7 @@
 							});
 
 						} else {
+							$('#judul').empty();
 							toastr['error']('Tidak ada data pada tanggal tersebut!', 'ERROR');
 							// Generate the table structure dynamically
 							var str1 = '<table id="tblhtsprrd1" class="table table-striped table-bordered table-hover nowrap">';
