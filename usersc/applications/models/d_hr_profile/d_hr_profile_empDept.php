@@ -169,9 +169,7 @@
                     id_hovxxmh,
                     hovxxmh_nama,
                     hodxxmh_nama,
-                    SUM(if(hemxxmh_gender="Laki-laki",c_gender_dept,0)) as c_age_laki,
-                    SUM(if(hemxxmh_gender="Laki-laki",c_gender_dept,0)) as c_total,
-                    SUM(if(hemxxmh_gender="Perempuan",c_gender_dept,0)) as c_age_perempuan
+                    SUM(c_gender_dept) as c_total
                 FROM qs_dep
                 WHERE id_hovxxmh = :izin
                 GROUP BY hodxxmh_nama
