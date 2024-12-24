@@ -113,6 +113,7 @@
 			Field::inst( 'hemxxmh.gender' ),
 			Field::inst( 'hemxxmh.agama' ),
 			Field::inst( 'hemxxmh.golongan_darah' ),
+			Field::inst( 'hemxxmh.perkawinan' ),
 			
 			Field::inst( 'hemjbmh.tanggal_masuk' )
 				->getFormatter( function ( $val, $data, $opts ) {
