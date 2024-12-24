@@ -10,6 +10,7 @@
 	require_once( "../../../../usersc/helpers/datatables_fn_debug.php" );
 
     require_once( "../../../../usersc/vendor/autoload.php");
+	include_once( "../../../helpers/hakakses_s_fn.php" );
 	use Carbon\Carbon;
 
     // BEGIN definisi variable untuk fn_ajax_results.php
@@ -25,7 +26,7 @@
 
     $qs_hemxxmh = $db
         ->raw()
-        ->bind(':id_users', $_SESSION['user'] )
+        ->bind(':s_id_hemxxmh', $s_id_hemxxmh )
         ->exec('SELECT 
                     hemxxmh.kode AS hemxxmh_kode,
                     hemxxmh.nama AS hemxxmh_nama,
@@ -53,13 +54,25 @@
                 LEFT JOIN 
                     hetxxmh ON hetxxmh.id = hemjbmh.id_hetxxmh
                 WHERE 
-                    hemxxmh.id_users = :id_users
+                    hemxxmh.id = :s_id_hemxxmh
     
     ');
     $rs_hemxxmh = $qs_hemxxmh->fetch();
 
+    $qs_cuti = $db
+        ->raw()
+        ->bind(':s_id_hemxxmh', $s_id_hemxxmh )
+        ->exec('SELECT
+                    IFNULL(SUM(a.saldo),0) s_saldo
+                FROM httxxrd a
+                WHERE a.id_hemxxmh = :s_id_hemxxmh AND YEAR(a.tanggal) = YEAR(CURDATE())
+    
+    ');
+    $rs_cuti = $qs_cuti->fetch();
+
     $data = array(
-        'hemxxmh' => $rs_hemxxmh
+        'hemxxmh' => $rs_hemxxmh,
+        'cuti' => $rs_cuti,
     );
     
     // tampilkan results

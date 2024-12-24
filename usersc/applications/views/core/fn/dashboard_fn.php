@@ -102,11 +102,13 @@
                 hodxxmh_nama = json.data.hemxxmh.hodxxmh_nama; 
                 hetxxmh_nama = json.data.hemxxmh.hetxxmh_nama; 
                 masakerja = json.data.hemxxmh.masakerja; 
+                s_saldo = json.data.cuti.s_saldo; 
               
                 $("#hemxxmh_nama").html(hemxxmh_nama);
                 $("#hodxxmh_nama").html(hodxxmh_nama);
                 $("#hetxxmh_nama").html(hetxxmh_nama);
                 $("#masakerja").html(masakerja);
+                $("#saldoCuti").html('<h4 id="saldoCuti">Saldo Cuti : '+s_saldo+'</h4>');
             }
         } );
     };

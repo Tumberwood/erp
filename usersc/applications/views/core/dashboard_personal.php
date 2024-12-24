@@ -26,10 +26,13 @@
 						Hello
 						<br><strong><span id="hemxxmh_nama"></span></strong>
 					</h2>
-					<h4 id="namamhjabatan">
+					<h4 id="">
 						<br><span id="hodxxmh_nama"></span>
 						<br><span id="hetxxmh_nama"></span>
 						<br><span class="fa fa-calendar">&nbsp</span><span id="masakerja"></span>
+						<br>
+						<br>
+						<div id="saldoCuti"></div>
 					</h4>
 					<i id="icon_anniv" class=""></i>
 				</div>
