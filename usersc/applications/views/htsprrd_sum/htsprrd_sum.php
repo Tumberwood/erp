@@ -238,6 +238,11 @@
 								$.each(json.columns, function (k, colObj) {
 									var columnName = colObj.data;
 									var cellValue = rowData[columnName];
+									if (k > 2) {
+										var class_text = 'text-right';
+									} else {
+										var class_text = '';
+									}
 
 									// Check if the column is "Nama"
 									if (columnName === 'Nama') {
@@ -246,22 +251,35 @@
 											cellValue = "-";
 										}
 										id_hemxxmh_tujuan = peg_master[cellValue];
-										start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
-										end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
+										start_date = moment($('#start_date').val()).format('YYYY-MM-DD');
+										end_date = moment($('#end_date').val()).format('YYYY-MM-DD');
 
 										url = '<?=$us_url_root?>usersc/applications/views/htsprrd/htsprrd.php?id_hemxxmh=' + id_hemxxmh_tujuan + '&start_date=' + start_date + '&end_date=' + end_date;
 										str1 += '<td><a href="'+url+'" target="_blank">' + cellValue + '</a></td>';
+									} else if (columnName === 'Total') {
+										if (cellValue != rowData['Hari']) {
+											str1 += '<td class="bg-danger tooltipRows '+class_text+'" title="Total / Hari<br> '+cellValue+' / '+rowData['Hari']+'">' + (cellValue == undefined ? "-" : cellValue) + '</td>';
+										} else {
+											str1 += '<td class="'+class_text+'">' + (cellValue == undefined ? "-" : cellValue) + '</td>';
+										}
+									} else if (columnName === 'httlpmhHK') {
+										if (cellValue != rowData['JK']) {
+											str1 += '<td class="bg-danger tooltipRows '+class_text+'" title="HK / JK<br> '+cellValue+' / '+rowData['JK']+'">' + (cellValue == undefined ? "-" : cellValue) + '</td>';
+										} else {
+											str1 += '<td class="'+class_text+'">' + (cellValue == undefined ? "-" : cellValue) + '</td>';
+										}
 									} else {
 										// Handle other columns as normal
 										if (cellValue == undefined) {
 											cellValue = "-";
 										}
-										str1 += '<td>' + cellValue + '</td>';
+										str1 += '<td class="'+class_text+'">' + cellValue + '</td>';
 									}
 								});
 
 								str1 += '</tr>';
 							});
+
 
 							str1 += '</tbody>';
 							str1 += '</table>';
