@@ -20,19 +20,18 @@
     $tanggal_akhir = new Carbon();
 
     $qs_hemxxmh = $db
-        ->query('select', 'hemjbmh' )
-        ->get([
-            'TIMESTAMPDIFF(YEAR, hemjbmh.tanggal_masuk, CURDATE()) as masakerja',
-            'COUNT(*) as c_masakerja'
-        ] )
-        ->where( function ( $r ) {
-            $r
-                // ->where( 'hemjbmh.tanggal_keluar', '0000-00-00', '<>')
-                ->or_where( 'hemjbmh.tanggal_keluar', NULL, '<>');
-        } )
-        ->group_by('masakerja')
-        ->order('masakerja')
-        ->exec();
+        ->raw()
+        ->exec('SELECT
+                    TIMESTAMPDIFF(YEAR, b.tanggal_masuk, CURDATE()) AS masakerja, 
+                    COUNT(*) AS c_masakerja 
+                FROM hemxxmh a
+                LEFT JOIN hemjbmh b ON b.id_hemxxmh = a.id
+                WHERE a.transaction_state = 1 AND b.tanggal_masuk IS NOT NULL
+                GROUP BY 
+                    masakerja 
+                ORDER BY 
+                    masakerja;
+        ');
     $rs_hemxxmh = $qs_hemxxmh->fetchAll();
 
     $category = array();
