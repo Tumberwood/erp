@@ -71,7 +71,7 @@
 											<editor-field name="hemxxmh.gender"></editor-field>
 										</div>
 										<div class="col-lg-6">
-											<editor-field name="hemmdmh.gol_darah"></editor-field>
+											<editor-field name="hemxxmh.golongan_darah"></editor-field>
 										</div>
 									</div>
 									<div class="row">
@@ -1189,7 +1189,7 @@
 					]
 				},{
 					label: "Golongan Darah",
-					name: "hemmdmh.gol_darah",
+					name: "hemxxmh.golongan_darah",
 					type: "select",
 					placeholder : "Select",
 					options: [
