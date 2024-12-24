@@ -40,8 +40,28 @@
         $data_master[$row['kode']] = $row['nama'];
     }
     
+    $qs_peg = $db
+        ->raw()
+        ->exec('SELECT
+                    a.kode,
+                    a.nama,
+                    a.id id_hemxxmh
+                FROM hemxxmh a
+                LEFT JOIN hemjbmh b on b.id_hemxxmh = a.id
+                WHERE a.transaction_state = 1
+                AND b.tanggal_masuk <= curdate() AND (b.tanggal_keluar IS NULL OR b.tanggal_keluar > curdate()) 
+                ;
+    ');
+
+    $rs_peg = $qs_peg->fetchAll();
+    $peg_master = [];
+    foreach ($rs_peg as $row) {
+        $peg_master[$row['nama']] = $row['id_hemxxmh'];
+    }
+    
     $data = array(
         'data_master' => $data_master,
+        'peg_master' => $peg_master,
     );
     
     // tampilkan results

@@ -108,6 +108,11 @@
 	// 		->where( 'htsprrd.approval_state', $_POST['status_approve']);
 	// }
 
+	if ( $_POST['id_hemxxmh_get'] != 0){
+		$editor
+			->where( 'htsprrd.id_hemxxmh', $_POST['id_hemxxmh_get']);
+	}
+
 	if ( $_POST['start_date'] != null){
 		$editor
 			->where( 'htsprrd.tanggal', $_POST['start_date'], '>=');

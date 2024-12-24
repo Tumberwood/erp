@@ -9,6 +9,7 @@
             },
             success: function ( json ) {
                 data_master = json.data.data_master;
+                peg_master = json.data.peg_master;
             }
         });
     }

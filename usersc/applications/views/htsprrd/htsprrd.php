@@ -4,6 +4,24 @@
     if (!securePage($_SERVER['PHP_SELF'])) {
         die();
     }
+
+	$id_hemxxmh_get = 0;
+	if (isset($_GET['id_hemxxmh'])) {
+		$id_hemxxmh_get = $_GET['id_hemxxmh'];
+	}
+
+	$formatted_start_date = 0;
+	if (isset($_GET['start_date'])) {
+		$start_date_get = $_GET['start_date'];
+		$formatted_start_date = DateTime::createFromFormat('Y-m-d', $start_date_get)->format('Y-m-d'); // Can also be formatted as needed
+	}
+
+	$formatted_end_date = 0;
+	if (isset($_GET['end_date'])) {
+		$end_date_get = $_GET['end_date'];
+		$formatted_end_date = DateTime::createFromFormat('Y-m-d', $end_date_get)->format('Y-m-d'); // Can also be formatted as needed
+	}
+
 ?>
 
 <?php
@@ -100,11 +118,21 @@
 	var id_hemxxmh_old = 0;
 	// console.log(id_users_old);
 
+	//variable get
+	id_hemxxmh_get = <?php echo $id_hemxxmh_get?>;
+	let start_date_get = "<?php echo $formatted_start_date ?>";
+	let end_date_get = "<?php echo $formatted_end_date ?>";
+
 	// get tableRelation
 	tableRelation('htsprrd');
 
-	$('#start_date').datepicker('setDate', moment().toDate());
-	$('#end_date').datepicker('setDate', moment().toDate());
+	if (start_date_get == 0) {
+		$('#start_date').datepicker('setDate', moment().toDate());
+		$('#end_date').datepicker('setDate', moment().toDate());
+	} else {
+		$('#start_date').datepicker('setDate', new Date(start_date_get));
+		$('#end_date').datepicker('setDate', new Date(end_date_get));
+	}
 
 	$(document).ready(function() {
 		
@@ -120,6 +148,7 @@
 					d.show_deleted_htsprrd = show_deleted_htsprrd;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.id_hemxxmh_get = id_hemxxmh_get;
 					// d.status_approve = status_approve;
 				}
 			},
@@ -226,6 +255,7 @@
 					d.show_deleted_htsprrd = show_deleted_htsprrd;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.id_hemxxmh_get = id_hemxxmh_get;
 				}
 			},
 			order: [[ 1, "desc" ]],

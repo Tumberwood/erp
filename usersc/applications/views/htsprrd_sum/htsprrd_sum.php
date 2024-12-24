@@ -101,10 +101,10 @@
 			format: "dd M yyyy",
 			minViewMode: 'month' 
 		});
-		$('#start_date').datepicker('setDate', '');
-		$('#end_date').datepicker('setDate', '');
-		// $('#start_date').datepicker('setDate', awal_bulan_dmy);
-		// $('#end_date').datepicker('setDate', tanggal_hariini_dmy);
+		// $('#start_date').datepicker('setDate', '');
+		// $('#end_date').datepicker('setDate', '');
+		$('#start_date').datepicker('setDate', awal_bulan_dmy);
+		$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 		
 		$(document).ready(function() {
 			start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
@@ -239,12 +239,27 @@
 									var columnName = colObj.data;
 									var cellValue = rowData[columnName];
 
-									// console.log(cellValue);
-									if (cellValue == undefined) {
-										cellValue = "-";
+									// Check if the column is "Nama"
+									if (columnName === 'Nama') {
+										// Create a clickable link for "Nama" column
+										if (cellValue == undefined) {
+											cellValue = "-";
+										}
+										id_hemxxmh_tujuan = peg_master[cellValue];
+										start_date 		= moment($('#start_date').val()).format('YYYY-MM-DD');
+										end_date 		= moment($('#end_date').val()).format('YYYY-MM-DD');
+
+										url = '<?=$us_url_root?>usersc/applications/views/htsprrd/htsprrd.php?id_hemxxmh=' + id_hemxxmh_tujuan + '&start_date=' + start_date + '&end_date=' + end_date;
+										str1 += '<td><a href="'+url+'" target="_blank">' + cellValue + '</a></td>';
+									} else {
+										// Handle other columns as normal
+										if (cellValue == undefined) {
+											cellValue = "-";
+										}
+										str1 += '<td>' + cellValue + '</td>';
 									}
-									str1 += '<td>' + cellValue + '</td>';
 								});
+
 								str1 += '</tr>';
 							});
 
