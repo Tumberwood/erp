@@ -26,7 +26,7 @@
                                 <th>Jenis</th>
                                 <th>Periode</th>
                                 <th>Komp Tetap</th>
-                                <!-- <th>Lain-lain</th> -->
+                                <th>Other Payroll</th>
                                 <th>Keterangan</th>
                                 <th>TX</th>
                             </tr>
@@ -143,16 +143,16 @@
 						{ "label": "Fix Tanpa Potongan", "value": 2 }
 					]
 				},
-				// {
-				// 	label: "Lain-lain",
-				// 	name: "hpcxxmh.is_lain",
-				// 	type: "select",
-				// 	placeholder : "Select",
-				// 	options: [
-				// 		{ "label": "Ya", "value": 1 },
-				// 		{ "label": "Tidak", "value": 0 }
-				// 	]
-				// },	
+				{
+					label: "Other Payroll",
+					name: "hpcxxmh.is_lain",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},	
 				{
 					label: "Kena Pajak",
 					name: "hpcxxmh.is_kena_pajak",
@@ -348,10 +348,10 @@
 						}
 					}
 				},
-				// { 
-				// 	data: "hpcxxmh.is_lain" ,
-				// 	...renderYaTidak()
-				// },
+				{ 
+					data: "hpcxxmh.is_lain" ,
+					...renderYaTidak()
+				},
 				{ data: "hpcxxmh.keterangan" },
 				{ 
 					data: "hpcxxmh.transaction_state" ,
