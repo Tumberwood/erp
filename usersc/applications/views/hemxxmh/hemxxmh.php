@@ -994,7 +994,7 @@
 				},
 				{
 					label: "Wajib Checkclock <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.is_checkclock",
+					name: "hemjbmh.is_checkclock",
 					type: "select",
 					options: [
 						{ "label": "Ya", "value": 1 },
