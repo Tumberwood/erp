@@ -604,10 +604,6 @@
 					name: "hemxxmh.lname"
 				}, 	
 				{
-					label: "NIP <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.kode"
-				}, 	
-				{
 					label: "No KTP <sup class='text-danger'>*<sup>",
 					name: "hemdcmh.ktp_no"
 				}, 	
@@ -1284,7 +1280,7 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthemxxmh.field('hemxxmh.start_at').val(start_at);
 			//cek_is_need_generate_kode
-			cek_is_need_generate_kode('hemxxmh', edthemxxmh);
+			cek_is_need_generate_kode('hemxxmh', edthemxxmh, 1);
 
 			if(action == 'create'){
 				tblhemxxmh.rows().deselect();

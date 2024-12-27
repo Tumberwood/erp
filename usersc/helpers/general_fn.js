@@ -1545,17 +1545,45 @@ function uploadDetail(id_header, nama_tabel, tbl, url) {
  * 
  * @param {nama tabel database} tbl_name 
  * @param {editor} edt 
+ * @param {is_required} is_required = 1 maka wajib isi kode | is_required = 0, maka tidak wajib isi kode 
  * 
     cek_is_need_generate_kode('hemxxmh', edthemxxmh);
  */
-function cek_is_need_generate_kode(tbl_name, edt) {
+function cek_is_need_generate_kode(tbl_name, edt, is_required) {
     tableRelation(tbl_name);
+    if (!is_required) {
+        is_required = 0;
+    }
 
+    const fields = edt.fields();
     //jika is_generate_kode = 1 di gtbrlsh
     if (is_need_generate_kode == 1) {
         //Jika fields kode di editor ada, maka dihide saja
-        if (edt.field(tbl_name+'.kode')) {
+        if (fields.includes(tbl_name + '.kode')) {
+            console.log('Field ditemukan.');
             edt.field(tbl_name+'.kode').hide();
         }
+    } else {
+        if (!fields.includes(tbl_name + '.kode')) {
+            // Jika field tidak ditemukan, buat editor baru untuk "kode"
+            edt.add({
+                label: 'Kode', // Label untuk editor
+                name: tbl_name + '.kode', // Nama field
+                type: 'text', // Jenis input (misalnya, teks)
+                placeholder: 'Masukkan kode', // Placeholder
+            });
+        }
+
+        if (is_required == 1) {
+            edt.field(tbl_name + '.kode').label( "Kode  <sup class='text-danger'>*<sup>" );
+            edt.on( 'preSubmit', function (e, data, action) {
+                if(action != 'remove'){
+                    if(!edt.field(tbl_name + '.kode').val() || edt.field(tbl_name + '.kode').val() == ''){
+                        edt.field(tbl_name + '.kode').error( 'Wajib diisi!' );
+                    }
+                }
+            });
+        }
+        
     }
 }
