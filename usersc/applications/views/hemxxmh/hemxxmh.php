@@ -71,7 +71,7 @@
 											<editor-field name="hemxxmh.gender"></editor-field>
 										</div>
 										<div class="col-lg-6">
-											<editor-field name="hemmdmh.gol_darah"></editor-field>
+											<editor-field name="hemxxmh.golongan_darah"></editor-field>
 										</div>
 									</div>
 									<div class="row">
@@ -117,7 +117,7 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-6">
-											<editor-field name="hemxxmh.is_pot_makan"></editor-field>
+											<editor-field name="hemjbmh.is_checkclock"></editor-field>
 										</div>
 										<div class="col-lg-6">
 											<editor-field name="hemxxmh.id_files_foto"></editor-field>
@@ -989,14 +989,12 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Potong Makan <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.is_pot_makan",
-					type: "select2",
-					def: 1,
+					label: "Wajib Checkclock <sup class='text-danger'>*<sup>",
+					name: "hemjbmh.is_checkclock",
+					type: "select",
 					options: [
-						{ "label": "Potong Makan", "value": 1 },
-						{ "label": "Catering", "value": 2 },
-						{ "label": "Tidak Dipotong Makan", "value": 0 }
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
 					]
 				},
 				{
@@ -1187,7 +1185,7 @@
 					]
 				},{
 					label: "Golongan Darah",
-					name: "hemmdmh.gol_darah",
+					name: "hemxxmh.golongan_darah",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -1392,12 +1390,12 @@
 					}
 					// END of validasi hemxxmh.lname 
 					
-					// BEGIN of validasi hemxxmh.is_pot_makan 
-					is_pot_makan = edthemxxmh.field('hemxxmh.is_pot_makan').val();
-					if(!is_pot_makan || is_pot_makan == ''){
-						edthemxxmh.field('hemxxmh.is_pot_makan').error( 'Wajib diisi!' );
+					// BEGIN of validasi hemjbmh.is_checkclock 
+					is_checkclock = edthemxxmh.field('hemjbmh.is_checkclock').val();
+					if(!is_checkclock || is_checkclock == ''){
+						edthemxxmh.field('hemjbmh.is_checkclock').error( 'Wajib diisi!' );
 					}
-					// END of validasi hemxxmh.is_pot_makan 
+					// END of validasi hemjbmh.is_checkclock 
 					
 					// BEGIN of validasi hemjbmh.id_heyxxmh 
 					id_heyxxmh = edthemxxmh.field('hemjbmh.id_heyxxmh').val();

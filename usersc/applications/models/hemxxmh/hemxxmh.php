@@ -105,15 +105,15 @@
 			Field::inst( 'hemxxmh.created_by' ),
 			Field::inst( 'hemxxmh.start_at' ),
 			Field::inst( 'hemxxmh.finish_at' ),
-			Field::inst( 'hemxxmh.is_pot_makan' ),
 			Field::inst( 'hemxxmh.is_defaultprogram' ),
 			Field::inst( 'hemxxmh.is_nextprocess' ),
 			Field::inst( 'hemxxmh.id_gctxxmh_lahir' )
-			->setFormatter( Format::ifEmpty( 0 ) ),
+				->setFormatter( Format::ifEmpty( 0 ) ),
 
 			Field::inst( 'hemxxmh.gender' ),
 			Field::inst( 'hemxxmh.agama' ),
 			Field::inst( 'hemxxmh.golongan_darah' ),
+			Field::inst( 'hemxxmh.perkawinan' ),
 			
 			Field::inst( 'hemjbmh.tanggal_masuk' )
 				->getFormatter( function ( $val, $data, $opts ) {
@@ -151,12 +151,13 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 				) ),
+			Field::inst( 'hemjbmh.is_checkclock' ),
 			Field::inst( 'hemjbmh.grup_hk' ),
 			Field::inst( 'hemjbmh.jumlah_grup' ),
 			Field::inst( 'hemjbmh.id_gcpxxmh' )
-			->setFormatter( Format::ifEmpty( 0 ) ),
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'hemjbmh.id_gbrxxmh' )
-			->setFormatter( Format::ifEmpty( 0 ) ),
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'hovxxmh.nama' ),
 			Field::inst( 'hodxxmh.nama' ),
 			Field::inst( 'hemdcmh.id_gtxpkmh' )
