@@ -136,11 +136,15 @@
 
 		$qs_ggswmsh = $db
 			->query('select', 'ggswmsh' )
-			->get(['is_replenishment'] )
+			->get([
+				'is_replenishment',
+				'is_koordinat',
+			] )
 			->where('id', 1 )
 			->exec();
 		$rs_ggswmsh = $qs_ggswmsh->fetch();
 		$is_replenishment = $rs_ggswmsh['is_replenishment'];
+		$is_koordinat = $rs_ggswmsh['is_koordinat'];
 
 		$qs_wplxxth = $db
 			->query('select', 'wplxxth' )
@@ -384,12 +388,19 @@
 							// }
 						}
 						
+						if ($is_koordinat == 1) {
+							$total_koordinat = $iiv['urutan'];
+						} else {
+							$total_koordinat = 0;
+						}
+						
 						//insert Job Picking
 						$qi_lpn_d = $db
 							->query('insert', 'wpllptd')
 							->set('id_wplxxth',$id_transaksi_h)
 							->set('id_wjtxxmh',1)
 							->set('id_wplittd',$id_wplittd)
+							->set('total_koordinat',$total_koordinat)
 							->set('id_iimxxmh',$iiv['id_iimxxmh'])
 							->set('id_wloxxmh',$iiv['id_wloxxmh'])
 							->set('id_iwhxxmh',$iiv['id_iwhxxmh'])

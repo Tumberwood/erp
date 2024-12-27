@@ -285,6 +285,11 @@
 					name: "wptittd.jumlah_unit"
 				},
 				{
+					label: "Total Koordinat",
+					name: "wptittd.total_koordinat",
+					type: "hidden"
+				},
+				{
 					label: "Drop",
 					name: "wptittd.is_drop",
 					type: "select",

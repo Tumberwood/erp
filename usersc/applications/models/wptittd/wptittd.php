@@ -93,6 +93,7 @@
 			Field::inst( 'wptittd.batch_number' ),
 			Field::inst( 'wptittd.is_cancel_drop' ),
 			Field::inst( 'wptittd.is_backdate' ),
+			Field::inst( 'wptittd.total_koordinat' ),
 
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),

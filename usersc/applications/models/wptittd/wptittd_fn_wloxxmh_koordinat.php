@@ -31,7 +31,8 @@
                     loc.id_wloxxmh id_wloxxmh_tujuan ,
                     r.id_wloxxmh id_wloxxmh_asal,
                     loc.id_iwhxxmh,
-                    loc.wloxxmh_nama
+                    loc.wloxxmh_nama,
+                    loc_alogritma
                 FROM (
                     SELECT 
                         id_wloxxmh,
@@ -204,6 +205,7 @@
         $id_wloxxmh_tujuan = 0;
         $wloxxmh_nama = '';
         $id_iwhxxmh = '';
+        $loc_alogritma = '';
     }else{
         $status_code = 200;
         $message = '';
@@ -212,6 +214,7 @@
         $id_wloxxmh_tujuan = $rs_wloxxmh['id_wloxxmh_tujuan'];
         $wloxxmh_nama = $rs_wloxxmh['wloxxmh_nama'];
         $id_iwhxxmh = $rs_wloxxmh['id_iwhxxmh'];
+        $loc_alogritma = $rs_wloxxmh['loc_alogritma'];
     }
 
     $data = array(
@@ -224,6 +227,7 @@
         'id_iwhxxmh' => $id_iwhxxmh,
         'jenis_put' => $jenis_put,
         'id_wloctmh' => $id_wloctmh,
+        'loc_alogritma' => $loc_alogritma,
     );
 
     // tampilkan results

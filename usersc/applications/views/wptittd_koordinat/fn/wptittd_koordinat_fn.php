@@ -113,6 +113,8 @@
                                         id_wloctmh = json.data.id_wloctmh;
                                         id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
                                         id_wloxxmh_asal = json.data.id_wloxxmh_asal;
+                                        loc_alogritma = json.data.loc_alogritma;
+                                        edtwptittd.field('wptittd.total_koordinat').val(loc_alogritma);
                                         edtwptittd.field('wptittd.id_iwhxxmh').val(id_iwhxxmh);
                                         edtwptittd.field('wptittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan);
                                         edtwptittd.field('wptittd.id_wloxxmh_asal').val(id_wloxxmh_asal);
