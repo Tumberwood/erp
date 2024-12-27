@@ -62,6 +62,7 @@
 	// ------------- end of default variable
 
 	var folder, id_transaksi_tujuan;
+	var level_ke = 0;
 	
 	// get tableRelation
 	tableRelation('gaplgtd');
@@ -242,6 +243,7 @@
 										table_name    : table_name_approve,
 										id_transaksi  : id_transaksi_approve,
 										id_gaplgtd    : id_transaksi_h,
+										level_ke: level_ke,
 									},
 									success: function ( json ) {
 										full_message = full_message + json.data.message + '</br>';
@@ -261,6 +263,7 @@
 															type: 'POST',
 															data: {
 																id_transaksi: id_transaksi_approve,
+																level_ke: level_ke,
 																approval_state: 1
 															},
 															error: function() {
@@ -304,6 +307,7 @@
 										table_name    : table_name_approve,
 										id_transaksi  : id_transaksi_approve,
 										id_gaplgtd    : id_transaksi_h,
+										level_ke: level_ke,
 									},
 									success: function ( json ) {
 										if(json.data.status_code = 200){
@@ -317,6 +321,7 @@
 												type: 'POST',
 												data: {
 													id_transaksi: id_transaksi_approve,
+													level_ke: level_ke,
 													approval_state: -1
 												},
 												error: function (){
@@ -348,6 +353,7 @@
 										table_name    : table_name_approve,
 										id_transaksi  : id_transaksi_approve,
 										id_gaplgtd    : id_transaksi_h,
+										level_ke: level_ke,
 									},
 									success: function ( json ) {
 										if(json.data.status_code = 200){
@@ -361,6 +367,7 @@
 												type: 'POST',
 												data: {
 													id_transaksi: id_transaksi_approve,
+													level_ke: level_ke,
 													approval_state: -9
 												},
 												error: function (){
@@ -407,32 +414,39 @@
 			selected_folder = gaplgtd_data.tbl_name;
 			table_name_approve = gaplgtd_data.tbl_name;
 			id_transaksi_approve = gaplgtd_data.id_transaksi;
+			level_ke = gaplgtd_data.level_ke;
+			// console.log(level_ke);
 
 			// atur hak akses
 			CekSelectHeaderH(tblgaplgtd);
-
+			// console.log(approval_state);
 			// BEGIN approval button
 			tblgaplgtd.button( 'btnSetApprove:name' ).enable();
 			if(approval_state == 1){
 				// approve
 				tblgaplgtd.button( 'btnApprove1:name' ).disable();
 				tblgaplgtd.button( 'btnCancelApprove1:name' ).disable();
-				tblgaplgtd.button( 'btnVoid:name' ).enable();
+				tblgaplgtd.button( 'btnVoid1:name' ).enable();
 			}else if(approval_state == -1){
 				// cancel approve
 				tblgaplgtd.button( 'btnApprove1:name' ).enable();
 				tblgaplgtd.button( 'btnCancelApprove1:name' ).disable();
-				tblgaplgtd.button( 'btnVoid:name' ).enable();
+				tblgaplgtd.button( 'btnVoid1:name' ).enable();
 			}else if(approval_state == -9){
 				// void
 				tblgaplgtd.button( 'btnApprove1:name' ).disable();
 				tblgaplgtd.button( 'btnCancelApprove1:name' ).disable();
-				tblgaplgtd.button( 'btnVoid:name' ).disable();
+				tblgaplgtd.button( 'btnVoid1:name' ).disable();
+			}else if(approval_state == -8){
+				// void
+				tblgaplgtd.button( 'btnApprove1:name' ).disable();
+				tblgaplgtd.button( 'btnCancelApprove1:name' ).disable();
+				tblgaplgtd.button( 'btnVoid1:name' ).disable();
 			}else{
 				// open
 				tblgaplgtd.button( 'btnApprove1:name' ).enable();
 				tblgaplgtd.button( 'btnCancelApprove1:name' ).disable();
-				tblgaplgtd.button( 'btnVoid:name' ).enable();
+				tblgaplgtd.button( 'btnVoid1:name' ).enable();
 			}
 			// END approval button
 
@@ -440,6 +454,7 @@
 
 		tblgaplgtd.on( 'deselect', function () {
 			siVarReset('gaplgtd');
+			level_ke = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblgaplgtd);

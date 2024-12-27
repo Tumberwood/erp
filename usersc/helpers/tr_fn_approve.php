@@ -36,6 +36,7 @@
 	$tbl_name   = $_POST['table_name'];
 	$id_transaksi = $_POST['id_transaksi'];
 	$id_gaplgtd   = $_POST['id_gaplgtd'];
+	$level_ke   = $_POST['level_ke'];
 
     if($_POST['approval_state'] == 1){
         $status_approval = 'Approve ';
@@ -127,6 +128,38 @@
                 ->exec();
         }
         // END close 
+
+        //27 Des 2024 - Ferry
+        //Ambil level tertinggi dalam transaksi yang 
+        $qs_gaplgtd = $db
+            ->raw()
+            ->bind(':id_transaksi', $id_transaksi)
+            ->bind(':tbl_name', $tbl_name)
+            ->exec('SELECT
+                        MAX(a.level_ke) level_final
+                    FROM gaplgtd a
+                    WHERE a.tbl_name = :tbl_name AND  a.id_transaksi = :id_transaksi
+        ');
+        $rs_gaplgtd = $qs_gaplgtd->fetch();
+        $level_final = $rs_gaplgtd['level_final'];
+
+        if ($level_ke == $level_final) {
+            //Jika yang approve ini adalah level terakhir
+            //maka update approval_state = -8 atau bypass untuk transaksi dibawah level final, hanya berlaku yg belum diapprove.
+            $qs_gaplgtd = $db
+                ->raw()
+                ->bind(':id_transaksi', $id_transaksi)
+                ->bind(':tbl_name', $tbl_name)
+                ->bind(':level_final', $level_final)
+                ->exec('UPDATE gaplgtd a
+                        SET
+                            is_direct_approval = 1,
+                            approval_state = -8
+                        WHERE a.tbl_name = :tbl_name AND  a.id_transaksi = :id_transaksi
+                        AND a.approval_state = 0 
+                        AND a.level_ke < :level_final
+            ');
+        }
 
         $db->commit();
         

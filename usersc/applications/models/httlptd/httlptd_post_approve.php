@@ -20,6 +20,7 @@
     $approval_state          = $_POST['approval_state'];
     // print_r($approval_state);
     $id_httlptd = $_POST['id_transaksi'];
+    $level_ke = $_POST['level_ke'];
     
     try{
         $db->transaction();
@@ -37,6 +38,7 @@
 				'httlptd.tanggal_awal as tanggal_awal',
 				'httlptd.tanggal_akhir as tanggal_akhir',
 				'httlptd.keterangan as keterangan',
+				'httlptd.approval_state as approval_state',
 				'httlpmh.kode as httlpmh_kode'
 			] )
 			->join('hemxxmh','hemxxmh.id = httlptd.id_hemxxmh','LEFT' )
@@ -47,6 +49,9 @@
 		$rs_httlptd = $qs_httlptd->fetch();
 		
 		$jenis = $rs_httlptd['jenis'];
+		$approval_state_table = $rs_httlptd['approval_state'];
+		$kode_table = $rs_httlptd['kode'];
+
 		
 		$tanggal_awal  = Carbon::parse($rs_httlptd['tanggal_awal']);
 		$tanggal_akhir = Carbon::parse($rs_httlptd['tanggal_akhir']);
@@ -56,83 +61,111 @@
 		$tanggal = $tanggal_awal;
 
 		if($approval_state == 1){
-
-			//Jika Jenis == Harian
-			if ($jenis == 1) {
-				$tt = '';
-
-				$qs_httlpmh = $db
-					->query('select', 'httlpmh' )
-					->get(['is_potongcuti'] )
-					->where('id', $rs_httlptd['id_httlpmh'] )
-					->exec();
-				$rs_httlpmh = $qs_httlpmh->fetch();
-	
-				if ($rs_httlpmh['is_potongcuti'] == 1) {
-					$pot_saldo_cuti = -1;
-				} else {
-					$pot_saldo_cuti = 0;
-				}
-
-				for ($x = 0; $x < $jumlah_hari; $x++) {
-					$tanggal_ymd = $tanggal;
-
-					$qs_jadwal = $db
-						->raw()
-						->bind(':tanggal_ymd', $tanggal_ymd)
-						->bind(':id_hemxxmh', $rs_httlptd['id_hemxxmh'])
-						->exec('SELECT
-									DATE_FORMAT(tanggaljam_awal, "%H:%i:%s") AS jam
-								FROM htssctd a
-								WHERE a.tanggal = :tanggal_ymd AND a.id_hemxxmh = :id_hemxxmh;
-						'
-						);
-				
-					$rs_jadwal = $qs_jadwal->fetch();
-					$jam = $rs_jadwal['jam'];
-
-					//Jika jadawal Libur, maka tidak diinsert ke report detail httxxrd
-					if ($jam != "00:00:00") {
-						$qi = $db
-							->query('insert', 'httxxrd')
-							->set('id_transaksi', $rs_httlptd['id_transaksi'] )
-							->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
-							->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
-							->set('kode', $rs_httlptd['kode'] )
-							->set('approval_state', $approval_state )
-							->set('transaction_state', $approval_state )
-							->set('tanggal', $tanggal_ymd->format('Y-m-d') )
-							->set('keterangan', $rs_httlptd['keterangan'] )
-							->set('jenis', $jenis )
-							->set('saldo', $pot_saldo_cuti )
-							->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
-							->set('jumlah', 1 )
-							->set('jam_awal', null )
-							->set('jam_akhir', null )
+			//cek apakah di httxxrd sudah pernah diinsert?
+			$qs_httxxrd = $db
+				->raw()
+				->bind(':kode_table', $kode_table)
+				->bind(':id_httlptd', $id_httlptd)
+				->exec('SELECT
+							COUNT(id) c_report_leave
+						FROM httxxrd
+						WHERE kode = :kode_table AND id_transaksi = :id_httlptd
+			');
+			$rs_httxxrd = $qs_httxxrd->fetch();
+			$c_report_leave = $rs_httxxrd['c_report_leave'];
+			
+			//cek apakah level approval ini sudah di users yang tertinggi?
+			$qs_gaplgtd = $db
+				->raw()
+				->bind(':id_httlptd', $id_httlptd)
+				->exec('SELECT
+							MAX(a.level_ke) level_final
+						FROM gaplgtd a
+						WHERE a.tbl_name = "httlptd" AND  a.id_transaksi = :id_httlptd
+			');
+			$rs_gaplgtd = $qs_gaplgtd->fetch();
+			$level_final = $rs_gaplgtd['level_final'];
+			
+			if ($c_report_leave == 0) {
+				if ($approval_state_table == 9 || $level_final == $level_ke) {
+					//Jika Jenis == Harian
+					if ($jenis == 1) {
+						$tt = '';
+		
+						$qs_httlpmh = $db
+							->query('select', 'httlpmh' )
+							->get(['is_potongcuti'] )
+							->where('id', $rs_httlptd['id_httlpmh'] )
 							->exec();
+						$rs_httlpmh = $qs_httlpmh->fetch();
+			
+						if ($rs_httlpmh['is_potongcuti'] == 1) {
+							$pot_saldo_cuti = -1;
+						} else {
+							$pot_saldo_cuti = 0;
+						}
+		
+						for ($x = 0; $x < $jumlah_hari; $x++) {
+							$tanggal_ymd = $tanggal;
+		
+							$qs_jadwal = $db
+								->raw()
+								->bind(':tanggal_ymd', $tanggal_ymd)
+								->bind(':id_hemxxmh', $rs_httlptd['id_hemxxmh'])
+								->exec('SELECT
+											DATE_FORMAT(tanggaljam_awal, "%H:%i:%s") AS jam
+										FROM htssctd a
+										WHERE a.tanggal = :tanggal_ymd AND a.id_hemxxmh = :id_hemxxmh;
+								'
+								);
+						
+							$rs_jadwal = $qs_jadwal->fetch();
+							$jam = $rs_jadwal['jam'];
+		
+							//Jika jadawal Libur, maka tidak diinsert ke report detail httxxrd
+							if ($jam != "00:00:00") {
+								$qi = $db
+									->query('insert', 'httxxrd')
+									->set('id_transaksi', $rs_httlptd['id_transaksi'] )
+									->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
+									->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
+									->set('kode', $rs_httlptd['kode'] )
+									->set('approval_state', $approval_state )
+									->set('transaction_state', $approval_state )
+									->set('tanggal', $tanggal_ymd->format('Y-m-d') )
+									->set('keterangan', $rs_httlptd['keterangan'] )
+									->set('jenis', $jenis )
+									->set('saldo', $pot_saldo_cuti )
+									->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
+									->set('jumlah', 1 )
+									->set('jam_awal', null )
+									->set('jam_akhir', null )
+									->exec();
+							}
+							$tt = $tt . ' - ' . $tanggal_ymd->format('Y-m-d');
+							$tanggal->add(1, 'days');
+						}
+						
+					} else {
+						$qi = $db
+						->query('insert', 'httxxrd')
+						->set('id_transaksi', $rs_httlptd['id_transaksi'] )
+						->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
+						->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
+						->set('kode', $rs_httlptd['kode'] )
+						->set('approval_state', $approval_state )
+						->set('transaction_state', 1 )
+						// ->set('tanggal', $tanggal->format('Y-m-d') )
+						->set('tanggal', $tanggal )
+						->set('keterangan', $rs_httlptd['keterangan'] )
+						->set('jenis', $jenis )
+						->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
+						->set('jumlah', 1 )
+						->set('jam_awal', $rs_httlptd['jam_awal'] )
+						->set('jam_akhir', $rs_httlptd['jam_akhir'] )
+						->exec();
 					}
-					$tt = $tt . ' - ' . $tanggal_ymd->format('Y-m-d');
-					$tanggal->add(1, 'days');
 				}
-				
-			} else {
-				$qi = $db
-				->query('insert', 'httxxrd')
-				->set('id_transaksi', $rs_httlptd['id_transaksi'] )
-				->set('id_httlpmh', $rs_httlptd['id_httlpmh'] )
-				->set('id_hemxxmh', $rs_httlptd['id_hemxxmh'] )
-				->set('kode', $rs_httlptd['kode'] )
-				->set('approval_state', $approval_state )
-				->set('transaction_state', 1 )
-				// ->set('tanggal', $tanggal->format('Y-m-d') )
-				->set('tanggal', $tanggal )
-				->set('keterangan', $rs_httlptd['keterangan'] )
-				->set('jenis', $jenis )
-				->set('httlpmh_kode', $rs_httlptd['httlpmh_kode'] )
-				->set('jumlah', 1 )
-				->set('jam_awal', $rs_httlptd['jam_awal'] )
-				->set('jam_akhir', $rs_httlptd['jam_akhir'] )
-				->exec();
 			}
 
 		}elseif($approval_state == -1){

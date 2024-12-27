@@ -45,6 +45,7 @@
 			Field::inst( 'gaplgtd.is_nextprocess' ),
 			Field::inst( 'gaplgtd.is_defaultprogram' ),
 			Field::inst( 'gaplgtd.tbl_name' ),
+			Field::inst( 'gaplgtd.level_ke' ),
 			Field::inst( 'gaplgtd.dt_pengajuan' )
 				->getFormatter( 'Format::datetime', array(
 					'from' => 'Y-m-d H:i:s',

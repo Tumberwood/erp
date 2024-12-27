@@ -238,6 +238,8 @@ function renderApprovalStatus() {
                 return '<span class="badge badge-warning">APPROVE</span>';
             }else if(data == 9){
                 return '<span class="badge badge-primary">APPROVE</span>';
+            }else if(data == -8){
+                return '<span class="badge badge-danger">BYPASS</span>';
             }else{
                 return '<span class="badge badge-warning">INVALID</span>';
             }
