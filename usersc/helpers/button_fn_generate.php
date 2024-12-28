@@ -414,6 +414,10 @@
                             name: 'btnConfirm',
                             className: 'btn btn-sm',
                             titleAttr: 'Confirm',
+                            key: {
+                                ctrlKey: true,
+                                key: '1'
+                            },
                             action: function ( e, dt, node, config ) {
 
                                 // jika draft akan dikonfirmasi
