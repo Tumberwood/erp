@@ -24,10 +24,11 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<!-- start Custom Form Datatables Editor -->
-				<div id="custom_hem">
+				<div id="frmhemxxmh">
 					<div class="tabs-container">
 						<ul class="nav nav-tabs" role="tablist">
 							<li><a class="nav-link active" data-toggle="tab" href="#tabpersonaldata"> Personal Data</a></li>
+							<li><a class="nav-link" data-toggle="tab" href="#tabpekerjaan"> Pekerjaan</a></li>
 							<li><a class="nav-link" data-toggle="tab" href="#tabsosmed"> Kontak & SosMed</a></li>
 							<li><a class="nav-link" data-toggle="tab" href="#tabdokumen"> Dokumen</a></li>
 						</ul>
@@ -74,7 +75,11 @@
 											<editor-field name="hemxxmh.golongan_darah"></editor-field>
 										</div>
 									</div>
-									<div class="row">
+								</div>
+							</div>
+							<div role="tabpanel" id="tabpekerjaan" class="tab-pane">
+								<div class="panel-body">
+								<div class="row">
 										<div class="col-lg-6">
 											<editor-field name="hemjbmh.id_gcpxxmh"></editor-field>
 										</div>
@@ -104,7 +109,6 @@
 										</div>
 										<div class="col-lg-6">
 											<editor-field name="hemjbmh.id_hesxxmh"></editor-field>
-											<!-- <editor-field name="hemjbmh.tanggal_akhir_pkwt"></editor-field> -->
 										</div>
 									</div>
 									<div class="row">
@@ -242,269 +246,270 @@
                                 <th>ID</th>
                                 <th>NIP</th>
                                 <th>No KTP</th>
-                                <th>Nama</th>
+                                <th>Nama Depan</th>
+                                <th>Nama Belakang</th>
                                 <th>Level</th>
                                 <th>Department</th>
                                 <th>Jabatan</th>
                                 <th>Status</th>
                                 <th>Tanggal Masuk</th>
-                                <!-- <th>Tanggal Akhir PKWT</th> -->
-                                <th>Tanggal Keluar</th>
                             </tr>
                         </thead>
                     </table>
-                    <legend>Detail</legend>
-					<div class="tabs-container">
-						<ul class="nav nav-tabs" role="tablist">
-							<li><a class="nav-link active" data-toggle="tab" href="#tabhemfmmd"> Family</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhemedmd"> Pendidikan Formal</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhemwrmd"> Work History</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhemlgmd"> Language</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhemtrmd"> Pelatihan</a></li>
-							<!-- <li><a class="nav-link" data-toggle="tab" href="#tabhesxxtd"> PKWT</a></li> -->
-							<li><a class="nav-link" data-toggle="tab" href="#tabhemjbrd"> Job History</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhttlptd"> Leave & Permission</a></li>
-							<li><a class="nav-link" data-toggle="tab" href="#tabhadxxtd "> Pelanggaran</a></li>
-						</ul>
-						<div class="tab-content">
-							<div role="tabpanel" id="tabhemfmmd" class="tab-pane active">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhemfmmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Hubungan</th>
-													<th>Nama</th>
-													<th>Gender</th>
-													<th>Tanggal Lahir</th>
-													<th>Pendidikan Terakhir</th>
-													<th>Pekerjaan</th>
-												</tr>
-											</thead>
-										</table>
-									</div> <!-- end of table -->
+				</div>    
+				
+				<legend>Detail</legend>
+				<div class="tabs-container">
+					<ul class="nav nav-tabs" role="tablist">
+						<li><a class="nav-link active" data-toggle="tab" href="#tabhemfmmd"> Family</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemedmd"> Pendidikan Formal</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemwrmd"> Work History</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemlgmd"> Language</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemtrmd"> Pelatihan</a></li>
+						<!-- <li><a class="nav-link" data-toggle="tab" href="#tabhesxxtd"> PKWT</a></li> -->
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemjbrd"> Job History</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhttlptd"> Leave & Permission</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhadxxtd "> Pelanggaran</a></li>
+					</ul>
+					<div class="tab-content">
+						<div role="tabpanel" id="tabhemfmmd" class="tab-pane active">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhemfmmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Hubungan</th>
+												<th>Nama</th>
+												<th>Gender</th>
+												<th>Tanggal Lahir</th>
+												<th>Pendidikan Terakhir</th>
+												<th>Pekerjaan</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhemedmd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhemedmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Jenjang Pendidikan</th>
-													<th>Nama</th>
-													<th>Tahun Awal</th>
-													<th>Tahun Akhir</th>
-												</tr>
-											</thead>
-										</table>
-									</div> <!-- end of table -->
+						</div>
+						<div role="tabpanel" id="tabhemedmd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhemedmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Jenjang Pendidikan</th>
+												<th>Nama</th>
+												<th>Tahun Awal</th>
+												<th>Tahun Akhir</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhemwrmd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<div id="template_hemwrmd">
-											<div class="panel-body">
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.perusahaan"></editor-field>
-													</div>
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.jenis_usaha"></editor-field>
-													</div>
+						</div>
+						<div role="tabpanel" id="tabhemwrmd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<div id="template_hemwrmd">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.perusahaan"></editor-field>
 												</div>
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.alamat"></editor-field>
-													</div>
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.id_gctxxmh"></editor-field>
-													</div>
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.jenis_usaha"></editor-field>
 												</div>
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.tanggal_masuk"></editor-field>
-													</div>
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.tanggal_keluar"></editor-field>
-													</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.alamat"></editor-field>
 												</div>
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.alasan_keluar"></editor-field>
-													</div>
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.id_gctxxmh"></editor-field>
 												</div>
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.nama_atasan"></editor-field>
-													</div>
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.jabatan_atasan"></editor-field>
-													</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.tanggal_masuk"></editor-field>
 												</div>
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.jabatan_awal"></editor-field>
-													</div>
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.jabatan_akhir"></editor-field>
-													</div>
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.tanggal_keluar"></editor-field>
 												</div>
-												<div class="row">
-													<div class="col-lg-6">
-														<editor-field name="hemwrmd.gaji_terakhir"></editor-field>
-													</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.alasan_keluar"></editor-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.nama_atasan"></editor-field>
+												</div>
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.jabatan_atasan"></editor-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.jabatan_awal"></editor-field>
+												</div>
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.jabatan_akhir"></editor-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<editor-field name="hemwrmd.gaji_terakhir"></editor-field>
 												</div>
 											</div>
 										</div>
-										<table id="tblhemwrmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Perusahaan</th>
-													<th>Jenis Usaha</th>
-													<th>Kota</th>
-													<th>Tanggal Masuk</th>
-													<th>Tanggal Keluar</th>
-												</tr>
-											</thead>
-										</table>
-									</div> <!-- end of table -->
+									</div>
+									<table id="tblhemwrmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Perusahaan</th>
+												<th>Jenis Usaha</th>
+												<th>Kota</th>
+												<th>Tanggal Masuk</th>
+												<th>Tanggal Keluar</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhemlgmd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhemlgmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Bahasa</th>
-													<th>Membaca</th>
-													<th>Mendengar</th>
-													<th>Menulis</th>
-													<th>Percakapan</th>
-												</tr>
-											</thead>
-										</table>
-									</div> <!-- end of table -->
+						</div>
+						<div role="tabpanel" id="tabhemlgmd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhemlgmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Bahasa</th>
+												<th>Membaca</th>
+												<th>Mendengar</th>
+												<th>Menulis</th>
+												<th>Percakapan</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhadxxtd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhadxxtd" class="table table-striped table-bordered table-hover" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Kode</th>
-													<th>Jenis</th>
-													<th>Pelanggaran</th>
-													<th>Tanggal Berlaku</th>
-													<th>Keterangan</th>
-												</tr>
-											</thead>
-										</table>
-									</div> <!-- end of table -->
+						</div>
+						<div role="tabpanel" id="tabhadxxtd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhadxxtd" class="table table-striped table-bordered table-hover" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Kode</th>
+												<th>Jenis</th>
+												<th>Pelanggaran</th>
+												<th>Tanggal Berlaku</th>
+												<th>Keterangan</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhttlptd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhttlptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Tgl Awal</th>
-													<th>Tgl Akhir</th>
-													<th>Jam Awal</th>
-													<th>Jam Akhir</th>
-													<th>Doc No.</th>
-													<th>Jenis</th>
-													<th>Nama Izin/Cuti</th>
-												</tr>
-											</thead>
-										</table>
-									</div> 
+						</div>
+						<div role="tabpanel" id="tabhttlptd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhttlptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Tgl Awal</th>
+												<th>Tgl Akhir</th>
+												<th>Jam Awal</th>
+												<th>Jam Akhir</th>
+												<th>Doc No.</th>
+												<th>Jenis</th>
+												<th>Nama Izin/Cuti</th>
+											</tr>
+										</thead>
+									</table>
+								</div> 
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhemtrmd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhemtrmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Nama Pelatihan</th>
-													<th>Penyelenggara</th>
-													<th>Tanggal Awal</th>
-													<th>Tanggal Akhir</th>
-												</tr>
-											</thead>
-										</table>
-									</div> 
+						</div>
+						<div role="tabpanel" id="tabhemtrmd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhemtrmd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Nama Pelatihan</th>
+												<th>Penyelenggara</th>
+												<th>Tanggal Awal</th>
+												<th>Tanggal Akhir</th>
+											</tr>
+										</thead>
+									</table>
+								</div> 
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhesxxtd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhesxxtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Status</th>
-													<th>Tanggal Awal</th>
-													<th>Tanggal Akhir</th>
-													<th>No PKWT/TT</th>
-												</tr>
-											</thead>
-										</table>
-									</div> 
+						</div>
+						<div role="tabpanel" id="tabhesxxtd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhesxxtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Status</th>
+												<th>Tanggal Awal</th>
+												<th>Tanggal Akhir</th>
+												<th>No PKWT/TT</th>
+											</tr>
+										</thead>
+									</table>
+								</div> 
 
-								</div>
 							</div>
-							<div role="tabpanel" id="tabhemjbrd" class="tab-pane">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table id="tblhemjbrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>id_hemxxmh</th>
-													<th>Kode</th>
-													<th>Status </th>
-                                					<th>Jenis</th>
-													<th>Tanggal Awal</th>
-													<th>Tanggal Akhir</th>
-													<th>Keterangan</th>
-												</tr>
-											</thead>
-										</table>
-									</div> <!-- end of table -->
+						</div>
+						<div role="tabpanel" id="tabhemjbrd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="tblhemjbrd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>id_hemxxmh</th>
+												<th>Kode</th>
+												<th>Status </th>
+												<th>Jenis</th>
+												<th>Tanggal Awal</th>
+												<th>Tanggal Akhir</th>
+												<th>Keterangan</th>
+											</tr>
+										</thead>
+									</table>
+								</div> <!-- end of table -->
 
-								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -566,7 +571,7 @@
 				}
 			},
 			table: "#tblhemxxmh",
-			template: "#custom_hem",
+			template: "#frmhemxxmh",
 			fields: [ 	
 				{
 					label: "hemxxmh.start_at",
@@ -979,16 +984,6 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Tanggal Akhir PKWT",
-					name: "hemjbmh.tanggal_akhir_pkwt",
-					type: "datetime",
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
-				},
-				{
 					label: "Wajib Checkclock <sup class='text-danger'>*<sup>",
 					name: "hemjbmh.is_checkclock",
 					type: "select",
@@ -1068,32 +1063,41 @@
 				{
 					label: "Email Pribadi <sup class='text-danger'>*<sup>",
 					name: "hemcsmh.email_personal"
-				}, 	{
+				}, 	
+				{
 					label: "No. WhatsApp<sup class='text-danger'>*<sup>",
 					name: "hemcsmh.whatsapp"
-				}, 	{
+				}, 	
+				{
 					label: "Twitter",
 					name: "hemcsmh.twitter"
-				}, 	{
+				}, 	
+				{
 					label: "Facebook",
 					name: "hemcsmh.facebook"
-				}, 	{
+				}, 	
+				{
 					label: "Linkedin",
 					name: "hemcsmh.linkedin"
-				}, 	{
+				}, 	
+				{
 					label: "Instagram",
 					name: "hemcsmh.instagram"
-				}, 	{
+				}, 	
+				{
 					label: "Tiktok",
 					name: "hemcsmh.tiktok"
-				}, 	{
+				}, 	
+				{
 					label: "No Handphone<sup class='text-danger'>*<sup>",
 					name: "hemcsmh.handphone"
-				}, 	{
+				}, 	
+				{
 					label: "Alamat Tinggal<sup class='text-danger'>*<sup>",
 					name: "hemcsmh.alamat_tinggal",
 					type: "textarea"
-				}, 	{
+				}, 	
+				{
 					label: "Kota Tinggal",
 					name: "hemcsmh.id_gctxxmh_tinggal",
 					type: "select2",
@@ -1164,13 +1168,16 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},{
+				},
+				{
 					label: "SIM A",
 					name: "hemdcmh.sim_a"
-				},	{
+				},	
+				{
 					label: "SIM B",
 					name: "hemdcmh.sim_b"
-				},	{
+				},	
+				{
 					label: "SIM C",
 					name: "hemdcmh.sim_c"
 				},
@@ -1183,7 +1190,8 @@
 						{ "label": "Laki-laki", "value": "Laki-laki" },
 						{ "label": "Perempuan", "value": "Perempuan" }
 					]
-				},{
+				},
+				{
 					label: "Golongan Darah",
 					name: "hemxxmh.golongan_darah",
 					type: "select",
@@ -1207,7 +1215,8 @@
 						firstDay: 0
 					},
 					format: 'DD MMM YYYY'
-				},	{
+				},	
+				{
 					label: "Tempat Lahir <sup class='text-danger'>*<sup>",
 					name: "hemxxmh.id_gctxxmh_lahir",
 					type: "select2",
@@ -1242,7 +1251,8 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},{
+				},
+				{
 					label: "Agama",
 					name: "hemxxmh.agama",
 					type: "select",
@@ -1255,7 +1265,8 @@
 						{ "label": "Budha", "value": "Budha" },
 						{ "label": "Konghucu", "value": "Konghucu" }
 					]
-				},{
+				},
+				{
 					label: "Status Perkawinan",
 					name: "hemxxmh.perkawinan",
 					type: "select",
@@ -1264,13 +1275,9 @@
 						{ "label": "Lajang", "value": "Lajang"},
 						{ "label": "Kawin", "value": "Kawin"},
 						{ "label": "Janda", "value": "Janda"},
-						{ "label": "Duda", "value": "Duda"},
-						{ "label": "Cerai", "value": "Cerai"}
+						{ "label": "Duda", "value": "Duda"}
 					]
-				},	{
-					label: "Suku Bangsa",
-					name: "hemxxmh.suku"
-				},
+				}
 			]
 		} );
 		
@@ -1286,7 +1293,6 @@
 				edthemxxmh.field('hemjbmh.tanggal_keluar').disable();
 				edthemxxmh.field('hemxxmh.fname').enable();
 				edthemxxmh.field('hemxxmh.lname').enable();
-				// edthemxxmh.field('hemxxmh.kode').enable();
 				
 			}else if(action == 'edit'){
 				edthemxxmh.field('hemjbmh.tanggal_keluar').enable();
@@ -1294,11 +1300,9 @@
 				if(transaction_state == 0){
 					edthemxxmh.field('hemxxmh.fname').enable();
 					edthemxxmh.field('hemxxmh.lname').enable();
-					// edthemxxmh.field('hemxxmh.kode').enable();
 				}else{
 					edthemxxmh.field('hemxxmh.fname').disable();
-					edthemxxmh.field('hemxxmh.lname').disable();
-					// edthemxxmh.field('hemxxmh.kode').disable();					
+					edthemxxmh.field('hemxxmh.lname').disable();	
 				}
 			}
 		});
@@ -1345,36 +1349,6 @@
 			
 			edthemxxmh.on( 'preSubmit', function (e, data, action) {
 				if(action != 'remove'){
-					// BEGIN of validasi hemxxmh.kode 
-					// kode = edthemxxmh.field('hemxxmh.kode').val();
-					// if(!kode || kode == ''){
-					// 	edthemxxmh.field('hemxxmh.kode').error( 'Wajib diisi!' );
-					// }
-					
-					// // BEGIN of cek unik hemxxmh.kode 
-					// if(action == 'create'){
-					// 	id_transaksi_h = 0;
-					// }
-					
-					// $.ajax( {
-					// 	url: '../../../helpers/validate_fn_unique.php',
-					// 	dataType: 'json',
-					// 	type: 'POST',
-					// 	async: false,
-					// 	data: {
-					// 		table_name: 'hemxxmh',
-					// 		nama_field: 'kode',
-					// 		nama_field_value: '"'+kode+'"',
-					// 		id_transaksi: id_transaksi_h
-					// 	},
-					// 	success: function ( json ) {
-					// 		if(json.data.count == 1){
-					// 			edthemxxmh.field('hemxxmh.kode').error( 'Data tidak boleh kembar!' );
-					// 		}
-					// 	}
-					// } );
-					// END of cek unik hemxxmh.kode 
-					// END of validasi hemxxmh.kode 
 
 					// BEGIN of validasi hemxxmh.fname 
 					fname = edthemxxmh.field('hemxxmh.fname').val();
@@ -1605,14 +1579,13 @@
 				{ data: "hemxxmh.id",visible:false },
 				{ data: "hemxxmh.kode" },
 				{ data: "hemdcmh.ktp_no" },
-				{ data: "hemxxmh.nama" }, //4
+				{ data: "hemxxmh.fname" },
+				{ data: "hemxxmh.lname" },
 				{ data: "hevxxmh.nama" },
 				{ data: "hodxxmh.nama" },
 				{ data: "hetxxmh.nama" },
-				{ data: "hesxxmh.nama" },//10
-				{ data: "hemjbmh.tanggal_masuk" },
-				// { data: "hemjbmh.tanggal_akhir_pkwt" },
-				{ data: "hemjbmh.tanggal_keluar" }
+				{ data: "hesxxmh.nama" },
+				{ data: "hemjbmh.tanggal_masuk" }
 			],
 			buttons: [
 
