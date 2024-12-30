@@ -54,6 +54,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Kode</th>
+                                <th>Jenis</th>
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
@@ -199,6 +200,17 @@
 					name: "hprstmh.kode"
 				}, 	
 				{
+					label: "Jenis <sup class='text-danger'>*<sup>",
+					name: "hprstmh.jenis",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "In", "value": 1 },
+						{ "label": "Out", "value": 2 },
+						{ "label": "All", "value": 3 }
+					]
+				},
+				{
 					label: "Keterangan",
 					name: "hprstmh.keterangan",
 					type: "textarea"
@@ -224,12 +236,14 @@
 			if(action != 'remove'){
 
 				kode = edthprstmh.field('hprstmh.kode').val();
+				jenis = edthprstmh.field('hprstmh.jenis').val();
 
 				validasiRequired(
 					edthprstmh,
 					'hprstmh',
 					{
 						'kode': kode,
+						'jenis': jenis,
 					}
 				);
 
@@ -296,6 +310,20 @@
 			columns: [
 				{ data: "hprstmh.id",visible:false },
 				{ data: "hprstmh.kode" },
+				{ 
+					data: "hprstmh.jenis" ,
+					render: function (data){
+						if(data == 1){
+							return '<span class="badge badge-primary">In</span>';
+						}else if(data == 2){
+							return '<span class="badge badge-warning">Out</span>';
+						}else if(data == 3){
+							return '<span class="badge badge-plain">All</span>';
+						}else{
+							return '<span class="badge badge-danger">INVALID</span>';
+						}
+					}
+				},
 				{ data: "hprstmh.keterangan" }
 			],
 			buttons: [
@@ -407,9 +435,14 @@
 					type: "select",
 					placeholder : "Data",
 					options: [
-						{ "label": "Schedule", "value": 'st_jadwal' },
-						{ "label": "Status Presensi In", "value": 'status_presensi_in' },
-						{ "label": "Status Presensi Out", "value": 'status_presensi_out' },
+						{ "label": "Schedule", "value": 'kode_shift' },
+						{ "label": "Status Check In", "value": 'st_clock_in' },
+						{ "label": "Status Check Out", "value": 'st_clock_out' },
+						{ "label": "Jam Shift", "value": 'jam_shift' },
+						{ "label": "Kondite Harian", "value": 'kondite_harian' },
+						{ "label": "Kondite Jam", "value": 'kondite_jam' },
+						{ "label": "Izin In", "value": 'simbol_ijin_in' },
+						{ "label": "Izin Out", "value": 'simbol_ijin_out' },
 					]
 				}, 	
 				{
@@ -419,7 +452,7 @@
 					placeholder : "Condition",
 					options: [
 						{ "label": "Equals", "value": '=' },
-						{ "label": "Not", "value": '<>' },
+						{ "label": "Not", "value": 'Not' },
 						{ "label": "Empty", "value": 'IS NULL' },
 						{ "label": "Not Empty", "value": 'IS NOT NULL' },
 					]
@@ -513,12 +546,22 @@
 				{ 
 					data: "hprstmd.kombinasi1",
                         render: function (data){
-							if (data == 'st_jadwal'){
+							if (data == 'kode_shift'){
 								return 'Schedule';
-							}else if (data == 'status_presensi_in'){
-								return 'Status Presensi In';
-							}else if (data == 'status_presensi_out'){
-								return 'Status Presensi Out';
+							}else if (data == 'st_clock_in'){
+								return 'Status Check In';
+							}else if (data == 'st_clock_out'){
+								return 'Status Check Out';
+							}else if (data == 'kondite_harian'){
+								return 'Kondite Harian';
+							}else if (data == 'kondite_jam'){
+								return 'Kondite Jam';
+							}else if (data == 'jam_shift'){
+								return 'Jam Shift';
+							}else if (data == 'simbol_ijin_in'){
+								return 'Izin In';
+							}else if (data == 'simbol_ijin_out'){
+								return 'Izin Out';
 							}else{
                                 return '';
                             }
@@ -529,7 +572,7 @@
                         render: function (data){
 							if (data == '='){
 								return 'Equals';
-							}else if (data == '<>'){
+							}else if (data == 'Not'){
 								return 'Not';
 							}else if (data == 'IS NULL'){
 								return 'Empty';

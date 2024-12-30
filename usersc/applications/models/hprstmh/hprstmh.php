@@ -40,7 +40,8 @@
 			Field::inst( 'hprstmh.start_at' ),
 			Field::inst( 'hprstmh.finish_at' ),
 			Field::inst( 'hprstmh.is_defaultprogram' ),
-			Field::inst( 'hprstmh.is_nextprocess' )
+			Field::inst( 'hprstmh.is_nextprocess' ),
+			Field::inst( 'hprstmh.jenis' ),
 		);
 	
 	// do not erase
