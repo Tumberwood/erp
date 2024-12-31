@@ -36,15 +36,6 @@
             ->get([
                 'hemxxmh.id as id',
                 'CONCAT(hemxxmh.kode," - ",hemxxmh.fname," ",hemxxmh.lname) as text'
-                // 'IF(
-                //     hemxxmh.kode IS NULL, 
-                //     hemxxmh.nama,
-                //     IF(
-                //         hemxxmh.nama IS NULL, 
-                //         hemxxmh.kode,
-                //         CONCAT(hemxxmh.kode," - ",hemxxmh.nama)
-                //     )
-                // ) as text'
             ])
             ->where('hemxxmh..id', $id_hemxxmh_old )
             ->limit(1)
@@ -62,15 +53,6 @@
         ->get([
             'hemxxmh.id as id',
             'CONCAT(hemxxmh.kode," - ",hemxxmh.fname," ",hemxxmh.lname) as text'
-            // 'IF(
-            //     hemxxmh.kode IS NULL, 
-            //     hemxxmh.nama,
-            //     IF(
-            //         hemxxmh.nama IS NULL, 
-            //         hemxxmh.kode,
-            //         CONCAT(hemxxmh.kode," - ",hemxxmh.nama)
-            //     )
-            // ) as text'
         ])
         ->where('hemxxmh.transaction_state',1)
         ->where('hemxxmh.id', $id_hemxxmh_old, '<>' )
@@ -78,7 +60,8 @@
             $q = $_GET['search'];
             $r
                 ->where('hemxxmh.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('hemxxmh.nama', '%' . $q . '%', 'LIKE' );
+                ->or_where('hemxxmh.fname', '%' . $q . '%', 'LIKE' )
+                ->or_where('hemxxmh.lname', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
