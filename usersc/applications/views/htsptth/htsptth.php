@@ -370,6 +370,16 @@
 			tbl_details = [tblhtststd, tblhtsemtd];
 			CekSelectHeaderHD(tblhtsptth, tbl_details);
 
+			if (transaction_state == 1) {
+				tblhtststd.button('btnCreate:name')
+				.nodes()
+				.css( 'display', 'none' );
+			} else {
+				tblhtststd.button('btnCreate:name')
+				.nodes()
+				.css( 'display', 'block' );
+
+			}
 		} );
 		
 		tblhtsptth.on( 'deselect', function () {
@@ -624,17 +634,6 @@
 			// atur hak akses
 			CekDrawDetailHD( tblhtststd, 1 );
 			CekDrawDetailHDFinal(tblhtsptth);
-			tblhtststd.button('btnEdit:name')
-			.nodes()
-			.css( 'display', 'none' );
-
-			tblhtststd.button('btnRemove:name')
-			.nodes()
-			.css( 'display', 'none' );
-			
-			tblhtststd.button('btnCreate:name')
-			.nodes()
-			.css( 'display', 'none' );
 		} );
 
 		tblhtststd.on( 'select', function( e, dt, type, indexes ) {
@@ -649,11 +648,7 @@
 
 				tblhtststd.button('btnRemove:name')
 				.nodes()
-				.css( 'display', 'none' );
-				
-				tblhtststd.button('btnCreate:name')
-				.nodes()
-				.css( 'display', 'none' );
+				.css( 'display', 'none' );				
 			} else {
 				tblhtststd.button('btnEdit:name')
 				.nodes()
@@ -661,12 +656,7 @@
 
 				tblhtststd.button('btnRemove:name')
 				.nodes()
-				.css( 'display', 'block' );
-				
-				tblhtststd.button('btnCreate:name')
-				.nodes()
-				.css( 'display', 'block' );
-
+				.css( 'display', 'block' );				
 			}
 		} );
 
