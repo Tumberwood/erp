@@ -296,7 +296,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			responsive: false,
@@ -550,9 +550,9 @@
 		});
 			
 		edthtststd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblhtsptth.ajax.reload(null, false);
+			tblhtststd.rows().deselect();
+			tblhtststd.ajax.reload(null, false);
 		} );
 
 		edthtststd.on( 'close', function () {
@@ -579,13 +579,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [2,3,,4,5]
+					targets: [2,3,4,5]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1]
+					targets: '_all'
 				}
 			],
 			order: [[ 2, "asc" ]],
@@ -859,7 +859,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1]
+					targets: '_all'
 				}
 			],
 			order: [[ 2, "desc" ]],
