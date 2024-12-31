@@ -69,10 +69,10 @@
 										<th>ID</th>
 										<th>id_htsptth</th>
 										<th>Grup ke</th>
+										<th>NIP</th>
 										<th>Nama</th>
 										<th>Department</th>
 										<th>Jabatan</th>
-										<th>Keterangan</th>
 									</tr>
 								</thead>
 							</table>
@@ -812,6 +812,17 @@
 					edthtsemtd.field('htsemtd.id_hemxxmh').error( 'Wajib diisi!' );
 				}
 				// END of validasi htsemtd.id_hemxxmh 
+
+				id_htsptth = edthtsemtd.field('htsemtd.id_htsptth').val();
+				validasiUnique(
+					action,
+					edthtsemtd,
+					'htsemtd',
+					'id_hemxxmh',
+					'id_htsptth,id_hemxxmh',
+					id_htsptth+','+id_hemxxmh,
+					id_htsemtd
+				);
 			}
 			
 			if ( edthtsemtd.inError() ) {
@@ -867,10 +878,10 @@
 				{ data: "htsemtd.id",visible:false },
 				{ data: "htsemtd.id_htsptth",visible:false },
 				{ data: "htsemtd.grup_ke" },
-				{ data: "hemxxmh_data" },
+				{ data: "hemxxmh.kode" },
+				{ data: "hemxxmh_fullname" },
 				{ data: "hodxxmh.nama" },
-				{ data: "hetxxmh.nama" },
-				{ data: "htsemtd.keterangan" }
+				{ data: "hetxxmh.nama" }
 			],
 			buttons: [
 				// BEGIN breaking generate button

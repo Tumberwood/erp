@@ -39,8 +39,9 @@
 				Field::inst( 'htsemtd.start_at' ),
 				Field::inst( 'htsemtd.finish_at' ),
 				Field::inst( 'htsemtd.grup_ke' ),
-
-				Field::inst( 'concat(hemxxmh.kode," - ",hemxxmh.nama) as hemxxmh_data' ),
+				
+				Field::inst( 'hemxxmh.kode' ),
+				Field::inst( 'concat(hemxxmh.fname," ",hemxxmh.lname) as hemxxmh_fullname' ),
 
 				Field::inst( 'hodxxmh.nama' ),
 				Field::inst( 'hetxxmh.nama' )
