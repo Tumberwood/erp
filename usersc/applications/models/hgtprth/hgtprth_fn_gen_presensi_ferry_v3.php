@@ -60,6 +60,7 @@
                     FROM hprstmd b
                     GROUP BY b.id_hprstmh
                 ) conditions ON conditions.id_hprstmh = a.id
+                WHERE a.transaction_state = 1
                 GROUP BY a.id;
         ');
     
