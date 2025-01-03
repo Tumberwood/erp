@@ -261,11 +261,11 @@
 				<legend>Detail</legend>
 				<div class="tabs-container">
 					<ul class="nav nav-tabs" role="tablist">
-						<li><a class="nav-link active" data-toggle="tab" href="#tabhemfmmd"> Family</a></li>
-						<li><a class="nav-link" data-toggle="tab" href="#tabhemedmd"> Pendidikan Formal</a></li>
-						<li><a class="nav-link" data-toggle="tab" href="#tabhemwrmd"> Work History</a></li>
-						<li><a class="nav-link" data-toggle="tab" href="#tabhemlgmd"> Language</a></li>
-						<li><a class="nav-link" data-toggle="tab" href="#tabhemtrmd"> Pelatihan</a></li>
+						<li><a class="nav-link active" data-toggle="tab" href="#tabhemfmmd" data-i18n="family"></a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemedmd" data-i18n="formalEducation"></a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemwrmd" data-i18n="pastJobHistory"></a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemlgmd" data-i18n="language"></a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhemtrmd" data-i18n="training"></a></li>
 						<!-- <li><a class="nav-link" data-toggle="tab" href="#tabhesxxtd"> PKWT</a></li> -->
 						<li><a class="nav-link" data-toggle="tab" href="#tabhemjbrd"> Job History</a></li>
 						<li><a class="nav-link" data-toggle="tab" href="#tabhttlptd"> Leave & Permission</a></li>
@@ -280,12 +280,12 @@
 											<tr>
 												<th>ID</th>
 												<th>id_hemxxmh</th>
-												<th>Hubungan</th>
-												<th>Nama</th>
-												<th>Gender</th>
-												<th>Tanggal Lahir</th>
-												<th>Pendidikan Terakhir</th>
-												<th>Pekerjaan</th>
+												<th data-i18n="relationship"></th>
+												<th data-i18n="name"></th>
+												<th data-i18n="gender"></th>
+												<th data-i18n="dateOfBirth"></th>
+												<th data-i18n="highestEducation"></th>
+												<th data-i18n="job"></th>
 											</tr>
 										</thead>
 									</table>
@@ -301,10 +301,10 @@
 											<tr>
 												<th>ID</th>
 												<th>id_hemxxmh</th>
-												<th>Jenjang Pendidikan</th>
-												<th>Nama</th>
-												<th>Tahun Awal</th>
-												<th>Tahun Akhir</th>
+												<th data-i18n="educationalLevel"></th>
+												<th data-i18n="name"></th>
+												<th data-i18n="startYear"></th>
+												<th data-i18n="endYear"></th>
 											</tr>
 										</thead>
 									</table>
@@ -374,11 +374,11 @@
 											<tr>
 												<th>ID</th>
 												<th>id_hemxxmh</th>
-												<th>Perusahaan</th>
-												<th>Jenis Usaha</th>
-												<th>Kota</th>
-												<th>Tanggal Masuk</th>
-												<th>Tanggal Keluar</th>
+												<th data-i18n="companyName"></th> 
+												<th data-i18n="typeOfBusiness"></th>
+												<th data-i18n="cityName"></th>
+												<th data-i18n="startDate"></th>
+												<th data-i18n="endDate"></th>
 											</tr>
 										</thead>
 									</table>
@@ -394,11 +394,11 @@
 											<tr>
 												<th>ID</th>
 												<th>id_hemxxmh</th>
-												<th>Bahasa</th>
-												<th>Membaca</th>
-												<th>Mendengar</th>
-												<th>Menulis</th>
-												<th>Percakapan</th>
+												<th data-i18n="language"></th>
+												<th data-i18n="reading"></th>
+												<th data-i18n="listening"></th>
+												<th data-i18n="writing"></th>
+												<th data-i18n="conversation"></th>
 											</tr>
 										</thead>
 									</table>
@@ -531,6 +531,7 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hemxxmh/fn/hemxxmh_fn.php'; ?>
 
