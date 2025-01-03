@@ -79,7 +79,7 @@
 							</div>
 							<div role="tabpanel" id="tabpekerjaan" class="tab-pane">
 								<div class="panel-body">
-								<div class="row">
+									<div class="row">
 										<div class="col-lg-6">
 											<editor-field name="hemjbmh.id_gcpxxmh"></editor-field>
 										</div>
@@ -572,7 +572,8 @@
 			},
 			table: "#tblhemxxmh",
 			template: "#frmhemxxmh",
-			fields: [ 	
+			fields: [
+				// field wajib
 				{
 					label: "hemxxmh.start_at",
 					name: "hemxxmh.start_at",
@@ -595,11 +596,8 @@
 					type: "hidden",
 					def: 0
 				},
-				{
-					label: "Nama Lengkap",
-					name: "hemxxmh.nama",
-					type: "readonly"
-				}, 	
+
+				// tab Personal Data
 				{
 					label: "First Name <sup class='text-danger'>*<sup>",
 					name: "hemxxmh.fname"
@@ -608,6 +606,109 @@
 					label: "Last Name <sup class='text-danger'>*<sup>",
 					name: "hemxxmh.lname"
 				}, 	
+				{
+					label: "Nama Lengkap",
+					name: "hemxxmh.nama",
+					type: "readonly"
+				}, 	
+				{
+					label: "Tanggal Lahir <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.tanggal_lahir",
+					type: "datetime",
+					def: function () { 
+						return new Date(); 
+					},
+					opts:{
+						minDate: new Date('1900-01-01'),
+						firstDay: 0
+					},
+					format: 'DD MMM YYYY'
+				},	
+				{
+					label: "Tempat Lahir <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.id_gctxxmh_lahir",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/core/gctxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_gctxxmh_old: id_gctxxmh_lahir_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Agama",
+					name: "hemxxmh.agama",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Islam", "value": "Islam" },
+						{ "label": "Kristen", "value": "Kristen" },
+						{ "label": "Katolik", "value": "Katolik" },
+						{ "label": "Hindu", "value": "Hindu" },
+						{ "label": "Budha", "value": "Budha" },
+						{ "label": "Konghucu", "value": "Konghucu" }
+					]
+				},
+				{
+					label: "Status Perkawinan",
+					name: "hemxxmh.perkawinan",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Lajang", "value": "Lajang"},
+						{ "label": "Kawin", "value": "Kawin"},
+						{ "label": "Janda", "value": "Janda"},
+						{ "label": "Duda", "value": "Duda"}
+					]
+				},
+				{
+					label: "Jenis Kelamin <sup class='text-danger'>*<sup>",
+					name: "hemxxmh.gender",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Laki-laki", "value": "Laki-laki" },
+						{ "label": "Perempuan", "value": "Perempuan" }
+					]
+				},
+				{
+					label: "Golongan Darah",
+					name: "hemxxmh.golongan_darah",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "A", "value": "A" },
+						{ "label": "B", "value": "B" },
+						{ "label": "AB", "value": "AB" },
+						{ "label": "O", "value": "O" }
+					]
+				},
+
 				{
 					label: "No KTP <sup class='text-danger'>*<sup>",
 					name: "hemdcmh.ktp_no"
@@ -1181,103 +1282,8 @@
 					label: "SIM C",
 					name: "hemdcmh.sim_c"
 				},
-				{
-					label: "Jenis Kelamin <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.gender",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Laki-laki", "value": "Laki-laki" },
-						{ "label": "Perempuan", "value": "Perempuan" }
-					]
-				},
-				{
-					label: "Golongan Darah",
-					name: "hemxxmh.golongan_darah",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "A", "value": "A" },
-						{ "label": "B", "value": "B" },
-						{ "label": "AB", "value": "AB" },
-						{ "label": "O", "value": "O" }
-					]
-				},
-				{
-					label: "Tanggal Lahir <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.tanggal_lahir",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
-				},	
-				{
-					label: "Tempat Lahir <sup class='text-danger'>*<sup>",
-					name: "hemxxmh.id_gctxxmh_lahir",
-					type: "select2",
-					opts: {
-						placeholder : "Select",
-						allowClear: true,
-						multiple: false,
-						ajax: {
-							url: "../../models/core/gctxxmh_fn_opt.php",
-							dataType: 'json',
-							data: function (params) {
-								var query = {
-									id_gctxxmh_old: id_gctxxmh_lahir_old,
-									search: params.term || '',
-									page: params.page || 1
-								}
-									return query;
-							},
-							processResults: function (data, params) {
-								return {
-									results: data.results,
-									pagination: {
-										more: true
-									}
-								};
-							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
-					}
-				},
-				{
-					label: "Agama",
-					name: "hemxxmh.agama",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Islam", "value": "Islam" },
-						{ "label": "Kristen", "value": "Kristen" },
-						{ "label": "Katolik", "value": "Katolik" },
-						{ "label": "Hindu", "value": "Hindu" },
-						{ "label": "Budha", "value": "Budha" },
-						{ "label": "Konghucu", "value": "Konghucu" }
-					]
-				},
-				{
-					label: "Status Perkawinan",
-					name: "hemxxmh.perkawinan",
-					type: "select",
-					placeholder : "Select",
-					options: [
-						{ "label": "Lajang", "value": "Lajang"},
-						{ "label": "Kawin", "value": "Kawin"},
-						{ "label": "Janda", "value": "Janda"},
-						{ "label": "Duda", "value": "Duda"}
-					]
-				}
+				
+				
 			]
 		} );
 		
