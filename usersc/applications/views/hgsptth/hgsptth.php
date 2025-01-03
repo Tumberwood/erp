@@ -364,14 +364,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 
-						notifyprogress = $.notify({
-							message: 'Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!'
-						},{
-							z_index: 9999,
-							allow_dismiss: false,
-							type: 'info',
-							delay: 0
-						});
+						toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 
 						$.ajax( {
 							url: "../../models/hgsptth/hgsptth_fn_gen_jadwal.php",
@@ -381,15 +374,10 @@
 								id_transaksi_h: id_transaksi_h
 							},
 							success: function ( json ) {
-
-								$.notify({
-									message: json.data.message
-								},{
-									type: json.data.type_message
-								});
+								toastr.remove();
+								toastr[json.data.type_message](json.data.message,"INFO")
 
 								tblhgsptth.ajax.reload(function ( json ) {
-									notifyprogress.close();
 								}, false);
 							}
 						} );
