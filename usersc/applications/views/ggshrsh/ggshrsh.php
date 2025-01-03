@@ -23,6 +23,8 @@
                                 <th>ID</th>
                                 <th>Auto Create User</th>
                                 <th>Default Cuti Tahunan</th>
+                                <th>KPI Bobot Target Atas</th>
+                                <th>KPI Bobot Target Bawah</th>
                             </tr>
                         </thead>
                     </table>
@@ -107,6 +109,14 @@
 						{ "label": "Tidak", "value": 0 }
 					]
 				},
+				{
+					label: "KPI Bobot Target Atas <sup class='text-danger'>*<sup>",  
+					name: "ggshrsh.kpi_bobot_target_atas",
+				},	
+				{
+					label: "KPI Bobot Target Bawah <sup class='text-danger'>*<sup>",  
+					name: "ggshrsh.kpi_bobot_target_bawah",
+				},	
 			]
 		} );
 
@@ -129,6 +139,8 @@
 		edtggshrsh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				def_cuti_tahunan     = edtggshrsh.field('ggshrsh.def_cuti_tahunan').val();
+				kpi_bobot_target_atas     = edtggshrsh.field('ggshrsh.kpi_bobot_target_atas').val();
+				kpi_bobot_target_bawah     = edtggshrsh.field('ggshrsh.kpi_bobot_target_bawah').val();
 				
 				validasiNumber(
 					edtggshrsh,
@@ -138,6 +150,28 @@
 					},
 					0,
 					'>'
+				);
+				
+				validasiNumber(
+					edtggshrsh,
+					'ggshrsh',
+					{
+						'kpi_bobot_target_atas': kpi_bobot_target_atas,
+						'kpi_bobot_target_bawah': kpi_bobot_target_bawah,
+					},
+					0,
+					'>='
+				);
+				
+				validasiNumber(
+					edtggshrsh,
+					'ggshrsh',
+					{
+						'kpi_bobot_target_atas': kpi_bobot_target_atas,
+						'kpi_bobot_target_bawah': kpi_bobot_target_bawah,
+					},
+					100,
+					'<='
 				);
 			}
 			
@@ -190,6 +224,14 @@
 				},
 				{ 
 					data: "ggshrsh.def_cuti_tahunan", 
+					...renderNumber() 
+				},
+				{ 
+					data: "ggshrsh.kpi_bobot_target_atas", 
+					...renderNumber() 
+				},
+				{ 
+					data: "ggshrsh.kpi_bobot_target_bawah", 
 					...renderNumber() 
 				},
 			],

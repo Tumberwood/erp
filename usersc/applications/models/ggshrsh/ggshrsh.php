@@ -43,6 +43,8 @@
 			Field::inst( 'ggshrsh.is_nextprocess' ),
 			Field::inst( 'ggshrsh.is_autocreateusers' ),
 			Field::inst( 'ggshrsh.def_cuti_tahunan' ),
+			Field::inst( 'ggshrsh.kpi_bobot_target_atas' ),
+			Field::inst( 'ggshrsh.kpi_bobot_target_bawah' ),
 		);
 	
 	// do not erase
