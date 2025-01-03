@@ -435,7 +435,7 @@
 				{ data: "htssctd.id",visible:false },
 				{ data: "htssctd.tanggal" },
 				{ data: "hemxxmh.kode" },
-				{ data: "hemxxmh.nama" },
+				{ data: "hemxxmh_fullname" },
 				{ data: "hodxxmh.nama" },
 				{ data: "htssctd.tanggaljam_awal_t1" },
 				{ data: "htssctd.tanggaljam_awal" },

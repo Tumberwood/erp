@@ -134,7 +134,7 @@
 				) ),
 			
 			Field::inst( 'hemxxmh.kode' ),
-			Field::inst( 'hemxxmh.nama' ),
+			Field::inst( 'CONCAT(hemxxmh.fname," ",hemxxmh.lname) as hemxxmh_fullname' ),
 			Field::inst( 'hodxxmh.nama' )
 		)
 		->leftJoin( 'hemxxmh','hemxxmh.id','=','htssctd.id_hemxxmh' )
