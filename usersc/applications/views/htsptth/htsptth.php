@@ -69,10 +69,10 @@
 										<th>ID</th>
 										<th>id_htsptth</th>
 										<th>Grup ke</th>
+										<th>NIP</th>
 										<th>Nama</th>
 										<th>Department</th>
 										<th>Jabatan</th>
-										<th>Keterangan</th>
 									</tr>
 								</thead>
 							</table>
@@ -296,7 +296,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			responsive: false,
@@ -550,9 +550,9 @@
 		});
 			
 		edthtststd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblhtsptth.ajax.reload(null, false);
+			tblhtststd.rows().deselect();
+			tblhtststd.ajax.reload(null, false);
 		} );
 
 		edthtststd.on( 'close', function () {
@@ -579,13 +579,13 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [2,3,,4,5]
+					targets: [2,3,4,5]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1]
+					targets: '_all'
 				}
 			],
 			order: [[ 2, "asc" ]],
@@ -812,6 +812,17 @@
 					edthtsemtd.field('htsemtd.id_hemxxmh').error( 'Wajib diisi!' );
 				}
 				// END of validasi htsemtd.id_hemxxmh 
+
+				id_htsptth = edthtsemtd.field('htsemtd.id_htsptth').val();
+				validasiUnique(
+					action,
+					edthtsemtd,
+					'htsemtd',
+					'id_hemxxmh',
+					'id_htsptth,id_hemxxmh',
+					id_htsptth+','+id_hemxxmh,
+					id_htsemtd
+				);
 			}
 			
 			if ( edthtsemtd.inError() ) {
@@ -859,7 +870,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,1]
+					targets: '_all'
 				}
 			],
 			order: [[ 2, "desc" ]],
@@ -867,10 +878,10 @@
 				{ data: "htsemtd.id",visible:false },
 				{ data: "htsemtd.id_htsptth",visible:false },
 				{ data: "htsemtd.grup_ke" },
-				{ data: "hemxxmh_data" },
+				{ data: "hemxxmh.kode" },
+				{ data: "hemxxmh_fullname" },
 				{ data: "hodxxmh.nama" },
-				{ data: "hetxxmh.nama" },
-				{ data: "htsemtd.keterangan" }
+				{ data: "hetxxmh.nama" }
 			],
 			buttons: [
 				// BEGIN breaking generate button

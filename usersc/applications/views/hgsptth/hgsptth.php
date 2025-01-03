@@ -114,7 +114,7 @@
 					def: 0
 				},	
 				{
-					label: "Pola <sup class='text-danger'>*<sup>",
+					label: getTranslation('pattern') + ' <sup class="text-danger">*</sup>',
 					name: "hgsptth.id_htsptth",
 					type: "select2",
 					opts: {
@@ -150,7 +150,7 @@
 					}
 				},	
 				{
-					label: "Pilih Karyawan",
+					label: getTranslation('byEmployee'),
 					name: "hgsptth.is_pegawai",
 					type: "select",
 					fieldInfo: "Jika Ya, maka hanya karyawan yang dipilih saja yang akan dibuatkan Jadwal!",
@@ -161,7 +161,7 @@
 					]
 				},
 				{
-					label: "Karyawan <sup class='text-danger'>*<sup>",
+					label: getTranslation('employee') + ' <sup class="text-danger">*</sup>',
 					name: "hemxxmh[].id",
 					type: "select2",
 					opts: {
@@ -197,10 +197,11 @@
 					}
 				},	
 				{
-					label: "Siklus  <sup class='text-danger'>*<sup>",
+					label: getTranslation('cycle') + ' <sup class="text-danger">*</sup>',
 					name: "hgsptth.jumlah_siklus"
-				}, 	{
-					label: "Tanggal Awal",
+				}, 	
+				{
+					label: getTranslation('startDate') + ' <sup class="text-danger">*</sup>',
 					name: "hgsptth.tanggal_awal",
 					type: "datetime",
 					def: function () { 
@@ -211,8 +212,9 @@
 						firstDay: 0
 					},
 					format: 'DD MMM YYYY'
-				},	{
-					label: "Keterangan",
+				},	
+				{
+					label: getTranslation('notes'),
 					name: "hgsptth.keterangan",
 					type: "textarea"
 				}
