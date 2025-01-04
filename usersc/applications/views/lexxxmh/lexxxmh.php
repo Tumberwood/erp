@@ -851,8 +851,8 @@
 
 		tblltrcttd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('ltrcttd');
-			id_gctxxmh_asal_old = data_ltrcttd.id_gctxxmh_asal;
-			id_gctxxmh_tujuan_old = data_ltrcttd.id_gctxxmh_tujuan;
+			id_gctxxmh_asal_old = ltrcttd_data.id_gctxxmh_asal;
+			id_gctxxmh_tujuan_old = ltrcttd_data.id_gctxxmh_tujuan;
 			 
 			
 			// atur hak akses
@@ -1137,8 +1137,8 @@
 
 		tblltrvttd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('ltrvttd');
-			id_gctxxmh_asal_old = data_ltrvttd.id_gctxxmh_asal;
-			id_gctxxmh_tujuan_old = data_ltrvttd.id_gctxxmh_tujuan;
+			id_gctxxmh_asal_old = ltrvttd_data.id_gctxxmh_asal;
+			id_gctxxmh_tujuan_old = ltrvttd_data.id_gctxxmh_tujuan;
 			 
 			
 			// atur hak akses

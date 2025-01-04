@@ -750,8 +750,8 @@
 
 		tblhtoemtd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('htoemtd');
-			id_hemxxmh_old   = data_htoemtd.id_hemxxmh;
-			id_htotpmh_old   = data_htoemtd.id_htotpmh;
+			id_hemxxmh_old   = htoemtd_data.id_hemxxmh;
+			id_htotpmh_old   = htoemtd_data.id_htotpmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhtoemtd );

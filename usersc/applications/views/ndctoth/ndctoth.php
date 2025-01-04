@@ -550,7 +550,7 @@
 
 		tblndctotd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('ndctotd');
-			id_ndcxxmh_old   = data_ndctotd.id_ndcxxmh;
+			id_ndcxxmh_old   = ndctotd_data.id_ndcxxmh;		
 			
 			// atur hak akses
 			CekSelectDetailHD(tblndctoth, tblndctotd );

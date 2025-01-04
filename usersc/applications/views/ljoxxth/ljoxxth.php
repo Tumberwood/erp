@@ -944,7 +944,7 @@
 
 		tblljodstd.on( 'select', function( e, dt, type, indexes ) {
 			siVarResetD('ljodstd');
-			id_grlxxmh_old = data_ljodstd.id_grlxxmh;
+			id_grlxxmh_old = ljodstd_data.id_grlxxmh;
 			// atur hak akses
 			CekSelectDetailHD( tblljodstd );
 		} );
