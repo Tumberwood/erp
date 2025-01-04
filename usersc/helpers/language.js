@@ -15,11 +15,12 @@
  * tambahkan pada bagian resources, order by huruf awal
  */
 i18next.init({
-    lng: 'en',  // Bahasa default
+    lng: lang,
     resources: {
         en: {
             translation: {
                 address: "Address",
+                amount: "Amount",
                 branchCode: "Branch Code",
                 branchName: "Branch Name",
                 breakTime: "Break Time",
@@ -36,6 +37,7 @@ i18next.init({
                 conversation: "Conversation",
                 conversion: "Conversion",
                 cycle: "Cycle",
+                date: "Date",
                 dateOfBirth: "Date of Birth",
                 default: "Default",
                 department: "Department",
@@ -56,6 +58,7 @@ i18next.init({
                 finalScore: "Final Score",
                 firstName: "First Name",
                 formalEducation: "Formal Education",
+                from: "From",
                 fullName: "Full Name",
                 gender: "Gender",
                 group: "Group",
@@ -103,6 +106,7 @@ i18next.init({
                 symbol: "Symbol",
                 tax: "Tax",
                 termOfPayment: "Term of Payment",
+                to: "To",
                 training: "Training",
                 type: "Type",
                 typeOfBusiness: "Type of Business",
@@ -118,6 +122,7 @@ i18next.init({
         id: {
             translation: {
                 address: "Alamat",
+                amount: "Jumlah",
                 branchCode: "Kode Cabang",
                 branchName: "Nama Cabang",
                 breakTime: "Waktu istirahat",
@@ -134,6 +139,7 @@ i18next.init({
                 conversation: "Percakapan",
                 conversion: "Konversi",
                 cycle: "Siklus",
+                date: "Tanggal",
                 dateOfBirth: "Tanggal Lahir",
                 default: "Bawaan",
                 department: "Departemen",
@@ -154,6 +160,7 @@ i18next.init({
                 finalScore: "Nilai Akhir",
                 firstName: "Nama Belakang",
                 formalEducation: "Pendidikan Formal",
+                from: "Dari",
                 fullName: "Nama Lengkap",
                 gender: "Jenis Kelamin",
                 group: "Grup",
@@ -201,6 +208,7 @@ i18next.init({
                 symbol: "Simbol",
                 tax: "Pajak",
                 termOfPayment: "Syarat Bayar",
+                to: "Ke",
                 training: "Pelatihan",
                 type: "Tipe",
                 typeOfBusiness: "Jenis Usaha",

@@ -194,7 +194,17 @@
 								minimumResultsForSearch: -1,
 							},
 						}
-					}
+					},
+					{
+						label: getTranslation('language'),
+						name: "ggsxxsh.language",
+						type: "select",
+						placeholder : "Select",
+						options: [
+							{ "label": "English", "value": 'en' },
+							{ "label": "Indonesia", "value": 'id' }
+						]
+					},
 				]
 			} );
 
