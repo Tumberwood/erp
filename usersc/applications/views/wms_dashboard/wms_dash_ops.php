@@ -324,7 +324,7 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [0]
+					targets: '_all'
 				},
 				{
 					searchPanes:{
