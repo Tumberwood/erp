@@ -59,11 +59,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tanggal</th>
-                                <th>Kode</th>
-                                <th>Kas / Bank</th>
-                                <th>Amount</th>
-                                <th>Keterangan</th>
+                                <th data-i18n="date"></th>
+                                <th data-i18n="documentNumber"></th>
+                                <th data-i18n="cashBank"></th>
+                                <th data-i18n="nominal"></th>
+                                <th data-i18n="notes"></th>
                             </tr>
                         </thead>
                     </table>
@@ -86,16 +86,16 @@
 									<tr>
 										<th>ID</th>
 										<th>id_fopxxth</th>
-										<th>Akun</th>
-										<th>Amount</th>
-										<th>Keterangan</th>
+										<th data-i18n="account"></th>
+										<th data-i18n="nominal"></th>
+										<th data-i18n="notes"></th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
 										<th></th>
 										<th></th>
-										<th>Total</th>
+										<th data-i18n="total"></th>
 										<th id="total"></th>
 										<th></th>
 									</tr>
@@ -201,7 +201,7 @@
 					def: 0
 				},
 				{
-					label: "Tanggal",
+					label: getTranslation('date') + "<sup class='text-danger'>*<sup>",
 					name: "fopxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -214,7 +214,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Kas / Bank <sup class='text-danger'>*<sup>",
+					label: getTranslation('cashBank') + "<sup class='text-danger'>*<sup>",
 					name: "fopxxth.id_aakxxmh",
 					type: "select2",
 					opts: {
@@ -250,12 +250,12 @@
 					}
 				},
 				{
-					label: "Total Amount",
+					label: getTranslation('nominal'),
 					name: "fopxxth.amount",
 					type: "readonly"
 				},
 				{
-					label: "Keterangan <sup class='text-danger'>*<sup>",
+					label: getTranslation('notes') + "<sup class='text-danger'>*<sup>",
 					name: "fopxxth.keterangan",
 					type: "textarea"
 				}
@@ -477,7 +477,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Akun <sup class='text-danger'>*<sup>",
+					label: getTranslation('account') + "<sup class='text-danger'>*<sup>",
 					name: "fopaktd.id_aakxxmh",
 					type: "select2",
 					opts: {
@@ -514,11 +514,11 @@
 					}
 				},
 				{
-					label: "Amount <sup class='text-danger'>*<sup>",
+					label: getTranslation('nominal') + "<sup class='text-danger'>*<sup>",
 					name: "fopaktd.amount"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "fopaktd.keterangan",
 					type: "textarea"
 				}
@@ -579,7 +579,6 @@
 		});
 			
 		edtfopaktd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// tblfopxxth.rows().deselect();
 			tblfopaktd.ajax.reload(null, false);
 			tblfopxxth.ajax.reload(null, false);
 		} );
@@ -589,10 +588,6 @@
 		} );
 		
 		tblfopaktd = $('#tblfopaktd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/fopxxth/fopaktd.php",
 				type: 'POST',
@@ -602,20 +597,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "fopaktd.id",visible:false },
 				{ data: "fopaktd.id_fopxxth",visible:false },
@@ -656,9 +637,6 @@
 			}
 		} );
 
-		tblfopaktd.searchPanes.container().appendTo('#spfopaktd');
-		tblfopaktd.searchBuilder.container().appendTo( '#sbfopaktd' );
-
 		tblfopaktd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			CekDrawDetailHD( tblfopaktd, 1 );
@@ -668,7 +646,7 @@
 		tblfopaktd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSetD('fopaktd');
-			id_aakxxmh_old   = data_fopaktd.id_aakxxmh;
+			id_aakxxmh_old   = fopaktd_data.id_aakxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblfopaktd );

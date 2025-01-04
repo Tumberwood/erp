@@ -59,11 +59,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tanggal</th>
-                                <th>Kode</th>
-                                <th>Kas / Bank</th>
-                                <th>Amount</th>
-                                <th>Keterangan</th>
+                                <th data-i18n="date"></th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="cashBank"></th>
+                                <th data-i18n="nominal"></th>
+                                <th data-i18n="notes"></th>
                             </tr>
                         </thead>
                     </table>
@@ -80,28 +80,28 @@
 			<div class="tab-content">
 				<div role="tabpanel" id="tabforaktd_1" class="tab-pane active">
 					<div class="panel-body">
-						<!-- <div class="table-responsive"> -->
+						<div class="table-responsive">
 							<table id="tblforaktd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_forxxth</th>
-										<th>Akun</th>
-										<th>Amount</th>
-										<th>Keterangan</th>
+										<th data-i18n="account"></th>
+										<th data-i18n="nominal"></th>
+										<th data-i18n="notes"></th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
 										<th></th>
 										<th></th>
-										<th>Total</th>
+										<th data-i18n="total"></th>
 										<th id="total"></th>
 										<th></th>
 									</tr>
 								</tfoot>
 							</table>
-						<!-- </div> -->
+						</div>
 
 					</div>
 				</div>
@@ -201,7 +201,7 @@
 					def: 0
 				},
 				{
-					label: "Tanggal",
+					label: getTranslation('date') + "<sup class='text-danger'>*<sup>",
 					name: "forxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -214,7 +214,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Kas / Bank <sup class='text-danger'>*<sup>",
+					label: getTranslation('cashBank') + "<sup class='text-danger'>*<sup>",
 					name: "forxxth.id_aakxxmh",
 					type: "select2",
 					opts: {
@@ -250,12 +250,12 @@
 					}
 				},
 				{
-					label: "Total Amount",
+					label: getTranslation('nominal'),
 					name: "forxxth.amount",
 					type: "readonly"
 				},
 				{
-					label: "Keterangan <sup class='text-danger'>*<sup>",
+					label: getTranslation('notes') + "<sup class='text-danger'>*<sup>",
 					name: "forxxth.keterangan",
 					type: "textarea"
 				}
@@ -474,7 +474,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Akun <sup class='text-danger'>*<sup>",
+					label: getTranslation('account') + "<sup class='text-danger'>*<sup>",
 					name: "foraktd.id_aakxxmh",
 					type: "select2",
 					opts: {
@@ -511,11 +511,11 @@
 					}
 				},
 				{
-					label: "Amount <sup class='text-danger'>*<sup>",
+					label: getTranslation('nominal') + "<sup class='text-danger'>*<sup>",
 					name: "foraktd.amount"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "foraktd.keterangan",
 					type: "textarea"
 				}
@@ -585,10 +585,6 @@
 		} );
 		
 		tblforaktd = $('#tblforaktd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/forxxth/foraktd.php",
 				type: 'POST',
@@ -598,20 +594,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "foraktd.id",visible:false },
 				{ data: "foraktd.id_forxxth",visible:false },
@@ -639,7 +621,6 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
 			},
@@ -652,9 +633,6 @@
 			}
 		} );
 
-		tblforaktd.searchPanes.container().appendTo('#spforaktd');
-		tblforaktd.searchBuilder.container().appendTo( '#sbforaktd' );
-
 		tblforaktd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			CekDrawDetailHD( tblforaktd, 1 );
@@ -664,7 +642,7 @@
 		tblforaktd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSetD('foraktd');
-			id_aakxxmh_old   = data_foraktd.id_aakxxmh;
+			id_aakxxmh_old   = foraktd_data.id_aakxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblforaktd );

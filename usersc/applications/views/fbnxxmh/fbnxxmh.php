@@ -21,9 +21,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -96,11 +96,11 @@
 						def: 0
 					},	
 					{
-						label: "Kode <sup class='text-danger'>*<sup>",
+						label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
 						name: "fbnxxmh.kode"
 					}, 	
 					{
-						label: "Nama <sup class='text-danger'>*<sup>",
+						label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 						name: "fbnxxmh.nama"
 					}
 				]

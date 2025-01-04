@@ -57,13 +57,13 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tanggal</th>
-                                <th>Kode</th>
-                                <th>Asal</th>
-                                <th>Tujuan</th>
-                                <th>Amount</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="date"></th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="from"></th>
+                                <th data-i18n="to"></th>
+                                <th data-i18n="nominal"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -164,7 +164,7 @@
 					def: 0
 				},	
 				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
+					label: getTranslation('date') + "<sup class='text-danger'>*<sup>",
 					name: "fobxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -177,7 +177,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Asal <sup class='text-danger'>*<sup>",
+					label: getTranslation('from') + "<sup class='text-danger'>*<sup>",
 					name: "fobxxth.id_aakxxmh_asal",
 					type: "select2",
 					opts: {
@@ -213,7 +213,7 @@
 					}
 				},
 				{
-					label: "Tujuan <sup class='text-danger'>*<sup>",
+					label: getTranslation('to') + "<sup class='text-danger'>*<sup>",
 					name: "fobxxth.id_aakxxmh_tujuan",
 					type: "select2",
 					opts: {
@@ -249,11 +249,11 @@
 					}
 				},
 				{
-					label: "Amount <sup class='text-danger'>*<sup>",
+					label: getTranslation('nominal') + "<sup class='text-danger'>*<sup>",
 					name: "fobxxth.amount"
 				},
 				{
-					label: "Keterangan <sup class='text-danger'>*<sup>",
+					label: getTranslation('notes') + "<sup class='text-danger'>*<sup>",
 					name: "fobxxth.keterangan",
 					type: "textarea"
 				}

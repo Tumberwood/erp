@@ -24,10 +24,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>R</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="revNo"></th>
+                                <th data-i18n="itemCode"></th>
+								<th data-i18n="itemName"></th>
+								<th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -51,10 +52,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_dbmxxth</th>
-										<th>Item Code</th>
-										<th>Item Name</th>
-										<th>UoM</th>
-										<th>Q</th>
+										<th data-i18n="itemCode"></th>
+										<th data-i18n="itemName"></th>
+										<th data-i18n="uom"></th>
+										<th data-i18n="quantity"></th>
 									</tr>
 								</thead>
 							</table>
@@ -70,10 +71,9 @@
 									<tr>
 										<th>ID</th>
 										<th>id_dbmxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Cycle Time</th>
-										<th>Keterangan</th>
+										<th data-i18n="workProcessCode"></th>
+										<th data-i18n="workProcessName"></th>
+										<th data-i18n="cycleTime" data-toggle="tooltip" data-placement="top" title="In Seconds"></th>
 									</tr>
 								</thead>
 							</table>
@@ -173,18 +173,19 @@
 				},
 				{
 					label: "is_revisi",
-					name: "is_revisi"
+					name: "is_revisi",
+					type: "hidden",
 				},
 				{
-					label: "Revision#",
+					label: getTranslation('revisionNumber'),
 					name: "dbmxxth.revisi_ke"
 				},
 				{
-					label: "BOM Asal",
+					label: getTranslation('originalBom'),
 					name: "dbmxxth.id_dbmxxth_asal"
 				},
 				{
-					label: "Item <sup class='text-danger'>*<sup>",
+					label: getTranslation('item') + "<sup class='text-danger'>*<sup>",
 					name: "dbmxxth.id_iimxxmh",
 					type: "select2",
 					opts: {
@@ -221,7 +222,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "dbmxxth.keterangan",
 					type: "textarea"
 				}
@@ -310,8 +311,12 @@
 				{ data: "dbmxxth.id",visible:false },
 				{ data: "dbmxxth.kode" },
 				{ data: "dbmxxth.revisi_ke" },
+				{ data: "iimxxmh.kode" },
 				{ data: "iimxxmh.nama" },
-				{ data: "dbmxxth.keterangan" }
+				{ 
+					data: "dbmxxth.transaction_state" ,
+					...renderTransactionStatus()
+				}
 			],
 			buttons: [
 
@@ -332,7 +337,7 @@
 				{ 
 					extend: 'selected',
 					name: 'btnCreateRevision', 
-					text: '<i class="fa fa-google"></i>', 
+					text: 'R', 
 					className: 'btn btn-outline', 
 					titleAttr: 'Create Revision',
 					action: function (e, dt, node, config) {
@@ -439,7 +444,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Raw Material",
+					label: getTranslation('rawMaterial') + "<sup class='text-danger'>*<sup>",
 					name: "dbmittd.id_iimxxmh",
 					type: "select2",
 					opts: {
@@ -476,7 +481,7 @@
 					}
 				},
 				{
-					label: "Jumlah",
+					label: getTranslation('quantity') + "<sup class='text-danger'>*<sup>",
 					name: "dbmittd.jumlah_unit",
 				},
 				{
@@ -548,12 +553,24 @@
 		edtdbmittd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				id_iimxxmh_rm = edtdbmittd.field('dbmittd.id_iimxxmh').val();
+				jumlah_unit = edtdbmittd.field('dbmittd.jumlah_unit').val();
 				validasiRequired(
 					edtdbmittd,
 					'dbmittd',
 					{
-						'id_iimxxmh': id_iimxxmh_rm
+						'id_iimxxmh': id_iimxxmh_rm,
+						'jumlah_unit': jumlah_unit
 					}
+				);
+
+				validasiNumber(
+					edtdbmittd,
+					'dbmittd',
+					{
+						'jumlah_unit': jumlah_unit,
+					},
+					0,
+					'>'
 				);
 			}
 			
@@ -580,10 +597,6 @@
 		} );
 
 		tbldbmittd = $('#tbldbmittd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/dbmxxth/dbmittd.php",
 				type: 'POST',
@@ -593,20 +606,6 @@
 				}
 			},
 			order: [[ 2, "desc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "dbmittd.id",visible:false },
 				{ data: "dbmittd.id_dbmxxth",visible:false },
@@ -634,29 +633,25 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
 			}
 		} );
 
-		tbldbmittd.searchPanes.container().appendTo('#spdbmittd');
-		tbldbmittd.searchBuilder.container().appendTo( '#sbdbmittd' );
-
 		tbldbmittd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			cek_c_detail= 1;
-			CekDrawDetailHD(tbldbmxxth, tbldbmittd, 'dbmittd' );
+			CekDrawDetailHD(tbldbmittd,1 );
 			CekDrawDetailHDFinal(tbldbmxxth);
 		} );
 
 		tbldbmittd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('dbmittd');
-			id_iimxxmh_rm_old   = data_dbmittd.id_iimxxmh;
-			id_iumxxmh_unit_old   = data_dbmittd.id_iumxxmh_unit;
+			id_iimxxmh_rm_old   = dbmittd_data.id_iimxxmh;
+			id_iumxxmh_unit_old   = dbmittd_data.id_iumxxmh_unit;
 			
 			// atur hak akses
-			CekSelectDetailHD(tbldbmxxth, tbldbmittd );
+			CekSelectDetailHD(tbldbmittd );
 		} );
 
 		tbldbmittd.on( 'deselect', function() {
@@ -664,8 +659,10 @@
 			id_iimxxmh_rm_old = 0;
 			
 			// atur hak akses
-			CekDeselectDetailHD(tbldbmxxth, tbldbmittd );
+			CekDeselectDetailHD(tbldbmittd );
 		} );
+
+		
 
 		// END dbmittd
 
@@ -716,7 +713,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Work Process <sup class='text-danger'>*<sup>",
+					label: getTranslation('workProcess') + "<sup class='text-danger'>*<sup>",
 					name: "dbmwptd.id_rwpxxmh",
 					type: "select2",
 					opts: {
@@ -752,11 +749,11 @@
 					}
 				},
 				{
-					label: "Cycle Time",
+					label: getTranslation('cycleTime'),
 					name: "dbmwptd.cycletime"
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "dbmwptd.keterangan",
 					type: "textarea"
 				}
@@ -821,10 +818,6 @@
 		} );
 
 		tbldbmwptd = $('#tbldbmwptd').DataTable( {
-			dom: domPQ,
-			searchPanes:{
-				layout: 'columns-4',
-			},
 			ajax: {
 				url: "../../models/dbmxxth/dbmwptd.php",
 				type: 'POST',
@@ -834,20 +827,6 @@
 				}
 			},
 			order: [[ 0, "asc" ]],
-			columnDefs:[
-				{
-					searchPanes:{
-						show: true,
-					},
-					targets: [1,2,3]
-				},
-				{
-					searchPanes:{
-						show: false,
-					},
-					targets: [0,4]
-				}
-			],
 			columns: [
 				{ data: "dbmwptd.id",visible:false },
 				{ data: "dbmwptd.id_dbmxxth",visible:false },
@@ -856,8 +835,7 @@
 				{ 
 					data: "dbmwptd.cycletime",
 					...renderNumber(0)
-				},
-				{ data: "dbmwptd.keterangan" }
+				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -875,14 +853,10 @@
 				// END breaking generate button
 			],
 			initComplete: function() {
-				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
 			}
 		} );
-
-		tbldbmwptd.searchPanes.container().appendTo('#spdbmwptd');
-		tbldbmwptd.searchBuilder.container().appendTo( '#sbdbmwptd' );
 
 		tbldbmwptd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
@@ -892,7 +866,7 @@
 
 		tbldbmwptd.on( 'select', function( e, dt, type, indexes ) {
 			siVarSetD('dbmwptd');
-			id_rwpxxmh_old   = data_dbmwptd.id_rwpxxmh;
+			id_rwpxxmh_old   = dbmwptd_data.id_rwpxxmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tbldbmwptd );
