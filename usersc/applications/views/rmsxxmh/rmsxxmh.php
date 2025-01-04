@@ -23,8 +23,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -36,7 +37,7 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabrmsxxmh_rwpxxmh_1"> Process</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabrmsxxmh_rwpxxmh_1" data-i18n="process"></a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabrmsxxmh_rwpxxmh_1" class="tab-pane active">
@@ -47,8 +48,8 @@
 									<tr>
 										<th>ID</th>
 										<th>id_rmsxxmh</th>
-										<th>Kode</th>
-										<th>Nama</th>
+										<th data-i18n="code"></th>
+										<th data-i18n="name"></th>
 									</tr>
 								</thead>
 							</table>
@@ -131,15 +132,15 @@
 					def: 0
 				},
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
 					name: "rmsxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "rmsxxmh.nama"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "rmsxxmh.keterangan",
 					type: "textarea"
 				}
@@ -246,7 +247,12 @@
 			columns: [
 				{ data: "rmsxxmh.id",visible:false },
 				{ data: "rmsxxmh.kode" },
-				{ data: "rmsxxmh.nama" }
+				{ data: "rmsxxmh.nama" },
+				{ 
+					data: "rmsxxmh.transaction_state" ,
+					...renderTransactionStatus()
+
+				}
 			],
 			buttons: [
 
@@ -351,7 +357,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Process",
+					label: getTranslation('process') + "<sup class='text-danger'>*<sup>",
 					name: "rmsxxmh_rwpxxmh.id_rwpxxmh",
 					type: "select2",
 					opts: {
@@ -387,7 +393,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "rmsxxmh_rwpxxmh.keterangan",
 					type: "textarea"
 				}

@@ -23,8 +23,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
                             </tr>
                         </thead>
                     </table>
@@ -36,10 +36,10 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabrmsxxmh_rwpxxmh_1"> Machine</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabrmsxxmh_rwpxxmh" data-i18n="machine"></a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabrmsxxmh_rwpxxmh_1" class="tab-pane active">
+				<div role="tabpanel" id="tabrmsxxmh_rwpxxmh" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table id="tblrmsxxmh_rwpxxmh" class="table table-striped table-bordered table-hover nowrap" width="100%">
@@ -47,8 +47,8 @@
 									<tr>
 										<th>ID</th>
 										<th>id_rwpxxmh</th>
-										<th>Kode</th>
-										<th>Nama</th>
+										<th data-i18n="code"></th>
+										<th data-i18n="name"></th>
 									</tr>
 								</thead>
 							</table>
@@ -131,15 +131,15 @@
 					def: 0
 				},
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
 					name: "rwpxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "rwpxxmh.nama"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "rwpxxmh.keterangan",
 					type: "textarea"
 				}
@@ -351,7 +351,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Machine",
+					label: getTranslation('machine'),
 					name: "rmsxxmh_rwpxxmh.id_rmsxxmh",
 					type: "select2",
 					opts: {
@@ -387,7 +387,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "rmsxxmh_rwpxxmh.keterangan",
 					type: "textarea"
 				}

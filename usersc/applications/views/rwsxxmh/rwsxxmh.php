@@ -21,10 +21,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -97,15 +96,15 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
 					name: "rwsxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "rwsxxmh.nama"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "rwsxxmh.keterangan",
 					type: "textarea"
 				}
@@ -205,20 +204,19 @@
 					searchPanes:{
 						show: true,
 					},
-					targets: [1,2,3]
+					targets: [1,2]
 				},
 				{
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
 				{ data: "rwsxxmh.id",visible:false },
 				{ data: "rwsxxmh.kode" },
 				{ data: "rwsxxmh.nama" },
-				{ data: "rwsxxmh.keterangan" },
 				{ 
 					data: "rwsxxmh.transaction_state" ,
 					...renderTransactionStatus()
