@@ -66,13 +66,13 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Akun</th>
-                                <th>No Dokumen</th>
-                                <th>Tanggal</th>
-                                <th>Keterangan</th>
-                                <th>Debit</th>
-                                <th>Kredit</th>
-                                <th>Saldo</th>
+                                <th data-i18n="account"></th>
+                                <th data-i18n="documentNumber"></th>
+                                <th data-i18n="date"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="debit"></th>
+                                <th data-i18n="credit"></th>
+                                <th data-i18n="balance"></th>
                             </tr>
                         </thead>
                     </table>

@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Parent</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="parentAccount"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -100,25 +100,25 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "aakxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*<sup>",
 					name: "aakxxmh.nama"
 				},
 				{
-					label: "Akun Parent?",
+					label: getTranslation('isParentAccount') + " <sup class='text-danger'>*<sup>",
 					name: "aakxxmh.is_parent",
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "Ya", "value": 1 },
-						{ "label": "Tidak", "value": 0 }
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
 					]
 				},
 				{
-					label: "Nama Parent Akun",
+					label: getTranslation('parentAccount'),
 					name: "aakxxmh.id_aakxxmh_parent",
 					type: "select2",
 					opts: {
@@ -154,11 +154,11 @@
 					}
 				},
 				{
-					label: "Saldo Awal",
+					label: getTranslation('beginningBalance'),
 					name: "aakxxmh.saldo_awal"
 				},
 				{
-					label: "Tanggal Saldo Awal",
+					label: getTranslation('beginningBalanceDate'),
 					name: "aakxxmh.saldo_awal_tanggal",
 					type: "datetime",
 					def: function () { 

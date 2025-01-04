@@ -87,9 +87,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Kota</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
+                                <th data-i18n="city"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -113,10 +114,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_grlxxmh</th>
-										<th>Bank</th>
-										<th>No Rekening</th>
-										<th>Nama Rekening</th>
-										<th>Default</th>
+										<th data-i18n="bank"></th>
+										<th data-i18n="accountNumber"></th>
+										<th data-i18n="accountStatementName"></th>
+										<th data-i18n="default"></th>
 									</tr>
 								</thead>
 							</table>
@@ -131,10 +132,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_grlxxmh</th>
-										<th>Nama</th>
-										<th>Posisi</th>
-										<th>Email</th>
-										<th>Handphone</th>
+										<th data-i18n="name"></th>
+										<th data-i18n="position"></th>
+										<th data-i18n="email"></th>
+										<th data-i18n="phone"></th>
 									</tr>
 								</thead>
 							</table>
@@ -219,16 +220,16 @@
 					def: 0
 				},
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + ' <sup class="text-danger">*</sup>',
 					name: "grlxxmh.nama"
 				}, 	
 				{
-					label: "Alamat <sup class='text-danger'>*<sup>",
+					label: getTranslation('address') + ' <sup class="text-danger">*</sup>',
 					name: "grlxxmh.alamat",
 					type: "textarea"
 				},
 				{
-					label: "Kota <sup class='text-danger'>*<sup>",
+					label: getTranslation('cityName') + ' <sup class="text-danger">*</sup>',
 					name: "grlxxmh.id_gctxxmh",
 					type: "select2",
 					opts: {
@@ -264,7 +265,7 @@
 					}
 				},
 				{
-					label: "Badan Usaha <sup class='text-danger'>*<sup>",
+					label: getTranslation('businessEntityCode') + ' <sup class="text-danger">*</sup>',
 					name: "grlxxmh.id_gbuxxmh",
 					type: "select2",
 					opts: {
@@ -300,16 +301,16 @@
 					}
 				},
 				{
-					label: "Provinsi <sup class='text-danger'>*<sup>",
+					label: getTranslation('provinceName') + ' <sup class="text-danger">*</sup>',
 					name: "grlxxmh.id_gpvxxmh",
 					type: "readonly"
 				},
 				{
-					label: "Telepon",
+					label: getTranslation('phone'),
 					name: "grlxxmh.telepon"
 				},
 				{
-					label: "Whatsapp",
+					label: getTranslation('whatsapp'),
 					name: "grlxxmh.whatsapp"
 				},
 				{
@@ -317,31 +318,31 @@
 					name: "grlxxmh.fax"
 				},
 				{
-					label: "Email",
+					label: getTranslation('email'),
 					name: "grlxxmh.email"
 				},
 				{
-					label: "PKP",
+					label: getTranslation('taxableEmployers'),
 					name: "grlxxmh.is_pkp",
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "Ya", "value": 1 },
-						{ "label": "Tidak", "value": 0 }
+						{ "label": getTranslation('yes'), "value": 1 },
+						{ "label": getTranslation('no'), "value": 0 }
 					]
 				},
 				{
-					label: "NIK",
+					label: getTranslation('identificationNumber'),
 					name: "grlxxmh.nik"
 				},
 				{
-					label: "NPWP",
+					label: getTranslation('taxId'),
 					name: "grlxxmh.npwp",
 					type: "mask",
 					mask: "00.000.000.0-000.000"
 				},
 				{
-					label: "Syarat Bayar <sup class='text-danger'>*<sup>",
+					label: getTranslation('termOfPayment') + ' <sup class="text-danger">*</sup>',
 					name: "grlxxmh.id_fpytmmh",
 					type: "select2",
 					opts: {
@@ -377,7 +378,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "grlxxmh.keterangan",
 					type: "textarea"
 				}
@@ -469,22 +470,6 @@
 					}
 				);
 								
-				
-				// if (npwp != '') {
-				// 	npwp_clean = npwp.replace(/[.-]/g,"");
-				// 	if(npwp <= 0 ){
-				// 		edtgrlxxmh.field('grlxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
-				// 	}
-				// 	if(isNaN(npwp_clean) ){
-				// 		edtgrlxxmh.field('grlxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
-				// 	}
-				// 	npwp_length   = npwp_clean.length;
-				// 	if(npwp_length != 15){
-				// 		edtgrlxxmh.field('grlxxmh.npwp').error( 'Inputan harus 15 digit angka!' );
-				// 	}
-				// }
-				
-				
 			}
 			
 			if ( edtgrlxxmh.inError() ) {
@@ -536,7 +521,11 @@
 				{ data: "grlxxmh.id",visible:false },
 				{ data: "grlxxmh.kode" },
 				{ data: "grlxxmh.nama" },
-				{ data: "gctxxmh.nama" }
+				{ data: "gctxxmh.nama" },
+				{ 
+					data: "grlxxmh.transaction_state",
+					...renderTransactionStatus()
+				},
 			],
 			buttons: [
 
@@ -647,7 +636,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Bank <sup class='text-danger'>*<sup>",
+					label: getTranslation('bank') + ' <sup class="text-danger">*</sup>',
 					name: "grlbnmd.id_fbnxxmh",
 					type: "select2",
 					opts: {
@@ -683,15 +672,15 @@
 					}
 				},	
 				{
-					label: "Nama di Rekening<sup class='text-danger'>*<sup>",
+					label: getTranslation('accountStatementName') + ' <sup class="text-danger">*</sup>',
 					name: "grlbnmd.nama"
 				}, 	
 				{
-					label: "Nomor Rekening<sup class='text-danger'>*<sup>",
+					label: getTranslation('accountNumber') + ' <sup class="text-danger">*</sup>',
 					name: "grlbnmd.no_rek"
 				}, 	
 				{
-					label: "Default Rekening",
+					label: getTranslation('default'),
 					name: "grlbnmd.is_default",
 					type: "select",
 					placeholder : "Select",
@@ -701,7 +690,7 @@
 					]
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "grlbnmd.keterangan",
 					type: "textarea"
 				}
@@ -884,19 +873,19 @@
 					type: "hidden"
 				},	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + ' <sup class="text-danger">*</sup>',
 					name: "grlctmd.nama"
 				}, 	
 				{
-					label: "Posisi <sup class='text-danger'>*<sup>",
+					label: getTranslation('position') + ' <sup class="text-danger">*</sup>',
 					name: "grlctmd.posisi"
 				},
 				{
-					label: "Email",
+					label: getTranslation('email'),
 					name: "grlctmd.email"
 				},
 				{
-					label: "Telepon <sup class='text-danger'>*<sup>",
+					label: getTranslation('phone') + ' <sup class="text-danger">*</sup>',
 					name: "grlctmd.handphone"
 				}
 			]
