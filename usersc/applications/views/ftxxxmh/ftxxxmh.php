@@ -22,10 +22,10 @@
                         <thead>
                             <tr>
 								<th>ID</th>
-                                <th>Kode</th>
-                                <th>Progresif</th>
-                                <th>Keterangan</th>
-                                <th>TX</th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="progressive"></th>
+                                <th data-i18n="notes"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,10 +48,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_ftxxxmh</th>
-										<th>Batas Bawah (>=)</th>
-										<th>Batas Atas (<)</th>
-										<th>Tarif (%)</th>
-										<th>Keterangan</th>
+										<th data-i18n="upperLimit" data-toggle="tooltip" data-placement="top" title="" data-original-title=">="></th>
+										<th data-i18n="lowerLimit" data-toggle="tooltip" data-placement="top" title="" data-original-title="<"></th>
+										<th data-i18n="ratesPercentage"></th>
+										<th data-i18n="notes"></th>
 									</tr>
 								</thead>
 							</table>
@@ -133,11 +133,11 @@
 					def: 0
 				},
 				{
-					label: "Pajak <sup class='text-danger'>*<sup>",
+					label: getTranslation('tax') + "<sup class='text-danger'>*<sup>",
 					name: "ftxxxmh.kode"
 				}, 	
 				{
-					label: "Progresif",
+					label: getTranslation('progressive'),
 					name: "ftxxxmh.is_progressif",
 					type: "select",
 					placeholder : "Select",
@@ -147,7 +147,7 @@
 					]
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "ftxxxmh.keterangan",
 					type: "textarea"
 				}
@@ -238,7 +238,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -358,19 +358,20 @@
 					type: "hidden"
 				},	
 				{
+					label: getTranslation('lowerLimit') + "<sup class='text-danger'>*<sup>",
 					label: "Batas Bawah <sup class='text-danger'>*<sup>",
 					name: "ftxrtmd.batas_bawah"
 				}, 	
 				{
-					label: "Batas Atas <sup class='text-danger'>*<sup>",
+					label: getTranslation('upperLimit') + "<sup class='text-danger'>*<sup>",
 					name: "ftxrtmd.batas_atas"
 				}, 	
 				{
-					label: "Tarif <sup class='text-danger'>*<sup>",
+					label: getTranslation('rates') + "<sup class='text-danger'>*<sup>",
 					name: "ftxrtmd.tarif"
 				}, 	
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "ftxrtmd.keterangan",
 					type: "textarea"
 				}
@@ -440,9 +441,8 @@
 		});
 			
 		edtftxrtmd.on( 'postSubmit', function (e, json, data, action, xhr) {
-			// event setelah Create atau Edit, dibedakan dari parameter action
-			// action : "create" | "edit"
-			// do something
+			tblftxrtmd.rows().deselect();
+			tblftxrtmd.ajax.reload(null, false);
 		} );
 
 		edtftxrtmd.on( 'close', function () {
@@ -474,7 +474,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,4]
+					targets: '_all'
 				}
 			],
 			columns: [
