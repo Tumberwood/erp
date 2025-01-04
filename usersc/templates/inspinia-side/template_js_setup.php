@@ -1,5 +1,3 @@
-
-
 <script>
 	// bug fix datatables tidak aligned antara header dan body saat dipasang di multitab
 	// $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
@@ -97,6 +95,19 @@
 			}
 		}
 	});
+
+	// Load Language Setting
+	$.ajax( {
+		url: '../../../helpers/fn_language_setting.php',
+		dataType: 'json',
+		type: 'POST',
+		async: false,
+		data: {},
+		success: function ( json ) {
+			lang = json.data.rs_language.language;
+		}
+	} );
+
 
 	// BEGIN Notifications
 	var is_notification, notification_interval_ms;
