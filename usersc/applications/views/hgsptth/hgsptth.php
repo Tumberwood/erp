@@ -414,10 +414,9 @@
 			
 			tblhgsptth.rows( { selected: true } ).data().each(function (row) {
 				if (row.hemxxmh) {
-					// Extract IDs from hemxxmh array
 					ids_hemxxmh_old = "";
-					row.hemxxmh.forEach(function (kategori) {
-						ids_hemxxmh_old = ids_hemxxmh_old + "," + kategori.id;
+					row.hemxxmh.forEach(function (hemxxmh_data) {
+						ids_hemxxmh_old = ids_hemxxmh_old + "," + hemxxmh_data.id;
 					});
 					ids_hemxxmh_old = ids_hemxxmh_old.substring(1);
 				}
