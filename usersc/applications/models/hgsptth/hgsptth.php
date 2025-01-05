@@ -78,13 +78,6 @@
 				->link( 'hemxxmh.id', 'hgsptth_hemxxmh.id_hemxxmh' )
 				->order( 'hemxxmh.nama asc' )
 				->fields(
-					Field::inst( 'id' )
-						->validator( 'Validate::required' )
-						->options( Options::inst()
-							->table( 'hemxxmh' )
-							->value( 'id' )
-							->label( 'nama' )
-						),
 					Field::inst( 'id' ),
 					Field::inst( 'nama' )
 				)

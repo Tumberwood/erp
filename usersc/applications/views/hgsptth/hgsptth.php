@@ -60,7 +60,7 @@
 	// ------------- end of default variable
 
 	var id_htsptth_old = 0;
-	var id_hemxxmh_old = 0;
+	var ids_hemxxmh_old = '';
 	
 	// get tableRelation
 	tableRelation('hgsptth');
@@ -169,15 +169,15 @@
 						allowClear: true,
 						multiple: true,
 						ajax: {
-							url: "../../models/hemxxmh/hemxxmh_fn_opt.php",
+							url: "../../models/hemxxmh/hemxxmh_fn_opt_multiple.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_hemxxmh_old: id_hemxxmh_old,
+									ids_hemxxmh_old: ids_hemxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
-									return query;
+								return query;
 							},
 							processResults: function (data, params) {
 								return {
@@ -325,7 +325,7 @@
 					searchPanes:{
 						show: false,
 					},
-					targets: [0,2,3,4]
+					targets: '_all'
 				}
 			],
 			columns: [
@@ -411,6 +411,18 @@
 			// set variable standar framework
 			siVarSet('hgsptth');
 			id_htsptth_old = hgsptth_data.id_htsptth;
+			
+			tblhgsptth.rows( { selected: true } ).data().each(function (row) {
+				if (row.hemxxmh) {
+					// Extract IDs from hemxxmh array
+					ids_hemxxmh_old = "";
+					row.hemxxmh.forEach(function (kategori) {
+						ids_hemxxmh_old = ids_hemxxmh_old + "," + kategori.id;
+					});
+					ids_hemxxmh_old = ids_hemxxmh_old.substring(1);
+				}
+			});
+			
 			// atur hak akses
 			CekSelectHeaderH(tblhgsptth);
 			tblhgsptth.button( 'btnGenerateJadwal:name' ).enable();
@@ -420,6 +432,7 @@
 			// reset variable standar framework
 			siVarReset('hgsptth');
 			id_htsptth_old = 0;
+			ids_hemxxmh_old = '';
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhgsptth);
