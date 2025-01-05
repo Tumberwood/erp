@@ -37,7 +37,7 @@
                 'hemxxmh.id as id',
                 'CONCAT(hemxxmh.kode," - ",hemxxmh.fname," ",hemxxmh.lname) as text'
             ])
-            ->where('hemxxmh..id', $id_hemxxmh_old )
+            ->where('hemxxmh.id', $id_hemxxmh_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
