@@ -642,6 +642,9 @@
 					'>'
 				);
 
+				target_atas = Number(target_atas);
+				target_bawah = Number(target_bawah);
+				
 				if (polarisasi == 'Max') {
 					if (target_atas >= target_bawah) {
 					} else {
