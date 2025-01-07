@@ -1,9 +1,9 @@
 <?php 
     /**
-     * Digunakan untuk populate options data hfoprmh
-     * Table terkait    : hfoprmh
+     * Digunakan untuk populate options data hfogrmh
+     * Table terkait    : hfogrmh
      * Parameter        : 
-     *  - id_hfoprmh_old       : data existing (untuk keperluan edit), dipakai di query self
+     *  - id_hfogrmh_old       : data existing (untuk keperluan edit), dipakai di query self
      */
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
@@ -22,73 +22,73 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['id_hfoprmh_old'] > 0){
-        $id_hfoprmh_old = $_GET['id_hfoprmh_old'];
+    if($_GET['id_hfogrmh_old'] > 0){
+        $id_hfogrmh_old = $_GET['id_hfogrmh_old'];
     }else{
-        $id_hfoprmh_old = 0;
+        $id_hfogrmh_old = 0;
     }
 
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
-    if($id_hfoprmh_old > 0){
-        $qs_hfoprmh_self = $db
-            ->query('select', 'hfoprmh')
+    if($id_hfogrmh_old > 0){
+        $qs_hfogrmh_self = $db
+            ->query('select', 'hfogrmh')
             ->get([
-                'hfoprmh.id as id',
+                'hfogrmh.id as id',
                 'IF(
-                    hfoprmh.kode IS NULL, 
-                    hfoprmh.nama,
+                    hfogrmh.kode IS NULL, 
+                    hfogrmh.nama,
                     IF(
-                        hfoprmh.nama IS NULL, 
-                        hfoprmh.kode,
-                        CONCAT(hfoprmh.kode," - ",hfoprmh.nama)
+                        hfogrmh.nama IS NULL, 
+                        hfogrmh.kode,
+                        CONCAT(hfogrmh.kode," - ",hfogrmh.nama)
                     )
                 ) as text'
             ])
-            ->where('hfoprmh..id', $id_hfoprmh_old )
+            ->where('hfogrmh..id', $id_hfogrmh_old )
             ->limit(1)
             ->offset($offset)
             ->exec();
-        $rs_hfoprmh_self = $qs_hfoprmh_self->fetchAll();
+        $rs_hfogrmh_self = $qs_hfogrmh_self->fetchAll();
     }else{
-        $rs_hfoprmh_self = [];
+        $rs_hfogrmh_self = [];
     }
     // END query options self
 
     // BEGIN query options all except self
-    $qs_hfoprmh_all = $db
-        ->query('select', 'hfoprmh')
+    $qs_hfogrmh_all = $db
+        ->query('select', 'hfogrmh')
         ->get([
-            'hfoprmh.id as id',
+            'hfogrmh.id as id',
             'IF(
-                hfoprmh.kode IS NULL, 
-                hfoprmh.nama,
+                hfogrmh.kode IS NULL, 
+                hfogrmh.nama,
                 IF(
-                    hfoprmh.nama IS NULL, 
-                    hfoprmh.kode,
-                    CONCAT(hfoprmh.kode," - ",hfoprmh.nama)
+                    hfogrmh.nama IS NULL, 
+                    hfogrmh.kode,
+                    CONCAT(hfogrmh.kode," - ",hfogrmh.nama)
                 )
             ) as text'
         ])
-        ->where('hfoprmh.transaction_state',1)
-        ->where('hfoprmh.id', $id_hfoprmh_old, '<>' )
+        ->where('hfogrmh.transaction_state',1)
+        ->where('hfogrmh.id', $id_hfogrmh_old, '<>' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('hfoprmh.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('hfoprmh.nama', '%' . $q . '%', 'LIKE' );
+                ->where('hfogrmh.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('hfogrmh.nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)
         ->exec();
-    $rs_hfoprmh_all = $qs_hfoprmh_all->fetchAll();
+    $rs_hfogrmh_all = $qs_hfogrmh_all->fetchAll();
     // END query options all except self
     
     // BEGIN menggabungkan options
-    if(count($rs_hfoprmh_self) > 0){
-        $rs_opt = array_merge($rs_hfoprmh_self, $rs_hfoprmh_all);
+    if(count($rs_hfogrmh_self) > 0){
+        $rs_opt = array_merge($rs_hfogrmh_self, $rs_hfogrmh_all);
     }else{
-        $rs_opt = $rs_hfoprmh_all;
+        $rs_opt = $rs_hfogrmh_all;
     }
     $c_rs_opt = count($rs_opt);    
     // END menggabungkan options
