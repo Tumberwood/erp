@@ -656,6 +656,16 @@
 						edthfkobtd.field('hfkobtd.target_atas').error( 'Target Atas harus < Target Bawah!' );
 					}
 				}
+
+				validasiUnique(
+					action,
+					edthfkobtd,
+					'hfkobtd',
+					'id_hfoxxmh',
+					'id_hfoxxmh, id_hfkxxth',
+					''+id_hfoxxmh+','+id_hfkxxth,
+					id_hfkobtd
+				);
 			}
 			
 			if ( edthfkobtd.inError() ) {
