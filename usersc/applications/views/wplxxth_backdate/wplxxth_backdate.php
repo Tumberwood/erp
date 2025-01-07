@@ -193,7 +193,7 @@
 
 	// get tableRelation
 	tableRelation('wplxxth');
-	var id_wdoxxth_old = 0, id_wdoxxth = 0, id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0;
+	var ids_wdoxxth_old = '', id_wdoxxth = 0, id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0;
 	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, id_iumxxmh_unit_old_lpn = 0;
 	
 	uniqueToken = '';
@@ -251,11 +251,11 @@
 						allowClear: true,
 						multiple: true,
 						ajax: {
-							url: "../../models/wdoxxth/wdoxxth_fn_opt.php",
+							url: "../../models/wdoxxth/wdoxxth_fn_opt_multiple.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_wdoxxth_old: id_wdoxxth_old,
+									ids_wdoxxth_old: ids_wdoxxth_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -677,7 +677,15 @@
 			// set variable standar framework
 			siVarSet('wplxxth');
 			
-			id_wdoxxth_old      = wplxxth_data.id_wdoxxth;
+			tblwplxxth.rows( { selected: true } ).data().each(function (row) {
+				if (row.wdoxxth) {
+					ids_wdoxxth_old = "";
+					row.wdoxxth.forEach(function (wdoxxth_data) {
+						ids_wdoxxth_old = ids_wdoxxth_old + "," + wdoxxth_data.id;
+					});
+					ids_wdoxxth_old = ids_wdoxxth_old.substring(1);
+				}
+			});
 			id_wdoxxth      = wplxxth_data.id_wdoxxth;
 			is_generate_lpn      = wplxxth_data.is_generate_lpn;
 			id_wpmxxmh_old      = wplxxth_data.id_wpmxxmh;
@@ -729,7 +737,7 @@
 			is_generate_lpn = 0, id_iwhxxmh_old = 0, id_wloxxmh_old = 0;
 			id_iwhxxmh = 0;
 			id_wdoxxth = 0;
-			id_wdoxxth_old = 0;
+			ids_wdoxxth_old = '';
 			id_wpmxxmh_old = 0;
 			uniqueToken = '';
 

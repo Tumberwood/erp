@@ -410,7 +410,7 @@
 		tblhtscdtd_h.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('htscdtd_h');
-			ids_hodxxmh_old = 0;
+			ids_hodxxmh_old = '';
 
 			// atur hak akses
 			tbl_details = [tblhtscdtd_peg];
