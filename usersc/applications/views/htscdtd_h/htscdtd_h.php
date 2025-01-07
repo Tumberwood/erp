@@ -143,7 +143,7 @@
 	var edthtscdtd_peg, tblhtscdtd_peg, show_deleted_htscdtd_peg = 0, id_htscdtd_peg;
 	// ------------- end of default variable
 
-	var id_hodxxmh_old = 0;
+	var ids_hodxxmh_old = '';
 	var id_hemxxmh_old = 0;
 
 	// get tableRelation
@@ -197,12 +197,11 @@
 						allowClear: true,
 						multiple: true,
 						ajax: {
-							url: "../../models/hodxxmh/hodxxmh_fn_opt.php",
+							url: "../../models/hodxxmh/hodxxmh_fn_opt_multiple.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_hodxxmh_old: id_hodxxmh_old,
-									id_hodxxmh: 0,
+									ids_hodxxmh_old: ids_hodxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -392,7 +391,15 @@
 		tblhtscdtd_h.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('htscdtd_h');
-			id_hodxxmh_old 		= htscdtd_h_data.id_hodxxmh;
+			tblhtscdtd_h.rows( { selected: true } ).data().each(function (row) {
+				if (row.hodxxmh) {
+					ids_hodxxmh_old = "";
+					row.hodxxmh.forEach(function (hodxxmh_data) {
+						ids_hodxxmh_old = ids_hodxxmh_old + "," + hodxxmh_data.id;
+					});
+					ids_hodxxmh_old = ids_hodxxmh_old.substring(1);
+				}
+			});
 			
 			// atur hak akses
 			tbl_details = [tblhtscdtd_peg];
@@ -403,7 +410,7 @@
 		tblhtscdtd_h.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('htscdtd_h');
-			id_hodxxmh_old = 0;
+			ids_hodxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblhtscdtd_peg];

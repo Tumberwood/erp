@@ -72,13 +72,6 @@
 				->link( 'hodxxmh.id', 'hodxxmh_task_report.id_hodxxmh' )
 				->order( 'hodxxmh.nama asc' )
 				->fields(
-					Field::inst( 'id' )
-                    	->validator( 'Validate::required' )
-						->options( Options::inst()
-							->table( 'hodxxmh' )
-							->value( 'id' )
-							->label( 'nama' )
-						),
 					Field::inst( 'id' ),
 					Field::inst( 'nama' )
 				)

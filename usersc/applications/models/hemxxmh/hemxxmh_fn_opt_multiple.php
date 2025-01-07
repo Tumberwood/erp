@@ -23,10 +23,15 @@
     // END select2 pagination preparation
 
     if($_GET['ids_hemxxmh_old'] !== ''){
+        $ids_array = explode(',', $_GET['ids_hemxxmh_old']);
+        $c_data_self = count($ids_array); 
+
         $ids_hemxxmh_old = "(" . $_GET['ids_hemxxmh_old'] . ")";
         $where_in_self = 'AND hemxxmh.id IN  ' . $ids_hemxxmh_old . ' ';
         $where_in_all = 'AND hemxxmh.id NOT IN  ' . $ids_hemxxmh_old . ' ';
     }else{
+        $c_data_self = 1;
+        
         $where_in_self = '';
         $where_in_all = '';
     }
@@ -59,6 +64,8 @@
             FROM hemxxmh
             WHERE 1
                 $where_in_self
+            LIMIT $c_data_self
+            OFFSET $offset
             ";
         $qs_hemxxmh_self = $db
             ->raw()
