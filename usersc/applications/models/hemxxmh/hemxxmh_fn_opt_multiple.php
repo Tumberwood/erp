@@ -39,6 +39,7 @@
         $search = implode('', $_GET['search']); 
     
         // Escape nilai search untuk keamanan (menghindari SQL Injection)
+        //tujuannya buat mecegah karakter petik (") atau (<) biar tidak error.
         $search = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
     
         $where_q = 'AND (
