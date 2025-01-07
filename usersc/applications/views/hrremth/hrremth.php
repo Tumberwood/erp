@@ -244,7 +244,7 @@
 	var edthrremth, tblhrremth, show_deleted_hrremth = 0, id_hrremth;
 	var edthrrertd, tblhrrertd, show_deleted_hrrertd = 0, id_hrrertd;
 	// ------------- end of default variable
-	var replacement_select = 0, id_hgnedmh_old = 0, id_hemxxmh_old = 0, id_hemxxmh_pengaju_old = 0, id_hgnlgmh_old = 0, id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hosxxmh_old = 0;
+	var replacement_select = 0, id_hgnedmh_old = 0, id_hemxxmh_old = 0, id_hemxxmh_pengaju_old = 0, ids_hgnlgmh_old = '', id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hosxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('hrremth');
@@ -675,11 +675,11 @@
 						allowClear: true,
 						multiple: true,
 						ajax: {
-							url: "../../models/hgnlgmh/hgnlgmh_fn_opt.php",
+							url: "../../models/hgnlgmh/hgnlgmh_fn_opt_multiple.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_hgnlgmh_old: id_hgnlgmh_old,
+									ids_hgnlgmh_old: ids_hgnlgmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1009,6 +1009,15 @@
 			id_hgnedmh_old   = hrremth_data.id_hgnedmh;
 			id_hemxxmh_pengaju_old   = hrremth_data.id_hemxxmh_pengaju;
 			replacement_select   = hrremth_data.replacement;
+			tblhrremth.rows( { selected: true } ).data().each(function (row) {
+				if (row.hgnlgmh) {
+					ids_hgnlgmh_old = "";
+					row.hgnlgmh.forEach(function (hgnlgmh_data) {
+						ids_hgnlgmh_old = ids_hgnlgmh_old + "," + hgnlgmh_data.id;
+					});
+					ids_hgnlgmh_old = ids_hgnlgmh_old.substring(1);
+				}
+			});
 			
 			// atur hak akses
 			tbl_details = [tblhrrertd];
@@ -1041,6 +1050,7 @@
 			id_hgnedmh_old   = 0;
 			id_hemxxmh_pengaju_old   = 0;
 			replacement_select   = 0;
+			ids_hgnlgmh_old = '';
 
 			// atur hak akses
 			tbl_details = [tblhrrertd];

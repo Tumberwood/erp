@@ -108,17 +108,7 @@
 				->link( 'hrremth.id', 'hrremth_hgnlgmh.id_hrremth' )
 				->link( 'hgnlgmh.id', 'hrremth_hgnlgmh.id_hgnlgmh' )
 				->fields(
-					Field::inst( 'id' )
-						->setFormatter( Format::ifEmpty( 0 ) )
-						->options( Options::inst()
-							->table( 'hgnlgmh' )
-							->value( 'id' )
-							->label( ['nama'] )
-							->render( function ( $row ) {
-								return $row['nama'];
-							} )
-							->order( 'nama' )
-						),
+					Field::inst( 'id' ),
 					Field::inst( 'nama' )
 				)
 		)
