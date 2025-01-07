@@ -31,15 +31,23 @@
         $where_in_all = '';
     }
     
-    if(empty($_GET['search'])){
+    //ferry 7 jan 2025, revisi pada search ini, karena hasilnya adalah array, error string conversion.
+    if (empty($_GET['search']) || !is_array($_GET['search'])) {
         $where_q = '';
-    }else{
+    } else {
+        // Gabungkan nilai array menjadi string dengan spasi
+        $search = implode('', $_GET['search']); 
+    
+        // Escape nilai search untuk keamanan (menghindari SQL Injection)
+        $search = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
+    
         $where_q = 'AND (
-            hemxxmh.kode LIKE "%'.$_GET['search'].'%"
-            OR hemxxmh.fname LIKE "%'.$_GET['search'].'%"
-            OR hemxxmh.lname LIKE "%'.$_GET['search'].'%"
+            hemxxmh.kode LIKE "%' . $search . '%"
+            OR hemxxmh.fname LIKE "%' . $search . '%"
+            OR hemxxmh.lname LIKE "%' . $search . '%"
         )';
     }
+    
         
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
