@@ -21,11 +21,17 @@
     $qs_skor = $db
     ->raw()
     ->bind(':start_date', $start_date)
-    ->exec(' SELECT
-                AVG(b.skor) avg_skor
-            FROM hfsxxth a
-            LEFT JOIN hfskptd b ON b.id_hfsxxth = a.id
-            WHERE a.transaction_state = 1 AND a.periode = :start_date
+    ->exec(' WITH sum_skor AS (
+                SELECT
+                    SUM(b.skor) s_skor
+                FROM hfsxxth a
+                LEFT JOIN hfskptd b ON b.id_hfsxxth = a.id
+                WHERE a.transaction_state = 1 AND a.periode = :start_date
+                GROUP BY a.id
+            )
+            SELECT
+                AVG(s_skor) avg_skor
+            FROM sum_skor
             '
             );
     $rs_skor = $qs_skor->fetch();
