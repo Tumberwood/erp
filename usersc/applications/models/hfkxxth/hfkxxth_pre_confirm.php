@@ -47,7 +47,7 @@
 			// parameter lain
 		}else{
 			$status_code  = 500;
-			$message = 'Bobot Persen harus 100%, bobot persen sekarang adalah '.$s_bobot.'%';
+			$message = 'Total Bobot Persen harus 100%, bobot persen sekarang adalah '.$s_bobot.'%';
 			$type_message = 'error';
 			// parameter lain
 		}
