@@ -30,7 +30,7 @@
                 GROUP BY a.id
             )
             SELECT
-                AVG(s_skor) avg_skor
+	            IFNULL(AVG(s_skor),0) avg_skor
             FROM sum_skor
             '
             );
