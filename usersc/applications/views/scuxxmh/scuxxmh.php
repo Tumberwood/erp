@@ -326,7 +326,7 @@
 					name: "grlxxmh.telepon"
 				},
 				{
-					label: "Whatsapp",
+					label: getTranslation('whatsapp'),
 					name: "grlxxmh.whatsapp"
 				},
 				{
@@ -338,7 +338,7 @@
 					name: "grlxxmh.email"
 				},
 				{
-					label: "PKP",
+					label: getTranslation('taxableEmployers'),
 					name: "grlxxmh.is_pkp",
 					type: "select",
 					placeholder : "Select",
@@ -348,15 +348,17 @@
 					]
 				},
 				{
-					label: "NIK",
-					name: "grlxxmh.nik"
+					label: getTranslation('identificationNumber'),
+					name: "grlxxmh.nik",
+					type: "mask",
+					mask: "00.000.000.0-000.000"
 				},
 				{
-					label: "NPWP",
+					label: getTranslation('taxId'),
 					name: "grlxxmh.npwp"
 				},
 				{
-					label: "Batas Expired Date (Bulan) <sup class='text-danger'>*<sup>",
+					label: getTranslation('expectedExpirationDateMonth') + "<sup class='text-danger'>*<sup>",
 					name: "grlxxmh.batas_expired_date"
 				},
 				{

@@ -145,12 +145,12 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Nomor</th>
-							<th>Tanggal</th>
-							<th>Supplier</th>
-							<th>Type</th>
-							<th>Status</th>
-							<th>Approval</th>
+							<th data-i18n="documentNumber"></th>
+							<th data-i18n="date"></th>
+							<th data-i18n="supplier"></th>
+							<th data-i18n="type"></th>
+							<th data-i18n="state"></th>
+							<th data-i18n="approvalState"></th>
 						</tr>
 					</thead>
 				</table>
@@ -240,15 +240,15 @@
 									<tr>
 										<th>ID</th>
 										<th>id_podxxth</th>
-										<th>Item Code</th>
-										<th>Item Name</th>
-										<th>UoM</th>
-										<th>Quantity</th>
-										<th>Price @</th>
-										<th>Subtotal</th>
-										<th>Discount</th>
-										<th>Total</th>
-										<th>Purchase Request</th>
+										<th data-i18n="itemCode"></th>
+										<th data-i18n="itemName"></th>
+										<th data-i18n="uom"></th>
+										<th data-i18n="quantity"></th>
+										<th data-i18n="unitPrice"></th>
+										<th data-i18n="subtotal"></th>
+										<th data-i18n="discount"></th>
+										<th data-i18n="total"></th>
+										<th data-i18n="purchaseRequest"></th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -257,7 +257,7 @@
 										<th></th>
 										<th></th>
 										<th id="c_item"></th>
-										<th>Subtotal</th>
+										<th data-i18n="subtotal"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -270,7 +270,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Diskon</th>
+										<th data-i18n="discount"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -283,7 +283,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>DPP</th>
+										<th data-i18n="taxBase"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -296,7 +296,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Pajak</th>
+										<th data-i18n="tax"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -309,7 +309,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Total</th>
+										<th data-i18n="total"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -331,9 +331,9 @@
 									<tr>
 										<th>ID</th>
 										<th>id_podxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
+										<th data-i18n="code"></th>
+										<th data-i18n="account"></th>
+										<th data-i18n="notes"></th>
 									</tr>
 								</thead>
 							</table>
@@ -430,7 +430,7 @@
 					def: 0
 				},
 				{
-					label: "Type <sup class='text-danger'>*<sup>",
+					label: getTranslation('type') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_iitxxmh",
 					type: "select2",
 					opts: {
@@ -466,7 +466,7 @@
 					}
 				},		
 				{
-					label: "Payment Terms <sup class='text-danger'>*<sup>",
+					label: getTranslation('termOfPayment') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_fpytmmh",
 					type: "select2",
 					opts: {
@@ -502,7 +502,7 @@
 					}
 				},		
 				{
-					label: "Supplier <sup class='text-danger'>*<sup>",
+					label: getTranslation('supplier') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_grlxxmh_supplier",
 					type: "select2",
 					opts: {
@@ -538,7 +538,7 @@
 					}
 				},		
 				{
-					label: "Currency <sup class='text-danger'>*<sup>",
+					label: getTranslation('currency') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_fcrxxmh",
 					id: "select_id_fcrxxmh", //tambahkan id di select2nya
 					type: "select2",
@@ -591,7 +591,7 @@
 					}
 				},		
 				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
+					label: getTranslation('date') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -604,12 +604,12 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Subtotal",
+					label: getTranslation('subtotal'),
 					name: "podxxth.subtotal",
 					type: "readonly"
 				},
 				{
-					label: "Diskon",
+					label: getTranslation('discount'),
 					name: "podxxth.diskon_jenis",
 					type: "select",
 					placeholder : "Select",
@@ -620,20 +620,20 @@
 					]
 				},
 				{
-					label: "Diskon (%)",
+					label: getTranslation('discountPercentage'),
 					name: "podxxth.diskon_persen"
 				}, 	
 				{
-					label: "Diskon (Rp)",
+					label: getTranslation('discountValue'),
 					name: "podxxth.diskon_value"
 				}, 	
 				{
-					label: "Diskon Final",
+					label: getTranslation('discountFinal'),
 					name: "podxxth.diskon_final",
 					type: "readonly"
 				},
 				{
-					label: "Total",
+					label: getTranslation('total'),
 					name: "podxxth.dpp",
 					type: "readonly"
 				},
@@ -643,24 +643,24 @@
 					type: "hidden"
 				},
 				{
-					label: "Menggunakan Pajak",
+					label: getTranslation('isTaxable'),
 					name: "podxxth.is_pajak",
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "Ya", "value": 1 },
-						{ "label": "Tidak", "value": 0 }
+						{ "label": getTranslation('yes'), "value": 1 },
+						{ "label": getTranslation('no'), "value": 0 }
 					]
 				},
 				{
-					label: "Termasuk Pajak",
+					label: getTranslation('includingTax'),
 					name: "podxxth.pajak_in_ex",
 					type: "select",
 					def: 2,
 					placeholder : "Select",
 					options: [
-						{ "label": "Ya", "value": 1 },
-						{ "label": "Tidak", "value": 2 }
+						{ "label": getTranslation('yes'), "value": 1 },
+						{ "label": getTranslation('no'), "value": 2 }
 					]
 				},
 				{
@@ -674,18 +674,18 @@
 					type: "hidden"
 				},
 				{
-					label: "Pajak",
+					label: getTranslation('tax'),
 					name: "podxxth.pajak_final",
 					type: "readonly"
 				},
 				{
-					label: "Grand Total",
+					label: getTranslation('grandTotal'),
 					name: "podxxth.grand_total",
 					type: "readonly"
 				},
 				
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "podxxth.keterangan",
 					type: "textarea"
 				},
@@ -1038,7 +1038,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Item PR<sup class='text-danger'>*<sup>",
+					label: getTranslation('itemPR')	+ " <sup class='text-danger'>*<sup>",
 					name: "podittd.id_prqittd",
 					type: "select2",
 					opts: {
@@ -1054,7 +1054,7 @@
 									search: params.term || '',
 									page: params.page || 1
 								}
-									return query;
+								return query;
 							},
 							processResults: function (data, params) {
 								return {

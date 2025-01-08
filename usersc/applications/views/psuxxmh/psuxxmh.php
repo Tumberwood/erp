@@ -102,11 +102,11 @@
 	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabgrlbnmd_1"> Bank</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabgrlctmd"> Kontak</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabgrlbnmd" data-i18n="bank"></a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabgrlctmd" data-i18n="contact"></a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabgrlbnmd_1" class="tab-pane active">
+				<div role="tabpanel" id="tabgrlbnmd" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table id="tblgrlbnmd" class="table table-striped table-bordered table-hover nowrap" width="100%">

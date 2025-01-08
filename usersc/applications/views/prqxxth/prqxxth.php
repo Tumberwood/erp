@@ -59,11 +59,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tanggal</th>
-                                <th>Kode</th>
-                                <th>Department</th>
-                                <th>TX</th>
-                                <th>Approval</th>
+                                <th data-i18n="date"></th>
+                                <th data-i18n="documentNumber"></th>
+                                <th data-i18n="department"></th>
+                                <th data-i18n="state">TX</th>
+                                <th data-i18n="approvalState"></th>
                             </tr>
                         </thead>
                     </table>
@@ -75,7 +75,7 @@
 	<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd"> Item</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabprqittd" data-i18n="item"></a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabprqittd" class="tab-pane active">
@@ -86,16 +86,16 @@
 									<tr>
 										<th rowspan="2">ID</th>
 										<th rowspan="2">id_prqxxth</th>
-										<th colspan="2">Item</th>
-										<th rowspan="2">Quantity</th>
-										<th rowspan="2">UoM</th>
-										<th rowspan="2">Tanggal Dibutuhkan</th>
-										<th rowspan="2">Keterangan</th>
+										<th colspan="2" data-i18n="item"></th>
+										<th rowspan="2" data-i18n="quantity"></th>
+										<th rowspan="2" data-i18n="uom"></th>
+										<th rowspan="2" data-i18n="expectedDate"></th>
+										<th rowspan="2" data-i18n="notes"></th>
 									</tr>
 
 									<tr>
-										<th>Master</th>
-										<th>Non Master</th>
+										<th data-i18n="master"></th>
+										<th data-i18n="nonMaster"></th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -194,7 +194,7 @@
 					def: 0
 				},		
 				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
+					label: getTranslation('date') + " <sup class='text-danger'>*<sup>",
 					name: "prqxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -207,7 +207,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Department <sup class='text-danger'>*<sup>",
+					label: getTranslation('department') + " <sup class='text-danger'>*<sup>",
 					name: "prqxxth.id_hodxxmh",
 					type: "select2",
 					opts: {
@@ -235,7 +235,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "prqxxth.keterangan",
 					type: "textarea"
 				}
@@ -442,7 +442,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Item <sup class='text-danger'>*<sup>",
+					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
 					name: "prqittd.id_iimxxmh",
 					fieldInfo: "Isi salah satu antara Item Non Master dengan Item",
 					type: "select2",
@@ -479,16 +479,16 @@
 					}
 				},
 				{
-					label: "Item Non Master<sup class='text-danger'>*<sup>",
+					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
 					name: "prqittd.nama",
 					fieldInfo: "Isi salah satu antara Item Non Master dengan Item"
 				}, 	
 				{
-					label: "Quantity <sup class='text-danger'>*<sup>",
+					label: getTranslation('quantity') + " <sup class='text-danger'>*<sup>",
 					name: "prqittd.jumlah_unit"
 				}, 
 				{
-					label: "UoM <sup class='text-danger'>*<sup>",
+					label: getTranslation('uom') + " <sup class='text-danger'>*<sup>",
 					name: "prqittd.id_iumxxmh",
 					type: "select2",
 					opts: {
@@ -516,7 +516,7 @@
 					}
 				},		
 				{
-					label: "Tanggal Dibutuhkan",
+					label: getTranslation('expectedDate'),
 					name: "prqittd.tanggal_dibutuhkan",
 					type: "datetime",
 					def: function () { 
@@ -529,7 +529,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "prqittd.keterangan",
 					type: "textarea"
 				}
