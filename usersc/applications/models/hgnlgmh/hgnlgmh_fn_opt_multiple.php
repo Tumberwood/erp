@@ -37,7 +37,11 @@
     
     //ferry 7 jan 2025, revisi pada search ini, karena hasilnya adalah array, error string conversion.
     if (empty($_GET['search']) || !is_array($_GET['search'])) {
-        $where_q = '';
+        $search = $_GET['search'];
+        $where_q = 'AND (
+            hgnlgmh.kode LIKE "%' . $search . '%"
+            OR hgnlgmh.nama LIKE "%' . $search . '%"
+        )';
     } else {
         // Gabungkan nilai array menjadi string dengan spasi
         $search = implode('', $_GET['search']); 
