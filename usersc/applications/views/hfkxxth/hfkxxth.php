@@ -377,6 +377,8 @@
 		tblhfkxxth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('hfkxxth');
+
+			id_hemxxmh_old = hfkxxth_data.id_hemxxmh;
 			
 			// atur hak akses
 			tbl_details = [tblhfkobtd];
@@ -387,6 +389,7 @@
 		tblhfkxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hfkxxth');
+			id_hemxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblhfkobtd];
