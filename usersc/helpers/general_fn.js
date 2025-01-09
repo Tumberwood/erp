@@ -275,6 +275,20 @@ function renderYaTidak() {
     };
 }
 
+function renderYesNo() {
+    return {
+        render: function (data) {
+            if (data == 0) {
+                return '<span class="badge badge-plain">No</span>';
+            } else if (data == 1) {
+                return '<span class="badge badge-primary">Yes</span>';
+            } else {
+                return '<span class="badge badge-warning">INVALID</span>';
+            }
+        }
+    };
+}
+
 /**
  * Datatables Render Number
  * Kegunaan
