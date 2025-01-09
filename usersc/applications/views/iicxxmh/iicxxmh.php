@@ -25,7 +25,7 @@
                                 <th>ID</th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
-                                <th>BoM</th>
+                                <th data-i18n="bom"></th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -49,8 +49,8 @@
 									<tr>
 										<th>ID</th>
 										<th>id_iicxxmh</th>
-										<th>Persediaan</th>
-										<th>Biaya</th>
+										<th data-i18n="inventory"></th>
+										<th data-i18n="expenses"></th>
 									</tr>
 								</thead>
 							</table>
@@ -145,7 +145,7 @@
 					name: "iicxxmh.nama"
 				}, 	
 				{
-					label: "Bill of Material",
+					label: getTranslation('bom') + " <sup class='text-danger'>*<sup>",
 					name: "iicxxmh.is_dbmxxth",
 					fieldInfo: "Apakah menggunakan Bill of Material",
 					type: "select",
@@ -266,7 +266,7 @@
 				{ data: "iicxxmh.kode" },
 				{ data: "iicxxmh.nama" },
 				{ data: "iicxxmh.is_dbmxxth", 
-					...renderYaTidak()
+					...renderYesNo()
 				},
 				{ 
 					data: "iicxxmh.transaction_state" ,

@@ -1302,23 +1302,23 @@
 				},
 				{ 
 					data: "iimummd.is_terkecil" ,
-					...renderYaTidak()
+					...renderYesNo()
 				},
 				{ 
 					data: "iimummd.is_default" ,
-					...renderYaTidak()
+					...renderYesNo()
 				},
 				{ 
 					data: "iimummd.is_iumxxmh_beli" ,
-					...renderYaTidak()
+					...renderYesNo()
 				},
 				{ 
 					data: "iimummd.is_iumxxmh_jual" ,
-					...renderYaTidak()
+					...renderYesNo()
 				},
 				{ 
 					data: "iimummd.is_replenishment" ,
-					...renderYaTidak()
+					...renderYesNo()
 				},
 			],
 			buttons: [
