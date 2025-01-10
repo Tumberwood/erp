@@ -616,7 +616,10 @@
 			columns: [
 				{ data: "wplxxth.id",visible:false },
 				{ data: "wplxxth.kode" },
-				{ data: "wdoxxth[].kode" },
+				{ 
+					data: "wdoxxth",
+					render: '[, ].kode'
+				},
 				{ data: "customer" },
 				{ data: "wplxxth.tanggal" },
 				{ data: "wpmxxmh.nama" },

@@ -85,13 +85,26 @@
 						targets: '_all'
 					}
 				],
-				responsive: false,
 				columns: [
 					{ data: "users.id"},
 					{ data: "users.username"},
 					{ data: "users.fname" },
 					{ data: "users.lname" },
-					{ data: "permissions[].name" }
+					{ 
+						data: "permissions" ,
+						render: {
+							_: '[, ].name',
+							sp:'[].name',
+							sb: '[].name'
+						},
+						searchPanes: {
+							orthogonal:'sp'
+						},
+						searchBuilder: {
+							orthogonal: 'sb'
+						},
+						searchBuilderType: 'array'
+					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
