@@ -90,12 +90,12 @@
                         <thead>
                             <tr>
 								<th>ID</th>
-								<th>Tanggal</th>
-                                <th>Kode</th>
-								<th>Supplier</th>
-								<th>Purchase Order</th>
-								<th>Warehouse</th>
-								<th>TX</th>
+								<th data-i18n="date"></th>
+                                <th data-i18n="code"></th>
+								<th data-i18n="supplier"></th>
+								<th data-i18n="purchaseOrder"></th>
+								<th data-i18n="warehouse"></th>
+								<th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -140,10 +140,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_prcxxth</th>
-										<th>SKU</th>
-										<th>Item</th>
-										<th>UoM</th>
-										<th>Quantity</th>
+										<th data-i18n="itemCode"></th>
+										<th data-i18n="itemName"></th>
+										<th data-i18n="uom"></th>
+										<th data-i18n="quantity"></th>
 									</tr>
 								</thead>
 							</table>
@@ -246,7 +246,7 @@
 					def: 0
 				},
 				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
+					label: getTranslation('date') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -259,7 +259,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Supplier <sup class='text-danger'>*<sup>",
+					label: getTranslation('supplier') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth.id_grlxxmh_supplier",
 					type: "select2",
 					opts: {
@@ -295,7 +295,7 @@
 					}
 				},
 				{
-					label: "Purchase Order",
+					label: getTranslation('purchaseOrder') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth.id_podxxth",
 					type: "select2",
 					opts: {
@@ -363,7 +363,7 @@
 					type: "hidden"
 				},
 				{
-					label: "Warehouse <sup class='text-danger'>*<sup>",
+					label: getTranslation('warehouse') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth.id_iwhxxmh",
 					type: "select2",
 					opts: {
@@ -399,19 +399,19 @@
 					}
 				},
 				{
-					label: "Surat Jalan <sup class='text-danger'>*<sup>",
+					label: getTranslation('deliverySlip') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth.referensi_nomor"
 				},
 				{
-					label: "Supir",
+					label: getTranslation('driver'),
 					name: "prcxxth.supir_nama"
 				},
 				{
-					label: "No Kendaraan <sup class='text-danger'>*<sup>",
+					label: getTranslation('licensePlate') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth.mobil_nomor"
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "prcxxth.keterangan",
 					type: "textarea"
 				}
@@ -744,7 +744,7 @@
 					type: "hidden"
 				},
 				{
-					label: "Item <sup class='text-danger'>*<sup>",
+					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
 					name: "prcittd.id_iimxxmh",
 					type: "select2",
 					opts: {
@@ -781,11 +781,11 @@
 					}
 				},
 				{
-					label: "Quantity <sup class='text-danger'>*<sup>",
+					label: getTranslation('quantity') + " <sup class='text-danger'>*<sup>",
 					name: "prcittd.jumlah_unit"
 				},
 				{
-					label: "UoM <sup class='text-danger'>*<sup>",
+					label: getTranslation('uom') + " <sup class='text-danger'>*<sup>",
 					name: "prcittd.id_iumxxmh_unit",
 					type: "select2",
 					opts: {
@@ -822,7 +822,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "prcittd.keterangan",
 					type: "textarea"
 				}

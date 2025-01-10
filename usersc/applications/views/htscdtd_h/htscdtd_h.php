@@ -341,7 +341,10 @@
 			columns: [
 				{ data: "htscdtd_h.id",visible:false },
 				{ data: "htscdtd_h.kode" },
-				{ data: "hodxxmh[].nama" },
+				{ 
+					data: "hodxxmh" ,
+					render: '[, ].nama'
+				},
 				{ data: "htscdtd_h.tanggal_terpilih" },
 				{ data: "htscdtd_h.tanggal_pengganti" },
 				{ data: "htscdtd_h.keterangan" },

@@ -24,6 +24,7 @@
                                 <th>ID</th>
                                 <th data-i18n="businessEntityCode"></th>
                                 <th data-i18n="businessEntityName"></th>
+                                <th data-i18n="state"></th>
                             </tr>
                         </thead>
                     </table>
@@ -198,7 +199,11 @@
 				columns: [
 					{ data: "gbuxxmh.id",visible:false },
 					{ data: "gbuxxmh.kode" },
-					{ data: "gbuxxmh.nama" }
+					{ data: "gbuxxmh.nama" },
+					{ 
+						data: "gbuxxmh.transaction_state" ,
+						...renderTransactionStatus()
+					}
 				],
 				buttons: [
 					// BEGIN breaking generate button

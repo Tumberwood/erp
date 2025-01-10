@@ -22,13 +22,13 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>BU</th>
+                                <th data-i18n="businessEntityCode"></th>
                                 <th data-i18n="companyName"></th>
                                 <th data-i18n="address"></th>
                                 <th data-i18n="cityName"></th>
-                                <th>NPWP</th>
-                                <th>KLU</th>
-                                <th>TX</th>
+                                <th data-i18n="taxId"></th>
+                                <th data-i18n="businessFieldCode"></th>
+                                <th data-i18n="state">TX</th>
                             </tr>
                         </thead>
                     </table>

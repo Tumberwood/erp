@@ -142,11 +142,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nomor</th>
-                                <th>Tanggal</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Approval</th>
+                                <th data-i18n="documentNumber"></th>
+                                <th data-i18n="date"></th>
+                                <th data-i18n="customer"></th>
+                                <th data-i18n="state"></th>
+                                <th data-i18n="approvalState"></th>
                             </tr>
                         </thead>
                     </table>
@@ -158,7 +158,7 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabsqtittd"> Item</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabsqtittd" data-i18n="item"></a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabsqtittd" class="tab-pane active">
@@ -228,15 +228,15 @@
 									<tr>
 										<th>ID</th>
 										<th>id_sqtxxth</th>
-										<th>Item Code</th>
-										<th>Item name</th>
-										<th>UoM</th>
-										<th>Quantity</th>
-										<th>Price @</th>
-										<th>Subtotal</th>
-										<th>Discount</th>
-										<th>Total</th>
-										<th>Keterangan</th>
+										<th data-i18n="itemCode"></th>
+										<th data-i18n="itemName"></th>
+										<th data-i18n="uom"></th>
+										<th data-i18n="quantity"></th>
+										<th data-i18n="price"></th>
+										<th data-i18n="subtotal"></th>
+										<th data-i18n="discount"></th>
+										<th data-i18n="total"></th>
+										<th data-i18n="notes"></th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -245,7 +245,7 @@
 										<th></th>
 										<th></th>
 										<th id="c_item"></th>
-										<th>Subtotal</th>
+										<th data-i18n="subtotal"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -258,7 +258,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Diskon</th>
+										<th data-i18n="discount"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -271,7 +271,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>DPP</th>
+										<th data-i18n="taxBase"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -284,7 +284,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Pajak</th>
+										<th data-i18n="tax"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -297,7 +297,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Total</th>
+										<th data-i18n="total"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -396,7 +396,7 @@
 					def: 0
 				},		
 				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
+					label: getTranslation('date') + " <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -409,7 +409,7 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Customer <sup class='text-danger'>*<sup>",
+					label: getTranslation('customer') + " <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.id_grlxxmh_customer",
 					type: "select2",
 					opts: {
@@ -437,7 +437,7 @@
 					}
 				},
 				{
-					label: "Payment Terms <sup class='text-danger'>*<sup>",
+					label: getTranslation('termOfPayment') + " <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.id_fpytmmh",
 					type: "select2",
 					opts: {
@@ -473,7 +473,7 @@
 					}
 				},	
 				{
-					label: "Currency <sup class='text-danger'>*<sup>",
+					label: getTranslation('currency') + " <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.id_fcrxxmh",
 					id: "select_id_fcrxxmh",
 					type: "select2",
@@ -528,7 +528,7 @@
 					}
 				},	
 				{
-					label: "Valid Until <sup class='text-danger'>*<sup>",
+					label: getTranslation('validUntil') + " <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.tanggal_validity",
 					type: "datetime",
 					def: function () { 
@@ -541,17 +541,17 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "UP <sup class='text-danger'>*<sup>",
+					label: getTranslation('attn') + " <sup class='text-danger'>*<sup>",
 					name: "sqtxxth.up1"
 				},
 
 				{
-					label: "Subtotal",
+					label: getTranslation('subtotal'),
 					name: "sqtxxth.subtotal",
 					type: "readonly"
 				},
 				{
-					label: "Diskon",
+					label: getTranslation('discount'),
 					name: "sqtxxth.diskon_jenis",
 					type: "select",
 					placeholder : "Select",
@@ -562,20 +562,20 @@
 					]
 				},
 				{
-					label: "Diskon (%)",
+					label: getTranslation('discountPercentage'),
 					name: "sqtxxth.diskon_persen"
 				}, 	
 				{
-					label: "Diskon (Rp)",
+					label: getTranslation('discountValue'),
 					name: "sqtxxth.diskon_value"
 				}, 	
 				{
-					label: "Diskon Final",
+					label: getTranslation('discountFinal'),
 					name: "sqtxxth.diskon_final",
 					type: "readonly"
 				},
 				{
-					label: "Total",
+					label: getTranslation('total'),
 					name: "sqtxxth.dpp",
 					type: "readonly"
 				},
@@ -585,7 +585,7 @@
 					type: "hidden"
 				},
 				{
-					label: "Menggunakan Pajak",
+					label: getTranslation('isTaxable'),
 					name: "sqtxxth.is_pajak",
 					type: "select",
 					placeholder : "Select",
@@ -595,7 +595,7 @@
 					]
 				},
 				{
-					label: "Termasuk Pajak",
+					label: getTranslation('includingTax'),
 					name: "sqtxxth.pajak_in_ex",
 					type: "select",
 					def: 2,
@@ -616,18 +616,18 @@
 					type: "hidden"
 				},
 				{
-					label: "Pajak",
+					label: getTranslation('tax'),
 					name: "sqtxxth.pajak_final",
 					type: "readonly"
 				},
 				{
-					label: "Grand Total",
+					label: getTranslation('grandTotal'),
 					name: "sqtxxth.grand_total",
 					type: "readonly"
 				},
 
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "sqtxxth.keterangan",
 					type: "textarea"
 				}
@@ -731,7 +731,7 @@
 						'tanggal'            : tanggal,
 						'id_grlxxmh_customer': id_grlxxmh_customer,
 						'tanggal_validity'   : tanggal_validity,
-						// 'up1'                : up1
+						'up1'   : up1
 					}
 				);
 				
@@ -939,7 +939,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Item <sup class='text-danger'>*<sup>",
+					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.id_iimxxmh",
 					type: "select2",
 					opts: {
@@ -975,7 +975,7 @@
 					}
 				},
 				{
-					label: "UoM <sup class='text-danger'>*<sup>",
+					label: getTranslation('uom') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.id_iumxxmh_unit",
 					type: "select2",
 					opts: {
@@ -1004,20 +1004,20 @@
 					}
 				},		
 				{
-					label: "Quantity <sup class='text-danger'>*<sup>",
+					label: getTranslation('quantity') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.jumlah_unit"
 				}, 
 				{
-					label: "Price @ <sup class='text-danger'>*<sup>", 
+					label: getTranslation('price') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.harga_unit",
 				},
 				{
-					label: "Subtotal",
+					label: getTranslation('subtotal') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.subtotal",
 					type: "readonly"
 				},
 				{
-					label: "Diskon",
+					label: getTranslation('discount') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.diskon_jenis",
 					type: "select",
 					placeholder : "Select",
@@ -1028,23 +1028,25 @@
 					]
 				},
 				{
-					label: "Diskon (%)",
+					label: getTranslation('discountPercentage'),
 					name: "sqtittd.diskon_persen"
-				}, 	{
-					label: "Diskon (Rp)",
+				}, 	
+				{
+					label: getTranslation('discountValue'),
 					name: "sqtittd.diskon_value"
-				}, 	{
-					label: "Diskon Final",
+				}, 	
+				{
+					label: getTranslation('discountFinal'),
 					name: "sqtittd.diskon_final",
 					type: "readonly"
 				},
 				{
-					label: "Total",
+					label: getTranslation('total'),
 					name: "sqtittd.dpp",
 					type: "readonly"
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "sqtittd.keterangan",
 					type: "textarea"
 				}

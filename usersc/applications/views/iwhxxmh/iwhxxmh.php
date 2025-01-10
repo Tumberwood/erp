@@ -20,12 +20,12 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Kode</th>
-							<th>Nama</th>
-							<th>Kategori</th>
-							<th>Cabang</th>
-							<th>Keterangan</th>
-							<th>TX</th>
+							<th data-i18n="code"></th>
+							<th data-i18n="name"></th>
+							<th data-i18n="category"></th>
+							<th data-i18n="branchName"></th>
+							<th data-i18n="notes"></th>
+							<th data-i18n="state"></th>
 						</tr>
 					</thead>
 				</table>
@@ -99,15 +99,15 @@
 					def: 0
 				},	
 				{
-					label: "Kode <sup class='text-danger'>*<sup>",
+					label: getTranslation('code') + " <sup class='text-danger'>*</sup>",
 					name: "iwhxxmh.kode"
 				}, 	
 				{
-					label: "Nama <sup class='text-danger'>*<sup>",
+					label: getTranslation('name') + " <sup class='text-danger'>*</sup>",
 					name: "iwhxxmh.nama"
 				},
 				{
-					label: "Kategori <sup class='text-danger'>*<sup>",
+					label: getTranslation('category') + " <sup class='text-danger'>*</sup>",
 					name: "iwhxxmh.id_iwhctmh",
 					type: "select2",
 					opts: {
@@ -143,7 +143,7 @@
 					}
 				},
 				{
-					label: "Cabang <sup class='text-danger'>*<sup>",
+					label: getTranslation('branch') + " <sup class='text-danger'>*</sup>",
 					name: "iwhxxmh.id_gbrxxmh",
 					type: "select2",
 					opts: {
@@ -179,7 +179,7 @@
 					}
 				},
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "iwhxxmh.keterangan",
 					type: "textarea"
 				}

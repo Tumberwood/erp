@@ -145,12 +145,12 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Nomor</th>
-							<th>Tanggal</th>
-							<th>Customer</th>
-							<th>Type</th>
-							<th>Status</th>
-							<th>Approval</th>
+							<th data-i18n="documentNumber"></th>
+							<th data-i18n="date"></th>
+							<th data-i18n="customer"></th>
+							<th data-i18n="type"></th>
+							<th data-i18n="state"></th>
+							<th data-i18n="approvalState"></th>
 						</tr>
 					</thead>
 				</table>
@@ -161,11 +161,11 @@
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li><a class="nav-link active" data-toggle="tab" href="#tabsodittd_1"> Item</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabsodittd_2"> Biaya</a></li>
+				<li><a class="nav-link active" data-toggle="tab" href="#tabsodittd" data-i18n="item"> </a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabsodittd_2" data-i18n="expenses"></a></li>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="tabsodittd_1" class="tab-pane active">
+				<div role="tabpanel" id="tabsodittd" class="tab-pane active">
 					<div class="panel-body">
 						<!-- start Custom Form Datatables Editor -->
 						<div id="frmsodittd">
@@ -242,15 +242,15 @@
 									<tr>
 										<th>ID</th>
 										<th>id_sodxxth</th>
-										<th>Item Code</th>
-										<th>Item Name</th>
-										<th>UoM</th>
-										<th>Quantity</th>
-										<th>Price @</th>
-										<th>Subtotal</th>
-										<th>Discount</th>
-										<th>Total</th>
-										<th>Purchase Request</th>
+										<th data-i18n="itemCode"></th>
+										<th data-i18n="itemName"></th>
+										<th data-i18n="uom"></th>
+										<th data-i18n="quantity"></th>
+										<th data-i18n="price"></th>
+										<th data-i18n="subtotal"></th>
+										<th data-i18n="discount"></th>
+										<th data-i18n="total"></th>
+										<th data-i18n="salesQuotation"></th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -259,7 +259,7 @@
 										<th></th>
 										<th></th>
 										<th id="c_item"></th>
-										<th>Subtotal</th>
+										<th data-i18n="subtotal"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -272,7 +272,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Diskon</th>
+										<th data-i18n="discount"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -285,7 +285,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>DPP</th>
+										<th data-i18n="taxBase"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -298,7 +298,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Pajak</th>
+										<th data-i18n="tax"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -311,7 +311,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th>Total</th>
+										<th data-i18n="total"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -333,9 +333,9 @@
 									<tr>
 										<th>ID</th>
 										<th>id_sodxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
+										<th data-i18n="code"></th>
+										<th data-i18n="name"></th>
+										<th data-i18n="notes"></th>
 									</tr>
 								</thead>
 							</table>
@@ -431,7 +431,7 @@
 					def: 0
 				},
 				{
-					label: "Type <sup class='text-danger'>*<sup>",
+					label: getTranslation('type') + ' <sup class="text-danger">*</sup>',
 					name: "sodxxth.id_iitxxmh",
 					type: "select2",
 					opts: {
@@ -467,7 +467,7 @@
 					}
 				},		
 				{
-					label: "Payment Terms <sup class='text-danger'>*<sup>",
+					label: getTranslation('termOfPayment') + ' <sup class="text-danger">*</sup>',
 					name: "sodxxth.id_fpytmmh",
 					type: "select2",
 					opts: {
@@ -503,7 +503,7 @@
 					}
 				},		
 				{
-					label: "Customer <sup class='text-danger'>*<sup>",
+					label: getTranslation('customer') + ' <sup class="text-danger">*</sup>',
 					name: "sodxxth.id_grlxxmh_customer",
 					type: "select2",
 					opts: {
@@ -539,9 +539,9 @@
 					}
 				},		
 				{
-					label: "Currency <sup class='text-danger'>*<sup>",
+					label: getTranslation('currency') + ' <sup class="text-danger">*</sup>',
 					name: "sodxxth.id_fcrxxmh",
-					id: "select_id_fcrxxmh", //tambahkan id di select2nya
+					id: "select_id_fcrxxmh", // tambahkan id di select2-nya untuk load default
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -592,7 +592,7 @@
 					}
 				},		
 				{
-					label: "Tanggal <sup class='text-danger'>*<sup>",
+					label: getTranslation('date') + ' <sup class="text-danger">*</sup>',
 					name: "sodxxth.tanggal",
 					type: "datetime",
 					def: function () { 
@@ -605,12 +605,12 @@
 					format: 'DD MMM YYYY'
 				},
 				{
-					label: "Subtotal",
+					label: getTranslation('subtotal'),
 					name: "sodxxth.subtotal",
 					type: "readonly"
 				},
 				{
-					label: "Diskon",
+					label: getTranslation('discount'),
 					name: "sodxxth.diskon_jenis",
 					type: "select",
 					placeholder : "Select",
@@ -621,20 +621,20 @@
 					]
 				},
 				{
-					label: "Diskon (%)",
+					label: getTranslation('discountPercentage'),
 					name: "sodxxth.diskon_persen"
 				}, 	
 				{
-					label: "Diskon (Rp)",
+					label: getTranslation('discountValue'),
 					name: "sodxxth.diskon_value"
 				}, 	
 				{
-					label: "Diskon Final",
+					label: getTranslation('discountFinal'),
 					name: "sodxxth.diskon_final",
 					type: "readonly"
 				},
 				{
-					label: "Total",
+					label: getTranslation('total'),
 					name: "sodxxth.dpp",
 					type: "readonly"
 				},
@@ -644,7 +644,7 @@
 					type: "hidden"
 				},
 				{
-					label: "Menggunakan Pajak",
+					label: getTranslation('isTaxable'),
 					name: "sodxxth.is_pajak",
 					type: "select",
 					placeholder : "Select",
@@ -654,7 +654,7 @@
 					]
 				},
 				{
-					label: "Termasuk Pajak",
+					label: getTranslation('includingTax'),
 					name: "sodxxth.pajak_in_ex",
 					type: "select",
 					def: 2,
@@ -684,9 +684,8 @@
 					name: "sodxxth.grand_total",
 					type: "readonly"
 				},
-				
 				{
-					label: "Keterangan",
+					label: getTranslation('notes'),
 					name: "sodxxth.keterangan",
 					type: "textarea"
 				},
