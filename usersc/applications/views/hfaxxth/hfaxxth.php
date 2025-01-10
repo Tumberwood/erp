@@ -69,6 +69,9 @@
     </div>
 
 	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
+		<div class="alert alert-info alert-dismissable">
+			Pilih baris data pada detail KPI Skor untuk mengisi detail PICA.
+		</div>
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li id="tab_kpi"><a class="nav-link active" data-toggle="tab" href="#tabhfskptd_1"> KPI Skor</a></li>
