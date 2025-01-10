@@ -366,34 +366,4 @@
 
     // tampilkan results
     require_once( "../../../../usersc/helpers/fn_ajax_results.php" );
-
-    /**
-     * tes query
-     * fetchAll()
-     * Jika hasil query DB blank, maka 
-     *  empty()     = 1
-     *  is_null()   = blank
-     *  isset       = 1
-     * 
-     * fetch()
-     */
-    // $qs_htlxxrh = $db
-    //     ->query('select', 'htlxxrh' )
-    //     ->get([
-    //         'htlxxrh.kode as htlxxrh_kode',
-    //         'htlxxmh_kode as htlxxmh_kode',
-    //         'htlgrmh.kode as htlgrmh_kode'
-    //     ] )
-    //     ->join('htlxxmh','htlxxmh.id = htlxxrh.id_htlxxmh','LEFT' )
-    //     ->join('htlgrmh','htlgrmh.id = htlxxmh.id_htlgrmh','LEFT' )
-    //     ->where('htlxxrh.id_hemxxmh', $id_hemxxmh)
-    //     ->where('htlxxrh.tanggal', $tanggal )
-    //     ->where('htlxxrh.jenis', 1 )
-    //     ->limit(1)
-    //     ->exec();
-    // $rs_htlxxrh = $qs_htlxxrh->fetchAll();
-    // print_r ($rs_htlxxrh);
-    // echo 'empty: ' . empty($rs_htlxxrh);
-    // echo 'is_null: ' . is_null($rs_htlxxrh);
-    // echo 'isset: ' . isset($rs_htlxxrh);
 ?>
