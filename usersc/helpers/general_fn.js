@@ -1603,3 +1603,82 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
         
     }
 }
+
+/**
+ * 
+ * @param {*} tabel 
+ * @param {*} edt 
+ * @param {*} fields 
+ * 
+ * //Phone
+ * edttabel.field('tabel.target_atas').input().inputmask({
+        alias: 'phone', // Gunakan alias phone untuk memulai
+        mask: '9999-9999-999', // Override alias dengan pola khusus
+        placeholder: '_', // Placeholder saat input kosong
+        removeMaskOnSubmit: false, // Biarkan mask tetap saat submit
+        autoUnmask: false // Jangan hapus mask saat mengambil data
+    });
+
+ */
+/**
+ * 
+ * @param {*} edt       = editor
+ * @param {*} tabel     = nama tabel db
+ * @param {*} fields    = fields dalam Array, [terget atas, target bawah]
+ * @param {*} digit     = digit mask
+ * @returns 
+ * 
+ * Cara implementasi: tempatkan diatas Preopen
+ * unmaskedData = maskingNumber(
+        edthfkobtd, 
+        "hfkobtd", 
+        [
+            "target_atas", 
+            "target_bawah", 
+        ],
+        2,
+    );
+
+    variable unmaskedData akan menghasilkan nilai return unmask dari inputan.
+
+    variable ini bisa dibuat digunakan di presubmit.
+
+    target_atas = unmaskedData.target_atas;
+    target_bawah = unmaskedData.target_bawah;
+ */
+function maskingNumber(edt, tabel, fields, digit) {
+    if (digit === null) {
+        digit = 0;
+    }
+
+    // Object to store dynamic variables
+    let unmaskedValues = {};
+
+    fields.forEach(field_name => {
+        edt.field(tabel + '.' + field_name).input().inputmask({
+            alias: 'numeric',
+            groupSeparator: ',',
+            autoGroup: true,
+            digits: digit, // Jumlah angka desimal sesuai input parameter
+            radixPoint: '.', // Gunakan titik sebagai pemisah desimal
+            removeMaskOnSubmit: false // Biarkan mask untuk penanganan manual di preSubmit
+        });
+
+        edt.on('preSubmit', function (e, data, action) {
+            if (action != 'remove') {
+                //Unmask dan simpan data unmask, agar valid data yang tersimpan,
+                $.each(data.data, function (key, value) {
+                    if (value[tabel] && value[tabel][field_name]) {
+                        // Update data for submission
+                        data.data[key][tabel][field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue');
+                    }
+                });
+
+                // Store unmasked value in the unmaskedValues object
+                unmaskedValues[field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue');
+            }
+        });
+    });
+
+    return unmaskedValues; // Return dynamic variables as an object
+}

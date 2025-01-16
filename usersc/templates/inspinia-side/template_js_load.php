@@ -21,6 +21,9 @@
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/moment/moment-with-locales.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/moment/moment-duration-format.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery.mask/jquery.mask.min.js"></script>
+
+<!-- Inputmask dipakai di menu KPI -->
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/jquery.inputmask/jquery.inputmask.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/notify/bootstrap-notify.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/selectize/selectize.min.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/quill/quill.min.js"></script>

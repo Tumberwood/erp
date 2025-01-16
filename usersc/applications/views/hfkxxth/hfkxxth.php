@@ -113,6 +113,7 @@
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_setup.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
 ?>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script> -->
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
@@ -578,7 +579,18 @@
 				},
 			]
 		} );
-			
+
+		//masking
+		unmaskedData = maskingNumber(
+			edthfkobtd, 
+			"hfkobtd", 
+			[
+				"target_atas", 
+				"target_bawah", 
+			],
+			2,
+		);
+
 		edthfkobtd.on( 'preOpen', function( e, mode, action ) {
 			edthfkobtd.field('hfkobtd.id_hfkxxth').val(id_hfkxxth);
 			
@@ -603,11 +615,12 @@
 				id_hfoxxmh = edthfkobtd.field('hfkobtd.id_hfoxxmh').val();
 				id_iumxxmh = edthfkobtd.field('hfkobtd.id_iumxxmh').val();
 				polarisasi = edthfkobtd.field('hfkobtd.polarisasi').val();
-				target_atas = edthfkobtd.field('hfkobtd.target_atas').val();
-				target_bawah = edthfkobtd.field('hfkobtd.target_bawah').val();
 				bobot_persen = edthfkobtd.field('hfkobtd.bobot_persen').val();
 				cara_hitung = edthfkobtd.field('hfkobtd.cara_hitung').val();
 
+				target_atas = unmaskedData.target_atas;
+				target_bawah = unmaskedData.target_bawah;
+				
 				validasiRequired(
 					edthfkobtd,
 					'hfkobtd',
