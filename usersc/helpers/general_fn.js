@@ -1641,7 +1641,7 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
 
     variable unmaskedData akan menghasilkan nilai return unmask dari inputan.
 
-    variable ini bisa dibuat digunakan di presubmit.
+    variable ini bisa dibuat digunakan di presubmit untuk dibuat validasi Number dsb.
 
     target_atas = unmaskedData.target_atas;
     target_bawah = unmaskedData.target_bawah;
