@@ -572,7 +572,15 @@
 			]
 		} );
 
-		edtwroittd.field('wroittd.jumlah_unit').input().addClass('text-right');
+		//masking
+		unmaskedData = maskingNumber(
+			edtwroittd, 
+			"wroittd", 
+			[
+				"jumlah_unit", 
+			],
+			2,
+		);
 			
 		edtwroittd.on( 'preOpen', function( e, mode, action ) {
 			edtwroittd.field('wroittd.id_wroxxth').val(id_wroxxth);
@@ -600,7 +608,7 @@
 				
 				id_iumxxmh_unit = edtwroittd.field('wroittd.id_iumxxmh_unit').val();
 				id_iimxxmh      = edtwroittd.field('wroittd.id_iimxxmh').val();
-				jumlah_unit     = edtwroittd.field('wroittd.jumlah_unit').val();
+				jumlah_unit = unmaskedData.jumlah_unit;
 
 				validasiRequired(
 					edtwroittd,
