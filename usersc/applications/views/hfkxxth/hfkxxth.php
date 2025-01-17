@@ -588,7 +588,9 @@
 				"target_atas", 
 				"target_bawah", 
 			],
-			2,
+			2, //digit belakang koma
+			0, //validasiNumber 
+			'>=' // val >= 0
 		);
 
 		edthfkobtd.on( 'preOpen', function( e, mode, action ) {
@@ -630,22 +632,9 @@
 						'id_hfoxxmh': id_hfoxxmh,
 						'id_iumxxmh': id_iumxxmh,
 						'polarisasi': polarisasi,
-						'target_atas': target_atas,
-						'target_bawah': target_bawah,
 						'bobot_persen': bobot_persen,
 						'cara_hitung': cara_hitung,
 					}
-				);
-				
-				validasiNumber(
-					edthfkobtd,
-					'hfkobtd',
-					{
-						'target_atas': target_atas,
-						'target_bawah': target_bawah,
-					},
-					0,
-					'>='
 				);
 				
 				validasiNumber(

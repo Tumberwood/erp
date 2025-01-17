@@ -495,7 +495,9 @@
 			[
 				"jumlah_unit", 
 			],
-			2,
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
 		);
 		edtwktxxth.field('wktxxth.id_iwhxxmh').hide();
 
@@ -556,22 +558,11 @@
 					{
 						'id_iimxxmh': id_iimxxmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
-						'jumlah_unit': jumlah_unit,
 						'tanggal': tanggal,
 						'id_wpmxxmh': id_wpmxxmh,
 						// 'id_iwhxxmh': id_iwhxxmh,
 						'id_wloxxmh_out': id_wloxxmh_out,
 					}
-				);
-
-				validasiNumber(
-					edtwktxxth,
-					'wktxxth',
-					{
-						'jumlah_unit': jumlah_unit
-					},
-					0,
-					'>'
 				);
 
 				if (is_all_wh == 0) {
@@ -1131,7 +1122,9 @@
 			[
 				"jumlah_unit", 
 			],
-			2,
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
 		);
 		
 		edtwktittd.on( 'preOpen', function( e, mode, action ) {
@@ -1170,16 +1163,6 @@
 						'id_iumxxmh_unit': id_iumxxmh_unit,
 						'id_iimxxmh': id_iimxxmh,
 					}
-				);
-				
-				validasiNumber(
-					edtwktittd,
-					'wktittd',
-					{
-						'jumlah_unit': jumlah_unit
-					},
-					0,
-					'>'
 				);
 				
 			}

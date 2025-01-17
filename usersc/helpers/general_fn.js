@@ -1625,7 +1625,9 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
  * @param {*} edt       = editor
  * @param {*} tabel     = nama tabel db
  * @param {*} fields    = fields dalam Array, [terget atas, target bawah]
- * @param {*} digit     = digit mask
+ * @param {*} digit     = digit belakang koma, mask
+ * @param {*} number     = digit untuk validasiNumber
+ * @param {*} operator     = Operator seperti ">", ">=", val > number
  * @returns 
  * 
  * Cara implementasi: tempatkan diatas Preopen
@@ -1645,8 +1647,10 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
 
     target_atas = unmaskedData.target_atas;
     target_bawah = unmaskedData.target_bawah;
+
+    NOTE: function maskingNumber sudah termasuk validasiNumber, jadi tidak perlu dipanggil lagi validasiNumber di presubmit.
  */
-function maskingNumber(edt, tabel, fields, digit) {
+function maskingNumber(edt, tabel, fields, digit, number, operator) {
     if (digit === null) {
         digit = 0;
     }
@@ -1675,7 +1679,57 @@ function maskingNumber(edt, tabel, fields, digit) {
                 });
 
                 // Store unmasked value in the unmaskedValues object
+                //variable ini adalah nilai asli tanpa masking, bisa dibuat untuk dependent / presubmit.
                 unmaskedValues[field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue');
+
+                 // validasi angka atau bukan
+                if(isNaN(edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue')) ){
+                    edt.field(tabel + '.' + field_name).error( 'Inputan harus berupa Angka!' );
+                }
+                
+                if (number == null || operator == null) {
+                    // validasi angka atau bukan
+                    // jika null, maka artinya hanya validasi angka atau bukan saja
+                    
+                }else{
+                    
+                    a = parseFloat(edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue'));
+                    b = parseFloat(number);
+
+                    // console.log(a);
+                    // console.log(b);
+
+                    switch (operator) {
+                        case '==':
+                        case '=':
+                        ifStatement = a == b;
+                        break;
+                        case '<>':
+                        ifStatement = a != b;
+                        break;
+                        case '<=':
+                        ifStatement = a <= b;
+                        break;
+                        case '>=':
+                        ifStatement = a >= b;
+                        break;
+                        case '<':
+                        ifStatement = a < b;
+                        break;
+                        case '>':
+                        ifStatement = a > b;
+                        break;
+                        default:
+                        console.log('Operator tidak valid');
+                    }
+
+                    // validasi by operator
+                    if( ifStatement ){
+                        // kondisi terpenuhi, do nothing
+                    }else{
+                        edt.field(tabel + '.' + field_name).error( 'Inputan harus ' + operator + ' ' + number );
+                    }
+                }
             }
         });
     });
