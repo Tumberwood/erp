@@ -1123,8 +1123,16 @@
 				}
 			]
 		} );
-			
-		edtwktittd.field('wktittd.jumlah_unit').input().addClass('text-right');
+		
+		//masking
+		umaskItemDetail = maskingNumber(
+			edtwktittd, 
+			"wktittd", 
+			[
+				"jumlah_unit", 
+			],
+			2,
+		);
 		
 		edtwktittd.on( 'preOpen', function( e, mode, action ) {
 			edtwktittd.field('wktittd.id_wktxxth').val(id_wktxxth);
@@ -1153,7 +1161,7 @@
 				
 				id_iumxxmh_unit = edtwktittd.field('wktittd.id_iumxxmh_unit').val();
 				id_iimxxmh      = edtwktittd.field('wktittd.id_iimxxmh').val();
-				jumlah_unit     = edtwktittd.field('wktittd.jumlah_unit').val();
+				jumlah_unit     = umaskItemDetail.jumlah_unit;
 
 				validasiRequired(
 					edtwktittd,
