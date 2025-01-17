@@ -1631,14 +1631,17 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
  * @returns 
  * 
  * Cara implementasi: tempatkan diatas Preopen
- * unmaskedData = maskingNumber(
-        edthfkobtd, 
-        "hfkobtd", 
+ * 
+    //masking
+    unmaskedData = maskingNumber(
+        edtwroittd, 
+        "wroittd", 
         [
-            "target_atas", 
-            "target_bawah", 
+            "jumlah_unit", 
         ],
-        2,
+        0, //digit belakang koma
+        0, //validasiNumber 
+        '>' // val >= 0
     );
 
     variable unmaskedData akan menghasilkan nilai return unmask dari inputan.
