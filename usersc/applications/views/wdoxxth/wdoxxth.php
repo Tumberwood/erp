@@ -578,7 +578,9 @@
 			[
 				"jumlah_unit", 
 			],
-			2,
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
 		);
 			
 		edtwdoittd.on( 'preOpen', function( e, mode, action ) {
@@ -617,17 +619,6 @@
 						'id_iimxxmh': id_iimxxmh,
 					}
 				);
-				
-				validasiNumber(
-					edtwdoittd,
-					'wdoittd',
-					{
-						'jumlah_unit': jumlah_unit
-					},
-					0,
-					'>'
-				);
-
 			}
 			
 			if ( edtwdoittd.inError() ) {
