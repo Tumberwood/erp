@@ -151,7 +151,7 @@
 					type: "hidden"
 				},
 				{
-					label: "Warehouse",
+					label: "Warehouse <sup class='text-danger'>*<sup>",
 					name: "wreittd.id_iwhxxmh",
 					type: "select2",
 					opts: {
@@ -187,7 +187,7 @@
 					}
 				},
 				{
-					label: "Location",
+					label: "Location <sup class='text-danger'>*<sup>",
 					name: "wreittd.id_wloxxmh",
 					id: "select_wloxxmh",
 					type: "select2",
@@ -481,6 +481,8 @@
 				is_replenishment = autofillData.is_replenishment;
 
 				wlpxxmh_kode    = edtwreittd.field('wreittd.wlpxxmh_kode').val();
+				id_wloxxmh    = edtwreittd.field('wreittd.id_wloxxmh').val();
+				id_iwhxxmh    = edtwreittd.field('wreittd.id_iwhxxmh').val();
 				id_wroxxth      = edtwreittd.field('wreittd.id_wroxxth').val();
 				id_iimxxmh      = edtwreittd.field('wreittd.id_iimxxmh').val();
 				id_iumxxmh_unit = edtwreittd.field('wreittd.id_iumxxmh_unit').val();
@@ -493,6 +495,8 @@
 					'wreittd',
 					{
 						'wlpxxmh_kode'   : wlpxxmh_kode,
+						'id_wloxxmh'   : id_wloxxmh,
+						'id_iwhxxmh'   : id_iwhxxmh,
 						'id_wroxxth'     : id_wroxxth,
 						'id_iimxxmh'     : id_iimxxmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit
