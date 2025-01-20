@@ -609,10 +609,15 @@
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
+		edthfkobtd.dependent( 'hfkobtd.target_atas', function ( val, data, callback ) {
+			//Cara mendapatkan nilai input tanpa mask:
+			// console.log(unmaskedData.target_atas);
+			return {}
+		}, {event: 'keyup'});
+
 		edthfkobtd.dependent( 'hfkobtd.target_bawah', function ( val, data, callback ) {
 			//Cara mendapatkan nilai input tanpa mask:
-			target_bawah = edthfkobtd.field('hfkobtd.target_bawah').input().inputmask('unmaskedvalue');
-			console.log(target_bawah);
+			// console.log(unmaskedData.target_bawah);
 			return {}
 		}, {event: 'keyup'});
 		

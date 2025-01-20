@@ -1653,14 +1653,14 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
 
     NOTE: function maskingNumber sudah termasuk validasiNumber, jadi tidak perlu dipanggil lagi validasiNumber di presubmit.    
 
-    Untuk dependensi:
-    
-    edthfkobtd.dependent( 'hfkobtd.target_bawah', function ( val, data, callback ) {
+    Untuk dependent:
+
+    edthfkobtd.dependent( 'hfkobtd.target_atas', function ( val, data, callback ) {
         //Cara mendapatkan nilai input tanpa mask:
-        target_bawah = edthfkobtd.field('hfkobtd.target_bawah').input().inputmask('unmaskedvalue');
-        console.log(target_bawah);
+        console.log(unmaskedData.target_atas);
         return {}
     }, {event: 'keyup'});
+    
  */
 function maskingNumber(edt, tabel, fields, digit, number, operator) {
     if (digit === null) {
@@ -1743,6 +1743,11 @@ function maskingNumber(edt, tabel, fields, digit, number, operator) {
                     }
                 }
             }
+        });
+
+        // Mendapatkan nilai akhir input tanpa masking number
+        edt.field(`${tabel}.${field_name}`).input().on('input keyup', function () {
+            unmaskedValues[field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue'); // Update live value
         });
     });
 
