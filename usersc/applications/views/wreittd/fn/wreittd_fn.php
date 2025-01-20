@@ -91,4 +91,33 @@
             } );
         }
     };
+
+    function validasiOutstanding(edt, tbl_name, id_transaksi, id_transaksi_before, tbl_name_before) {
+        jumlah_unit     = edt.field(tbl_name+'.jumlah_unit').val();
+        id_iimxxmh      = edt.field(tbl_name+'.id_iimxxmh').val();
+        id_iumxxmh_unit = edt.field(tbl_name+'.id_iumxxmh_unit').val();
+
+        $.ajax( {
+            url: "../../../helpers/fn_validasi_outstanding.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_transaksi       : id_transaksi,
+                id_transaksi_before: id_transaksi_before,
+                tbl_name           : tbl_name,
+                tbl_name_before    : tbl_name_before,
+                jumlah_unit        : jumlah_unit,
+                id_iimxxmh         : id_iimxxmh,
+                id_iumxxmh_unit    : id_iumxxmh_unit
+            },
+            success: function (json) {
+                jumlah_default_sisa = 'Sisa Maksimal ' + json.data.jumlah_default_sisa + ' ' + json.data.iumxxmh_default_kode;
+                if (parseFloat(json.data.jumlah_terkecil_after) > parseFloat(json.data.jumlah_terkecil)) {
+                    edt.field(tbl_name+'.jumlah_unit').error( jumlah_default_sisa );
+                }
+            }
+
+        } );
+    }
 </script>

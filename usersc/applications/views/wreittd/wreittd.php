@@ -392,6 +392,18 @@
 			]
 		} );
 
+		//masking
+		unmaskedData = maskingNumber(
+			edtwreittd, 
+			"wreittd", 
+			[
+				"jumlah_unit", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
+
 		edtwreittd.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwreittd.field('wreittd.start_at').val(start_at);
@@ -472,7 +484,7 @@
 				id_wroxxth      = edtwreittd.field('wreittd.id_wroxxth').val();
 				id_iimxxmh      = edtwreittd.field('wreittd.id_iimxxmh').val();
 				id_iumxxmh_unit = edtwreittd.field('wreittd.id_iumxxmh_unit').val();
-				jumlah_unit     = edtwreittd.field('wreittd.jumlah_unit').val();
+				jumlah_unit     = unmaskedData.jumlah_unit;
 				expired_date     = edtwreittd.field('wreittd.expired_date').val();
 				batch_number     = edtwreittd.field('wreittd.batch_number').val();
 
@@ -485,16 +497,6 @@
 						'id_iimxxmh'     : id_iimxxmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit
 					}
-				);
-
-				validasiNumber(
-					edtwreittd,
-					'wreittd',
-					{
-						'jumlah_unit': jumlah_unit
-					},
-					0,
-					'>'
 				);
 
 				validasiTanggalValid(
@@ -548,8 +550,8 @@
 
 					
 				}
-				validasiOutstanding(
-					edtwreittd, 'wreittd', id_transaksi, id_wroittd, 'wroittd'
+				validasiOutstandingMask(
+					edtwreittd, 'wreittd', id_transaksi, id_wroittd, 'wroittd', jumlah_unit
 				)
 				autofillField('iimxxmh', id_iimxxmh, 'is_batch_number, is_expired_date');
 				is_batch_number = autofillData.is_batch_number;
