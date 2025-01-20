@@ -1754,6 +1754,22 @@ function maskingNumber(edt, tabel, fields, digit, number, operator) {
     return unmaskedValues; // Return variable untuk presubmit validation
 }
 
+/**
+ * 
+ * @param {*} edt       : edthfkobtd
+ * @param {*} tabel     : hfkobtd
+ * @param {*} fields    : bobot_persen
+ * 
+ * Cara penerapan:
+ * 
+		maskingPhone(
+			edthfkobtd, 
+			"hfkobtd", 
+			[
+				"bobot_persen", 
+			],
+		);
+ */
 function maskingPhone(edt, tabel, fields) {
     fields.forEach(field_name => {
         edt.field(tabel + '.' + field_name).input().inputmask({
