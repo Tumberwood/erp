@@ -551,7 +551,7 @@
 					
 				}
 				validasiOutstandingMask(
-					edtwreittd, 'wreittd', id_transaksi, id_wroittd, 'wroittd', jumlah_unit
+					edtwreittd, 'wreittd', id_transaksi, id_wroittd, 'wroittd'
 				)
 				autofillField('iimxxmh', id_iimxxmh, 'is_batch_number, is_expired_date');
 				is_batch_number = autofillData.is_batch_number;

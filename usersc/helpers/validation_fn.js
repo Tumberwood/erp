@@ -416,7 +416,8 @@ $.validator.addMethod("validDate", function(value, element, dateFormat) {
  * @param {String} tbl_name_before 
  * @param {Object} jumlah_unit 
  */
- function validasiOutstandingMask(edt, tbl_name, id_transaksi, id_transaksi_before, tbl_name_before, jumlah_unit) {
+ function validasiOutstandingMask(edt, tbl_name, id_transaksi, id_transaksi_before, tbl_name_before) {
+    jumlah_unit      = edt.field(tbl_name+'.jumlah_unit').input().inputmask('unmaskedvalue');
     id_iimxxmh      = edt.field(tbl_name+'.id_iimxxmh').val();
     id_iumxxmh_unit = edt.field(tbl_name+'.id_iumxxmh_unit').val();
 
