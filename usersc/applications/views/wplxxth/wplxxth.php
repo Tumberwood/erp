@@ -964,6 +964,18 @@
 				}
 			]
 		} );
+
+		//masking
+		unmaskedDataItem = maskingNumber(
+			edtwplittd, 
+			"wplittd", 
+			[
+				"jumlah_unit", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
 			
 		edtwplittd.field('wplittd.jumlah_unit').input().addClass('text-right');
 		
@@ -1005,7 +1017,7 @@
 				
 				id_iumxxmh_unit = edtwplittd.field('wplittd.id_iumxxmh_unit').val();
 				id_wdoittd      = edtwplittd.field('wplittd.id_wdoittd').val();
-				jumlah_unit     = edtwplittd.field('wplittd.jumlah_unit').val();
+				jumlah_unit     = unmaskedDataItem.jumlah_unit;
 
 				validasiRequired(
 					edtwplittd,
@@ -1015,18 +1027,8 @@
 						'id_wdoittd': id_wdoittd,
 					}
 				);
-				
-				validasiNumber(
-					edtwplittd,
-					'wplittd',
-					{
-						'jumlah_unit': jumlah_unit
-					},
-					0,
-					'>'
-				);
 
-				validasiOutstanding(
+				validasiOutstandingMask(
 					edtwplittd, 'wplittd', id_transaksi, id_wdoittd, 'wdoittd'
 				)
 				
@@ -1403,6 +1405,18 @@
 			]
 		} );
 
+		//masking
+		unmaskedDataLPN = maskingNumber(
+			edtwpllptd, 
+			"wpllptd", 
+			[
+				"jumlah_unit", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
+
 		edtwpllptd.on( 'preOpen', function( e, mode, action ) {
 			edtwpllptd.field('wpllptd.id_wplxxth').val(id_wplxxth);
 			
@@ -1463,7 +1477,7 @@
 				id_wloxxmh      = edtwpllptd.field('wpllptd.id_wloxxmh').val();
 				id_iwhxxmh      = edtwpllptd.field('wpllptd.id_iwhxxmh').val();
 				id_iumxxmh_unit = edtwpllptd.field('wpllptd.id_iumxxmh_unit').val();
-				jumlah_unit     = edtwpllptd.field('wpllptd.jumlah_unit').val();
+				jumlah_unit     = unmaskedDataLPN.jumlah_unit;
 				expired_date     = edtwpllptd.field('wpllptd.expired_date').val();
 				batch_number     = edtwpllptd.field('wpllptd.batch_number').val();
 
@@ -1477,16 +1491,6 @@
 						'id_iwhxxmh'     : id_iwhxxmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit
 					}
-				);
-
-				validasiNumber(
-					edtwpllptd,
-					'wpllptd',
-					{
-						'jumlah_unit': jumlah_unit
-					},
-					0,
-					'>'
 				);
 
 				validasiTanggalValid(
