@@ -608,6 +608,13 @@
 			$(".modal-dialog").addClass("modal-lg");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
+
+		edthfkobtd.dependent( 'hfkobtd.target_bawah', function ( val, data, callback ) {
+			//Cara mendapatkan nilai input tanpa mask:
+			target_bawah = edthfkobtd.field('hfkobtd.target_bawah').input().inputmask('unmaskedvalue');
+			console.log(target_bawah);
+			return {}
+		}, {event: 'keyup'});
 		
 		edthfkobtd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){

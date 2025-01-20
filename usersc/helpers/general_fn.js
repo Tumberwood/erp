@@ -1651,7 +1651,16 @@ function cek_is_need_generate_kode(tbl_name, edt, is_required) {
     target_atas = unmaskedData.target_atas;
     target_bawah = unmaskedData.target_bawah;
 
-    NOTE: function maskingNumber sudah termasuk validasiNumber, jadi tidak perlu dipanggil lagi validasiNumber di presubmit.
+    NOTE: function maskingNumber sudah termasuk validasiNumber, jadi tidak perlu dipanggil lagi validasiNumber di presubmit.    
+
+    Untuk dependensi:
+    
+    edthfkobtd.dependent( 'hfkobtd.target_bawah', function ( val, data, callback ) {
+        //Cara mendapatkan nilai input tanpa mask:
+        target_bawah = edthfkobtd.field('hfkobtd.target_bawah').input().inputmask('unmaskedvalue');
+        console.log(target_bawah);
+        return {}
+    }, {event: 'keyup'});
  */
 function maskingNumber(edt, tabel, fields, digit, number, operator) {
     if (digit === null) {
@@ -1682,7 +1691,7 @@ function maskingNumber(edt, tabel, fields, digit, number, operator) {
                 });
 
                 // Store unmasked value in the unmaskedValues object
-                //variable ini adalah nilai asli tanpa masking, bisa dibuat untuk dependent / presubmit.
+                //variable ini adalah nilai asli tanpa masking, bisa dibuat untuk presubmit.
                 unmaskedValues[field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue');
 
                  // validasi angka atau bukan
@@ -1737,5 +1746,16 @@ function maskingNumber(edt, tabel, fields, digit, number, operator) {
         });
     });
 
-    return unmaskedValues; // Return dynamic variables as an object
+    return unmaskedValues; // Return variable untuk presubmit validation
+}
+
+function maskingPhone(edt, tabel, fields) {
+    fields.forEach(field_name => {
+        edt.field(tabel + '.' + field_name).input().inputmask({
+            mask: '9999-9999-9999', // Sesuaikan pola nomor HP
+            placeholder: '_', // Placeholder untuk input
+            clearIncomplete: true, // Hapus input jika belum lengkap
+            removeMaskOnSubmit: false // Mask tetap ada saat pengiriman
+        });
+    });
 }
