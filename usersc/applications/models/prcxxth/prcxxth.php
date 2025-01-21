@@ -81,16 +81,16 @@
 		->leftJoin( 'podxxth','podxxth.id','=','prcxxth.id_podxxth' )
 		;
 	
-		// BEGIN where single data view
-	// if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
-	// 	$rowid = $_POST['rowid'];
-	// 	$editor
-	// 		->where( 'prcxxth.id', $rowid);
-	// }else{
-	// 	$editor
-	// 		->where( 'prcxxth.tanggal', $_POST['start_date'], '>=' )
-	// 		->where( 'prcxxth.tanggal', $_POST['end_date'], '<=' );
-	// }
+	// BEGIN where single data view
+	if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
+		$rowid = $_POST['rowid'];
+		$editor
+			->where( 'prcxxth.id', $rowid);
+	}else{
+		$editor
+			->where( 'prcxxth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'prcxxth.tanggal', $_POST['end_date'], '<=' );
+	}
 	// END where single data view
 
 	// do not erase
