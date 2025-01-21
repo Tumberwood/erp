@@ -19,7 +19,7 @@
 /**
  * Digunakan untuk meng-copy error message yang tampil pada toastr (notifikasi)
  */
-function copyError() {
+ function copyError() {
     navigator.clipboard.writeText(full_message.replace(/<br>/g, " ")).then(function () {
         alert('Silakan hubungi tim Solusi Indonesia dan paste pesan error yang sudah di copy tadi.')
     }, function () {
