@@ -162,7 +162,7 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabpodittd_1"> Item</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabpodittd_2"> Biaya</a></li>
+				<!-- <li><a class="nav-link" data-toggle="tab" href="#tabpodittd_2"> Biaya</a></li> -->
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabpodittd_1" class="tab-pane active">
