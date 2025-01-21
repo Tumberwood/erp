@@ -1697,8 +1697,8 @@ function maskingNumber(edt, tabel, fields, digit, number, operator) {
                 //variable ini adalah nilai asli tanpa masking, bisa dibuat untuk presubmit.
                 unmaskedValues[field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue');
 
-                //CASE diskon bersen dan diskon value dan pajak
-                if (["diskon_persen", "diskon_value", "diskon_final", "pajak_final"].includes(field_name)) {
+                //CASE diskon bersen dan diskon value, dan hasil subtotal kalkulasi
+                if (["diskon_persen", "diskon_value", "diskon_final", "pajak_final", "subtotal"].includes(field_name)) {
                     //Jika diskon_jenis = persen
                     if (edt.field(tabel + '.diskon_jenis').val() == 1) {
                         if (edt.field(tabel + '.diskon_persen').input().inputmask('unmaskedvalue') > 0 ) {
