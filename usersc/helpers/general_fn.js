@@ -470,8 +470,11 @@ function autofillField(tbl_name, id_transaksi, fields_name){
  */
 function hitungSubtotalDetail(edt, tabel){
     var jumlah_unit, harga_unit, subtotal;
-    jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
-    harga_unit  = parseFloat(edt.field(tabel+'.harga_unit').val());
+    // jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').val());
+    // harga_unit  = parseFloat(edt.field(tabel+'.harga_unit').val());
+    
+    jumlah_unit = parseFloat(edt.field(tabel+'.jumlah_unit').input().inputmask('unmaskedvalue'));
+    harga_unit  = parseFloat(edt.field(tabel+'.harga_unit').input().inputmask('unmaskedvalue'));
     
     if(isNaN(harga_unit) || isNaN(jumlah_unit)){
         subtotal = 0;
@@ -523,10 +526,10 @@ function hitungSubtotalHeader(id_transaksi_h, tabel_detail, tabel_header){
 function hitungDiskon(edt, tabel){
     var diskon_jenis, diskon_persen, diskon_value, diskon_final ;
 
-    diskon_jenis  = parseFloat(edt.field(tabel+'.diskon_jenis').val());
-    diskon_persen = parseFloat(edt.field(tabel+'.diskon_persen').val());
-    diskon_value  = parseFloat(edt.field(tabel+'.diskon_value').val());
-    subtotal      = parseFloat(edt.field(tabel+'.subtotal').val());
+    diskon_jenis  = parseFloat(edt.field(tabel+'.diskon_jenis').input().inputmask('unmaskedvalue'));
+    diskon_persen = parseFloat(edt.field(tabel+'.diskon_persen').input().inputmask('unmaskedvalue'));
+    diskon_value  = parseFloat(edt.field(tabel+'.diskon_value').input().inputmask('unmaskedvalue'));
+    subtotal      = parseFloat(edt.field(tabel+'.subtotal').input().inputmask('unmaskedvalue'));
 
     if (diskon_jenis == 0) {
         diskon_final = 0;
@@ -575,10 +578,10 @@ function hitungHeaderDetail(tbl_name_h, tbl_name_d, id_transaksi_h) {
  * @param {*} id_iitxxmh 
  */
 function hitungHeader(edt, tabel_nama, id_iitxxmh) {
-    subtotal     = parseFloat(edt.field(tabel_nama+'.subtotal').val());
-    diskon_final = parseFloat(edt.field(tabel_nama+'.diskon_final').val());
+    subtotal     = parseFloat(edt.field(tabel_nama+'.subtotal').input().inputmask('unmaskedvalue'));
+    diskon_final = parseFloat(edt.field(tabel_nama+'.diskon_final').input().inputmask('unmaskedvalue'));
     is_pajak     = edt.field(tabel_nama+'.is_pajak').val();
-    dpp          = parseFloat(edt.field(tabel_nama+'.dpp').val());
+    dpp          = parseFloat(edt.field(tabel_nama+'.dpp').input().inputmask('unmaskedvalue'));
     // BEGIN ambil tarif pajak
     if(is_pajak == 1){
         // jika menggunakan pajak
@@ -611,7 +614,7 @@ function hitungHeader(edt, tabel_nama, id_iitxxmh) {
     // BEGIN hitung dpp_final, pajak_final, grand_total
     if(subtotal > 0){
         // jika subtotal sudah ada nilainya
-        pajak_in_ex = parseFloat(edt.field(tabel_nama+'.pajak_in_ex').val());
+        pajak_in_ex = parseFloat(edt.field(tabel_nama+'.pajak_in_ex').input().inputmask('unmaskedvalue'));
 
         if(pajak_in_ex == 1){
             //include
@@ -660,8 +663,8 @@ function hitungDpp(edt, tabel) {
 
     var subtotal, diskon_final, dpp;
     
-    subtotal     = parseFloat(edt.field(tabel+'.subtotal').val());
-    diskon_final = parseFloat(edt.field(tabel+'.diskon_final').val());
+    subtotal     = parseFloat(edt.field(tabel+'.subtotal').input().inputmask('unmaskedvalue'));
+    diskon_final = parseFloat(edt.field(tabel+'.diskon_final').input().inputmask('unmaskedvalue'));
 
     if(isNaN(subtotal)){
         dpp = 0;
@@ -1694,53 +1697,73 @@ function maskingNumber(edt, tabel, fields, digit, number, operator) {
                 //variable ini adalah nilai asli tanpa masking, bisa dibuat untuk presubmit.
                 unmaskedValues[field_name] = edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue');
 
-                 // validasi angka atau bukan
-                if(isNaN(edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue')) ){
-                    edt.field(tabel + '.' + field_name).error( 'Inputan harus berupa Angka!' );
-                }
-                
-                if (number == null || operator == null) {
+                //CASE diskon bersen dan diskon value dan pajak
+                if (["diskon_persen", "diskon_value", "diskon_final", "pajak_final"].includes(field_name)) {
+                    //Jika diskon_jenis = persen
+                    if (edt.field(tabel + '.diskon_jenis').val() == 1) {
+                        if (edt.field(tabel + '.diskon_persen').input().inputmask('unmaskedvalue') > 0 ) {
+                            //Jika diskon_persen > 0, do notrhing
+                        } else {
+                            edt.field(tabel + '.diskon_persen').error( 'Inputan harus > 0')
+                        }
+
+                    //Jika diskon_jenis = value
+                    } else if (edt.field(tabel + '.diskon_jenis').val() == 2) {
+                        if (edt.field(tabel + '.diskon_value').input().inputmask('unmaskedvalue') > 0 ) {
+                            //Jika diskon_value > 0, do notrhing
+                        } else {
+                            edt.field(tabel + '.diskon_value').error( 'Inputan harus > 0')
+                        }
+                    }
+                } else {
                     // validasi angka atau bukan
-                    // jika null, maka artinya hanya validasi angka atau bukan saja
-                    
-                }else{
-                    
-                    a = parseFloat(edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue'));
-                    b = parseFloat(number);
-
-                    // console.log(a);
-                    // console.log(b);
-
-                    switch (operator) {
-                        case '==':
-                        case '=':
-                        ifStatement = a == b;
-                        break;
-                        case '<>':
-                        ifStatement = a != b;
-                        break;
-                        case '<=':
-                        ifStatement = a <= b;
-                        break;
-                        case '>=':
-                        ifStatement = a >= b;
-                        break;
-                        case '<':
-                        ifStatement = a < b;
-                        break;
-                        case '>':
-                        ifStatement = a > b;
-                        break;
-                        default:
-                        console.log('Operator tidak valid');
-                    }
-
-                    // validasi by operator
-                    if( ifStatement ){
-                        // kondisi terpenuhi, do nothing
-                    }else{
-                        edt.field(tabel + '.' + field_name).error( 'Inputan harus ' + operator + ' ' + number );
-                    }
+                   if(isNaN(edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue')) ){
+                       edt.field(tabel + '.' + field_name).error( 'Inputan harus berupa Angka!' );
+                   }
+                   
+                   if (number == null || operator == null) {
+                       // validasi angka atau bukan
+                       // jika null, maka artinya hanya validasi angka atau bukan saja
+                       
+                   }else{
+                       
+                       a = parseFloat(edt.field(tabel + '.' + field_name).input().inputmask('unmaskedvalue'));
+                       b = parseFloat(number);
+   
+                       // console.log(a);
+                       // console.log(b);
+   
+                       switch (operator) {
+                           case '==':
+                           case '=':
+                           ifStatement = a == b;
+                           break;
+                           case '<>':
+                           ifStatement = a != b;
+                           break;
+                           case '<=':
+                           ifStatement = a <= b;
+                           break;
+                           case '>=':
+                           ifStatement = a >= b;
+                           break;
+                           case '<':
+                           ifStatement = a < b;
+                           break;
+                           case '>':
+                           ifStatement = a > b;
+                           break;
+                           default:
+                           console.log('Operator tidak valid');
+                       }
+   
+                       // validasi by operator
+                       if( ifStatement ){
+                           // kondisi terpenuhi, do nothing
+                       }else{
+                           edt.field(tabel + '.' + field_name).error( 'Inputan harus ' + operator + ' ' + number );
+                       }
+                   }
                 }
             }
         });

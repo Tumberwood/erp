@@ -56,6 +56,7 @@
 			$confirmed_at = $rs_activity_log_ml['confirmed_at'];
 			// END ambil data confirmed_at dari table activity_log_ml
 			
+			//insert hanya yang tipe PO = Persediaan (id_iitxxmh = 1)
 			$qi_iivxxrd = $db
 				->raw()
 				->bind(':id', $id)
@@ -97,7 +98,9 @@
 						jumlah_unit,
 						jumlah_konversi,
 						jumlah_terkecil,
-						jumlah_default
+						jumlah_default,
+						harga_unit,
+						hpp
 					)
 					SELECT
 						prcxxth.id as id_transaksi_h,
@@ -130,14 +133,16 @@
 						iumxxmh_terkecil.nama,
 						iumxxmh_default.kode,
 						iumxxmh_default.nama,
-						'.$imtxxmh_kode.' as imtxxmh_kode,
+						"'.$confirmed_at.'" as imtxxmh_kode,
 						imtxxmh.movement_type,
 						prcxxth.tanggal,
 						1 as is_fisik,
 						prcittd.jumlah_unit as jumlah_unit,
 						prcittd.jumlah_konversi as jumlah_konversi,
 						prcittd.jumlah_terkecil as jumlah_terkecil,
-						prcittd.jumlah_default as jumlah_default
+						prcittd.jumlah_default as jumlah_default,
+						dt.harga_unit,
+						dt.harga_unit / dt.jumlah_konversi hpp -- harga terkecil
 					FROM prcxxth
 					LEFT JOIN gcpxxmh ON gcpxxmh.id = prcxxth.id_gcpxxmh
 					LEFT JOIN gbrxxmh ON gbrxxmh.id = prcxxth.id_gbrxxmh
@@ -148,8 +153,10 @@
 					LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = prcittd.id_iumxxmh_unit
 					LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = prcittd.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = prcittd.id_iumxxmh_default
-					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.module = "ERP"
-					WHERE prcxxth.id = :id
+					LEFT JOIN podxxth pod ON pod.id = prcxxth.id_podxxth
+					LEFT JOIN podittd dt ON dt.id = prcittd.id_podittd
+					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = "'.$confirmed_at.'" AND imtxxmh.module = "ERP"
+					WHERE prcxxth.id = :id AND pod.id_iitxxmh = 1
 				');
 
 			// check apakah query ada resultnya
