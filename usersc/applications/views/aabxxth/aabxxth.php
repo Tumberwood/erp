@@ -337,7 +337,7 @@
 					d.end_date = end_date;
 				}
 			},
-			order: [[ 1, "desc" ]],
+			order: [[ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -357,7 +357,10 @@
 				{ data: "aabxxth.tahun" },
 				{ data: "aabxxth.bulan" },
 				{ data: "hodxxmh.nama" },
-				{ data: "aabxxth.subtotal" },
+				{ 
+					data: "aabxxth.subtotal",
+					...renderNumber(0)
+				},
 				{ 
 					data: "aabxxth.transaction_state" ,
 					...renderTransactionStatus()
@@ -551,6 +554,16 @@
 						'id_aakxxmh': id_aakxxmh,
 					}
 				);	
+
+				validasiUnique(
+					action,
+					edtaabaktd,
+					'aabaktd',
+					'id_aakxxmh',
+					'id_aakxxmh',
+					id_aakxxmh,
+					id_aabaktd
+				);
 			}
 			
 			if ( edtaabaktd.inError() ) {
@@ -567,6 +580,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tblaabxxth.ajax.reload(null, false);
 		} );
 
 		edtaabaktd.on( 'close', function () {
