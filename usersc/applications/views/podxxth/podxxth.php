@@ -706,7 +706,7 @@
 			],
 			0, //digit belakang koma
 			0, //validasiNumber 
-			'>' // val >= 0
+			'>=' // val >= 0
 		);
 
 		edtpodxxth.on( 'preOpen', function( e, mode, action ) {
