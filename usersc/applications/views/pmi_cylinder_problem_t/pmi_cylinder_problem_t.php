@@ -12,6 +12,40 @@
 ?>
 
 <!-- begin content here -->
+
+ <!-- Modal Table-->
+<div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="dataModalLabel">Table History</h5>
+				<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive" id="proteksi">
+					<table id="tableHistory" class="table table-striped table-bordered table-hover nowrap" width="100%">
+						<thead>
+							<tr>
+								<th>ID Action</th>
+								<th>Tanggal</th>
+								<th>Action</th>
+								<th>Verified by</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<!-- Tombol Close -->
+				<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div class="row">
 	<div class="col">
 		<div class="ibox">
@@ -317,6 +351,16 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{ 
+					text: '<span class="fa fa-clock-o"></span>', 
+					name: 'btnHistory',
+					className: 'btn btn-sm btn-success',
+					titleAttr: 'History',
+					action: function ( e, dt, node, config ) {
+						tableHistory(id_pmi_cylinder_problem_t);
+						$('#dataModal').modal('show');
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -336,6 +380,7 @@
 		tblpmi_cylinder_problem_t.on( 'init', function () {
 			// atur hak akses
 			CekInitHeaderH(tblpmi_cylinder_problem_t);
+			tblpmi_cylinder_problem_t.button('btnHistory:name').disable();
 		} );
 		
 		tblpmi_cylinder_problem_t.on( 'select', function( e, dt, type, indexes ) {
@@ -346,6 +391,7 @@
 
 			// atur hak akses
 			CekSelectHeaderH(tblpmi_cylinder_problem_t);
+			tblpmi_cylinder_problem_t.button('btnHistory:name').enable();
 		} );
 
 		tblpmi_cylinder_problem_t.on( 'deselect', function () {
@@ -356,6 +402,7 @@
 
 			// atur hak akses
 			CekDeselectHeaderH(tblpmi_cylinder_problem_t);
+			tblpmi_cylinder_problem_t.button('btnHistory:name').disable();
 		} );
 
 		// END pmi_cylinder_problem_t
