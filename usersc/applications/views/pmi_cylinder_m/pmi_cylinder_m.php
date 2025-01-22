@@ -386,6 +386,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tblpmi_cylinder_m.ajax.reload(null, false);
 		} );
 
 		edtpmi_cylinder_m_color.on( 'close', function () {
