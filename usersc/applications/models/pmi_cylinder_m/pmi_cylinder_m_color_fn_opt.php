@@ -22,10 +22,10 @@
     $offset      = ($page - 1) * $resultCount;
     // END select2 pagination preparation
 
-    if($_GET['pmi_cylinder_m'] > 0){
-        $pmi_cylinder_m = $_GET['pmi_cylinder_m'];
+    if($_GET['id_pmi_cylinder_m'] > 0){
+        $id_pmi_cylinder_m = $_GET['id_pmi_cylinder_m'];
     }else{
-        $pmi_cylinder_m = 0;
+        $id_pmi_cylinder_m = 0;
     }
 
     if($_GET['id_pmi_cylinder_m_color_old'] > 0){
@@ -78,7 +78,7 @@
         ])
         ->where('pmi_cylinder_m_color.transaction_state',1)
         ->where('pmi_cylinder_m_color.id', $id_pmi_cylinder_m_color_old, '<>' )
-        ->where('pmi_cylinder_m_color.pmi_cylinder_m', $pmi_cylinder_m, '<>' )
+        ->where('pmi_cylinder_m_color.id_pmi_cylinder_m', $id_pmi_cylinder_m )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

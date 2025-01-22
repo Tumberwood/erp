@@ -24,7 +24,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nama</th>
-								<th data-i18n="state"></th>
+								<th>State</th>
                             </tr>
                         </thead>
                     </table>
