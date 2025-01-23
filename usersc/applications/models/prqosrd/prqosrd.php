@@ -13,7 +13,6 @@
 
 	$qs_outstanding_pr = $db
 		->raw()
-		->bind('transaction_state', 1)
 		->exec('SELECT
 					a.id,
 					d.kode AS kode_pr,
@@ -39,14 +38,14 @@
 						pod.tanggal
 					FROM podxxth AS pod
 					LEFT JOIN podittd AS td ON td.id_podxxth = pod.id
-					WHERE pod.transaction_state = :transaction_state
+					WHERE pod.transaction_state = 1
 				) AS b ON b.id_prqittd = a.id
 				LEFT JOIN prqxxth AS d ON d.id = a.id_prqxxth
 				LEFT JOIN iimxxmh AS e ON e.id = b.id_iimxxmh
 				LEFT JOIN iimxxmh AS item_pr ON item_pr.id = a.id_iimxxmh
 				LEFT JOIN iumxxmh AS uom_pr ON uom_pr.id = a.id_iumxxmh
 				LEFT JOIN iumxxmh AS uom_po ON uom_po.id = b.id_iumxxmh_unit
-				WHERE d.transaction_state = :transaction_state
+				WHERE d.transaction_state = 1
 				'
 				);
 	$rs_outstanding_pr = $qs_outstanding_pr->fetchAll();
