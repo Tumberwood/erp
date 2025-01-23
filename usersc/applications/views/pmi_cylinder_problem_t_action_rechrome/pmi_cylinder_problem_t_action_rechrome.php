@@ -124,10 +124,6 @@
 						{ "label": "Masih ada", "value": "Masih ada" },
 					]
 				},
-				{
-					label: "Verifikasi By  <sup class='text-danger'>*<sup>", 
-					name: "pmi_cylinder_problem_t_action.verifikasi_by",
-				},
 			]
 		} );
 
@@ -147,27 +143,16 @@
 			edtFormButtonSaveConfirm();
 		});
 
-		edtpmi_cylinder_problem_t_action.dependent( 'pmi_cylinder_problem_t_action.keterangan_cyl', function ( val, data, callback ) {
-			if (val != '') {
-				edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.verifikasi_by').show();
-			} else {
-				edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.verifikasi_by').hide();
-			}
-			return {}
-		}, {event: 'keyup change'});
-
 		edtpmi_cylinder_problem_t_action.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
 				keterangan_cyl = edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.keterangan_cyl').val();
-				verifikasi_by = edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.verifikasi_by').val();
 
 				validasiRequired(
 					edtpmi_cylinder_problem_t_action,
 					'pmi_cylinder_problem_t_action',
 					{
 						'keterangan_cyl': keterangan_cyl,
-						'verifikasi_by': verifikasi_by
 					}
 				);
 			}
@@ -266,6 +251,31 @@
 					editor: edtpmi_cylinder_problem_t_action, 
 					titleAttr: 'Edit',
 				},
+				{
+					text: '<i class="fa fa-check"></i>',
+					name: 'btnVerified',
+					className: 'btn btn-xs btn-primary',
+					titleAttr: 'Verified',
+					action: function (e, dt, node, config) {
+						e.preventDefault(); 
+						$.ajax( {
+							url: "../../models/pmi_cylinder_problem_t_action_rechrome/pmi_cylinder_problem_t_action_verified_by.php",
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_pmi_cylinder_problem_t_action: id_pmi_cylinder_problem_t_action,
+							},
+							success: function ( json ) {
+								status_code = json.data.status_code;
+								if (status_code == 200) {
+									toastr[json.data.type_message](json.data.message,"INFO");
+									tblpmi_cylinder_problem_t_action.ajax.reload(null, false);
+								}
+							}
+						} );
+					}
+				}
+
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -276,26 +286,45 @@
 
 		tblpmi_cylinder_problem_t_action.searchPanes.container().appendTo('#sppmi_cylinder_problem_t_action');
 		tblpmi_cylinder_problem_t_action.searchBuilder.container().appendTo( '#sbpmi_cylinder_problem_t_action' );
-
+		tblpmi_cylinder_problem_t_action.button('btnVerified:name').disable();
+		
+		tblpmi_cylinder_problem_t_action.on( 'draw', function () {
+			tblpmi_cylinder_problem_t_action.button('btnEdit:name').disable();
+		} );
+		
 		tblpmi_cylinder_problem_t_action.on( 'init', function () {
-			tblpmi_cylinder_problem_t_action.button('btnRechrome:name').disable();
 		} );
 		
 		tblpmi_cylinder_problem_t_action.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			pmi_cylinder_problem_t_action_data = tblpmi_cylinder_problem_t_action.row( { selected: true } ).data().pmi_cylinder_problem_t_action;
+			id_pmi_cylinder_problem_t_action = pmi_cylinder_problem_t_action_data.id;
 			verifikasi_by = pmi_cylinder_problem_t_action_data.verifikasi_by;
 			antrian = pmi_cylinder_problem_t_action_data.antrian;
+			keterangan_cyl = pmi_cylinder_problem_t_action_data.keterangan_cyl;
 			// console.log(verifikasi_by);
+
+			if (keterangan_cyl && verifikasi_by == null) {
+				tblpmi_cylinder_problem_t_action.button('btnVerified:name').enable();
+			} else {
+				tblpmi_cylinder_problem_t_action.button('btnVerified:name').disable();
+			}
+
+			if (verifikasi_by != null) {
+				tblpmi_cylinder_problem_t_action.button('btnEdit:name').disable();
+			} else {
+				tblpmi_cylinder_problem_t_action.button('btnEdit:name').enable();
+			}
 		} );
 		
 		tblpmi_cylinder_problem_t_action.on( 'deselect', function () {
 			// reset variable standar framework
 			id_pmi_cylinder_problem_t = 0;
+			id_pmi_cylinder_problem_t_action = 0;
 			antrian = 0;
 			keterangan_problem = '';
 			verifikasi_by = '';
-			tblpmi_cylinder_problem_t_action.button('btnRechrome:name').disable();
+			tblpmi_cylinder_problem_t_action.button('btnVerified:name').disable();
 		} );
 
 		// END pmi_cylinder_problem_t_action
