@@ -25,6 +25,10 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'ftxxxmh.id' ),
+			Field::inst( 'ftxxxmh.id_aakxxmh_jual' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ftxxxmh.id_aakxxmh_beli' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ftxxxmh.kode' ),
 			Field::inst( 'ftxxxmh.nama' )
 				->setFormatter( function ( $val ) {
@@ -38,8 +42,14 @@
 			Field::inst( 'ftxxxmh.finish_at' ),
 			Field::inst( 'ftxxxmh.is_nextprocess' ),
 			Field::inst( 'ftxxxmh.is_defaultprogram' ),
-			Field::inst( 'ftxxxmh.is_progressif' )
-		);
+			Field::inst( 'ftxxxmh.is_progressif' ),
+			
+			Field::inst( 'jual.nama' ),
+			Field::inst( 'beli.nama' ),
+		)
+		->leftJoin( 'aakxxmh jual','jual.id','=','ftxxxmh.id_aakxxmh_jual' )
+		->leftJoin( 'aakxxmh beli','beli.id','=','ftxxxmh.id_aakxxmh_beli' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document

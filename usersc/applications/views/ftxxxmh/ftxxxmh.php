@@ -23,6 +23,8 @@
                             <tr>
 								<th>ID</th>
                                 <th data-i18n="code"></th>
+								<th>Akun Pajak Penjualan</th>
+								<th>Akun Pajak Pembelian</th>
                                 <th data-i18n="progressive"></th>
                                 <th data-i18n="notes"></th>
                                 <th data-i18n="state"></th>
@@ -91,6 +93,7 @@
 	// ------------- default variable, do not erase
 	var edtftxxxmh, tblftxxxmh, show_deleted_ftxxxmh = 0, id_ftxxxmh;
 	var edtftxrtmd, tblftxrtmd, show_deleted_ftxrtmd = 0, id_ftxrtmd;
+	var id_aakxxmh_jual_old = 0, id_aakxxmh_beli_old = 0;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -136,6 +139,79 @@
 					label: getTranslation('tax') + "<sup class='text-danger'>*<sup>",
 					name: "ftxxxmh.kode"
 				}, 	
+					
+				{
+					label: "Akun Pajak Penjualan <sup class='text-danger'>*<sup>",
+					name: "ftxxxmh.id_aakxxmh_jual",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_jual_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Akun Pajak Pembelian <sup class='text-danger'>*<sup>",
+					name: "ftxxxmh.id_aakxxmh_beli",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_beli_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
 					label: getTranslation('progressive'),
 					name: "ftxxxmh.is_progressif",
@@ -183,12 +259,16 @@
 			if(action != 'remove'){
 				
 				kode = edtftxxxmh.field('ftxxxmh.kode').val();
+				id_aakxxmh_beli = edtftxxxmh.field('ftxxxmh.id_aakxxmh_beli').val();
+				id_aakxxmh_jual = edtftxxxmh.field('ftxxxmh.id_aakxxmh_jual').val();
 					
 				validasiRequired(
 					edtftxxxmh,
 					'ftxxxmh',
 					{
-						'kode': kode
+						'kode': kode,
+						'id_aakxxmh_beli': id_aakxxmh_beli,
+						'id_aakxxmh_jual': id_aakxxmh_jual,
 					}
 				);
 				
@@ -244,6 +324,8 @@
 			columns: [
 				{ data: "ftxxxmh.id",visible:false },
 				{ data: "ftxxxmh.kode" },
+				{ data: "jual.nama" },
+				{ data: "beli.nama" },
 				{ 
 					data: "ftxxxmh.is_progressif",
 					...renderYaTidak()
@@ -296,6 +378,8 @@
 			// set variable standar framework
 			siVarSet('ftxxxmh');
 			is_progressif 		= ftxxxmh_data.is_progressif
+			id_aakxxmh_jual_old 		= ftxxxmh_data.id_aakxxmh_jual
+			id_aakxxmh_beli_old 		= ftxxxmh_data.id_aakxxmh_beli
 
 			// atur hak akses
 			tbl_details = [tblftxrtmd];
@@ -306,6 +390,8 @@
 		tblftxxxmh.on( 'deselect', function () {
 			// set variable standar framework
 			siVarReset('ftxxxmh');
+			id_aakxxmh_jual_old = 0;
+			id_aakxxmh_beli_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblftxrtmd];
