@@ -483,8 +483,8 @@
 		tblpmi_cylinder_m_color.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSetD('pmi_cylinder_m_color');
-			id_pmi_cylinder_m_warna_old = pmi_cylinder_m_color_data.pmi_cylinder_m_warna;
-			
+			id_pmi_cylinder_m_warna_old = pmi_cylinder_m_color_data.id_pmi_cylinder_m_warna;
+			// console.log(id_pmi_cylinder_m_warna_old);
 			// atur hak akses
 			CekSelectDetailHD( tblpmi_cylinder_m_color );
 		} );
