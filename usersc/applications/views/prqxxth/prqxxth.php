@@ -59,8 +59,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th data-i18n="date"></th>
                                 <th data-i18n="documentNumber"></th>
+                                <th data-i18n="date"></th>
                                 <th data-i18n="department"></th>
                                 <th data-i18n="state">TX</th>
                                 <th data-i18n="approvalState"></th>
@@ -323,8 +323,8 @@
 			],
 			columns: [
 				{ data: "prqxxth.id",visible:false },
-				{ data: "prqxxth.tanggal" },
 				{ data: "prqxxth.kode" },
+				{ data: "prqxxth.tanggal" },
 				{ data: "hodxxmh.nama" },
 				{ 
 					data: "prqxxth.transaction_state" ,

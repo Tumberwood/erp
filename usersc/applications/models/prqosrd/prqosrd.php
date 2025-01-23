@@ -19,7 +19,7 @@
 					d.kode AS kode_pr,
 					b.kode AS kode_po,
 					date_format(b.tanggal,"%d %b %Y") AS tanggal_po,
-					a.nama AS item_pr,
+				   	IFNULL(item_pr.nama, a.nama) AS item_pr,
 					e.kode AS item_code,
 					e.nama AS item_po,
 					a.jumlah_unit AS qty_pr,
@@ -43,6 +43,7 @@
 				) AS b ON b.id_prqittd = a.id
 				LEFT JOIN prqxxth AS d ON d.id = a.id_prqxxth
 				LEFT JOIN iimxxmh AS e ON e.id = b.id_iimxxmh
+				LEFT JOIN iimxxmh AS item_pr ON item_pr.id = a.id_iimxxmh
 				LEFT JOIN iumxxmh AS uom_pr ON uom_pr.id = a.id_iumxxmh
 				LEFT JOIN iumxxmh AS uom_po ON uom_po.id = b.id_iumxxmh_unit
 				WHERE d.transaction_state = :transaction_state
