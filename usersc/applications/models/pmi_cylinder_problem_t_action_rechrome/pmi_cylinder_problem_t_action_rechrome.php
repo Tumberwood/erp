@@ -48,7 +48,20 @@
 				->set( Field::SET_CREATE )
 				->setValue('Rechrome'),
 			Field::inst( 'pmi_cylinder_problem_t_action.verifikasi_by' ),
+			Field::inst( 'pmi_cylinder_problem_t_action.tanggal_keterangan' )
+				->getFormatter( function ( $val, $data, $opts ) {
+					if ($val === '0000-00-00' || $val === null){
+						echo '';
+					}else{
+						return date( 'd M Y', strtotime( $val ) );
+					}
+				} )
+				->setFormatter( 'Format::datetime', array(
+					'from' => 'd M Y',
+					'to' =>   'Y-m-d'
+				) ),
 		)
+		->where( 'pmi_cylinder_problem_t_action.action', 'Rechrome')
 		;
 	
 	// do not erase

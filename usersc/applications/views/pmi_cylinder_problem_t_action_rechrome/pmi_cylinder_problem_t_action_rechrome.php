@@ -21,10 +21,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Tanggal</th>
                                 <th>Antrian</th>
                                 <th>Keterangan (1)</th>
                                 <th>Keterangan Cyl</th>
                                 <th>Verified by</th>
+                                <th>Ubah Antrian</th>
                             </tr>
                         </thead>
                     </table>
@@ -133,15 +135,6 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.start_at').val(start_at);
 
-			edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.id_pmi_cylinder_problem_t').val(id_pmi_cylinder_problem_t);
-			// console.log(id_pmi_cylinder_problem_t);
-
-			edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.keterangan').val(keterangan_problem);
-			// console.log(keterangan_problem);
-
-			edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.antrian').val(antrian);
-			console.log(antrian);
-
 			if(action == 'create'){
 				tblpmi_cylinder_problem_t_action.rows().deselect();
 			}
@@ -153,6 +146,15 @@
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();
 		});
+
+		edtpmi_cylinder_problem_t_action.dependent( 'pmi_cylinder_problem_t_action.keterangan_cyl', function ( val, data, callback ) {
+			if (val != '') {
+				edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.verifikasi_by').show();
+			} else {
+				edtpmi_cylinder_problem_t_action.field('pmi_cylinder_problem_t_action.verifikasi_by').hide();
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtpmi_cylinder_problem_t_action.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -194,10 +196,10 @@
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/pmi_cylinder_problem_t_action_rechrome/pmi_cylinder_problem_t_action_rechrome_tbl.php",
+				url: "../../models/pmi_cylinder_problem_t_action_rechrome/pmi_cylinder_problem_t_action_rechrome.php",
 				type: 'POST',
 				data: function (d){
-					d.show_deleted_pmi_cylinder_problem_t = show_deleted_pmi_cylinder_problem_t;
+					d.show_deleted_pmi_cylinder_problem_t_action = show_deleted_pmi_cylinder_problem_t_action;
 				}
 			},
 			order: [[ 0, "asc" ]],
@@ -216,35 +218,28 @@
 				}
 			],
 			columns: [
-				{
-					data: null, 
-					render: function (data, type, row, meta) {
-						if (row.pmi_cylinder_problem_t_action.id_pmi_cylinder_problem_t) {
-							return row.pmi_cylinder_problem_t_action.id_pmi_cylinder_problem_t
-						} else {
-							return row.pmi_cylinder_problem_t.id
-						}
-					}
-					,visible:false 
-				},
-				{
-					data: null, 
-					render: function (data, type, row, meta) {
-						return meta.row + 1;
-					}
-				},
-				{
-					data: null, 
-					render: function (data, type, row, meta) {
-						if (row.pmi_cylinder_problem_t_action.keterangan) {
-							return row.pmi_cylinder_problem_t_action.keterangan
-						} else {
-							return row.pmi_cylinder_problem_t.keterangan
-						}
-					}
-				},
+				{ data: "pmi_cylinder_problem_t_action.id",visible:false  },
+				{ data: "pmi_cylinder_problem_t_action.tanggal_keterangan" },
+				{ data: "pmi_cylinder_problem_t_action.antrian" },
+				{ data: "pmi_cylinder_problem_t_action.keterangan" },
 				{ data: "pmi_cylinder_problem_t_action.keterangan_cyl" },
 				{ data: "pmi_cylinder_problem_t_action.verifikasi_by" },
+				{
+					data: null, // Kolom untuk tombol aksi
+					orderable: false,
+					render: function(data, type, row) {
+						let naik = row.pmi_cylinder_problem_t_action.antrian <= 1 ? 'disabled' : '';
+						return `
+							<button class="btn btn-sm btn-success btn-up" id="btnUp" data-id="${row.pmi_cylinder_problem_t_action.id}" ${naik} onclick="ubahAntrian(${row.pmi_cylinder_problem_t_action.id}, '-')">
+								<i class="fa fa-arrow-up"></i> 
+							</button>
+							<button class="btn btn-sm btn-danger btn-down" id="btnDown" data-id="${row.pmi_cylinder_problem_t_action.id}" onclick="ubahAntrian(${row.pmi_cylinder_problem_t_action.id}, '+')">
+								<i class="fa fa-arrow-down"></i> 
+							</button>
+						`;
+					}
+
+				}
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -262,12 +257,12 @@
 				?>
 				// END breaking generate button
 				{
-					extend: 'create',
+					extend: 'edit',
 					text: '<i class="fa fa-edit"></i>',
-					name: 'btnRechrome',
+					name: 'btnEdit',
 					className: 'btn btn-xs btn-outline',
 					editor: edtpmi_cylinder_problem_t_action, 
-					titleAttr: 'Rechrome',
+					titleAttr: 'Edit',
 				},
 			],
 			initComplete: function() {
@@ -279,32 +274,17 @@
 
 		tblpmi_cylinder_problem_t_action.searchPanes.container().appendTo('#sppmi_cylinder_problem_t_action');
 		tblpmi_cylinder_problem_t_action.searchBuilder.container().appendTo( '#sbpmi_cylinder_problem_t_action' );
-		
+
 		tblpmi_cylinder_problem_t_action.on( 'init', function () {
 			tblpmi_cylinder_problem_t_action.button('btnRechrome:name').disable();
 		} );
 		
 		tblpmi_cylinder_problem_t_action.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
-			pmi_cylinder_problem_t_data = tblpmi_cylinder_problem_t_action.row( { selected: true } ).data().pmi_cylinder_problem_t;
-			id_pmi_cylinder_problem_t = pmi_cylinder_problem_t_data.id;
-			keterangan_problem = pmi_cylinder_problem_t_data.keterangan;
-			// console.log(id_pmi_cylinder_problem_t);
-			// console.log(keterangan_problem);
-			rowIndex = tblpmi_cylinder_problem_t_action.row({ selected: true }).index();
-		    antrian = rowIndex + 1; // Incremental dimulai dari 1
-			// console.log(nomorIncremental);
-
 			pmi_cylinder_problem_t_action_data = tblpmi_cylinder_problem_t_action.row( { selected: true } ).data().pmi_cylinder_problem_t_action;
 			verifikasi_by = pmi_cylinder_problem_t_action_data.verifikasi_by;
+			antrian = pmi_cylinder_problem_t_action_data.antrian;
 			// console.log(verifikasi_by);
-
-			if (verifikasi_by) {
-				tblpmi_cylinder_problem_t_action.button('btnRechrome:name').disable();
-			} else {
-				tblpmi_cylinder_problem_t_action.button('btnRechrome:name').enable();
-			}
-
 		} );
 		
 		tblpmi_cylinder_problem_t_action.on( 'deselect', function () {
