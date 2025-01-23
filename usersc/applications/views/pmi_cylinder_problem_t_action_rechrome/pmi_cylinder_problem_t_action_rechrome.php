@@ -228,12 +228,14 @@
 					data: null, // Kolom untuk tombol aksi
 					orderable: false,
 					render: function(data, type, row) {
+						maxAntrian();
 						let naik = row.pmi_cylinder_problem_t_action.antrian <= 1 ? 'disabled' : '';
+						let turun = row.pmi_cylinder_problem_t_action.antrian == max_antrian ? 'disabled' : '';
 						return `
 							<button class="btn btn-sm btn-success btn-up" id="btnUp" data-id="${row.pmi_cylinder_problem_t_action.id}" ${naik} onclick="ubahAntrian(${row.pmi_cylinder_problem_t_action.id}, '-')">
 								<i class="fa fa-arrow-up"></i> 
 							</button>
-							<button class="btn btn-sm btn-danger btn-down" id="btnDown" data-id="${row.pmi_cylinder_problem_t_action.id}" onclick="ubahAntrian(${row.pmi_cylinder_problem_t_action.id}, '+')">
+							<button class="btn btn-sm btn-danger btn-down" id="btnDown" data-id="${row.pmi_cylinder_problem_t_action.id}" ${turun} onclick="ubahAntrian(${row.pmi_cylinder_problem_t_action.id}, '+')">
 								<i class="fa fa-arrow-down"></i> 
 							</button>
 						`;
