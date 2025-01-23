@@ -22,6 +22,7 @@
                 { data: 'action' },
                 { data: 'verifikasi_by' },
             ],
+            buttons: [],
             destroy: true, // Reinitialize allowed
             responsive: true, // Enable responsive layout
             autoWidth: false, // Disable automatic column width adjustment
