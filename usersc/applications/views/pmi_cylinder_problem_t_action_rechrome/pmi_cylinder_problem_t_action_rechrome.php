@@ -202,7 +202,7 @@
 					d.show_deleted_pmi_cylinder_problem_t_action = show_deleted_pmi_cylinder_problem_t_action;
 				}
 			},
-			order: [[ 0, "asc" ]],
+			order: [[ 2, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
