@@ -27,6 +27,8 @@
 			Field::inst( 'aakxxmh.id' ),
 			Field::inst( 'aakxxmh.id_aakxxmh_parent' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'aakxxmh.id_aatxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'aakxxmh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -60,9 +62,11 @@
 				) ),
 
 			Field::inst( 'aakxxmh_parent.kode' ),
-			Field::inst( 'aakxxmh_parent.nama' )
+			Field::inst( 'aakxxmh_parent.nama' ),
+			Field::inst( 'aatxxmh.nama' ),
 		)
 		->leftJoin( 'aakxxmh as aakxxmh_parent','aakxxmh_parent.id','=','aakxxmh.id_aakxxmh_parent' )
+		->leftJoin( 'aatxxmh','aatxxmh.id','=','aakxxmh.id_aatxxmh' )
 		;
 	
 	// do not erase

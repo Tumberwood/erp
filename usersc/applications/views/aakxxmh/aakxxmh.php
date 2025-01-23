@@ -24,6 +24,7 @@
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
                                 <th data-i18n="parentAccount"></th>
+                                <th>Account Type</th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -58,8 +59,7 @@
 	// ------------- default variable, do not erase
 	var edtaakxxmh, tblaakxxmh, show_deleted_aakxxmh = 0, id_aakxxmh;
 	// ------------- end of default variable
-	
-	id_aakxxmh_parent_old = 0;
+	var id_aatxxmh_old = 0, id_aakxxmh_parent_old = 0;
 
 	// get tableRelation
 	tableRelation('aakxxmh');
@@ -153,6 +153,43 @@
 						},
 					}
 				},
+					
+				{
+					label: "Account Type <sup class='text-danger'>*<sup>",
+					name: "aakxxmh.id_aatxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aatxxmh/aatxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aatxxmh_old: id_aatxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
 					label: getTranslation('beginningBalance'),
 					name: "aakxxmh.saldo_awal"
@@ -172,6 +209,18 @@
 				},
 			]
 		} );
+
+		
+		unmaskedData = maskingNumber(
+			edtaakxxmh, 
+			"aakxxmh", 
+			[
+				"saldo_awal", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>=' // val >= 0
+		);
 
 		edtaakxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -209,6 +258,7 @@
 		edtaakxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				kode = edtaakxxmh.field('aakxxmh.kode').val();
+				id_aatxxmh = edtaakxxmh.field('aakxxmh.id_aatxxmh').val();
 				nama = edtaakxxmh.field('aakxxmh.nama').val();
 
 				validasiRequired(
@@ -216,6 +266,7 @@
 					'aakxxmh',
 					{
 						'kode': kode,
+						'id_aatxxmh': id_aatxxmh,
 						'nama': nama
 					}
 				);
@@ -293,6 +344,7 @@
 				{ data: "aakxxmh.kode" , type: 'string'},
 				{ data: "aakxxmh.nama" },
 				{ data: "aakxxmh_parent.nama" },
+				{ data: "aatxxmh.nama" },
 				{ 
 					data: "aakxxmh.transaction_state" ,
 					...renderTransactionStatus()
@@ -338,6 +390,7 @@
 			// set variable standar framework
 			siVarSet('aakxxmh');
 			id_aakxxmh_parent_old = aakxxmh_data.id_aakxxmh_parent;
+			id_aatxxmh_old = aakxxmh_data.id_aatxxmh;
 			saldo_awal = aakxxmh_data.saldo_awal;
 			saldo_awal_tanggal = aakxxmh_data.saldo_awal_tanggal;
 			
@@ -349,6 +402,7 @@
 			// reset variable standar framework
 			siVarReset('aakxxmh');
 			id_aakxxmh_parent_old = 0;
+			id_aatxxmh_old = 0;
 			saldo_awal = null, saldo_awal_tanggal = null;
 
 			// atur hak akses
