@@ -79,7 +79,7 @@
 					
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 1, "asc" ], [ 2, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -98,7 +98,7 @@
 			scrollX: true,
 			columns: [
 				{ data: "id",visible:false },
-				{ data: "kode_pr" },
+				{ data: "kode_pr",visible:false },
 				{ data: "tanggal_po" },
 				{ data: "kode_po" },
 				{ data: "item_pr" },
@@ -115,6 +115,14 @@
 				},
 				{ data: "uom_po" },
 			],
+			rowGroup: {
+				dataSrc: function (row) {
+					return  row.kode_pr
+				},
+				endRender: function (rows, group) {
+					
+				}
+			},
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
