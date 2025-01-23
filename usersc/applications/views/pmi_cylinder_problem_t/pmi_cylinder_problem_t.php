@@ -327,7 +327,7 @@
 			columns: [
 				{ data: "pmi_cylinder_problem_t.id",visible:false },
 				{ data: "pmi_cylinder_m.nama" },
-				{ data: "pmi_cylinder_m_color.nama" },
+				{ data: "pmi_cylinder_m_warna.nama" },
 				{ data: "pmi_cylinder_problem_t.keterangan" },
 				{ data: "pmi_cylinder_problem_t.ditemukan_pada" },
 				{ data: "pmi_cylinder_problem_t.action" },

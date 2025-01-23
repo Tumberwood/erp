@@ -50,9 +50,11 @@
 
 			Field::inst( 'pmi_cylinder_m.nama' ),
 			Field::inst( 'pmi_cylinder_m_color.nama' ),
+			Field::inst( 'pmi_cylinder_m_warna.nama' ),
 		)
 		->leftJoin( 'pmi_cylinder_m','pmi_cylinder_m.id','=','pmi_cylinder_problem_t.id_pmi_cylinder_m' )
 		->leftJoin( 'pmi_cylinder_m_color','pmi_cylinder_m_color.id','=','pmi_cylinder_problem_t.id_pmi_cylinder_m_color' )
+		->leftJoin( 'pmi_cylinder_m_warna','pmi_cylinder_m_warna.id','=','pmi_cylinder_m_color.id_pmi_cylinder_m_warna' )
 		;
 	
 	// do not erase

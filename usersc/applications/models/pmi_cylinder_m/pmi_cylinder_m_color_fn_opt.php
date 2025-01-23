@@ -41,17 +41,10 @@
             ->query('select', 'pmi_cylinder_m_color')
             ->get([
                 'pmi_cylinder_m_color.id as id',
-                'IF(
-                    pmi_cylinder_m_color.kode IS NULL, 
-                    pmi_cylinder_m_color.nama,
-                    IF(
-                        pmi_cylinder_m_color.nama IS NULL, 
-                        pmi_cylinder_m_color.kode,
-                        CONCAT(pmi_cylinder_m_color.kode," - ",pmi_cylinder_m_color.nama)
-                    )
-                ) as text'
+                'pmi_cylinder_m_warna.nama as text'
             ])
-            ->where('pmi_cylinder_m_color..id', $id_pmi_cylinder_m_color_old )
+            ->where('pmi_cylinder_m_color.id', $id_pmi_cylinder_m_color_old )
+            ->join('pmi_cylinder_m_warna','pmi_cylinder_m_warna.id = pmi_cylinder_m_color.id_pmi_cylinder_m_warna','LEFT' )
             ->limit(1)
             ->offset($offset)
             ->exec();
@@ -66,24 +59,17 @@
         ->query('select', 'pmi_cylinder_m_color')
         ->get([
             'pmi_cylinder_m_color.id as id',
-            'IF(
-                pmi_cylinder_m_color.kode IS NULL, 
-                pmi_cylinder_m_color.nama,
-                IF(
-                    pmi_cylinder_m_color.nama IS NULL, 
-                    pmi_cylinder_m_color.kode,
-                    CONCAT(pmi_cylinder_m_color.kode," - ",pmi_cylinder_m_color.nama)
-                )
-            ) as text'
+            'pmi_cylinder_m_warna.nama as text'
         ])
+        ->join('pmi_cylinder_m_warna','pmi_cylinder_m_warna.id = pmi_cylinder_m_color.id_pmi_cylinder_m_warna','LEFT' )
         ->where('pmi_cylinder_m_color.transaction_state',1)
         ->where('pmi_cylinder_m_color.id', $id_pmi_cylinder_m_color_old, '<>' )
         ->where('pmi_cylinder_m_color.id_pmi_cylinder_m', $id_pmi_cylinder_m )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('pmi_cylinder_m_color.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('pmi_cylinder_m_color.nama', '%' . $q . '%', 'LIKE' );
+                ->where('pmi_cylinder_m_warna.kode', '%' . $q . '%', 'LIKE' )
+                ->or_where('pmi_cylinder_m_warna.nama', '%' . $q . '%', 'LIKE' );
         } )
         ->limit($resultCount)
         ->offset($offset)

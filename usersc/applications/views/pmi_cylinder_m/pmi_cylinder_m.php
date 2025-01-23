@@ -87,6 +87,7 @@
 	// ------------- default variable, do not erase
 	var edtpmi_cylinder_m, tblpmi_cylinder_m, show_deleted_pmi_cylinder_m = 0, id_pmi_cylinder_m;
 	var edtpmi_cylinder_m_color, tblpmi_cylinder_m_color, show_deleted_pmi_cylinder_m_color = 0, id_pmi_cylinder_m_color;
+	var id_pmi_cylinder_m_warna_old = 0;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -334,11 +335,43 @@
 					label: "id_pmi_cylinder_m",
 					name: "pmi_cylinder_m_color.id_pmi_cylinder_m",
 					type: "hidden"
-				},	
+				},		
 				{
 					label: "Warna <sup class='text-danger'>*<sup>",
-					name: "pmi_cylinder_m_color.nama"
-				}, 	
+					name: "pmi_cylinder_m_color.id_pmi_cylinder_m_warna",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/pmi_cylinder_m_warna/pmi_cylinder_m_warna_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_pmi_cylinder_m_warna_old: id_pmi_cylinder_m_warna_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 			
@@ -361,14 +394,24 @@
 		edtpmi_cylinder_m_color.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 
-				nama = edtpmi_cylinder_m_color.field('pmi_cylinder_m_color.nama').val();
+				id_pmi_cylinder_m_warna = edtpmi_cylinder_m_color.field('pmi_cylinder_m_color.id_pmi_cylinder_m_warna').val();
 
 				validasiRequired(
 					edtpmi_cylinder_m_color,
 					'pmi_cylinder_m_color',
 					{
-						'nama': nama
+						'id_pmi_cylinder_m_warna': id_pmi_cylinder_m_warna
 					}
+				);
+
+				validasiUnique(
+					action,
+					edtpmi_cylinder_m_color,
+					'pmi_cylinder_m_color',
+					'id_pmi_cylinder_m_warna',
+					'id_pmi_cylinder_m_warna,id_pmi_cylinder_m',
+					id_pmi_cylinder_m_warna+','+id_pmi_cylinder_m,
+					id_pmi_cylinder_m_color
 				);
 			}
 			
@@ -406,7 +449,7 @@
 			columns: [
 				{ data: "pmi_cylinder_m_color.id",visible:false },
 				{ data: "pmi_cylinder_m_color.id_pmi_cylinder_m",visible:false },
-				{ data: "pmi_cylinder_m_color.nama" },
+				{ data: "pmi_cylinder_m_warna.nama" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -440,6 +483,7 @@
 		tblpmi_cylinder_m_color.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSetD('pmi_cylinder_m_color');
+			id_pmi_cylinder_m_warna_old = pmi_cylinder_m_color_data.pmi_cylinder_m_warna;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblpmi_cylinder_m_color );
@@ -448,6 +492,7 @@
 		tblpmi_cylinder_m_color.on( 'deselect', function() {
 			// reset variable standar framework
 			siVarResetD('pmi_cylinder_m_color');
+			id_pmi_cylinder_m_warna_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblpmi_cylinder_m_color );

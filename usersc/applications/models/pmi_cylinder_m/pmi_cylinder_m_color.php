@@ -29,6 +29,8 @@
 			->fields(
 				Field::inst( 'pmi_cylinder_m_color.id' ),
 				Field::inst( 'pmi_cylinder_m_color.id_pmi_cylinder_m' ),
+				Field::inst( 'pmi_cylinder_m_color.id_pmi_cylinder_m_warna' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'pmi_cylinder_m_color.kode' ),
 				Field::inst( 'pmi_cylinder_m_color.nama' ),
 				Field::inst( 'pmi_cylinder_m_color.keterangan' ),
@@ -38,8 +40,11 @@
 				Field::inst( 'pmi_cylinder_m_color.start_at' ),
 				Field::inst( 'pmi_cylinder_m_color.finish_at' ),
 				Field::inst( 'pmi_cylinder_m_color.is_nextprocess' ),
-				Field::inst( 'pmi_cylinder_m_color.is_defaultprogram' )
+				Field::inst( 'pmi_cylinder_m_color.is_defaultprogram' ),
+
+				Field::inst( 'pmi_cylinder_m_warna.nama' )
 			)
+			->leftJoin( 'pmi_cylinder_m_warna','pmi_cylinder_m_warna.id','=','pmi_cylinder_m_color.id_pmi_cylinder_m_warna' )
 			->where('pmi_cylinder_m_color.id_pmi_cylinder_m',$_POST['id_pmi_cylinder_m']);
 		
 		// do not erase
