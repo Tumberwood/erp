@@ -472,6 +472,12 @@
 				edtprcxxth.field('prcxxth.id_iwhxxmh').hide();
 				edtprcxxth.field('prcxxth.referensi_nomor').hide();
 				edtprcxxth.field('prcxxth.supir_nama').hide();
+				
+				if (id_iitxxmh == 3) {
+					edtprcxxth.field('prcxxth.mobil_nomor').hide();
+				} else {
+					edtprcxxth.field('prcxxth.mobil_nomor').show();
+				}
 			}else{
 				edtprcxxth.field('prcxxth.id_iwhxxmh').show();
 				edtprcxxth.field('prcxxth.referensi_nomor').show();
@@ -491,12 +497,23 @@
 				id_podxxth          = edtprcxxth.field('prcxxth.id_podxxth').val();
 				referensi_nomor     = edtprcxxth.field('prcxxth.referensi_nomor').val();
 
+				autofillField('podxxth', id_podxxth, 'id_iitxxmh');
+				id_iitxxmh = autofillData.id_iitxxmh;
+				if (id_iitxxmh != 3) {
+					validasiRequired(
+						edtprcxxth, 
+						"prcxxth", 
+						{
+							"mobil_nomor": mobil_nomor, 
+						}
+					);
+				}
+
 				validasiRequired(
 					edtprcxxth, 
 					"prcxxth", 
 					{
 						"tanggal": tanggal, 
-						"mobil_nomor": mobil_nomor, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_podxxth": id_podxxth
 					}
