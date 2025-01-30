@@ -71,8 +71,8 @@
             ) as text'
         ])
         ->where('aakxxmh.transaction_state',1)
-        ->where('aakxxmh.id_aakxxmh',8, '>=')
-        ->where('aakxxmh.id_aakxxmh',27, '<=')
+        // ->where('aakxxmh.id_aatxxmh',8, '>=')
+        // ->where('aakxxmh.id_aatxxmh',27, '<=')
         ->where('aakxxmh.is_parent',0)
         ->where('aakxxmh.id', $id_aakxxmh_old, '<>' )
         ->where( function ( $r ) {
