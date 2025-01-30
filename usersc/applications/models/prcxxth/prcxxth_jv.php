@@ -169,7 +169,7 @@
 				->set('id_aakxxmh',$row_debit['id_aakxxmh'])
 				->set('id_transaksi_d',$row_debit['id_transaksi_h'])
 				->set('created_by',$row_debit['created_by'])
-				->set('keterangan',$row_debit['keterangan'])
+				->set('keterangan',$keterangan)
 				->set('debit_kredit', 'Debit')
 				->set('debit', $row_debit['debit']   )
 				->set('kredit', 0)
