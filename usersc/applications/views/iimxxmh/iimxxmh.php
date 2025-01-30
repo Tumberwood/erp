@@ -598,12 +598,19 @@
 		}, {event: 'keyup change'});
 		
 		edtiimxxmh.dependent( 'iimxxmh.id_iicxxmh', function ( val, data, callback ) {
-			if (val == 4) {
+			id_iitxxmh = edtiimxxmh.field('iimxxmh.id_iitxxmh').val();
+
+			if (id_iitxxmh == 3) {
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
 			} else {
-				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
-				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
+				if (val == 4) {
+					edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
+					edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
+				} else {
+					edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group <sup class='text-danger'>*<sup>");
+					edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand <sup class='text-danger'>*<sup>");
+				}
 			}
 			// code here
 			return {}
