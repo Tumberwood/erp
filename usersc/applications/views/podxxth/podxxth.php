@@ -374,7 +374,7 @@
 
 	var id_iitxxmh_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prqittd_old = 0, id_iumxxmh_unit  = 0;
-	var jumlah_buy = 0;
+	var jumlah_buy = 0, id_grlxxmh_supplier_select = 0;
 
 	// get tableRelation
 	tableRelation('podxxth');
@@ -466,23 +466,24 @@
 					}
 				},		
 				{
-					label: getTranslation('termOfPayment') + " <sup class='text-danger'>*<sup>",
+					label: getTranslation('termOfPayment') + " <sup class='text-danger'>*</sup>",
 					name: "podxxth.id_fpytmmh",
 					type: "select2",
 					opts: {
-						placeholder : "Select",
+						placeholder: "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
 							url: "../../models/fpytmmh/fpytmmh_fn_opt.php",
 							dataType: 'json',
+							delay: 500,
+							minimumInputLength: 1,
 							data: function (params) {
-								var query = {
+								return {
 									id_fpytmmh_old: id_fpytmmh_old,
 									search: params.term || '',
 									page: params.page || 1
-								}
-									return query;
+								};
 							},
 							processResults: function (data, params) {
 								return {
@@ -492,15 +493,10 @@
 									}
 								};
 							},
-							cache: true,
-							minimumInputLength: 1,
-							maximum: 10,
-							delay: 500,
-							maximumSelectionLength: 5,
-							minimumResultsForSearch: -1,
-						},
+							cache: true
+						}
 					}
-				},		
+				},
 				{
 					label: getTranslation('supplier') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_grlxxmh_supplier",
@@ -791,6 +787,21 @@
 			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
 			return {}
 		}, {event: 'keyup change'});
+		
+		edtpodxxth.dependent( 'podxxth.id_grlxxmh_supplier', function ( val, data, callback ) {
+			if (id_grlxxmh_supplier_select == 0) {
+				autofillField('grlxxmh', val, 'id_fpytmmh')
+				id_fpy = autofillData.id_fpytmmh;
+			} else {
+				id_fpy = id_fpytmmh_old;
+			}
+
+			autofillField('fpytmmh', id_fpy, 'id, nama')
+			id_fpytmmh_old = autofillData.id;
+			edtpodxxth.field('podxxth.id_fpytmmh').val(id_fpytmmh_old);
+
+			return {}
+		}, {event: 'keyup change'});
 
 		edtpodxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -940,6 +951,7 @@
 			id_fcrxxmh_old    = podxxth_data.id_fcrxxmh;
 			id_fpytmmh_old    = podxxth_data.id_fpytmmh;
 			id_grlxxmh_old    = podxxth_data.id_grlxxmh_supplier;
+			id_grlxxmh_supplier_select    = podxxth_data.id_grlxxmh_supplier;
 
 			// terkait footer
 			diskon_final_h = podxxth_data.diskon_final;
@@ -956,6 +968,7 @@
 		
 		tblpodxxth.on( 'deselect', function () {
 			siVarReset('podxxth');
+			id_grlxxmh_supplier_select = 0;
 			id_grlxxmh_old = 0;
 			id_fpytmmh_old = 0;
 			id_fcrxxmh_old = 0;
