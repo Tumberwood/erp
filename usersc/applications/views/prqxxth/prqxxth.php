@@ -12,8 +12,8 @@
     $nama_tabels_d[0] = 'prqittd';
 
 	// BEGIN single data view
-	if (isset($_GET['rowid']) && $_GET['rowid'] > 0) {
-		$rowid = $_GET['rowid'];
+	if (isset($_GET['rowId']) && $_GET['rowId'] > 0) {
+		$rowid = $_GET['rowId'];
 	} else {
 		$rowid = 0;
 	}
