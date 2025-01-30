@@ -55,6 +55,14 @@
     }
     // END query options self
 
+    $qs_persediaan = $db
+        ->query('select', 'ggsaksh_aatxxmh_persediaan' )
+        ->get(['id_aatxxmh_persediaan'] )
+        ->exec();
+    $rs_persediaan = $qs_persediaan->fetchAll(PDO::FETCH_COLUMN); // Ambil hanya nilai kolom
+
+    $persediaan = '(' . implode(',', $rs_persediaan) . ')'; // Ubah jadi format '(3)'
+
     // BEGIN query options all except self
     $qs_aakxxmh_all = $db
         ->query('select', 'aakxxmh')
@@ -71,7 +79,8 @@
             ) as text'
         ])
         ->where('aakxxmh.transaction_state',1)
-        // ->where('aakxxmh.id_aatxxmh',44)
+        // ->where('aakxxmh.id_aatxxmh',44) 3
+        ->where('aakxxmh.id_aatxxmh',$persediaan, 'IN', false)
         ->where('aakxxmh.is_parent',0)
         ->where('aakxxmh.id', $id_aakxxmh_persediaan_old, '<>' )
         ->where( function ( $r ) {

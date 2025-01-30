@@ -55,6 +55,14 @@
     }
     // END query options self
 
+    $qs_biaya = $db
+        ->query('select', 'ggsaksh_aatxxmh_biaya' )
+        ->get(['id_aatxxmh_biaya'] )
+        ->exec();
+    $rs_biaya = $qs_biaya->fetchAll(PDO::FETCH_COLUMN); // Ambil hanya nilai kolom
+
+    $biaya = '(' . implode(',', $rs_biaya) . ')'; // Ubah jadi format '(3)'
+
     // BEGIN query options all except self
     $qs_aakxxmh_all = $db
         ->query('select', 'aakxxmh')
@@ -73,6 +81,8 @@
         ->where('aakxxmh.transaction_state',1)
         // ->where('aakxxmh.id_aatxxmh',8, '>=')
         // ->where('aakxxmh.id_aatxxmh',27, '<=')
+        // IN(13,14,15)
+        ->where('aakxxmh.id_aatxxmh',$biaya, 'IN', false)
         ->where('aakxxmh.is_parent',0)
         ->where('aakxxmh.id', $id_aakxxmh_old, '<>' )
         ->where( function ( $r ) {
