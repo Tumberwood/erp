@@ -31,6 +31,7 @@
                                 <th>PR UoM</th>
                                 <th>PO Qty</th>
                                 <th>PO UoM</th>
+                                <th>Outstanding</th>
                             </tr>
                         </thead>
                     </table>
@@ -114,6 +115,10 @@
 					...renderNumber(0)
 				},
 				{ data: "uom_po" },
+				{ 
+					data: "sisa" ,
+					...renderNumber(0)
+				},
 			],
 			rowGroup: {
 				dataSrc: function (row) {
@@ -141,6 +146,16 @@
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+				if ( data.qty_po > 0 && data.kode_po == null ) {
+					$('td', row).addClass('bg-warning');
+				}
+				
+				if (data.sisa < 0) {
+					$('td:eq(9)', row).addClass('bg-danger');
+				}
+
 			}
 		} );
 

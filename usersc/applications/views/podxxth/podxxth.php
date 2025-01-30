@@ -789,17 +789,14 @@
 		}, {event: 'keyup change'});
 		
 		edtpodxxth.dependent( 'podxxth.id_grlxxmh_supplier', function ( val, data, callback ) {
-			if (id_grlxxmh_supplier_select == 0) {
+			if (id_grlxxmh_supplier_select != val) {
 				autofillField('grlxxmh', val, 'id_fpytmmh')
 				id_fpy = autofillData.id_fpytmmh;
-			} else {
-				id_fpy = id_fpytmmh_old;
+	
+				autofillField('fpytmmh', id_fpy, 'id, nama')
+				id_fpytmmh_old = autofillData.id;
+				edtpodxxth.field('podxxth.id_fpytmmh').val(id_fpytmmh_old);
 			}
-
-			autofillField('fpytmmh', id_fpy, 'id, nama')
-			id_fpytmmh_old = autofillData.id;
-			edtpodxxth.field('podxxth.id_fpytmmh').val(id_fpytmmh_old);
-
 			return {}
 		}, {event: 'keyup change'});
 
