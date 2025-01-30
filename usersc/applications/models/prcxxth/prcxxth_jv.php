@@ -135,26 +135,19 @@
 		}elseif($rs_id_iitxxmh['id_iitxxmh'] == 2){
 			// TODO
 		}elseif($rs_id_iitxxmh['id_iitxxmh'] == 3){
+			//kalo jasa debitnya diganti tab biaya di prcxxth
 
 			// select debit
 			$qs_debit = $db
 				->raw()
 				->bind(':id_transaksi_h', $id_transaksi_h)
-				->exec('
-					SELECT
-						prcittd.id_prcxxth as id_transaksi_h,
-						aakxxmh.id as id_aakxxmh,
-						prcittd.created_by as created_by,
-						prcittd.keterangan as keterangan,
-						'.$rs_header["subtotal"].',
-						'.$rs_header["total_nilai"].',
-						SUM(prcittd.dpp / ' . $rs_header["subtotal"] .'*'. $rs_header["total_nilai"].') as debit
-					FROM prcittd
-					LEFT JOIN iimxxmh ON iimxxmh.id = prcittd.id_iimxxmh
-					LEFT JOIN '.$tabel_biaya.'_aakxxmh ON '.$tabel_biaya.'_aakxxmh.id_'.$tabel_biaya.' = iimxxmh.id_'.$tabel_biaya.'
-					LEFT JOIN aakxxmh ON aakxxmh.id = '.$tabel_biaya.'_aakxxmh.id_aakxxmh_biaya
-					WHERE prcittd.id_prcxxth = :id_transaksi_h
-					GROUP BY '.$tabel_biaya.'_aakxxmh.id_aakxxmh_biaya
+				->exec('SELECT
+							a.id_prcxxth id_transaksi_h,
+							a.id_aakxxmh,
+							a.created_by,
+							a.nominal debit
+						FROM prcaktd a
+						WHERE a.id_prcxxth = :id_transaksi_h
 				');
 			$rs_debit = $qs_debit->fetchAll();
 

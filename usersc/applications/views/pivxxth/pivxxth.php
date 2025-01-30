@@ -620,6 +620,12 @@
 				tblpivxxth.rows().deselect();
 				edtpivxxth.field('kategori_dokumen').val('');
 				edtpivxxth.field('kategori_dokumen_value').val('');
+				edtpivxxth.field('pivxxth.id_prcxxth').enable();
+				edtpivxxth.field('pivxxth.id_grlxxmh_supplier').enable();
+			} else if (action == 'edit') {
+				edtpivxxth.field('pivxxth.id_prcxxth').disable();
+				edtpivxxth.field('pivxxth.id_grlxxmh_supplier').disable();
+				
 			}
 		});
 
@@ -1375,7 +1381,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= [];
-					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					$arr_buttons_action 	= ['edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
