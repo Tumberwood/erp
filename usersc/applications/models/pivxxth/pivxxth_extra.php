@@ -66,6 +66,27 @@
 				'
 			);
 
+			//Auto create tab biaya Invoice
+			$qi_pivaktd = $editor->db()
+				->raw()
+				->bind(':id', $id)
+				->exec('INSERT INTO pivaktd (
+							id_pivxxth,
+							id_pivittd,
+							id_aakxxmh,
+							nominal
+						)
+						SELECT
+							a.id_pivxxth,
+							a.id,
+							id_aakxxmh,
+							nominal
+						FROM pivittd a
+						LEFT JOIN prcaktd b ON b.id_prcittd = a.id_prcittd
+						LEFT JOIN prcxxth c ON c.id = b.id_prcxxth
+						WHERE a.id_pivxxth = :id AND c.id_iitxxmh = 3
+			');
+
 			$qs_prcxxth = $editor->db()
 				->query('select', 'prcxxth' )
 				->get([

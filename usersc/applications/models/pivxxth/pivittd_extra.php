@@ -11,24 +11,29 @@
 			General::konversiUom2( $editor->db(), 'pivittd', $id );
 			$id_pivxxth = $values['pivittd']['id_pivxxth'];
 			
-			// $qs_def = $editor->db()
-			// ->raw()
-			// ->bind(':id_pivxxth', $id_pivxxth)
-			// ->exec('    UPDATE isoittd_upload AS b
-			// 			LEFT JOIN (
-			// 				SELECT
-			// 					a.id_isoittd_upload,
-			// 					SUM(a.diskon_final) AS sum_diskon_final,
-			// 					SUM(a.pajak_final) AS sum_pajak_final
-			// 				FROM isoittd_upload_fisik AS a
-			// 				WHERE a.id_isoittd_upload = :id_h
-			// 			) AS c ON c.id_isoittd_upload = b.id
-			// 			SET 
-			// 				b.fisik = sum_fisik,
-			// 				b.selisih = sum_fisik - b.jumlah_terkecil,
-			// 				b.selisih_final = sum_fisik + ifnull(b.transaksi_out,0) - b.jumlah_terkecil -ifnull( b.transaksi_in,0)
-			// 			WHERE b.id = :id_h
-			// ');
+			$qi_pivaktd = $editor->db()
+				->raw()
+				->bind(':id', $id)
+				->exec('INSERT INTO pivaktd (
+							id_pivxxth,
+							id_pivittd,
+							id_aakxxmh,
+							nominal
+						)
+						SELECT
+							z.id_pivxxth,
+							z.id,
+							IFNULL(e.id_aakxxmh_biaya, d.id_aakxxmh_biaya) id_biaya,
+							z.dpp
+						FROM pivittd z
+						LEFT JOIN pivxxth h ON h.id = z.id_pivxxth
+						LEFT JOIN iimxxmh a ON a.id = z.id_iimxxmh
+						LEFT JOIN iicxxmh b ON b.id = a.id_iicxxmh
+						LEFT JOIN iigxxmh c ON c.id = a.id_iigxxmh
+						LEFT JOIN iicxxmh_aakxxmh d ON d.id_iicxxmh = b.id
+						LEFT JOIN iigxxmh_aakxxmh e ON e.id_iigxxmh = c.id
+						WHERE a.id_iitxxmh = 3 AND z.id = :id AND h.id_iitxxmh = 3
+			');
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			// General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Edit', 'pivittd', 'prcittd' );
@@ -37,6 +42,35 @@
 		->on('postEdit',function( $editor, $id, $values, $row )  use ($nama_table, $nama_table_before) {
 			include('../../models/wreittd/wreittd_fn_konversi_terkecil.php');
 			General::konversiUom2( $editor->db(), 'pivittd', $id );
+
+			$qd_pivaktd = $editor->db()
+				->query('delete', 'pivaktd')
+				->where('id_pivittd',$id)
+				->exec();
+			
+			$qi_pivaktd = $editor->db()
+				->raw()
+				->bind(':id', $id)
+				->exec('INSERT INTO pivaktd (
+							id_pivxxth,
+							id_pivittd,
+							id_aakxxmh,
+							nominal
+						)
+						SELECT
+							z.id_pivxxth,
+							z.id,
+							IFNULL(e.id_aakxxmh_biaya, d.id_aakxxmh_biaya) id_biaya,
+							z.dpp
+						FROM pivittd z
+						LEFT JOIN pivxxth h ON h.id = z.id_pivxxth
+						LEFT JOIN iimxxmh a ON a.id = z.id_iimxxmh
+						LEFT JOIN iicxxmh b ON b.id = a.id_iicxxmh
+						LEFT JOIN iigxxmh c ON c.id = a.id_iigxxmh
+						LEFT JOIN iicxxmh_aakxxmh d ON d.id_iicxxmh = b.id
+						LEFT JOIN iigxxmh_aakxxmh e ON e.id_iigxxmh = c.id
+						WHERE a.id_iitxxmh = 3 AND z.id = :id AND h.id_iitxxmh = 3
+			');
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			// General::isNextProcess( $editor->db(), 'prqxxth', 'prqittd', 'pivittd', $id, 'REMOVE', $values );

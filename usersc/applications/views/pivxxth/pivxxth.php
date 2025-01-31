@@ -1122,13 +1122,23 @@
 			]
 		} );
 
-		edtpivittd.field('pivittd.jumlah_unit').input().addClass('text-right');
-		edtpivittd.field('pivittd.harga_unit').input().addClass('text-right');
-		edtpivittd.field('pivittd.subtotal').input().addClass('text-right');
-		edtpivittd.field('pivittd.diskon_persen').input().addClass('text-right');
-		edtpivittd.field('pivittd.diskon_value').input().addClass('text-right');
-		edtpivittd.field('pivittd.diskon_final').input().addClass('text-right');
-		edtpivittd.field('pivittd.dpp').input().addClass('text-right');
+		//masking
+		unmask_pivittd = maskingNumber(
+			edtpivittd, 
+			"pivittd", 
+			[
+				"jumlah_unit", 
+				"harga_unit", 
+				"subtotal", 
+				"diskon_persen", 
+				"diskon_value", 
+				"diskon_final", 
+				"dpp", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
 			
 		edtpivittd.on( 'preOpen', function( e, mode, action ) {
 			edtpivittd.field('pivittd.id_pivxxth').val(id_pivxxth);
@@ -1267,41 +1277,7 @@
 					}
 				);
 				
-				validasiNumber(
-					edtpivittd,
-					'pivittd',
-					{
-						'jumlah_unit': jumlah_unit,
-						'harga_unit': harga_unit
-					},
-					0,
-					'>'
-				);
-
-				if(diskon_jenis == 1){
-					validasiNumber(
-						edtpivittd,
-						'pivittd',
-						{
-							'diskon_persen': diskon_persen
-						},
-						0,
-						'>'
-					);
-				}else if(diskon_jenis == 2){
-					validasiNumber(
-						edtpivittd,
-						'pivittd',
-						{
-							'diskon_value': diskon_value
-						},
-						0,
-						'>'
-					);
-				}
-
-				
-				validasiOutstanding(edtpivittd, 'pivittd', id_transaksi, id_prcittd, 'prcittd');
+				// validasiOutstandingMask(edtpivittd, 'pivittd', id_transaksi, id_prcittd, 'prcittd');
 
 			}
 			
@@ -1518,7 +1494,7 @@
 		} );
 			
 		//masking
-		unmaskedData = maskingNumber(
+		unmask_pivaktd = maskingNumber(
 			edtpivaktd, 
 			"pivaktd", 
 			[

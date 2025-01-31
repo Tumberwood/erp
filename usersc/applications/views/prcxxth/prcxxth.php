@@ -696,7 +696,7 @@
 		tblprcxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('prcxxth');
-			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_podxxth_old = 0, id_iwhxxmh_old = 0, id_podxxth = 0, id_iitxxmh = 0;
+			id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_podxxth_old = 0, id_iwhxxmh_old = 0, id_podxxth = 0, id_iitxxmh = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd, tblprcaktd];
