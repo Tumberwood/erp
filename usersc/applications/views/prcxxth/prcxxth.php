@@ -484,6 +484,7 @@
 					edtprcxxth.field('prcxxth.mobil_nomor').show();
 				}
 			}else{
+				edtprcxxth.field('prcxxth.mobil_nomor').show();
 				edtprcxxth.field('prcxxth.id_iwhxxmh').show();
 				edtprcxxth.field('prcxxth.referensi_nomor').show();
 				edtprcxxth.field('prcxxth.supir_nama').show();
