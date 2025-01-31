@@ -10,6 +10,7 @@
 	$nama_tabel       = 'pivxxth';
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'pivittd';
+    $nama_tabels_d[1] = 'pivaktd';
 ?>
 
 <!-- begin content here -->
@@ -156,7 +157,7 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabpivittd_1"> Item</a></li>
-				<li><a class="nav-link" data-toggle="tab" href="#tabpivittd_2"> Biaya</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabpivaktd"> Biaya</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabpivittd_1" class="tab-pane active">
@@ -311,17 +312,17 @@
 
 					</div>
 				</div>
-				<div role="tabpanel" id="tabpivittd_2" class="tab-pane">
+				<div role="tabpanel" id="tabpivaktd" class="tab-pane">
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table id="tblpivittd_2" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<table id="tblpivaktd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_pivxxth</th>
-										<th>Kode</th>
-										<th>Nama</th>
-										<th>Keterangan</th>
+										<th data-i18n="accountCode"></th>
+										<th data-i18n="accountName"></th>
+										<th data-i18n="nominal"></th>
 									</tr>
 								</thead>
 							</table>
@@ -358,11 +359,12 @@
 	// ------------- default variable, do not erase
 	var edtpivxxth, tblpivxxth, show_deleted_pivxxth = 0, id_pivxxth;
 	var edtpivittd, tblpivittd, show_deleted_pivittd = 0, id_pivittd;
+	var edtpivaktd, tblpivaktd, show_deleted_pivaktd = 0, id_pivaktd;
 	// ------------- end of default variable
 
 	var id_prcxxth_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_prcxxth;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_prcittd_old = 0, id_iumxxmh_unit  = 0;
-	var jumlah_buy = 0;
+	var jumlah_buy = 0, id_aakxxmh_old = 0;
 	var id_iitxxmh = 0, id_iitxxmh_old = 0;
 	var id_grlxxmh_supplier = 0;
 
@@ -880,7 +882,7 @@
 			pivxxthUpdateFooter();
 
 			// atur hak akses
-			tbl_details = [tblpivittd];
+			tbl_details = [tblpivittd, tblpivaktd];
 			CekInitHeaderHD(tblpivxxth, tbl_details);
 		} );
 		
@@ -902,7 +904,7 @@
 			pivxxthUpdateFooter();
 
 			// atur hak akses
-			tbl_details = [tblpivittd];
+			tbl_details = [tblpivittd, tblpivaktd];
 			CekSelectHeaderHD(tblpivxxth, tbl_details);
 
 		} );
@@ -924,7 +926,7 @@
 			pivxxthUpdateFooter();
 
 			// atur hak akses
-			tbl_details = [tblpivittd];
+			tbl_details = [tblpivittd, tblpivaktd];
 			CekDeselectHeaderHD(tblpivxxth, tbl_details);
 		} );
 		// END pivxxth
@@ -1427,6 +1429,235 @@
 		} );
 
 		// END pivittd
+		
+		// BEGIN pivaktd
+		edtpivaktd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/pivxxth/pivaktd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_pivaktd = show_deleted_pivaktd;
+					d.id_pivxxth = id_pivxxth;
+				}
+			},
+			table: "#tblpivaktd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "pivaktd.start_at",
+					name: "pivaktd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "pivaktd.finish_at",
+					name: "pivaktd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "pivaktd",
+					type: "hidden"
+				},	
+				{
+					label: "pivaktd.transaction_state",
+					name: "pivaktd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_pivxxth",
+					name: "pivaktd.id_pivxxth",
+					type: "hidden"
+				},	
+				{
+					label: getTranslation('account') + " <sup class='text-danger'>*<sup>",
+					name: "pivaktd.id_aakxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: getTranslation('nominal') + " <sup class='text-danger'>*<sup>",
+					name: "pivaktd.nominal"
+				}, 	
+			]
+		} );
+			
+		//masking
+		unmaskedData = maskingNumber(
+			edtpivaktd, 
+			"pivaktd", 
+			[
+				"nominal", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
+		
+		edtpivaktd.on( 'preOpen', function( e, mode, action ) {
+			edtpivaktd.field('pivaktd.id_pivxxth').val(id_pivxxth);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtpivaktd.field('pivaktd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblpivaktd.rows().deselect();
+			}
+		});
+
+		edtpivaktd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edtpivaktd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				id_aakxxmh = edtpivaktd.field('pivaktd.id_aakxxmh').val();
+
+				validasiRequired(
+					edtpivaktd,
+					'pivaktd',
+					{
+						'id_aakxxmh': id_aakxxmh,
+					}
+				);	
+
+				validasiUnique(
+					action,
+					edtpivaktd,
+					'pivaktd',
+					'id_aakxxmh',
+					'id_aakxxmh',
+					id_aakxxmh,
+					id_pivaktd
+				);
+			}
+			
+			if ( edtpivaktd.inError() ) {
+				return false;
+			}
+		});
+
+		edtpivaktd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtpivaktd.field('pivaktd.finish_at').val(finish_at);
+		});
+			
+		edtpivaktd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tblpivxxth.ajax.reload(null, false);
+		} );
+
+		edtpivaktd.on( 'close', function () {
+			edtpivaktd.enable();
+		} );
+		
+		tblpivaktd = $('#tblpivaktd').DataTable( {
+			ajax: {
+				url: "../../models/pivxxth/pivaktd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_pivaktd = show_deleted_pivaktd;
+					d.id_pivxxth = id_pivxxth;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			columns: [
+				{ data: "pivaktd.id",visible:false },
+				{ data: "pivaktd.id_pivxxth",visible:false },
+				{ data: "aakxxmh.kode" },
+				{ data: "aakxxmh.nama" },
+				{ 
+					data: "pivaktd.nominal",
+					...renderNumber(0)
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_pivaktd';
+					$table       = 'tblpivaktd';
+					$edt         = 'edtpivaktd';
+					$show_status = '_pivaktd';
+					$table_name  = $nama_tabels_d[1];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblpivaktd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			cek_c_detail= 1;
+			CekDrawDetailHD(tblpivaktd, 0 );
+			CekDrawDetailHDFinal(tblpivxxth);
+		} );
+
+		tblpivaktd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSet('pivaktd');
+			id_aakxxmh_old = pivaktd_data.id_aakxxmh;
+			
+			// atur hak akses
+			CekSelectDetailHD( tblpivaktd );
+		} );
+
+		tblpivaktd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarReset('pivaktd');
+			id_aakxxmh_old = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblpivaktd );
+		} );
+		// END pivaktd
 
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();

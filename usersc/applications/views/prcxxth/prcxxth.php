@@ -163,7 +163,7 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>id_podxxth</th>
+										<th>id_prcxxth</th>
 										<th data-i18n="accountCode"></th>
 										<th data-i18n="accountName"></th>
 										<th data-i18n="nominal"></th>

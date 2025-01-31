@@ -25,7 +25,7 @@
 							z.id_prcxxth,
 							z.id,
 							IFNULL(e.id_aakxxmh_biaya, d.id_aakxxmh_biaya) id_biaya,
-							z.dpp
+							z.harga_unit
 						FROM prcittd z
 						LEFT JOIN prcxxth h ON h.id = z.id_prcxxth
 						LEFT JOIN iimxxmh a ON a.id = z.id_iimxxmh
@@ -61,7 +61,7 @@
 							z.id_prcxxth,
 							z.id,
 							IFNULL(e.id_aakxxmh_biaya, d.id_aakxxmh_biaya) id_biaya,
-							z.dpp
+							z.harga_unit
 						FROM prcittd z
 						LEFT JOIN prcxxth h ON h.id = z.id_prcxxth
 						LEFT JOIN iimxxmh a ON a.id = z.id_iimxxmh
