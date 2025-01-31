@@ -972,7 +972,7 @@
 					'>'
 				);
 
-				validasiOutstanding(
+				validasiOutstandingNew(
 					edtprcittd, 'prcittd', id_transaksi, id_podittd, 'podittd'
 				)
 
