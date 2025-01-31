@@ -70,7 +70,7 @@
         ->join('prqxxth','prqxxth.id = prqittd.id_prqxxth','LEFT' )
         ->join('iimxxmh','iimxxmh.id = prqittd.id_iimxxmh','LEFT' )
         ->where('prqxxth.transaction_state',1)
-        ->where('prqxxth.approval_state',9)
+        ->where('prqxxth.approval_state','(1,9)', 'IN', false)
         ->where('prqittd.id', $id_prqittd_old, '<>' )
         ->where( function ( $r ) {
             $r
