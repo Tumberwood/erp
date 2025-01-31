@@ -447,6 +447,11 @@
 
 			if(action == 'create'){
 				tblprcxxth.rows().deselect();
+				edtprcxxth.field('prcxxth.id_podxxth').enable();
+				edtprcxxth.field('prcxxth.id_grlxxmh_supplier').enable();
+			} else if(action == 'edit'){
+				edtprcxxth.field('prcxxth.id_podxxth').disable();
+				edtprcxxth.field('prcxxth.id_grlxxmh_supplier').disable();
 			}
 		});
 
