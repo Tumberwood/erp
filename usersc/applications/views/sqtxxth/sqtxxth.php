@@ -722,7 +722,7 @@
 				tanggal             = edtsqtxxth.field('sqtxxth.tanggal').val();
 				id_grlxxmh_customer = edtsqtxxth.field('sqtxxth.id_grlxxmh_customer').val();
 				tanggal_validity    = edtsqtxxth.field('sqtxxth.tanggal_validity').val();
-				up1                 = edtsqtxxth.field('sqtxxth.up1').val();
+				// up1                 = edtsqtxxth.field('sqtxxth.up1').val();
 
 				validasiRequired(
 					edtsqtxxth,
@@ -731,7 +731,7 @@
 						'tanggal'            : tanggal,
 						'id_grlxxmh_customer': id_grlxxmh_customer,
 						'tanggal_validity'   : tanggal_validity,
-						'up1'   : up1
+						// 'up1'   : up1
 					}
 				);
 				

@@ -511,7 +511,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/psuxxmh/psuxxmh_fn_opt.php",
+							url: "../../models/scuxxmh/scuxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -1038,7 +1038,7 @@
 					type: "hidden"
 				},	
 				{
-					label: "Item PR<sup class='text-danger'>*<sup>",
+					label: "Item SQ<sup class='text-danger'>*<sup>",
 					name: "sodittd.id_sqtittd",
 					type: "select2",
 					opts: {
@@ -1321,6 +1321,12 @@
 		}, {event: 'keyup'});
 
 		edtsodittd.on( 'preSubmit', function (e, data, action) {
+			if(action == 'create'){
+				id_transaksi = 0;
+			}else{
+				id_transaksi = id_sodittd;
+			}
+
 			if(action != 'remove'){
 				
 				id_sqtittd      = edtsodittd.field('sodittd.id_sqtittd').val();
@@ -1376,7 +1382,7 @@
 				}
 
 				
-				validasiOutstanding(edtsodittd, 'sodittd', id_sodittd, id_sqtittd, 'sqtittd');
+				validasiOutstandingNew(edtsodittd, 'sodittd', id_transaksi, id_sqtittd, 'sqtittd');
 
 			}
 			
