@@ -32,7 +32,7 @@
 					d.kode AS iumxxmh_kode,
 					a.jumlah_unit,
 					f.username user_create,
-					IFNULL(g.username, "Auto Approve by System") user_approve,
+					IF(b.transaction_state = 0, "", IFNULL(g.username, "Auto Approve by System")) user_approve,
 					b.tanggal
 				FROM prcittd a
 				LEFT JOIN prcxxth b ON b.id = a.id_prcxxth

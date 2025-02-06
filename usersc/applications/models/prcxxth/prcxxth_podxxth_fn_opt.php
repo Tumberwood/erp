@@ -52,6 +52,22 @@
     }
     // END query self
 
+    $qs_outs = $db
+        ->raw()
+        ->exec('SELECT
+                    a.id_podxxth,
+                    SUM(a.jumlah_terkecil_os) sum_terkecil_os
+                FROM podittd a
+                GROUP BY a.id_podxxth
+                HAVING sum_terkecil_os > 0
+    ');
+    
+    $rs_outs = $qs_outs->fetchAll();
+    $ids = array_column($rs_outs, 'id_podxxth');
+    $id_podxxth_avail = "(" . implode(",", $ids) . ")";
+
+    // echo $id_podxxth_avail;
+
     // BEGIN query options all except self
     $qs_podxxth_all = $db
         ->query('select', 'podxxth')
@@ -63,6 +79,7 @@
         ->where('podxxth.approval_state', 9)
         ->where('podxxth.id_grlxxmh_supplier', $id_grlxxmh_supplier)
         ->where('podxxth.id', $id_podxxth_old, '<>' )
+        ->where('podxxth.id', $id_podxxth_avail, 'IN', false)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r->where('podxxth.kode', '%' . $q . '%', 'LIKE' );
