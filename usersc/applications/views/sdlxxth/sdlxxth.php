@@ -911,7 +911,7 @@
 					}
 				);
 
-				validasiOutstandingNew(
+				validasiOutstandingMask(
 					edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
 				)
 
