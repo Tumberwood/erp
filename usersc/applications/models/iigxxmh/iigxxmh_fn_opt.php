@@ -38,6 +38,8 @@
                 'nama as text'
             ])
             ->where('id', $id_iigxxmh_old )
+            ->limit($resultCount)
+            ->offset($offset)
             ->exec();
         $rs_iigxxmh_self = $qs_iigxxmh_self->fetchAll();
     }else{
