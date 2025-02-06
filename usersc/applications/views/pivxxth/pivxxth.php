@@ -620,8 +620,9 @@
 
 			if(action == 'create'){
 				tblpivxxth.rows().deselect();
-				edtpivxxth.field('kategori_dokumen').val('');
-				edtpivxxth.field('kategori_dokumen_value').val('');
+				kategori_dokumen = 'is_down_payment';
+				kategori_dokumen_value = '0';
+				
 				edtpivxxth.field('pivxxth.id_prcxxth').enable();
 				edtpivxxth.field('pivxxth.id_grlxxmh_supplier').enable();
 			} else if (action == 'edit') {
