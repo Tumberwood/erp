@@ -422,7 +422,7 @@ $.validator.addMethod("validDate", function(value, element, dateFormat) {
     id_iumxxmh_unit = edt.field(tbl_name+'.id_iumxxmh_unit').val();
 
     $.ajax( {
-        url: "../../../helpers/fn_validasi_outstanding.php",
+        url: "../../../helpers/fn_validasi_outstanding_new.php",
         dataType: 'json',
         type: 'POST',
         async: false,
@@ -431,14 +431,13 @@ $.validator.addMethod("validDate", function(value, element, dateFormat) {
             id_transaksi_before: id_transaksi_before,
             tbl_name           : tbl_name,
             tbl_name_before    : tbl_name_before,
-            jumlah_unit        : jumlah_unit,
             id_iimxxmh         : id_iimxxmh,
             id_iumxxmh_unit    : id_iumxxmh_unit
         },
         success: function (json) {
-            jumlah_default_sisa = 'Sisa Maksimal ' + json.data.jumlah_default_sisa + ' ' + json.data.iumxxmh_default_kode;
-            if (parseFloat(json.data.jumlah_terkecil_after) > parseFloat(json.data.jumlah_terkecil)) {
-                edt.field(tbl_name+'.jumlah_unit').error( jumlah_default_sisa );
+            validasiSisa = 'Sisa Maksimal ' + json.data.jumlah_terkecil_os_validasi + ' ' + json.data.iumxxmh_kode_input;
+            if (parseFloat(jumlah_unit) > parseFloat(json.data.jumlah_terkecil_os_validasi)) {
+                edt.field(tbl_name+'.jumlah_unit').error( validasiSisa );
             }
         }
 

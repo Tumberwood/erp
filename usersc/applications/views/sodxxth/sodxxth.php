@@ -692,14 +692,23 @@
 			]
 		} );
 
-		edtsodxxth.field('sodxxth.subtotal').input().addClass('text-right');
-		edtsodxxth.field('sodxxth.diskon_persen').input().addClass('text-right');
-		edtsodxxth.field('sodxxth.diskon_value').input().addClass('text-right');
-		edtsodxxth.field('sodxxth.diskon_final').input().addClass('text-right');
-		edtsodxxth.field('sodxxth.dpp').input().addClass('text-right');
-		edtsodxxth.field('sodxxth.pajak_final').input().addClass('text-right');
-		edtsodxxth.field('sodxxth.grand_total').input().addClass('text-right');
-		
+		unmaskedHeader = maskingNumber(
+			edtsodxxth, 
+			"sodxxth", 
+			[ 
+				"subtotal", 
+				"diskon_persen", 
+				"diskon_value", 
+				"diskon_final", 
+				"dpp", 
+				"pajak_final", 
+				"grand_total", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>=' // val >= 0
+		);
+
 		edtsodxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtsodxxth.field('sodxxth.start_at').val(start_at);
@@ -791,9 +800,6 @@
 				id_fcrxxmh    = edtsodxxth.field('sodxxth.id_fcrxxmh').val();
 				id_iitxxmh    = edtsodxxth.field('sodxxth.id_iitxxmh').val();
 				tanggal       = edtsodxxth.field('sodxxth.tanggal').val();
-				diskon_jenis  = edtsodxxth.field('sodxxth.diskon_jenis').val();
-				diskon_persen = edtsodxxth.field('sodxxth.diskon_persen').val();
-				diskon_value  = edtsodxxth.field('sodxxth.diskon_value').val();
 
 				validasiRequired(
 					edtsodxxth,
@@ -806,28 +812,6 @@
 						'tanggal'   : tanggal
 					}
 				);
-
-				if(diskon_jenis == 1){
-					validasiNumber(
-						edtsodxxth,
-						'sodxxth',
-						{
-							'diskon_persen': diskon_persen
-						},
-						0,
-						'>'
-					);
-				}else if(diskon_jenis == 2){
-					validasiNumber(
-						edtsodxxth,
-						'sodxxth',
-						{
-							'diskon_value': diskon_value
-						},
-						0,
-						'>'
-					);
-				}
 			
 			}
 			
@@ -1213,14 +1197,23 @@
 			]
 		} );
 
-		edtsodittd.field('sodittd.jumlah_unit').input().addClass('text-right');
-		edtsodittd.field('sodittd.harga_unit').input().addClass('text-right');
-		edtsodittd.field('sodittd.subtotal').input().addClass('text-right');
-		edtsodittd.field('sodittd.diskon_persen').input().addClass('text-right');
-		edtsodittd.field('sodittd.diskon_value').input().addClass('text-right');
-		edtsodittd.field('sodittd.diskon_final').input().addClass('text-right');
-		edtsodittd.field('sodittd.dpp').input().addClass('text-right');
-			
+		umaskDetail = maskingNumber(
+			edtsodittd, 
+			"sodittd", 
+			[
+				"jumlah_unit", 
+				"harga_unit", 
+				"subtotal", 
+				"diskon_persen", 
+				"diskon_value", 
+				"diskon_final", 
+				"dpp", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
+
 		edtsodittd.on( 'preOpen', function( e, mode, action ) {
 			edtsodittd.field('sodittd.id_sodxxth').val(id_sodxxth);
 			
@@ -1332,11 +1325,6 @@
 				id_sqtittd      = edtsodittd.field('sodittd.id_sqtittd').val();
 				id_iumxxmh_unit = edtsodittd.field('sodittd.id_iumxxmh_unit').val();
 				id_iimxxmh      = edtsodittd.field('sodittd.id_iimxxmh').val();
-				jumlah_unit     = edtsodittd.field('sodittd.jumlah_unit').val();
-				harga_unit      = edtsodittd.field('sodittd.harga_unit').val();
-				diskon_jenis    = edtsodittd.field('sodittd.diskon_jenis').val();
-				diskon_persen    = edtsodittd.field('sodittd.diskon_persen').val();
-				diskon_value    = edtsodittd.field('sodittd.diskon_value').val();
 
 				validasiRequired(
 					edtsodittd,
@@ -1347,42 +1335,8 @@
 						'id_iimxxmh': id_iimxxmh,
 					}
 				);
-				
-				validasiNumber(
-					edtsodittd,
-					'sodittd',
-					{
-						'jumlah_unit': jumlah_unit,
-						'harga_unit': harga_unit
-					},
-					0,
-					'>'
-				);
 
-				if(diskon_jenis == 1){
-					validasiNumber(
-						edtsodittd,
-						'sodittd',
-						{
-							'diskon_persen': diskon_persen
-						},
-						0,
-						'>'
-					);
-				}else if(diskon_jenis == 2){
-					validasiNumber(
-						edtsodittd,
-						'sodittd',
-						{
-							'diskon_value': diskon_value
-						},
-						0,
-						'>'
-					);
-				}
-
-				
-				validasiOutstandingNew(edtsodittd, 'sodittd', id_transaksi, id_sqtittd, 'sqtittd');
+				validasiOutstandingMask(edtsodittd, 'sodittd', id_transaksi, id_sqtittd, 'sqtittd');
 
 			}
 			

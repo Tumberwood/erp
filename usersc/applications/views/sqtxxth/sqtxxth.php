@@ -634,14 +634,23 @@
 			]
 		} );
 
-		edtsqtxxth.field('sqtxxth.subtotal').input().addClass('text-right');
-		edtsqtxxth.field('sqtxxth.diskon_persen').input().addClass('text-right');
-		edtsqtxxth.field('sqtxxth.diskon_value').input().addClass('text-right');
-		edtsqtxxth.field('sqtxxth.diskon_final').input().addClass('text-right');
-		edtsqtxxth.field('sqtxxth.dpp').input().addClass('text-right');
-		edtsqtxxth.field('sqtxxth.pajak_final').input().addClass('text-right');
-		edtsqtxxth.field('sqtxxth.grand_total').input().addClass('text-right');
-		
+		unmaskedHeader = maskingNumber(
+			edtsqtxxth, 
+			"sqtxxth", 
+			[ 
+				"subtotal", 
+				"diskon_persen", 
+				"diskon_value", 
+				"diskon_final", 
+				"dpp", 
+				"pajak_final", 
+				"grand_total", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>=' // val >= 0
+		);
+
 		edtsqtxxth.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtsqtxxth.field('sqtxxth.start_at').val(start_at);
@@ -1052,15 +1061,24 @@
 				}
 			]
 		} );
+		
+		umaskDetail = maskingNumber(
+			edtsqtittd, 
+			"sqtittd", 
+			[
+				"jumlah_unit", 
+				"harga_unit", 
+				"subtotal", 
+				"diskon_persen", 
+				"diskon_value", 
+				"diskon_final", 
+				"dpp", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
 
-		edtsqtittd.field('sqtittd.jumlah_unit').input().addClass('text-right');
-		edtsqtittd.field('sqtittd.harga_unit').input().addClass('text-right');
-		edtsqtittd.field('sqtittd.subtotal').input().addClass('text-right');
-		edtsqtittd.field('sqtittd.diskon_persen').input().addClass('text-right');
-		edtsqtittd.field('sqtittd.diskon_value').input().addClass('text-right');
-		edtsqtittd.field('sqtittd.diskon_final').input().addClass('text-right');
-		edtsqtittd.field('sqtittd.dpp').input().addClass('text-right');
-			
 		edtsqtittd.on( 'preOpen', function( e, mode, action ) {
 			edtsqtittd.field('sqtittd.id_sqtxxth').val(id_sqtxxth);
 			
@@ -1142,8 +1160,6 @@
 				
 				id_iimxxmh = edtsqtittd.field('sqtittd.id_iimxxmh').val();
 				id_iumxxmh_unit = edtsqtittd.field('sqtittd.id_iumxxmh_unit').val();
-				jumlah_unit     = edtsqtittd.field('sqtittd.jumlah_unit').val();
-				harga_unit      = edtsqtittd.field('sqtittd.harga_unit').val();
 
 				validasiRequired(
 					edtsqtittd,
@@ -1151,29 +1167,7 @@
 					{
 						'id_iimxxmh': id_iimxxmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
-						'jumlah_unit': jumlah_unit,
-						'harga_unit': harga_unit
 					}
-				);
-
-				validasiNumber(
-					edtsqtittd,
-					'sqtittd',
-					{
-						'jumlah_unit': jumlah_unit,
-					},
-					0,
-					'>'
-				);
-
-				validasiNumber(
-					edtsqtittd,
-					'sqtittd',
-					{
-						'harga_unit': harga_unit,
-					},
-					0,
-					'>'
 				);
 				
 			}
