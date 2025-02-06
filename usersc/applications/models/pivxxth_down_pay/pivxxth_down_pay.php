@@ -76,6 +76,9 @@
 			Field::inst( 'pivxxth.pajak_persen' ),
 			Field::inst( 'pivxxth.pajak_final' ),
 			Field::inst( 'pivxxth.grand_total' ),
+			Field::inst( 'pivxxth.is_down_payment' )
+			->setValue(1)
+			->set( Field::SET_CREATE ),
 			Field::inst( 'pivxxth.down_payment' ),
 		
 			Field::inst( 'podxxth.kode' ),
@@ -84,6 +87,7 @@
 		)
 		->leftJoin( 'podxxth','podxxth.id','=','pivxxth.id_podxxth' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','pivxxth.id_grlxxmh_supplier' )
+		->where( 'pivxxth.is_down_payment', 1)
 		;
 	
 	// do not erase
