@@ -95,6 +95,7 @@
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','pivxxth.id_grlxxmh_supplier' )
 		->where( 'pivxxth.tanggal', $_POST['start_date'], '>=' )
 		->where( 'pivxxth.tanggal', $_POST['end_date'], '<=' )
+		->where( 'pivxxth.is_down_payment', 0)
 		;
 	
 	// do not erase

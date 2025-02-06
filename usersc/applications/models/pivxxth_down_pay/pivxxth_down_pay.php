@@ -88,6 +88,8 @@
 		->leftJoin( 'podxxth','podxxth.id','=','pivxxth.id_podxxth' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','pivxxth.id_grlxxmh_supplier' )
 		->where( 'pivxxth.is_down_payment', 1)
+		->where( 'pivxxth.tanggal', $_POST['start_date'], '>=' )
+		->where( 'pivxxth.tanggal', $_POST['end_date'], '<=' )
 		;
 	
 	// do not erase
