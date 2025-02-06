@@ -11,14 +11,37 @@
 		DataTables\Editor\Query,
 		DataTables\Editor\Result;
 
+	$start_date_pr = $_POST['start_date_pr'];
+	$end_date_pr = $_POST['end_date_pr'];
+
+	if ($start_date_pr == 'Invalid date' || $end_date_pr == 'Invalid date') {
+		$where_tgl_pr = '';
+	} else {
+		$where_tgl_pr = ' AND tanggal_ymd_pr BETWEEN "'.$start_date_pr.'" AND "'.$end_date_pr.'"';
+	}
+
+	$start_date_po = $_POST['start_date_po'];
+	$end_date_po = $_POST['end_date_po'];
+
+	if ($start_date_po == 'Invalid date' || $end_date_po == 'Invalid date') {
+		$where_tgl_po = '';
+	} else {
+		$where_tgl_po = ' AND tanggal_ymd_po BETWEEN "'.$start_date_po.'" AND "'.$end_date_po.'"';
+	}
+	
+
 	$qs_outstanding_pr = $db
 		->raw()
 		->exec('WITH data_prq AS (
 					SELECT
 						a.id,
-						d.kode AS kode_pr,
-						b.kode AS kode_po,
+						CONCAT(d.kode, " - ", IF(d.approval_state IN (1,9), "Approved", "Draft")) AS kode_pr,
+						CONCAT(b.kode, " - ", IF(b.approval_state IN (1,9), "<b>Approved<b>", "<b>Draft<b>")) AS kode_po,
+						-- b.kode AS kode_po,
 						date_format(b.tanggal,"%d %b %Y") AS tanggal_po,
+						date_format(d.tanggal,"%d %b %Y") AS tanggal_pr,
+						d.tanggal tanggal_ymd_pr,
+						b.tanggal tanggal_ymd_po,
 						IFNULL(item_pr.nama, a.nama) AS item_pr,
 						e.kode AS item_code,
 						e.nama AS item_po,
@@ -32,6 +55,7 @@
 							pod.id,
 							pod.kode,
 							pod.transaction_state,
+							pod.approval_state,
 							td.jumlah_unit,
 							td.id_iimxxmh,
 							td.id_iumxxmh_unit,
@@ -60,6 +84,10 @@
 					kode_pr,
 					kode_po,
 					tanggal_po,
+					tanggal_pr,
+					tanggal_ymd_pr,
+					tanggal_ymd_po,
+					DATEDIFF(IFNULL(tanggal_ymd_po, CURDATE()), tanggal_ymd_pr) AS pemenuhan,
 					item_pr,
 					item_code,
 					item_po,
@@ -70,7 +98,8 @@
 					sisa
 				FROM data_prq
 				left join sisa on sisa.id = data_prq.id
-				'
+				WHERE 1
+				' .$where_tgl_pr . $where_tgl_po
 				);
 	$rs_outstanding_pr = $qs_outstanding_pr->fetchAll();
 
