@@ -11,15 +11,35 @@
 		DataTables\Editor\Query,
 		DataTables\Editor\Result;
 
+	$start_date_po = $_POST['start_date_po'];
+	$end_date_po = $_POST['end_date_po'];
+
+	if ($start_date_po == 'Invalid date' || $end_date_po == 'Invalid date') {
+		$where_tgl_po = '';
+	} else {
+		$where_tgl_po = ' AND d.tanggal BETWEEN "'.$start_date_po.'" AND "'.$end_date_po.'"';
+	}
+	
+	$start_date_prc = $_POST['start_date_prc'];
+	$end_date_prc = $_POST['end_date_prc'];
+
+	if ($start_date_prc == 'Invalid date' || $end_date_prc == 'Invalid date') {
+		$where_tgl_prc = '';
+	} else {
+		$where_tgl_prc = ' AND b.tamggal BETWEEN "'.$start_date_prc.'" AND "'.$end_date_prc.'"';
+	}
+
 	$qs_outstanding_pr = $db
 		->raw()
 		->exec('SELECT
 					a.id,
-					d.kode AS kode_po,
+					CONCAT(d.kode, " - ", IF(d.approval_state IN (1,9), "Approved", "Draft")) AS kode_po,
 					b.kode AS kode_prc,
 					date_format(b.tanggal,"%d %b %Y") AS tanggal_prc,
+					date_format(d.tanggal,"%d %b %Y") AS tanggal_po,
 					IFNULL(item_po.nama, a.nama) AS item_po,
 					e.kode AS item_code,
+					DATEDIFF(IFNULL(b.tanggal, CURDATE()), d.tanggal) AS pemenuhan,
 					e.nama AS item_prc,
 					a.jumlah_unit AS qty_po,
 					uom_po.nama AS uom_po,
@@ -46,7 +66,7 @@
 				LEFT JOIN iumxxmh AS uom_po ON uom_po.id = a.id_iumxxmh_unit
 				LEFT JOIN iumxxmh AS uom_prc ON uom_prc.id = b.id_iumxxmh_unit
 				WHERE d.transaction_state = 1
-				'
+				' .$where_tgl_po . $where_tgl_prc
 				);
 	$rs_outstanding_pr = $qs_outstanding_pr->fetchAll();
 
