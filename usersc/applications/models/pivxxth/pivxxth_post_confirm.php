@@ -34,6 +34,18 @@
 		->exec();
 	$rs_id_iitxxmh = $qs_id_iitxxmh->fetch();
 
+	//Update tanggal_jatuh_tempo
+	$qu_tanggal_jatuh_tempo = $db
+		->raw()
+		->bind(':id', $id)
+		->exec('UPDATE pivxxth a
+				LEFT JOIN fpytmmh b ON b.id = a.id_fpytmmh
+				LEFT JOIN ggsfnsh c ON c.id = 1
+				SET 
+					a.tanggal_jatuh_tempo = DATE_ADD(a.tanggal, INTERVAL b.jatuh_tempo DAY)
+				WHERE a.id = :id
+	');
+
 	//jika bukan jasa
 	if($rs_id_iitxxmh['id_iitxxmh'] == 1){
 		try{

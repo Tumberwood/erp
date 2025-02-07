@@ -557,6 +557,11 @@
 					type: "hidden"
 				},
 				{
+					label: "id_fpytmmh",
+					name: "pivxxth.id_fpytmmh",
+					type: "hidden"
+				},
+				{
 					label: "Menggunakan Pajak",
 					name: "pivxxth.is_pajak",
 					type: "select",
@@ -647,9 +652,12 @@
 
 		edtpivxxth.dependent( 'pivxxth.id_prcxxth', function ( val, data, callback ) {
 			if (val > 0) {
-				autofillField('prcxxth', val, 'id_podxxth');
+				autofillField('prcxxth', val, 'id_podxxth, id_fpytmmh');
 				id_podxxth = autofillData.id_podxxth;
 				edtpivxxth.field('pivxxth.id_podxxth').val(id_podxxth);
+
+				id_fpytmmh = autofillData.id_fpytmmh;
+				edtpivxxth.field('pivxxth.id_fpytmmh').val(id_fpytmmh);
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -1540,8 +1548,8 @@
 					edtpivaktd,
 					'pivaktd',
 					'id_aakxxmh',
-					'id_aakxxmh',
-					id_aakxxmh,
+					'id_aakxxmh, id_pivxxth',
+					id_aakxxmh +','+ id_pivxxth,
 					id_pivaktd
 				);
 			}
