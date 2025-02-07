@@ -468,9 +468,11 @@
 
 		edtprcxxth.dependent( 'prcxxth.id_podxxth', function ( val, data, callback ) {
 			id_podxxth = val;
-			autofillField('podxxth', id_podxxth, 'id_iitxxmh');
+			autofillField('podxxth', id_podxxth, 'id_iitxxmh, id_fpytmmh');
 			id_iitxxmh = autofillData.id_iitxxmh;
 			edtprcxxth.field('prcxxth.id_iitxxmh').val(id_iitxxmh);
+			id_fpytmmh = autofillData.id_fpytmmh;
+			edtprcxxth.field('prcxxth.id_fpytmmh').val(id_fpytmmh);
 
 			// jika non inventory, tidak perlu isi warehouse
 			if(id_iitxxmh == 2 || id_iitxxmh == 3){
@@ -794,6 +796,11 @@
 				{
 					label: "prcittd.dpp",
 					name: "prcittd.dpp",
+					type: "hidden"
+				},
+				{
+					label: "prcittd.id_fpytmmh",
+					name: "prcittd.id_fpytmmh",
 					type: "hidden"
 				},
 				{
