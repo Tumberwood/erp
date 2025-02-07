@@ -42,6 +42,7 @@
 				LEFT JOIN fpytmmh b ON b.id = a.id_fpytmmh
 				LEFT JOIN ggsfnsh c ON c.id = 1
 				SET 
+					a.selisih_bayar = a.grand_total,
 					a.tanggal_jatuh_tempo = DATE_ADD(a.tanggal, INTERVAL b.jatuh_tempo DAY)
 				WHERE a.id = :id
 	');

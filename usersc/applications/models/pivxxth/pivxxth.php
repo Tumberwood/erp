@@ -85,6 +85,7 @@
 			Field::inst( 'pivxxth.pajak_persen' ),
 			Field::inst( 'pivxxth.pajak_final' ),
 			Field::inst( 'pivxxth.grand_total' ),
+			Field::inst( 'pivxxth.selisih_bayar' ),
 
 			Field::inst( 'prcxxth.kode' ),
 			Field::inst( 'podxxth.kode' ),

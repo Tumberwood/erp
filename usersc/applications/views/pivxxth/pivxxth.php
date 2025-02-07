@@ -593,6 +593,11 @@
 					type: "hidden"
 				},
 				{
+					label: "selisih_bayar",
+					name: "pivxxth.selisih_bayar",
+					type: "hidden"
+				},
+				{
 					label: "Pajak",
 					name: "pivxxth.pajak_final",
 					type: "readonly"
