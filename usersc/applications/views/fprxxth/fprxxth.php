@@ -56,7 +56,8 @@
 							<th>Kode</th>
 							<th>Tanggal</th>
 							<th>Supplier</th>
-							<th>COA Selisih Bayar</th>
+							<th>Kas / Bank</th>
+							<th>Akun Selisih Bayar</th>
 							<th>Total Amount</th>
 							<th>Total Rencana Bayar</th>
 							<th>Total Sisa</th>
@@ -156,6 +157,7 @@
 	var edtfprxxth, tblfprxxth, show_deleted_fprxxth = 0, id_fprxxth;
 	var edtfprivtd, tblfprivtd, show_deleted_fprivtd = 0, id_fprivtd;
 	var id_aakxxmh_old = 0, id_grlxxmh_supplier_old = 0, id_pivxxth_old = 0;
+	var id_aakxxmh_beban_old = 0;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -250,7 +252,7 @@
 					}
 				},		
 				{
-					label: "COA Selisih Bayar <sup class='text-danger'>*<sup>",
+					label: "Kas / Bank <sup class='text-danger'>*<sup>",
 					name: "fprxxth.id_aakxxmh",
 					type: "select2",
 					opts: {
@@ -263,6 +265,43 @@
 							data: function (params) {
 								var query = {
 									id_aakxxmh_old: id_aakxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+								return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1
+						}
+					}
+				},
+				{
+					label: "Akun Selisih Bayar",
+					name: "fprxxth.id_aakxxmh_beban",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_type_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_old,
+									id_aatxxmh: '13',
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -380,6 +419,7 @@
 				{ data: "fprxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
 				{ data: "aakxxmh.nama" },
+				{ data: "beban.nama" },
 				{ data: "fprxxth.amount", ...renderNumber() },
 				{ data: "fprxxth.rencana_bayar", ...renderNumber() },
 				{ data: "fprxxth.sisa", ...renderNumber() },
@@ -427,6 +467,7 @@
 			siVarSet('fprxxth');
 			id_grlxxmh_supplier_old = fprxxth_data.id_grlxxmh_supplier;
 			id_aakxxmh_old = fprxxth_data.id_aakxxmh;
+			id_aakxxmh_beban_old = fprxxth_data.id_aakxxmh_beban;
 			
 			// atur hak akses
 			tbl_details = [tblfprivtd];
@@ -439,6 +480,7 @@
 			siVarReset('fprxxth');
 			id_grlxxmh_supplier_old = 0;
 			id_aakxxmh_old = 0;
+			id_aakxxmh_beban_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblfprivtd];
