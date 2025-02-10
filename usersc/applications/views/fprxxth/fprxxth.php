@@ -86,7 +86,7 @@
 										<th data-i18n="purchaseInvoice"></th>
 										<th data-i18n='date'></th>
 										<th data-i18n='dueDate'></th>
-										<th>Ammount</th>
+										<th>Amount</th>
 										<th>Rencana Bayar</th>
 										<th>Sisa</th>
 									</tr>
@@ -380,7 +380,7 @@
 				{ data: "fprxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
 				{ data: "aakxxmh.nama" },
-				{ data: "fprxxth.ammount", ...renderNumber() },
+				{ data: "fprxxth.amount", ...renderNumber() },
 				{ data: "fprxxth.rencana_bayar", ...renderNumber() },
 				{ data: "fprxxth.sisa", ...renderNumber() },
 			],
@@ -550,8 +550,8 @@
 				},
 				{
 					
-					label: "Ammount <sup class='text-danger'>*<sup>",  
-					name: "fprivtd.ammount",
+					label: "Amount <sup class='text-danger'>*<sup>",  
+					name: "fprivtd.amount",
 					type: "readonly"
 				},
 				{
@@ -576,7 +576,7 @@
 			edtfprivtd,
 			"fprivtd",
 			[
-				"ammount",
+				"amount",
 				"rencana_bayar",
 				"sisa"
 			],
@@ -606,27 +606,28 @@
 				autofillField('pivxxth', val, 'DATE_FORMAT(tanggal, "%d %b %Y") AS tanggal,DATE_FORMAT(tanggal_jatuh_tempo, "%d %b %Y") AS tanggal_jatuh_tempo,selisih_bayar')
 				tanggal = autofillData.tanggal;
 				tanggal_jatuh_tempo = autofillData.tanggal_jatuh_tempo;
-				ammount = autofillData.selisih_bayar;
+				amount = autofillData.selisih_bayar;
 				edtfprivtd.field('fprivtd.tanggal').val(tanggal);
 				edtfprivtd.field('fprivtd.tanggal_jatuh_tempo').val(tanggal_jatuh_tempo);
-				edtfprivtd.field('fprivtd.ammount').val(ammount);
+				edtfprivtd.field('fprivtd.amount').val(amount);
+				edtfprivtd.field('fprivtd.rencana_bayar').val(amount);
 			}
 			return {}
 		}, {event: 'keyup change'});
 		
-		edtfprivtd.dependent( 'fprivtd.ammount', function ( val, data, callback ) {
-			ammount = parseFloat(edtfprivtd.field('fprivtd.ammount').input().inputmask('unmaskedvalue'));
+		edtfprivtd.dependent( 'fprivtd.amount', function ( val, data, callback ) {
+			amount = parseFloat(edtfprivtd.field('fprivtd.amount').input().inputmask('unmaskedvalue'));
 			rencana_bayar = parseFloat(edtfprivtd.field('fprivtd.rencana_bayar').input().inputmask('unmaskedvalue'));
-			sisa = ammount - rencana_bayar;
+			sisa = amount - rencana_bayar;
 			edtfprivtd.field('fprivtd.sisa').val(sisa);
 			
 			return {}
 		}, {event: 'keyup change'});
 		
 		edtfprivtd.dependent( 'fprivtd.rencana_bayar', function ( val, data, callback ) {
-			ammount = parseFloat(edtfprivtd.field('fprivtd.ammount').input().inputmask('unmaskedvalue'));
+			amount = parseFloat(edtfprivtd.field('fprivtd.amount').input().inputmask('unmaskedvalue'));
 			rencana_bayar = parseFloat(edtfprivtd.field('fprivtd.rencana_bayar').input().inputmask('unmaskedvalue'));
-			sisa = ammount - rencana_bayar;
+			sisa = amount - rencana_bayar;
 			edtfprivtd.field('fprivtd.sisa').val(sisa);
 			
 			return {}
@@ -697,7 +698,7 @@
 				{ data: "pivxxth.kode" },
 				{ data: "fprivtd.tanggal" },
 				{ data: "fprivtd.tanggal_jatuh_tempo" },
-				{ data: "fprivtd.ammount", ...renderNumber() },
+				{ data: "fprivtd.amount", ...renderNumber() },
 				{ data: "fprivtd.rencana_bayar", ...renderNumber() },
 				{ data: "fprivtd.sisa", ...renderNumber() },
 			],

@@ -87,7 +87,7 @@
 										<th data-i18n="purchaseInvoice"></th>
 										<th data-i18n='date'></th>
 										<th data-i18n='dueDate'></th>
-										<th>Ammount</th>
+										<th>Amount</th>
 										<th>Rencana Bayar</th>
 										<th>Sisa</th>
 									</tr>
@@ -330,8 +330,8 @@
 					type: "textarea"
 				},
 				{
-					label: "ammount",
-					name: "fpmxxth.ammount",
+					label: "amount",
+					name: "fpmxxth.amount",
 					type: "hidden"
 				},
 				{
@@ -364,22 +364,22 @@
 
 		edtfpmxxth.dependent( 'fpmxxth.id_fprxxth', function ( val, data, callback ) {
 			if (val > 0) {
-				autofillField('fprxxth', val, 'id_aakxxmh,ammount,rencana_bayar,sisa');
+				autofillField('fprxxth', val, 'id_aakxxmh,amount,rencana_bayar,sisa');
 				id_aakxxmh_old = autofillData.id_aakxxmh;
-				ammount = autofillData.ammount;
+				amount = autofillData.amount;
 				rencana_bayar = autofillData.rencana_bayar;
 				sisa = autofillData.sisa;
 
 				if (id_fprxxth_old != val ) {
 					
 					edtfpmxxth.field('fpmxxth.id_aakxxmh').val(id_aakxxmh_old);
-					edtfpmxxth.field('fpmxxth.ammount').val(ammount);
+					edtfpmxxth.field('fpmxxth.amount').val(amount);
 					edtfpmxxth.field('fpmxxth.rencana_bayar').val(rencana_bayar);
 					edtfpmxxth.field('fpmxxth.sisa').val(sisa);
 				}
 			} else {
 				edtfpmxxth.field('fpmxxth.id_aakxxmh').val('');
-				edtfpmxxth.field('fpmxxth.ammount').val('');
+				edtfpmxxth.field('fpmxxth.amount').val('');
 				edtfpmxxth.field('fpmxxth.rencana_bayar').val('');
 				edtfpmxxth.field('fpmxxth.sisa').val('');
 			}
@@ -462,7 +462,7 @@
 				{ data: "fprxxth.kode" },
 				{ data: "grlxxmh.nama" },
 				{ data: "aakxxmh.nama" },
-				{ data: "fpmxxth.ammount", ...renderNumber() },
+				{ data: "fpmxxth.amount", ...renderNumber() },
 				{ data: "fpmxxth.rencana_bayar", ...renderNumber() },
 				{ data: "fpmxxth.sisa", ...renderNumber() },
 			],
@@ -645,8 +645,8 @@
 				},
 				{
 					
-					label: "Ammount <sup class='text-danger'>*<sup>",  
-					name: "fpmivtd.ammount",
+					label: "Amount <sup class='text-danger'>*<sup>",  
+					name: "fpmivtd.amount",
 					type: "readonly"
 				},
 				{
@@ -668,7 +668,7 @@
 			edtfpmivtd,
 			"fpmivtd",
 			[
-				"ammount",
+				"amount",
 				"rencana_bayar",
 				"sisa"
 			],
@@ -698,9 +698,9 @@
 		});
 		
 		edtfpmivtd.dependent( 'fpmivtd.rencana_bayar', function ( val, data, callback ) {
-			ammount = parseFloat(edtfpmivtd.field('fpmivtd.ammount').input().inputmask('unmaskedvalue'));
+			amount = parseFloat(edtfpmivtd.field('fpmivtd.amount').input().inputmask('unmaskedvalue'));
 			rencana_bayar = parseFloat(edtfpmivtd.field('fpmivtd.rencana_bayar').input().inputmask('unmaskedvalue'));
-			sisa = ammount - rencana_bayar;
+			sisa = amount - rencana_bayar;
 			edtfpmivtd.field('fpmivtd.sisa').val(sisa);
 			
 			return {}
@@ -771,7 +771,7 @@
 				{ data: "pivxxth.kode" },
 				{ data: "fpmivtd.tanggal" },
 				{ data: "fpmivtd.tanggal_jatuh_tempo" },
-				{ data: "fpmivtd.ammount", ...renderNumber() },
+				{ data: "fpmivtd.amount", ...renderNumber() },
 				{ data: "fpmivtd.rencana_bayar", ...renderNumber() },
 				{ data: "fpmivtd.sisa", ...renderNumber() },
 			],

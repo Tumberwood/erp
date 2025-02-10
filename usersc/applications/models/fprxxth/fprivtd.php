@@ -41,7 +41,7 @@
 				Field::inst( 'fprivtd.finish_at' ),
 				Field::inst( 'fprivtd.is_nextprocess' ),
 				Field::inst( 'fprivtd.is_defaultprogram' ),
-				Field::inst( 'fprivtd.ammount' ),
+				Field::inst( 'fprivtd.amount' ),
 				Field::inst( 'fprivtd.rencana_bayar' ),
 				Field::inst( 'fprivtd.sisa' ),
 				Field::inst( 'fprivtd.tanggal' )

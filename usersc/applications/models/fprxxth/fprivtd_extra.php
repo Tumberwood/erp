@@ -13,7 +13,7 @@
 						JOIN (
 							SELECT 
 								a.id_fprxxth,
-								SUM(a.ammount) AS total_ammount,
+								SUM(a.amount) AS total_amount,
 								SUM(a.rencana_bayar) AS total_rencana_bayar,
 								SUM(a.sisa) AS total_sisa
 							FROM fprivtd a
@@ -21,7 +21,7 @@
 							GROUP BY a.id_fprxxth
 						) AS sums ON sums.id_fprxxth = b.id
 						SET
-							b.ammount = sums.total_ammount,
+							b.amount = sums.total_amount,
 							b.rencana_bayar = sums.total_rencana_bayar,
 							b.sisa = sums.total_sisa
 						WHERE b.id = :id_fprxxth;
@@ -107,7 +107,7 @@
 						JOIN (
 							SELECT 
 								a.id_fprxxth,
-								SUM(a.ammount) AS total_ammount,
+								SUM(a.amount) AS total_amount,
 								SUM(a.rencana_bayar) AS total_rencana_bayar,
 								SUM(a.sisa) AS total_sisa
 							FROM fprivtd a
@@ -115,7 +115,7 @@
 							GROUP BY a.id_fprxxth
 						) AS sums ON sums.id_fprxxth = b.id
 						SET
-							b.ammount = sums.total_ammount,
+							b.amount = sums.total_amount,
 							b.rencana_bayar = sums.total_rencana_bayar,
 							b.sisa = sums.total_sisa
 						WHERE b.id = :id_fprxxth;
@@ -134,7 +134,7 @@
 						JOIN (
 							SELECT 
 								a.id_fprxxth,
-								SUM(a.ammount) AS total_ammount,
+								SUM(a.amount) AS total_amount,
 								SUM(a.rencana_bayar) AS total_rencana_bayar,
 								SUM(a.sisa) AS total_sisa
 							FROM fprivtd a
@@ -143,7 +143,7 @@
 						) AS sums ON sums.id_fprxxth = b.id
 						LEFT JOIN fprivtd c ON c.id = :id
 						SET
-							b.ammount = sums.total_ammount- c.ammount,
+							b.amount = sums.total_amount- c.amount,
 							b.rencana_bayar = sums.total_rencana_bayar- c.rencana_bayar,
 							b.sisa = sums.total_sisa - c.sisa
 						WHERE b.id = :id_fprxxth;

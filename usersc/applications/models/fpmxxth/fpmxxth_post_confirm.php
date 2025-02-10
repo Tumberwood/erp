@@ -26,7 +26,7 @@
 		->raw()
 		->bind(':id', $id)
 		->exec('SELECT
-					a.ammount,
+					a.amount,
 					a.rencana_bayar rencana_bayar_pp,
 					b.rencana_bayar rencana_bayar_dph,
 					c.terbayar,

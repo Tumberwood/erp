@@ -43,7 +43,7 @@
 				Field::inst( 'fpmivtd.finish_at' ),
 				Field::inst( 'fpmivtd.is_nextprocess' ),
 				Field::inst( 'fpmivtd.is_defaultprogram' ),
-				Field::inst( 'fpmivtd.ammount' ),
+				Field::inst( 'fpmivtd.amount' ),
 				Field::inst( 'fpmivtd.rencana_bayar' ),
 				Field::inst( 'fpmivtd.sisa' ),
 				Field::inst( 'fpmivtd.tanggal' )

@@ -18,7 +18,7 @@
 						JOIN (
 							SELECT 
 								a.id_fpmxxth,
-								SUM(a.ammount) AS total_ammount,
+								SUM(a.amount) AS total_amount,
 								SUM(a.rencana_bayar) AS total_rencana_bayar,
 								SUM(a.sisa) AS total_sisa
 							FROM fpmivtd a
@@ -26,7 +26,7 @@
 							GROUP BY a.id_fpmxxth
 						) AS sums ON sums.id_fpmxxth = b.id
 						SET
-							b.ammount = sums.total_ammount,
+							b.amount = sums.total_amount,
 							b.rencana_bayar = sums.total_rencana_bayar,
 							b.sisa = sums.total_sisa
 						WHERE b.id = :id_fpmxxth;

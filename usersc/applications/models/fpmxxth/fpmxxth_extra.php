@@ -15,7 +15,7 @@
 							id_pivxxth,
 							tanggal,
 							tanggal_jatuh_tempo,
-							ammount,
+							amount,
 							rencana_bayar,
 							sisa
 						)
@@ -25,7 +25,7 @@
 							b.id_pivxxth,
 							b.tanggal,
 							b.tanggal_jatuh_tempo,
-							b.ammount,
+							b.amount,
 							b.rencana_bayar,
 							b.sisa
 						FROM fprivtd b

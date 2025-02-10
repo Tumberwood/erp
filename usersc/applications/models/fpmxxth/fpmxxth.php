@@ -54,7 +54,7 @@
 			Field::inst( 'fpmxxth.is_nextprocess' ),
 			Field::inst( 'fpmxxth.is_defaultprogram' ),
 			
-			Field::inst( 'fpmxxth.ammount' ),
+			Field::inst( 'fpmxxth.amount' ),
 			Field::inst( 'fpmxxth.rencana_bayar' ),
 			Field::inst( 'fpmxxth.sisa' ),
 			Field::inst( 'fpmxxth.tanggal' )
