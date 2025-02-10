@@ -70,8 +70,8 @@
 					) ),
 				Field::inst( 'pivxxth.kode' )
 			)
-			->where('fprivtd.id_fprxxth',$_POST['id_fprxxth'])
 			->leftJoin( 'pivxxth','pivxxth.id','=','fprivtd.id_pivxxth' )
+			->where('fprivtd.id_fprxxth',$_POST['id_fprxxth'])
 			;
 		
 		// do not erase

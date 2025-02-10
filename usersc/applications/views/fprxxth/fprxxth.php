@@ -53,6 +53,7 @@
                         <thead>
                             <tr>
 							<th>ID</th>
+							<th>Kode</th>
 							<th>Tanggal</th>
 							<th>Supplier</th>
 							<th>COA Selisih Bayar</th>
@@ -375,6 +376,7 @@
 			],
 			columns: [
 				{ data: "fprxxth.id",visible:false },
+				{ data: "fprxxth.kode" },
 				{ data: "fprxxth.tanggal" },
 				{ data: "grlxxmh.nama" },
 				{ data: "aakxxmh.nama" },

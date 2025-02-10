@@ -106,7 +106,7 @@
 					</tr>
 				</table>
 			</htmlpageheader>
-			
+			<br>
 			<htmlpagefooter name="myfooter">
 				<table width="100%">
 					
