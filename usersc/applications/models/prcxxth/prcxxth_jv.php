@@ -48,6 +48,8 @@
 					prcxxth.id_gbrxxmh as id_gbrxxmh,
 					prcxxth.kode as kode,
 					prcxxth.created_by as created_by,
+					prcxxth.start_at as start_at,
+					prcxxth.finish_at as finish_at,
 					prcxxth.tanggal as tanggal,
 					prcxxth.subtotal as subtotal,
 					prcxxth.dpp_final as total_nilai,
@@ -71,6 +73,8 @@
 			->set('id_transaksi_h', $rs_header['id_transaksi_h'])
 			->set('kode', $kode )
 			->set('created_by',$rs_header['created_by'])
+			->set('start_at',$rs_header['start_at'])
+			->set('finish_at',$rs_header['finish_at'])
 			->set('tanggal',$rs_header['tanggal'])
 			->set('keterangan', $keterangan)
 			->set('jenis_transaksi',$jenis_transaksi)
@@ -162,6 +166,8 @@
 				->set('id_aakxxmh',$row_debit['id_aakxxmh'])
 				->set('id_transaksi_d',$row_debit['id_transaksi_h'])
 				->set('created_by',$row_debit['created_by'])
+				->set('start_at',$rs_header['start_at'])
+				->set('finish_at',$rs_header['finish_at'])
 				->set('keterangan',$keterangan)
 				->set('debit_kredit', 'Debit')
 				->set('debit', $row_debit['debit']   )
@@ -176,6 +182,8 @@
 			->set('id_aakxxmh', $rs_ggsaksh['id_aakxxmh_hutang_sementara'])
 			->set('id_transaksi_d', 0 )
 			->set('created_by',$rs_header['created_by'])
+			->set('start_at',$rs_header['start_at'])
+			->set('finish_at',$rs_header['finish_at'])
 			->set('keterangan',$keterangan)
 			->set('debit_kredit', 'Kredit')
 			->set('debit', 0)
