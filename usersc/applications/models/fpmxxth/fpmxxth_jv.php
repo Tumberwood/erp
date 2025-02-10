@@ -124,7 +124,7 @@
 					b.id id_transaksi_d,
 					a.created_by,
 					:keterangan,
-					"Debit" AS debit_kredit,
+					"Kredit" AS debit_kredit,
 					0 AS debit,   
 					b.rencana_bayar AS kredit 
 				FROM fpmivtd b                                 
