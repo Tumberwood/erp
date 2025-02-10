@@ -300,7 +300,7 @@
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_aakxxmh_old: id_aakxxmh_old,
+									id_aakxxmh_old: id_aakxxmh_beban_old,
 									id_aatxxmh: '13',
 									search: params.term || '',
 									page: params.page || 1

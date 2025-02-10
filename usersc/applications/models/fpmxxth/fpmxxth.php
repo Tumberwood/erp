@@ -35,6 +35,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'fpmxxth.id_aakxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'fpmxxth.id_aakxxmh_beban' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'fpmxxth.id_fprxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'fpmxxth.kode' )
@@ -73,10 +75,12 @@
 			Field::inst( 'grlxxmh.nama' ),
 			Field::inst( 'aakxxmh.nama' ),
 			Field::inst( 'fprxxth.kode' ),
+			Field::inst( 'beban.nama' ),
 		)
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','fpmxxth.id_grlxxmh_supplier' )
 		->leftJoin( 'aakxxmh','aakxxmh.id','=','fpmxxth.id_aakxxmh' )
 		->leftJoin( 'fprxxth','fprxxth.id','=','fpmxxth.id_fprxxth' )
+		->leftJoin( 'aakxxmh beban','beban.id','=','fpmxxth.id_aakxxmh_beban' )
 		;
 	
 	if($_POST['start_date'] != ''){

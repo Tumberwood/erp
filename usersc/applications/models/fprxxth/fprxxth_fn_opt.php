@@ -61,6 +61,19 @@
     }
     // END query options self
 
+    $qs_fprxxth = $db
+        ->raw()
+        ->exec('SELECT
+                    a.id_fprxxth
+                FROM fprivtd a
+                WHERE a.is_purchase_payment = 1
+                GROUP BY a.id_fprxxth
+    ');
+    
+    $rs_fprxxth = $qs_fprxxth->fetchAll();
+    $ids = array_column($rs_fprxxth, 'id_fprxxth');
+    $exclude = '(' . implode(',', $ids) . ')';
+
     // BEGIN query options all except self
     $qs_fprxxth_all = $db
         ->query('select', 'fprxxth')
@@ -78,6 +91,7 @@
         ])
         ->where('fprxxth.transaction_state',1)
         ->where('fprxxth.id', $id_fprxxth_old, '<>' )
+        ->where('fprxxth.id', $exclude, 'NOT IN', false )
         ->where('fprxxth.id_grlxxmh_supplier', $id_grlxxmh_supplier)
         ->where( function ( $r ) {
             $q = $_GET['search'];
