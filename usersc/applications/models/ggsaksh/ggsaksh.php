@@ -76,6 +76,18 @@
 				)
 		)
 		
+		->join(
+			Mjoin::inst( 'aatxxmh' )
+				->name( 'aatxxmh_selisih' )
+				->link( 'ggsaksh.id', 'ggsaksh_aatxxmh_selisih.id_ggsaksh' )
+				->link( 'aatxxmh.id', 'ggsaksh_aatxxmh_selisih.id_aatxxmh_selisih' )
+				->order( 'aatxxmh.nama asc' )
+				->fields(
+					Field::inst( 'id' ),
+					Field::inst( 'nama' )
+				)
+		)
+		
 		;
 	
 	// do not erase

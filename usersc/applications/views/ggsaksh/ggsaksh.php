@@ -25,6 +25,7 @@
                                 <th>Persediaan Perjalanan</th>
                                 <th>Account Type Persediaan</th>
                                 <th>Account Type Biaya</th>
+                                <th>Account Type Selisih</th>
                             </tr>
                         </thead>
                     </table>
@@ -57,7 +58,7 @@
 <script type="text/javascript">
 	// ------------- default variable, do not erase
 	var edtggsaksh, tblggsaksh, show_deleted_ggsaksh = 0, id_ggsaksh;
-	var id_aakxxmh_hutang_sementara_old = 0, id_aakxxmh_persediaan_perjalanan_old = 0, ids_aatxxmh_persediaan_old = '', ids_aatxxmh_biaya_old = '';
+	var id_aakxxmh_hutang_sementara_old = 0, id_aakxxmh_persediaan_perjalanan_old = 0, ids_aatxxmh_persediaan_old = '', ids_aatxxmh_biaya_old = '', ids_aatxxmh_selisih_old = '';
 	// ------------- end of default variable
 	
 	// get tableRelation
@@ -241,6 +242,42 @@
 						},
 					}
 				},	
+				{
+					label: 'Account Type Selisih <sup class="text-danger">*</sup>',
+					name: "aatxxmh_selisih[].id",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/aatxxmh/aatxxmh_fn_opt_multiple.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									ids_aatxxmh_old: ids_aatxxmh_selisih_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+								return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
 			]
 		} );
 
@@ -267,6 +304,7 @@
 				id_aakxxmh_hutang_sementara = edtggsaksh.field('ggsaksh.id_aakxxmh_hutang_sementara').val();
 				id_aatxxmh_persediaan = edtggsaksh.field('aatxxmh_persediaan[].id').val();
 				id_aatxxmh_biaya = edtggsaksh.field('aatxxmh_biaya[].id').val();
+				id_aatxxmh_selisih = edtggsaksh.field('aatxxmh_selisih[].id').val();
 
 				validasiRequired(
 					edtggsaksh,
@@ -284,6 +322,10 @@
 				
 				if(!id_aatxxmh_biaya || id_aatxxmh_biaya == ''){
 					edtggsaksh.field('aatxxmh_biaya[].id').error( 'Wajib diisi!' );
+				}
+				
+				if(!id_aatxxmh_selisih || id_aatxxmh_selisih == ''){
+					edtggsaksh.field('aatxxmh_selisih[].id').error( 'Wajib diisi!' );
 				}
 			}
 			
@@ -334,6 +376,7 @@
 				{ data: "persediaan_perjalanan.nama" },
 				{ data: "aatxxmh_persediaan[].nama" },
 				{ data: "aatxxmh_biaya[].nama" },
+				{ data: "aatxxmh_selisih[].nama" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -385,12 +428,21 @@
 					});
 					ids_aatxxmh_persediaan_old = ids_aatxxmh_persediaan_old.substring(1);
 				}
+
 				if (row.aatxxmh_biaya) {
 					ids_aatxxmh_biaya_old = "";
 					row.aatxxmh_biaya.forEach(function (aatxxmh_biaya_data) {
 						ids_aatxxmh_biaya_old = ids_aatxxmh_biaya_old + "," + aatxxmh_biaya_data.id;
 					});
 					ids_aatxxmh_biaya_old = ids_aatxxmh_biaya_old.substring(1);
+				}
+
+				if (row.aatxxmh_selisih) {
+					ids_aatxxmh_selisih_old = "";
+					row.aatxxmh_selisih.forEach(function (aatxxmh_selisih_data) {
+						ids_aatxxmh_selisih_old = ids_aatxxmh_selisih_old + "," + aatxxmh_selisih_data.id;
+					});
+					ids_aatxxmh_selisih_old = ids_aatxxmh_selisih_old.substring(1);
 				}
 			});
 			// atur hak akses
@@ -404,6 +456,7 @@
 			id_aakxxmh_persediaan_perjalanan_old = 0;
 			ids_aatxxmh_persediaan_old = '';
 			ids_aatxxmh_biaya_old = '';
+			ids_aatxxmh_selisih_old = '';
 
 			// atur hak akses
 			CekDeselectHeaderH(tblggsaksh);

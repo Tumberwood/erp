@@ -39,6 +39,8 @@
 					fpmxxth.kode as kode,
 					fpmxxth.created_by as created_by,
 					fpmxxth.tanggal as tanggal,
+					fpmxxth.start_at as start_at,
+					fpmxxth.finish_at as finish_at,
 					fpmxxth.rencana_bayar as grand_total,
 					grlxxmh.nama as grlxxmh_nama
 				FROM fpmxxth
@@ -61,6 +63,8 @@
 			->set('kode', $kode )
 			->set('created_by',$rs_header['created_by'])
 			->set('tanggal',$rs_header['tanggal'])
+			->set('start_at',$rs_header['start_at'])
+			->set('finish_at',$rs_header['finish_at'])
 			->set('keterangan', $keterangan)
 			->set('jenis_transaksi',$jenis_transaksi)
 			->set('kode_transaksi',$rs_header['kode'])
@@ -80,6 +84,8 @@
 						id_aakxxmh,
 						id_transaksi_d,
 						created_by,
+						start_at,
+						finish_at,
 						keterangan,
 						debit_kredit,
 						debit,
@@ -90,6 +96,8 @@
 						e.id_aakxxmh,
 						b.id id_transaksi_d,
 						a.created_by,
+						a.start_at,
+						a.finish_at,
 						:keterangan,
 						"Debit" AS debit_kredit,
 						b.rencana_bayar AS debit,   
@@ -113,6 +121,8 @@
 					id_aakxxmh,
 					id_transaksi_d,
 					created_by,
+					start_at,
+					finish_at,
 					keterangan,
 					debit_kredit,
 					debit,
@@ -123,6 +133,8 @@
 					a.id_aakxxmh,
 					b.id id_transaksi_d,
 					a.created_by,
+					a.start_at,
+					a.finish_at,
 					:keterangan,
 					"Kredit" AS debit_kredit,
 					0 AS debit,   
