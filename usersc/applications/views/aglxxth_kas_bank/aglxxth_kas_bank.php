@@ -36,6 +36,12 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group row">												
+										<label class="col-sm-2 col-form-label">Akun Kas & Bank</label>
+										<div class="col-sm-4">
+											<select class="form-control" id="select_aakxxmh" name="select_id_aakxxmh"></select>
+										</div>
+									</div>
 
 									<div class="form-group row">
 										<label class="col-lg-2 col-form-label">Configuration</label>
@@ -104,14 +110,47 @@
 	// ------------- default variable, do not erase
 	var edtaglxxth, tblaglxxth, show_deleted_aglxxth = 0, id_aglxxth;
 	// ------------- end of default variable
-	var is_akunbertransaksi = 1, is_akunbernilai = 1;
+	var is_akunbertransaksi = 1, is_akunbernilai = 1, id_aakxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('aglxxth');
+		
+	$("#select_aakxxmh").select2({
+		placeholder: 'Ketik atau TekanTanda Panah Kanan',
+		allowClear: true,
+		ajax: {
+			url: "../../models/aakxxmh/aakxxmh_type_fn_opt.php",
+			dataType: 'json',
+			data: function (params) {
+				var query = {
+					id_aakxxmh_old: id_aakxxmh_old,
+					id_aatxxmh: 1,
+					search: params.term || '',
+					page: params.page || 1
+				}
+					return query;
+			},
+			processResults: function (data, params) {
+				return {
+					results: data.results,
+					pagination: {
+						more: true
+					}
+				};
+			},
+			cache: true,
+			minimumInputLength: 1,
+			maximum: 10,
+			delay: 500,
+			maximumSelectionLength: 5,
+			minimumResultsForSearch: -1,
+		},
+	});
 	
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');	
+		id_aakxxmh = $('#select_aakxxmh').val();
 		
 		tblaglxxth = $('#tblaglxxth').DataTable( {
 			dom: domPQ,
@@ -126,6 +165,7 @@
 					d.end_date = end_date;
 					d.is_akunbertransaksi = is_akunbertransaksi;
 					d.is_akunbernilai = is_akunbernilai;
+					d.id_aakxxmh = id_aakxxmh;
 				}
 			},
 			order: [[ 1, "asc" ]],
@@ -272,6 +312,7 @@
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				id_aakxxmh = $('#select_aakxxmh').val();
 
 				// BEGIN parameter tambahan
 				if( $('#cbakunbertransaksi').is(':checked') ){

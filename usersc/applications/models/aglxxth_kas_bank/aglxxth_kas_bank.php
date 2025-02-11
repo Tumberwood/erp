@@ -22,6 +22,10 @@
 		$rs_opt    = array();
 		// END definisi variable untuk fn_ajax_results.php
 		
+	$where = '';
+	if ($_POST['id_aakxxmh'] > 0) {
+		$where = ' AND c.id = '.$_POST['id_aakxxmh'];
+	}
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
 	$is_akunbertransaksi = $_POST['is_akunbertransaksi'];
@@ -35,12 +39,13 @@
 		->bind(':transaction_state', 1)
 		->exec('SELECT 
 			id as id_aakxxmh
-			FROM aakxxmh 
+			FROM aakxxmh c
 			WHERE 1
 				AND id_aatxxmh = 1
 				AND transaction_state = :transaction_state
 				AND is_parent = 0
-		');
+		'.$where
+		);
 	$rs_aakxxmh = $qs_aakxxmh->fetchAll();
 
 	$all_results = [];
@@ -83,7 +88,8 @@
 						AND c.id_aatxxmh = 1
 						AND c.id = :id_aakxxmh
 						AND b.tanggal < :start_date
-			');
+			'.$where
+			);
 		$rs_aglxxth_awal = $qs_aglxxth_awal->fetchAll();
 
 		if(!empty($rs_aglxxth_awal)){
@@ -124,6 +130,7 @@
 					AND c.id_aatxxmh = 1
 					AND id_aakxxmh = :id_aakxxmh
 					AND b.tanggal BETWEEN :start_date AND :end_date
+				'.$where.'
 				ORDER BY 
 					c.id, b.tanggal, b.id
 			');
