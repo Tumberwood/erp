@@ -39,8 +39,10 @@
 						aak.id,
 						aak.kode,
 						parent1.nama parent1,
-						parent2.nama parent2,
-						parent3.nama parent3,
+						-- parent2.nama parent2,
+						-- parent3.nama parent3,
+						IF(parent2.nama = IFNULL(parent3.nama, parent2.nama), parent1.nama, parent2.nama) AS parent2,
+						IFNULL(parent3.nama, parent2.nama) AS parent3,
 						aak.id_aatxxmh,
 						aat.nama aatxxmh_nama,
 						aak.nama

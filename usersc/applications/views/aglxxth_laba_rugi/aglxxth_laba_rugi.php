@@ -124,9 +124,6 @@
 					d.is_akunbernilai = is_akunbernilai;
 				}
 			},
-			// rowGroup: {
-			// 	dataSrc: 'akun'
-			// },
 			columnDefs:[
 				{
 					searchPanes:{
@@ -139,20 +136,26 @@
 						show: false,
 					},
 					targets: '_all'
+				},
+				{
+					targets: 1, // Kolom pertama yang ingin diutamakan jika ada nilai
+					render: function (data) {
+						return data ? data : "zzz"; // Kosong akan jadi "zzz" biar selalu di bawah
+					}
 				}
 			],
+			order: [[ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ]],
 			columns: [
 				{ data: "aatxxmh_nama",visible:false },
 				{ data: "parent3",visible:false },
 				{ data: "parent2",visible:false },
 				{ data: "parent1",visible:false },
 				{
-    data: "nama",
-    render: function(data, type, row) {
-        return '<span style="padding-left: 60px;">' + data + '</span>';
-    }
-}
-,
+					data: "nama",
+					render: function(data, type, row) {
+						return '<span style="padding-left: 60px;">' + data + '</span>';
+					}
+				},
 				{ 
 					data: "saldo_awal" ,
 					...renderNumber(2)
@@ -173,16 +176,10 @@
 			rowGroup: {
 				dataSrc: ['parent3', 'parent2', 'parent1'], // Group berdasarkan kolom pertama dan kedua
 				startRender: function(rows, group, level) {
-					if (level === 0) {
-						return $('<tr/>')
-							.append('<td colspan="5"><strong>' + group + '</strong></td>');
-					} else if (level === 1) {
-						return $('<tr/>')
-							.append('<td colspan="5" style="padding-left: 20px;"><strong>' + group + '</strong></td>');
-					} else {
-						return $('<tr/>')
-							.append('<td colspan="5" style="padding-left: 40px;"><strong>' + group + '</strong></td>');
-					}
+					var padding = level * 20; // Hitung padding otomatis
+
+					return $('<tr/>')
+						.append('<td colspan="5" style="padding-left: ' + padding + 'px;"><strong>' + group + '</strong></td>');
 				},
 				endRender: function (rows, group, level) {
 					var sum_saldo_awal = rows
@@ -226,11 +223,11 @@
 					}
 
 					return $('<tr/>')
-						.append('<td class="font-bold text-primary" style="padding-left: ' + indent + 'px;">' + label + '</td>')
-						.append('<td class="text-right font-bold bg-primary">' + sum_saldo_awal + '</td>')
-						.append('<td class="text-right font-bold bg-primary">' + sum_debit + '</td>')
-						.append('<td class="text-right font-bold bg-primary">' + sum_kredit + '</td>')
-						.append('<td class="text-right font-bold bg-primary">' + sum_saldo_akhir + '</td>');
+						.append('<td class="font-bold text-success" style="padding-left: ' + indent + 'px;">' + label + '</td>')
+						.append('<td class="text-right font-bold bg-success">' + sum_saldo_awal + '</td>')
+						.append('<td class="text-right font-bold bg-success">' + sum_debit + '</td>')
+						.append('<td class="text-right font-bold bg-success">' + sum_kredit + '</td>')
+						.append('<td class="text-right font-bold bg-success">' + sum_saldo_akhir + '</td>');
 				}
 			},
 			buttons: [
