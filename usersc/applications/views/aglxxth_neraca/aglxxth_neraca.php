@@ -115,7 +115,7 @@
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/aglxxth_laba_rugi/aglxxth_laba_rugi.php",
+				url: "../../models/aglxxth_neraca/aglxxth_neraca.php",
 				type: 'POST',
 				data: function (d){
 					d.start_date = start_date;
