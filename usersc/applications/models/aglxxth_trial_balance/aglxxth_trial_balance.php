@@ -40,7 +40,7 @@
 						aak.kode,
 						aak.nama
 					FROM aakxxmh aak
-					WHERE aak.transaction_state = 1
+					WHERE aak.transaction_state = 1 AND is_parent = 0
 				),
 				data_agl AS ( 
 					SELECT

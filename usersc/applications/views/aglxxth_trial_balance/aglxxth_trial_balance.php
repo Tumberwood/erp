@@ -36,22 +36,6 @@
 											</div>
 										</div>
 									</div>
-
-									<!-- <div class="form-group row">
-										<label class="col-lg-2 col-form-label">Configuration</label>
-										<div class="col-lg-6">
-											<fieldset>
-												<div class="form-check abc-checkbox form-check-inline">
-													<input class="form-check-input" type="checkbox" id="cbakunbertransaksi" checked>
-													<label class="form-check-label" for=""> Hanya Akun Bertransaksi </label>
-												</div>
-												<div class="form-check abc-checkbox abc-checkbox-success form-check-inline">
-													<input class="form-check-input" type="checkbox" id="cbakunbernilai" checked>
-													<label class="form-check-label" for=""> Hanya Akun Bernilai </label>
-												</div>
-											</fieldset>
-										</div>
-									</div> -->
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -66,7 +50,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th data-i18n="account"></th>
+                                <th data-i18n="accountCode"></th>
+                                <th data-i18n="accountName"></th>
                                 <th data-i18n="beginningBalance"></th>
                                 <th data-i18n="debit"></th>
                                 <th data-i18n="credit"></th>
@@ -76,11 +61,12 @@
 						<tfoot>
 							<tr>
 								<th></th>
+								<th></th>
 								<th>Total</th>
-								<th id="total_2"></th>
 								<th id="total_3"></th>
 								<th id="total_4"></th>
 								<th id="total_5"></th>
+								<th id="total_6"></th>
 							</tr>
 						</tfoot>
                     </table>
@@ -156,6 +142,7 @@
 			],
 			columns: [
 				{ data: "id",visible:false },
+				{ data: "kode" },
 				{ data: "nama" },
 				{ 
 					data: "saldo_awal" ,
@@ -194,7 +181,7 @@
 				var api = this.api();
 				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 
-				for (var i = 2; i <= 5; i++) {
+				for (var i = 3; i <= 6; i++) {
 					var columnIndex = i;
 					var sum_all = api.column(columnIndex).data().sum();
 					// Bisa dilakukan sum berdasarkan paginasi (sum per paginasi / tidak sum semua data) dengan menambahkan { page: 'current' }
