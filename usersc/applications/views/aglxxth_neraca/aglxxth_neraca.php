@@ -111,6 +111,7 @@
 		
 		tblaglxxth = $('#tblaglxxth').DataTable( {
 			dom: domPQ,
+			pageLength: -1,
 			searchPanes:{
 				layout: 'columns-4',
 			},
