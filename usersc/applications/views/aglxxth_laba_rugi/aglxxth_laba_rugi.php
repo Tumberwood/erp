@@ -154,7 +154,7 @@
 }
 ,
 				{ 
-					data: "s_saldo_awal" ,
+					data: "saldo_awal" ,
 					...renderNumber(2)
 				},
 				{ 
@@ -185,9 +185,9 @@
 					}
 				},
 				endRender: function (rows, group, level) {
-					var sum_s_saldo_awal = rows
+					var sum_saldo_awal = rows
 						.data()
-						.pluck('s_saldo_awal')
+						.pluck('saldo_awal')
 						.map(s => parseFloat(s) || 0)
 						.reduce((a, b) => a + b, 0);
 
@@ -209,7 +209,7 @@
 						.map(s => parseFloat(s) || 0)
 						.reduce((a, b) => a + b, 0);
 
-					sum_s_saldo_awal = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_s_saldo_awal);
+					sum_saldo_awal = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_saldo_awal);
 					sum_debit = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_debit);
 					sum_kredit = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_kredit);
 					sum_saldo_akhir = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_saldo_akhir);
@@ -227,7 +227,7 @@
 
 					return $('<tr/>')
 						.append('<td class="font-bold text-primary" style="padding-left: ' + indent + 'px;">' + label + '</td>')
-						.append('<td class="text-right font-bold bg-primary">' + sum_s_saldo_awal + '</td>')
+						.append('<td class="text-right font-bold bg-primary">' + sum_saldo_awal + '</td>')
 						.append('<td class="text-right font-bold bg-primary">' + sum_debit + '</td>')
 						.append('<td class="text-right font-bold bg-primary">' + sum_kredit + '</td>')
 						.append('<td class="text-right font-bold bg-primary">' + sum_saldo_akhir + '</td>');

@@ -74,7 +74,7 @@
                     parent2,
                     parent3,
 					aatxxmh_nama,
-					IFNULL(s_saldo_awal,0) s_saldo_awal,
+					IFNULL(s_saldo_awal,0) saldo_awal,
 					IFNULL(data_agl.s_debit,0) debit,
 					IFNULL(data_agl.s_kredit,0) kredit,
 					IFNULL(s_saldo_awal,0) + IFNULL(data_agl.s_debit,0) - IFNULL(data_agl.s_kredit,0) saldo_akhir

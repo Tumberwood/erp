@@ -47,22 +47,11 @@
 						a.id_aakxxmh,
 						b.kode,
 						b.nama,
-						IFNULL(s_saldo_awal,0) s_saldo_awal,
 						IFNULL(SUM(a.debit),0) AS s_debit,
-						IFNULL(SUM(a.kredit),0) AS s_kredit,
-						IFNULL(s_saldo_awal,0) + SUM(a.debit) - SUM(a.kredit) s_saldo_akhir
+						IFNULL(SUM(a.kredit),0) AS s_kredit
 					FROM aakxxmh b
 					LEFT JOIN  aglaktd a  ON b.id = a.id_aakxxmh
 					LEFT JOIN aglxxth c ON c.id = a.id_aglxxth
-					LEFT JOIN (
-						SELECT
-							a.id_aakxxmh,
-							SUM(a.debit) - SUM(a.kredit) AS s_saldo_awal
-						FROM aglaktd a
-						LEFT JOIN aglxxth c ON c.id = a.id_aglxxth
-						WHERE c.tanggal < :start_date
-						GROUP BY a.id_aakxxmh
-					) d ON d.id_aakxxmh = b.id
 					WHERE c.tanggal BETWEEN :start_date AND :end_date
 					GROUP BY b.id, b.kode, b.nama
 				)
@@ -70,12 +59,21 @@
 					aak.id,
 					aak.kode,
 					aak.nama,
-					IFNULL(data_agl.s_saldo_awal,0) saldo_awal,
+					IFNULL(s_saldo_awal,0) saldo_awal,
 					IFNULL(data_agl.s_debit,0) debit,
 					IFNULL(data_agl.s_kredit,0) kredit,
-					IFNULL(data_agl.s_saldo_akhir,0) saldo_akhir
+					IFNULL(s_saldo_awal,0) + IFNULL(data_agl.s_debit,0) - IFNULL(data_agl.s_kredit,0) saldo_akhir
 				FROM aak
-				LEFT JOIN data_agl ON data_agl.id_aakxxmh = aak.id;
+				LEFT JOIN data_agl ON data_agl.id_aakxxmh = aak.id
+				LEFT JOIN (
+					SELECT
+						a.id_aakxxmh,
+						SUM(a.debit) - SUM(a.kredit) AS s_saldo_awal
+					FROM aglaktd a
+					LEFT JOIN aglxxth c ON c.id = a.id_aglxxth
+					WHERE c.tanggal < :start_date
+					GROUP BY a.id_aakxxmh
+				) d ON d.id_aakxxmh = aak.id
 		
 		');
 	$rs_aakxxmh = $qs_aakxxmh->fetchAll();
