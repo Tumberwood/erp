@@ -89,7 +89,7 @@
 			$rs_aglxxth_awal[0]['kode_transaksi'] = 'SALDO AWAL';
 			$rs_aglxxth_awal[0]['tanggal'] = date('d M Y', strtotime("-1 day", strtotime($start_date)));
 			$rs_aglxxth_awal[0]['keterangan'] = '';
-			$rs_aglxxth_awal[0]['saldo'] = 0; //kalau hitungan saldo awal null atau blank, maka dibuat jadi 0 saja
+			// $rs_aglxxth_awal[0]['saldo'] = 0; //kalau hitungan saldo awal null atau blank, maka dibuat jadi 0 saja
 		}else{
 
 			$rs_aglxxth_awal[0]['tanggal'] = date('d M Y', strtotime("-1 day", strtotime($start_date)));
