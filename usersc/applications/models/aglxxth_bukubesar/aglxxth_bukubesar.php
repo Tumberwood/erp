@@ -74,7 +74,7 @@
 							SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)),
 							0
 						) AS kredit,
-						SUM(IF(a.debit_kredit = "Debit",a.debit,0)) - SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)) AS saldo 
+						IFNULL(SUM(IF(a.debit_kredit = "Debit",a.debit,0)),0) - IFNULL(SUM(IF(a.debit_kredit = "Kredit",a.kredit,0)),0) AS saldo 
 					FROM aglaktd a
 					LEFT JOIN aglxxth b ON b.id = a.id_aglxxth
 					LEFT JOIN aakxxmh c ON c.id = a.id_aakxxmh
