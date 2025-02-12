@@ -65,7 +65,6 @@
 					FROM aakxxmh b
 					LEFT JOIN  aglaktd a  ON b.id = a.id_aakxxmh
 					LEFT JOIN aglxxth c ON c.id = a.id_aglxxth 
-					AND c.tanggal BETWEEN :start_date AND :end_date
 					WHERE c.tanggal BETWEEN :start_date AND :end_date
 					GROUP BY b.id, b.kode, b.nama
 				)
