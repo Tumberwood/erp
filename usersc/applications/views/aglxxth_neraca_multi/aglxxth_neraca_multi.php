@@ -136,7 +136,7 @@
 		minViewMode: 'month' 
 	});
 	$('#start_date_awal').datepicker('setDate', moment(awal_bulan_dmy).subtract(1, 'months').format('DD MMM YYYY'));
-	$('#end_date_awal').datepicker('setDate', moment(akhir_bulan_dmy).subtract(1, 'months').format('DD MMM YYYY'));
+	$('#end_date_awal').datepicker('setDate', moment().subtract(1, 'months').endOf('month').format('DD MMM YYYY'));
 	// END datepicker init
 	
 	// BEGIN datepicker init
