@@ -28,11 +28,11 @@
 										<label class="col-lg-2 col-form-label">Periode Awal</label>
 										<div class="col-lg-5">
 											<div class="input-group input-daterange" id="periode_awal">
-												<input type="text" id="start_date_awal" class="form-control">
+												<input type="text" id="start_date_awal" name="start_date_awal" class="form-control">
 												<div class="input-group-addon">
 													<span class="fa fa-calendar"></span>
 												</div>
-												<input type="text" id="end_date_awal" class="form-control">
+												<input type="text" id="end_date_awal" name="end_date_awal" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -40,11 +40,11 @@
 										<label class="col-lg-2 col-form-label">Periode Akhir</label>
 										<div class="col-lg-5">
 											<div class="input-group input-daterange" id="periode_akhir">
-												<input type="text" id="start_date_akhir" class="form-control">
+												<input type="text" id="start_date_akhir" name="start_date_akhir" class="form-control">
 												<div class="input-group-addon">
 													<span class="fa fa-calendar"></span>
 												</div>
-												<input type="text" id="end_date_akhir" class="form-control">
+												<input type="text" id="end_date_akhir" name="end_date_akhir" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -401,26 +401,57 @@
 
 		// END aglxxth
 
-		// BEGIN form filter
-		$("#frmFilter").submit(function(e) {
-			e.preventDefault();
-		}).validate({
+		$.validator.addMethod("validDate", function(value, element) {
+			return moment(value, "DD MMM YYYY", true).isValid();
+		}, "Format tanggal tidak valid!");
+
+		// Custom validation to check start_date_awal < start_date_akhir
+		$.validator.addMethod("dateRange", function(value, element) {
+			let start = moment($('#start_date_awal').val(), "DD MMM YYYY");
+			let end = moment($('#start_date_akhir').val(), "DD MMM YYYY");
+
+			if (!start.isValid() || !end.isValid()) return true; // Abaikan validasi jika tanggal tidak valid
+
+			return start.isBefore(end); // Pastikan start_date_awal < start_date_akhir
+		}, "Periode Awal harus lebih kecil dari Periode Akhir!");
+
+		$("#frmFilter").validate({
 			rules: {
-				start_date: {
+				start_date_awal: {
 					required: true,
-					validDate: "DD MMM YYYY"
+					validDate: true,
+					dateRange: true  // Add this rule
 				},
-				end_date: {
+				end_date_awal: {
 					required: true,
-					validDate: "DD MMM YYYY"
+					validDate: true
+				},
+				start_date_akhir: {
+					required: true,
+					validDate: true
+				},
+				end_date_akhir: {
+					required: true,
+					validDate: true
 				}
 			},
 			messages: {
-				start_date: {
-					required: "Start Date Wajib Diisi!"
+				start_date_awal: {
+					required: "Start Date Awal Wajib Diisi!",
+					validDate: "Format harus DD MMM YYYY!",
+					dateRange: "Start Date Awal harus kurang dari Start Date Akhir!"
 				},
-				end_date: {
-					required: "End Date Wajib Diisi!"
+				end_date_awal: {
+					required: "End Date Awal Wajib Diisi!",
+					validDate: "Format harus DD MMM YYYY!"
+				},
+				start_date_akhir: {
+					required: "Start Date Akhir Wajib Diisi!",
+					validDate: "Format harus DD MMM YYYY!"
+				},
+				end_date_akhir: {
+					required: "End Date Akhir Wajib Diisi!",
+					validDate: "Format harus DD MMM YYYY!"
 				}
 			},
 			submitHandler: function(frmFilter) {

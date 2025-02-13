@@ -256,7 +256,7 @@
 								$('<tr/>').append('<td colspan="2"><br></td>') // Tambahkan br sebelum
 							).add(
 								$('<tr/>')
-									.append('<td class="font-bold text-danger" data-toggle="tooltip" data-placement="top" title="PENDAPATAN - BEBAN POKOK PENJUALAN"><strong>LABA KOTOR</strong></td>')
+									.append('<td class="font-bold text-danger" ><strong data-toggle="tooltip" data-placement="right" title="PENDAPATAN - BEBAN POKOK PENJUALAN">LABA KOTOR</strong></td>')
 									.append('<td class="text-right font-bold bg-danger">' + labaKotorFormatted + '</td>')
 							).add(
 								$('<tr/>').append('<td colspan="2"><br></td>')
@@ -278,7 +278,7 @@
 								$('<tr/>').append('<td colspan="2"><br></td>') // Tambahkan br sebelum
 							).add(
 								$('<tr/>')
-									.append('<td class="font-bold text-danger" data-toggle="tooltip" data-placement="top" title="LABA KOTOR - BEBAN"><strong>PENDAPATAN OPERASIONAL</strong></td>')
+									.append('<td class="font-bold text-danger"><strong data-toggle="tooltip" data-placement="right" title="LABA KOTOR - BEBAN">PENDAPATAN OPERASIONAL</strong></td>')
 									.append('<td class="text-right font-bold bg-danger">' + pendapatanOperasionalFormatted + '</td>')
 							).add(
 								$('<tr/>').append('<td colspan="2"><br></td>')
@@ -316,11 +316,11 @@
 									$('<tr/>').append('<td colspan="2"><br></td>')
 								).add(
 									$('<tr/>')
-									.append('<td class="font-bold text-danger" data-toggle="tooltip" data-placement="top" title="PENDAPATAN OPERASIONAL + TOTAL PENDAPATAN & BEBAN LAINNYA"><strong>LABA BERSIH (Sebelum Pajak)</strong></td>')
+									.append('<td class="font-bold text-danger"><strong data-toggle="tooltip" data-placement="right" title="PENDAPATAN OPERASIONAL + TOTAL PENDAPATAN & BEBAN LAINNYA">LABA BERSIH (Sebelum Pajak)</strong></td>')
 									.append('<td class="text-right font-bold bg-danger">' + labaBersihSebelumFormatted + '</td>')
 								).add(
 									$('<tr/>')
-									.append('<td class="font-bold text-danger" data-toggle="tooltip" data-placement="top" title="PENDAPATAN OPERASIONAL + TOTAL PENDAPATAN & BEBAN LAINNYA"><strong>LABA BERSIH (Setelah Pajak)</strong></td>')
+									.append('<td class="font-bold text-danger"><strong data-toggle="tooltip" data-placement="right" title="PENDAPATAN OPERASIONAL + TOTAL PENDAPATAN & BEBAN LAINNYA">LABA BERSIH (Setelah Pajak)</strong></td>')
 									.append('<td class="text-right font-bold bg-danger">' + labaBersihSebelumFormatted + '</td>')
 							);
 						}
@@ -367,6 +367,10 @@
 		tblaglxxth.searchPanes.container().appendTo('#spaglxxth');
 		tblaglxxth.searchBuilder.container().appendTo( '#sbaglxxth' );
 		
+		$('#tblaglxxth').on('draw.dt', function () {
+			$('[data-toggle="tooltip"]').tooltip(); // Re-inisialisasi tooltip
+		});
+
 		tblaglxxth.on( 'init', function () {
 			// atur hak akses
 			CekInitHeaderH(tblaglxxth);
