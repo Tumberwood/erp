@@ -103,6 +103,7 @@
 
 	// get tableRelation
 	tableRelation('aglxxth');
+	$('#end_date').datepicker('setDate', tanggal_hariini_dmy);
 	
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
