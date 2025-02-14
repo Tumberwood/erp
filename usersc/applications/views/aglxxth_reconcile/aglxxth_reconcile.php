@@ -290,7 +290,7 @@
 				is_reconcile = $('#select_is_reconcile').val();
 				autofillField('aakxxmh', id_aakxxmh, 'CONCAT(kode, " - ", nama) nama');
 				nama = autofillData.nama;
-				$('#nama_bank').html(nama);
+				$('#nama_bank').html(nama+' <br>'+ $('#start_date').val() + ' - ' + $('#end_date').val());
 				
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblaglxxth.rows().deselect();
