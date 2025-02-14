@@ -28,6 +28,14 @@
         $id_aakxxmh_old = 0;
     }
 
+    if(isset($_GET['id_aakxxmh_parent']) && $_GET['id_aakxxmh_parent'] != ''){
+        $id_aakxxmh_parent = "(".$_GET['id_aakxxmh_parent'].")";
+        $where_parent = "IN";
+    }else{
+        $id_aakxxmh_parent = "(-9)";
+        $where_parent = "NOT IN";
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_aakxxmh_old > 0){
@@ -73,6 +81,7 @@
         ->where('aakxxmh.transaction_state',1)
         ->where('aakxxmh.is_parent',0)
         ->where('aakxxmh.id', $id_aakxxmh_old, '<>' )
+        ->where('aakxxmh.id_aakxxmh_parent', $id_aakxxmh_parent, $where_parent, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
