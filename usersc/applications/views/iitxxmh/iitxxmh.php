@@ -140,7 +140,7 @@
 					}
 				},
 				{
-					label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
+					label: getTranslation('notes'),
 					name: "iitxxmh.keterangan",
 					type: "textarea"
 				}
