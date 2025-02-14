@@ -32,12 +32,51 @@
 		->raw()
 		->bind(':start_date', $start_date)
 		->bind(':end_date', $end_date)
-		->exec('WITH transaksi AS (
+		->exec('WITH saldo_awal AS (
+					SELECT
+						b.debit,
+						b.kredit,
+						CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" AND b.debit > 0 THEN 1
+							WHEN a.jenis_transaksi = "Purchase Payment" AND b.kredit > 0 THEN 1
+							ELSE 0
+						END is_valid,
+						CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
+							(
+								SELECT rl.nama
+								FROM pivxxth th
+								LEFT JOIN grlxxmh rl ON rl.id = th.id_grlxxmh_supplier
+								WHERE th.id = a.id_transaksi_h
+							)
+							ELSE
+							(
+								SELECT rl.nama
+								FROM fpmxxth th
+								LEFT JOIN grlxxmh rl ON rl.id = th.id_grlxxmh_supplier
+								WHERE th.id = a.id_transaksi_h
+							)
+						END AS supplier
+					FROM aglxxth a
+					LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
+					WHERE a.tanggal < :start_date
+						AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
+				),
+				saldo_awal_cte AS (
+					SELECT
+						"SALDO AWAL" AS kode_transaksi,
+						supplier,
+						SUM(debit) - SUM(kredit) AS saldo_awal
+					FROM saldo_awal
+					WHERE is_valid = 1
+					GROUP BY supplier 
+				),
+				transaksi AS (
 					SELECT
 						b.id,
 						a.kode_transaksi,
 						a.jenis_transaksi,
-						DATE_FORMAT(a.tanggal,"%d %b %Y") as tanggal,
+						DATE_FORMAT(a.tanggal, "%d %b %Y") AS tanggal,
 						CASE 
 							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
 							(
@@ -82,20 +121,36 @@
 						END AS created_on
 					FROM aglxxth a
 					LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
-					WHERE 1
-						AND a.tanggal BETWEEN :start_date AND :end_date
+					WHERE a.tanggal BETWEEN :start_date AND :end_date
 						AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
 				)
+				SELECT
+					0 id,
+					kode_transaksi,
+					"" AS jenis_transaksi,
+					DATE_FORMAT(DATE_SUB(:start_date, INTERVAL 1 DAY), "%d %b %Y") AS tanggal,
+					supplier,
+					"" AS keterangan,
+					1 AS is_valid,
+					null AS debit,
+					null AS kredit,
+					DATE_SUB(":start_date 00:00:00", INTERVAL 1 DAY) AS created_on,
+					saldo_awal as saldo
+				FROM saldo_awal_cte
+
+				UNION ALL 
+
 				SELECT 
 					t.*,
-					-- Hitung balance increment per supplier
-					SUM(debit - kredit) OVER (
-						PARTITION BY supplier 
-						ORDER BY created_on, kode_transaksi 
-						ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-					) AS saldo
+					COALESCE(s.saldo_awal, 0) 
+						+ SUM(t.debit - t.kredit) OVER (
+							PARTITION BY t.supplier 
+							ORDER BY t.created_on, t.kode_transaksi 
+							ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+						) AS saldo
 				FROM transaksi t
-				HAVING is_valid = 1
+				LEFT JOIN saldo_awal_cte s ON s.supplier = t.supplier
+				WHERE t.is_valid = 1
 				ORDER BY supplier, created_on
 				;
 	');

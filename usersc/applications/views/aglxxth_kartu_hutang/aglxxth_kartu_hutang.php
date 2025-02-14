@@ -52,8 +52,8 @@
                                 <th>ID</th>
                                 <th>created_on</th>
                                 <th data-i18n="supplier"></th>
-                                <th data-i18n="date"></th>
                                 <th data-i18n="documentNumber"></th>
+                                <th data-i18n="date"></th>
                                 <th data-i18n="notes"></th>
                                 <th data-i18n="Pembelian"></th>
                                 <th data-i18n="Pembayaran"></th>
@@ -135,8 +135,8 @@
 				{ data: "id",visible:false },
 				{ data: "created_on", visible: false },
 				{ data: "supplier", visible: false },
-				{ data: "tanggal" },
 				{ data: "kode_transaksi" },
+				{ data: "tanggal" },
 				{ data: "keterangan" },
 				{ 
 					data: "debit" ,
