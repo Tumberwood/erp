@@ -27,10 +27,14 @@
 	$end_date = $_POST['end_date'];
 
 	$where = 'AND a.is_reconcile IN ' . $is_reconcile;
-	if ($_POST['id_aakxxmh'] > 0) {
-		$where = ' AND c.id = '.$_POST['id_aakxxmh'];
-	}
 
+	if ($_POST['id_aakxxmh'] > 0) {
+		$id_aakxxmh = $_POST['id_aakxxmh'];
+	} else {
+		$id_aakxxmh = 0;
+	}
+	$where .= ' AND c.id = '.$id_aakxxmh;
+	
 	// echo $where;
 
 	$results = array();

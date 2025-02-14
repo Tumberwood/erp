@@ -18,10 +18,27 @@
         $id_aglaktd = $_POST['id_aglaktd'];
         $is_reconcile = $_POST['is_reconcile'];
 
+        if ($is_reconcile == 1) {
+            $kode_act = 'REKON';
+        } else {
+            $kode_act = 'CANCEL REKON';
+        }
+
         $qu_aglaktd = $db
             ->query('update', 'aglaktd')
             ->set('is_reconcile',$is_reconcile)
             ->where('id',$id_aglaktd)
+            ->exec();
+
+        // insert log create
+        $qi_activity = $db
+            ->query('insert', 'activity_log_ml')
+            ->set('id_transaksi', $id_aglaktd )
+            ->set('kode', $kode_act)
+            ->set('nama', 'aglaktd')
+            ->set('keterangan', $kode_act.' aglaktd '.$id_aglaktd)
+            ->set('created_by', $s_id_users)
+            ->set('username', $s_username)
             ->exec();
 
         if($qu_aglaktd){
