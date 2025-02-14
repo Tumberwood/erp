@@ -61,6 +61,7 @@
 						</div>
 					</div>
 				</div>
+				<h3 id="nama_bank"></h3>
 				<div class="table-responsive">
                     <table id="tblaglxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -287,6 +288,9 @@
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				id_aakxxmh = $('#select_id_aakxxmh').val();
 				is_reconcile = $('#select_is_reconcile').val();
+				autofillField('aakxxmh', id_aakxxmh, 'CONCAT(kode, " - ", nama) nama');
+				nama = autofillData.nama;
+				$('#nama_bank').html(nama);
 				
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				tblaglxxth.rows().deselect();
