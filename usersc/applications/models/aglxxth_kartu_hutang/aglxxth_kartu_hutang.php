@@ -34,6 +34,7 @@
 		->bind(':end_date', $end_date)
 		->exec('WITH transaksi AS (
 					SELECT
+						b.id,
 						a.kode_transaksi,
 						a.jenis_transaksi,
 						DATE_FORMAT(a.tanggal,"%d %b %Y") as tanggal,
