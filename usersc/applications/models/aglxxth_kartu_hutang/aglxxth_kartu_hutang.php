@@ -28,6 +28,61 @@
 	$is_akunbernilai = $_POST['is_akunbernilai'];
 
 	$results = array();
+	$all_results = [];
+
+	$qs_saldo_awal = $db
+		->raw()
+		->bind(':start_date', $start_date)
+		->bind(':end_date', $end_date)
+		->exec('WITH saldo_awal AS (
+					SELECT
+						b.debit,
+						b.kredit,
+						CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" AND b.debit > 0 THEN 1
+							WHEN a.jenis_transaksi = "Purchase Payment" AND b.kredit > 0 THEN 1
+							ELSE 0
+						END is_valid,
+						CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
+							(
+								SELECT rl.nama
+								FROM pivxxth th
+								LEFT JOIN grlxxmh rl ON rl.id = th.id_grlxxmh_supplier
+								WHERE th.id = a.id_transaksi_h
+							)
+							ELSE
+							(
+								SELECT rl.nama
+								FROM fpmxxth th
+								LEFT JOIN grlxxmh rl ON rl.id = th.id_grlxxmh_supplier
+								WHERE th.id = a.id_transaksi_h
+							)
+						END AS supplier
+					FROM aglxxth a
+					LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
+					WHERE a.tanggal < :start_date
+						AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
+				)
+				SELECT
+					0 id,
+					"SALDO AWAL" kode_transaksi,
+					"" AS jenis_transaksi,
+					DATE_FORMAT(DATE_SUB(:start_date, INTERVAL 1 DAY), "%d %b %Y") AS tanggal,
+					supplier,
+					"" AS keterangan,
+					1 AS is_valid,
+					null AS debit,
+					null AS kredit,
+					DATE_SUB(":start_date 00:00:00", INTERVAL 1 DAY) AS created_on,
+					SUM(debit) - SUM(kredit) AS saldo
+				FROM saldo_awal
+				WHERE is_valid = 1
+				GROUP BY supplier 
+				;
+	');
+	$rs_saldo_awal = $qs_saldo_awal->fetchAll();
+
 	$qs_kartu_hutang = $db
 		->raw()
 		->bind(':start_date', $start_date)
@@ -124,22 +179,6 @@
 					WHERE a.tanggal BETWEEN :start_date AND :end_date
 						AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
 				)
-				SELECT
-					0 id,
-					kode_transaksi,
-					"" AS jenis_transaksi,
-					DATE_FORMAT(DATE_SUB(:start_date, INTERVAL 1 DAY), "%d %b %Y") AS tanggal,
-					supplier,
-					"" AS keterangan,
-					1 AS is_valid,
-					null AS debit,
-					null AS kredit,
-					DATE_SUB(":start_date 00:00:00", INTERVAL 1 DAY) AS created_on,
-					saldo_awal as saldo
-				FROM saldo_awal_cte
-
-				UNION ALL 
-
 				SELECT 
 					t.*,
 					COALESCE(s.saldo_awal, 0) 
@@ -155,7 +194,9 @@
 				;
 	');
 	$rs_kartu_hutang = $qs_kartu_hutang->fetchAll();
+
+	$all_results = array_merge($rs_saldo_awal, $rs_kartu_hutang);
 	
-	$data = $rs_kartu_hutang;
+	$data = $all_results;
 	require_once( "../../../../usersc/helpers/fn_ajax_results2.php" );
 ?>
