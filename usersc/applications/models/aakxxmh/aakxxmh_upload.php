@@ -153,6 +153,7 @@
 							->bind(':saldo_awal_tanggal', $saldo_awal_tanggal)
 							->exec('INSERT INTO aakxxmh (
 										transaction_state,
+										is_upload,
 										kode,
 										nama,
 										is_parent,
@@ -162,6 +163,7 @@
 										saldo_awal_tanggal
 									)
 									SELECT 
+										1,
 										1,
 										:kode,
 										:nama,
@@ -264,6 +266,19 @@
 								->exec()
 							;
 						}
+						
+						// insert log create
+						$qi_activity = $db
+							->query('insert', 'activity_log_ml')
+							->set('id_transaksi', $id_aakxxmh_insert )
+							->set('kode', 'CREATE')
+							->set('nama', 'aakxxmh')
+							->set('keterangan', 'Upload COA - ' . $kode.' aakxxmh '.$id_aakxxmh_insert)
+							->set('created_by', $s_id_users)
+							->set('username', $s_username)
+							->exec()
+						;
+						
 						$dataupload = $dataupload +1;
 					}
 				}
