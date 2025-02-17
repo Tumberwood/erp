@@ -26,7 +26,13 @@
 	$end_date = $_POST['end_date'];
 	$is_akunbertransaksi = $_POST['is_akunbertransaksi'];
 	$is_akunbernilai = $_POST['is_akunbernilai'];
-	$id_grlxxmh = $_POST['id_grlxxmh'];
+
+	if (isset($_POST['id_grlxxmh']) && $_POST['id_grlxxmh'] > 0) {
+		$having= 'HAVING id_grlxxmh = '. $_POST['id_grlxxmh'];
+	} else {
+		$having = '';
+	}
+	
 
 	$results = array();
 	$all_results = [];
@@ -44,6 +50,20 @@
 							WHEN a.jenis_transaksi = "Purchase Payment" AND b.kredit > 0 THEN 1
 							ELSE 0
 						END is_valid,
+						CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
+							(
+								SELECT id_grlxxmh_supplier
+								FROM pivxxth th
+								WHERE th.id = a.id_transaksi_h
+							)
+							ELSE
+							(
+								SELECT id_grlxxmh_supplier
+								FROM fpmxxth th
+								WHERE th.id = a.id_transaksi_h
+							)
+						END AS id_grlxxmh,
 						CASE 
 							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
 							(
@@ -70,6 +90,7 @@
 					"SALDO AWAL" kode_transaksi,
 					"" AS jenis_transaksi,
 					DATE_FORMAT(DATE_SUB(:start_date, INTERVAL 1 DAY), "%d %b %Y") AS tanggal,
+					id_grlxxmh,
 					supplier,
 					"" AS keterangan,
 					1 AS is_valid,
@@ -80,6 +101,7 @@
 				FROM saldo_awal
 				WHERE is_valid = 1
 				GROUP BY supplier 
+				'.$having.'
 
 				UNION ALL
 
@@ -88,6 +110,20 @@
 					"SALDO AWAL", 
 					"", 
 					DATE_FORMAT(DATE_SUB(:start_date, INTERVAL 1 DAY), "%d %b %Y"), 
+					CASE 
+						WHEN a.jenis_transaksi = "Purchase Invoice" THEN
+						(
+							SELECT id_grlxxmh_supplier
+							FROM pivxxth th
+							WHERE th.id = a.id_transaksi_h
+						)
+						ELSE
+						(
+							SELECT id_grlxxmh_supplier
+							FROM fpmxxth th
+							WHERE th.id = a.id_transaksi_h
+						)
+					END AS id_grlxxmh,
 					CASE 
 						WHEN a.jenis_transaksi = "Purchase Invoice" THEN
 						(
@@ -116,7 +152,7 @@
 					AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
 					AND NOT EXISTS (SELECT 1 FROM saldo_awal WHERE is_valid = 1)
 				GROUP BY supplier 
-				;
+				'.$having.'
 				;
 	');
 	$rs_saldo_awal = $qs_saldo_awal->fetchAll();
@@ -170,6 +206,20 @@
 						a.kode_transaksi,
 						a.jenis_transaksi,
 						DATE_FORMAT(a.tanggal, "%d %b %Y") AS tanggal,
+						CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
+							(
+								SELECT id_grlxxmh_supplier
+								FROM pivxxth th
+								WHERE th.id = a.id_transaksi_h
+							)
+							ELSE
+							(
+								SELECT id_grlxxmh_supplier
+								FROM fpmxxth th
+								WHERE th.id = a.id_transaksi_h
+							)
+						END AS id_grlxxmh,
 						CASE 
 							WHEN a.jenis_transaksi = "Purchase Invoice" THEN
 							(
@@ -228,8 +278,8 @@
 				FROM transaksi t
 				LEFT JOIN saldo_awal_cte s ON s.supplier = t.supplier
 				WHERE t.is_valid = 1
+				'.$having.'
 				ORDER BY supplier, created_on
-				;
 	');
 	$rs_kartu_hutang = $qs_kartu_hutang->fetchAll();
 
