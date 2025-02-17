@@ -36,6 +36,12 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group row">												
+										<label class="col-lg-2 col-form-label">Supplier</label>
+										<div class="col-lg-5">
+											<select class="form-control" id="select_id_grlxxmh" name="select_id_grlxxmh"></select>
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -89,15 +95,50 @@
 	// ------------- default variable, do not erase
 	var edtaglxxth, tblaglxxth, show_deleted_aglxxth = 0, id_aglxxth;
 	// ------------- end of default variable
-	var is_akunbertransaksi = 1, is_akunbernilai = 1;
+	var is_akunbertransaksi = 1, is_akunbernilai = 1, id_grlxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('aglxxth');
+
+	$("#select_id_grlxxmh").select2({
+		dropdownParent: $("#modalSFaglxxth"),
+		placeholder : "Select",
+		allowClear: true,
+		multiple: false,
+		ajax: {
+			url: "../../models/psuxxmh/psuxxmh_fn_opt.php",
+			dataType: 'json',
+			data: function (params) {
+				var query = {
+					id_grlxxmh_old: id_grlxxmh_old,
+					id_grlxxmh_parent: '12',
+					search: params.term || '',
+					page: params.page || 1
+				}
+				return query;
+			},
+			processResults: function (data, params) {
+				return {
+					results: data.results,
+					pagination: {
+						more: true
+					}
+				};
+			},
+			cache: true,
+			minimumInputLength: 1,
+			maximum: 10,
+			delay: 500,
+			maximumSelectionLength: 5,
+			minimumResultsForSearch: -1,
+		},
+	});
 	
 	$(document).ready(function() {
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');	
-		
+		id_grlxxmh = $('#select_id_grlxxmh').val();
+
 		tblaglxxth = $('#tblaglxxth').DataTable( {
 			dom: domPQ,
 			searchPanes:{
@@ -111,6 +152,7 @@
 					d.end_date = end_date;
 					d.is_akunbertransaksi = is_akunbertransaksi;
 					d.is_akunbernilai = is_akunbernilai;
+					d.id_grlxxmh = id_grlxxmh;
 				}
 			},
 			order: [[ 2, "asc" ],[ 1, "asc" ]],
@@ -223,6 +265,7 @@
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				id_grlxxmh = $('#select_id_grlxxmh').val();
 
 				// BEGIN parameter tambahan
 				if( $('#cbakunbertransaksi').is(':checked') ){

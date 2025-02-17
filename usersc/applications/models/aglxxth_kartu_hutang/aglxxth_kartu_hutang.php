@@ -26,6 +26,7 @@
 	$end_date = $_POST['end_date'];
 	$is_akunbertransaksi = $_POST['is_akunbertransaksi'];
 	$is_akunbernilai = $_POST['is_akunbernilai'];
+	$id_grlxxmh = $_POST['id_grlxxmh'];
 
 	$results = array();
 	$all_results = [];
@@ -79,6 +80,43 @@
 				FROM saldo_awal
 				WHERE is_valid = 1
 				GROUP BY supplier 
+
+				UNION ALL
+
+				SELECT 
+					0, 
+					"SALDO AWAL", 
+					"", 
+					DATE_FORMAT(DATE_SUB(:start_date, INTERVAL 1 DAY), "%d %b %Y"), 
+					CASE 
+						WHEN a.jenis_transaksi = "Purchase Invoice" THEN
+						(
+							SELECT rl.nama
+							FROM pivxxth th
+							LEFT JOIN grlxxmh rl ON rl.id = th.id_grlxxmh_supplier
+							WHERE th.id = a.id_transaksi_h
+						)
+						ELSE
+						(
+							SELECT rl.nama
+							FROM fpmxxth th
+							LEFT JOIN grlxxmh rl ON rl.id = th.id_grlxxmh_supplier
+							WHERE th.id = a.id_transaksi_h
+						)
+					END AS supplier,
+					"", 
+					1, 
+					NULL, 
+					NULL, 
+					DATE_SUB(":start_date 00:00:00", INTERVAL 1 DAY) AS created_on,
+					0
+				FROM aglxxth a
+				LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
+				WHERE a.tanggal BETWEEN :start_date AND :end_date
+					AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
+					AND NOT EXISTS (SELECT 1 FROM saldo_awal WHERE is_valid = 1)
+				GROUP BY supplier 
+				;
 				;
 	');
 	$rs_saldo_awal = $qs_saldo_awal->fetchAll();
