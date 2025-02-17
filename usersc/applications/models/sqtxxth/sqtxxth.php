@@ -37,6 +37,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sqtxxth.id_fcrxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'sqtxxth.id_licxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sqtxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);

@@ -69,6 +69,7 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="sqtxxth.id_licxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="sqtxxth.subtotal"></editor-field>
@@ -169,6 +170,11 @@
 								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 									<editor-field name="sqtittd.id_iimxxmh"></editor-field>
 								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+									<editor-field name="sqtittd.nama"></editor-field>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 									<editor-field name="sqtittd.id_iumxxmh_unit"></editor-field>
 								</div>
@@ -343,7 +349,7 @@
 	var edtsqtittd, tblsqtittd, show_deleted_sqtittd = 0, id_sqtittd;
 	// ------------- end of default variable
 	var id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0;
-	var id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0;
+	var id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_licxxmh_old = 0;
 
 	var id_iitxxmh = 1;
 
@@ -450,6 +456,42 @@
 							data: function (params) {
 								var query = {
 									id_fpytmmh_old: id_fpytmmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
+				{
+					label: "Incoterm <sup class='text-danger'>*<sup>",
+					name: "sqtxxth.id_licxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/licxxmh/licxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_licxxmh_old: id_licxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -730,6 +772,7 @@
 			if(action != 'remove'){
 				tanggal             = edtsqtxxth.field('sqtxxth.tanggal').val();
 				id_grlxxmh_customer = edtsqtxxth.field('sqtxxth.id_grlxxmh_customer').val();
+				id_licxxmh = edtsqtxxth.field('sqtxxth.id_licxxmh').val();
 				tanggal_validity    = edtsqtxxth.field('sqtxxth.tanggal_validity').val();
 				// up1                 = edtsqtxxth.field('sqtxxth.up1').val();
 
@@ -739,6 +782,7 @@
 					{
 						'tanggal'            : tanggal,
 						'id_grlxxmh_customer': id_grlxxmh_customer,
+						'id_licxxmh': id_licxxmh,
 						'tanggal_validity'   : tanggal_validity,
 						// 'up1'   : up1
 					}
@@ -870,6 +914,7 @@
 			id_grlxxmh_old = sqtxxth_data.id_grlxxmh_customer;
 			id_fpytmmh_old = sqtxxth_data.id_fpytmmh;
 			id_fcrxxmh_old = sqtxxth_data.id_fcrxxmh;
+			id_licxxmh_old = sqtxxth_data.id_licxxmh;
 
 			// terkait footer
 			diskon_final_h = sqtxxth_data.diskon_final;
@@ -886,7 +931,7 @@
 		
 		tblsqtxxth.on( 'deselect', function () {
 			siVarReset('sqtxxth');
-			id_grlxxmh_old = 0, id_fpytmmh_old = 0, id_fcrxxmh_old = 0;
+			id_grlxxmh_old = 0, id_fpytmmh_old = 0, id_fcrxxmh_old = 0, id_licxxmh_old;
 
 			// terkait footer
 			diskon_final_h = 0;
@@ -949,7 +994,13 @@
 				},	
 				{
 					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
+					name: "sqtittd.nama",
+					fieldInfo: "Isi salah satu antara Item Non Master dengan Item",
+				},	
+				{
+					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
 					name: "sqtittd.id_iimxxmh",
+					fieldInfo: "Isi salah satu antara Item Non Master dengan Item",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -992,12 +1043,17 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
+							url: function () {
+								return id_iimxxmh > 0 
+									? "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php" 
+									: "../../models/iumxxmh/iumxxmh_fn_opt.php";
+							},
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh: id_iimxxmh,
 									id_iumxxmh_unit_old: id_iumxxmh_unit_old,
+									id_iumxxmh_old: id_iumxxmh_unit_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -1159,16 +1215,21 @@
 			if(action != 'remove'){
 				
 				id_iimxxmh = edtsqtittd.field('sqtittd.id_iimxxmh').val();
+				nama = edtsqtittd.field('sqtittd.nama').val();
 				id_iumxxmh_unit = edtsqtittd.field('sqtittd.id_iumxxmh_unit').val();
 
 				validasiRequired(
 					edtsqtittd,
 					'sqtittd',
 					{
-						'id_iimxxmh': id_iimxxmh,
 						'id_iumxxmh_unit': id_iumxxmh_unit,
 					}
 				);
+				
+				if( (!nama || nama == '' ) && (!id_iimxxmh || id_iimxxmh == '' )  ){
+					edtsqtittd.field('sqtittd.nama').error( 'Wajib diisi salah satu!' );
+					edtsqtittd.field('sqtittd.id_iimxxmh').error( 'Wajib diisi salah satu!' );
+				}
 				
 			}
 			
@@ -1210,7 +1271,12 @@
 				{ data: "sqtittd.id",visible:false },
 				{ data: "sqtittd.id_sqtxxth",visible:false },
 				{ data: "iimxxmh.kode" },
-				{ data: "iimxxmh.nama" },
+				{
+					data: "iimxxmh.nama",
+					render: function(data, type, row) {
+						return data ? data : row.sqtittd.nama;
+					}
+				},
 				{ data: "iumxxmh.nama" },
 				{ 
 					data: "sqtittd.jumlah_unit",
