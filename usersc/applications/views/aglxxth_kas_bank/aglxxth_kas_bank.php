@@ -116,6 +116,7 @@
 	tableRelation('aglxxth');
 		
 	$("#select_aakxxmh").select2({
+		dropdownParent: $("#modalSFaglxxth"),
 		placeholder: 'Ketik atau TekanTanda Panah Kanan',
 		allowClear: true,
 		ajax: {
