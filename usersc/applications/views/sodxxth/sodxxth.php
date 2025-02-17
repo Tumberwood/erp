@@ -73,6 +73,7 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="sodxxth.id_licxxmh"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="sodxxth.subtotal"></editor-field>
@@ -376,6 +377,7 @@
 
 	var id_iitxxmh_old = 0, id_grlxxmh_old = 0, id_fcrxxmh_old = 0, id_fpytmmh_old = 0, is_pajak, id_iitxxmh;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_sqtittd_old = 0, id_iumxxmh_unit  = 0;
+	var id_licxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('sodxxth');
@@ -538,6 +540,42 @@
 						},
 					}
 				},		
+				{
+					label: "Incoterm <sup class='text-danger'>*<sup>",
+					name: "sodxxth.id_licxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/licxxmh/licxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_licxxmh_old: id_licxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
 				{
 					label: getTranslation('currency') + ' <sup class="text-danger">*</sup>',
 					name: "sodxxth.id_fcrxxmh",
@@ -799,6 +837,7 @@
 				id_fpytmmh    = edtsodxxth.field('sodxxth.id_fpytmmh').val();
 				id_fcrxxmh    = edtsodxxth.field('sodxxth.id_fcrxxmh').val();
 				id_iitxxmh    = edtsodxxth.field('sodxxth.id_iitxxmh').val();
+				id_licxxmh    = edtsodxxth.field('sodxxth.id_licxxmh').val();
 				tanggal       = edtsodxxth.field('sodxxth.tanggal').val();
 
 				validasiRequired(
@@ -809,6 +848,7 @@
 						'id_fpytmmh': id_fpytmmh,
 						'id_fcrxxmh': id_fcrxxmh,
 						'id_iitxxmh': id_iitxxmh,
+						'id_licxxmh': id_licxxmh,
 						'tanggal'   : tanggal
 					}
 				);
@@ -936,8 +976,9 @@
 		
 		tblsodxxth.on( 'select', function( e, dt, type, indexes ) {
 			siVarSet('sodxxth');
-			id_iitxxmh_old    = sodxxth_data.id_iitxxmh;
 			id_iitxxmh        = sodxxth_data.id_iitxxmh;
+			id_iitxxmh_old    = sodxxth_data.id_iitxxmh;
+			id_licxxmh_old    = sodxxth_data.id_licxxmh;
 			id_fcrxxmh_old    = sodxxth_data.id_fcrxxmh;
 			id_fpytmmh_old    = sodxxth_data.id_fpytmmh;
 			id_grlxxmh_old    = sodxxth_data.id_grlxxmh_customer;
@@ -961,6 +1002,7 @@
 			id_fpytmmh_old = 0;
 			id_fcrxxmh_old = 0;
 			id_iitxxmh_old = 0;
+			id_licxxmh_old = 0;
 
 			// terkait footer
 			diskon_final_h = 0;

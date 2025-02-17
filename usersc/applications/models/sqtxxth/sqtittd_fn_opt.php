@@ -35,7 +35,11 @@
             ->query('select', 'sqtittd')
             ->get([
                 'sqtittd.id as id',
-                'CONCAT(sqtxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama) as text'
+                'IF(
+                    sqtittd.nama = "", 
+                    CONCAT(sqtxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama),
+                    CONCAT(sqtxxth.kode," - ",sqtittd.nama)
+                ) as text'
             ])
             ->join('sqtxxth','sqtxxth.id = sqtittd.id_sqtxxth','LEFT' )
             ->join('iimxxmh','iimxxmh.id = sqtittd.id_iimxxmh','LEFT' )
@@ -54,7 +58,11 @@
         ->query('select', 'sqtittd')
         ->get([
             'sqtittd.id as id',
-            'CONCAT(sqtxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama) as text'
+            'IF(
+                sqtittd.nama = "", 
+                CONCAT(sqtxxth.kode," - ",iimxxmh.kode," - ",iimxxmh.nama),
+                CONCAT(sqtxxth.kode," - ",sqtittd.nama)
+            ) as text'
         ])
         ->join('sqtxxth','sqtxxth.id = sqtittd.id_sqtxxth','LEFT' )
         ->join('iimxxmh','iimxxmh.id = sqtittd.id_iimxxmh','LEFT' )
