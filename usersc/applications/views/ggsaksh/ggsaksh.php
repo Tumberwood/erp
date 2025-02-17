@@ -23,6 +23,7 @@
                                 <th>ID</th>
                                 <th>Hutang Sementara</th>
                                 <th>Persediaan Perjalanan</th>
+                                <th>Akun Ekuitas</th>
                                 <th>Account Type Persediaan</th>
                                 <th>Account Type Biaya</th>
                                 <th>Account Type Selisih</th>
@@ -59,6 +60,7 @@
 	// ------------- default variable, do not erase
 	var edtggsaksh, tblggsaksh, show_deleted_ggsaksh = 0, id_ggsaksh;
 	var id_aakxxmh_hutang_sementara_old = 0, id_aakxxmh_persediaan_perjalanan_old = 0, ids_aatxxmh_persediaan_old = '', ids_aatxxmh_biaya_old = '', ids_aatxxmh_selisih_old = '';
+	var id_aakxxmh_ekuitas_old = 0;
 	// ------------- end of default variable
 	
 	// get tableRelation
@@ -148,6 +150,42 @@
 							data: function (params) {
 								var query = {
 									id_aakxxmh_old: id_aakxxmh_persediaan_perjalanan_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Ekuitas <sup class='text-danger'>*<sup>",
+					name: "ggsaksh.id_aakxxmh_ekuitas",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_ekuitas_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -301,6 +339,7 @@
 			if(action != 'remove'){
 
 				id_aakxxmh_persediaan_perjalanan = edtggsaksh.field('ggsaksh.id_aakxxmh_persediaan_perjalanan').val();
+				id_aakxxmh_ekuitas = edtggsaksh.field('ggsaksh.id_aakxxmh_ekuitas').val();
 				id_aakxxmh_hutang_sementara = edtggsaksh.field('ggsaksh.id_aakxxmh_hutang_sementara').val();
 				id_aatxxmh_persediaan = edtggsaksh.field('aatxxmh_persediaan[].id').val();
 				id_aatxxmh_biaya = edtggsaksh.field('aatxxmh_biaya[].id').val();
@@ -311,6 +350,7 @@
 					'ggsaksh',
 					{
 						'id_aakxxmh_persediaan_perjalanan': id_aakxxmh_persediaan_perjalanan,
+						'id_aakxxmh_ekuitas': id_aakxxmh_ekuitas,
 						'id_aakxxmh_hutang_sementara': id_aakxxmh_hutang_sementara,
 					}
 				);
@@ -374,6 +414,7 @@
 				{ data: "ggsaksh.id",visible:false },
 				{ data: "hutang_sementara.nama" },
 				{ data: "persediaan_perjalanan.nama" },
+				{ data: "ekuitas.nama" },
 				{ data: "aatxxmh_persediaan[].nama" },
 				{ data: "aatxxmh_biaya[].nama" },
 				{ data: "aatxxmh_selisih[].nama" },
@@ -419,6 +460,7 @@
 			siVarSet('ggsaksh');
 			id_aakxxmh_hutang_sementara_old = ggsaksh_data.id_aakxxmh_hutang_sementara;
 			id_aakxxmh_persediaan_perjalanan_old = ggsaksh_data.id_aakxxmh_persediaan_perjalanan;
+			id_aakxxmh_ekuitas_old = ggsaksh_data.id_aakxxmh_ekuitas;
 
 			tblggsaksh.rows( { selected: true } ).data().each(function (row) {
 				if (row.aatxxmh_persediaan) {
@@ -454,6 +496,7 @@
 			siVarReset('ggsaksh');
 			id_aakxxmh_hutang_sementara_old = 0;
 			id_aakxxmh_persediaan_perjalanan_old = 0;
+			id_aakxxmh_ekuitas_old = 0;
 			ids_aatxxmh_persediaan_old = '';
 			ids_aatxxmh_biaya_old = '';
 			ids_aatxxmh_selisih_old = '';

@@ -29,6 +29,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ggsaksh.id_aakxxmh_persediaan_perjalanan' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ggsaksh.id_aakxxmh_ekuitas' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ggsaksh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -48,9 +50,11 @@
 
 			Field::inst( 'hutang_sementara.nama' ),
 			Field::inst( 'persediaan_perjalanan.nama' ),
+			Field::inst( 'ekuitas.nama' ),
 		)
 		->leftJoin( 'aakxxmh hutang_sementara','hutang_sementara.id','=','ggsaksh.id_aakxxmh_hutang_sementara' )
 		->leftJoin( 'aakxxmh persediaan_perjalanan','persediaan_perjalanan.id','=','ggsaksh.id_aakxxmh_persediaan_perjalanan' )
+		->leftJoin( 'aakxxmh ekuitas','ekuitas.id','=','ggsaksh.id_aakxxmh_ekuitas' )
 		
 		->join(
 			Mjoin::inst( 'aatxxmh' )
