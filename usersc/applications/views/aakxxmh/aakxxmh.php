@@ -12,6 +12,38 @@
 ?>
 
 <!-- begin content here -->
+
+<div class="modal" id="modalUpload" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content animated bounceInRight">
+			<form class="form-horizontal" id="frmUploadMaster" enctype="multipart/form-data">
+				<div class="modal-header">
+					<h4 class="modal-title">Upload Master Akun</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-lg-2 col-form-label">File Excel</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input type="file" name="filename" class="form-control" id="frmUploadAkun">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-success" onclick="window.open('../../../files/template_file_upload/Template Master COA.xlsx');">
+								<i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">Template</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
 <div class="row">
 	<div class="col">
 		<div class="ibox ">
@@ -364,6 +396,15 @@
 					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
+				{
+					name: 'btnUpload',
+					text: '<i class="fa fa-file-excel-o"></i>',
+					className: 'btn btn-primary',
+					titleAttr: 'Upload Master Akun',
+					action: function ( e, dt, node, config ) {
+						$('#modalUpload').modal('toggle');
+					}
+				}
 				// END breaking generate button
 			],
 			initComplete: function() {
@@ -410,6 +451,48 @@
 		} );
 		
 		// END aakxxmh
+	
+		//upload master aakxxmh
+		var frmUploadMaster = $("#frmUploadMaster").submit(function(e) {
+			e.preventDefault();
+			// $('#submit_ceklok').hide();
+		}).validate({
+
+			submitHandler: function(form) { 
+				
+				toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
+
+				//aakxxmh
+				var fd_aakxxmh = new FormData();
+				var aakxxmh = $('#frmUploadAkun')[0].files[0];
+				if (aakxxmh != undefined) {
+					fd_aakxxmh.append('filename',aakxxmh);
+		
+					$.ajax( {
+						url: "../../models/aakxxmh/aakxxmh_upload.php",
+						type: 'POST',
+						dataType: 'json',
+						data: fd_aakxxmh,
+						async: false,
+						contentType: false,
+						processData: false,
+						success: function ( json ) {
+							
+							full_message = json.data.message + '</br>';
+							toast_type   = json.data.type_message;
+							toastr[toast_type](full_message, 'INFO');
+							$("#frmUploadAkun").val('');
+							tblaakxxmh.ajax.reload(null,false);
+							$('#modalUpload').modal('toggle');
+							// $('#submit_ceklok').show();
+						},
+						error: function (xhr, Status, err){
+							// console.log('x');
+						}
+					} );
+				}
+			}
+		});
 		
 	} );// end of document.ready
 
