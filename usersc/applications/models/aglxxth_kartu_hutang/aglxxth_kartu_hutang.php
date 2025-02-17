@@ -236,7 +236,20 @@
 								WHERE th.id = a.id_transaksi_h
 							)
 						END AS supplier,
-						b.keterangan,
+                        CASE 
+							WHEN a.jenis_transaksi = "Purchase Invoice" THEN b.keterangan
+							WHEN a.jenis_transaksi = "Purchase Payment" THEN 
+                            (
+                                SELECT
+                                    GROUP_CONCAT(p.kode) keterangan
+                                FROM fpmxxth h
+                                LEFT JOIN fpmivtd d ON d.id_fpmxxth = h.id
+                                LEFT JOIN pivxxth p ON p.id = d.id_pivxxth
+                                WHERE h.id = a.id_transaksi_h
+                                GROUP BY h.id 
+                            )
+							ELSE 0
+						END keterangan,
 						CASE 
 							WHEN a.jenis_transaksi = "Purchase Invoice" AND b.debit > 0 THEN 1
 							WHEN a.jenis_transaksi = "Purchase Payment" AND b.kredit > 0 THEN 1
@@ -268,9 +281,19 @@
 						AND jenis_transaksi IN ("Purchase Payment", "Purchase Invoice")
 				)
 				SELECT 
-					t.*,
+					t.id,
+					t.kode_transaksi,
+					t.jenis_transaksi,
+					t.tanggal,
+					t.id_grlxxmh,
+					t.supplier,
+					t.keterangan,
+					t.is_valid,
+					SUM(t.debit) debit,
+					SUM(t.kredit) kredit,
+					t.created_on,
 					COALESCE(s.saldo_awal, 0) 
-						+ SUM(t.debit - t.kredit) OVER (
+						+ SUM(SUM(t.debit) - SUM(t.kredit)) OVER (
 							PARTITION BY t.supplier 
 							ORDER BY t.created_on, t.kode_transaksi 
 							ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
@@ -278,8 +301,9 @@
 				FROM transaksi t
 				LEFT JOIN saldo_awal_cte s ON s.supplier = t.supplier
 				WHERE t.is_valid = 1
+				GROUP BY kode_transaksi, supplier
 				'.$having.'
-				ORDER BY supplier, created_on
+				ORDER BY supplier, created_on, kode_transaksi
 	');
 	$rs_kartu_hutang = $qs_kartu_hutang->fetchAll();
 
