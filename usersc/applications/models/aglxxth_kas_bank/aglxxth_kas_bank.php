@@ -22,10 +22,12 @@
 		$rs_opt    = array();
 		// END definisi variable untuk fn_ajax_results.php
 		
-	$where = '';
 	if ($_POST['id_aakxxmh'] > 0) {
-		$where = ' AND c.id = '.$_POST['id_aakxxmh'];
+		$id_aakxxmh = $_POST['id_aakxxmh'];
+	} else {
+		$id_aakxxmh = 0;
 	}
+	$where = ' AND c.id = '.$id_aakxxmh;
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
 	$is_akunbertransaksi = $_POST['is_akunbertransaksi'];
