@@ -37,7 +37,7 @@
 		->exec();
 	$rs_id_iitxxmh = $qs_id_iitxxmh->fetch();
 
-	if($rs_id_iitxxmh['id_iitxxmh'] == 1){
+	if($rs_id_iitxxmh['id_iitxxmh'] == 1 || $rs_id_iitxxmh['id_iitxxmh'] == 7){
 
 		try{
 			$db->transaction();
@@ -156,7 +156,7 @@
 					LEFT JOIN podxxth pod ON pod.id = prcxxth.id_podxxth
 					LEFT JOIN podittd dt ON dt.id = prcittd.id_podittd
 					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = "'.$confirmed_at.'" AND imtxxmh.module = "ERP"
-					WHERE prcxxth.id = :id AND pod.id_iitxxmh = 1
+					WHERE prcxxth.id = :id
 				');
 
 			// check apakah query ada resultnya

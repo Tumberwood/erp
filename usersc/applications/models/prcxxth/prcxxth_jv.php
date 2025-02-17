@@ -38,171 +38,179 @@
 	try{
 		$db->transaction();
 
-		// select prcxxth
-		$qs_prcxxth = $db
-			->raw()
-			->bind(':id_transaksi_h', $id_transaksi_h)
-			->exec('SELECT
-					prcxxth.id as id_transaksi_h,
-					prcxxth.id_gcpxxmh as id_gcpxxmh,
-					prcxxth.id_gbrxxmh as id_gbrxxmh,
-					prcxxth.kode as kode,
-					prcxxth.created_by as created_by,
-					prcxxth.start_at as start_at,
-					prcxxth.finish_at as finish_at,
-					prcxxth.tanggal as tanggal,
-					prcxxth.subtotal as subtotal,
-					prcxxth.dpp_final as total_nilai,
-					grlxxmh.nama as grlxxmh_nama
-				FROM prcxxth
-				LEFT JOIN grlxxmh ON grlxxmh.id = prcxxth.id_grlxxmh_supplier
-				WHERE 
-					prcxxth.id = :id_transaksi_h
-			');
-		$rs_header = $qs_prcxxth->fetch();
-		$keterangan = $rs_header['grlxxmh_nama'] . " - " . $rs_header['kode'];
-
-		// BEGIN generate kode JV
-		include_once("../../../../usersc/helpers/kode_fn_generate_jv.php");
-		// END generate kode JV
-
-		// INSERT aglxxth
-		$sql_insert_aglxxth = $db
-			->query('insert', 'aglxxth')
-			->set('id_gbrxxmh', $rs_header['id_gbrxxmh'])
-			->set('id_transaksi_h', $rs_header['id_transaksi_h'])
-			->set('kode', $kode )
-			->set('created_by',$rs_header['created_by'])
-			->set('start_at',$rs_header['start_at'])
-			->set('finish_at',$rs_header['finish_at'])
-			->set('tanggal',$rs_header['tanggal'])
-			->set('keterangan', $keterangan)
-			->set('jenis_transaksi',$jenis_transaksi)
-			->set('kode_transaksi',$rs_header['kode'])
-			->set('total_debit', $rs_header['total_nilai'])
-			->set('total_kredit', $rs_header['total_nilai'])
-			->exec();
-		$last_id = $sql_insert_aglxxth->insertId();  // ambil id 
-
-		// get setting akun persediaan
-		$qs_ggsaksh = $db
-			->query('select', 'ggsaksh' )
-			->get([
-				'ggsaksh.aakxxmh_persediaan as aakxxmh_persediaan',
-				'ggsaksh.aakxxmh_biaya as aakxxmh_biaya',
-				'ggsaksh.id_aakxxmh_hutang_sementara as id_aakxxmh_hutang_sementara',
-				'aakxxmh_hutang_sementara.kode as aakxxmh_hutang_sementara_kode',
-				'aakxxmh_hutang_sementara.nama as aakxxmh_hutang_sementara_nama'
-			] )
-			->join('aakxxmh as aakxxmh_hutang_sementara','aakxxmh_hutang_sementara.id = ggsaksh.id_aakxxmh_hutang_sementara','LEFT' )
-			->limit(1)
-			->exec();
-		$rs_ggsaksh       = $qs_ggsaksh->fetch();
-		$tabel_persediaan = $rs_ggsaksh['aakxxmh_persediaan'];
-		$tabel_biaya      = $rs_ggsaksh['aakxxmh_biaya'];
-
-		/**
-		 * debit ditentukan berdasarkan iitxxmh
-		 * iitxxmh = 1
-		 * persediaan
-		 * 		hutang sementara
-		 * 
-		 * iitxxmh = 3
-		 * biaya
-		 * 		hutang sementara
-		 */
-		
-		if($rs_id_iitxxmh['id_iitxxmh'] == 1){
-			
-			// select debit
-			$qs_debit = $db
-				->raw()
-				->bind(':id_transaksi_h', $id_transaksi_h)
-				->exec('
-					SELECT
-						prcittd.id_prcxxth as id_transaksi_h,
-						aakxxmh.id as id_aakxxmh,
-						prcittd.created_by as created_by,
-						prcittd.keterangan as keterangan,
-						'.$rs_header["subtotal"].',
-						'.$rs_header["total_nilai"].',
-						SUM(prcittd.dpp / ' . $rs_header["subtotal"] .'*'. $rs_header["total_nilai"].') as debit
-					FROM prcittd
-					LEFT JOIN iimxxmh ON iimxxmh.id = prcittd.id_iimxxmh
-					LEFT JOIN '.$tabel_persediaan.'_aakxxmh ON '.$tabel_persediaan.'_aakxxmh.id_'.$tabel_persediaan.' = iimxxmh.id_'.$tabel_persediaan.'
-					LEFT JOIN aakxxmh ON aakxxmh.id = '.$tabel_persediaan.'_aakxxmh.id_aakxxmh_persediaan
-					WHERE prcittd.id_prcxxth = :id_transaksi_h
-					GROUP BY '.$tabel_persediaan.'_aakxxmh.id_aakxxmh_persediaan
-				');
-			$rs_debit = $qs_debit->fetchAll();
-
-		}elseif($rs_id_iitxxmh['id_iitxxmh'] == 2){
-			// TODO
-		}elseif($rs_id_iitxxmh['id_iitxxmh'] == 3){
-			//kalo jasa debitnya diganti tab biaya di prcxxth
-
-			// select debit
-			$qs_debit = $db
+		//Jika Konsinyasi maka tidak perlu insert Jurnal
+		if($rs_id_iitxxmh['id_iitxxmh'] != 7){
+			// select prcxxth
+			$qs_prcxxth = $db
 				->raw()
 				->bind(':id_transaksi_h', $id_transaksi_h)
 				->exec('SELECT
-							a.id_prcxxth id_transaksi_h,
-							a.id_aakxxmh,
-							a.created_by,
-							a.nominal debit
-						FROM prcaktd a
-						WHERE a.id_prcxxth = :id_transaksi_h
+						prcxxth.id as id_transaksi_h,
+						prcxxth.id_gcpxxmh as id_gcpxxmh,
+						prcxxth.id_gbrxxmh as id_gbrxxmh,
+						prcxxth.kode as kode,
+						prcxxth.created_by as created_by,
+						prcxxth.start_at as start_at,
+						prcxxth.finish_at as finish_at,
+						prcxxth.tanggal as tanggal,
+						prcxxth.subtotal as subtotal,
+						prcxxth.dpp_final as total_nilai,
+						grlxxmh.nama as grlxxmh_nama
+					FROM prcxxth
+					LEFT JOIN grlxxmh ON grlxxmh.id = prcxxth.id_grlxxmh_supplier
+					WHERE 
+						prcxxth.id = :id_transaksi_h
 				');
-			$rs_debit = $qs_debit->fetchAll();
+			$rs_header = $qs_prcxxth->fetch();
+			$keterangan = $rs_header['grlxxmh_nama'] . " - " . $rs_header['kode'];
 
-		}elseif($rs_id_iitxxmh['id_iitxxmh'] == 4){
-			// TODO
-		}
+			// BEGIN generate kode JV
+			include_once("../../../../usersc/helpers/kode_fn_generate_jv.php");
+			// END generate kode JV
 
-		foreach ($rs_debit as $row_debit) {
-			$qi_debit = $db
+			// INSERT aglxxth
+			$sql_insert_aglxxth = $db
+				->query('insert', 'aglxxth')
+				->set('id_gbrxxmh', $rs_header['id_gbrxxmh'])
+				->set('id_transaksi_h', $rs_header['id_transaksi_h'])
+				->set('kode', $kode )
+				->set('created_by',$rs_header['created_by'])
+				->set('start_at',$rs_header['start_at'])
+				->set('finish_at',$rs_header['finish_at'])
+				->set('tanggal',$rs_header['tanggal'])
+				->set('keterangan', $keterangan)
+				->set('jenis_transaksi',$jenis_transaksi)
+				->set('kode_transaksi',$rs_header['kode'])
+				->set('total_debit', $rs_header['total_nilai'])
+				->set('total_kredit', $rs_header['total_nilai'])
+				->exec();
+			$last_id = $sql_insert_aglxxth->insertId();  // ambil id 
+
+			// get setting akun persediaan
+			$qs_ggsaksh = $db
+				->query('select', 'ggsaksh' )
+				->get([
+					'ggsaksh.aakxxmh_persediaan as aakxxmh_persediaan',
+					'ggsaksh.aakxxmh_biaya as aakxxmh_biaya',
+					'ggsaksh.id_aakxxmh_hutang_sementara as id_aakxxmh_hutang_sementara',
+					'aakxxmh_hutang_sementara.kode as aakxxmh_hutang_sementara_kode',
+					'aakxxmh_hutang_sementara.nama as aakxxmh_hutang_sementara_nama'
+				] )
+				->join('aakxxmh as aakxxmh_hutang_sementara','aakxxmh_hutang_sementara.id = ggsaksh.id_aakxxmh_hutang_sementara','LEFT' )
+				->limit(1)
+				->exec();
+			$rs_ggsaksh       = $qs_ggsaksh->fetch();
+			$tabel_persediaan = $rs_ggsaksh['aakxxmh_persediaan'];
+			$tabel_biaya      = $rs_ggsaksh['aakxxmh_biaya'];
+
+			/**
+			 * debit ditentukan berdasarkan iitxxmh
+			 * iitxxmh = 1
+			 * persediaan
+			 * 		hutang sementara
+			 * 
+			 * iitxxmh = 3
+			 * biaya
+			 * 		hutang sementara
+			 */
+			
+			if($rs_id_iitxxmh['id_iitxxmh'] == 1){
+				
+				// select debit
+				$qs_debit = $db
+					->raw()
+					->bind(':id_transaksi_h', $id_transaksi_h)
+					->exec('
+						SELECT
+							prcittd.id_prcxxth as id_transaksi_h,
+							aakxxmh.id as id_aakxxmh,
+							prcittd.created_by as created_by,
+							prcittd.keterangan as keterangan,
+							'.$rs_header["subtotal"].',
+							'.$rs_header["total_nilai"].',
+							SUM(prcittd.dpp / ' . $rs_header["subtotal"] .'*'. $rs_header["total_nilai"].') as debit
+						FROM prcittd
+						LEFT JOIN iimxxmh ON iimxxmh.id = prcittd.id_iimxxmh
+						LEFT JOIN '.$tabel_persediaan.'_aakxxmh ON '.$tabel_persediaan.'_aakxxmh.id_'.$tabel_persediaan.' = iimxxmh.id_'.$tabel_persediaan.'
+						LEFT JOIN aakxxmh ON aakxxmh.id = '.$tabel_persediaan.'_aakxxmh.id_aakxxmh_persediaan
+						WHERE prcittd.id_prcxxth = :id_transaksi_h
+						GROUP BY '.$tabel_persediaan.'_aakxxmh.id_aakxxmh_persediaan
+					');
+				$rs_debit = $qs_debit->fetchAll();
+
+			}elseif($rs_id_iitxxmh['id_iitxxmh'] == 2){
+				// TODO
+			}elseif($rs_id_iitxxmh['id_iitxxmh'] == 3){
+				//kalo jasa debitnya diganti tab biaya di prcxxth
+
+				// select debit
+				$qs_debit = $db
+					->raw()
+					->bind(':id_transaksi_h', $id_transaksi_h)
+					->exec('SELECT
+								a.id_prcxxth id_transaksi_h,
+								a.id_aakxxmh,
+								a.created_by,
+								a.nominal debit
+							FROM prcaktd a
+							WHERE a.id_prcxxth = :id_transaksi_h
+					');
+				$rs_debit = $qs_debit->fetchAll();
+
+			}elseif($rs_id_iitxxmh['id_iitxxmh'] == 4){
+				// TODO
+			}
+
+			foreach ($rs_debit as $row_debit) {
+				$qi_debit = $db
+					->query('insert', 'aglaktd')
+					->set('id_aglxxth', $last_id)
+					->set('id_aakxxmh',$row_debit['id_aakxxmh'])
+					->set('id_transaksi_d',$row_debit['id_transaksi_h'])
+					->set('created_by',$row_debit['created_by'])
+					->set('start_at',$rs_header['start_at'])
+					->set('finish_at',$rs_header['finish_at'])
+					->set('keterangan',$keterangan)
+					->set('debit_kredit', 'Debit')
+					->set('debit', $row_debit['debit']   )
+					->set('kredit', 0)
+					->exec();
+			}
+
+			// insert kredit
+			$qi_kredit = $db
 				->query('insert', 'aglaktd')
 				->set('id_aglxxth', $last_id)
-				->set('id_aakxxmh',$row_debit['id_aakxxmh'])
-				->set('id_transaksi_d',$row_debit['id_transaksi_h'])
-				->set('created_by',$row_debit['created_by'])
+				->set('id_aakxxmh', $rs_ggsaksh['id_aakxxmh_hutang_sementara'])
+				->set('id_transaksi_d', 0 )
+				->set('created_by',$rs_header['created_by'])
 				->set('start_at',$rs_header['start_at'])
 				->set('finish_at',$rs_header['finish_at'])
 				->set('keterangan',$keterangan)
-				->set('debit_kredit', 'Debit')
-				->set('debit', $row_debit['debit']   )
-				->set('kredit', 0)
+				->set('debit_kredit', 'Kredit')
+				->set('debit', 0)
+				->set('kredit', $rs_header['total_nilai'])
 				->exec();
-		}
 
-		// insert kredit
-		$qi_kredit = $db
-			->query('insert', 'aglaktd')
-			->set('id_aglxxth', $last_id)
-			->set('id_aakxxmh', $rs_ggsaksh['id_aakxxmh_hutang_sementara'])
-			->set('id_transaksi_d', 0 )
-			->set('created_by',$rs_header['created_by'])
-			->set('start_at',$rs_header['start_at'])
-			->set('finish_at',$rs_header['finish_at'])
-			->set('keterangan',$keterangan)
-			->set('debit_kredit', 'Kredit')
-			->set('debit', 0)
-			->set('kredit', $rs_header['total_nilai'])
-			->exec();
-
-		// check apakah query ada resultnya
-		if(!empty($qi_debit) && !empty($qi_kredit) ){
+			// check apakah query ada resultnya
+			if(!empty($qi_debit) && !empty($qi_kredit) ){
+				$db->commit();
+				$status_code  = '200';
+				$message      = $jenis_transaksi . ' Berhasil Dibukukan';
+				$type_message = 'success';
+				// parameter lain
+			}else{
+				$db->rollback();
+				$status_code  = '500';
+				$message      = $jenis_transaksi . ' Gagal Dibukukan';
+				$type_message = 'error';
+				// parameter lain
+			}
+		}else{
 			$db->commit();
 			$status_code  = '200';
-			$message      = $jenis_transaksi . ' Berhasil Dibukukan';
+			$message      = '';
 			$type_message = 'success';
-			// parameter lain
-		}else{
-			$db->rollback();
-			$status_code  = '500';
-			$message      = $jenis_transaksi . ' Gagal Dibukukan';
-			$type_message = 'error';
-			// parameter lain
 		}
 		
 	}catch(PDOException $e){

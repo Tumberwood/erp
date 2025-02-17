@@ -397,8 +397,19 @@
 							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								id_podxxth          = edtprcxxth.field('prcxxth.id_podxxth').val();				
+								autofillField('podxxth', id_podxxth, 'id_iitxxmh');
+								id_iitxxmh = autofillData.id_iitxxmh;
+
+								//Jika konsinyasi, maka wh yang tampil cuma wh kategori konsinyasi
+								if (id_iitxxmh == 7) {
+									ids_iwhctmh = '7';
+								} else {
+									ids_iwhctmh = '';
+								}
 								var query = {
 									id_iwhxxmh_old: id_iwhxxmh_old,
+									ids_iwhctmh: ids_iwhctmh,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -470,6 +481,7 @@
 			id_podxxth = val;
 			autofillField('podxxth', id_podxxth, 'id_iitxxmh, id_fpytmmh');
 			id_iitxxmh = autofillData.id_iitxxmh;
+			// console.log(id_iitxxmh);
 			edtprcxxth.field('prcxxth.id_iitxxmh').val(id_iitxxmh);
 			id_fpytmmh = autofillData.id_fpytmmh;
 			edtprcxxth.field('prcxxth.id_fpytmmh').val(id_fpytmmh);

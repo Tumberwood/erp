@@ -29,6 +29,14 @@
         $id_iwhxxmh_old = 0;
     }
 
+    if(isset($_GET['ids_iwhctmh']) && $_GET['ids_iwhctmh'] != ''){
+        $ids_iwhctmh = '('.$_GET['ids_iwhctmh'].')';
+        $where_iwhctmh = 'IN';
+    } else {
+        $where_iwhctmh = 'NOT IN';
+        $ids_iwhctmh = '(-9)';
+    }
+
     if ($s_id_users > 100) {
         $ids_iwh = '('.$s_str_arr_ha_iwhxxmh.')';
         $where_hk = 'IN';
@@ -85,6 +93,7 @@
         ->where('iwhxxmh.id_iwhctmh',3,'<>')
         ->where('iwhxxmh.id', $id_iwhxxmh_old, '<>' )
         ->where('iwhxxmh.id', $ids_iwh, $where_hk, false )
+        ->where('iwhxxmh.id_iwhctmh', $ids_iwhctmh, $where_iwhctmh, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
