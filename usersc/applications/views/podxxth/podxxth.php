@@ -430,6 +430,12 @@
 					def: 0
 				},
 				{
+					label: "podxxth.is_subcon_exclude",
+					name: "podxxth.is_subcon_exclude",
+					type: "hidden",
+					def: 0
+				},
+				{
 					label: getTranslation('type') + " <sup class='text-danger'>*<sup>",
 					name: "podxxth.id_iitxxmh",
 					type: "select2",
@@ -729,6 +735,11 @@
 		edtpodxxth.dependent( 'podxxth.id_iitxxmh', function ( val, data, callback ) {
 			id_iitxxmh = edtpodxxth.field('podxxth.id_iitxxmh').val();
 			hitungHeader(edtpodxxth,'podxxth', id_iitxxmh);
+			if (val == 8) {
+				edtpodxxth.field('podxxth.is_subcon_exclude').val(1);
+			} else {
+				edtpodxxth.field('podxxth.is_subcon_exclude').val(0);
+			}
 			return {}
 		}, {event: 'keyup change'});
 		

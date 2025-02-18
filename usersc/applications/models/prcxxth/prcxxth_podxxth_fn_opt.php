@@ -77,6 +77,7 @@
         ])
         ->where('podxxth.transaction_state',1)
         ->where('podxxth.approval_state', 9)
+        ->where('podxxth.is_subcon_exclude', 0)
         ->where('podxxth.id_grlxxmh_supplier', $id_grlxxmh_supplier)
         ->where('podxxth.id', $id_podxxth_old, '<>' )
         ->where('podxxth.id', $id_podxxth_avail, 'IN', false)

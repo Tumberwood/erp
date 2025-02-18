@@ -81,6 +81,7 @@
 			Field::inst( 'podxxth.pajak_persen' ),
 			Field::inst( 'podxxth.pajak_final' ),
 			Field::inst( 'podxxth.grand_total' ),
+			Field::inst( 'podxxth.is_subcon_exclude' ),
 
 			Field::inst( 'iitxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' )
