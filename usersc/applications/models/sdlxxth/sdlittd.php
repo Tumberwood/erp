@@ -35,6 +35,10 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sdlittd.id_sodittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'sdlittd.id_podittd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'sdlittd.id_podxxth' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sdlittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sdlittd.kode' ),

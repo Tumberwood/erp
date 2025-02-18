@@ -936,10 +936,11 @@
 				var dataOpt = edtsdlittd.field('sdlittd.id_iimxxmh').input().select2('data');
 				if (dataOpt.length > 0) {
 					var id_podittd = dataOpt[0].id_podittd;
+					var id_podxxth = dataOpt[0].id_podxxth;
 					var harga_unit = dataOpt[0].harga_unit;
-					// console.log(id_podittd);
-					// console.log(harga_unit);
+					
 					edtsdlittd.field('sdlittd.id_podittd').val(id_podittd);
+					edtsdlittd.field('sdlittd.id_podxxth').val(id_podxxth);
 					edtsdlittd.field('sdlittd.harga_unit').val(harga_unit);
 				}
 			}
