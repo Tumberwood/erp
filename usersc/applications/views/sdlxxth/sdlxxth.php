@@ -445,8 +445,18 @@
 							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								is_sub_contract          = edtsdlxxth.field('sdlxxth.is_sub_contract').val();	
+
+								//Jika is_sub_contract, maka wh yang tampil cuma wh kategori sub contract
+								if (is_sub_contract == 1) {
+									ids_iwhctmh = '8';
+								} else {
+									ids_iwhctmh = '';
+								}
+
 								var query = {
 									id_iwhxxmh_old: id_iwhxxmh_old,
+									ids_iwhctmh: ids_iwhctmh,
 									search: params.term || '',
 									page: params.page || 1
 								}
