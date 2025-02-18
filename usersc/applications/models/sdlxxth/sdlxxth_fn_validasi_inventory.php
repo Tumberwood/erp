@@ -99,24 +99,39 @@
 
         if ($jumlah_terkecil_input > $jumlah_terkecil_ava) {
             $jumlah_unit_ava = $jumlah_terkecil_ava / $jumlah_konversi;
-
+            
             $status_code = 500;
             $full_message = "Jumlah Max di Inventory adalah = ".$jumlah_unit_ava." ".$iumxxmh_kode;
             $type_message = 'success';
             $validasi = 'jumlah_unit';
         } else {
             $qs_iwhxxmh = $db
-                ->query('select', $table_before )
-                ->get(['nama'] )
+            ->query('select', $table_before )
+            ->get(['jumlah_terkecil_os'] )
                 ->where('id', $id_transaksi_before )
                 ->exec();
-            $rs_iwhxxmh = $qs_iwhxxmh->fetch();
-            $iwhxxmh_nama = $rs_iwhxxmh['nama'];
-            
-            $status_code = 200;
-            $full_message = "Item Tidak Terdaftar di Inventory";
-            $type_message = 'success';
-            $validasi = 'jumlah_unit';
+                $rs_iwhxxmh = $qs_iwhxxmh->fetch();
+                $jumlah_terkecil_os = $rs_iwhxxmh['jumlah_terkecil_os'];
+                
+            if ($jumlah_terkecil_input > $jumlah_terkecil_os) {
+                $jumlah_unit_before = $jumlah_terkecil_os / $jumlah_konversi;
+                    
+                if ($table_before == "sodittd") {
+                    $menu = "Sales Order";
+                } else {
+                    $menu = "Purchase Order";
+                }
+                
+                $status_code = 500;
+                $full_message = "Jumlah Max di ".$menu." adalah = ".$jumlah_unit_before." ".$iumxxmh_kode;
+                $type_message = 'success';
+                $validasi = 'jumlah_unit';
+            } else {
+                $status_code = 200;
+                $full_message = "Item Tidak Terdaftar di Inventory";
+                $type_message = 'success';
+                $validasi = 'jumlah_unit';
+            }
         }
     } else {
         $status_code = 500;
