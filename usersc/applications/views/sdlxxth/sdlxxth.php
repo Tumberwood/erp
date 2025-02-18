@@ -577,6 +577,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tblsdlxxth.ajax.reload(null, false);
 		} );
 
 		edtsdlxxth.on( 'close', function () {
