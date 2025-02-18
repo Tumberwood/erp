@@ -37,6 +37,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth.id_sodxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'sdlxxth.id_podxxth' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -68,15 +70,18 @@
 				) ),
 			Field::inst( 'sdlxxth.mobil_nomor' ),
 			Field::inst( 'sdlxxth.supir_nama' ),
+			Field::inst( 'sdlxxth.is_sub_contract' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' ),
-			Field::inst( 'sodxxth.kode' )
+			Field::inst( 'sodxxth.kode' ),
+			Field::inst( 'podxxth.kode' ),
 
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','sdlxxth.id_iwhxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','sdlxxth.id_grlxxmh_customer' )
 		->leftJoin( 'sodxxth','sodxxth.id','=','sdlxxth.id_sodxxth' )
+		->leftJoin( 'podxxth','podxxth.id','=','sdlxxth.id_podxxth' )
 		;
 	
 		// BEGIN where single data view

@@ -59,10 +59,16 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="sdlxxth.is_sub_contract"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth.id_grlxxmh_customer"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth.id_sodxxth"></editor-field>
+								<editor-field name="sdlxxth.id_podxxth"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -213,6 +219,7 @@
 
 	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_sodxxth_old = 0, id_iwhxxmh_old = 0, id_sodxxth = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, diskon_jenis_select = null, harga_unit_select = null;
+	var id_podxxth_old = 0;
 
 	// get tableRelation
 	tableRelation('sdlxxth');
@@ -321,8 +328,45 @@
 						},
 					}
 				},
+				
 				{
-					label: "Sales Order",
+					label: getTranslation('purchaseOrder') + " <sup class='text-danger'>*<sup>",
+					name: "sdlxxth.id_podxxth",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/podxxth/podxxth_fn_subcon_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_podxxth_old: id_podxxth_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Sales Order <sup class='text-danger'>*<sup>",
 					name: "sdlxxth.id_sodxxth",
 					type: "select2",
 					opts: {
@@ -433,7 +477,18 @@
 					label: "Keterangan",
 					name: "sdlxxth.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "PO Sub Contract?",
+					name: "sdlxxth.is_sub_contract",
+					type: "select",
+					placeholder : "Select",
+					def: 0,
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					]
+				},
 			]
 		} );
 		
@@ -451,6 +506,17 @@
 			edtFormButtonSaveConfirmHD();
 		});
 
+		edtsdlxxth.dependent( 'sdlxxth.is_sub_contract', function ( val, data, callback ) {
+			if (val == 1) {
+				edtsdlxxth.field('sdlxxth.id_sodxxth').hide();
+				edtsdlxxth.field('sdlxxth.id_podxxth').show();
+			} else {
+				edtsdlxxth.field('sdlxxth.id_sodxxth').show();
+				edtsdlxxth.field('sdlxxth.id_podxxth').hide();
+			}
+			return {}
+		}, {event: 'keyup change'});
+
 		edtsdlxxth.dependent( 'sdlxxth.id_grlxxmh_customer', function ( val, data, callback ) {
 			edtsdlxxth.field('sdlxxth.id_sodxxth').input().val(null).trigger('change');
 			id_grlxxmh_customer = val;
@@ -464,6 +530,8 @@
 				id_iwhxxmh      = edtsdlxxth.field('sdlxxth.id_iwhxxmh').val();
 				id_grlxxmh_customer      = edtsdlxxth.field('sdlxxth.id_grlxxmh_customer').val();
 				id_sodxxth      = edtsdlxxth.field('sdlxxth.id_sodxxth').val();
+				id_podxxth      = edtsdlxxth.field('sdlxxth.id_podxxth').val();
+				is_sub_contract      = edtsdlxxth.field('sdlxxth.is_sub_contract').val();
 
 				validasiRequired(
 					edtsdlxxth, 
@@ -472,9 +540,26 @@
 						"tanggal": tanggal, 
 						"id_iwhxxmh": id_iwhxxmh, 
 						"id_grlxxmh_customer": id_grlxxmh_customer,
-						"id_sodxxth": id_sodxxth
 					}
 				);
+
+				if (is_sub_contract == 1) {
+					validasiRequired(
+						edtsdlxxth, 
+						"sdlxxth", 
+						{
+							"id_podxxth": id_podxxth
+						}
+					);
+				} else {
+					validasiRequired(
+						edtsdlxxth, 
+						"sdlxxth", 
+						{
+							"id_sodxxth": id_sodxxth
+						}
+					);
+				}
 
 			}
 			
@@ -595,6 +680,7 @@
 			id_grlxxmh_old      = sdlxxth_data.id_grlxxmh_customer;
 			id_grlxxmh_customer = sdlxxth_data.id_grlxxmh_customer;
 			id_sodxxth_old      = sdlxxth_data.id_sodxxth;
+			id_podxxth_old      = sdlxxth_data.id_podxxth;
 			id_sodxxth          = sdlxxth_data.id_sodxxth;
 			id_iwhxxmh_old      = sdlxxth_data.id_iwhxxmh;
 			
@@ -608,6 +694,7 @@
 			// reset variable standar framework
 			siVarReset('sdlxxth');
 			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_sodxxth_old = 0, id_iwhxxmh_old = 0, id_sodxxth = 0;
+			id_podxxth_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblsdlittd];
@@ -671,6 +758,16 @@
 					// type: "hidden"
 				},
 				{
+					label: "sdlittd.id_podittd",
+					name: "sdlittd.id_podittd",
+					type: "hidden"
+				},
+				{
+					label: "sdlittd.id_podxxth",
+					name: "sdlittd.id_podxxth",
+					// type: "hidden"
+				},
+				{
 					label: getTranslation('price') + " <sup class='text-danger'>*<sup>",
 					name: "sdlittd.harga_unit",
 				},
@@ -713,20 +810,24 @@
 					name: "sdlittd.id_iimxxmh",
 					type: "select2",
 					opts: {
-						placeholder : "Select",
+						placeholder: "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/sdlxxth/sdlittd_iimxxmh_fn_opt.php",
+							url: function() {
+								return id_podxxth_old > 0 
+									? "../../models/sdlxxth/podittd_subcon_fn_opt.php" 
+									: "../../models/sdlxxth/sdlittd_iimxxmh_fn_opt.php";
+							},
 							dataType: 'json',
 							data: function (params) {
-								var query = {
+								return {
 									id_iimxxmh_old: id_iimxxmh_old,
 									id_sodxxth: id_sodxxth,
+									id_podxxth: id_podxxth_old,
 									search: params.term || '',
 									page: params.page || 1
-								}
-									return query;
+								};
 							},
 							processResults: function (data, params) {
 								return {
@@ -830,6 +931,19 @@
 
 		edtsdlittd.dependent( 'sdlittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = val;
+
+			if (id_podxxth_old > 0) {
+				var dataOpt = edtsdlittd.field('sdlittd.id_iimxxmh').input().select2('data');
+				if (dataOpt.length > 0) {
+					var id_podittd = dataOpt[0].id_podittd;
+					var harga_unit = dataOpt[0].harga_unit;
+					// console.log(id_podittd);
+					// console.log(harga_unit);
+					edtsdlittd.field('sdlittd.id_podittd').val(id_podittd);
+					edtsdlittd.field('sdlittd.harga_unit').val(harga_unit);
+				}
+			}
+			
 			edtsdlittd.field('sdlittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			sdlittd_fn_sodittd(id_sodxxth,id_iimxxmh)
 			return {}
@@ -900,6 +1014,7 @@
 
 			if(action != 'remove'){
 				id_iimxxmh = edtsdlittd.field('sdlittd.id_iimxxmh').val();
+				id_sodittd = edtsdlittd.field('sdlittd.id_sodittd').val();
 				id_iumxxmh_unit = edtsdlittd.field('sdlittd.id_iumxxmh_unit').val();
 
 				validasiRequired(
@@ -911,9 +1026,11 @@
 					}
 				);
 
-				validasiOutstandingMask(
-					edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
-				)
+				if (id_sodittd > 0) {
+					validasiOutstandingMask(
+						edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
+					)
+				}
 
 			}
 			

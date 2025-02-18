@@ -9,10 +9,18 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			General::konversiUom( $editor->db(), 'sdlittd', $id );
-			General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Create', 'sdlittd', 'sodittd' );
+			$id_sodittd = $values['sdlittd']['id_sodittd'];
+
+			if ($id_sodittd > 0) {
+				General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Create', 'sdlittd', 'sodittd' );
+			}
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
-			General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Edit', 'sdlittd', 'sodittd' );
+			$id_sodittd = $values['sdlittd']['id_sodittd'];
+
+			if ($id_sodittd > 0) {
+				General::kalkulasiJumlahTransaksiBefore( $editor->db(), $id, $values, 'Edit', 'sdlittd', 'sodittd' );
+			}
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
 			General::konversiUom( $editor->db(), 'sdlittd', $id );
