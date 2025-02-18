@@ -1037,6 +1037,16 @@
 					}
 				);
 
+				validasiUnique(
+					action,
+					edtsdlittd, 
+					"sdlittd", 
+					"id_iimxxmh", 
+					'id_iimxxmh, id_sdlxxth',
+					id_iimxxmh+","+id_sdlxxth,
+					id_sdlittd
+				);
+
 				if (id_sodittd > 0) {
 					validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
 					
