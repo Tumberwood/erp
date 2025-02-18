@@ -18,6 +18,7 @@
     $table_before = $_POST['table_before'];
     $id_transaksi_before = $_POST['id_transaksi_before'];
     $jumlah_unit = $_POST['jumlah_unit'];
+    $jumlah_dom = $_POST['jumlah_dom'];
 
     $qs_iwhxxmh = $db
         ->query('select', 'iwhxxmh' )
@@ -103,17 +104,8 @@
         ->where('id', $id_transaksi_before )
         ->exec();
     $rs_transaksi = $qs_transaksi->fetch();
-    $jumlah_unit_transaksi = $rs_transaksi['jumlah_unit'];
-    $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'];
-
+    
     if (!empty($rs_iiv)) {
-        
-        if ($table_before == "sodittd") {
-            $menu = "Sales Order";
-        } else {
-            $menu = "Purchase Order";
-        }
-        
         $jumlah_terkecil_ava = $rs_iiv['jumlah_terkecil_ava'];
 
         if ($jumlah_terkecil_input > $jumlah_terkecil_ava) {
@@ -124,9 +116,18 @@
             $type_message = 'success';
             $validasi = 'jumlah_unit';
         } else {
-                
-            if ($jumlah_terkecil_input > $jumlah_terkecil_os) {
+                    
+            if ($table_before == "sodittd") {
+                $menu = "Sales Order";
+                $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'];
                 $jumlah_unit_before = $jumlah_terkecil_os / $jumlah_konversi;
+            } else {
+                $menu = "Purchase Order";
+                $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'] * $jumlah_dom;
+                $jumlah_unit_before = $jumlah_terkecil_os;
+            }
+
+            if ($jumlah_terkecil_input > $jumlah_terkecil_os) {
                 
                 $status_code = 500;
                 $full_message = "Jumlah Max di ".$menu." adalah = ".$jumlah_unit_before." ".$iumxxmh_kode;

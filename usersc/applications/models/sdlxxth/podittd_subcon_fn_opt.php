@@ -60,10 +60,11 @@
             'podittd.id as id_podittd',
             'podittd.id_podxxth as id_podxxth',
             'podittd.harga_unit as harga_unit',
-            
+
             'dbmittd.jumlah_unit as jumlah_material',
             'dbmittd.id_iumxxmh_unit as id_iumxxmh_unit',
-            '(dbmittd.jumlah_unit * podittd.jumlah_unit) as jumlah_unit'
+            'dbmittd.jumlah_unit as jumlah_dom',
+            '(dbmittd.jumlah_unit * podittd.jumlah_terkecil) as jumlah_unit'
         ])
         ->join('dbmittd','dbmittd.id_dbmxxth = dbmxxth.id','LEFT' )
         ->join('iimxxmh','iimxxmh.id = dbmittd.id_iimxxmh','LEFT' )

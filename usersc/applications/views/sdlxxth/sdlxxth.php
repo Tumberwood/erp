@@ -853,6 +853,10 @@
 					}
 				},
 				{
+					label: "jumlah_dom",
+					name: "jumlah_dom"
+				},
+				{
 					label: "Quantity <sup class='text-danger'>*<sup>",
 					name: "sdlittd.jumlah_unit"
 				},
@@ -946,12 +950,14 @@
 					var harga_unit = dataOpt[0].harga_unit;
 					var jumlah_material = dataOpt[0].jumlah_material;
 					var jumlah_unit = dataOpt[0].jumlah_unit;
+					var jumlah_dom = dataOpt[0].jumlah_dom;
 					id_iumxxmh_unit_old = dataOpt[0].id_iumxxmh_unit;
 					
 					edtsdlittd.field('sdlittd.id_podittd').val(id_podittd);
 					edtsdlittd.field('sdlittd.id_podxxth').val(id_podxxth);
 					edtsdlittd.field('sdlittd.harga_unit').val(harga_unit);
 					edtsdlittd.field('sdlittd.jumlah_unit').val(jumlah_unit);
+					edtsdlittd.field('jumlah_dom').val(jumlah_dom);
 					edtsdlittd.field('sdlittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
 
 					edtsdlittd.field('sdlittd.jumlah_unit').fieldInfo('Jumlah PO * ' + jumlah_material + ' (Detail BoM)');
