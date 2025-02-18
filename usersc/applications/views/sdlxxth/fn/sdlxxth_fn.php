@@ -41,7 +41,7 @@
 
     function validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh, table_before, id_transaksi_before){
         jumlah_unit = edtsdlittd.field('sdlittd.jumlah_unit').input().inputmask('unmaskedvalue');
-        jumlah_dom = edtsdlittd.field('jumlah_dom').val();
+        jumlah_bom = edtsdlittd.field('sdlittd.jumlah_bom').val();
 
         $.ajax( {
             url: "../../models/sdlxxth/sdlxxth_fn_validasi_inventory.php",
@@ -55,7 +55,7 @@
                 table_before: table_before,
                 id_transaksi_before: id_transaksi_before,
                 jumlah_unit: jumlah_unit,
-                jumlah_dom: jumlah_dom,
+                jumlah_bom: jumlah_bom,
             },
             success: function ( json ) {
                 if(json.data.status_code == 500){

@@ -18,7 +18,7 @@
     $table_before = $_POST['table_before'];
     $id_transaksi_before = $_POST['id_transaksi_before'];
     $jumlah_unit = $_POST['jumlah_unit'];
-    $jumlah_dom = $_POST['jumlah_dom'];
+    $jumlah_bom = $_POST['jumlah_bom'];
 
     $qs_iwhxxmh = $db
         ->query('select', 'iwhxxmh' )
@@ -123,7 +123,7 @@
                 $jumlah_unit_before = $jumlah_terkecil_os / $jumlah_konversi;
             } else {
                 $menu = "Purchase Order";
-                $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'] * $jumlah_dom;
+                $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'] * $jumlah_bom;
                 $jumlah_unit_before = $jumlah_terkecil_os;
             }
 

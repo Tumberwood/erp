@@ -60,6 +60,7 @@
 				Field::inst( 'sdlittd.diskon_final' ),
 				Field::inst( 'sdlittd.subtotal' ),
 				Field::inst( 'sdlittd.dpp' ),
+				Field::inst( 'sdlittd.jumlah_bom' ),
 
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
