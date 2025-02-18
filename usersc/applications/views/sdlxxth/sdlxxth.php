@@ -938,14 +938,23 @@
 					var id_podittd = dataOpt[0].id_podittd;
 					var id_podxxth = dataOpt[0].id_podxxth;
 					var harga_unit = dataOpt[0].harga_unit;
+					var jumlah_material = dataOpt[0].jumlah_material;
+					var jumlah_unit = dataOpt[0].jumlah_unit;
+					id_iumxxmh_unit_old = dataOpt[0].id_iumxxmh_unit;
 					
 					edtsdlittd.field('sdlittd.id_podittd').val(id_podittd);
 					edtsdlittd.field('sdlittd.id_podxxth').val(id_podxxth);
 					edtsdlittd.field('sdlittd.harga_unit').val(harga_unit);
+					edtsdlittd.field('sdlittd.jumlah_unit').val(jumlah_unit);
+					edtsdlittd.field('sdlittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
+
+					edtsdlittd.field('sdlittd.jumlah_unit').fieldInfo('Jumlah PO * ' + jumlah_material + ' (Detail BoM)');
 				}
+			} else {
+				edtsdlittd.field('sdlittd.jumlah_unit').fieldInfo('');
+				edtsdlittd.field('sdlittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			}
 			
-			edtsdlittd.field('sdlittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			sdlittd_fn_sodittd(id_sodxxth,id_iimxxmh)
 			return {}
 		}, {event: 'keyup change'});
@@ -1016,6 +1025,7 @@
 			if(action != 'remove'){
 				id_iimxxmh = edtsdlittd.field('sdlittd.id_iimxxmh').val();
 				id_sodittd = edtsdlittd.field('sdlittd.id_sodittd').val();
+				id_podittd = edtsdlittd.field('sdlittd.id_podittd').val();
 				id_iumxxmh_unit = edtsdlittd.field('sdlittd.id_iumxxmh_unit').val();
 
 				validasiRequired(
@@ -1029,10 +1039,12 @@
 
 				if (id_sodittd > 0) {
 					validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
-
+					
 					// validasiOutstandingMask(
-					// 	edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
-					// )
+						// 	edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
+						// )
+				} else {
+					validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'podittd', id_podittd);
 				}
 
 			}

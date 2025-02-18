@@ -45,6 +45,7 @@
             url: "../../models/sdlxxth/sdlxxth_fn_validasi_inventory.php",
             dataType: 'json',
             type: 'POST',
+            async: false,
             data: {
                 id_iimxxmh: id_iimxxmh,
                 id_iumxxmh_unit: id_iumxxmh_unit,
@@ -57,6 +58,7 @@
                 if(json.data.status_code == 500){
                     edtsdlittd.field('sdlittd.'+json.data.validasi).error( json.data.full_message );
                 }
+                
             }
         } );
     };
