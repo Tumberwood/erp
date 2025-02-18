@@ -284,6 +284,12 @@
 					def: 0
 				},
 				{
+					label: "iimxxmh.is_sub_contract",
+					name: "iimxxmh.is_sub_contract",
+					type: "hidden",
+					def: 0
+				},
+				{
 					label: getTranslation('code') + " <sup class='text-danger'>*<sup>",
 					name: "iimxxmh.kode"
 				},
@@ -578,8 +584,14 @@
 				edtiimxxmh.field('iimxxmh.movement_method2').show();
 				edtiimxxmh.field('iimxxmh.is_batch_number').show();
 				edtiimxxmh.field('iimxxmh.is_expired_date').show();
+				edtiimxxmh.field('iimxxmh.is_sub_contract').val(0);
 		
 			} else {
+				if (val == 8) {
+					edtiimxxmh.field('iimxxmh.is_sub_contract').val(1);
+				} else {
+					edtiimxxmh.field('iimxxmh.is_sub_contract').val(0);
+				}
 				edtiimxxmh.field('iimxxmh.id_iigxxmh').label("Item Group");
 				edtiimxxmh.field('iimxxmh.id_iibxxmh').label("Item Brand");
 

@@ -61,6 +61,7 @@
 			Field::inst( 'iimxxmh.is_expired_date' ),
 
 			Field::inst( 'iimxxmh.content' ),
+			Field::inst( 'iimxxmh.is_sub_contract' ),
 
 			Field::inst( 'iitxxmh.nama' ),
 			Field::inst( 'iicxxmh.nama' ),

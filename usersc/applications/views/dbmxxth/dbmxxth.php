@@ -178,11 +178,13 @@
 				},
 				{
 					label: getTranslation('revisionNumber'),
-					name: "dbmxxth.revisi_ke"
+					name: "dbmxxth.revisi_ke",
+					type: "readonly",
 				},
 				{
 					label: getTranslation('originalBom'),
-					name: "dbmxxth.id_dbmxxth_asal"
+					name: "dbmxxth.id_dbmxxth_asal",
+					type: "hidden",
 				},
 				{
 					label: getTranslation('item') + "<sup class='text-danger'>*<sup>",
@@ -245,6 +247,15 @@
 			$(".modal-dialog").addClass("modal-lg");
 			edtFormButtonSaveConfirmHD();
 		});
+
+		edtdbmxxth.dependent( 'dbmxxth.id_iimxxmh', function ( val, data, callback ) {
+			if (val > 0) {
+				revisionNumber(val);
+			} else {
+				edtdbmxxth.field('dbmxxth.revisi_ke').val('');
+			}
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtdbmxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
