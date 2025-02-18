@@ -91,7 +91,7 @@
 								<th>Tanggal</th>
                                 <th>Kode</th>
 								<th>Customer</th>
-								<th>Sales Order</th>
+								<th data-toggle="tooltip" title="From SO / PO Sub Contract">Kode Transaksi</th>
 								<th>Warehouse</th>
 								<th>TX</th>
                             </tr>
@@ -618,7 +618,12 @@
 				{ data: "sdlxxth.tanggal" },
 				{ data: "sdlxxth.kode" },
 				{ data: "grlxxmh.nama" },
-				{ data: "sodxxth.kode" },
+				{
+					data: "sodxxth.kode",
+					render: function(data, type, row) {
+						return data ? data : (row.podxxth ? row.podxxth.kode : '');
+					}
+				},
 				{ data: "iwhxxmh.nama" },
 				{ 
 					data: "sdlxxth.transaction_state" ,
