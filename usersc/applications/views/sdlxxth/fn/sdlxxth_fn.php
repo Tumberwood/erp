@@ -38,4 +38,26 @@
             } );
         }
     };
+
+    function validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh, table_before, id_transaksi_before){
+        jumlah_unit = edtsdlittd.field('sdlittd.jumlah_unit').input().inputmask('unmaskedvalue');
+        $.ajax( {
+            url: "../../models/sdlxxth/sdlxxth_fn_validasi_inventory.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                id_iimxxmh: id_iimxxmh,
+                id_iumxxmh_unit: id_iumxxmh_unit,
+                id_iwhxxmh: id_iwhxxmh,
+                table_before: table_before,
+                id_transaksi_before: id_transaksi_before,
+                jumlah_unit: jumlah_unit,
+            },
+            success: function ( json ) {
+                if(json.data.status_code == 500){
+                    edtsdlittd.field('sdlittd.'+json.data.validasi).error( json.data.full_message );
+                }
+            }
+        } );
+    };
 </script>

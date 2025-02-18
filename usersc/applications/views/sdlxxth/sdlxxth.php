@@ -1028,9 +1028,11 @@
 				);
 
 				if (id_sodittd > 0) {
-					validasiOutstandingMask(
-						edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
-					)
+					validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
+
+					// validasiOutstandingMask(
+					// 	edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
+					// )
 				}
 
 			}
