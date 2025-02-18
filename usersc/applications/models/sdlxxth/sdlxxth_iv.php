@@ -27,6 +27,23 @@
 		$id    = $_POST['id_transaksi_h'];
 		$state = $_POST['state'];
 
+		$qs_sdlxxth = $db
+			->query('select', 'sdlxxth' )
+			->get(['id_podxxth'] )
+			->where('id', $id )
+			->exec();
+		$rs_sdlxxth = $qs_sdlxxth->fetch();
+		$id_podxxth = $rs_sdlxxth['id_podxxth'];
+
+		if ($id_podxxth > 0) {
+			//Jika sudah SDL dan PO Subcon, maka ubah flag menjadi 0 agar kode PO in bisa diakses di PO
+			$qu_podxxth = $db
+				->query('update', 'podxxth')
+				->set('is_subcon_exclude', 0)
+				->where('id',$id_podxxth)
+				->exec();
+		}
+
 		// BEGIN ambil data confirmed_at dari table activity_log_ml
 		$qs_activity_log_ml = $db
 			->query('select', 'activity_log_ml' )
