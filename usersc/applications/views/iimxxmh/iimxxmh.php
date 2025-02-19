@@ -67,7 +67,7 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-								<editor-field name="files[].id"></editor-field>
+								<editor-field name="iimxxmh_files[].id"></editor-field>
 							</div>
 							<div class="col-lg-6">
 								<editor-field name="iimxxmh.keterangan"></editor-field>
@@ -480,11 +480,11 @@
 				},
 				{
 					label: "Images",
-					name: "files[].id",
+					name: "iimxxmh_files[].id",
 					type: "uploadMany",
 					display: function ( id_files, counter ) {
 						if (id_files > 0) {
-							return '<img src="'+edtiimxxmh.file( 'files', id_files ).web_path+'"/>';
+							return '<img src="'+edtiimxxmh.file( 'iimxxmh_files', id_files ).web_path+'"/>';
 						} else {
 							return 'Belum ada gambar';
 						}

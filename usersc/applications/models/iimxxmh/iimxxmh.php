@@ -74,13 +74,13 @@
 		// BEGIN upload multi file
 		// table files dan filestr adalah bawaan framework, jangan diganti. cukup ganti iimxxmh nya saja dan folder 
 		->join(
-			Mjoin::inst( 'files' )
-				->link( 'iimxxmh.id', 'filestr.id_transaksi' )
-				->link( 'files.id', 'filestr.id_files' )
+			Mjoin::inst( 'iimxxmh_files' )
+				->link( 'iimxxmh.id', 'filestr_iimxxmh.id_transaksi' )
+				->link( 'iimxxmh_files.id', 'filestr_iimxxmh.id_files' )
 				->fields(
 					Field::inst( 'id' )
 						->upload( Upload::inst( $abs_us_root.$us_url_root. 'usersc/files/iimxxmh/__ID__.__EXTN__' )
-							->db( 'files', 'id', array(
+							->db( 'iimxxmh_files', 'id', array(
 								'filename'    => Upload::DB_FILE_NAME,
 								'filesize'    => Upload::DB_FILE_SIZE,
 								'web_path'    => Upload::DB_WEB_PATH,
@@ -88,15 +88,15 @@
 								'extn' 		  => Upload::DB_EXTN,
 								'tbl_nama' 	  => 'iimxxmh'
 							) )
-							->dbClean( 'filestr.id_files', function ( $files ) use ($db) { 
+							->dbClean( 'filestr_iimxxmh.id_files', function ( $files ) use ($db) { 
 								for ( $i=0, $ien=count($files) ; $i<$ien ; $i++ ) {
-									if( $files[$i]['tbl_nama'] == 'iimxxmh'){
+									// if( $files[$i]['tbl_nama'] == 'iimxxmh'){
 										$qd_files = $db
-											->query('delete', 'files')
+											->query('delete', 'iimxxmh_files')
 											->where('id', $files[$i]['id'])
 											->exec();
 										unlink( $files[$i]['system_path'] );
-									}
+									// }
 								}
 							})
 							->validator( Validate::fileSize( 1000000, 'Ukuran file lampiran maksimal 1mb' ) )
