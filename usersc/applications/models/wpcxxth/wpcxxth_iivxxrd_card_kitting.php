@@ -61,7 +61,15 @@
 						d.nama AS wloxxmh_out_nama,
 						ifnull(e.urutan, 0) AS urutan,
 						a.status_picking,
-						c.id_wjtxxmh
+						c.id_wjtxxmh,
+						(
+							SELECT
+								f.web_path
+							FROM filestr_iimxxmh rl
+							LEFT JOIN iimxxmh_files f ON f.id = rl.id_files
+							WHERE rl.id_transaksi = b.id 
+							LIMIT 1
+						) web_path
 					FROM wktlptd a
 					LEFT JOIN iimxxmh b ON b.id = a.id_iimxxmh
 					LEFT JOIN iumxxmh terkecil ON terkecil.id = a.id_iumxxmh_terkecil

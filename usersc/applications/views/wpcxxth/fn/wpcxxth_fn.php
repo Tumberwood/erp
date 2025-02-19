@@ -216,13 +216,20 @@
                         `;	
                         ;
                         
-                        genKonten = genKonten+ `
+                        kontenImg = kontenData.web_path 
+                            ? `<img src="${kontenData.web_path}" style="max-width: 200px; max-height: 200px;">`
+                            : ''
+                        ;
+
+                        genKonten = genKonten + `
                             <div class="${class_col}">
+                                ${kontenImg}
                                 ${h3CardLocation}
                                 ${kontenInput}
                             </div>
-                        `;	
+                        `;
                     });
+
                     $('.btnLPN').append(btnSubmit);
                     $('#konten').html(genKonten);
                 }
@@ -422,12 +429,18 @@
                         `;	
                         ;
                         
-                        genKonten = genKonten+ `
+                        kontenImg = kontenData.web_path 
+                            ? `<img src="${kontenData.web_path}" style="max-width: 200px; max-height: 200px;">`
+                            : ''
+                        ;
+
+                        genKonten = genKonten + `
                             <div class="${class_col}">
+                                ${kontenImg}
                                 ${h3CardLocation}
                                 ${kontenInput}
                             </div>
-                        `;	
+                        `;
                     });
                     $('.btnLPN').append(btnSubmit);
                     $('#konten').html(genKonten);
