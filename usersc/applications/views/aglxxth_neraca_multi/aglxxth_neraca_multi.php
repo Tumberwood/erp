@@ -280,10 +280,10 @@
 						.map(s => parseFloat(s) || 0)
 						.reduce((a, b) => a + b, 0);
 
-					sum_saldo_awal = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_saldo_awal);
-					sum_debit = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_debit);
-					sum_kredit = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_kredit);
-					sum_saldo_akhir = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_saldo_akhir);
+					sum_saldo_awal = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_saldo_awal);
+					sum_debit = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_debit);
+					sum_kredit = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_kredit);
+					sum_saldo_akhir = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_saldo_akhir);
 
 					//periode kedua
 					var sum_saldo_awal2 = rows
@@ -310,10 +310,10 @@
 						.map(s => parseFloat(s) || 0)
 						.reduce((a, b) => a + b, 0);
 
-					sum_saldo_awal2 = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_saldo_awal2);
-					sum_debit2 = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_debit2);
-					sum_kredit2 = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_kredit2);
-					sum_saldo_akhir2 = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_saldo_akhir2);
+					sum_saldo_awal2 = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_saldo_awal2);
+					sum_debit2 = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_debit2);
+					sum_kredit2 = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_kredit2);
+					sum_saldo_akhir2 = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_saldo_akhir2);
 
 					var indent = level * 20; // Sesuaikan indentasi berdasarkan level
 
