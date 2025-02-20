@@ -21,6 +21,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
                                 <th data-i18n="state"></th>
                             </tr>
@@ -95,6 +96,10 @@
 					def: 0
 				},	
 				{
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
+					name: "hfogrmh.kode"
+				}, 	
+				{
 					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "hfogrmh.nama"
 				}, 	
@@ -113,11 +118,14 @@
 			if(action == 'create'){
 				tblhfogrmh.rows().deselect();
 				edthfogrmh.field('hfogrmh.nama').enable();
+				edthfogrmh.field('hfogrmh.kode').enable();
 			}else if(action == 'edit'){
 				if(transaction_state == 0){
 					edthfogrmh.field('hfogrmh.nama').enable();
+					edthfogrmh.field('hfogrmh.kode').enable();
 				}else{
 					edthfogrmh.field('hfogrmh.nama').disable();
+					edthfogrmh.field('hfogrmh.kode').disable();
 				}
 			}
 		});
@@ -133,12 +141,14 @@
 			if(action != 'remove'){
 
 				nama = edthfogrmh.field('hfogrmh.nama').val();
+				kode = edthfogrmh.field('hfogrmh.kode').val();
 
 				validasiRequired(
 					edthfogrmh,
 					'hfogrmh',
 					{
 						'nama': nama,
+						'kode': kode,
 					}
 				);
 
@@ -149,6 +159,16 @@
 					'nama',
 					'nama',
 					'"'+nama+'"',
+					id_hfogrmh
+				);
+
+				validasiUnique(
+					action,
+					edthfogrmh,
+					'hfogrmh',
+					'kode',
+					'kode',
+					'"'+kode+'"',
 					id_hfogrmh
 				);
 			}
@@ -196,6 +216,7 @@
 			],
 			columns: [
 				{ data: "hfogrmh.id",visible:false },
+				{ data: "hfogrmh.kode" },
 				{ data: "hfogrmh.nama" },
 				{ 
 					data: "hfogrmh.transaction_state" ,
