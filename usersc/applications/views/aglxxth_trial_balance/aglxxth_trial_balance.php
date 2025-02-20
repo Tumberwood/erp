@@ -179,7 +179,7 @@
 			],
 			footerCallback: function ( row, data, start, end, display ) {
 				var api = this.api();
-				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
+				var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
 
 				for (var i = 3; i <= 6; i++) {
 					var columnIndex = i;
