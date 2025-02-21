@@ -45,8 +45,21 @@
 			Field::inst( 'hfoxxmh.is_nextprocess' ),
 			
 			Field::inst( 'hfogrmh.nama' ),
+			Field::inst( 'hfogrmh.color' ),
 		)
 		->leftJoin( 'hfogrmh','hfogrmh.id','=','hfoxxmh.id_hfogrmh' )
+		
+		->join(
+			Mjoin::inst( 'v_hfoxxmh_parents' )
+				->name( 'parents' )
+				->link( 'hfoxxmh.id', 'hfoxxmh_parents.id_hfoxxmh' )
+				->link( 'v_hfoxxmh_parents.id', 'hfoxxmh_parents.id_hfoxxmh_parents' )
+				->order( 'v_hfoxxmh_parents.nama asc' )
+				->fields(
+					Field::inst( 'id' ),
+					Field::inst( 'kode' )
+				)
+		)
 		;
 	
 	// do not erase

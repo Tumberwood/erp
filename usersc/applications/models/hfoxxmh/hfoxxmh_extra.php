@@ -4,10 +4,31 @@
 			// script diletakkan disini
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
-			// script diletakkan disini
+			// $hfoxxmh_parents = $values['hfoxxmh_parents'];
+			// print_r($values['hfoxxmh_parents']);
+			// foreach ($hfoxxmh_parents as $key => $parent) {
+			// 	$qi_hfoxxmh_parents = $editor->db()
+			// 		->query('insert', 'hfoxxmh_parents')
+			// 		->set('id_hfoxxmh',$id)
+			// 		->set('id_hfoxxmh_parents',$parent['id'])
+			// 		->exec();
+			// }
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
-			// script diletakkan disini
+			// $hfoxxmh_parents = $values['hfoxxmh_parents'];
+			// print_r($hfoxxmh_parents);
+			// $qd_hfoxxmh_parents = $editor->db()
+			// 	->query('delete', 'hfoxxmh_parents')
+			// 	->where('id_hfoxxmh',$id)
+			// 	->exec();
+
+			// foreach ($hfoxxmh_parents as $key => $parent) {
+			// 	$qi_hfoxxmh_parents = $editor->db()
+			// 		->query('insert', 'hfoxxmh_parents')
+			// 		->set('id_hfoxxmh',$id)
+			// 		->set('id_hfoxxmh_parents',$parent['id'])
+			// 		->exec();
+			// }
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
 			// script diletakkan disini

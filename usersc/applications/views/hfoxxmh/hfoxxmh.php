@@ -24,6 +24,7 @@
                                 <th data-i18n="group"></th>
                                 <th data-i18n="code"></th>
                                 <th data-i18n="name"></th>
+                                <th data-i18n="Support"></th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -58,7 +59,7 @@
 	// ------------- default variable, do not erase
 	var edthfoxxmh, tblhfoxxmh, show_deleted_hfoxxmh = 0, id_hfoxxmh;
 	// ------------- end of default variable
-	var id_hfogrmh_old = 0;
+	var id_hfogrmh_old = 0, ids_hfoxxmh_parents_old = '';
 	
 	// get tableRelation
 	tableRelation('hfoxxmh');
@@ -142,6 +143,44 @@
 					}
 				}, 	
 				{
+					label: 'Parents',
+					name: "parents[].id",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/hfoxxmh/hfoxxmh_fn_opt_multiple.php",
+							dataType: 'json',
+							data: function (params) {
+								console.log(id_hfoxxmh);
+								var query = {
+									ids_hfoxxmh_old: ids_hfoxxmh_parents_old,
+									id_hfoxxmh: id_hfoxxmh,
+									search: params.term || '',
+									page: params.page || 1
+								}
+								return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
+				{
 					label: getTranslation('notes'),
 					name: "hfoxxmh.keterangan",
 					type: "textarea"
@@ -152,6 +191,7 @@
 		edthfoxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthfoxxmh.field('hfoxxmh.start_at').val(start_at);
+			console.log(ids_hfoxxmh_parents_old);
 			
 			if(action == 'create'){
 				tblhfoxxmh.rows().deselect();
@@ -256,9 +296,16 @@
 			],
 			columns: [
 				{ data: "hfoxxmh.id",visible:false },
-				{ data: "hfogrmh.nama" },
+				{ 
+					data: "hfogrmh.nama",
+					render: function (data, type, row, meta) {
+						return '<span class="badge badge-plain" style="color: white; background-color: ' + row.hfogrmh.color + ';">' + data + '</span>';
+					}
+				},
+
 				{ data: "hfoxxmh.kode" },
 				{ data: "hfoxxmh.nama" },
+				{ data: "parents[].kode" },
 				{ 
 					data: "hfoxxmh.transaction_state" ,
 					...renderTransactionStatus()
@@ -305,6 +352,16 @@
 			siVarSet('hfoxxmh');
 			id_hfogrmh_old = hfoxxmh_data.id_hfogrmh;
 
+			tblhfoxxmh.rows( { selected: true } ).data().each(function (row) {
+				if (row.parents) {
+					ids_hfoxxmh_parents_old = "";
+					row.parents.forEach(function (parents_data) {
+						ids_hfoxxmh_parents_old = ids_hfoxxmh_parents_old + "," + parents_data.id;
+					});
+					ids_hfoxxmh_parents_old = ids_hfoxxmh_parents_old.substring(1);
+				}
+			} );
+
 			// atur hak akses
 			CekSelectHeaderH(tblhfoxxmh);
 		} );
@@ -313,6 +370,7 @@
 			// reset variable standar framework
 			siVarReset('hfoxxmh');
 			id_hfogrmh_old = 0;
+			ids_hfoxxmh_parents_old = '';
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhfoxxmh);
