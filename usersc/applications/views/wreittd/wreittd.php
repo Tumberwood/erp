@@ -480,6 +480,7 @@
 				id_wloxxmh    = edtwreittd.field('wreittd.id_wloxxmh').val();
 				id_iwhxxmh    = edtwreittd.field('wreittd.id_iwhxxmh').val();
 				id_wroxxth      = edtwreittd.field('wreittd.id_wroxxth').val();
+				id_wroittd      = edtwreittd.field('wreittd.id_wroittd').val();
 				id_iimxxmh      = edtwreittd.field('wreittd.id_iimxxmh').val();
 				id_iumxxmh_unit = edtwreittd.field('wreittd.id_iumxxmh_unit').val();
 				jumlah_unit     = unmaskedData.jumlah_unit;

@@ -9,13 +9,15 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row )  use ($nama_table, $nama_table_before) {
 			General::isNextProcess( $editor->db(), '', 'wlpxxmh', 'wreittd', $id, 'CREATE', $values );
-			include('wreittd_fn_konversi_terkecil.php');
+			General::konversiUom( $editor->db(), 'wreittd', $id );
+			General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Create', 'wreittd', 'wroittd' );
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 			General::isNextProcess( $editor->db(), '', 'wlpxxmh', 'wreittd', $id, 'EDIT', $values );
+			General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Edit', 'wreittd', 'wroittd' );
 		})
 		->on('postEdit',function( $editor, $id, $values, $row )  use ($nama_table, $nama_table_before) {
-			include('wreittd_fn_konversi_terkecil.php');
+			General::konversiUom( $editor->db(), 'wreittd', $id );
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			General::isNextProcess( $editor->db(), '', 'wlpxxmh', 'wreittd', $id, 'REMOVE', $values );
