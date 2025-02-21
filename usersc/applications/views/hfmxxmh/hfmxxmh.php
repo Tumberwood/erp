@@ -399,6 +399,9 @@
 		tblhfmxxmh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('hfmxxmh');
+			id_hfoxxmh_old = hfmxxmh_data.id_hfoxxmh;
+			id_iumxxmh_old = hfmxxmh_data.id_iumxxmh;
+			id_hfogrmh_old = hfmxxmh_data.id_hfogrmh;
 
 			// atur hak akses
 			CekSelectHeaderH(tblhfmxxmh);
@@ -407,6 +410,7 @@
 		tblhfmxxmh.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hfmxxmh');
+			id_hfoxxmh_old = 0, id_iumxxmh_old = 0, id_hfogrmh_old = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblhfmxxmh);
