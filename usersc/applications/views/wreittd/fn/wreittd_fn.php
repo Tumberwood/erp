@@ -13,7 +13,7 @@
                     id_iimxxmh: id_iimxxmh
                 },
                 success: function ( json ) {
-                    id_wroittd = json.data.rs_wroittd.id_wroittd;
+                    id_wroittd = json.data.rs_loc.id_wroittd;
                     edtwreittd.field('wreittd.id_wroittd').val(id_wroittd);
                 }
             } );
@@ -120,4 +120,21 @@
 
         } );
     }
+    
+    function autoSelectLoc(id_iwhxxmh){
+        if(id_iwhxxmh_select != id_iwhxxmh){
+            $.ajax( {
+                url: "../../models/wreittd/wreittd_fn_location_auto.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    id_iwhxxmh: id_iwhxxmh,
+                },
+                success: function ( json ) {
+                    id_wloxxmh_old = json.data.rs_loc.id;
+                    edtwreittd.field('wreittd.id_wloxxmh').val(id_wloxxmh_old);
+                }
+            } );
+        }
+    };
 </script>

@@ -21,8 +21,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th data-i18n="name"></th>
                                 <th data-i18n="group"></th>
+                                <th data-i18n="code"></th>
+                                <th data-i18n="name"></th>
                                 <th data-i18n="state"></th>
                             </tr>
                         </thead>
@@ -97,6 +98,10 @@
 					def: 0
 				},	
 				{
+					label: getTranslation('code') + "<sup class='text-danger'>*<sup>",
+					name: "hfoxxmh.kode"
+				}, 	
+				{
 					label: getTranslation('name') + "<sup class='text-danger'>*<sup>",
 					name: "hfoxxmh.nama"
 				}, 	
@@ -151,11 +156,14 @@
 			if(action == 'create'){
 				tblhfoxxmh.rows().deselect();
 				edthfoxxmh.field('hfoxxmh.nama').enable();
+				edthfoxxmh.field('hfoxxmh.kode').enable();
 			}else if(action == 'edit'){
 				if(transaction_state == 0){
 					edthfoxxmh.field('hfoxxmh.nama').enable();
+					edthfoxxmh.field('hfoxxmh.kode').enable();
 				}else{
 					edthfoxxmh.field('hfoxxmh.nama').disable();
+					edthfoxxmh.field('hfoxxmh.kode').disable();
 				}
 			}
 		});
@@ -171,6 +179,7 @@
 			if(action != 'remove'){
 
 				nama = edthfoxxmh.field('hfoxxmh.nama').val();
+				kode = edthfoxxmh.field('hfoxxmh.kode').val();
 				id_hfogrmh = edthfoxxmh.field('hfoxxmh.id_hfogrmh').val();
 
 				validasiRequired(
@@ -178,6 +187,7 @@
 					'hfoxxmh',
 					{
 						'nama': nama,
+						'kode': kode,
 						'id_hfogrmh': id_hfogrmh,
 					}
 				);
@@ -189,6 +199,16 @@
 					'nama',
 					'nama',
 					'"'+nama+'"',
+					id_hfoxxmh
+				);
+
+				validasiUnique(
+					action,
+					edthfoxxmh,
+					'hfoxxmh',
+					'kode',
+					'kode',
+					'"'+kode+'"',
 					id_hfoxxmh
 				);
 			}
@@ -219,7 +239,7 @@
 					d.show_deleted_hfoxxmh = show_deleted_hfoxxmh;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 2, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -236,8 +256,9 @@
 			],
 			columns: [
 				{ data: "hfoxxmh.id",visible:false },
-				{ data: "hfoxxmh.nama" },
 				{ data: "hfogrmh.nama" },
+				{ data: "hfoxxmh.kode" },
+				{ data: "hfoxxmh.nama" },
 				{ 
 					data: "hfoxxmh.transaction_state" ,
 					...renderTransactionStatus()

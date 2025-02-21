@@ -97,6 +97,7 @@
 	// ------------- end of default variable
 	
 	var id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0, id_wroxxth = 0, id_wroxxth_old = 0, id_wroittd = 0, id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0;
+	var id_iwhxxmh_select = 0;
 
 	// get tableRelation
 	tableRelation('wreittd');
@@ -424,12 +425,7 @@
 		edtwreittd.dependent( 'wreittd.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
 			edtwreittd.field('wreittd.id_wloxxmh').input().val(null).trigger('change');
-			
-			$('#select_wloxxmh').select2('open');
-
-            setTimeout(function() {
-                $('#select_wloxxmh').select2('close');
-            }, 5);
+			autoSelectLoc(id_iwhxxmh);
 			return {}
 		}, {event: 'keyup change'});
 
@@ -694,6 +690,8 @@
 			// set variable standar framework
 			siVarSet('wreittd');
 			id_iwhxxmh_old = wreittd_data.id_iwhxxmh;
+			id_iwhxxmh_select = wreittd_data.id_iwhxxmh;
+
 			id_wloxxmh_old = wreittd_data.id_wloxxmh;
 			id_wroxxth = wreittd_data.id_wroxxth;
 			id_wroxxth_old = wreittd_data.id_wroxxth;
@@ -719,7 +717,7 @@
 			// reset variable standar framework
 			siVarReset('wreittd');
 			id_iwhxxmh_old = 0, id_wloxxmh_old = 0, id_wroxxth = 0, id_wroxxth_old = 0, id_iimxxmh = 0, id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0;
-
+			id_iwhxxmh_select = 0;
 			// atur hak akses
 			CekDeselectHeaderH(tblwreittd);
 		} );
