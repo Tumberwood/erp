@@ -13,7 +13,7 @@
                     id_iimxxmh: id_iimxxmh
                 },
                 success: function ( json ) {
-                    id_wroittd = json.data.rs_loc.id_wroittd;
+                    id_wroittd = json.data.rs_wroittd.id_wroittd;
                     edtwreittd.field('wreittd.id_wroittd').val(id_wroittd);
                 }
             } );
