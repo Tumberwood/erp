@@ -25,6 +25,7 @@
                                 <th>Default Cuti Tahunan</th>
                                 <th>KPI Bobot Target Atas</th>
                                 <th>KPI Bobot Target Bawah</th>
+                                <th>Batas Skor Revisi</th>
                             </tr>
                         </thead>
                     </table>
@@ -117,6 +118,10 @@
 					label: "KPI Bobot Target Bawah <sup class='text-danger'>*<sup>",  
 					name: "ggshrsh.kpi_bobot_target_bawah",
 				},	
+				{
+					label: "Batas Skor Revisi <sup class='text-danger'>*<sup>",  
+					name: "ggshrsh.batas_skor_revisi",
+				},	
 			]
 		} );
 
@@ -141,6 +146,7 @@
 				def_cuti_tahunan     = edtggshrsh.field('ggshrsh.def_cuti_tahunan').val();
 				kpi_bobot_target_atas     = edtggshrsh.field('ggshrsh.kpi_bobot_target_atas').val();
 				kpi_bobot_target_bawah     = edtggshrsh.field('ggshrsh.kpi_bobot_target_bawah').val();
+				batas_skor_revisi     = edtggshrsh.field('ggshrsh.batas_skor_revisi').val();
 				
 				validasiNumber(
 					edtggshrsh,
@@ -158,6 +164,7 @@
 					{
 						'kpi_bobot_target_atas': kpi_bobot_target_atas,
 						'kpi_bobot_target_bawah': kpi_bobot_target_bawah,
+						'batas_skor_revisi': batas_skor_revisi,
 					},
 					0,
 					'>='
@@ -232,6 +239,10 @@
 				},
 				{ 
 					data: "ggshrsh.kpi_bobot_target_bawah", 
+					...renderNumber() 
+				},
+				{ 
+					data: "ggshrsh.batas_skor_revisi", 
 					...renderNumber() 
 				},
 			],
