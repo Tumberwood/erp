@@ -74,7 +74,7 @@
 			->leftJoin( 'hfogrmh','hfogrmh.id','=','hfskptd.id_hfogrmh' )
 			->leftJoin( 'hfkobtd','hfkobtd.id','=','hfskptd.id_hfkobtd' )
 			->where('hfskptd.id_hfsxxth',$_POST['id_hfsxxth'])
-			->where('hfskptd.skor',$_POST['batas_skor_revisi'], '<=')
+			// ->where('hfskptd.skor',$_POST['batas_skor_revisi'], '<=')
 			;
 		
 		// do not erase

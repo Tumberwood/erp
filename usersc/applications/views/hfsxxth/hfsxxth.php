@@ -78,25 +78,98 @@
 				<div role="tabpanel" id="tabhfskptd_1" class="tab-pane active">
 					<div class="panel-body">
 						<div class="table-responsive">
+							<div id="frmhfskptd">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.id_hfmxxmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.id_iumxxmh"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.id_hfoxxmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.id_hfogrmh"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.id_hfoprmh"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.polarisasi"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.target_atas"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.target_bawah"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.bobot_persen"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.cara_hitung"></editor-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.realisasi"></editor-field>
+										</div>
+										<div class="col-lg-6">
+											<editor-field name="hfskptd.skor"></editor-field>
+										</div>
+									</div>
+								</div>
+							</div>
+
 							<table id="tblhfskptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>id_hfsxxth</th>
+										<th>Code</th>
 										<th>Objective</th>
+										<th>UoM</th>
 										<th>Periode</th>
 										<th>Polarisasi</th>
 										<th>Target Atas</th>
 										<th>Target Bawah</th>
-										<th>UoM</th>
-										<th>Bobot (%)</th>
 										<th>Pencapaian</th>
+										<th>Bobot (%)</th>
 										<th>Skor</th>
 									</tr>
 								</thead>
+								<tfoot>
+									<tr>
+										<th></th>
+										<th></th>
+										<th>Total</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th id="bobot"></th>
+										<th id="skor"></th>
+									</tr>
+								</tfoot>
 							</table>
+							<span class="badge bg-dark text-white">Not Available</span>
+							<span class="badge bg-danger">Off Target</span>
+							<span class="badge bg-warning">Between Target Atas & Bawah</span>
+							<span class="badge bg-primary">On Target</span>
 						</div> <!-- end of table -->
-
 					</div>
 				</div>
 				<div role="tabpanel" id="tabhfskptd_2" class="tab-pane">
@@ -149,7 +222,7 @@
 	var edthfskptd, tblhfskptd, show_deleted_hfskptd = 0, id_hfskptd;
 	// ------------- end of default variable
 	var id_hfkxxth_old = 0, id_hfkobtd_old = 0, skor_select = 0;
-	var id_hemxxmh_old = 0, id_hfoxxmh_old = 0, id_hfoprmh_old = 0, id_iumxxmh_old = 0;
+	var id_hemxxmh_old = 0, id_hfoxxmh_old = 0, id_hfoprmh_old = 0, id_iumxxmh_old = 0, id_hfogrmh_old = 0, id_hfmxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('hfsxxth');
@@ -417,7 +490,6 @@
 			siVarSet('hfsxxth');
 
 			id_hfkxxth_old = hfsxxth_data.id_hfkxxth;
-			console.log(id_hfkxxth_old);
 			// atur hak akses
 			tbl_details = [tblhfskptd];
 			CekSelectHeaderHD(tblhfsxxth, tbl_details);
@@ -446,6 +518,7 @@
 					d.id_hfsxxth = id_hfsxxth;
 				}
 			},
+			template: "#frmhfskptd",
 			table: "#tblhfskptd",
 			formOptions: {
 				main: {
@@ -518,9 +591,110 @@
 					}
 				},
 				{
-					label: "Objective <sup class='text-danger'>*<sup>",  
+					label: "Measurement <sup class='text-danger'>*<sup>",  
+					name: "hfskptd.id_hfmxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hfmxxmh/hfmxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hfmxxmh_old: id_hfmxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Objective",  
 					name: "hfskptd.id_hfoxxmh",
-					type: "hidden",
+					type: "select2",
+					opts: {
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hfoxxmh/hfoxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hfoxxmh_old: id_hfoxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+								return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Grup Objective",  
+					name: "hfskptd.id_hfogrmh",
+					type: "select2",
+					opts: {
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hfogrmh/hfogrmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hfogrmh_old: id_hfogrmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
 				},
 				{
 					label: "Periode",  
@@ -633,7 +807,9 @@
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthfskptd.field('hfskptd.start_at').val(start_at);
 			
+			edthfskptd.field('hfskptd.id_hfmxxmh').disable();
 			edthfskptd.field('hfskptd.id_hfoprmh').disable();
+			edthfskptd.field('hfskptd.id_hfogrmh').disable();
 			edthfskptd.field('hfskptd.id_hfoxxmh').disable();
 			edthfskptd.field('hfskptd.id_iumxxmh').disable();
 			edthfskptd.field('hfskptd.polarisasi').disable();
@@ -747,18 +923,35 @@
 					d.id_hfsxxth = id_hfsxxth;
 				}
 			},
+			responsive: false,
 			order: [[ 2, "desc" ]],
 			columns: [
 				{ data: "hfskptd.id",visible:false },
 				{ data: "hfskptd.id_hfsxxth",visible:false },
+				{ 
+					data: "hfogrmh.kode",
+					render: function (data, type, row, meta) {
+						return '<span class="badge badge-plain" style="color: white; background-color: ' + row.hfogrmh.color + ';">' + data + '</span>';
+					}
+				},
 				{ data: "hfoxxmh.nama" },
+				{ data: "iumxxmh.kode" },
 				{ data: "hfoprmh.nama" },
-				{ data: "hfskptd.polarisasi" },
+				{ 
+					data: "hfskptd.polarisasi",
+					render: function (data, type, row, meta) {
+						if (data.toLowerCase() === 'max') {
+							return '<span class="badge bg-primary"><i class="fa fa-arrow-up"></i> MAX</span>';
+						}
+						else {
+							return '<span class="badge bg-danger"><i class="fa fa-arrow-down"></i> MIN</span>';
+						}
+					}
+				},
 				{ data: "hfskptd.target_atas", ...renderNumber(2) },
 				{ data: "hfskptd.target_bawah", ...renderNumber(2) },
-				{ data: "iumxxmh.kode" },
-				{ data: "hfskptd.bobot_persen", ...renderNumber(2) },
 				{ data: "hfskptd.realisasi", ...renderNumber(2) },
+				{ data: "hfskptd.bobot_persen", ...renderNumber(2) },
 				{ data: "hfskptd.skor", ...renderNumber(2) },
 			],
 			buttons: [
@@ -772,7 +965,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= [];
-					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					$arr_buttons_action 	= ['edit', 'remove','view', 'log','noactionD'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
 				?>
 				// END breaking generate button
@@ -781,6 +974,23 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
+				if ( parseFloat(data.hfskptd.realisasi) == parseFloat(data.hfskptd.target_atas) ) {
+					$('td:eq(7)', row).addClass('bg-primary');
+				} else if ( parseFloat(data.hfskptd.realisasi) > parseFloat(data.hfskptd.target_atas) && parseFloat(data.hfskptd.realisasi) < parseFloat(data.hfskptd.target_bawah) ) {
+					$('td:eq(7)', row).addClass('bg-warning');
+				} else if ( data.hfskptd.realisasi == null ) {
+					$('td:eq(7)', row).addClass('bg-dark');
+				} else {
+					$('td:eq(7)', row).addClass('bg-danger');
+				}
+			},
+			footerCallback: function ( row, data, start, end, display ) {
+				var api       	= this.api(), data;
+				var bobot 	= api.column(10).data().sum();
+				var skor 	= api.column(11).data().sum();
+
+				$( '#bobot' ).html( dtNumberFormat(bobot) );
+				$( '#skor' ).html( dtNumberFormat(skor) );
 			}
 		} );
 
@@ -797,6 +1007,12 @@
 			id_hfkobtd_old = hfskptd_data.id_hfkobtd;
 			skor_select = hfskptd_data.skor;
 			
+			id_hfoxxmh_old = hfskptd_data.id_hfoxxmh;
+			id_hfmxxmh_old = hfskptd_data.id_hfmxxmh;
+			id_hfoprmh_old = hfskptd_data.id_hfoprmh;
+			id_iumxxmh_old = hfskptd_data.id_iumxxmh;
+			id_hfogrmh_old = hfskptd_data.id_hfogrmh;
+			
 			// atur hak akses
 			CekSelectDetailHD( tblhfskptd );
 		} );
@@ -806,6 +1022,12 @@
 			siVarResetD('hfskptd');
 			id_hfkobtd_old = 0;
 			skor_select = 0;
+			
+			id_hfoxxmh_old = 0;
+			id_hfmxxmh_old = 0;
+			id_hfoprmh_old = 0;
+			id_iumxxmh_old = 0;
+			id_hfogrmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblhfskptd );

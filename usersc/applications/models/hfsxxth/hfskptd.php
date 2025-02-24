@@ -35,7 +35,11 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hfskptd.id_hfoxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
-				Field::inst( 'hfskptd.id_iumxxmh' )
+					Field::inst( 'hfskptd.id_iumxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'hfskptd.id_hfmxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'hfskptd.id_hfogrmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hfskptd.kode' ),
 				Field::inst( 'hfskptd.nama' ),
@@ -59,10 +63,15 @@
 				Field::inst( 'hfoprmh.nama' ),
 				Field::inst( 'hfoxxmh.nama' ),
 				Field::inst( 'iumxxmh.kode' ),
+				Field::inst( 'hfmxxmh.nama' ),
+				Field::inst( 'hfogrmh.kode' ),
+				Field::inst( 'hfogrmh.color' ),
 			)
 			->leftJoin( 'hfoprmh','hfoprmh.id','=','hfskptd.id_hfoprmh' )
 			->leftJoin( 'hfoxxmh','hfoxxmh.id','=','hfskptd.id_hfoxxmh' )
 			->leftJoin( 'iumxxmh','iumxxmh.id','=','hfskptd.id_iumxxmh' )
+			->leftJoin( 'hfmxxmh','hfmxxmh.id','=','hfskptd.id_hfmxxmh' )
+			->leftJoin( 'hfogrmh','hfogrmh.id','=','hfskptd.id_hfogrmh' )
 			->leftJoin( 'hfkobtd','hfkobtd.id','=','hfskptd.id_hfkobtd' )
 			->where('hfskptd.id_hfsxxth',$_POST['id_hfsxxth']);
 		
