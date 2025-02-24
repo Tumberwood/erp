@@ -24,11 +24,11 @@
 					<div class="form-group">
 						<label>Periode</label>
 						<div class="input-group input-daterange" id="periode">
-							<input type="text" id="start_date" class="form-control">
+							<input type="text" id="start_date" name="start_date" class="form-control">
 							<div class="input-group-addon">
 								<span class="fa fa-calendar"></span>
 							</div>
-							<input type="text" id="end_date" class="form-control">
+							<input type="text" id="end_date" name="end_date" class="form-control">
 						</div>
 					</div>
 					<div class="form-group row">												
@@ -395,7 +395,26 @@
 			e.preventDefault();
 		}).validate({
 			rules: {
-				
+				start_date: {
+					required: true
+				},
+				end_date: {
+					required: true
+				},
+				select_id_iwhxxmh: {
+					required: true
+				}
+			},
+			messages: {
+				start_date: {
+					required: "Tanggal awal wajib diisi!"
+				},
+				end_date: {
+					required: "Tanggal akhir wajib diisi!"
+				},
+				select_id_iwhxxmh: {
+					required: "Warehouse wajib diisi!"
+				}
 			},
 			submitHandler: function(frmFilter) {
 				id_iwhxxmh  = $('#select_id_iwhxxmh').val();
