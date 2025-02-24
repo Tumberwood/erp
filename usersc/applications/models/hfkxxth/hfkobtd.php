@@ -56,12 +56,15 @@
 				Field::inst( 'hfkobtd.cara_hitung' ),
 
 				Field::inst( 'hfoprmh.nama' ),
+				Field::inst( 'hfoxxmh.kode' ),
 				Field::inst( 'hfoxxmh.nama' ),
 				Field::inst( 'iumxxmh.kode' ),
+				Field::inst( 'hfogrmh.color' ),
 			)
 			->leftJoin( 'hfoprmh','hfoprmh.id','=','hfkobtd.id_hfoprmh' )
 			->leftJoin( 'hfoxxmh','hfoxxmh.id','=','hfkobtd.id_hfoxxmh' )
 			->leftJoin( 'iumxxmh','iumxxmh.id','=','hfkobtd.id_iumxxmh' )
+			->leftJoin( 'hfogrmh','hfogrmh.id','=','hfkobtd.id_hfogrmh' )
 			->where('hfkobtd.id_hfkxxth',$_POST['id_hfkxxth']);
 		
 		// do not erase

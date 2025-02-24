@@ -127,12 +127,13 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hfkxxth</th>
+										<th>Code</th>
 										<th>Objective</th>
+										<th>UoM</th>
 										<th>Periode</th>
 										<th>Polarisasi</th>
 										<th>Target Atas</th>
 										<th>Target Bawah</th>
-										<th>UoM</th>
 										<th>Bobot (%)</th>
 									</tr>
 								</thead>
@@ -175,6 +176,7 @@
 	var edthfkobtd, tblhfkobtd, show_deleted_hfkobtd = 0, id_hfkobtd;
 	// ------------- end of default variable
 	var id_hemxxmh_old = 0, id_hfoxxmh_old = 0, id_hfoprmh_old = 0, id_iumxxmh_old = 0, id_hfmxxmh_old = 0;
+	var id_hfogrmh_old = 0;
 
 	// get tableRelation
 	tableRelation('hfkxxth');
@@ -864,12 +866,28 @@
 			columns: [
 				{ data: "hfkobtd.id",visible:false },
 				{ data: "hfkobtd.id_hfkxxth",visible:false },
+				{ 
+					data: "hfoxxmh.kode",
+					render: function (data, type, row, meta) {
+						return '<span class="badge badge-plain" style="color: white; background-color: ' + row.hfogrmh.color + ';">' + data + '</span>';
+					}
+				},
 				{ data: "hfoxxmh.nama" },
+				{ data: "iumxxmh.kode" },
 				{ data: "hfoprmh.nama" },
-				{ data: "hfkobtd.polarisasi" },
+				{ 
+					data: "hfkobtd.polarisasi",
+					render: function (data, type, row, meta) {
+						if (data.toLowerCase() === 'max') {
+							return '<span class="badge bg-primary"><i class="fa fa-arrow-up"></i> MAX</span>';
+						}
+						else {
+							return '<span class="badge bg-danger"><i class="fa fa-arrow-down"></i> MIN</span>';
+						}
+					}
+				},
 				{ data: "hfkobtd.target_atas", ...renderNumber(2) },
 				{ data: "hfkobtd.target_bawah", ...renderNumber(2) },
-				{ data: "iumxxmh.kode" },
 				{ data: "hfkobtd.bobot_persen", ...renderNumber(2) },
 			],
 			buttons: [
@@ -906,8 +924,10 @@
 			siVarSetD('hfkobtd');
 
 			id_hfoxxmh_old = hfkobtd_data.id_hfoxxmh;
+			id_hfmxxmh_old = hfkobtd_data.id_hfmxxmh;
 			id_hfoprmh_old = hfkobtd_data.id_hfoprmh;
 			id_iumxxmh_old = hfkobtd_data.id_iumxxmh;
+			id_hfogrmh_old = hfkobtd_data.id_hfogrmh;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhfkobtd );
@@ -917,8 +937,10 @@
 			// reset variable standar framework
 			siVarResetD('hfkobtd');
 			id_hfoxxmh_old = 0;
+			id_hfmxxmh_old = 0;
 			id_hfoprmh_old = 0;
 			id_iumxxmh_old = 0;
+			id_hfogrmh_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblhfkobtd );
