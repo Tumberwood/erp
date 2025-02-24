@@ -47,6 +47,9 @@
 						<div class="" id="chartSkor"></div>
 						<div class="" id="chartRadar"></div>
 					</div>
+					<div class="col-lg-8">
+						<div class="center" id="familyTreeContainer"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -92,6 +95,7 @@
 	$(document).ready(function() {
 		chartSkor(start_date);
 		radar(start_date);
+		displayFamilyTree();
 		
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();

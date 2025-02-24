@@ -35,3 +35,4 @@
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/i18next/i18next.min.js"></script>
 
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/mermaid/mermaid.min.js"></script>
