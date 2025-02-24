@@ -151,11 +151,11 @@
                     },
 
                     title: {
-                        text: 'Average Score by Code'
+                        text: 'Pencapaian per Perspektif'
                     },
 
                     pane: {
-                        size: '80%'
+                        size: '100%'
                     },
 
                     xAxis: {
