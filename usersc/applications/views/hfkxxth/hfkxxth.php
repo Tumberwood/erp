@@ -49,6 +49,52 @@
 				</div>
 
 				<div class="table-responsive">
+					<!-- start Custom Form Datatables Editor -->
+					<div id="frmhfkobtd">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.id_hfmxxmh"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.id_iumxxmh"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.id_hfoxxmh"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.id_hfogrmh"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.id_hfoprmh"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.polarisasi"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.target_atas"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.target_bawah"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.bobot_persen"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="hfkobtd.cara_hitung"></editor-field>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end Custom Form Datatables Editor -->
                     <table id="tblhfkxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
@@ -128,7 +174,7 @@
 	var edthfkxxth, tblhfkxxth, show_deleted_hfkxxth = 0, id_hfkxxth;
 	var edthfkobtd, tblhfkobtd, show_deleted_hfkobtd = 0, id_hfkobtd;
 	// ------------- end of default variable
-	var id_hemxxmh_old = 0, id_hfoxxmh_old = 0, id_hfoprmh_old = 0, id_iumxxmh_old = 0;
+	var id_hemxxmh_old = 0, id_hfoxxmh_old = 0, id_hfoprmh_old = 0, id_iumxxmh_old = 0, id_hfmxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('hfkxxth');
@@ -260,7 +306,6 @@
 		
 		edthfkxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
-
 				tanggal_awal = edthfkxxth.field('hfkxxth.tanggal_awal').val();
 				tanggal_akhir = edthfkxxth.field('hfkxxth.tanggal_akhir').val();
 				id_hemxxmh = edthfkxxth.field('hfkxxth.id_hemxxmh').val();
@@ -272,6 +317,17 @@
 						'tanggal_awal': tanggal_awal,
 						'tanggal_akhir': tanggal_akhir,
 						'id_hemxxmh': id_hemxxmh,
+					}
+				);
+
+				validasiCrossDate(
+					action, 
+					edthfkxxth, 
+					'hfkxxth', 
+					id_hfkxxth
+					//Optional where
+					,{
+						"id_hemxxmh": id_hemxxmh,
 					}
 				);
 			}
@@ -408,6 +464,7 @@
 					d.id_hfkxxth = id_hfkxxth;
 				}
 			},
+			template: "#frmhfkobtd",
 			table: "#tblhfkobtd",
 			formOptions: {
 				main: {
@@ -443,11 +500,46 @@
 					type: "hidden"
 				},	
 				{
-					label: "Objective <sup class='text-danger'>*<sup>",  
-					name: "hfkobtd.id_hfoxxmh",
+					label: "Measurement <sup class='text-danger'>*<sup>",  
+					name: "hfkobtd.id_hfmxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hfmxxmh/hfmxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hfmxxmh_old: id_hfmxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Objective",  
+					name: "hfkobtd.id_hfoxxmh",
+					type: "select2",
+					opts: {
 						allowClear: true,
 						multiple: false,
 						ajax: {
@@ -456,6 +548,41 @@
 							data: function (params) {
 								var query = {
 									id_hfoxxmh_old: id_hfoxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+								return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Grup Objective",  
+					name: "hfkobtd.id_hfogrmh",
+					type: "select2",
+					opts: {
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hfogrmh/hfogrmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hfogrmh_old: id_hfogrmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -595,6 +722,8 @@
 
 		edthfkobtd.on( 'preOpen', function( e, mode, action ) {
 			edthfkobtd.field('hfkobtd.id_hfkxxth').val(id_hfkxxth);
+			edthfkobtd.field('hfkobtd.id_hfoxxmh').disable();
+			edthfkobtd.field('hfkobtd.id_hfogrmh').disable();
 			
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edthfkobtd.field('hfkobtd.start_at').val(start_at);
@@ -608,6 +737,22 @@
 			$(".modal-dialog").addClass("modal-lg");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
+
+		edthfkobtd.dependent( 'hfkobtd.id_hfmxxmh', function ( val, data, callback ) {
+			console.log(val);
+			if (val > 0) {
+				autofillField('hfmxxmh', val, 'id_hfogrmh,id_hfoxxmh,id_iumxxmh,polarisasi');
+				id_hfogrmh_old = autofillData.id_hfogrmh;
+				id_hfoxxmh_old = autofillData.id_hfoxxmh;
+				id_iumxxmh_old = autofillData.id_iumxxmh;
+				polarisasi = autofillData.polarisasi;
+				edthfkobtd.field('hfkobtd.id_hfogrmh').val(id_hfogrmh_old);
+				edthfkobtd.field('hfkobtd.id_hfoxxmh').val(id_hfoxxmh_old);
+				edthfkobtd.field('hfkobtd.id_iumxxmh').val(id_iumxxmh_old);
+				edthfkobtd.field('hfkobtd.polarisasi').val(polarisasi);
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edthfkobtd.dependent( 'hfkobtd.target_atas', function ( val, data, callback ) {
 			//Cara mendapatkan nilai input tanpa mask:
@@ -626,7 +771,7 @@
 
 				id_hfoxxmh = edthfkobtd.field('hfkobtd.id_hfoxxmh').val();
 				id_hfoprmh = edthfkobtd.field('hfkobtd.id_hfoprmh').val();
-				id_hfoxxmh = edthfkobtd.field('hfkobtd.id_hfoxxmh').val();
+				id_hfmxxmh = edthfkobtd.field('hfkobtd.id_hfmxxmh').val();
 				id_iumxxmh = edthfkobtd.field('hfkobtd.id_iumxxmh').val();
 				polarisasi = edthfkobtd.field('hfkobtd.polarisasi').val();
 				bobot_persen = edthfkobtd.field('hfkobtd.bobot_persen').val();
@@ -639,7 +784,7 @@
 					edthfkobtd,
 					'hfkobtd',
 					{
-						'id_hfoxxmh': id_hfoxxmh,
+						'id_hfmxxmh': id_hfmxxmh,
 						'id_hfoprmh': id_hfoprmh,
 						'id_hfoxxmh': id_hfoxxmh,
 						'id_iumxxmh': id_iumxxmh,

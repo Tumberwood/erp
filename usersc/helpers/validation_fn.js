@@ -443,3 +443,54 @@ $.validator.addMethod("validDate", function(value, element, dateFormat) {
 
     } );
 }
+
+/**
+ * 
+    validasiCrossDate(
+        action, 
+        edthfkxxth, 
+        'hfkxxth', 
+        id_hfkxxth
+        //Optional where
+        ,{
+            "id_hemxxmh": id_hemxxmh,
+        }
+    );
+ */
+function validasiCrossDate(action, edt, tbl_name, id_transaksi, where) {
+    var where_query = '';
+    if (where) {
+        Object.keys(where).forEach(field_name => {
+            where_query = where_query + ' AND '+field_name+' = '+where[field_name];
+        });
+    }
+
+    if(action == 'create'){
+        id_transaksi = 0;
+    }
+    
+    tanggal_awal = moment(edt.field(tbl_name+'.tanggal_awal').val()).format('YYYY-MM-DD');
+    tanggal_akhir = moment(edt.field(tbl_name+'.tanggal_akhir').val()).format('YYYY-MM-DD');
+
+    $.ajax( {
+        url: '../../../helpers/validasi_cross_date.php',
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        data: {
+            tbl_name        : tbl_name,
+            tanggal_awal    : tanggal_awal,
+            tanggal_akhir   : tanggal_akhir,
+            where_query   : where_query,
+            id_transaksi    : id_transaksi
+        },
+        success: function ( json ) {
+            if (json.data.is_valid_start_date == 0) {
+                edt.field(tbl_name+'.tanggal_awal').error('Tanggal awal tidak boleh tumpang tindih dengan data lain yang sudah ada.')
+            }
+            if (json.data.is_valid_end_date == 0) {
+                edt.field(tbl_name+'.tanggal_akhir').error('Tanggal akhir tidak boleh tumpang tindih dengan data lain yang sudah ada.')
+            }
+        }
+    } );
+}

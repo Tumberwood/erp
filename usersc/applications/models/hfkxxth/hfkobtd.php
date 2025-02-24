@@ -33,7 +33,11 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hfkobtd.id_hfoxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'hfkobtd.id_hfogrmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hfkobtd.id_iumxxmh' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'hfkobtd.id_hfmxxmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hfkobtd.kode' ),
 				Field::inst( 'hfkobtd.nama' ),
