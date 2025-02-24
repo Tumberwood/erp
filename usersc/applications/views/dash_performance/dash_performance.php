@@ -45,6 +45,7 @@
 				<div class="row">
 					<div class="col-lg-4">
 						<div class="" id="chartSkor"></div>
+						<div class="" id="chartRadar"></div>
 					</div>
 				</div>
 			</div>
@@ -90,6 +91,7 @@
 	start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 	$(document).ready(function() {
 		chartSkor(start_date);
+		radar(start_date);
 		
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
@@ -99,8 +101,9 @@
 			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-				console.log(start_date);
+
 				chartSkor(start_date);
+				radar(start_date);
 				$('#modalFloatingFilter').modal('toggle');
 			}
 		});

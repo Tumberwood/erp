@@ -124,6 +124,208 @@
 
     }
 
-    
+    // function radar(start_date) {
+    //     $.ajax({
+    //         url: "../../models/dash_performance/dash_performance_fn_radar.php",
+    //         type: 'POST',
+    //         data: { start_date: start_date },
+    //         dataType: 'json',
+    //         success: function(json) {
+    //             let categories = [];
+    //             let points = [];
+    //             // Mapping kode ke warna yang diinginkan
+    //             const colorMapping = {
+    //                 "F": "#f44336",  // Merah
+    //                 "C": "#4caf50",  // Hijau
+    //                 "I": "#2196f3",  // Biru
+    //                 "L": "#ffc107"   // Kuning
+    //             };
+
+    //             json.data.rs_skor.forEach(item => {
+    //                 categories.push(item.kode);
+    //                 points.push({
+    //                     y: parseFloat(item.avg_skor),
+    //                     marker: {
+    //                         fillColor: colorMapping[item.kode] || '#000000' // default hitam jika kode tidak ada mapping
+    //                     }
+    //                 });
+    //             });
+
+    //             Highcharts.chart('chartRadar', {
+    //                 chart: {
+    //                     polar: true,
+    //                     type: 'line'
+    //                 },
+
+    //                 title: {
+    //                     text: 'Pencapaian per Perspektif'
+    //                 },
+
+    //                 pane: {
+    //                     size: '100%'
+    //                 },
+
+    //                 xAxis: {
+    //                     categories: categories,
+    //                     tickmarkPlacement: 'on',
+    //                     lineWidth: 0
+    //                 },
+
+    //                 yAxis: {
+    //                     gridLineInterpolation: 'polygon',
+    //                     lineWidth: 0,
+    //                     min: 0,
+    //                     max: 100,
+    //                     tickInterval: 50, // tick setiap 50 poin
+    //                     plotLines: [{
+    //                         width: 2,
+    //                         zIndex: 5,
+    //                         label: {
+    //                             text: '50',
+    //                             align: 'right',
+    //                             style: {
+    //                                 color: '#FF0000'
+    //                             }
+    //                         }
+    //                     }]
+    //                 },
+
+    //                 tooltip: {
+    //                     shared: true,
+    //                     pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:.2f}</b><br/>'
+    //                 },
+
+    //                 legend: {
+    //                     align: 'right',
+    //                     verticalAlign: 'middle',
+    //                     layout: 'vertical'
+    //                 },
+
+    //                 series: [{
+    //                     name: 'Average Score',
+    //                     data: points,
+    //                     pointPlacement: 'on'
+    //                 }],
+
+    //                 responsive: {
+    //                     rules: [{
+    //                         condition: {
+    //                             maxWidth: 500
+    //                         },
+    //                         chartOptions: {
+    //                             legend: {
+    //                                 align: 'center',
+    //                                 verticalAlign: 'bottom',
+    //                                 layout: 'horizontal'
+    //                             },
+    //                             pane: {
+    //                                 size: '70%'
+    //                             }
+    //                         }
+    //                     }]
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+
+    function radar(start_date) {
+    $.ajax({
+        url: "../../models/dash_performance/dash_performance_fn_radar.php",
+        type: 'POST',
+        data: { start_date: start_date },
+        dataType: 'json',
+        success: function(json) {
+            let categories = [];
+            let points = [];
+
+            json.data.rs_skor.forEach(item => {
+                categories.push(item.kode);
+                points.push({
+                    y: parseFloat(item.avg_skor),
+                    marker: {
+                        fillColor: item.color  // Menggunakan properti color dari query
+                    }
+                });
+            });
+
+            Highcharts.chart('chartRadar', {
+                chart: {
+                    polar: true,
+                    type: 'line'
+                },
+
+                title: {
+                    text: 'Average Score by Code'
+                },
+
+                pane: {
+                    size: '80%'
+                },
+
+                xAxis: {
+                    categories: categories,
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
+
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0,
+                    max: 100,
+                    tickInterval: 50, // Tick setiap 50 poin
+                    plotLines: [{
+                        width: 2,
+                        zIndex: 5,
+                        label: {
+                            text: '50',
+                            align: 'right',
+                            style: {
+                                color: '#FF0000'
+                            }
+                        }
+                    }]
+                },
+
+                tooltip: {
+                    shared: true,
+                    pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:.2f}</b><br/>'
+                },
+
+                legend: {
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    layout: 'vertical'
+                },
+
+                series: [{
+                    name: 'Average Score',
+                    data: points,
+                    pointPlacement: 'on',
+                    color: '#80CEE1'  
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                align: 'center',
+                                verticalAlign: 'bottom',
+                                layout: 'horizontal'
+                            },
+                            pane: {
+                                size: '70%'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+    });
+}
 
 </script>
