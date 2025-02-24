@@ -17,13 +17,69 @@
 		<div class="ibox">
 			<div class="ibox-content">
 				<div class="table-responsive">
+					<!-- start Custom Form Datatables Editor -->
+					<div id="frmggsaksh">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_hutang_sementara"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_hutang_usaha"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_persediaan_perjalanan"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_piutang_usaha"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_pajak_masukan"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_pajak_keluaran"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_hpp"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_ekuitas"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="aatxxmh_persediaan[].id"></editor-field>
+								</div>
+								<div class="col-lg-6">
+									<editor-field name="aatxxmh_biaya[].id"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<editor-field name="aatxxmh_selisih[].id"></editor-field>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end Custom Form Datatables Editor -->
                     <table id="tblggsaksh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Hutang Sementara</th>
                                 <th>Persediaan Perjalanan</th>
+                                <th>Hutang Usaha</th>
+                                <th>Piutang Usaha</th>
+                                <th>Pajak Masukan</th>
+                                <th>Pajak Keluaran</th>
                                 <th>Akun Ekuitas</th>
+                                <th>Akun HPP</th>
                                 <th>Account Type Persediaan</th>
                                 <th>Account Type Biaya</th>
                                 <th>Account Type Selisih</th>
@@ -60,7 +116,7 @@
 	// ------------- default variable, do not erase
 	var edtggsaksh, tblggsaksh, show_deleted_ggsaksh = 0, id_ggsaksh;
 	var id_aakxxmh_hutang_sementara_old = 0, id_aakxxmh_persediaan_perjalanan_old = 0, ids_aatxxmh_persediaan_old = '', ids_aatxxmh_biaya_old = '', ids_aatxxmh_selisih_old = '';
-	var id_aakxxmh_ekuitas_old = 0;
+	var id_aakxxmh_ekuitas_old = 0, id_aakxxmh_hpp_old = 0, id_aakxxmh_pajak_masukan_old = 0, id_aakxxmh_pajak_keluaran_old = 0, id_aakxxmh_hutang_usaha_old = 0, id_aakxxmh_piutang_usaha_old = 0;
 	// ------------- end of default variable
 	
 	// get tableRelation
@@ -76,6 +132,7 @@
 					d.show_deleted_ggsaksh = show_deleted_ggsaksh;
 				}
 			},
+			template: "#frmggsaksh",
 			table: "#tblggsaksh",
 			fields: [ 
 				{
@@ -173,6 +230,150 @@
 					}
 				},
 				{
+					label: "Hutang Usaha <sup class='text-danger'>*<sup>",
+					name: "ggsaksh.id_aakxxmh_hutang_usaha",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_child.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_hutang_usaha_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Piutang Usaha <sup class='text-danger'>*<sup>",
+					name: "ggsaksh.id_aakxxmh_piutang_usaha",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_child.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_piutang_usaha_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Pajak Masukan <sup class='text-danger'>*<sup>",
+					name: "ggsaksh.id_aakxxmh_pajak_masukan",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_child.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_pajak_masukan_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Pajak Keluaran <sup class='text-danger'>*<sup>",
+					name: "ggsaksh.id_aakxxmh_pajak_keluaran",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_child.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_pajak_keluaran_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
 					label: "Ekuitas <sup class='text-danger'>*<sup>",
 					name: "ggsaksh.id_aakxxmh_ekuitas",
 					type: "select2",
@@ -186,6 +387,42 @@
 							data: function (params) {
 								var query = {
 									id_aakxxmh_old: id_aakxxmh_ekuitas_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "HPP <sup class='text-danger'>*<sup>",
+					name: "ggsaksh.id_aakxxmh_hpp",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_child.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_hpp_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -341,6 +578,12 @@
 				id_aakxxmh_persediaan_perjalanan = edtggsaksh.field('ggsaksh.id_aakxxmh_persediaan_perjalanan').val();
 				id_aakxxmh_ekuitas = edtggsaksh.field('ggsaksh.id_aakxxmh_ekuitas').val();
 				id_aakxxmh_hutang_sementara = edtggsaksh.field('ggsaksh.id_aakxxmh_hutang_sementara').val();
+				id_aakxxmh_hpp = edtggsaksh.field('ggsaksh.id_aakxxmh_hpp').val();
+				id_aakxxmh_pajak_masukan = edtggsaksh.field('ggsaksh.id_aakxxmh_pajak_masukan').val();
+				id_aakxxmh_pajak_keluaran = edtggsaksh.field('ggsaksh.id_aakxxmh_pajak_keluaran').val();
+				id_aakxxmh_hutang_usaha = edtggsaksh.field('ggsaksh.id_aakxxmh_hutang_usaha').val();
+				id_aakxxmh_piutang_usaha = edtggsaksh.field('ggsaksh.id_aakxxmh_piutang_usaha').val();
+				
 				id_aatxxmh_persediaan = edtggsaksh.field('aatxxmh_persediaan[].id').val();
 				id_aatxxmh_biaya = edtggsaksh.field('aatxxmh_biaya[].id').val();
 				id_aatxxmh_selisih = edtggsaksh.field('aatxxmh_selisih[].id').val();
@@ -352,6 +595,11 @@
 						'id_aakxxmh_persediaan_perjalanan': id_aakxxmh_persediaan_perjalanan,
 						'id_aakxxmh_ekuitas': id_aakxxmh_ekuitas,
 						'id_aakxxmh_hutang_sementara': id_aakxxmh_hutang_sementara,
+						'id_aakxxmh_hpp': id_aakxxmh_hpp,
+						'id_aakxxmh_pajak_masukan': id_aakxxmh_pajak_masukan,
+						'id_aakxxmh_pajak_keluaran': id_aakxxmh_pajak_keluaran,
+						'id_aakxxmh_hutang_usaha': id_aakxxmh_hutang_usaha,
+						'id_aakxxmh_piutang_usaha': id_aakxxmh_piutang_usaha,
 					}
 				);
 
@@ -414,7 +662,12 @@
 				{ data: "ggsaksh.id",visible:false },
 				{ data: "hutang_sementara.nama" },
 				{ data: "persediaan_perjalanan.nama" },
+				{ data: "hutang_usaha.nama" },
+				{ data: "piutang_usaha.nama" },
+				{ data: "pajak_masukan.nama" },
+				{ data: "pajak_keluaran.nama" },
 				{ data: "ekuitas.nama" },
+				{ data: "hpp.nama" },
 				{ data: "aatxxmh_persediaan[].nama" },
 				{ data: "aatxxmh_biaya[].nama" },
 				{ data: "aatxxmh_selisih[].nama" },

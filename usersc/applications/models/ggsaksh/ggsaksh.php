@@ -31,6 +31,16 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ggsaksh.id_aakxxmh_ekuitas' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ggsaksh.id_aakxxmh_hpp' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ggsaksh.id_aakxxmh_pajak_masukan' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ggsaksh.id_aakxxmh_pajak_keluaran' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ggsaksh.id_aakxxmh_hutang_usaha' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'ggsaksh.id_aakxxmh_piutang_usaha' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'ggsaksh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -51,10 +61,20 @@
 			Field::inst( 'hutang_sementara.nama' ),
 			Field::inst( 'persediaan_perjalanan.nama' ),
 			Field::inst( 'ekuitas.nama' ),
+			Field::inst( 'hpp.nama' ),
+			Field::inst( 'pajak_masukan.nama' ),
+			Field::inst( 'pajak_keluaran.nama' ),
+			Field::inst( 'hutang_usaha.nama' ),
+			Field::inst( 'piutang_usaha.nama' ),
 		)
 		->leftJoin( 'aakxxmh hutang_sementara','hutang_sementara.id','=','ggsaksh.id_aakxxmh_hutang_sementara' )
 		->leftJoin( 'aakxxmh persediaan_perjalanan','persediaan_perjalanan.id','=','ggsaksh.id_aakxxmh_persediaan_perjalanan' )
 		->leftJoin( 'aakxxmh ekuitas','ekuitas.id','=','ggsaksh.id_aakxxmh_ekuitas' )
+		->leftJoin( 'aakxxmh hpp','hpp.id','=','ggsaksh.id_aakxxmh_hpp' )
+		->leftJoin( 'aakxxmh pajak_masukan','pajak_masukan.id','=','ggsaksh.id_aakxxmh_pajak_masukan' )
+		->leftJoin( 'aakxxmh pajak_keluaran','pajak_keluaran.id','=','ggsaksh.id_aakxxmh_pajak_keluaran' )
+		->leftJoin( 'aakxxmh hutang_usaha','hutang_usaha.id','=','ggsaksh.id_aakxxmh_hutang_usaha' )
+		->leftJoin( 'aakxxmh piutang_usaha','piutang_usaha.id','=','ggsaksh.id_aakxxmh_piutang_usaha' )
 		
 		->join(
 			Mjoin::inst( 'aatxxmh' )
