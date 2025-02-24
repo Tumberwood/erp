@@ -137,6 +137,20 @@
 										<th>Bobot (%)</th>
 									</tr>
 								</thead>
+								<tfoot>
+									<tr>
+										<th></th>
+										<th></th>
+										<th>Total</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th id="bobot"></th>
+									</tr>
+								</tfoot>
 							</table>
 						</div> <!-- end of table -->
 
@@ -910,6 +924,12 @@
 				this.api().searchPanes.rebuildPane();
 			},
 			rowCallback: function( row, data, index ) {
+			},
+			footerCallback: function ( row, data, start, end, display ) {
+				var api       	= this.api(), data;
+				var bobot 	= api.column(9).data().sum();
+
+				$( '#bobot' ).html( dtNumberFormat(bobot) );
 			}
 		} );
 
