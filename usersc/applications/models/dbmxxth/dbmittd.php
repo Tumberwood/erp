@@ -43,6 +43,7 @@
 				Field::inst( 'dbmittd.is_defaultprogram' ),
 				Field::inst( 'dbmittd.jumlah_unit' ),
 				Field::inst( 'dbmittd.jumlah_terkecil' ),
+				Field::inst( 'dbmittd.is_konsinyasi' ),
 
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),

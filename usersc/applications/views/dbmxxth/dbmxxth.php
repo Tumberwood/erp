@@ -56,6 +56,7 @@
 										<th data-i18n="itemName"></th>
 										<th data-i18n="uom"></th>
 										<th data-i18n="quantity"></th>
+										<th data-i18n="Item Konsinyasi"></th>
 									</tr>
 								</thead>
 							</table>
@@ -492,10 +493,6 @@
 					}
 				},
 				{
-					label: getTranslation('quantity') + "<sup class='text-danger'>*<sup>",
-					name: "dbmittd.jumlah_unit",
-				},
-				{
 					label: "UoM <sup class='text-danger'>*<sup>",
 					name: "dbmittd.id_iumxxmh_unit",
 					type: "select2",
@@ -532,6 +529,20 @@
 						},
 					}
 				},	
+				{
+					label: getTranslation('quantity') + "<sup class='text-danger'>*<sup>",
+					name: "dbmittd.jumlah_unit",
+				},
+				{
+					label: "Item Konsinyasi",
+					name: "dbmittd.is_konsinyasi",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					]
+				},
 				{
 					label: "Keterangan",
 					name: "dbmittd.keterangan",
@@ -626,7 +637,8 @@
 				{ 
 					data: "dbmittd.jumlah_unit" ,
 					...renderNumber(2)
-				}
+				},
+				{ data: "dbmittd.is_konsinyasi", ...renderYaTidak() },
 			],
 			buttons: [
 				// BEGIN breaking generate button
