@@ -996,23 +996,23 @@
 					type: "textarea"
 				},
 				{
-					label: "Net Weight",
+					label: "Net Weight (kg)",
 					name: "iimummd.nw"
 				},
 				{
-					label: "Gross Weight",
+					label: "Gross Weight (kg)",
 					name: "iimummd.gw"
 				},
 				{
-					label: "Length",
+					label: "Length (cm)",
 					name: "iimummd.panjang"
 				},
 				{
-					label: "Width",
+					label: "Width (cm)",
 					name: "iimummd.lebar"
 				},
 				{
-					label: "Height",
+					label: "Height (cm)",
 					name: "iimummd.tinggi"
 				},
 				{
