@@ -60,6 +60,7 @@
 			Field::inst( 'grlxxmh.default_pembayaran' ),
 			Field::inst( 'grlxxmh.is_pkp' ),
 			Field::inst( 'grlxxmh.batas_expired_date' ),
+			Field::inst( 'grlxxmh.is_konsinyasi' ),
 			Field::inst( 'grlxxmh.is_customer' )
 				->setValue(1)
 				->set( Field::SET_CREATE ),

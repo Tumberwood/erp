@@ -45,6 +45,11 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
+								<editor-field name="grlxxmh.is_konsinyasi"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
 								<editor-field name="grlxxmh.telepon"></editor-field>
 							</div>
 							<div class="col-lg-6">
@@ -360,6 +365,16 @@
 				{
 					label: getTranslation('expectedExpirationDateMonth') + "<sup class='text-danger'>*<sup>",
 					name: "grlxxmh.batas_expired_date"
+				},
+				{
+					label: "Konsinyasi",
+					name: "grlxxmh.is_konsinyasi",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					]
 				},
 				{
 					label: getTranslation('notes'),

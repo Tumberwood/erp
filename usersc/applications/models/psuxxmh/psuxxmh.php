@@ -49,6 +49,7 @@
 			Field::inst( 'grlxxmh.start_at' ),
 			Field::inst( 'grlxxmh.finish_at' ),
 			Field::inst( 'grlxxmh.is_defaultprogram' ),
+			Field::inst( 'grlxxmh.is_konsinyasi' ),
 
 			Field::inst( 'grlxxmh.is_supplier' )
 				->setValue(1)
