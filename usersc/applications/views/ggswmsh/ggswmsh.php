@@ -29,6 +29,7 @@
 								<th>Format LPN Kitting</th>
 								<th>Movement Algorithm</th>
 								<th>Koefisien Level</th>
+								<th>Vehicle Capacity</th>
                             </tr>
                         </thead>
                     </table>
@@ -182,6 +183,17 @@
 					name: "ggswmsh.koefisien_level",
 					fieldInfo: "Koefisien pengali untuk Location Level.",
 				},
+				{
+					label: "Vehicle Capacity",
+					name: "ggswmsh.vehicle_capacity",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "None", "value": "None" },
+						{ "label": "Dimension", "value": "Dimension" },
+						{ "label": "Weight", "value": "Weight" },
+					]
+				},
 			]
 		} );
 
@@ -288,6 +300,7 @@
 					}
 				},
 				{ data: "ggswmsh.koefisien_level", ...renderNumber() },
+				{ data: "ggswmsh.vehicle_capacity"},
 			],
 			buttons: [
 				// BEGIN breaking generate button
