@@ -555,11 +555,7 @@
 		
 		edtwplxxth.dependent( 'wplxxth.id_iwhxxmh', function ( val, data, callback ) {
 			id_iwhxxmh = val;
-			id_wloxxmh_old = 0;
-
-			if (id_wloxxmh_old == 0) {
-				edtwplxxth.field('wplxxth.id_wloxxmh_out').val('');
-			}
+			edtwplxxth.field('wplxxth.id_wloxxmh_out').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 
