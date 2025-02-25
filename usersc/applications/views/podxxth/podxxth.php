@@ -515,8 +515,16 @@
 							url: "../../models/psuxxmh/psuxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								id_iitxxmh    = edtpodxxth.field('podxxth.id_iitxxmh').val();
+								if (id_iitxxmh == 7) {
+									is_konsinyasi = 1;
+								} else {
+									is_konsinyasi = 0;
+								}
+								
 								var query = {
 									id_grlxxmh_old: id_grlxxmh_old,
+									is_konsinyasi: is_konsinyasi,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -740,6 +748,8 @@
 			} else {
 				edtpodxxth.field('podxxth.is_subcon_exclude').val(0);
 			}
+
+			edtpodxxth.field('podxxth.id_grlxxmh_supplier').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 		

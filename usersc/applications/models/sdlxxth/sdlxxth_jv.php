@@ -36,6 +36,9 @@
 	try{
 		$db->transaction();
 
+		//sekarang ini yang persediaan
+		//kalau konsinyasi aak persediaan berubah menjadi, aakxxmh = 47 (debit), kreditnya sama seperti persediaan.
+
 		// get setting akun
 		$qs_ggsaksh = $db
 			->query('select', 'ggsaksh' )

@@ -28,6 +28,12 @@
         $id_grlxxmh_old = 0;
     }
 
+    if(isset($_GET['is_konsinyasi']) && $_GET['is_konsinyasi'] > 0){
+        $is_konsinyasi = $_GET['is_konsinyasi'];
+    }else{
+        $is_konsinyasi = 0;
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_grlxxmh_old > 0){
@@ -73,6 +79,7 @@
         ->where('grlxxmh.transaction_state',1)
         ->where('grlxxmh.id', $id_grlxxmh_old, '<>' )
         ->where('grlxxmh.is_supplier', 1 )
+        ->where('grlxxmh.is_konsinyasi', $is_konsinyasi )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

@@ -516,8 +516,16 @@
 							url: "../../models/scuxxmh/scuxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
+								id_iitxxmh    = edtsodxxth.field('sodxxth.id_iitxxmh').val();
+								if (id_iitxxmh == 7) {
+									is_konsinyasi = 1;
+								} else {
+									is_konsinyasi = 0;
+								}
+
 								var query = {
 									id_grlxxmh_old: id_grlxxmh_old,
+									is_konsinyasi: is_konsinyasi,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -771,6 +779,8 @@
 		edtsodxxth.dependent( 'sodxxth.id_iitxxmh', function ( val, data, callback ) {
 			id_iitxxmh = edtsodxxth.field('sodxxth.id_iitxxmh').val();
 			hitungHeader(edtsodxxth,'sodxxth', id_iitxxmh);
+			
+			edtsodxxth.field('sodxxth.id_grlxxmh_customer').input().val(null).trigger('change');
 			return {}
 		}, {event: 'keyup change'});
 		

@@ -155,7 +155,7 @@
 			$qi_kredit = $db
 				->query('insert', 'aglaktd')
 				->set('id_aglxxth', $last_id)
-				->set('id_aakxxmh', 99)
+				->set('id_aakxxmh', 99) //dimasukkan settingan
 				->set('id_transaksi_d', 0 )
 				->set('created_by',$rs_header['created_by'])
 				->set('start_at',$rs_header['start_at'])
