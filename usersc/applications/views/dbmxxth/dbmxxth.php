@@ -56,7 +56,7 @@
 										<th data-i18n="itemName"></th>
 										<th data-i18n="uom"></th>
 										<th data-i18n="quantity"></th>
-										<th data-i18n="Item Konsinyasi"></th>
+										<th data-i18n="Dari Customer"></th>
 									</tr>
 								</thead>
 							</table>
@@ -534,8 +534,8 @@
 					name: "dbmittd.jumlah_unit",
 				},
 				{
-					label: "Item Konsinyasi",
-					name: "dbmittd.is_konsinyasi",
+					label: "Dari Customer",
+					name: "dbmittd.is_dari_customer",
 					type: "select",
 					placeholder : "Select",
 					options: [
@@ -638,7 +638,7 @@
 					data: "dbmittd.jumlah_unit" ,
 					...renderNumber(2)
 				},
-				{ data: "dbmittd.is_konsinyasi", ...renderYaTidak() },
+				{ data: "dbmittd.is_dari_customer", ...renderYaTidak() },
 			],
 			buttons: [
 				// BEGIN breaking generate button
