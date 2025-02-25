@@ -101,6 +101,8 @@
 				->query('select', 'ggsaksh' )
 				->get([
 					'ggsaksh.aakxxmh_persediaan as aakxxmh_persediaan',
+					'ggsaksh.id_aakxxmh_hutang_usaha as id_aakxxmh_hutang_usaha',
+					'ggsaksh.id_aakxxmh_pajak_masukan as id_aakxxmh_pajak_masukan',
 					'ggsaksh.aakxxmh_biaya as aakxxmh_biaya',
 					'ggsaksh.id_aakxxmh_hutang_sementara as id_aakxxmh_hutang_sementara',
 					'aakxxmh_hutang_sementara.kode as aakxxmh_hutang_sementara_kode',
@@ -135,7 +137,7 @@
 				$qi_debit = $db
 				->query('insert', 'aglaktd')
 				->set('id_aglxxth', $last_id)
-				->set('id_aakxxmh', 56)
+				->set('id_aakxxmh', $rs_ggsaksh['id_aakxxmh_pajak_masukan']) //56
 				->set('id_transaksi_d', 0 )
 				->set('created_by',$rs_header['created_by'])
 				->set('start_at',$rs_header['start_at'])
@@ -155,7 +157,7 @@
 			$qi_kredit = $db
 				->query('insert', 'aglaktd')
 				->set('id_aglxxth', $last_id)
-				->set('id_aakxxmh', 99) //dimasukkan settingan
+				->set('id_aakxxmh', $rs_ggsaksh['id_aakxxmh_hutang_usaha']) //dimasukkan settingan id_aak =  99
 				->set('id_transaksi_d', 0 )
 				->set('created_by',$rs_header['created_by'])
 				->set('start_at',$rs_header['start_at'])
