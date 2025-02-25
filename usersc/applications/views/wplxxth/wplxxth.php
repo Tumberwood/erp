@@ -196,7 +196,7 @@
 	// get tableRelation
 	tableRelation('wplxxth');
 	var ids_wdoxxth_old = '', id_wdoxxth = 0, id_iwhxxmh_old =0, id_iwhxxmh = 0, id_wloxxmh_old = 0;
-	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0;
+	var id_wpmxxmh_old = 0, id_iimxxmh_old = 0, id_iumxxmh_old = 0, id_lvtxxmh_old = 0;
 	var id_wloxxmh_old_lpn = 0, id_iumxxmh_unit_old = 0, id_wplittd_old = 0, id_iwhxxmh_old_lpn = 0, id_iumxxmh_unit_old_lpn = 0, jumlah_terkecil_lpn = 0;
 	
 	uniqueToken = '';
@@ -432,6 +432,42 @@
 					}
 				},
 				{
+					label: "Vehicle Type<sup class='text-danger'>*<sup>",
+					name: "wplxxth.id_lvtxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/lvtxxmh/lvtxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_lvtxxmh_old: id_lvtxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
 					label: "Cross Docking?",
 					name: "wplxxth.is_crossdocking",
 					type: "select",
@@ -449,6 +485,16 @@
 				{
 					label: "wplxxth.id_grlxxmh_customer",
 					name: "wplxxth.id_grlxxmh_customer",
+					type: "hidden"
+				},
+				{
+					label: "wplxxth.berat_maksimal",
+					name: "wplxxth.berat_maksimal",
+					type: "hidden"
+				},
+				{
+					label: "wplxxth.dimensi_maksimal",
+					name: "wplxxth.dimensi_maksimal",
 					type: "hidden"
 				},
 			]
@@ -475,6 +521,21 @@
 				$('#select2_wpm').select2('close');
 			}, 5);
 		});
+		
+		edtwplxxth.dependent( 'wplxxth.id_lvtxxmh', function ( val, data, callback ) {
+			if (val > 0) {
+				autofillField('lvtxxmh', val, 'berat_maksimal,dimensi_maksimal')
+				berat_maksimal = autofillData.berat_maksimal;
+				dimensi_maksimal = autofillData.dimensi_maksimal;
+
+				edtwplxxth.field('wplxxth.berat_maksimal').val(berat_maksimal);
+				edtwplxxth.field('wplxxth.dimensi_maksimal').val(dimensi_maksimal);
+			} else {
+				edtwplxxth.field('wplxxth.berat_maksimal').val('');
+				edtwplxxth.field('wplxxth.dimensi_maksimal').val('');
+			}
+			return {}
+		}, {event: 'keyup change'});
 		
 		// edtwplxxth.dependent( 'wdoxxth[].id', function ( val, data, callback ) {
 		// 	autofillField('wdoxxth', val, 'id_grlxxmh_customer');
@@ -507,6 +568,7 @@
 
 				id_wdoxxth = edtwplxxth.field('wdoxxth[].id').val();
 				tanggal = edtwplxxth.field('wplxxth.tanggal').val();
+				id_lvtxxmh = edtwplxxth.field('wplxxth.id_lvtxxmh').val();
 				id_wpmxxmh = edtwplxxth.field('wplxxth.id_wpmxxmh').val();
 				id_iwhxxmh = edtwplxxth.field('wplxxth.id_iwhxxmh').val();
 				is_all_wh = edtwplxxth.field('wplxxth.is_all_wh').val();
@@ -547,6 +609,7 @@
 					{
 						// 'id_wdoxxth': id_wdoxxth,
 						'tanggal': tanggal,
+						'id_lvtxxmh': id_lvtxxmh,
 						'id_wpmxxmh': id_wpmxxmh,
 						// 'id_iwhxxmh': id_iwhxxmh,
 						'id_wloxxmh_out': id_wloxxmh_out,
@@ -764,6 +827,7 @@
 			id_wpmxxmh_old      = wplxxth_data.id_wpmxxmh;
 			id_iwhxxmh_old = wplxxth_data.id_iwhxxmh;
 			id_wloxxmh_old = wplxxth_data.id_wloxxmh_out;
+			id_lvtxxmh_old = wplxxth_data.id_lvtxxmh;
 			// atur hak akses
 			tbl_details = [tblwplittd, tblwpllptd];
 			CekSelectHeaderHD(tblwplxxth, tbl_details);
@@ -808,7 +872,8 @@
 			// reset variable standar framework
 			siVarReset('wplxxth');
 			is_generate_lpn = 0, id_iwhxxmh_old = 0, id_wloxxmh_old = 0;
-			id_iwhxxmh = 0;
+			is_generate_lpn = 0, id_iwhxxmh_old = 0, id_lvtxxmh = 0;
+			id_iwhxxmh = 0, id_lvtxxmh_old = 0;
 			id_wdoxxth = 0;
 			ids_wdoxxth_old = '';
 			id_wpmxxmh_old = 0;
