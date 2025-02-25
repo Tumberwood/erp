@@ -35,6 +35,10 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.id_podittd' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'prcittd.id_sodxxth' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'prcittd.id_sodittd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'prcittd.kode' ),
@@ -56,6 +60,7 @@
 				Field::inst( 'prcittd.diskon_final' ),
 				Field::inst( 'prcittd.subtotal' ),
 				Field::inst( 'prcittd.dpp' ),
+				Field::inst( 'prcittd.jumlah_bom' ),
 
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),

@@ -80,6 +80,7 @@
         // ->where('prcxxth.approval_state', 9)
         ->where('prcxxth.id_grlxxmh_supplier', $id_grlxxmh_supplier)
         ->where('prcxxth.id', $id_prcxxth_old, '<>' )
+        ->where('prcxxth.id_podxxth', 0, '>' )
         ->where('prcxxth.id', $ids_exclude, 'NOT IN', false)
         ->where( function ( $r ) {
             $q = $_GET['search'];

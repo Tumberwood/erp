@@ -39,7 +39,7 @@
 		$db->transaction();
 
 		//Jika Konsinyasi maka tidak perlu insert Jurnal
-		if($rs_id_iitxxmh['id_iitxxmh'] != 7){
+		if($rs_id_iitxxmh['id_iitxxmh'] != 7 && $rs_id_iitxxmh['id_iitxxmh'] != 8){
 			// select prcxxth
 			$qs_prcxxth = $db
 				->raw()

@@ -60,21 +60,27 @@
 								<editor-field name="prcxxth.id_grlxxmh_supplier"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth.id_podxxth"></editor-field>
+								<editor-field name="prcxxth.id_iwhxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth.id_iwhxxmh"></editor-field>
+								<editor-field name="prcxxth.is_sodxxth_subcon"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth.id_podxxth"></editor-field>
+								<editor-field name="prcxxth.id_sodxxth"></editor-field>
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.referensi_nomor"></editor-field>
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.mobil_nomor"></editor-field>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth.supir_nama"></editor-field>
 							</div>
@@ -94,7 +100,7 @@
 								<th data-i18n="date"></th>
                                 <th data-i18n="code"></th>
 								<th data-i18n="supplier"></th>
-								<th data-i18n="purchaseOrder"></th>
+								<th data-i18n="Kode Transaksi"></th>
 								<th data-i18n="warehouse"></th>
 								<th data-i18n="state"></th>
                             </tr>
@@ -125,12 +131,12 @@
 										<editor-field name="prcittd.id_iimxxmh"></editor-field>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-										<editor-field name="prcittd.jumlah_unit"></editor-field>
+										<editor-field name="prcittd.id_iumxxmh_unit"></editor-field>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-										<editor-field name="prcittd.id_iumxxmh_unit"></editor-field>
+										<editor-field name="prcittd.jumlah_unit"></editor-field>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 										<editor-field name="prcittd.keterangan"></editor-field>
@@ -208,7 +214,7 @@
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_podxxth_old = 0, id_iwhxxmh_old = 0, id_podxxth = 0;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_aakxxmh_old = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_aakxxmh_old = 0, id_sodxxth_old = 0;
 
 	// get tableRelation
 	tableRelation('prcxxth');
@@ -448,7 +454,53 @@
 					label: getTranslation('notes'),
 					name: "prcxxth.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "SO Subcon?",
+					name: "prcxxth.is_sodxxth_subcon",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Yes", "value": 1 },
+						{ "label": "No", "value": 0 }
+					]
+				},
+				{
+					label: "Sales Order <sup class='text-danger'>*<sup>",
+					name: "prcxxth.id_sodxxth",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/sodxxth/sodxxth_fn_subcon_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_sodxxth_old: id_sodxxth_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 		
@@ -474,6 +526,34 @@
 		edtprcxxth.dependent( 'prcxxth.id_grlxxmh_supplier', function ( val, data, callback ) {
 			edtprcxxth.field('prcxxth.id_podxxth').input().val(null).trigger('change');
 			id_grlxxmh_supplier = val;
+			return {}
+		}, {event: 'keyup change'});
+
+		edtprcxxth.dependent( 'prcxxth.is_sodxxth_subcon', function ( val, data, callback ) {
+			if (val == 1) {
+				edtprcxxth.field('prcxxth.id_sodxxth').show();
+				edtprcxxth.field('prcxxth.id_sodxxth').val();
+				
+				edtprcxxth.field('prcxxth.id_podxxth').hide();
+				edtprcxxth.field('prcxxth.id_podxxth').val('');
+			} else {
+				edtprcxxth.field('prcxxth.id_podxxth').show();
+				edtprcxxth.field('prcxxth.id_podxxth').val();
+				
+				edtprcxxth.field('prcxxth.id_sodxxth').hide();
+				edtprcxxth.field('prcxxth.id_sodxxth').val('');
+			}
+			return {}
+		}, {event: 'keyup change'});
+
+		edtprcxxth.dependent( 'prcxxth.id_sodxxth', function ( val, data, callback ) {
+			id_sodxxth = val;
+			autofillField('sodxxth', id_sodxxth, 'id_iitxxmh, id_fpytmmh');
+			id_iitxxmh = autofillData.id_iitxxmh;
+			edtprcxxth.field('prcxxth.id_iitxxmh').val(id_iitxxmh);
+			id_fpytmmh = autofillData.id_fpytmmh;
+			edtprcxxth.field('prcxxth.id_fpytmmh').val(id_fpytmmh);
+			
 			return {}
 		}, {event: 'keyup change'});
 
@@ -511,44 +591,58 @@
 			if(action != 'remove'){
 
 				tanggal             = edtprcxxth.field('prcxxth.tanggal').val();
-				mobil_nomor             = edtprcxxth.field('prcxxth.mobil_nomor').val();
+				mobil_nomor         = edtprcxxth.field('prcxxth.mobil_nomor').val();
 				id_iwhxxmh          = edtprcxxth.field('prcxxth.id_iwhxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth.field('prcxxth.id_grlxxmh_supplier').val();
 				id_podxxth          = edtprcxxth.field('prcxxth.id_podxxth').val();
 				referensi_nomor     = edtprcxxth.field('prcxxth.referensi_nomor').val();
+				id_sodxxth			= edtprcxxth.field('prcxxth.id_sodxxth').val();
+				is_sodxxth_subcon	= edtprcxxth.field('prcxxth.is_sodxxth_subcon').val();
 
-				autofillField('podxxth', id_podxxth, 'id_iitxxmh');
-				id_iitxxmh = autofillData.id_iitxxmh;
-				if (id_iitxxmh != 3) {
-					validasiRequired(
-						edtprcxxth, 
-						"prcxxth", 
-						{
-							"mobil_nomor": mobil_nomor, 
-						}
-					);
-				}
-
-				validasiRequired(
-					edtprcxxth, 
-					"prcxxth", 
-					{
-						"tanggal": tanggal, 
-						"id_grlxxmh_supplier": id_grlxxmh_supplier,
-						"id_podxxth": id_podxxth
+				if (is_sodxxth_subcon == 0) {
+					autofillField('podxxth', id_podxxth, 'id_iitxxmh');
+					id_iitxxmh = autofillData.id_iitxxmh;
+					if (id_iitxxmh != 3) {
+						validasiRequired(
+							edtprcxxth, 
+							"prcxxth", 
+							{
+								"mobil_nomor": mobil_nomor, 
+							}
+						);
 					}
-				);
-
-				if(id_iitxxmh == 1 ){
+	
 					validasiRequired(
 						edtprcxxth, 
 						"prcxxth", 
 						{
-							"id_iwhxxmh": id_iwhxxmh,
-							"referensi_nomor": referensi_nomor
+							"tanggal": tanggal, 
+							"id_grlxxmh_supplier": id_grlxxmh_supplier,
+							"id_podxxth": id_podxxth
 						}
 					);
-				
+	
+					if(id_iitxxmh == 1 ){
+						validasiRequired(
+							edtprcxxth, 
+							"prcxxth", 
+							{
+								"id_iwhxxmh": id_iwhxxmh,
+								"referensi_nomor": referensi_nomor
+							}
+						);
+					
+					}
+				} else {
+					validasiRequired(
+						edtprcxxth, 
+						"prcxxth", 
+						{
+							"tanggal": tanggal, 
+							"id_grlxxmh_supplier": id_grlxxmh_supplier,
+							"id_sodxxth": id_sodxxth
+						}
+					);
 				}
 
 			}
@@ -567,6 +661,7 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
+			tblprcxxth.ajax.reload(null, false);
 		} );
 
 		edtprcxxth.on( 'close', function () {
@@ -608,7 +703,12 @@
 				{ data: "prcxxth.tanggal" },
 				{ data: "prcxxth.kode" },
 				{ data: "grlxxmh.nama" },
-				{ data: "podxxth.kode" },
+				{
+					data: "sodxxth.kode",
+					render: function(data, type, row) {
+						return data ? data : (row.podxxth ? row.podxxth.kode : '');
+					}
+				},
 				{ data: "iwhxxmh.nama" },
 				{ 
 					data: "prcxxth.transaction_state" ,
@@ -691,6 +791,7 @@
 			id_grlxxmh_old      = prcxxth_data.id_grlxxmh_supplier;
 			id_grlxxmh_supplier = prcxxth_data.id_grlxxmh_supplier;
 			id_podxxth_old      = prcxxth_data.id_podxxth;
+			id_sodxxth_old      = prcxxth_data.id_sodxxth;
 			id_podxxth          = prcxxth_data.id_podxxth;
 			id_iitxxmh          = prcxxth_data.id_iitxxmh;
 			id_iwhxxmh_old      = prcxxth_data.id_iwhxxmh;
@@ -705,12 +806,16 @@
 			} else {
 				$('#tab_biaya').hide();
 			}
+
+			console.log(id_podxxth_old);
+			
 		} );
 		
 		tblprcxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('prcxxth');
 			id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_podxxth_old = 0, id_iwhxxmh_old = 0, id_podxxth = 0, id_iitxxmh = 0;
+			id_sodxxth_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd, tblprcaktd];
@@ -771,8 +876,18 @@
 					type: "hidden"
 				},
 				{
+					label: "prcittd.id_sodittd",
+					name: "prcittd.id_sodittd",
+					type: "hidden"
+				},
+				{
 					label: "prcittd.id_podxxth",
 					name: "prcittd.id_podxxth",
+					type: "hidden"
+				},
+				{
+					label: "prcittd.id_sodxxth",
+					name: "prcittd.id_sodxxth",
 					type: "hidden"
 				},
 				{
@@ -816,6 +931,10 @@
 					type: "hidden"
 				},
 				{
+					label: "prcittd.jumlah_bom",
+					name: "prcittd.jumlah_bom"
+				},
+				{
 					label: getTranslation('item') + " <sup class='text-danger'>*<sup>",
 					name: "prcittd.id_iimxxmh",
 					type: "select2",
@@ -824,11 +943,16 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/prcxxth/prcittd_iimxxmh_fn_opt.php",
+							url: function() {
+								return id_podxxth_old > 0 
+									? "../../models/prcxxth/prcittd_iimxxmh_fn_opt.php" 
+									: "../../models/sodxxth/sodittd_subcon_fn_opt.php";
+							},
 							dataType: 'json',
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
+									id_sodxxth: id_sodxxth_old,
 									id_podxxth: id_podxxth_old,
 									search: params.term || '',
 									page: params.page || 1
@@ -919,7 +1043,32 @@
 
 		edtprcittd.dependent( 'prcittd.id_iimxxmh', function ( val, data, callback ) {
 			id_iimxxmh = val;
-			edtprcittd.field('prcittd.id_iumxxmh_unit').input().val(null).trigger('change');
+
+			if (id_sodxxth_old > 0) {
+				var dataOpt = edtprcittd.field('prcittd.id_iimxxmh').input().select2('data');
+				if (dataOpt.length > 0) {
+					var id_sodittd = dataOpt[0].id_sodittd;
+					var id_sodxxth = dataOpt[0].id_sodxxth;
+					var harga_unit = dataOpt[0].harga_unit;
+					var jumlah_material = dataOpt[0].jumlah_material;
+					var jumlah_unit = dataOpt[0].jumlah_unit;
+					var jumlah_bom = dataOpt[0].jumlah_bom;
+					id_iumxxmh_unit_old = dataOpt[0].id_iumxxmh_unit;
+					
+					edtprcittd.field('prcittd.id_sodittd').val(id_sodittd);
+					edtprcittd.field('prcittd.id_sodxxth').val(id_sodxxth);
+					edtprcittd.field('prcittd.harga_unit').val(harga_unit);
+					edtprcittd.field('prcittd.jumlah_unit').val(jumlah_unit);
+					edtprcittd.field('prcittd.jumlah_bom').val(jumlah_bom);
+					edtprcittd.field('prcittd.id_iumxxmh_unit').val(id_iumxxmh_unit_old);
+
+					edtprcittd.field('prcittd.jumlah_unit').fieldInfo('Jumlah SO * ' + jumlah_material + ' (Detail BoM)');
+				}
+			} else {
+				edtprcittd.field('prcittd.jumlah_unit').fieldInfo('');
+				edtprcittd.field('prcittd.id_iumxxmh_unit').input().val(null).trigger('change');
+			}
+
 			prcittd_fn_podittd(id_podxxth,id_iimxxmh)
 			return {}
 		}, {event: 'keyup change'});
@@ -970,6 +1119,8 @@
 				id_iimxxmh = edtprcittd.field('prcittd.id_iimxxmh').val();
 				jumlah_unit = edtprcittd.field('prcittd.jumlah_unit').val();
 				id_iumxxmh_unit = edtprcittd.field('prcittd.id_iumxxmh_unit').val();
+				id_sodittd = edtprcittd.field('prcittd.id_sodittd').val();
+				id_podittd = edtprcittd.field('prcittd.id_podittd').val();
 
 				validasiRequired(
 					edtprcittd,
@@ -991,9 +1142,18 @@
 					'>'
 				);
 
-				validasiOutstandingNew(
-					edtprcittd, 'prcittd', id_transaksi, id_podittd, 'podittd'
-				)
+				if (id_sodittd > 0) {
+					var dataOpt = edtprcittd.field('prcittd.id_iimxxmh').input().select2('data');
+					var jumlah_so_bom = dataOpt[0].jumlah_unit;
+					if (jumlah_unit > jumlah_so_bom) {
+						edtprcittd.field('prcittd.jumlah_unit').error('Jumlah Unit tidak boleh melebihi '+jumlah_so_bom);
+					}
+				} else {
+					validasiOutstandingMask(
+						edtprcittd, 'prcittd', id_transaksi, id_podittd, 'podittd'
+					)
+					// validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'podittd', id_podittd);
+				}
 
 			}
 			

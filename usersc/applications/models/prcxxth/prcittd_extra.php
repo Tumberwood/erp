@@ -9,7 +9,17 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			General::konversiUom( $editor->db(), 'prcittd', $id );
-			General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Create', 'prcittd', 'podittd' );
+			$id_podittd = $values['prcittd']['id_podittd'];
+			$jumlah_unit = $values['prcittd']['jumlah_unit'];
+			$jumlah_bom = $values['prcittd']['jumlah_bom'];
+
+			if ($id_podittd > 0) {
+				General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Create', 'prcittd', 'podittd' );
+			} else {
+				$new_values = $values;
+				$new_values['prcittd']['jumlah_unit'] = $jumlah_unit / $jumlah_bom;
+				General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $new_values, 'Create', 'prcittd', 'sodittd' );
+			}
 			General::konversiBuy( $editor->db(), 'prcittd', $id );
 
 			$qi_prcaktd = $editor->db()
@@ -37,7 +47,17 @@
 			');
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
-			General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Edit', 'prcittd', 'podittd' );
+			$id_podittd = $values['prcittd']['id_podittd'];
+			$jumlah_unit = $values['prcittd']['jumlah_unit'];
+			$jumlah_bom = $values['prcittd']['jumlah_bom'];
+
+			if ($id_podittd > 0) {
+				General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $values, 'Create', 'prcittd', 'podittd' );
+			} else {
+				$new_values = $values;
+				$new_values['prcittd']['jumlah_unit'] = $jumlah_unit / $jumlah_bom;
+				General::kalkulasiJumlahTransaksiBefore2( $editor->db(), $id, $new_values, 'Create', 'prcittd', 'sodittd' );
+			}
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
 			General::konversiUom( $editor->db(), 'prcittd', $id );
