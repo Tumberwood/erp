@@ -142,7 +142,7 @@
 							<th>Nomor</th>
 							<th>Tanggal</th>
 							<th>Supplier</th>
-							<th>Kode PO</th>
+							<th>Kode Invoice</th>
 							<th>Kode GR</th>
 							<th>Status</th>
 							<th>Approval</th>
