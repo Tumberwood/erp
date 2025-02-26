@@ -133,7 +133,7 @@
 						iumxxmh_terkecil.nama,
 						iumxxmh_default.kode,
 						iumxxmh_default.nama,
-						"'.$confirmed_at.'" as imtxxmh_kode,
+						"'.$imtxxmh_kode.'" as imtxxmh_kode,
 						imtxxmh.movement_type,
 						prcxxth.tanggal,
 						1 as is_fisik,
@@ -155,7 +155,7 @@
 					LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = prcittd.id_iumxxmh_default
 					LEFT JOIN podxxth pod ON pod.id = prcxxth.id_podxxth
 					LEFT JOIN podittd dt ON dt.id = prcittd.id_podittd
-					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = "'.$confirmed_at.'" AND imtxxmh.module = "ERP"
+					LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = "'.$imtxxmh_kode.'" AND imtxxmh.module = "ERP"
 					WHERE prcxxth.id = :id
 				');
 
