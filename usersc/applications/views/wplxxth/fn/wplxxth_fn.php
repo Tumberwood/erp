@@ -65,5 +65,33 @@
         toastr["warning"]("Terdapat "+c_id+" Data PL yang sudah di generate namun belum confirm!","WARNING")
 
     }
+
+    function btnGenerateLPN() {
+        var date = new Date().getTime();
+        var timestamp = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
+        console.log(uniqueToken);
+        toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
+
+        $.ajax( {
+        	url: "../../models/wplxxth/wplxxth_fn_gen_lpn.php",
+        	dataType: 'json',
+        	type: 'POST',
+        	data: {
+        		id_transaksi_h: id_transaksi_h,
+        		uniqueToken: uniqueToken,
+        		timestamp: timestamp
+        	},
+        	success: function ( json ) {
+        		status_code = json.data.status_code;
+        		// if (status_code == 200) {
+        			toastr[json.data.type_message](json.data.message,"INFO");
+        			cekBelumConfirm();
+        			tblwplxxth.ajax.reload(null, false);
+        			tblwpllptd.ajax.reload(null, false);
+        			tblwplxxth.rows().deselect();
+        		// }
+        	}
+        } );
+    }
     
 </script>

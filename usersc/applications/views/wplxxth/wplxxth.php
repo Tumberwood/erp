@@ -716,31 +716,37 @@
 					titleAttr: 'Generate LPN',
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
-						var date = new Date().getTime();
-						var timestamp = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
-						console.log(uniqueToken);
-						toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
-
+						// Notif 
 						$.ajax( {
-							url: "../../models/wplxxth/wplxxth_fn_gen_lpn.php",
+							url: "../../models/wplxxth/wplxxth_notif_vehicle.php",
 							dataType: 'json',
 							type: 'POST',
 							data: {
 								id_transaksi_h: id_transaksi_h,
-								uniqueToken: uniqueToken,
-								timestamp: timestamp
 							},
 							success: function ( json ) {
-								status_code = json.data.status_code;
-								// if (status_code == 200) {
-									toastr[json.data.type_message](json.data.message,"INFO");
-									cekBelumConfirm();
-									tblwplxxth.ajax.reload(null, false);
-									tblwpllptd.ajax.reload(null, false);
-									tblwplxxth.rows().deselect();
-								// }
+								pesan = json.data.pesan;
+								if (pesan != '') {
+									swal({
+										text: pesan,
+										icon: "info",
+										buttons: {
+											cancel: true,
+											confirm: true
+										},
+									})
+									.then((willConfirm) => {
+										if (willConfirm) {
+											btnGenerateLPN();
+											
+										}
+									});
+								} else {
+									btnGenerateLPN();
+								}
 							}
 						} );
+
 					}
 				},
 				{
