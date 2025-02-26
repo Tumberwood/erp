@@ -52,6 +52,23 @@
     }
     // END query self
 
+    $qs_sisa = $db
+        ->raw()
+        ->exec('WITH sisa AS (
+                    SELECT
+                        a.id_sodxxth,
+                        SUM(a.jumlah_terkecil_os) s_jumlah_terkecil_os
+                    FROM sodittd a
+                    GROUP BY a.id_sodxxth
+                    HAVING s_jumlah_terkecil_os > 0
+                )
+                SELECT
+                    GROUP_CONCAT(id_sodxxth) s_id_sodxxth
+                FROM sisa
+    ');
+    $rs_sisa = $qs_sisa->fetch();
+    $s_id_sodxxth = '('.$rs_sisa['s_id_sodxxth'].')';
+
     // BEGIN query options all except self
     $qs_sodxxth_all = $db
         ->query('select', 'sodxxth')
@@ -63,6 +80,7 @@
         ->where('sodxxth.approval_state', 9)
         ->where('sodxxth.id_grlxxmh_customer', $id_grlxxmh_customer)
         ->where('sodxxth.id', $id_sodxxth_old, '<>' )
+        ->where('sodxxth.id', $s_id_sodxxth, 'IN', false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r->where('sodxxth.kode', '%' . $q . '%', 'LIKE' );

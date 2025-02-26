@@ -41,6 +41,8 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sdlittd.id_iumxxmh_unit' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'sdlittd.id_scsittd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'sdlittd.kode' ),
 				Field::inst( 'sdlittd.nama' ),
 				Field::inst( 'sdlittd.keterangan' ),

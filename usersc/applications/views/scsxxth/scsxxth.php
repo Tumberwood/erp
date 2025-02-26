@@ -288,6 +288,7 @@
 				{
 					label: "Customer <sup class='text-danger'>*<sup>",
 					name: "scsxxth.id_grlxxmh_customer",
+					fieldInfo: "Customer Konsinyasi",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
@@ -299,7 +300,7 @@
 							data: function (params) {
 								var query = {
 									id_grlxxmh_old: id_grlxxmh_old,
-									is_konsinyasi: 1,
+									is_konsinyasi: '1',
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -942,7 +943,7 @@
 					id_scsittd
 				);
 
-				validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
+				validasiInventory(id_transaksi, id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
 			}
 			
 			if ( edtscsittd.inError() ) {

@@ -39,7 +39,7 @@
         }
     };
 
-    function validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh, table_before, id_transaksi_before){
+    function validasiInventory(id_transaksi, id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh, table_before, id_transaksi_before){
         jumlah_unit = edtsdlittd.field('sdlittd.jumlah_unit').input().inputmask('unmaskedvalue');
         jumlah_bom = edtsdlittd.field('sdlittd.jumlah_bom').val();
 
@@ -49,6 +49,7 @@
             type: 'POST',
             async: false,
             data: {
+                id_transaksi: id_transaksi,
                 id_iimxxmh: id_iimxxmh,
                 id_iumxxmh_unit: id_iumxxmh_unit,
                 id_iwhxxmh: id_iwhxxmh,
@@ -62,6 +63,42 @@
                     edtsdlittd.field('sdlittd.'+json.data.validasi).error( json.data.full_message );
                 }
                 
+            }
+        } );
+    };
+
+    function dataSalesConsignee(id_sodxxth){
+        $.ajax( {
+            url: "../../models/sdlxxth/sdlxxth_fn_so_scs.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_sodxxth: id_sodxxth,
+            },
+            success: function ( json ) {
+                id_scsxxth = json.data.id_scsxxth;
+                id_iwhxxmh_old = json.data.id_iwhxxmh;
+        
+                edtsdlxxth.field('sdlxxth.id_iwhxxmh').val(id_iwhxxmh_old);
+                edtsdlxxth.field('sdlxxth.id_scsxxth').val(id_scsxxth);
+            }
+        } );
+    };
+
+    function itemConsignee(id_iimxxmh, id_scsxxth){
+        $.ajax( {
+            url: "../../models/sdlxxth/sdlxxth_fn_item_consigne.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                id_iimxxmh: id_iimxxmh,
+                id_scsxxth: id_scsxxth,
+            },
+            success: function ( json ) {
+                id_scsittd = json.data.id_scsittd;
+                edtsdlittd.field('sdlittd.id_scsittd').val(id_scsittd);
             }
         } );
     };

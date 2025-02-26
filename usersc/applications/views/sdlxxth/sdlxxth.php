@@ -159,6 +159,7 @@
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
+									<!-- <editor-field name="sdlittd.id_scsittd"></editor-field> -->
 								</div>
 								<div class="col-lg-6">
 									<editor-field name="sdlittd.keterangan"></editor-field>
@@ -219,7 +220,7 @@
 
 	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_sodxxth_old = 0, id_iwhxxmh_old = 0, id_sodxxth = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, diskon_jenis_select = null, harga_unit_select = null;
-	var id_podxxth_old = 0;
+	var id_podxxth_old = 0, id_scsxxth = 0;
 
 	// get tableRelation
 	tableRelation('sdlxxth');
@@ -306,6 +307,7 @@
 							data: function (params) {
 								var query = {
 									id_grlxxmh_old: id_grlxxmh_old,
+									is_konsinyasi: '0,1',
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -434,6 +436,11 @@
 					type: "hidden"
 				},
 				{
+					label: "sdlxxth.id_scsxxth",
+					name: "sdlxxth.id_scsxxth",
+					type: "hidden"
+				},
+				{
 					label: "Warehouse <sup class='text-danger'>*<sup>",
 					name: "sdlxxth.id_iwhxxmh",
 					type: "select2",
@@ -442,7 +449,15 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+							url: function() {
+								id_sodxxth          = edtsdlxxth.field('sdlxxth.id_sodxxth').val();
+								autofillField('sodxxth', id_sodxxth, 'id_iitxxmh');
+								id_iitxxmh = autofillData.id_iitxxmh;
+								return id_sodxxth > 0 && id_iitxxmh == 7
+									? "../../models/iwhxxmh/iwhxxmh_fn_grlxxmh_opt.php" 
+									: "../../models/iwhxxmh/iwhxxmh_fn_opt.php";
+							},
+							// url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								is_sub_contract          = edtsdlxxth.field('sdlxxth.is_sub_contract').val();	
@@ -529,7 +544,23 @@
 
 		edtsdlxxth.dependent( 'sdlxxth.id_grlxxmh_customer', function ( val, data, callback ) {
 			edtsdlxxth.field('sdlxxth.id_sodxxth').input().val(null).trigger('change');
+			edtsdlxxth.field('sdlxxth.id_iwhxxmh').input().val(null).trigger('change');
 			id_grlxxmh_customer = val;
+			return {}
+		}, {event: 'keyup change'});
+
+		edtsdlxxth.dependent( 'sdlxxth.id_sodxxth', function ( val, data, callback ) {
+			id_iwhxxmh      = edtsdlxxth.field('sdlxxth.id_iwhxxmh').val();
+			id_sodxxth          = edtsdlxxth.field('sdlxxth.id_sodxxth').val();
+			autofillField('sodxxth', id_sodxxth, 'id_iitxxmh');
+			id_iitxxmh = autofillData.id_iitxxmh;
+
+			if (id_iitxxmh == 7) {
+				if (id_iwhxxmh != id_iwhxxmh_old) {
+					edtsdlxxth.field('sdlxxth.id_iwhxxmh').input().val(null).trigger('change');
+					dataSalesConsignee(id_sodxxth);
+				}
+			}
 			return {}
 		}, {event: 'keyup change'});
 		
@@ -698,6 +729,7 @@
 			id_sodxxth_old      = sdlxxth_data.id_sodxxth;
 			id_podxxth_old      = sdlxxth_data.id_podxxth;
 			id_sodxxth          = sdlxxth_data.id_sodxxth;
+			id_scsxxth          = sdlxxth_data.id_scsxxth;
 			id_iwhxxmh_old      = sdlxxth_data.id_iwhxxmh;
 			
 			// atur hak akses
@@ -710,7 +742,7 @@
 			// reset variable standar framework
 			siVarReset('sdlxxth');
 			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_sodxxth_old = 0, id_iwhxxmh_old = 0, id_sodxxth = 0;
-			id_podxxth_old = 0;
+			id_podxxth_old = 0, id_scsxxth = 0;
 
 			// atur hak akses
 			tbl_details = [tblsdlittd];
@@ -784,6 +816,10 @@
 					// type: "hidden"
 				},
 				{
+					label: "sdlittd.id_scsittd",
+					name: "sdlittd.id_scsittd",
+				},
+				{
 					label: getTranslation('price') + " <sup class='text-danger'>*<sup>",
 					name: "sdlittd.harga_unit",
 				},
@@ -840,6 +876,7 @@
 								return {
 									id_iimxxmh_old: id_iimxxmh_old,
 									id_sodxxth: id_sodxxth,
+									id_scsxxth: id_scsxxth,
 									id_podxxth: id_podxxth_old,
 									search: params.term || '',
 									page: params.page || 1
@@ -977,7 +1014,11 @@
 				edtsdlittd.field('sdlittd.id_iumxxmh_unit').input().val(null).trigger('change');
 			}
 			
-			sdlittd_fn_sodittd(id_sodxxth,id_iimxxmh)
+			if (id_scsxxth > 0) {
+				itemConsignee(id_iimxxmh, id_scsxxth);
+			} else {
+				sdlittd_fn_sodittd(id_sodxxth,id_iimxxmh);
+			}
 			return {}
 		}, {event: 'keyup change'});
 
@@ -1048,6 +1089,7 @@
 				id_iimxxmh = edtsdlittd.field('sdlittd.id_iimxxmh').val();
 				id_sodittd = edtsdlittd.field('sdlittd.id_sodittd').val();
 				id_podittd = edtsdlittd.field('sdlittd.id_podittd').val();
+				id_scsittd = edtsdlittd.field('sdlittd.id_scsittd').val();
 				id_iumxxmh_unit = edtsdlittd.field('sdlittd.id_iumxxmh_unit').val();
 
 				validasiRequired(
@@ -1069,14 +1111,18 @@
 					id_sdlittd
 				);
 
-				if (id_sodittd > 0) {
-					validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
-					
-					// validasiOutstandingMask(
-						// 	edtsdlittd, 'sdlittd', id_transaksi, id_sodittd, 'sodittd'
-						// )
+				console.log(id_scsittd);
+
+				//jika ini SO konsinyasi
+				if (id_scsittd > 0) {
+						validasiInventory(id_transaksi, id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'scsittd', id_scsittd);
 				} else {
-					validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'podittd', id_podittd);
+					//Jika SO biasa dan bukan PO subcon
+					if (id_sodittd > 0) {
+						validasiInventory(id_transaksi, id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'sodittd', id_sodittd);
+					} else {
+						validasiInventory(id_transaksi, id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh_old, 'podittd', id_podittd);
+					}
 				}
 
 			}

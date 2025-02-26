@@ -65,6 +65,7 @@
                 ) as text'
             ])
             ->where('iwhxxmh.id', $id_iwhxxmh_old )
+            ->where('iwhxxmh.id_grlxxmh',0)
             ->limit(1)
             ->offset($offset)
             ->exec();

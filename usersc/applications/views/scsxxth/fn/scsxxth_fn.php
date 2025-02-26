@@ -39,7 +39,7 @@
         }
     };
 
-    function validasiInventory(id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh, table_before, id_transaksi_before){
+    function validasiInventory(id_transaksi, id_iimxxmh, id_iumxxmh_unit, id_iwhxxmh, table_before, id_transaksi_before){
         jumlah_unit = edtscsittd.field('scsittd.jumlah_unit').input().inputmask('unmaskedvalue');
         jumlah_bom = edtscsittd.field('scsittd.jumlah_bom').val();
 
@@ -49,6 +49,7 @@
             type: 'POST',
             async: false,
             data: {
+                id_transaksi: id_transaksi,
                 id_iimxxmh: id_iimxxmh,
                 id_iumxxmh_unit: id_iumxxmh_unit,
                 id_iwhxxmh: id_iwhxxmh,

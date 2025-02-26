@@ -28,10 +28,10 @@
         $id_grlxxmh_old = 0;
     }
 
-    if(isset($_GET['is_konsinyasi']) && $_GET['is_konsinyasi'] > 0){
-        $is_konsinyasi = $_GET['is_konsinyasi'];
+    if(isset($_GET['is_konsinyasi']) && $_GET['is_konsinyasi'] != ''){
+        $is_konsinyasi = '('.$_GET['is_konsinyasi'].')';
     }else{
-        $is_konsinyasi = 0;
+        $is_konsinyasi = '(0)';
     }
 
     // BEGIN query options self.
@@ -79,7 +79,7 @@
         ->where('grlxxmh.transaction_state',1)
         ->where('grlxxmh.id', $id_grlxxmh_old, '<>' )
         ->where('grlxxmh.is_customer', 1 )
-        ->where('grlxxmh.is_konsinyasi', $is_konsinyasi )
+        ->where('grlxxmh.is_konsinyasi', $is_konsinyasi, 'IN', false)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

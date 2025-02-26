@@ -51,28 +51,56 @@
     }
     // END query self
 
-    // BEGIN query options all except self
-    $qs_iimxxmh_all = $db
-        ->query('select', 'iimxxmh')
-        ->get([
-            'iimxxmh.id as id',
-            'CONCAT(iimxxmh.kode," - ",iimxxmh.nama) as text'
-        ])
-        ->join('sodittd','sodittd.id_iimxxmh = iimxxmh.id','LEFT' )
-        ->where('iimxxmh.transaction_state',1)
-        ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
-        ->where('sodittd.id_sodxxth', $id_sodxxth)
-        ->where('sodittd.jumlah_terkecil_os', 0, '>')
-        ->where( function ( $r ) {
-            $q = $_GET['search'];
-            $r
-                ->where('iimxxmh.kode', '%' . $q . '%', 'LIKE' )
-                ->or_where('iimxxmh.nama', '%' . $q . '%', 'LIKE' );
-        } )
-        ->limit($resultCount)
-        ->offset($offset)
-        ->exec();
-    $rs_iimxxmh_all = $qs_iimxxmh_all->fetchAll();
+    
+    if(isset($_GET['id_scsxxth']) && $_GET['id_scsxxth'] > 0){
+        // BEGIN query options all except self
+        $qs_iimxxmh_all = $db
+            ->query('select', 'iimxxmh')
+            ->get([
+                'iimxxmh.id as id',
+                'CONCAT(iimxxmh.kode," - ",iimxxmh.nama) as text'
+            ])
+            ->join('sodittd','sodittd.id_iimxxmh = iimxxmh.id','LEFT' )
+            ->join('scsittd','scsittd.id_sodittd = sodittd.id','LEFT' )
+            ->where('iimxxmh.transaction_state',1)
+            ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
+            ->where('sodittd.id_sodxxth', $id_sodxxth)
+            ->where('scsittd.id_scsxxth', $_GET['id_scsxxth'])
+            ->where('scsittd.jumlah_terkecil_os', 0, '>')
+            ->where( function ( $r ) {
+                $q = $_GET['search'];
+                $r
+                    ->where('iimxxmh.kode', '%' . $q . '%', 'LIKE' )
+                    ->or_where('iimxxmh.nama', '%' . $q . '%', 'LIKE' );
+            } )
+            ->limit($resultCount)
+            ->offset($offset)
+            ->exec();
+        $rs_iimxxmh_all = $qs_iimxxmh_all->fetchAll();
+    }else{
+        // BEGIN query options all except self
+        $qs_iimxxmh_all = $db
+            ->query('select', 'iimxxmh')
+            ->get([
+                'iimxxmh.id as id',
+                'CONCAT(iimxxmh.kode," - ",iimxxmh.nama) as text'
+            ])
+            ->join('sodittd','sodittd.id_iimxxmh = iimxxmh.id','LEFT' )
+            ->where('iimxxmh.transaction_state',1)
+            ->where('iimxxmh.id', $id_iimxxmh_old, '<>' )
+            ->where('sodittd.id_sodxxth', $id_sodxxth)
+            ->where('sodittd.jumlah_terkecil_os', 0, '>')
+            ->where( function ( $r ) {
+                $q = $_GET['search'];
+                $r
+                    ->where('iimxxmh.kode', '%' . $q . '%', 'LIKE' )
+                    ->or_where('iimxxmh.nama', '%' . $q . '%', 'LIKE' );
+            } )
+            ->limit($resultCount)
+            ->offset($offset)
+            ->exec();
+        $rs_iimxxmh_all = $qs_iimxxmh_all->fetchAll();
+    }
     // END query options all except self
     
     // BEGIN menggabungkan options

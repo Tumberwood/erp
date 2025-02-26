@@ -17,6 +17,7 @@
     $id_iwhxxmh = $_POST['id_iwhxxmh'];
     $table_before = $_POST['table_before'];
     $id_transaksi_before = $_POST['id_transaksi_before'];
+    $id_transaksi_now = $_POST['id_transaksi'];
     $jumlah_unit = $_POST['jumlah_unit'];
     $jumlah_bom = $_POST['jumlah_bom'];
 
@@ -95,6 +96,21 @@
     
     $rs_iiv = $qs_iiv->fetch();
 
+    $qs_transaksi_now = $db
+        ->query('select', 'sdlittd' )
+        ->get([
+            'jumlah_unit',
+            'jumlah_terkecil'
+            ] )
+        ->where('id', $id_transaksi_now )
+        ->exec();
+    $rs_transaksi_now = $qs_transaksi_now->fetch();
+    if (empty($rs_transaksi_now)) {
+       $jumlah_terkecil_now = 0;
+    } else {
+        $jumlah_terkecil_now = $rs_transaksi_now['jumlah_terkecil'];
+    }
+
     $qs_transaksi = $db
         ->query('select', $table_before )
         ->get([
@@ -117,14 +133,20 @@
             $validasi = 'jumlah_unit';
         } else {
                     
-            if ($table_before == "sodittd") {
-                $menu = "Sales Order";
-                $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'];
-                $jumlah_unit_before = $jumlah_terkecil_os / $jumlah_konversi;
-            } else {
+            if ($table_before == "podittd") {
                 $menu = "Purchase Order";
+                // $jumlah_terkecil_os = ($rs_transaksi['jumlah_terkecil_os'] * $jumlah_bom) + $jumlah_terkecil_now;
                 $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'] * $jumlah_bom;
                 $jumlah_unit_before = $jumlah_terkecil_os;
+            } else {
+                if ($table_before == "sodittd") {
+                    $menu = "Sales Order";
+                } else {
+                    $menu = "Sales Order Consignee";
+                }
+                
+                $jumlah_terkecil_os = ($rs_transaksi['jumlah_terkecil_os'] + $jumlah_terkecil_now);
+                $jumlah_unit_before = $jumlah_terkecil_os / $jumlah_konversi;
             }
 
             if ($jumlah_terkecil_input > $jumlah_terkecil_os) {

@@ -16,6 +16,7 @@
     $id_iumxxmh_unit = $_POST['id_iumxxmh_unit'];
     $id_iwhxxmh = $_POST['id_iwhxxmh'];
     $table_before = $_POST['table_before'];
+    $id_transaksi_now = $_POST['id_transaksi'];
     $id_transaksi_before = $_POST['id_transaksi_before'];
     $jumlah_unit = $_POST['jumlah_unit'];
     $jumlah_bom = $_POST['jumlah_bom'];
@@ -95,6 +96,21 @@
     
     $rs_iiv = $qs_iiv->fetch();
 
+    $qs_transaksi_now = $db
+        ->query('select', 'scsittd' )
+        ->get([
+            'jumlah_unit',
+            'jumlah_terkecil'
+            ] )
+        ->where('id', $id_transaksi_now )
+        ->exec();
+    $rs_transaksi_now = $qs_transaksi_now->fetch();
+    if (empty($rs_transaksi_now)) {
+       $jumlah_terkecil_now = 0;
+    } else {
+        $jumlah_terkecil_now = $rs_transaksi_now['jumlah_terkecil'];
+    }
+
     $qs_transaksi = $db
         ->query('select', $table_before )
         ->get([
@@ -119,7 +135,7 @@
                     
             if ($table_before == "sodittd") {
                 $menu = "Sales Order";
-                $jumlah_terkecil_os = $rs_transaksi['jumlah_terkecil_os'];
+                $jumlah_terkecil_os = ($rs_transaksi['jumlah_terkecil_os'] + $jumlah_terkecil_now);
                 $jumlah_unit_before = $jumlah_terkecil_os / $jumlah_konversi;
             } else {
                 $menu = "Purchase Order";
