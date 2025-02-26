@@ -151,7 +151,7 @@
 				LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = sdlittd.id_iumxxmh_unit
 				LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = sdlittd.id_iumxxmh_terkecil
 				LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = sdlittd.id_iumxxmh_default
-				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.'AND imtxxmh.module = "ERP"
+				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.module = "ERP"
 				WHERE sdlxxth.id = :id
 			');
 
