@@ -82,6 +82,7 @@
 		$dimensi_maksimal = $rs_pl['dimensi_maksimal'];
 		$dimension_meter = ROUND($rs_pl['dimension_meter']);
 
+		//Jika None maka tidak perlu muncul confirm
 		if ($vehicle_capacity == 'None') {
 			$pesan = '';
 		} else if ($vehicle_capacity == 'Weight') {
