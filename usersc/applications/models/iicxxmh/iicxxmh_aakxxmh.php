@@ -33,6 +33,8 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'iicxxmh_aakxxmh.id_aakxxmh_biaya' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'iicxxmh_aakxxmh.id_aakxxmh_penjualan' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'iicxxmh_aakxxmh.kode' ),
 				Field::inst( 'iicxxmh_aakxxmh.nama' ),
 				Field::inst( 'iicxxmh_aakxxmh.keterangan' ),
@@ -44,11 +46,13 @@
 				Field::inst( 'iicxxmh_aakxxmh.is_defaultprogram' ),
 
 				Field::inst( 'concat(aakxxmh_persediaan.kode," - ",aakxxmh_persediaan.nama) as aakxxmh_persediaan' ),
-				Field::inst( 'concat(aakxxmh_biaya.kode," - ",aakxxmh_biaya.nama) as aakxxmh_biaya' )
+				Field::inst( 'concat(aakxxmh_biaya.kode," - ",aakxxmh_biaya.nama) as aakxxmh_biaya' ),
+				Field::inst( 'concat(aakxxmh_penjualan.kode," - ",aakxxmh_penjualan.nama) as aakxxmh_penjualan' ),
 				
 			)
 			->leftJoin( 'aakxxmh as aakxxmh_persediaan','aakxxmh_persediaan.id','=','iicxxmh_aakxxmh.id_aakxxmh_persediaan' )
 			->leftJoin( 'aakxxmh as aakxxmh_biaya','aakxxmh_biaya.id','=','iicxxmh_aakxxmh.id_aakxxmh_biaya' )
+			->leftJoin( 'aakxxmh as aakxxmh_penjualan','aakxxmh_penjualan.id','=','iicxxmh_aakxxmh.id_aakxxmh_penjualan' )
 			->where('iicxxmh_aakxxmh.id_iicxxmh',$_POST['id_iicxxmh']);
 		
 		// do not erase

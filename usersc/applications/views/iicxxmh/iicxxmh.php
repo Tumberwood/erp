@@ -51,6 +51,7 @@
 										<th>id_iicxxmh</th>
 										<th data-i18n="inventory"></th>
 										<th data-i18n="expenses"></th>
+										<th data-i18n="Penjualan"></th>
 									</tr>
 								</thead>
 							</table>
@@ -92,7 +93,7 @@
 	var edtiicxxmh_aakxxmh, tbliicxxmh_aakxxmh, show_deleted_iicxxmh_aakxxmh = 0, id_iicxxmh_aakxxmh;
 	// ------------- end of default variable
 
-	var id_aakxxmh_persediaan_old  = 0, id_aakxxmh_biaya_old = 0;
+	var id_aakxxmh_persediaan_old  = 0, id_aakxxmh_biaya_old = 0, id_aakxxmh_penjualan_old = 0;
 
 	// get tableRelation
 	tableRelation('iicxxmh');
@@ -447,6 +448,43 @@
 						},
 					}
 				},
+				{
+					label: "Akun Penjualan",
+					name: "iicxxmh_aakxxmh.id_aakxxmh_penjualan",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_type_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_penjualan_old,
+									id_aatxxmh: '13',
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 			
@@ -511,7 +549,8 @@
 				{ data: "iicxxmh_aakxxmh.id",visible:false },
 				{ data: "iicxxmh_aakxxmh.id_iicxxmh",visible:false },
 				{ data: "aakxxmh_persediaan" },
-				{ data: "aakxxmh_biaya" }
+				{ data: "aakxxmh_biaya" },
+				{ data: "aakxxmh_penjualan" },
 			],
 			buttons: [
 				// BEGIN breaking generate button
@@ -546,6 +585,7 @@
 			siVarSetD('iicxxmh_aakxxmh');
 			id_aakxxmh_persediaan_old  = iicxxmh_aakxxmh_data.id_aakxxmh_persediaan;
 			id_aakxxmh_biaya_old  = iicxxmh_aakxxmh_data.id_aakxxmh_biaya;
+			id_aakxxmh_penjualan_old  = iicxxmh_aakxxmh_data.id_aakxxmh_penjualan;
 			
 			// atur hak akses
 			CekSelectDetailHD( tbliicxxmh_aakxxmh );
@@ -554,7 +594,7 @@
 		tbliicxxmh_aakxxmh.on( 'deselect', function() {
 			// reset variable standar framework
 			siVarResetD('iicxxmh_aakxxmh');
-			id_aakxxmh_persediaan_old  = 0, id_aakxxmh_biaya_old  = 0;
+			id_aakxxmh_persediaan_old  = 0, id_aakxxmh_biaya_old  = 0, id_aakxxmh_penjualan_old = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tbliicxxmh_aakxxmh );
