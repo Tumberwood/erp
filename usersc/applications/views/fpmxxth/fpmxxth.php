@@ -158,7 +158,7 @@
 	var edtfpmxxth, tblfpmxxth, show_deleted_fpmxxth = 0, id_fpmxxth;
 	var edtfpmivtd, tblfpmivtd, show_deleted_fpmivtd = 0, id_fpmivtd;
 	var id_aakxxmh_old = 0, id_grlxxmh_supplier_old = 0, id_pivxxth_old = 0, id_fprxxth_old = 0;
-	var id_aakxxmh_beban = 0;
+	var id_aakxxmh_beban_old = 0;
 	// ------------- end of default variable
 
 	// get tableRelation
