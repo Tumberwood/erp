@@ -704,6 +704,8 @@
 					targets: '_all'
 				}
 			],
+			responsive: false,
+			scrollX: true,
 			columns: [
 				{ data: "ggsaksh.id",visible:false },
 				{ data: "hutang_sementara.nama" },
