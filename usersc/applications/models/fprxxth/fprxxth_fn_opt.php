@@ -71,8 +71,13 @@
     ');
     
     $rs_fprxxth = $qs_fprxxth->fetchAll();
-    $ids = array_column($rs_fprxxth, 'id_fprxxth');
-    $exclude = '(' . implode(',', $ids) . ')';
+    
+    if (empty($rs_fprxxth)) {
+        $exclude = '(-9)';
+    } else {
+        $ids = array_column($rs_fprxxth, 'id_fprxxth');
+        $exclude = '(' . implode(',', $ids) . ')';
+    }
 
     // BEGIN query options all except self
     $qs_fprxxth_all = $db

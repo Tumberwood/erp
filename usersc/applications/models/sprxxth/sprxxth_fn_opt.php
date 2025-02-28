@@ -28,10 +28,10 @@
         $id_sprxxth_old = 0;
     }
 
-    if($_GET['id_grlxxmh_supplier'] > 0){
-        $id_grlxxmh_supplier = $_GET['id_grlxxmh_supplier'];
+    if($_GET['id_grlxxmh_customer'] > 0){
+        $id_grlxxmh_customer = $_GET['id_grlxxmh_customer'];
     }else{
-        $id_grlxxmh_supplier = 0;
+        $id_grlxxmh_customer = 0;
     }
 
     // BEGIN query options self.
@@ -71,8 +71,13 @@
     ');
     
     $rs_sprxxth = $qs_sprxxth->fetchAll();
-    $ids = array_column($rs_sprxxth, 'id_sprxxth');
-    $exclude = '(' . implode(',', $ids) . ')';
+
+    if (empty($rs_sprxxth)) {
+        $exclude = '(-9)';
+    } else {
+        $ids = array_column($rs_sprxxth, 'id_sprxxth');
+        $exclude = '(' . implode(',', $ids) . ')';
+    }
 
     // BEGIN query options all except self
     $qs_sprxxth_all = $db
@@ -92,7 +97,7 @@
         ->where('sprxxth.transaction_state',1)
         ->where('sprxxth.id', $id_sprxxth_old, '<>' )
         ->where('sprxxth.id', $exclude, 'NOT IN', false )
-        ->where('sprxxth.id_grlxxmh_supplier', $id_grlxxmh_supplier)
+        ->where('sprxxth.id_grlxxmh_customer', $id_grlxxmh_customer)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
