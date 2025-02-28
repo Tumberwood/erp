@@ -54,6 +54,11 @@
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
+									<editor-field name="ggsaksh.id_aakxxmh_penjualan"></editor-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
 									<editor-field name="aatxxmh_persediaan[].id"></editor-field>
 								</div>
 								<div class="col-lg-6">
@@ -79,6 +84,7 @@
                                 <th>Pajak Masukan</th>
                                 <th>Pajak Keluaran</th>
                                 <th>Akun Ekuitas</th>
+                                <th>Akun Penjualan</th>
                                 <th>Akun HPP</th>
                                 <th>Account Type Persediaan</th>
                                 <th>Account Type Biaya</th>
@@ -117,6 +123,7 @@
 	var edtggsaksh, tblggsaksh, show_deleted_ggsaksh = 0, id_ggsaksh;
 	var id_aakxxmh_hutang_sementara_old = 0, id_aakxxmh_persediaan_perjalanan_old = 0, ids_aatxxmh_persediaan_old = '', ids_aatxxmh_biaya_old = '', ids_aatxxmh_selisih_old = '';
 	var id_aakxxmh_ekuitas_old = 0, id_aakxxmh_hpp_old = 0, id_aakxxmh_pajak_masukan_old = 0, id_aakxxmh_pajak_keluaran_old = 0, id_aakxxmh_hutang_usaha_old = 0, id_aakxxmh_piutang_usaha_old = 0;
+	var id_aakxxmh_penjualan_old =
 	// ------------- end of default variable
 	
 	// get tableRelation
@@ -553,6 +560,43 @@
 						},
 					}
 				},	
+				{
+					label: "Akun Penjualan <sup class='text-danger'>*</sup>",
+					name: "ggsaksh.id_aakxxmh_penjualan",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/aakxxmh/aakxxmh_fn_opt_child.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_aakxxmh_old: id_aakxxmh_penjualan_old,
+									// id_aatxxmh: '13',
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 
@@ -579,6 +623,7 @@
 				id_aakxxmh_ekuitas = edtggsaksh.field('ggsaksh.id_aakxxmh_ekuitas').val();
 				id_aakxxmh_hutang_sementara = edtggsaksh.field('ggsaksh.id_aakxxmh_hutang_sementara').val();
 				id_aakxxmh_hpp = edtggsaksh.field('ggsaksh.id_aakxxmh_hpp').val();
+				id_aakxxmh_penjualan = edtggsaksh.field('ggsaksh.id_aakxxmh_penjualan').val();
 				id_aakxxmh_pajak_masukan = edtggsaksh.field('ggsaksh.id_aakxxmh_pajak_masukan').val();
 				id_aakxxmh_pajak_keluaran = edtggsaksh.field('ggsaksh.id_aakxxmh_pajak_keluaran').val();
 				id_aakxxmh_hutang_usaha = edtggsaksh.field('ggsaksh.id_aakxxmh_hutang_usaha').val();
@@ -596,6 +641,7 @@
 						'id_aakxxmh_ekuitas': id_aakxxmh_ekuitas,
 						'id_aakxxmh_hutang_sementara': id_aakxxmh_hutang_sementara,
 						'id_aakxxmh_hpp': id_aakxxmh_hpp,
+						'id_aakxxmh_penjualan': id_aakxxmh_penjualan,
 						'id_aakxxmh_pajak_masukan': id_aakxxmh_pajak_masukan,
 						'id_aakxxmh_pajak_keluaran': id_aakxxmh_pajak_keluaran,
 						'id_aakxxmh_hutang_usaha': id_aakxxmh_hutang_usaha,
@@ -667,6 +713,7 @@
 				{ data: "pajak_masukan.nama" },
 				{ data: "pajak_keluaran.nama" },
 				{ data: "ekuitas.nama" },
+				{ data: "penjualan.nama" },
 				{ data: "hpp.nama" },
 				{ data: "aatxxmh_persediaan[].nama" },
 				{ data: "aatxxmh_biaya[].nama" },
@@ -714,6 +761,12 @@
 			id_aakxxmh_hutang_sementara_old = ggsaksh_data.id_aakxxmh_hutang_sementara;
 			id_aakxxmh_persediaan_perjalanan_old = ggsaksh_data.id_aakxxmh_persediaan_perjalanan;
 			id_aakxxmh_ekuitas_old = ggsaksh_data.id_aakxxmh_ekuitas;
+			id_aakxxmh_pajak_keluaran_old = ggsaksh_data.id_aakxxmh_pajak_keluaran;
+			id_aakxxmh_pajak_masukan_old = ggsaksh_data.id_aakxxmh_pajak_masukan;
+			id_aakxxmh_penjualan_old = ggsaksh_data.id_aakxxmh_penjualan;
+			id_aakxxmh_hutang_usaha_old = ggsaksh_data.id_aakxxmh_hutang_usaha;
+			id_aakxxmh_piutang_usaha_old = ggsaksh_data.id_aakxxmh_piutang_usaha;
+			id_aakxxmh_hpp_old = ggsaksh_data.id_aakxxmh_hpp;
 
 			tblggsaksh.rows( { selected: true } ).data().each(function (row) {
 				if (row.aatxxmh_persediaan) {
@@ -750,6 +803,13 @@
 			id_aakxxmh_hutang_sementara_old = 0;
 			id_aakxxmh_persediaan_perjalanan_old = 0;
 			id_aakxxmh_ekuitas_old = 0;
+			id_aakxxmh_penjualan_old = 0;
+			id_aakxxmh_hutang_usaha_old = 0;
+			id_aakxxmh_piutang_usaha_old = 0;
+			id_aakxxmh_hpp_old = 0;
+			id_aakxxmh_pajak_keluaran_old = 0;
+			id_aakxxmh_pajak_masukan_old = 0;
+
 			ids_aatxxmh_persediaan_old = '';
 			ids_aatxxmh_biaya_old = '';
 			ids_aatxxmh_selisih_old = '';
