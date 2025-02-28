@@ -37,6 +37,8 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth.id_sodxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'sdlxxth.id_fpytmmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth.id_podxxth' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth.id_scsxxth' )

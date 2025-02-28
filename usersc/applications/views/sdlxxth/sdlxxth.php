@@ -552,8 +552,10 @@
 		edtsdlxxth.dependent( 'sdlxxth.id_sodxxth', function ( val, data, callback ) {
 			id_iwhxxmh      = edtsdlxxth.field('sdlxxth.id_iwhxxmh').val();
 			id_sodxxth          = edtsdlxxth.field('sdlxxth.id_sodxxth').val();
-			autofillField('sodxxth', id_sodxxth, 'id_iitxxmh');
+			autofillField('sodxxth', id_sodxxth, 'id_iitxxmh,id_fpytmmh');
 			id_iitxxmh = autofillData.id_iitxxmh;
+			id_fpytmmh = autofillData.id_fpytmmh;
+			edtsdlxxth.field('sdlxxth.id_fpytmmh').val(id_fpytmmh);
 
 			if (id_iitxxmh == 7) {
 				if (id_iwhxxmh != id_iwhxxmh_old) {
