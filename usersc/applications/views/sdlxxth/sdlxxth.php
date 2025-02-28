@@ -744,7 +744,7 @@
 			// reset variable standar framework
 			siVarReset('sdlxxth');
 			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_sodxxth_old = 0, id_iwhxxmh_old = 0, id_sodxxth = 0;
-			id_podxxth_old = 0, id_scsxxth = 0;
+			id_podxxth_old = 0, id_scsxxth = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblsdlittd];
