@@ -47,7 +47,8 @@
 			Field::inst( 'lvtxxmh.panjang' ),
 			Field::inst( 'lvtxxmh.lebar' ),
 			Field::inst( 'lvtxxmh.tinggi' ),
-			Field::inst( 'lvtxxmh.insentif' )
+			Field::inst( 'lvtxxmh.insentif' ),
+			Field::inst( 'lvtxxmh.jumlah_unit_max' ),
 		);
 	
 	// do not erase

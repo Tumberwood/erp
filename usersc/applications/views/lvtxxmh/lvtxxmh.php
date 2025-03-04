@@ -58,6 +58,11 @@
 								<editor-field name="lvtxxmh.insentif"></editor-field>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="lvtxxmh.jumlah_unit_max"></editor-field>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="table-responsive">
@@ -69,6 +74,7 @@
                                 <th>Nama</th>
                                 <th>Berat Max</th>
                                 <th>Dimensi Max</th>
+                                <th>Unit Max</th>
                                 <th>Insentif</th>
                                 <th>TX</th>
                             </tr>
@@ -180,6 +186,11 @@
 					name: "lvtxxmh.insentif"
 				},
 				{
+					label: "Unit Max",
+					name: "lvtxxmh.jumlah_unit_max",
+					fieldInfo: "Satuan Default Item"
+				},
+				{
 					label: "Keterangan",
 					name: "lvtxxmh.keterangan",
 					type: "textarea"
@@ -220,6 +231,7 @@
 				nama             = edtlvtxxmh.field('lvtxxmh.nama').val();
 				berat_maksimal   = edtlvtxxmh.field('lvtxxmh.berat_maksimal').val();
 				dimensi_maksimal = edtlvtxxmh.field('lvtxxmh.dimensi_maksimal').val();
+				jumlah_unit_max = edtlvtxxmh.field('lvtxxmh.jumlah_unit_max').val();
 				panjang          = edtlvtxxmh.field('lvtxxmh.panjang').val();
 				lebar            = edtlvtxxmh.field('lvtxxmh.lebar').val();
 				tinggi           = edtlvtxxmh.field('lvtxxmh.tinggi').val();
@@ -260,6 +272,7 @@
 					{
 						'berat_maksimal': berat_maksimal,
 						'dimensi_maksimal': dimensi_maksimal,
+						'jumlah_unit_max': jumlah_unit_max,
 						'panjang': panjang,
 						'lebar': lebar,
 						'tinggi': tinggi,
@@ -321,6 +334,10 @@
 				},
 				{ 
 					data: "lvtxxmh.dimensi_maksimal" ,
+					...renderNumber(2)
+				},
+				{ 
+					data: "lvtxxmh.jumlah_unit_max" ,
 					...renderNumber(2)
 				},
 				{ 
