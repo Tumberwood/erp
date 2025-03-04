@@ -23,6 +23,8 @@
 		$whereCustomer = " AND b.id_grlxxmh_customer IN ($id_list)";
 	}
 
+	echo $start_date;
+
 	if ($start_date != '' && $end_date != '') {
 		$qs_crfpxth = $db
 			->raw()
