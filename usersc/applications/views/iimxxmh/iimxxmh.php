@@ -11,6 +11,7 @@
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'iimummd';
     $nama_tabels_d[1] = 'wimlotd';
+    $nama_tabels_d[2] = 'iimrlmd_supplier';
 ?>
 
 <!-- begin content here -->
@@ -97,6 +98,7 @@
 			<ul class="nav nav-tabs" role="tablist">
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd"> UoM</a></li>
 				<li><a class="nav-link" data-toggle="tab" href="#tabwimlotd"> Loc Pref &nbsp<small class="label label-info">WMS</small></a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabiimrlmd_supplier"> Supplier</a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabiimummd" class="tab-pane active">
@@ -198,6 +200,23 @@
 					</div>
 				</div>
 
+				<div role="tabpanel" id="tabiimrlmd_supplier" class="tab-pane">
+					<div class="panel-body">
+
+						<table id="tbliimrlmd_supplier" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>id_iimxxmh</th>
+									<th>Supplier</th>
+									<th>Leadtime</th>
+									<th>MOQ</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
@@ -234,6 +253,9 @@
 	var edtwimlotd, tblwimlotd, show_deleted_wimlotd = 0, id_wimlotd;
 	var edtwimlotd_copyfrom;
 	var edtwimlotd_generate;
+
+	var edtiimrlmd_supplier, tbliimrlmd_supplier, show_deleted_iimrlmd_supplier = 0, id_iimrlmd_supplier;
+	var edtiimrlmd_supplier_copyfrom;
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
@@ -242,7 +264,7 @@
 	var is_default_old = 0;
 	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0, is_replenishment_old = 0;
 	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
-	var id_wloxxmh_old = 0;
+	var id_wloxxmh_old = 0, id_grlxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('iimxxmh');
@@ -797,12 +819,13 @@
 
 		tbliimxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tbliimummd, tblwimlotd];
+			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier];
 			CekInitHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnIimummdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
+			tbliimrlmd_supplier.button( 'btnIimrlmd_supplierCopyFrom:name' ).disable();
 		} );
 		
 		tbliimxxmh.on( 'select', function( e, dt, type, indexes ) {
@@ -816,12 +839,13 @@
 			id_iimxxmh_old = iimxxmh_data.id;
 			
 			// atur hak akses
-			tbl_details = [tbliimummd, tblwimlotd];
+			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier];
 			CekSelectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnIimummdCopyFrom:name' ).enable();
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).enable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).enable();
+			tbliimrlmd_supplier.button( 'btnIimrlmd_supplierCopyFrom:name' ).enable();
 
 			//cek detail UoM default
 			cekUoMDefault(id_iimxxmh);
@@ -842,12 +866,13 @@
 			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
-			tbl_details = [tbliimummd, tblwimlotd];
+			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier];
 			CekDeselectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnIimummdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
+			tbliimrlmd_supplier.button( 'btnIimrlmd_supplierCopyFrom:name' ).disable();
 		} );
 
 		// END iimxxmh
@@ -1996,6 +2021,579 @@
 		} );
 
 		// END wimlotd
+
+
+		// BEGIN iimrlmd_supplier
+
+		edtiimrlmd_supplier = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/iimrlmd_supplier.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iimrlmd_supplier = show_deleted_iimrlmd_supplier;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tbliimrlmd_supplier",
+			formOptions: {
+				main: {
+					focus: 5
+				}
+			},
+			fields: [ 
+				{
+					label: "iimrlmd_supplier.start_at",
+					name: "iimrlmd_supplier.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "iimrlmd_supplier.finish_at",
+					name: "iimrlmd_supplier.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "iimrlmd_supplier",
+					type: "hidden"
+				},	
+				{
+					label: "iimrlmd_supplier.transaction_state",
+					name: "iimrlmd_supplier.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_iimxxmh",
+					name: "iimrlmd_supplier.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Supplier <sup class='text-danger'>*<sup>",  
+					name: "iimrlmd_supplier.id_grlxxmh_supplier",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/psuxxmh/psuxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_old: id_grlxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Leadtime (Hari) <sup class='text-danger'>*<sup>",
+					name: "iimrlmd_supplier.leadtime_hari"
+				},
+				{
+					label: "MOQ <sup class='text-danger'>*<sup>",
+					name: "iimrlmd_supplier.moq"
+				},
+			]
+		} );
+			
+		edtiimrlmd_supplier.on( 'preOpen', function( e, mode, action ) {
+			edtiimrlmd_supplier.field('iimrlmd_supplier.id_iimxxmh').val(id_iimxxmh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiimrlmd_supplier.field('iimrlmd_supplier.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tbliimrlmd_supplier.rows().deselect();
+			}
+		});
+
+		edtiimrlmd_supplier.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+
+		edtiimrlmd_supplier.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				// set variable
+				id_grlxxmh_supplier = edtiimrlmd_supplier.field('iimrlmd_supplier.id_grlxxmh_supplier').val();
+				leadtime_hari     = edtiimrlmd_supplier.field('iimrlmd_supplier.leadtime_hari').val();
+				moq     = edtiimrlmd_supplier.field('iimrlmd_supplier.moq').val();
+
+				validasiRequired(
+					edtiimrlmd_supplier,
+					'iimrlmd_supplier',
+					{
+						'id_grlxxmh_supplier': id_grlxxmh_supplier,
+						'leadtime_hari': leadtime_hari,
+						'moq': moq,
+					}
+				);
+
+				
+				validasiNumber(
+					edtiimrlmd_supplier,
+					'iimrlmd_supplier',
+					{
+						'leadtime_hari': leadtime_hari,
+						'moq': moq,
+					},
+					0,
+					'>'
+				);
+
+				validasiUnique(
+					action,
+					edtiimrlmd_supplier,
+					'iimrlmd_supplier',
+					'id_grlxxmh_supplier',
+					'id_iimxxmh, id_grlxxmh_supplier',
+					id_iimxxmh + ',' + id_grlxxmh_supplier,
+					id_iimrlmd_supplier
+				);
+
+			}
+			
+			if ( edtiimrlmd_supplier.inError() ) {
+				return false;
+			}
+		});
+
+		edtiimrlmd_supplier.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiimrlmd_supplier.field('iimrlmd_supplier.finish_at').val(finish_at);
+		});
+			
+		edtiimrlmd_supplier.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbliimrlmd_supplier.ajax.reload(null, false);
+			tbliimxxmh.ajax.reload(null, false);
+		} );
+
+		edtiimrlmd_supplier.on( 'close', function () {
+			edtiimrlmd_supplier.enable();
+		} );
+
+
+		edtiimrlmd_supplier_copyfrom = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/iimrlmd_supplier_fn_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tbliimrlmd_supplier",
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "id_iimxxmh",
+					name: "iimrlmd_supplier.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From Item",
+					name: "id_iimxxmh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtiimrlmd_supplier_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtiimrlmd_supplier_copyfrom.field('iimrlmd_supplier.id_iimxxmh').val(id_iimxxmh);
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiimrlmd_supplier_copyfrom.field('start_at').val(start_at);
+
+			if(action == 'create'){
+				tbliimrlmd_supplier.rows().deselect();
+			}
+		});
+
+		edtiimrlmd_supplier_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+
+
+		edtiimrlmd_supplier_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				id_iimxxmh_source = edtiimrlmd_supplier_copyfrom.field('id_iimxxmh_source').val();
+				if(id_iimxxmh_source == null || id_iimxxmh_source == ''){
+					edtiimrlmd_supplier_copyfrom.field('id_iimxxmh_source').error( 'Wajib diisi!' );
+				}
+				
+			}
+			
+			if ( edtiimrlmd_supplier_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtiimrlmd_supplier_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtiimrlmd_supplier_copyfrom.field('finish_at').val(finish_at);
+		});
+
+		edtiimrlmd_supplier_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbliimxxmh.ajax.reload(null, false);
+			tbliimrlmd_supplier.ajax.reload(null, false);
+		} );
+
+		
+		edtiimrlmd_supplier_generate = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/iimrlmd_supplier_fn_generate.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iimrlmd_supplier = show_deleted_iimrlmd_supplier;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tbliimrlmd_supplier",
+			fields: [ 
+				{
+					label: "id_iimxxmh",
+					name: "id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Rack",
+					name: "rack_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Rack.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/grlxxmh_supplier/grlxxmh_supplier_fn_opt_rack.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_supplier_rack_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Bay",
+					name: "bay_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Bay.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/grlxxmh_supplier/grlxxmh_supplier_fn_opt_bay.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_supplier_bay_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Level",
+					name: "level_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Level.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/grlxxmh_supplier/grlxxmh_supplier_fn_opt_level.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_supplier_level_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Position",
+					name: "position_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua Position.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/grlxxmh_supplier/grlxxmh_supplier_fn_opt_position.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_grlxxmh_supplier_position_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+
+			]
+		} );
+			
+		edtiimrlmd_supplier_generate.on( 'preOpen', function( e, mode, action ) {
+			edtiimrlmd_supplier_generate.field('id_iimxxmh').val(id_iimxxmh);
+		});
+
+		edtiimrlmd_supplier_generate.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+
+		edtiimrlmd_supplier_generate.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				
+				
+			}
+			
+			if ( edtiimrlmd_supplier_generate.inError() ) {
+				return false;
+			}
+		});
+
+		edtiimrlmd_supplier_generate.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbliimrlmd_supplier.ajax.reload(null, false);
+			tbliimxxmh.ajax.reload(null, false);
+		} );
+
+
+		tbliimrlmd_supplier = $('#tbliimrlmd_supplier').DataTable( {
+			ajax: {
+				url: "../../models/iimxxmh/iimrlmd_supplier.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_iimrlmd_supplier = show_deleted_iimrlmd_supplier;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			order: [[ 2, "asc" ]],
+			columns: [
+				{ data: "iimrlmd_supplier.id",visible:false },
+				{ data: "iimrlmd_supplier.id_iimxxmh",visible:false },
+				{ data: "grlxxmh.nama" },
+				{ 
+					data: "iimrlmd_supplier.leadtime_hari" ,
+					...renderNumber(0)
+				},
+				{ 
+					data: "iimrlmd_supplier.moq" ,
+					...renderNumber(0)
+				},
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_iimrlmd_supplier';
+					$table       = 'tbliimrlmd_supplier';
+					$edt         = 'edtiimrlmd_supplier';
+					$show_status = '_iimrlmd_supplier';
+					$table_name  = $nama_tabels_d[2];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				{ 
+					extend: 'create',
+					name: 'btnIimrlmd_supplierCopyFrom', 
+					editor: edtiimrlmd_supplier_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
+				// END breaking generate button
+			],
+			initComplete: function() {
+
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tbliimrlmd_supplier.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tbliimrlmd_supplier, 1 );
+			CekDrawDetailHDFinal(tbliimxxmh);
+
+		} );
+
+		tbliimrlmd_supplier.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('iimrlmd_supplier');
+			id_grlxxmh_old      = iimrlmd_supplier_data.id_grlxxmh_supplier;
+			// atur hak akses
+			CekSelectDetailHD( tbliimrlmd_supplier );
+
+		} );
+
+		tbliimrlmd_supplier.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('iimrlmd_supplier');
+			id_iimrlmd_supplier = 0;
+			id_grlxxmh_old = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD( tbliimrlmd_supplier );
+
+		} );
+
+		// END iimrlmd_supplier
 
 	} );// end of document.ready
 	
