@@ -49,6 +49,47 @@
 					</div>
 				</div>
 
+				<div id="frmwplxxth">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.tanggal"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wdoxxth[].id"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.id_wpmxxmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.is_all_wh"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.id_iwhxxmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.id_wloxxmh_out"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.id_lvtxxmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.is_crossdocking"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.keterangan"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblwplxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -219,6 +260,7 @@
 					d.end_date = end_date;
 				}
 			},
+			template: "#frmwplxxth",
 			table: "#tblwplxxth",
 			fields: [ 
 				{
@@ -488,13 +530,13 @@
 					type: "hidden"
 				},
 				{
-					label: "wplxxth.berat_maksimal",
-					name: "wplxxth.berat_maksimal",
+					label: "wplxxth.jumlah_unit_vehicle",
+					name: "wplxxth.jumlah_unit_vehicle",
 					type: "hidden"
 				},
 				{
-					label: "wplxxth.dimensi_maksimal",
-					name: "wplxxth.dimensi_maksimal",
+					label: "wplxxth.uom_vehicle",
+					name: "wplxxth.uom_vehicle",
 					type: "hidden"
 				},
 			]
@@ -508,11 +550,15 @@
 
 			if(action == 'create'){
 				tblwplxxth.rows().deselect();
+
+				autofillField('ggswmsh', 1, 'vehicle_capacity');
+				uom_vehicle = autofillData.vehicle_capacity;
+				edtwplxxth.field('wplxxth.uom_vehicle').val(uom_vehicle);
 			}
 		});
 
 		edtwplxxth.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirmHD();
 			
 			$('#select2_wpm').select2('open');
@@ -524,15 +570,23 @@
 		
 		edtwplxxth.dependent( 'wplxxth.id_lvtxxmh', function ( val, data, callback ) {
 			if (val > 0) {
-				autofillField('lvtxxmh', val, 'berat_maksimal,dimensi_maksimal')
+				autofillField('lvtxxmh', val, 'berat_maksimal,dimensi_maksimal,jumlah_unit_max')
 				berat_maksimal = autofillData.berat_maksimal;
 				dimensi_maksimal = autofillData.dimensi_maksimal;
+				jumlah_unit_max = autofillData.jumlah_unit_max;
 
-				edtwplxxth.field('wplxxth.berat_maksimal').val(berat_maksimal);
-				edtwplxxth.field('wplxxth.dimensi_maksimal').val(dimensi_maksimal);
+				uom_vehicle = edtwplxxth.field('wplxxth.uom_vehicle').val();
+				console.log(uom_vehicle);
+				
+				if (uom_vehicle == 'Unit') {
+					edtwplxxth.field('wplxxth.jumlah_unit_vehicle').val(jumlah_unit_max);
+				} else if (uom_vehicle == 'Weight') {
+					edtwplxxth.field('wplxxth.jumlah_unit_vehicle').val(berat_maksimal);
+				} else {
+					edtwplxxth.field('wplxxth.jumlah_unit_vehicle').val(dimensi_maksimal);
+				}
 			} else {
-				edtwplxxth.field('wplxxth.berat_maksimal').val('');
-				edtwplxxth.field('wplxxth.dimensi_maksimal').val('');
+				edtwplxxth.field('wplxxth.jumlah_unit_vehicle').val('');
 			}
 			return {}
 		}, {event: 'keyup change'});

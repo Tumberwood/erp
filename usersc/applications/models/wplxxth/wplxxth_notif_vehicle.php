@@ -35,15 +35,15 @@
 		$id_transaksi_h    = $_POST['id_transaksi_h'];
 		$pesan = "";
 		
-		$qs_ggswmsh = $db
-			->query('select', 'ggswmsh' )
-			->get([
-				'vehicle_capacity',
-			] )
-			->where('id', 1 )
-			->exec();
-		$rs_ggswmsh = $qs_ggswmsh->fetch();
-		$vehicle_capacity = $rs_ggswmsh['vehicle_capacity'];
+		// $qs_ggswmsh = $db
+		// 	->query('select', 'ggswmsh' )
+		// 	->get([
+		// 		'vehicle_capacity',
+		// 	] )
+		// 	->where('id', 1 )
+		// 	->exec();
+		// $rs_ggswmsh = $qs_ggswmsh->fetch();
+		// $vehicle_capacity = $rs_ggswmsh['vehicle_capacity'];
 				
 		$qs_pl = $db
 			->raw()
@@ -52,14 +52,15 @@
 						a.id,
 						a.id_iumxxmh_unit,
 						a.id_iimxxmh,
-						a.jumlah_unit,
-						b.gw berat,
-						b.panjang * b.lebar * b.tinggi dimensi,
+						SUM(a.jumlah_unit) sum_jumlah_input,
+						-- b.gw berat,
+						-- b.panjang * b.lebar * b.tinggi dimensi,
 						SUM(a.jumlah_unit * b.gw) weight,
-						SUM(a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) dimension_cm,
+						-- SUM(a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) dimension_cm,
 						SUM((a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) / 100) dimension_meter,
-						c.berat_maksimal,
-						c.dimensi_maksimal,
+						SUM(a.jumlah_default) sum_jumlah_default, -- untuk uom vehicle = Unit
+						c.uom_vehicle,
+						c.jumlah_unit_vehicle,
 						d.nama
 						
 						-- a.jumlah_unit * b.gw weight,
@@ -74,26 +75,33 @@
 		
 		$rs_pl = $qs_pl->fetch();
 
+		$vehicle_capacity = $rs_pl['uom_vehicle'];
+
+		$jumlah_unit_vehicle = number_format($rs_pl['jumlah_unit_vehicle'],2);
 		$nama = $rs_pl['nama'];
 		
-		$berat_maksimal = $rs_pl['berat_maksimal'];
-		$weight = ROUND($rs_pl['weight']);
-
-		$dimensi_maksimal = $rs_pl['dimensi_maksimal'];
-		$dimension_meter = ROUND($rs_pl['dimension_meter']);
+		$weight = number_format($rs_pl['weight'], 2);
+		$dimension_meter = number_format($rs_pl['dimension_meter'], 2);
+		$sum_jumlah_default = number_format($rs_pl['sum_jumlah_default'], 2);
 
 		//Jika None maka tidak perlu muncul confirm
 		if ($vehicle_capacity == 'None') {
 			$pesan = '';
 		} else if ($vehicle_capacity == 'Weight') {
-			if ($weight > $berat_maksimal) {
-				$pesan = "Weight Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $berat_maksimal kg\nPicking List: $weight kg\n\nApakah Anda Tetap Ingin Melanjutkan?";
+			if ($weight > $jumlah_unit_vehicle) {
+				$pesan = "Weight Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle kg\nPicking List: $weight kg\n\nApakah Anda Tetap Ingin Melanjutkan?";
+			} else {
+				$pesan = '';
+			}
+		} else if ($vehicle_capacity == 'Unit') {
+			if ($sum_jumlah_default > $jumlah_unit_vehicle) {
+				$pesan = "Unit Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle \nPicking List: $sum_jumlah_default\n\nApakah Anda Tetap Ingin Melanjutkan?";
 			} else {
 				$pesan = '';
 			}
 		} else {
-			if ($dimension_meter > $dimensi_maksimal) {
-				$pesan = "Dimensi Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $dimensi_maksimal m³\nPicking List: $dimension_meter m³\n\nApakah Anda Tetap Ingin Melanjutkan?";
+			if ($dimension_meter > $jumlah_unit_vehicle) {
+				$pesan = "Dimensi Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle m³\nPicking List: $dimension_meter m³\n\nApakah Anda Tetap Ingin Melanjutkan?";
 			} else {
 				$pesan = '';
 			}
