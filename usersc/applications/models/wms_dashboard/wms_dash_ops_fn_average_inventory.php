@@ -112,13 +112,26 @@
         // }
 
         $total_stock = $stock_awal + $stock_akhir;
+        // $average = number_format($total_stock / 2, 2);
+        $average = ($total_stock / 2);
+        
+        // echo $average;
+        if ($average >= 1000) { //26,867.00 kenapa masuk 2?
+            // echo 1;
+            $average_format = number_format($average / 1000, 0) . "K";
+        } else {
+            // echo 2;
+            $average_format = $average;
+        }
         $average = number_format($total_stock / 2, 2);
+        
         
         // echo $average;
 
 		$data = array(
             "status_code" => 200,
             "average" => $average,
+            "average_format" => $average_format,
             "rs_stock_awal" => $rs_stock_awal,
             "rs_stock_akhir" => $rs_stock_akhir,
         );

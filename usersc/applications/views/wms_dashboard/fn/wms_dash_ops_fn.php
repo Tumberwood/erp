@@ -565,22 +565,27 @@
             },
             success: function ( json ) {
                 average = json.data.average;
+                average_format = json.data.average_format;
 
                 html = `
                 <div class="ibox" data-toggle="tooltip" data-placement="top" title="Rumus: ( stok per awal periode + stok per akhir periode ) / 2">
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-12">
-                                <h6 class="text-center font-bold">Average Inventory</h6>
+                                <h5 class="text-center font-bold">Average Inventory</h5>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-12">
+                                <h2 class="font-bold text-center">${average_format}</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
                                 <h4 class="font-bold text-center">${average}</h4>
                             </div>
                         </div>
-                        <br>
                     </div>
                 </div>
                 `;
@@ -611,7 +616,7 @@
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-12">
-                                <h6 class="text-center font-bold">Inventory Turnover</h6>
+                                <h5 class="text-center font-bold">Inventory Turnover</h5>
                             </div>
                         </div>
                         <br>
