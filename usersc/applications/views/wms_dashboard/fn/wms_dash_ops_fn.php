@@ -651,7 +651,7 @@
                     chart: { 
                         zoomType: 'xy'    
                     },
-                    title: { text: 'Delivery Note Cumulative' },
+                    title: { text: 'ABC Analysis' },
                     xAxis: { categories: categories},
                     yAxis: [
                         { 
