@@ -86,16 +86,16 @@
 		->leftJoin( 'wdoxxth','wdoxxth.id','=','wdnxxth.id_wdoxxth' )
 		;
 	
-		// BEGIN where single data view
-	// if (isset($_POST['rowid']) && $_POST['rowid'] > 0) {
-	// 	$rowid = $_POST['rowid'];
-	// 	$editor
-	// 		->where( 'wdnxxth.id', $rowid);
-	// }else{
-	// 	$editor
-	// 		->where( 'wdnxxth.tanggal', $_POST['start_date'], '>=' )
-	// 		->where( 'wdnxxth.tanggal', $_POST['end_date'], '<=' );
-	// }
+	// BEGIN where single data view
+	if (isset($_POST['rowId']) && $_POST['rowId'] > 0) {
+		$rowid = $_POST['rowId'];
+		$editor
+			->where( 'wdnxxth.id', $rowid);
+	}else{
+		$editor
+			->where( 'wdnxxth.tanggal', $_POST['start_date'], '>=' )
+			->where( 'wdnxxth.tanggal', $_POST['end_date'], '<=' );
+	}
 	// END where single data view
 
 	// do not erase
