@@ -16,6 +16,47 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div id="frmggswmsh">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.is_ganti_lokasi_putaway"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.is_delete_reload"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.is_replenishment"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.is_one_way_do"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.pick_and_pack"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.format_lpn_kitting"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.is_koordinat"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.koefisien_level"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.vehicle_capacity"></editor-field>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblggswmsh" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
@@ -77,6 +118,7 @@
 					d.show_deleted_ggswmsh = show_deleted_ggswmsh;
 				}
 			},
+			template: "#frmggswmsh",
 			table: "#tblggswmsh",
 			fields: [ 
 				{
@@ -192,6 +234,7 @@
 						{ "label": "None", "value": "None" },
 						{ "label": "Dimension", "value": "Dimension" },
 						{ "label": "Weight", "value": "Weight" },
+						{ "label": "Unit", "value": "Unit" },
 					]
 				},
 			]
@@ -207,7 +250,7 @@
 		});
 
 		edtggswmsh.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 
 			// enable disable tombol Save & Confirm
 			edtFormButtonSaveConfirm();
