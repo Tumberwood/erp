@@ -117,7 +117,7 @@
                             <td>'. $rs_dd_manifest['uraian_barang'] .'</td>
                         </tr>
                         <tr>
-                            <td colspan=3 class="text-center"><barcode code="'. $rs_dd_manifest['kode'] .'" disableborder="1" type="CODABAR" size="1.3" class="barcode" /></td>
+                            <td colspan=3 class="text-center"><barcode code="'. $rs_dd_manifest['kode'] .'" disableborder="1" type="C39" size="1.3" class="barcode" /></td>
                         </tr>
                     </tbody>
                 </table>
