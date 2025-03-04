@@ -86,6 +86,12 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+						<div id="average_inventory"></div>
+					</div>
+					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+						<div id="inventory_turnover"></div>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
@@ -193,7 +199,14 @@
 		</div>
 	</div>
 
-	<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+		<div class="ibox">
+			<div class="ibox-content p-xs" id="container">
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
 		<div class="ibox">
 			<div class="ibox-content p-xs" id="hc_location_heatmap">
 			</div>
@@ -296,8 +309,12 @@
 		load_dashboard_wms_ops_location_capacity(end_date);
 		load_dashboard_wms_ops_man_hours(start_date,end_date);
 		otif(start_date,end_date);
+		averageInventory(start_date,end_date,id_iwhxxmh);
+		inventoryTurnover(start_date,end_date,id_iwhxxmh);
 		inboundData(end_date, id_iwhxxmh);
+		paretoChart(start_date,end_date,id_iwhxxmh);
 	}
+
 	reload_dashboard_data();
 	$(document).ready(function() {
 		id_iwhxxmh = $('#select_id_iwhxxmh').val();
@@ -367,23 +384,6 @@
 		
 		tblwms_log_r.searchPanes.container().appendTo('#spwms_log_r');
 		tblwms_log_r.searchBuilder.container().appendTo( '#sbwms_log_r' );
-		
-		// reload_dashboard_data();
-
-		// $("#select_id_iwhxxmh").change(function(){		
-		// 	reload_dashboard_data();
-		// 	$('#modalFloatingFilter').modal('toggle');
-		// });
-
-		// $("#start_date").change(function(){
-		// 	reload_dashboard_data();
-		// 	$('#modalFloatingFilter').modal('toggle');
-		// });
-
-		// $("#end_date").change(function(){
-		// 	reload_dashboard_data();
-		// 	$('#modalFloatingFilter').modal('toggle');
-		// });
 
 		autoReloadInterval(function () {
 			var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;

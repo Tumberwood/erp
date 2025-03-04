@@ -550,4 +550,138 @@
             }
         } );
     }
+    
+    function averageInventory(start_date,end_date,id_iwhxxmh){
+        $('#average_inventory').empty();
+
+        $.ajax( {
+            url: "../../models/wms_dashboard/wms_dash_ops_fn_average_inventory.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                start_date: start_date,
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
+            },
+            success: function ( json ) {
+                average = json.data.average;
+
+                html = `
+                <div class="ibox" data-toggle="tooltip" data-placement="top" title="Rumus: ( stok per awal periode + stok per akhir periode ) / 2">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-center font-bold">Average Inventory</h6>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="font-bold text-center">${average}</h4>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                `;
+
+                $('#average_inventory').html(html);
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        } );
+    }
+    
+    function inventoryTurnover(start_date,end_date,id_iwhxxmh){
+        $('#inventory_turnover').empty();
+
+        $.ajax( {
+            url: "../../models/wms_dashboard/wms_dash_ops_fn_inventory_turnover.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                start_date: start_date,
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
+            },
+            success: function ( json ) {
+                invetory_turnover = json.data.invetory_turnover;
+
+                html = `
+                <div class="ibox" data-toggle="tooltip" data-placement="top" title="Rumus: SUM jumlah_terkecil delivery note / Average Inventory">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-center font-bold">Inventory Turnover</h6>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="font-bold text-center">${invetory_turnover}</h4>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                `;
+
+                $('#inventory_turnover').html(html);
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        } );
+    }
+
+    function paretoChart(start_date,end_date,id_iwhxxmh){
+        
+        $.ajax( {
+            url: "../../models/wms_dashboard/wms_dash_ops_fn_pareto.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                start_date: start_date,
+                end_date: end_date,
+                id_iwhxxmh: id_iwhxxmh
+            },
+            success: function ( json ) {
+                categories = json.data.categories;
+                data_delivery = json.data.data_delivery;
+                data_kumulatif = json.data.data_kumulatif;
+
+                Highcharts.chart('container', {
+                    chart: { 
+                        zoomType: 'xy'    
+                    },
+                    title: { text: 'Pareto Analysis - ABC Categorization' },
+                    xAxis: { categories: categories},
+                    yAxis: [
+                        { 
+                            title: { text: 'Delivery' }
+                        }, 
+                        { 
+                            title: { text: 'Cumulative Percentage' },
+                            opposite: true,
+                            max: 100
+                        }
+                    ],
+                    tooltip: { shared: true },
+                    series: [{
+                        type: 'column',
+                        name: 'Delivery',
+                        data: data_delivery,
+                        color: '#007bff'
+                    }, {
+                        type: 'spline',
+                        name: 'Cumulative %',
+                        data: data_kumulatif,
+                        yAxis: 1,
+                        color: 'red',
+                        marker: { enabled: true }
+                    }],
+                    plotOptions: {
+                        column: { dataLabels: { enabled: true } }
+                    }
+                });
+            }
+        } );
+    }
 </script>
