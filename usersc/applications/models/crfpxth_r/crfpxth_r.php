@@ -25,7 +25,7 @@
 
 	echo $start_date;
 
-	if ($start_date != '' && $end_date != '') {
+	if ($start_date != 'Invalid date' && $end_date != 'Invalid date') {
 		$qs_crfpxth = $db
 			->raw()
 			->bind(':start_date', $start_date)
