@@ -201,7 +201,7 @@
 
 	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
 		<div class="ibox">
-			<div class="ibox-content p-xs" id="container">
+			<div class="ibox-content p-xs" id="cumulativeDN">
 			</div>
 		</div>
 	</div>

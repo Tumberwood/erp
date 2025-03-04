@@ -647,11 +647,11 @@
                 data_delivery = json.data.data_delivery;
                 data_kumulatif = json.data.data_kumulatif;
 
-                Highcharts.chart('container', {
+                Highcharts.chart('cumulativeDN', {
                     chart: { 
                         zoomType: 'xy'    
                     },
-                    title: { text: 'Pareto Analysis - ABC Categorization' },
+                    title: { text: 'Delivery Note Cumulative' },
                     xAxis: { categories: categories},
                     yAxis: [
                         { 
