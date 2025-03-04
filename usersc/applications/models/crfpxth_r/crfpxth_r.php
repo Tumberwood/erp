@@ -23,33 +23,38 @@
 		$whereCustomer = " AND b.id_grlxxmh_customer IN ($id_list)";
 	}
 
-	$qs_crfpxth = $db
-		->raw()
-		->bind(':start_date', $start_date)
-		->bind(':end_date', $end_date)
-		->exec('SELECT
-					b.id,
-					DATE_FORMAT(a.tanggal, "%d %b %Y") tanggal,
-					a.kode,
-					d.nama customer,
-					e.kode kode_so,
-					DATE_FORMAT(b.tanggal_dibutuhkan_customer, "%d %b %Y") tanggal_dibutuhkan_customer,
-					DATE_FORMAT(b.tanggal_dibutuhkan, "%d %b %Y") tanggal_dibutuhkan,
-					c.nama item,
-					b.jumlah_unit,
-					f.kode uom
-				FROM crfpxth a
-				LEFT JOIN crfittd b ON b.id_crfpxth = a.id
-				LEFT JOIN iimxxmh c ON c.id = b.id_iimxxmh
-				LEFT JOIN grlxxmh d ON d.id = b.id_grlxxmh_customer
-				LEFT JOIN sodxxth e ON e.id = b.id_sodxxth
-				LEFT JOIN iumxxmh f ON f.id = b.id_iumxxmh_unit
-				WHERE a.tanggal BETWEEN :start_date AND :end_date'
-				.$whereCustomer
-		)
-	;
-   
-   $rs_crfpxth = $qs_crfpxth->fetchAll();
+	if ($start_date != '' && $end_date != '') {
+		$qs_crfpxth = $db
+			->raw()
+			->bind(':start_date', $start_date)
+			->bind(':end_date', $end_date)
+			->exec('SELECT
+						b.id,
+						DATE_FORMAT(a.tanggal, "%d %b %Y") tanggal,
+						a.kode,
+						d.nama customer,
+						e.kode kode_so,
+						DATE_FORMAT(b.tanggal_dibutuhkan_customer, "%d %b %Y") tanggal_dibutuhkan_customer,
+						DATE_FORMAT(b.tanggal_dibutuhkan, "%d %b %Y") tanggal_dibutuhkan,
+						c.nama item,
+						b.jumlah_unit,
+						f.kode uom
+					FROM crfpxth a
+					LEFT JOIN crfittd b ON b.id_crfpxth = a.id
+					LEFT JOIN iimxxmh c ON c.id = b.id_iimxxmh
+					LEFT JOIN grlxxmh d ON d.id = b.id_grlxxmh_customer
+					LEFT JOIN sodxxth e ON e.id = b.id_sodxxth
+					LEFT JOIN iumxxmh f ON f.id = b.id_iumxxmh_unit
+					WHERE a.tanggal BETWEEN :start_date AND :end_date'
+					.$whereCustomer
+			)
+		;
+	  	$rs_crfpxth = $qs_crfpxth->fetchAll();
+	} else {
+		$rs_crfpxth = [];
+	}
+	
+
 
     $data = array(
         'rfp' => $rs_crfpxth
