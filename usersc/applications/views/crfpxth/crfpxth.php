@@ -683,6 +683,16 @@
 					0,
 					'>'
 				);
+				
+				validasiUnique(
+					action,
+					edtcrfittd,
+					'crfittd',
+					"id_iimxxmh", 
+					'id_iimxxmh,id_crfpxth',
+					id_iimxxmh+','+id_crfpxth,
+					id_crfittd
+				);
 			}
 			
 			if ( edtcrfittd.inError() ) {
