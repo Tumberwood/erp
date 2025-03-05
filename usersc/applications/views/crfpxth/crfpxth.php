@@ -639,6 +639,9 @@
 		edtcrfittd.dependent( 'crfittd.id_iimxxmh', function ( val, data, callback ) {
 			id_sodxxth = edtcrfittd.field('crfittd.id_sodxxth').val();
 			crfittd_fn_sodittd(id_sodxxth,val);
+			if (id_iimxxmh_old != val) {
+				edtcrfittd.field('crfittd.id_iumxxmh_unit').input().val(null).trigger('change');
+			}
 			return {}
 		}, {event: 'keyup change'});
 
