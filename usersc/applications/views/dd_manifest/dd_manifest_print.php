@@ -97,7 +97,12 @@
                             <td>'. $rs_dd_manifest['alamat_penerima'] .'</td>
                         </tr>
                         <tr>
-                            <td>KOLI KE</td>
+                            <td>TELEPON PENERIMA</td>
+                            <td>:</td>
+                            <td>'. $rs_dd_manifest['telepon_penerima'] .'</td>
+                        </tr>
+                        <tr>
+                            <td>KOLI KE-</td>
                             <td>:</td>
                             <td>'. $rs_dd_manifest['koli_ke'] .'</td>
                         </tr>

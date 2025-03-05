@@ -49,6 +49,7 @@
 			Field::inst( 'dd_manifest.status_pmi' ),
 			Field::inst( 'dd_manifest.nama_penerima' ),
 			Field::inst( 'dd_manifest.alamat_penerima' ),
+			Field::inst( 'dd_manifest.telepon_penerima' ),
 			Field::inst( 'dd_manifest.koli_ke' ),
 			Field::inst( 'dd_manifest.ukuran' ),
 			Field::inst( 'dd_manifest.berat' ),

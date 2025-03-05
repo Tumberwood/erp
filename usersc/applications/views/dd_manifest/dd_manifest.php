@@ -28,6 +28,7 @@
                                 <th>Status PMI</th>
                                 <th>Nama Penerima</th>
                                 <th>Alamat Penerima</th>
+                                <th>Telepon Penerima</th>
                                 <th>Koli Ke</th>
                                 <th>Ukuran</th>
                                 <th>Berat</th>
@@ -160,7 +161,11 @@
 					name: "dd_manifest.alamat_penerima"
 				}, 	
 				{
-					label: "Koli Ke <sup class='text-danger'>*<sup>",
+					label: "Telepon Penerima <sup class='text-danger'>*<sup>",
+					name: "dd_manifest.telepon_penerima"
+				}, 
+				{
+					label: "Koli Ke- <sup class='text-danger'>*<sup>",
 					name: "dd_manifest.koli_ke",
 					type: "select",
 					placeholder : "Select",
@@ -176,9 +181,9 @@
 					type: "select",
 					placeholder : "Select",
 					options: [
-						{ "label": "XL", "value": "XL" },
-						{ "label": "L", "value": "L" },
-						{ "label": "M", "value": "M" }
+						{ "label": "XL (60X60X80)", "value": "XL (60X60X80)" },
+						{ "label": "L (60X60X60)", "value": "L (60X60X60)" },
+						{ "label": "M (60X60X30)", "value": "M (60X60X30)" }
 					]
 				}, 	
 				
@@ -242,6 +247,7 @@
 				status_pmi        = edtdd_manifest.field('dd_manifest.status_pmi').val();
 				nama_penerima     = edtdd_manifest.field('dd_manifest.nama_penerima').val();
 				alamat_penerima   = edtdd_manifest.field('dd_manifest.alamat_penerima').val();
+				telepon_penerima  = edtdd_manifest.field('dd_manifest.telepon_penerima').val();
 				koli_ke           = edtdd_manifest.field('dd_manifest.koli_ke').val();
 				ukuran            = edtdd_manifest.field('dd_manifest.ukuran').val();
 				berat             = edtdd_manifest.field('dd_manifest.berat').val();
@@ -258,6 +264,7 @@
 						'status_pmi'       : status_pmi,
 						'nama_penerima'    : nama_penerima,
 						'alamat_penerima'  : alamat_penerima,
+						'telepon_penerima' : telepon_penerima,
 						'koli_ke'          : koli_ke,
 						'ukuran'           : ukuran,
 						'berat'            : berat,
@@ -324,6 +331,7 @@
 				{ data: "dd_manifest.status_pmi" },
 				{ data: "dd_manifest.nama_penerima" },
 				{ data: "dd_manifest.alamat_penerima" },
+				{ data: "dd_manifest.telepon_penerima" },
 				{ data: "dd_manifest.koli_ke" },
 				{ data: "dd_manifest.ukuran" },
 				{ data: "dd_manifest.berat" },
