@@ -53,6 +53,7 @@
 
 
     //Ambil id mesin yang sesuai dengan Header Work Order id_bom (th), lalu cari detail BoM work process
+    //rmsxxmh. terbatas pada rmsxxmh yang rmsxxmh_rwpxxmh.id_rwpxxmh nya ada di dbmwptd
     $qs_filter = $db
         ->raw()
         ->bind(':id_cwoxxth', $id_cwoxxth)
