@@ -89,7 +89,14 @@
 					->field( 'menus.parent' )
 					->setValue( -1 );
 			}
-		} );
+		} )
+		->on( 'preRemove', function ( $editor, $id, $values ) {
+			$qd_menus = $editor->db()
+				->query('delete', 'menus_extend')
+				->where('id',$id)
+				->exec();
+		} )
+	;
 
 	// BEGIN log
 	$nama_table = 'menus_extend';

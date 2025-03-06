@@ -515,6 +515,10 @@
                                     text: 'Delete',
                                     action: function () {
                                         this.submit();
+                                        toast_type   = 'error';
+                                        full_message = 'Data berhasil dihapus</br>';
+                                        
+                                        toastr[toast_type](full_message, 'INFO');
                                     },
                                     className: 'btn btn-danger'
                                 }
