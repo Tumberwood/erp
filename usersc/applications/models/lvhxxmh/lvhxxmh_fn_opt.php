@@ -45,7 +45,7 @@
                     )
                 ) as text'
             ])
-            ->join('lvtxxmh','lvtxxmh.fieldjoin = .id_lvtxxmh','LEFT' )
+            ->join('lvtxxmh','lvtxxmh.id = lvhxxmh.id_lvtxxmh','LEFT' )
             ->where('lvhxxmh..id', $id_lvhxxmh_old )
             ->limit(1)
             ->offset($offset)
@@ -71,7 +71,7 @@
                 )
             ) as text'
         ])
-        ->join('lvtxxmh','lvtxxmh.fieldjoin = .id_lvtxxmh','LEFT' )
+        ->join('lvtxxmh','lvtxxmh.id = lvhxxmh.id_lvtxxmh','LEFT' )
         ->where('lvhxxmh.transaction_state',1)
         ->where('lvhxxmh.id', $id_lvhxxmh_old, '<>' )
         ->where( function ( $r ) {

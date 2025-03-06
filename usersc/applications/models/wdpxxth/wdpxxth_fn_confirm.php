@@ -36,6 +36,12 @@
 		$start_at    = $_POST['start_at'];
 		$confirm_at    = $_POST['confirm_at'];
 		$uniqueToken    = $_POST['uniqueToken'];
+
+		$id_grlxxmh_expedition    = $_POST['ekspedisi'];
+		$mobil_nomor    = $_POST['mobil_nomor'];
+		$supir_nama    = $_POST['supir_nama'];
+		$no_container    = $_POST['no_container'];
+		$no_seal    = $_POST['no_seal'];
 		$imtxxmh_kode = 215;
 
 		//Generate Kode
@@ -225,6 +231,11 @@
 		$qi_wdpxxth_baru = $db
 			->query('insert', 'wdpxxth')
 			->set('transaction_state',1)
+			->set('id_grlxxmh_expedition',$id_grlxxmh_expedition)
+			->set('mobil_nomor',$mobil_nomor)
+			->set('supir_nama',$supir_nama)
+			->set('no_container',$no_container)
+			->set('no_seal',$no_seal)
 			->set('id_wpcxxth',$id_picking)
 			->set('id_wloxxmh_out',$id_wloxxmh_out)
 			->set('id_wjtxxmh',$id_wjtxxmh)

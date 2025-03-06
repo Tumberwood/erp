@@ -328,6 +328,13 @@
     }
 
     function confirmDispatch() {
+        let ekspedisi = $("#selectEkspedisi").val();
+        let platNomor = $("#select_lvhxxmh").val();
+        let mobil_nomor = $("#mobil_nomor").val();
+        let supir_nama = $("#supir_nama").val();
+        let no_container = $("#no_container").val();
+        let no_seal = $("#no_seal").val();
+
         confirm_at = moment().format('YYYY-MM-DD HH:mm:ss');	
             console.log(confirm_at);
             $.ajax( {
@@ -339,6 +346,11 @@
                     start_at: start_at,
                     confirm_at: confirm_at,
                     uniqueToken: uniqueToken,
+                    ekspedisi: ekspedisi,
+                    mobil_nomor: mobil_nomor,
+                    supir_nama: supir_nama,
+                    no_container: no_container,
+                    no_seal: no_seal,
                 },
                 success: function ( json ) {
                     status_code = json.data.status_code;

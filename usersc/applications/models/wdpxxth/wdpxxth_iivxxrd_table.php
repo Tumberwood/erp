@@ -15,6 +15,7 @@
 		DataTables\Editor\Result;
 
 	$id_wpcxxth_old = $_POST['id_wpcxxth_old'];
+	// echo $id_wpcxxth_old;
 	$uniqueToken = $_POST['uniqueToken'];
 
 	if ($id_wpcxxth_old > 0 && $uniqueToken != '') {

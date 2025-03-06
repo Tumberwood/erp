@@ -25,10 +25,50 @@
 							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Ekspedisi</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectEkspedisi" name="selectEkspedisi" multiple="multiple"></select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Plat Nomor</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="select_lvhxxmh" name="select_lvhxxmh" multiple="multiple"></select>
+						</div>
+					</div>
+
+					<div class="form-group row" style="display: none" id="div_mobil_nomor">
+						<label class="col-lg-2 col-md-2">Plat Nomor</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="mobil_nomor" name="mobil_nomor">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Nama Supir</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="supir_nama" name="supir_nama">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">No. Container</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="no_container" name="no_container">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">No. Seal</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="no_seal" name="no_seal">
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-					<button class="btn btn-primary" type="submit">Submit</button>
+					<button class="btn btn-primary" type="submit" id="submit_form">Submit</button>
 				</div>
 			</form>
 		</div>
@@ -124,7 +164,7 @@
 		// ------------- default variable, do not erase
 		var edtwdpxxth, tblwdpxxth, show_deleted_wdpxxth = 0, id_wdpxxth;
 		// ------------- end of default variable
-		var id_wpclptd = 0;
+		var id_wpclptd = 0, id_grlxxmh_expedition_old = 0, id_lvhxxmh_old = 0;
 		var id_wpcxxth_old = 0;
 		var selectedValues = 0;
 		var start_at = "";
@@ -149,6 +189,70 @@
 				data: function (params) {
 					var query = {
 						id_wpcxxth_old: id_wpcxxth_old,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			}
+		});
+		
+		$("#selectEkspedisi").select2({
+			placeholder : "Select",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/grlxxmh/grlxxmh_expedition_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_grlxxmh_old: id_grlxxmh_expedition_old,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			}
+		});
+		
+		$("#select_lvhxxmh").select2({
+			placeholder : "Select",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/lvhxxmh/lvhxxmh_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_lvhxxmh_old: id_lvhxxmh_old,
 						search: params.term || '',
 						page: params.page || 1
 					}
@@ -317,27 +421,95 @@
 			// tblwdpxxth.searchBuilder.container().appendTo( '#sbwdpxxth' );
 			// END wdpxxth
 			
-			$('#selectKode').change(function() {
-				// Get selected values
-				uniqueToken = "wdpxxth_" + generateUniqueToken();
-				selectedValues = $(this).val();
+			// $('#selectKode').change(function() {
+			// 	// Get selected values
+			// 	uniqueToken = "wdpxxth_" + generateUniqueToken();
+			// 	selectedValues = $(this).val();
 				
-				$('#selectKode').prop('disabled', true);
+			// 	$('#selectKode').prop('disabled', true);
 				
-				// Log selected values
-				id_wpcxxth_old  = $('#selectKode').val();
-				tblwdpxxth.ajax.reload(null, false);
-				//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
-				isDispatchUsed(id_wpcxxth_old, 1, uniqueToken);
-				$('#tableLPN').show();
-				// generateKonten();
-				$('#modalFloatingFilter').modal('toggle');
+			// 	// Log selected values
+			// 	id_wpcxxth_old  = $('#selectKode').val();
+			// 	tblwdpxxth.ajax.reload(null, false);
+			// 	//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
+			// 	isDispatchUsed(id_wpcxxth_old, 1, uniqueToken);
+			// 	$('#tableLPN').show();
+			// 	// generateKonten();
+			// 	$('#modalFloatingFilter').modal('toggle');
 				
-				//event jika direload, maka flag used jadi 0 lagi
-				$(window).on('unload', function() {
-					isDispatchUsed(id_wpcxxth_old, 0, uniqueToken);
-				});
+			// 	//event jika direload, maka flag used jadi 0 lagi
+			// 	$(window).on('unload', function() {
+			// 		isDispatchUsed(id_wpcxxth_old, 0, uniqueToken);
+			// 	});
+			// });
+			function toggleFields() {
+				console.log($("#selectEkspedisi").val());
+				
+				if ($("#selectEkspedisi").val() == "1") {
+					$("#div_mobil_nomor").hide(); // Sembunyikan input manual plat nomor
+					$("#select_lvhxxmh").closest(".form-group").show(); // Tampilkan select plat nomor
+				} else {
+					$("#div_mobil_nomor").show(); // Tampilkan input manual plat nomor
+					$("#select_lvhxxmh").closest(".form-group").hide(); // Sembunyikan select plat nomor
+				}
+			}
+
+			// Jalankan toggle saat halaman dimuat dan saat ekspedisi berubah
+			toggleFields();
+			$("#selectEkspedisi").change(toggleFields);
+			
+			// BEGIN form filter
+			$("#frmFilter").submit(function (e) {
+				e.preventDefault();
+			}).validate({
+				rules: {
+					selectKode: { required: true },
+					selectEkspedisi: { required: true },
+					select_lvhxxmh: {
+						required: function () {
+							return $("#selectEkspedisi").val() == 1;
+						}
+					},
+					mobil_nomor: {
+						required: function () {
+							return $("#selectEkspedisi").val() != 1;
+						}
+					},
+					supir_nama: { required: true },
+				},
+				messages: {
+					selectKode: "Kode Picking wajib diisi!",
+					selectEkspedisi: "Ekspedisi wajib diisi!",
+					select_lvhxxmh: "Plat nomor wajib diisi!",
+					mobil_nomor: "Plat nomor wajib diisi!",
+					supir_nama: "Nama Supir wajib diisi!",
+				},
+				submitHandler: function(frmFilter) {
+					// Get selected values
+					uniqueToken = "wdpxxth_" + generateUniqueToken();
+					selectedValues = $('#selectKode').val();
+
+					// $('#selectKode').prop('disabled', true);
+					$("#selectKode, #selectEkspedisi, #select_lvhxxmh, #mobil_nomor, #supir_nama, #no_container, #no_seal").prop("disabled", true);
+					$('#submit_form').hide();
+					// Log selected values
+					id_wpcxxth_old  = $('#selectKode').val();
+					tblwdpxxth.ajax.reload(null, false);
+					//Jika dipilih kodenya maka akan ada flag bahwa kode picking ini masih digunakan
+					isDispatchUsed(id_wpcxxth_old, 1, uniqueToken);
+					$('#tableLPN').show();
+					// generateKonten();
+					$('#modalFloatingFilter').modal('toggle');
+					
+					//event jika direload, maka flag used jadi 0 lagi
+					$(window).on('unload', function() {
+						isDispatchUsed(id_wpcxxth_old, 0, uniqueToken);
+					});
+
+					return false;
+				}
 			});
+			// END form filter
 
 		} );// end of document.ready
 	
