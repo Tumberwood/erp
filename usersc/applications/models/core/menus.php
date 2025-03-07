@@ -68,7 +68,9 @@
 					Field::inst( 'name' )
 				)
 		)
-		->where( 'menus.menu_title', 'side');
+		->where( 'menus.menu_title', 'side')
+		->where( 'menus_extend.transaction_state', -9, '<>');
+		;
 
 	$editor
 		->on( 'preCreate', function ( $editor, &$values ) {
@@ -90,12 +92,12 @@
 					->setValue( -1 );
 			}
 		} )
-		->on( 'preRemove', function ( $editor, $id, $values ) {
-			$qd_menus = $editor->db()
-				->query('delete', 'menus_extend')
-				->where('id',$id)
-				->exec();
-		} )
+		// ->on( 'preRemove', function ( $editor, $id, $values ) {
+		// 	$qd_menus = $editor->db()
+		// 		->query('delete', 'menus_extend')
+		// 		->where('id',$id)
+		// 		->exec();
+		// } )
 	;
 
 	// BEGIN log

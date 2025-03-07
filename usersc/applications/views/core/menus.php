@@ -196,9 +196,12 @@
 					tblmenus_extend.rows().deselect();
 				}
 			});
-
+			
 			edtmenus.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+
+				// enable disable tombol Save & Confirm
+				edtFormButtonSaveConfirm();
 			});
 
             edtmenus.on( 'preSubmit', function (e, data, action) {
@@ -325,7 +328,7 @@
 
 						$arr_buttons_tools 		= ['copy', 'excel'];
 						$arr_buttons_tools2 	= ['sp', 'sb'];
-						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'view', 'log','noaction'];
+						$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_h', 'view', 'log','noaction'];
 						include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 					?>
 					// END breaking generate button
@@ -344,7 +347,6 @@
 			tblmenus_extend.on( 'init', function () {
 				// atur hak akses
 				CekInitHeaderH(tblmenus_extend);
-				tblmenus_extend.button( 'btnRemove:name' ).nodes().css( 'display', 'none' );
 			} );
 			
 			tblmenus_extend.on( 'select', function( e, dt, type, indexes ) {
@@ -354,7 +356,6 @@
 
 				// atur hak akses
 				CekSelectHeaderH(tblmenus_extend);
-				tblmenus_extend.button( 'btnRemove:name' ).nodes().css( 'display', 'block' );
 			} );
 
 			tblmenus_extend.on( 'deselect', function () {
@@ -365,7 +366,6 @@
 
 				// atur hak akses
 				CekDeselectHeaderH(tblmenus_extend);
-				tblmenus_extend.button( 'btnRemove:name' ).nodes().css( 'display', 'none' );
 			} );
 			
 		} );// end of document.ready

@@ -8,7 +8,16 @@
         $genpath = $result_ggsxxsh[0]->genpath;
         
         // ambil main menu di side
-        $main_nav_all = $db->query("SELECT * FROM menus WHERE menu_title='side' AND parent = ". $parent_id .  " ORDER BY display_order");
+        $main_nav_all = $db->query("
+            SELECT 
+                menus.* 
+            FROM menus 
+            LEFT JOIN menus_extend ON menus_extend.id = menus.id
+            WHERE menu_title='side' 
+                AND menus_extend.transaction_state <> -9
+                AND parent = ". $parent_id .  " 
+            ORDER BY display_order"
+        );
         $main_nav = $main_nav_all->results(true);
         $menu = '';
     
@@ -46,7 +55,17 @@
         $result_ggsxxsh = $query_ggsxxsh->results();
         $genpath = $result_ggsxxsh[0]->genpath;
     
-        $main_nav_all = $db->query("SELECT * FROM menus WHERE menu_title='side' AND link != '#' ORDER BY display_order");
+        $main_nav_all = $db->query("
+            SELECT 
+                menus.* 
+            FROM menus 
+            LEFT JOIN menus_extend ON menus_extend.id = menus.id
+            WHERE menu_title='side' 
+                AND menus_extend.transaction_state <> -9
+                AND link != '#'
+            ORDER BY display_order"
+        );
+        // $main_nav_all = $db->query("SELECT * FROM menus WHERE menu_title='side' AND link != '#' ORDER BY display_order");
         $main_nav = $main_nav_all->results(true);
     
         $menu_data = array();
