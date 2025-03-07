@@ -90,7 +90,7 @@
 										<th>Vehicle Type</th>
 										<th>From</th>
 										<th>To</th>
-										<th>Rate / Kg</th>
+										<th>Rate</th>
 									</tr>
 								</thead>
 							</table>
