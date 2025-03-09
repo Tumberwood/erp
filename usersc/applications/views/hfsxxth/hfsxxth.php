@@ -983,7 +983,13 @@
 			rowCallback: function( row, data, index ) {
 				if ( parseFloat(data.hfskptd.realisasi) == parseFloat(data.hfskptd.target_atas) ) {
 					$('td:eq(7)', row).addClass('bg-primary');
-				} else if ( (data.hfskptd.realisasi) > (data.hfskptd.target_atas) && (data.hfskptd.realisasi) < (data.hfskptd.target_bawah) ) {
+				} else if 
+						( 
+							parseFloat(data.hfskptd.realisasi) > parseFloat(data.hfskptd.target_atas) && parseFloat(data.hfskptd.realisasi) < parseFloat(data.hfskptd.target_bawah)
+							||
+							parseFloat(data.hfskptd.realisasi) > parseFloat(data.hfskptd.target_bawah) && parseFloat(data.hfskptd.realisasi) < parseFloat(data.hfskptd.target_atas) 
+						) 
+				{
 					$('td:eq(7)', row).addClass('bg-warning');
 				} else if ( data.hfskptd.realisasi == null ) {
 					$('td:eq(7)', row).addClass('bg-dark');
