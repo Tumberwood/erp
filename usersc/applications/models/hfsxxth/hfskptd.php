@@ -61,6 +61,7 @@
 				Field::inst( 'hfskptd.cara_hitung' ),
 			
 				Field::inst( 'hfoprmh.nama' ),
+				Field::inst( 'hfoxxmh.kode' ),
 				Field::inst( 'hfoxxmh.nama' ),
 				Field::inst( 'iumxxmh.kode' ),
 				Field::inst( 'hfmxxmh.nama' ),
