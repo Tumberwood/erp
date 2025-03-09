@@ -59,6 +59,7 @@
 				Field::inst( 'hfoxxmh.kode' ),
 				Field::inst( 'hfoxxmh.nama' ),
 				Field::inst( 'iumxxmh.kode' ),
+				Field::inst( 'hfogrmh.kode' ),
 				Field::inst( 'hfogrmh.color' ),
 			)
 			->leftJoin( 'hfoprmh','hfoprmh.id','=','hfkobtd.id_hfoprmh' )

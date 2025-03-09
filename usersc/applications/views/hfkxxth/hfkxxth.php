@@ -127,6 +127,7 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hfkxxth</th>
+										<th>Group Objective</th>
 										<th>Code</th>
 										<th>Objective</th>
 										<th>UoM</th>
@@ -139,6 +140,7 @@
 								</thead>
 								<tfoot>
 									<tr>
+										<th></th>
 										<th></th>
 										<th></th>
 										<th>Total</th>
@@ -245,7 +247,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/hemxxmh/hemxxmh_fn_opt.php",
+							url: "../../models/hemxxmh/hemxxmh_fn_hetxxmh_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -750,7 +752,7 @@
 		});
 
 		edthfkobtd.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
@@ -826,12 +828,13 @@
 				if (polarisasi == 'Max') {
 					if (target_atas >= target_bawah) {
 					} else {
-						edthfkobtd.field('hfkobtd.target_atas').error( 'Target Atas harus >= Target Bawah!' );
+						edthfkobtd.field('hfkobtd.target_atas').error( 'Karena Polarisasi Max, Maka Target Atas Harus > Target Bawah!' );
 					}
 				} else {
 					if (target_atas < target_bawah) {
 					} else {
-						edthfkobtd.field('hfkobtd.target_atas').error( 'Target Atas harus < Target Bawah!' );
+						// edthfkobtd.field('hfkobtd.target_atas').error( 'Target Atas harus < Target Bawah!' );
+						edthfkobtd.field('hfkobtd.target_atas').error( 'Karena Polarisasi Min, Maka Target Atas Harus < Target Bawah!' );
 					}
 				}
 
@@ -876,10 +879,11 @@
 					d.id_hfkxxth = id_hfkxxth;
 				}
 			},
-			order: [[ 2, "desc" ]],
+			order: [[ 2, "asc" ]],
 			columns: [
 				{ data: "hfkobtd.id",visible:false },
 				{ data: "hfkobtd.id_hfkxxth",visible:false },
+				{ data: "hfogrmh.kode",visible:false },
 				{ 
 					data: "hfoxxmh.kode",
 					render: function (data, type, row, meta) {
@@ -927,7 +931,7 @@
 			},
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       	= this.api(), data;
-				var bobot 	= api.column(9).data().sum();
+				var bobot 	= api.column(10).data().sum();
 
 				$( '#bobot' ).html( dtNumberFormat(bobot) );
 			}
