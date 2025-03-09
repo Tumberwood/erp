@@ -127,7 +127,7 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hfkxxth</th>
-										<th>Group Objective</th>
+										<th>id_hfogrmh</th>
 										<th>Code</th>
 										<th>Objective</th>
 										<th>UoM</th>
@@ -883,7 +883,7 @@
 			columns: [
 				{ data: "hfkobtd.id",visible:false },
 				{ data: "hfkobtd.id_hfkxxth",visible:false },
-				{ data: "hfogrmh.kode",visible:false },
+				{ data: "hfkobtd.id_hfogrmh",visible:false },
 				{ 
 					data: "hfoxxmh.kode",
 					render: function (data, type, row, meta) {
