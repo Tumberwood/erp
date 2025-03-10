@@ -134,7 +134,7 @@
 		chartSkor(start_date, end_date);
 		radar(start_date, end_date);
 		displayFamilyTree(start_date, end_date);
-		iboxPica()
+		iboxPica(start_date, end_date);
 		
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
@@ -148,7 +148,7 @@
 
 				chartSkor(start_date, end_date);
 				radar(start_date, end_date);
-				iboxPica(start_date, end_date)
+				iboxPica(start_date, end_date);
 				$('#modalFloatingFilter').modal('toggle');
 			}
 		});
