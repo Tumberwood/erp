@@ -57,10 +57,32 @@
 				->set('id_hrctsth', $id)
 				->exec();
 
+				$id_psikotes = $qi_hrctsth_psikotes->insertId();
+
+				$qs_c_data = $db
+					->raw()
+					->bind(':tanggal', $psikotes['tanggal'])
+					->exec('SELECT
+								COUNT(id) AS c_id
+							FROM '.$psikotes['tabel'].'
+							WHERE tanggal = :tanggal
+				');
+				$rs_c_data = $qs_c_data->fetch();
+				
+				$c_id = $rs_c_data['c_id'];
+				$last_id = str_pad($c_id, 2, '0', STR_PAD_LEFT);
+				$kode = $psikotes['kode'] . "-". $last_id;
+
 				$qu_hrctstd = $db
 					->query('update', 'hrctstd')
-					->set('kode',$psikotes['kode'])
+					->set('kode',$kode)
 					->where('id',$psikotes['id'])
+					->exec();
+
+				$qu_psikotes = $db
+					->query('update', $psikotes['tabel'])
+					->set('kode',$kode)
+					->where('id',$id_psikotes)
 					->exec();
 			}
 		} // end if($state == 1)
