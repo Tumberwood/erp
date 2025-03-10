@@ -199,6 +199,7 @@
 								</thead>
 							</table>
 						</div>
+						<h3>History</h3>
 						<div class="table-responsive">
 							<table id="tblhfasltd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
