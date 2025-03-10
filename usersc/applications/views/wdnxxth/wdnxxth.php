@@ -63,6 +63,12 @@
 								<editor-field name="wdnxxth.id_wdoxxth"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wdpxxth[].id"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wdnxxth.id_grlxxmh_expedition"></editor-field>
 							</div>
 						</div>
@@ -220,7 +226,7 @@
 	// ------------- end of default variable
 
 	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_grlxxmh_expedition = 0, id_wdoxxth_old = 0, id_iwhxxmh_old = 0, id_wdoxxth = 0;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_grlxxmh_expedition_old = 0, id_iumxxmh_unit_old = 0, id_wdplptd_old = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_grlxxmh_expedition_old = 0, id_iumxxmh_unit_old = 0, id_wdplptd_old = 0, ids_wdpxxth_old = '';
 
 	// get tableRelation
 	tableRelation('wdnxxth');
@@ -500,7 +506,46 @@
 					label: "Keterangan",
 					name: "wdnxxth.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "Dispatch <sup class='text-danger'>*<sup>",
+					name: "wdpxxth[].id",
+					id: "wdpxxth",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/wdpxxth/wdpxxth_wdnxxth_fn_opt_multiple.php",
+							dataType: 'json',
+							data: function (params) {
+								id_wdoxxth = edtwdnxxth.field('wdnxxth.id_wdoxxth').val();
+								var query = {
+									ids_wdpxxth_old: ids_wdpxxth_old,
+									id_wdoxxth: id_wdoxxth,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 			]
 		} );
 		
@@ -535,6 +580,29 @@
 			id_grlxxmh_customer = val;
 			return {}
 		}, {event: 'keyup change'});
+
+		edtwdnxxth.dependent( 'wdpxxth[].id', function ( val, data, callback ) {
+			// console.log(val);
+			
+			if (val.length > 0) {
+				id_wdpxxth = val[0]; 
+				autofillField('wdpxxth', id_wdpxxth, 'id_grlxxmh_expedition,supir_nama,mobil_nomor,no_container,no_seal');
+
+				no_seal = autofillData.no_seal;
+				id_grlxxmh_expedition_old = autofillData.id_grlxxmh_expedition;
+				supir_nama = autofillData.supir_nama;
+				mobil_nomor = autofillData.mobil_nomor;
+				no_container = autofillData.no_container;
+
+				edtwdnxxth.field('wdnxxth.no_seal').val(no_seal);
+				edtwdnxxth.field('wdnxxth.id_grlxxmh_expedition').val(id_grlxxmh_expedition_old);
+				edtwdnxxth.field('wdnxxth.supir_nama').val(supir_nama);
+				edtwdnxxth.field('wdnxxth.mobil_nomor').val(mobil_nomor);
+				edtwdnxxth.field('wdnxxth.no_container').val(no_container);
+			}
+
+			return {}
+		}, {event: 'keyup change'});
 		
 		edtwdnxxth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -547,6 +615,11 @@
 				mobil_nomor      = edtwdnxxth.field('wdnxxth.mobil_nomor').val();
 				supir_nama      = edtwdnxxth.field('wdnxxth.supir_nama').val();
 				is_all_wh      = edtwdnxxth.field('wdnxxth.is_all_wh').val();
+				id_wdpxxth = edtwdnxxth.field('wdpxxth[].id').val();
+
+				if(!id_wdpxxth || id_wdpxxth == ''){
+					edtwdnxxth.field('wdpxxth[].id').error( 'Wajib diisi!' );
+				}
 
 				validasiRequired(
 					edtwdnxxth, 
@@ -760,7 +833,16 @@
 			id_wdoxxth_old      = wdnxxth_data.id_wdoxxth;
 			id_wdoxxth          = wdnxxth_data.id_wdoxxth;
 			id_iwhxxmh_old      = wdnxxth_data.id_iwhxxmh;
-			console.log(id_wdoxxth);
+			
+			tblwdnxxth.rows( { selected: true } ).data().each(function (row) {
+				if (row.wdpxxth) {
+					ids_wdpxxth_old = "";
+					row.wdpxxth.forEach(function (wdpxxth_data) {
+						ids_wdpxxth_old = ids_wdpxxth_old + "," + wdpxxth_data.id;
+					});
+					ids_wdpxxth_old = ids_wdpxxth_old.substring(1);
+				}
+			});
 			
 			// atur hak akses
 			tbl_details = [tblwdnittd, tblwdnlptd];
@@ -781,7 +863,7 @@
 			// reset variable standar framework
 			siVarReset('wdnxxth');
 			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_wdoxxth_old = 0, id_iwhxxmh_old = 0, id_wdoxxth = 0;
-			id_grlxxmh_expedition_old = 0;
+			id_grlxxmh_expedition_old = 0, ids_wdpxxth_old = '';
 			// atur hak akses
 			tbl_details = [tblwdnittd, tblwdnlptd];
 			CekDeselectHeaderHD(tblwdnxxth, tbl_details);

@@ -84,6 +84,16 @@
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','wdnxxth.id_grlxxmh_customer' )
 		->leftJoin( 'grlxxmh expedisi','expedisi.id','=','wdnxxth.id_grlxxmh_expedition' )
 		->leftJoin( 'wdoxxth','wdoxxth.id','=','wdnxxth.id_wdoxxth' )
+
+		->join(
+			Mjoin::inst( 'wdpxxth' )
+				->link( 'wdnxxth.id', 'wdpxxth_wdnxxth.id_wdnxxth' )
+				->link( 'wdpxxth.id', 'wdpxxth_wdnxxth.id_wdpxxth' )
+				->fields(
+					Field::inst( 'id' ),
+					Field::inst( 'kode' )
+				)
+		)
 		;
 	
 	// BEGIN where single data view

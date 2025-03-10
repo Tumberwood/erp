@@ -12,6 +12,11 @@
 			$id_iwhxxmh = $values['wdnxxth']['id_iwhxxmh'];
 			$is_all_wh = $values['wdnxxth']['is_all_wh'];
 
+			$id_wdpxxth_input = $values['wdpxxth'];
+			$id_wdpxxth_new = array_column($id_wdpxxth_input, 'id');
+			$id_wdpxxth_new = '(' . implode(',', $id_wdpxxth_new) . ')';
+			$where_wdpxxth_in = ' AND id_wdpxxth IN '.$id_wdpxxth_new;
+
 			if ($is_all_wh == 1) {
 				$where_wh = '';
 			} else {
@@ -64,7 +69,7 @@
 						LEFT JOIN wdoittd a ON a.id = b.id_wdoittd
 						LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 						LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
-						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0 '.$where_wdpxxth_in.'
 						'.$where_wh.'
 						HAVING jumlah_terkecil > 0
 				'
@@ -106,7 +111,7 @@
 						LEFT JOIN wdplptd b ON b.id_wdoittd = a.id
 						LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 						LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
-						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0 '.$where_wdpxxth_in.'
 						'.$where_wh.'
 						GROUP BY a.id_iimxxmh
 						HAVING jumlah_terkecil > 0;
@@ -138,7 +143,7 @@
 						LEFT JOIN wdoittd a ON a.id = b.id_wdoittd
 						LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 						LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
-						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+						WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0 '.$where_wdpxxth_in.'
 						'.$where_wh.'
 						HAVING jumlah_terkecil > 0
 				'
@@ -266,6 +271,24 @@
 			$id_iwhxxmh_new = $values['wdnxxth']['id_iwhxxmh'];
 			$is_all_wh_new = $values['wdnxxth']['is_all_wh'];
 
+			//Tabel Relasi wdp dan wdn nilai old
+			$qs_relasi = $editor->db()
+				->query('select', 'wdpxxth_wdnxxth' )
+				->get(['id_wdpxxth'] )
+				->where('id_wdnxxth', $id )
+				->exec();
+			$rs_relasi = $qs_relasi->fetchAll();
+			$ids_wdp = array_column($rs_relasi, 'id_wdpxxth');
+	
+			$ids_wdpxxth_old = implode(',', $ids_wdp);
+			$ids_wdpxxth_old = $ids_wdpxxth_old ? "($ids_wdpxxth_old)" : '';
+			
+			$id_wdpxxth_input = $values['wdpxxth'];
+			$id_wdpxxth_new = array_column($id_wdpxxth_input, 'id');
+			$id_wdpxxth_new = '(' . implode(',', $id_wdpxxth_new) . ')';
+			
+			$where_wdpxxth_in = ' AND id_wdpxxth IN '.$id_wdpxxth_new;
+
 			if ($is_all_wh_new == 1) {
 				$where_wh = '';
 			} else {
@@ -287,7 +310,12 @@
 			$id_iwhxxmh_old = $rs_old['id_iwhxxmh'];
 			$is_all_wh_old = $rs_old['is_all_wh'];
 
-			if ($id_wdoxxth_old != $id_wdoxxth_new || $is_all_wh_old != $is_all_wh_new || $id_iwhxxmh_old != $id_iwhxxmh_new) {
+			if ($id_wdoxxth_old != $id_wdoxxth_new || 
+				$is_all_wh_old != $is_all_wh_new ||
+				$id_iwhxxmh_old != $id_iwhxxmh_new ||
+				$ids_wdpxxth_old != $id_wdpxxth_new
+				) 
+			{
 				$qs_pld = $editor->db()
 				->query('select', 'wdnlptd' )
 					->get([
@@ -380,7 +408,7 @@
 							LEFT JOIN wdoittd a ON a.id = b.id_wdoittd
 							LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 							LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
-							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0 '.$where_wdpxxth_in.'
 							'.$where_wh.'
 							HAVING jumlah_terkecil > 0
 					'
@@ -422,7 +450,7 @@
 							LEFT JOIN wdplptd b ON b.id_wdoittd = a.id
 							LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 							LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
-							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0 '.$where_wdpxxth_in.'
 							'.$where_wh.'
 							GROUP BY a.id_iimxxmh
 							HAVING jumlah_terkecil > 0;
@@ -454,7 +482,7 @@
 							LEFT JOIN wdoittd a ON a.id = b.id_wdoittd
 							LEFT JOIN iimummd d ON d.id_iimxxmh = a.id_iimxxmh AND d.is_default = 1 -- UoM Default
 							LEFT JOIN iimummd u ON u.id_iimxxmh = a.id_iimxxmh AND u.id_iumxxmh = a.id_iumxxmh_unit
-							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0
+							WHERE a.id_wdoxxth = :id_wdoxxth AND b.id_wdpxxth <> 0 '.$where_wdpxxth_in.'
 							'.$where_wh.'
 							HAVING jumlah_terkecil > 0
 					'
