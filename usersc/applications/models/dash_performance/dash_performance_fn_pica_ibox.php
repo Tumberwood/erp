@@ -27,7 +27,9 @@
                 COUNT(a.id) c_id
             FROM hfskptd a
             LEFT JOIN hfsxxth b ON b.id = a.id_hfsxxth
+            LEFT JOIN ggshrsh c ON c.id = 1
             WHERE b.transaction_state = 1 
+            AND (a.skor / a.bobot_persen * 100) <= c.batas_skor_revisi
             AND b.periode BETWEEN :start_date AND :end_date
             AND a.id NOT IN (
                 SELECT
