@@ -51,7 +51,9 @@
   //SESI 1
 
   function startQuiz() {
-
+    start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+    console.log(start_date);
+    
     // Show the quiz container
     document.getElementById('quiz1').style.display = 'block';
     // document.getElementById('mulaidisc1').style.display = 'none';

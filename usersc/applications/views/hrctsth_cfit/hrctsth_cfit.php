@@ -51,6 +51,15 @@
       </div>
     </div>
 
+		<div class="form-group row">
+			<label class="col-lg-2 col-form-label">Tanggal</label>
+			<div class="col-lg-5">
+				<div class="input-group input-daterange" id="periode">
+					<input type="text" id="start_date" class="form-control">
+				</div>
+			</div>
+		</div>
+    
     <div class="form-group row">
       <div class="col-lg-3">
         <button type="button" style="display: none" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Petunjuk Sesi 1</button>

@@ -13,6 +13,7 @@ $editor = Editor::inst($db, '');
 
 // CEK APAKAH ADA DATANYA
 if (isset($_POST['selectedAnswersByQuestion4'], $_POST['kode'], $_POST['id_hcd'])) {
+    $tanggal = $_POST['start_date'];
     $selectedAnswersByQuestion4 = $_POST['selectedAnswersByQuestion4'];
     $kode = $_POST['kode'];
     $id_hcd = $_POST['id_hcd'];
@@ -23,6 +24,8 @@ if (isset($_POST['selectedAnswersByQuestion4'], $_POST['kode'], $_POST['id_hcd']
     $jawaban1 = $_POST['jawaban1'];
     $jawaban2 = $_POST['jawaban2'];
     $jawaban3 = $_POST['jawaban3'];
+    $start_at = $_POST['start_at'];
+    $finish_at = $_POST['finish_at'];
 
     try {
         $db->transaction();
@@ -73,6 +76,9 @@ if (isset($_POST['selectedAnswersByQuestion4'], $_POST['kode'], $_POST['id_hcd']
             ->query('insert', 'hrctstd_cfit')
             ->set('id_hrctsth_cfit', $result_select['id'])
             ->set('id_hcdxxmh', $id_hcd)
+            ->set('tanggal', $tanggal)
+            ->set('start_at', $start_at)
+            ->set('finish_at', $finish_at)
             ->set('transaction_state', 1);
 
         // Loop through the $hasil array to set the remaining values

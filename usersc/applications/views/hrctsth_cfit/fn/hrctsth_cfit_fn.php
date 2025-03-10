@@ -3,6 +3,8 @@
     var finishSesi2 = false;
     var finishSesi3 = false;
     var finishSesi4 = false;
+    var start_at = '';
+    var finish_at = '';
 
     //ALERT KETIKA RELOAD 
     function confirmLeavePage(event) {
@@ -72,6 +74,11 @@
     //SESI 1
     
     function startQuiz() {
+        $('#start_date').prop('disabled', true);
+        start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(start_at);
+        start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+        // console.log(start_date);
 
         // Show the quiz container
         document.getElementById('quiz1').style.display = 'block';
@@ -751,6 +758,12 @@
 
     
     function finishGet4() {
+        start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+        console.log(start_date);
+        
+        finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(finish_at);
+
         var id_hcd = $('#id_hcd').val(); // Get the value of an element with the ID "id_hcd"
         var kode = $('#kode').val(); // Get the value of an element with the ID "id_hcd"
         var maxAllowedSelections4 = 1; // Define the maximum number of selections allowed per question
@@ -881,6 +894,9 @@
             dataType: 'json',
             type: 'POST',
             data: {
+                start_date: start_date,
+                start_at: start_at,
+                finish_at: finish_at,
                 selectedAnswersByQuestion4: selectedAnswersByQuestion4,
                 hasil1: hasil1,
                 hasil2: hasil2,
