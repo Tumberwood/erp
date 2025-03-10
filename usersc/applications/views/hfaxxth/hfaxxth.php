@@ -181,6 +181,8 @@
 				</div>
 				<div role="tabpanel" id="tabhfasktd_2" class="tab-pane">
 					<div class="panel-body">
+						<div id="pica_h3">
+						</div>
 						<div class="table-responsive">
 							<table id="tblhfasktd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
@@ -1031,9 +1033,33 @@
 			id_iumxxmh_old = hfskptd_data.id_iumxxmh;
 			id_hfogrmh_old = hfskptd_data.id_hfogrmh;
 
+			polarisasi = hfskptd_data.polarisasi;
+			target_atas = hfskptd_data.target_atas;
+			target_bawah = hfskptd_data.target_bawah;
+			realisasi = hfskptd_data.realisasi;
+			bobot_persen = hfskptd_data.bobot_persen;
+			skor = hfskptd_data.skor;
+
 			$('#pika_d').show();
-			tblhfasktd.ajax.reload(null, false);	
-			// atur hak akses
+			tblhfasktd.ajax.reload(null, false);
+			autofillField('hfmxxmh', id_hfmxxmh_old, "nama");
+			hfmxxmh_nama = autofillData.nama;
+			$('#pica_h3').html(`
+				<div class="row">
+					<div class="col-6">
+						<h3>Measurement: ${hfmxxmh_nama}</h3>
+						<h3>Target Atas: ${target_atas}</h3>
+						<h3>Pencapaian: ${realisasi}</h3>
+						<h3>Skor: ${skor}</h3>
+					</div>
+					<div class="col-6">
+						<h3>Polarisasi: ${polarisasi}</h3>
+						<h3>Target Bawah: ${target_bawah}</h3>
+						<h3>Bobot: ${bobot_persen}</h3>
+					</div>
+				</div>
+			`);
+
 		} );
 		
 		tblhfskptd.on( 'deselect', function() {
