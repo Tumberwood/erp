@@ -61,6 +61,7 @@
 				Field::inst( 'hfskptd.cara_hitung' ),
 			
 				Field::inst( 'hfoprmh.nama' ),
+				Field::inst( 'hfoxxmh.kode' ),
 				Field::inst( 'hfoxxmh.nama' ),
 				Field::inst( 'iumxxmh.kode' ),
 				Field::inst( 'hfmxxmh.nama' ),
@@ -82,6 +83,18 @@
 		if ( $_POST['show_deleted_hfskptd'] == 0){
 			$editor
 				->where( 'hfskptd.transaction_state', -9, '<>');
+		}
+
+		$qs_ggshrsh = $db
+			->query('select', 'ggshrsh' )
+			->get(['batas_skor_revisi'] )
+			->where('id', 1 )
+			->exec();
+		$rs_ggshrsh = $qs_ggshrsh->fetch();
+		$batas_skor_revisi = $rs_ggshrsh['batas_skor_revisi'];
+		if ($batas_skor_revisi > 0) {
+			$editor
+					->where( '(hfskptd.skor / hfskptd.bobot_persen * 100)', $batas_skor_revisi, '<=');
 		}
 		
 		include( "hfskptd_extra.php" );

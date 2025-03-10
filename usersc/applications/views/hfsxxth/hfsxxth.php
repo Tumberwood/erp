@@ -139,8 +139,7 @@
 										<th>id_hfogrmh</th>
 										<th>Objective</th>
 										<th>Code</th>
-										<!-- <th>Measurement</th> -->
-										<th>Objective</th>
+										<th>Measurement</th>
 										<th>UoM</th>
 										<th>Periode</th>
 										<th>Polarisasi</th>

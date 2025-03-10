@@ -138,8 +138,10 @@
 									<tr>
 										<th>ID</th>
 										<th>id_hfsxxth</th>
-										<th>Code</th>
+										<th>id_hfogrmh</th>
 										<th>Objective</th>
+										<th>Code</th>
+										<th>Measurement</th>
 										<th>UoM</th>
 										<th>Periode</th>
 										<th>Polarisasi</th>
@@ -152,6 +154,8 @@
 								</thead>
 								<tfoot>
 									<tr>
+										<th></th>
+										<th></th>
 										<th></th>
 										<th></th>
 										<th>Total</th>
@@ -929,17 +933,19 @@
 				}
 			},
 			responsive: false,
-			order: [[ 2, "desc" ]],
+			order: [[ 2, "asc" ], [ 3, "asc" ]],
 			columns: [
 				{ data: "hfskptd.id",visible:false },
 				{ data: "hfskptd.id_hfsxxth",visible:false },
+				{ data: "hfskptd.id_hfogrmh",visible:false },
+				{ data: "hfoxxmh.kode",visible:false },
 				{ 
 					data: "hfogrmh.kode",
 					render: function (data, type, row, meta) {
 						return '<span class="badge badge-plain" style="color: white; background-color: ' + row.hfogrmh.color + ';">' + data + '</span>';
 					}
 				},
-				{ data: "hfoxxmh.nama" },
+				{ data: "hfmxxmh.nama" },
 				{ data: "iumxxmh.kode" },
 				{ data: "hfoprmh.nama" },
 				{ 
@@ -1000,8 +1006,8 @@
 			},
 			footerCallback: function ( row, data, start, end, display ) {
 				var api       	= this.api(), data;
-				var bobot 	= api.column(10).data().sum();
-				var skor 	= api.column(11).data().sum();
+				var bobot 	= api.column(12).data().sum();
+				var skor 	= api.column(13).data().sum();
 
 				$( '#bobot' ).html( dtNumberFormat(bobot) );
 				$( '#skor' ).html( dtNumberFormat(skor) );
