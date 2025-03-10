@@ -60,7 +60,7 @@
 									<div class="col-6">
 										<h3 class="font-bold ">Outstanding PICA</h3>
 									</div>
-									<div class="col-6">
+									<div class="col-6" style="height: 100px;">
 										<h1 class="text-right font-bold" id="sisa_belum_pica"></h1>
 									</div>
 								</div>
@@ -82,6 +82,11 @@
 						</div>
 					</div>	
 				</div>	
+			</div>	
+		</div>	
+		
+		<div class="ibox ">
+			<div class="ibox-content">
 				<div class="row">
 					<div class="col">
 						<h1 class="text-center">Strategy Map</h1>

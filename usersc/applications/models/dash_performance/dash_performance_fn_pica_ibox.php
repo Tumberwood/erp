@@ -34,7 +34,7 @@
                     id_hfskptd
                 FROM hfasktd c
                 LEFT JOIN hfaxxth d ON d.id = c.id_hfaxxth
-                WHERE d.transaction_state <> -9 AND c.transaction_state <> -9
+                WHERE d.transaction_state = 1 AND c.transaction_state <> -9
             )
 
     ');
@@ -51,7 +51,7 @@
                 FROM hfasktd a
                 LEFT JOIN hfaxxth b ON b.id = a.id_hfaxxth
                 LEFT JOIN hfsxxth c ON c.id = b.id_hfsxxth
-                WHERE b.transaction_state <> -9 
+                WHERE b.transaction_state = 1
                 AND a.transaction_state <> -9 
                 AND c.periode BETWEEN :start_date AND :end_date
             ),
@@ -61,7 +61,7 @@
                 FROM hfasktd a
                 LEFT JOIN hfaxxth b ON b.id = a.id_hfaxxth
                 LEFT JOIN hfsxxth c ON c.id = b.id_hfsxxth
-                WHERE b.transaction_state <> -9 
+                WHERE b.transaction_state = 1
                 AND a.transaction_state <> -9
                 AND c.periode BETWEEN :start_date AND :end_date
             )
