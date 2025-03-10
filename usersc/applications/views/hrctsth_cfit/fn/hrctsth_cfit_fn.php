@@ -123,12 +123,12 @@
             }
             finishGet();
             var satu = finishGet();
-            console.log(satu[0]);
-            console.log(satu[1]);
+            // console.log(satu[0]);
+            // console.log(satu[1]);
             finishSesi1 = true;
         } else {
             // Code does not match, handle the error or show an appropriate message
-            alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
+            // alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
         }
     }
 
@@ -325,12 +325,12 @@
             }
             finishGet2();
             var dua = finishGet2();
-            console.log(dua[0]);
-            console.log(dua[1]);
+            // console.log(dua[0]);
+            // console.log(dua[1]);
             finishSesi2 = true;
         } else {
             // Code does not match, handle the error or show an appropriate message
-            alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
+            // alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
         }
     }
 
@@ -535,12 +535,12 @@
             finishGet3();
             
             var tiga = finishGet3();
-            console.log(tiga[0]);
-            console.log(tiga[1]);
+            // console.log(tiga[0]);
+            // console.log(tiga[1]);
             finishSesi3 = true;
         } else {
             // Code does not match, handle the error or show an appropriate message
-            alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
+            // alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
         }
     }
 
@@ -745,7 +745,7 @@
             finishSesi4 = true;
         } else {
             // Code does not match, handle the error or show an appropriate message
-            alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
+            // alert('Kode yang Anda masukkan salah. Silakan coba lagi.');
         }
     }
 
@@ -872,8 +872,8 @@
             part4_soal10
 
         ];
-        console.log(hasil4);
-        console.log(selectedAnswersByQuestion4);
+        // console.log(hasil4);
+        // console.log(selectedAnswersByQuestion4);
 
         // Send the selected answers and other data to the server-side PHP script using AJAX
         $.ajax({

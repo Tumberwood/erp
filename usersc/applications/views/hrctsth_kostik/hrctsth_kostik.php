@@ -52,12 +52,21 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- Setiap nomor dibawah ini memuat 4 (empat) kalimat. Tugas anda adalah:
-        <ul>
-          <li>Klik pada kolom dibawah huruf [<b>P</b>] di samping kalimat yang <b>PALING menggambarkan</b> diri anda</li>
-          <li>Klik pada kolom dibawah huruf [<b>K</b>] di samping kalimat yang <b>PALING TIDAK menggambarkan</b> diri anda</li>
-        </ul>
-        <p class="text-danger"> <b>PERHATIKAN</b>: Setiap nomor hanya ada 1 (satu) tanda dibawah masing-masing kolom <b>P</b> dan <b>K</b>.</p> -->
+		<h3>INSTRUKSI PAPI KOSTIK</h3>
+			<br>
+			Dihadapan saudara ada persoalan yang didalamnya terdapat 90 nomor soal, dimana pada masing-masing nomor terdapat 2 pasang pernyataan. Tugas anda adalah memilih salah satu dari setiap pasangan pernyataan tersebut yang anda anggap paling menggambarkan kepribadian atau diri anda. Apabila kedua  pernyataan tersebut memiliki kemiripan dengan diri anda saat ini ataupun keduanya tidak satupun menggambarkan diri anda, maka cobalah pertimbangkan kembali secara teliti hingga anda dapat menemukan pernyataan yang paling menggambarkan diri anda.
+			<br>
+			<br>
+			Contoh: 
+			<ul style="list-style-type: upper-alpha;">
+				<li>Saya adalah pekerja keras</li>
+				<li>Saya adalah pemurung</li>
+			</ul>
+
+			<br>
+			Jika anda merasa seseorang yg pekerja keras, maka silahkan memilih pilihan (A). 
+			<br>
+			Jika anda merasa seseorang yg pemuruh, maka pilihlah jawaban (B).
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -482,27 +482,49 @@
       updateGridColors();
     }
   }
-
   function updateGridColors() {
+    var unansweredQuestions2 = [];
+
     for (let i = 0; i < quizQuestions2.length; i++) {
       var gridItem2 = document.getElementById(`grid2-${i + 1}`);
-      if (gridItem2) {  // Check if the element exists
+      if (gridItem2) {  // Pastikan elemen ada
         if (i === currentQuestionIndex2) {
-          // Current question: set to primary color
+          // Pertanyaan saat ini: warna primary
           gridItem2.style.backgroundColor = '#007bff'; // Bootstrap 'primary' color
-          gridItem2.style.color = '#fff'; // Bootstrap 'primary' color
-        } else if (answeredQuestions2.includes(i)) {
-          // Answered question: set to success color
-          gridItem2.style.backgroundColor = '#28a745'; // Bootstrap 'success' color
-          gridItem2.style.color = '#fff'; // Bootstrap 'primary' color
+          gridItem2.style.color = '#fff';
         } else {
-          // Unanswered question: set to plain/default color
-          gridItem2.style.backgroundColor = '#f8f9fa'; // Bootstrap 'light' color
-          gridItem2.style.color = '#000'; // Bootstrap 'primary' color
+          var currentQuestionImages2 = quizQuestions2[i].getElementsByClassName('quiz-image2');
+          var selectedImagesCount2 = 0;
+
+          // Hitung jumlah gambar yang dipilih dalam pertanyaan ini
+          for (var j = 0; j < currentQuestionImages2.length; j++) {
+            if (currentQuestionImages2[j].classList.contains('selected2')) {
+              selectedImagesCount2++;
+            }
+          }
+
+          if (selectedImagesCount2 !== 2) {
+            unansweredQuestions2.push(i + 1);
+          }
+
+          // Jika pertanyaan ada dalam unansweredQuestions2, beri warna default
+          if (unansweredQuestions2.includes(i + 1)) {
+            gridItem2.style.backgroundColor = '#f8f9fa'; // Bootstrap 'light' color
+            gridItem2.style.color = '#000';
+          } else if (answeredQuestions2.includes(i)) {
+            // Jika pertanyaan sudah dijawab, beri warna hijau
+            gridItem2.style.backgroundColor = '#28a745'; // Bootstrap 'success' color
+            gridItem2.style.color = '#fff';
+          } else {
+            // Jika belum dijawab, beri warna default
+            gridItem2.style.backgroundColor = '#f8f9fa'; // Bootstrap 'light' color
+            gridItem2.style.color = '#000';
+          }
         }
       }
     }
   }
+
 
   function startCountdown2(duration2) {
     var timer2Element2 = document.getElementById('timer2');

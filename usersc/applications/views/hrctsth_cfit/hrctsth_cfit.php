@@ -53,16 +53,16 @@
 
     <div class="form-group row">
       <div class="col-lg-3">
-        <button type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Petunjuk Sesi 1</button>
-        <button type="button" id="button_modal2" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Petunjuk Sesi 2</button>
-        <button type="button" id="button_modal3" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Petunjuk Sesi 3</button>
-        <button type="button" id="button_modal4" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Petunjuk Sesi 4</button>
+        <button type="button" style="display: none" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Petunjuk Sesi 1</button>
+        <button type="button" style="display: none" id="button_modal2" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Petunjuk Sesi 2</button>
+        <button type="button" style="display: none" id="button_modal3" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Petunjuk Sesi 3</button>
+        <button type="button" style="display: none" id="button_modal4" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Petunjuk Sesi 4</button>
       </div>
       <div class="col-lg-3">
-      <button type="button" id="mulaiCFIT1" class="btn btn-primary" onclick="startQuiz()">Mulai Sesi 1</button>
-        <button type="button" id="mulaiCFIT2" class="btn btn-primary" onclick="startQuiz2()">Mulai Sesi 2</button>
-        <button type="button" id="mulaiCFIT3" class="btn btn-primary" onclick="startQuiz3()">Mulai Sesi 3</button>
-        <button type="button" id="mulaiCFIT4" class="btn btn-primary" onclick="startQuiz4()">Mulai Sesi 4</button>
+        <button type="button" style="display: none" id="mulaiCFIT1" class="btn btn-primary" onclick="startQuiz()">Mulai Sesi 1</button>
+        <button type="button" style="display: none" id="mulaiCFIT2" class="btn btn-primary" onclick="startQuiz2()">Mulai Sesi 2</button>
+        <button type="button" style="display: none" id="mulaiCFIT3" class="btn btn-primary" onclick="startQuiz3()">Mulai Sesi 3</button>
+        <button type="button" style="display: none" id="mulaiCFIT4" class="btn btn-primary" onclick="startQuiz4()">Mulai Sesi 4</button>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="myModal1Label">Petunjuk CFIT Sesi 1</h5>
@@ -89,74 +89,145 @@
         </button>
       </div>
       <div class="modal-body">
-    	<img src="part1/hint/1.jpg" style="width: 440px;">
+        <div class="row">
+          <!-- Kolom Kiri: Instruksi -->
+          <div class="col-md-6">
+            <div class="instruction">
+              <h2><b>SUBTES 1</b></h2>
+              <p>Mari kita mulai tes pertama. Perhatikan gambar-gambar contoh pada tes ini.</p>
+              <p>Pada baris pertama, terdapat sebuah lingkaran di kotak pertama yang semakin ke kanan ukurannya semakin kecil.</p>
+              <p>Tugas Anda adalah memilih jawaban yang paling sesuai untuk melanjutkan pola tersebut.</p>
+              <p>Waktu mengerjakan terbatas, dan halaman akan berpindah secara otomatis ketika waktu habis. Oleh karena itu, kerjakan dengan cermat dan teliti.</p>
+              <p><strong>Selamat mengerjakan!</strong></p>
+            </div>
+          </div>
+          
+          <!-- Kolom Kanan: Gambar -->
+          <div class="col-md-6 text-center">
+            <img src="part1/hint/1.jpg" class="img-fluid" style="max-width: 100%;">
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Modal SUBTES 2 -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2Label" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModal1Label">Petunjuk CFIT Sesi 2</h5>
+        <h5 class="modal-title" id="myModal2Label">Petunjuk CFIT Sesi 2</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-    	<img src="part2/hint/1.jpg" style="width: 440px;">
+        <div class="row">
+          <!-- Kolom Kiri: Instruksi -->
+          <div class="col-md-6">
+            <div class="instruction">
+              <h2><b>Subtes 2</b></h2>
+              <p>Perhatikan contoh gambar berikut sebelum memulai tes.</p>
+              <p>Pada setiap soal, terdapat lima gambar dalam kotak. Tiga gambar memiliki bentuk yang sama, sedangkan dua gambar lainnya memiliki bentuk yang berbeda.</p>
+              <p>Tugas Anda adalah menemukan dua gambar yang berbeda dari lima gambar yang tersedia.</p>
+              <p>Untuk menjawab, pilih dua gambar yang menurut Anda tidak sesuai dengan tiga gambar lainnya.</p>
+              <p>Waktu mengerjakan tes ini terbatas, dan halaman akan berpindah secara otomatis setelah waktu habis. Kerjakan dengan cermat dan teliti.</p>
+              <p><strong>Selamat mengerjakan!</strong></p>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Gambar -->
+          <div class="col-md-6 text-center">
+            <img src="part2/hint/1.jpg" class="img-fluid" style="max-width: 100%;">
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Modal SUBTES 3 -->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModal3Label" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModal1Label">Petunjuk CFIT Sesi 3</h5>
+        <h5 class="modal-title" id="myModal3Label">Petunjuk CFIT Sesi 3</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-    	<img src="part3/1.jpg" style="width: 440px;">
+        <div class="row">
+          <!-- Kolom Kiri: Instruksi -->
+          <div class="col-md-6">
+            <div class="instruction">
+              <h2><b>SUBTES 3</b></h2>
+              <p>Perhatikan contoh gambar berikut sebelum memulai tes.</p>
+              <p>Pada bagian kiri, terdapat sebuah kotak besar yang berisi beberapa kotak kecil dengan gambar di dalamnya. Namun, salah satu kotak tidak memiliki gambar.</p>
+              <p>Tugas Anda adalah memilih satu jawaban yang benar dari enam pilihan kotak kecil di sebelah kanan untuk mengisi kotak kosong tersebut.</p>
+              <p>Waktu mengerjakan tes ini terbatas, dan halaman akan berpindah secara otomatis setelah waktu habis. Kerjakan dengan cermat dan teliti.</p>
+              <p><strong>Selamat mengerjakan!</strong></p>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Gambar -->
+          <div class="col-md-6 text-center">
+            <img src="part3/1.jpg" class="img-fluid" style="max-width: 100%;">
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Modal SUBTES 4 -->
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModal4Label" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModal1Label">Petunjuk CFIT Sesi 4</h5>
+        <h5 class="modal-title" id="myModal4Label">Petunjuk CFIT Sesi 4</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-    	<img src="part4/1.jpg" style="width: 440px;">
+        <div class="row">
+          <!-- Kolom Kiri: Instruksi -->
+          <div class="col-md-6">
+            <div class="instruction">
+              <h2><b>SUBTES 4</b></h2>
+              <p>Ini adalah subtes terakhir. Perhatikan contoh gambar berikut.</p>
+              <p>Di bagian kiri, terdapat satu gambar sebagai acuan. Sementara di bagian kanan, terdapat lima gambar sebagai pilihan jawaban.</p>
+              <p>Tugas Anda adalah memilih gambar yang paling sesuai atau paling mendekati dengan gambar yang ada di sebelah kiri.</p>
+              <p>Waktu untuk mengerjakan tes ini terbatas, dan jawaban yang telah dipilih akan terkunci secara otomatis.</p>
+              <p>Kerjakan dengan cermat dan teliti.</p>
+              <p><strong>Selamat mengerjakan!</strong></p>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Gambar -->
+          <div class="col-md-6 text-center">
+            <img src="part4/1.jpg" class="img-fluid" style="max-width: 100%;">
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
 </div>
+
 
 <div class="ibox">
   <div class="ibox-content">
@@ -198,23 +269,23 @@
 <!-- end content here -->
 
 <script>
-	document.getElementById('id_hcd').style.display = 'none';
-	//hide sesi 1
-	document.getElementById('mulaiCFIT1').style.display = 'none';
-	document.getElementById('button_modal1').style.display = 'none';
-	document.getElementById('quiz1').style.display = 'none';
-	//hide sesi 2
-	document.getElementById('mulaiCFIT2').style.display = 'none';
-	document.getElementById('button_modal2').style.display = 'none';
-	document.getElementById('quiz2').style.display = 'none';
-	//hide sesi 3
-	document.getElementById('mulaiCFIT3').style.display = 'none';
-	document.getElementById('button_modal3').style.display = 'none';
-	document.getElementById('quiz3').style.display = 'none';
-	//hide sesi 4
-	document.getElementById('mulaiCFIT4').style.display = 'none';
-	document.getElementById('button_modal4').style.display = 'none';
-	document.getElementById('quiz4').style.display = 'none';
+	// document.getElementById('id_hcd').style.display = 'none';
+	// //hide sesi 1
+	// document.getElementById('mulaiCFIT1').style.display = 'none';
+	// document.getElementById('button_modal1').style.display = 'none';
+	// document.getElementById('quiz1').style.display = 'none';
+	// //hide sesi 2
+	// document.getElementById('mulaiCFIT2').style.display = 'none';
+	// document.getElementById('button_modal2').style.display = 'none';
+	// document.getElementById('quiz2').style.display = 'none';
+	// //hide sesi 3
+	// document.getElementById('mulaiCFIT3').style.display = 'none';
+	// document.getElementById('button_modal3').style.display = 'none';
+	// document.getElementById('quiz3').style.display = 'none';
+	// //hide sesi 4
+	// document.getElementById('mulaiCFIT4').style.display = 'none';
+	// document.getElementById('button_modal4').style.display = 'none';
+	// document.getElementById('quiz4').style.display = 'none';
 
 </script>
 <!-- do not erase -->
