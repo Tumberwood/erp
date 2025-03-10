@@ -30,7 +30,7 @@
     ');
     $rs_object = $qs_object->fetchAll();
 
-    $chart = "graph TD\n";
+    $chart = "graph BT\n";
     $currentGroup = "";
 
     foreach ($rs_object as $object) {
@@ -53,7 +53,7 @@
     $qs_parents = $db
     ->raw()
     ->exec('SELECT
-                CONCAT(c.id, " --> ", a.id) parent,
+                CONCAT(a.id, " --> ", c.id) parent,
                 a.nama,
                 c.nama
             FROM hfoxxmh a
