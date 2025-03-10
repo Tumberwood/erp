@@ -84,6 +84,7 @@
 				</div>	
 				<div class="row">
 					<div class="col">
+						<h1 class="text-center">Strategy Map</h1>
 						<div class="center" id="familyTreeContainer"></div>
 					</div>
 				</div>
