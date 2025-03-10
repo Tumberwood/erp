@@ -412,6 +412,7 @@
 				toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 				loadDashboardSiGudang();
 				tblprcxxth_npo.ajax.reload(null, false);
+				tblsdlxxth_nso.ajax.reload(null, false);
 				
 				toastr.remove();
 				toastr["success"]("Load data berhasil","INFO")
