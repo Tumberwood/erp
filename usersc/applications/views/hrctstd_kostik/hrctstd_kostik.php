@@ -79,7 +79,7 @@
 					<div id="chartHasilKostik"></div>
 				</div>
 				<div class="col-md-6 col-12">
-					<iframe id="tabelKostik" width="100%" height="600px" style="border: none;" scrolling="yes" onload="resizeIframe(this)"></iframe>
+					<iframe id="tabelKostik" width="100%" style="border: none; transform: scale(0.5); transform-origin: top;" scrolling="yes" onload="resizeIframe(this)"></iframe>
 				</div>
 			</div>
 		</div>
