@@ -21,7 +21,7 @@
     ->exec('SELECT
                 a.id,
                 a.nama,
-                b.nama grup,
+                REPLACE(b.nama, "&amp;", "&") AS grup, -- Mengubah &amp; menjadi &
                 CONCAT(a.id, "[", a.nama, "]") obj,
                 a.id_hfogrmh
             FROM hfoxxmh a
