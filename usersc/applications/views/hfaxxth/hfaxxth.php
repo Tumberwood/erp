@@ -980,14 +980,22 @@
 			},
 			
 			rowCallback: function( row, data, index ) {
-				if ( parseFloat(data.hfskptd.realisasi) == parseFloat(data.hfskptd.target_atas) ) {
+				if ( parseFloat(data.hfskptd.bobot_persen) == parseFloat(data.hfskptd.skor) ) {
 					$('td:eq(7)', row).addClass('bg-primary');
-				} else if ( parseFloat(data.hfskptd.realisasi) > parseFloat(data.hfskptd.target_atas) && parseFloat(data.hfskptd.realisasi) < parseFloat(data.hfskptd.target_bawah) ) {
-					$('td:eq(7)', row).addClass('bg-warning');
-				} else if ( data.hfskptd.realisasi == null ) {
-					$('td:eq(7)', row).addClass('bg-dark');
 				} else {
-					$('td:eq(7)', row).addClass('bg-danger');
+					if 
+							( 
+								parseFloat(data.hfskptd.realisasi) > parseFloat(data.hfskptd.target_atas) && parseFloat(data.hfskptd.realisasi) < parseFloat(data.hfskptd.target_bawah)
+								||
+								parseFloat(data.hfskptd.realisasi) > parseFloat(data.hfskptd.target_bawah) && parseFloat(data.hfskptd.realisasi) < parseFloat(data.hfskptd.target_atas) 
+							) 
+					{
+						$('td:eq(7)', row).addClass('bg-warning');
+					} else if ( data.hfskptd.realisasi == null ) {
+						$('td:eq(7)', row).addClass('bg-dark');
+					} else {
+						$('td:eq(7)', row).addClass('bg-danger');
+					}
 				}
 			},
 			footerCallback: function ( row, data, start, end, display ) {
