@@ -26,7 +26,8 @@
     ->exec(' WITH sum_skor AS (
                 SELECT
                     b.id_hfogrmh,
-                    SUM(b.skor) AS s_skor
+                    SUM(b.skor) AS s_skor,
+                    SUM(b.bobot_persen) AS s_bobot
                 FROM hfsxxth a
                 LEFT JOIN hfskptd b ON b.id_hfsxxth = a.id
                 WHERE a.transaction_state = 1
@@ -36,7 +37,9 @@
             SELECT
                 c.kode,
                 c.color,
-                IFNULL(AVG(s_skor),0) avg_skor
+                s_skor,
+                s_bobot,
+                s_skor / s_bobot * 100 avg_skor
             FROM hfogrmh c
             LEFT JOIN sum_skor d ON d.id_hfogrmh = c.id
             GROUP BY c.id, c.kode;
