@@ -199,6 +199,19 @@
 								</thead>
 							</table>
 						</div>
+						<div class="table-responsive">
+							<table id="tblhfasltd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>id_hfaxxth</th>
+										<th>id_hfasktd</th>
+										<th>Status</th>
+										<th data-i18n="notes"></th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -233,10 +246,12 @@
 	var edthfaxxth, tblhfaxxth, show_deleted_hfaxxth = 0, id_hfaxxth;
 	var edthfasktd, tblhfasktd, show_deleted_hfasktd = 0, id_hfasktd;
 	var edthfskptd, tblhfskptd, show_deleted_hfskptd = 0, id_hfskptd;
+	var edthfasltd, tblhfasltd, show_deleted_hfasltd = 0, id_hfasltd;
 	// ------------- end of default variable
 	var id_hfsxxth_old = 0, id_hemxxmh_verificator_old = 0, id_hemxxmh_pic_old = 0;
 	var id_hfkxxth_old = 0, id_hfkobtd_old = 0, skor_select = 0;
 	var id_hemxxmh_old = 0, id_hfoxxmh_old = 0, id_hfoprmh_old = 0, id_iumxxmh_old = 0;
+	var transaction_state_pica = 0;
 
 	// get tableRelation
 	tableRelation('hfaxxth');
@@ -501,18 +516,21 @@
 			// atur hak akses
 			tbl_details = [tblhfasktd];
 			CekSelectHeaderHD(tblhfaxxth, tbl_details);
-			tblhfskptd.ajax.reload(null, false);	
+			tblhfskptd.ajax.reload(null, false);
+			tblhfasltd.ajax.reload(null, false);	
 		} );
 		
 		tblhfaxxth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hfaxxth');
 			id_hfsxxth_old = 0;
+			id_hfasktd = 0;
 
 			// atur hak akses
 			tbl_details = [tblhfasktd];
 			CekDeselectHeaderHD(tblhfaxxth, tbl_details);
-			tblhfskptd.ajax.reload(null, false);	
+			tblhfskptd.ajax.reload(null, false);
+			tblhfasltd.ajax.reload(null, false);	
 			$('#pika_d').hide();
 			$('#tab_kpi a').tab('show');
 		} );
@@ -1042,6 +1060,8 @@
 
 			$('#pika_d').show();
 			tblhfasktd.ajax.reload(null, false);
+			tblhfasltd.ajax.reload(null, false);
+
 			autofillField('hfmxxmh', id_hfmxxmh_old, "nama");
 			hfmxxmh_nama = autofillData.nama;
 			$('#pica_h3').html(`
@@ -1059,7 +1079,6 @@
 					</div>
 				</div>
 			`);
-
 		} );
 		
 		tblhfskptd.on( 'deselect', function() {
@@ -1073,9 +1092,11 @@
 			id_hfoprmh_old = 0;
 			id_iumxxmh_old = 0;
 			id_hfogrmh_old = 0;
+			id_hfasktd = 0;
 
 			$('#pika_d').hide();
 			tblhfasktd.ajax.reload(null, false);	
+			tblhfasltd.ajax.reload(null, false);
 			
 			// atur hak akses
 		} );
@@ -1358,6 +1379,12 @@
 			CekDrawDetailHD( tblhfasktd, 1 );
 			CekDrawDetailHDFinal(tblhfaxxth);
 		} );
+		
+		tblhfasktd.on( 'init', function () {
+			// atur hak akses
+			tbl_details = [tblhfasltd];
+			CekInitHeaderHD(tblhfasktd, tbl_details);
+		} );
 
 		tblhfasktd.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
@@ -1365,9 +1392,29 @@
 
 			id_hemxxmh_pic_old = hfasktd_data.id_hemxxmh_pic;
 			id_hemxxmh_verificator_old = hfasktd_data.id_hemxxmh_verificator;
+			id_hfasktd = hfasktd_data.id;
+			transaction_state_pica = hfasktd_data.transaction_state;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhfasktd );
+			
+			tbl_details = [tblhfasltd];
+			CekSelectHeaderHD(tblhfasktd, tbl_details);
+			tblhfasltd.ajax.reload(null, false);
+
+			if (transaction_state_pica == 1) {
+				tblhfasktd.button( 'btnEdit:name' ).nodes().css( 'display', 'none' );
+				tblhfasktd.button( 'btnRemove:name' ).nodes().css( 'display', 'none' );
+				
+				// tblhfasltd.button( 'btnCreate:name' ).nodes().css( 'display', 'none' );
+				// tblhfasltd.button( 'btnNoActionD:name' ).nodes().css( 'display', 'block' );
+			} else {
+				tblhfasktd.button( 'btnEdit:name' ).nodes().css( 'display', 'block' );
+				tblhfasktd.button( 'btnRemove:name' ).nodes().css( 'display', 'block' );
+
+				// tblhfasltd.button( 'btnCreate:name' ).nodes().css( 'display', 'block' );
+				// tblhfasltd.button( 'btnNoActionD:name' ).nodes().css( 'display', 'none' );
+			}
 		} );
 		
 		tblhfasktd.on( 'deselect', function() {
@@ -1375,11 +1422,224 @@
 			siVarResetD('hfasktd');
 			id_hemxxmh_pic_old = 0;
 			id_hemxxmh_verificator_old = 0;
+			id_hfasktd = 0;
+			transaction_state_pica = 0;
 			
 			// atur hak akses
 			CekDeselectDetailHD( tblhfasktd );
+			
+			tbl_details = [tblhfasltd];
+			CekDeselectHeaderHD(tblhfasktd, tbl_details);
+			tblhfasltd.ajax.reload(null, false);
 		} );
 		// END hfasktd
+
+		// BEGIN hfasltd
+		edthfasltd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/hfaxxth/hfasltd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_hfasltd = show_deleted_hfasltd;
+					d.id_hfaxxth = id_hfaxxth;
+					d.id_hfasktd = id_hfasktd;
+				}
+			},
+			table: "#tblhfasltd",
+			formOptions: {
+				main: {
+					focus: 3
+				}
+			},
+			fields: [ 
+				{
+					label: "hfasltd.start_at",
+					name: "hfasltd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "hfasltd.finish_at",
+					name: "hfasltd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "hfasltd",
+					type: "hidden"
+				},	
+				{
+					label: "hfasltd.transaction_state",
+					name: "hfasltd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_hfaxxth",
+					name: "hfasltd.id_hfaxxth",
+					type: "hidden"
+				},	
+				{
+					label: "id_hfasktd",
+					name: "hfasltd.id_hfasktd",
+					type: "hidden"
+				},	
+				{
+					label: "Status <sup class='text-danger'>*<sup>",
+					name: "hfasltd.status",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "OK", "value": "OK" },
+						{ "label": "Not OK", "value": "Not OK" },
+					]
+				},
+				{
+					label: getTranslation('notes') + " <sup class='text-danger'>*<sup>",
+					name: "hfasltd.keterangan",
+					type: "textarea"
+				},
+			]
+		} );
+			
+		edthfasltd.on( 'preOpen', function( e, mode, action ) {
+			edthfasltd.field('hfasltd.id_hfaxxth').val(id_hfaxxth);
+			edthfasltd.field('hfasltd.id_hfasktd').val(id_hfasktd);
+			console.log(id_hfasktd);
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edthfasltd.field('hfasltd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblhfasltd.rows().deselect();
+			}
+		});
+
+		edthfasltd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+		
+		edthfasltd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				keterangan = edthfasltd.field('hfasltd.keterangan').val();
+				status = edthfasltd.field('hfasltd.status').val();
+
+				validasiRequired(
+					edthfasltd,
+					'hfasltd',
+					{
+						'keterangan': keterangan,
+						'status': status,
+					}
+				);
+			}
+			
+			if ( edthfasltd.inError() ) {
+				return false;
+			}
+		});
+
+		edthfasltd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edthfasltd.field('hfasltd.finish_at').val(finish_at);
+		});
+			
+		edthfasltd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			// event setelah Create atau Edit, dibedakan dari parameter action
+			// action : "create" | "edit"
+			// do something
+			tblhfaxxth.ajax.reload(null, false);			
+			tblhfasktd.ajax.reload(null, false);			
+		} );
+
+		edthfasltd.on( 'close', function () {
+			edthfasltd.enable();
+		} );
+		
+		tblhfasltd = $('#tblhfasltd').DataTable( {
+			ajax: {
+				url: "../../models/hfaxxth/hfasltd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_hfasltd = show_deleted_hfasltd;
+					d.id_hfaxxth = id_hfaxxth;
+					d.id_hfasktd = id_hfasktd;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			columns: [
+				{ data: "hfasltd.id",visible:false },
+				{ data: "hfasltd.id_hfaxxth",visible:false },
+				{ data: "hfasltd.id_hfasktd",visible:false },
+				{ data: "hfasltd.status"},
+				{ data: "hfasltd.keterangan"},
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_hfasltd';
+					$table       = 'tblhfasltd';
+					$edt         = 'edthfasltd';
+					$show_status = '_hfasltd';
+					$table_name  = $nama_tabels_d[0];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblhfasltd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tblhfasltd, 1 );
+			CekDrawDetailHDFinal(tblhfaxxth);
+			
+			if (transaction_state_pica == 1) {
+				tblhfasltd.button( 'btnCreate:name' ).nodes().css( 'display', 'none' );
+				tblhfasltd.button( 'btnNoActionD:name' ).nodes().css( 'display', 'block' );
+			} else {
+				tblhfasltd.button( 'btnCreate:name' ).nodes().css( 'display', 'block' );
+				tblhfasltd.button( 'btnNoActionD:name' ).nodes().css( 'display', 'none' );
+			}
+		} );
+
+		tblhfasltd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('hfasltd');
+			
+			// atur hak akses
+			CekSelectDetailHD( tblhfasltd );
+			if (transaction_state_pica == 1) {
+				tblhfasltd.button( 'btnEdit:name' ).nodes().css( 'display', 'none' );
+				tblhfasltd.button( 'btnRemove:name' ).nodes().css( 'display', 'none' );
+			} else {
+				tblhfasltd.button( 'btnEdit:name' ).nodes().css( 'display', 'block' );
+				tblhfasltd.button( 'btnRemove:name' ).nodes().css( 'display', 'block' );
+			}
+		} );
+		
+		tblhfasltd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('hfasltd');
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblhfasltd );
+			if (transaction_state_pica == 1) {
+				tblhfasltd.button( 'btnEdit:name' ).nodes().css( 'display', 'none' );
+			} else {
+				tblhfasltd.button( 'btnEdit:name' ).nodes().css( 'display', 'block' );
+			}
+		} );
+		// END hfasltd
 
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
