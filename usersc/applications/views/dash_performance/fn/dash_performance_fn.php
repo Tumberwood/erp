@@ -22,7 +22,9 @@
     })
     // END highchart generate options
     
-    function chartSkor(start_date) {
+    function chartSkor(start_date, end_date) {
+        console.log(end_date);
+        
         $.ajax( {
             url: "../../models/dash_performance/dash_performance_fn_skor.php",
             dataType: 'json',
@@ -30,6 +32,7 @@
             async: false,
             data: {
                 start_date: start_date,
+                end_date: end_date,
             },
             success: function ( json ) {
                 var avg_skor = json.data.avg_skor;
@@ -124,11 +127,14 @@
 
     }
 
-    function radar(start_date) {
+    function radar(start_date, end_date) {
         $.ajax({
             url: "../../models/dash_performance/dash_performance_fn_radar.php",
             type: 'POST',
-            data: { start_date: start_date },
+            data: { 
+                start_date: start_date,
+                end_date: end_date 
+            },
             dataType: 'json',
             success: function(json) {
                 let categories = [];
@@ -237,11 +243,34 @@
             type: 'POST',
             async: false,
             data: {
-                start_date: start_date,
             },
             success: function ( json ) {
                 container.textContent = json.data.chart.trim();
                 mermaid.init(undefined, container);
+            }
+        } );
+    }
+
+    function iboxPica(start_date, end_date) {
+        $.ajax( {
+            url: "../../models/dash_performance/dash_performance_fn_pica_ibox.php",
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data: {
+                start_date: start_date,
+                end_date: end_date,
+            },
+            success: function ( json ) {
+                open = json.data.rs_persen.c_open;
+                done = json.data.rs_persen.c_done;
+                persen_open = json.data.rs_persen.persen_open;
+                persen_done = json.data.rs_persen.persen_done;
+                c_id = json.data.rs_sisa.c_id;
+                
+                $('#sisa_belum_pica').html(c_id);
+                $('#done_pica').html('Done: '+ done + ' ('+persen_done+'%)');
+                $('#open_pica').html('Open: '+ open + ' ('+persen_open+'%)');
             }
         } );
     }

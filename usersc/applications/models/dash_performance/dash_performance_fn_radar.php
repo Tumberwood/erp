@@ -17,10 +17,12 @@
     // END definisi variable untuk fn_ajax_results.php
 
 	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
 
     $qs_skor = $db
     ->raw()
     ->bind(':start_date', $start_date)
+    ->bind(':end_date', $end_date)
     ->exec(' WITH sum_skor AS (
                 SELECT
                     b.id_hfogrmh,
@@ -28,7 +30,7 @@
                 FROM hfsxxth a
                 LEFT JOIN hfskptd b ON b.id_hfsxxth = a.id
                 WHERE a.transaction_state = 1
-                AND a.periode = :start_date
+                AND a.periode BETWEEN :start_date AND :end_date
                 GROUP BY b.id_hfogrmh
             )
             SELECT

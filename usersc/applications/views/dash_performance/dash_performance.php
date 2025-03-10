@@ -25,6 +25,10 @@
 						<div class="col-lg-5">
 							<div class="input-group input-daterange" id="periode">
 								<input type="text" id="start_date" class="form-control">
+								<div class="input-group-addon">
+									<span class="fa fa-calendar"></span>
+								</div>
+								<input type="text" id="end_date" class="form-control">
 							</div>
 						</div>
 					</div>
@@ -43,11 +47,43 @@
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<div class="" id="chartSkor"></div>
+					</div>
+					<div class="col-lg-3">
 						<div class="" id="chartRadar"></div>
 					</div>
-					<div class="col-lg-8">
+					<div class="col-lg-3">
+						<div class="ibox">
+							<div class="ibox-content bg-info p-xs">
+								<div class="row vertical-align">
+									<div class="col-6">
+										<h3 class="font-bold ">Outstanding PICA</h3>
+									</div>
+									<div class="col-6">
+										<h1 class="text-right font-bold" id="sisa_belum_pica"></h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="ibox">
+							<div class="ibox-content bg-primary p-xs">
+								<div class="row vertical-align">
+									<div class="col-9">
+										<h2 class="font-bold m-b-md">PICA Open</h5>
+										<hr class="hr-line-dashed m-t-xs m-b-xs">
+									</div>
+								</div>
+								<h4 class="" id="done_pica"></h4>
+								<h4 class="" id="open_pica"></h4>
+							</div>
+						</div>
+					</div>	
+				</div>	
+				<div class="row">
+					<div class="col">
 						<div class="center" id="familyTreeContainer"></div>
 					</div>
 				</div>
@@ -89,13 +125,16 @@
 	
 	//Aktivasi Filter Floating
 	filterFloating();
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
-
+	
+	$('#start_date').datepicker('setDate', awal_tahun_dmy);
 	start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+	end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+	
 	$(document).ready(function() {
-		chartSkor(start_date);
-		radar(start_date);
-		displayFamilyTree();
+		chartSkor(start_date, end_date);
+		radar(start_date, end_date);
+		displayFamilyTree(start_date, end_date);
+		iboxPica()
 		
 		$("#frmFilter").submit(function(e) {
 			e.preventDefault();
@@ -105,9 +144,11 @@
 			},
 			submitHandler: function(frmFilter) {
 				start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+				end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
-				chartSkor(start_date);
-				radar(start_date);
+				chartSkor(start_date, end_date);
+				radar(start_date, end_date);
+				iboxPica(start_date, end_date)
 				$('#modalFloatingFilter').modal('toggle');
 			}
 		});
