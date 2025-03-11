@@ -689,9 +689,9 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             } else if ($limitedResult[33]['gambaran'] == 3) {
                 $k_tab3_s = $k_tab3_s + 1;
             } else if ($limitedResult[33]['gambaran'] == 4) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -703,9 +703,9 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             } else if ($limitedResult[35]['gambaran'] == 3) {
                 $k_tab3_s = $k_tab3_s + 1;
             } else if ($limitedResult[35]['gambaran'] == 4) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -713,27 +713,27 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             if ($limitedResult[37]['gambaran'] == 1) {
                 $k_tab3_d = $k_tab3_d + 1;
             } else if ($limitedResult[37]['gambaran'] == 2) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else if ($limitedResult[37]['gambaran'] == 3) {
                 $k_tab3_i = $k_tab3_i + 1;
             } else if ($limitedResult[37]['gambaran'] == 4) {
                 $k_tab3_c = $k_tab3_c + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
         if (isset($limitedResult[39]['gambaran'])) {
             if ($limitedResult[39]['gambaran'] == 1) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else if ($limitedResult[39]['gambaran'] == 2) {
                 $k_tab3_s = $k_tab3_s + 1;
             } else if ($limitedResult[39]['gambaran'] == 3) {
                 $k_tab3_i = $k_tab3_i + 1;
             } else if ($limitedResult[39]['gambaran'] == 4) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -747,7 +747,7 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             } else if ($limitedResult[41]['gambaran'] == 4) {
                 $k_tab3_c = $k_tab3_c + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -761,7 +761,7 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             } else if ($limitedResult[43]['gambaran'] == 4) {
                 $k_tab3_c = $k_tab3_c + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -769,13 +769,13 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             if ($limitedResult[45]['gambaran'] == 1) {
                 $k_tab3_d = $k_tab3_d + 1;
             } else if ($limitedResult[45]['gambaran'] == 2) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else if ($limitedResult[45]['gambaran'] == 3) {
                 $k_tab3_s = $k_tab3_s + 1;
             } else if ($limitedResult[45]['gambaran'] == 4) {
                 $k_tab3_c = $k_tab3_c + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -785,11 +785,11 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             } else if ($limitedResult[47]['gambaran'] == 2) {
                 $k_tab3_i = $k_tab3_i + 1;
             } else if ($limitedResult[47]['gambaran'] == 3) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else if ($limitedResult[47]['gambaran'] == 4) {
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             } else { 
-                $k_tab3_star = $k_tab3_s + 1;
+                $k_tab3_star = $k_tab3_star + 1;
             }
         }
 
@@ -1446,6 +1446,24 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
             ->set('c_line1',$final_line1_c)
             ->set('c_line2',$final_line2_c)
             ->set('c_line3',$final_line3_c)
+            ->set('tbl_d1',$sum_p_d)
+            ->set('tbl_d2',$sum_k_d)
+            ->set('tbl_d3',$line3_d)
+            ->set('tbl_i1',$sum_p_i)
+            ->set('tbl_i2',$sum_k_i)
+            ->set('tbl_i3',$line3_i)
+            ->set('tbl_s1',$sum_p_s)
+            ->set('tbl_s2',$sum_k_s)
+            ->set('tbl_s3',$line3_s)
+            ->set('tbl_c1',$sum_p_c)
+            ->set('tbl_c2',$sum_k_c)
+            ->set('tbl_c3',$line3_c)
+            ->set('tanggal',$tanggal)
+            
+            ->set('tbl_star_1',$sum_p_star)
+            ->set('tbl_star_2',$sum_k_star)
+            ->set('tbl_total_1',$sum_line_1)
+            ->set('tbl_total_2',$sum_line_2)
             ->exec();
 
         $db->commit();

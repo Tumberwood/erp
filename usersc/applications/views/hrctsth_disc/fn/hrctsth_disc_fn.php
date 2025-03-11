@@ -64,7 +64,7 @@
     console.log(start_date);
 
     document.getElementById('quiz1').style.display = 'block';
-    var timerDuration = 600;
+    var timerDuration = 20;
     startCountdown(timerDuration);
     
     // Show the quiz container
