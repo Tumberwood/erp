@@ -13,6 +13,7 @@
 
   function noKtp() {
     var kode = $('#kode').val();
+    start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
     $.ajax({
       url: '../../models/hrctsth_disc/validate.php',
@@ -24,27 +25,30 @@
       success: function (json) {
         $('#nama').val(json.nama);
         $('#hetxxmh').val(json.hetxxmh);
-        if (!json.nama) {
-                // alert('Kode Yang Dimasukkan Salah!!!');
-                // document.getElementById('mulaidisc1').style.display = 'none';
-                // document.getElementById('button_modal1').style.display = 'none';
-        } else {
-            document.getElementById('kirim').style.display = 'none';
-            document.getElementById('kode').disabled = true;
 
-            if (json.status_disc == 1) {
-              alert('Tes disc Sedang Berlangsung.');
-              window.removeEventListener('beforeunload', confirmLeavePage);
-              window.location.reload();
-            } else if (json.status_disc == 2) {
-              alert('Tes disc Sudah Berakhir.');
-              window.removeEventListener('beforeunload', confirmLeavePage);
-              window.location.reload();
-            } else {
-              // document.getElementById('mulaidisc1').style.display = 'block';
-              // document.getElementById('button_modal1').style.display = 'block';
-              startQuiz();
-            } 
+        if (start_date == 'Invalid date') {
+          toastr.error("Tanggal wajib diisi!", "INFO");
+        } else {
+          if (!json.nama) {
+            toastr.error("Kode tes yang Anda masukkan tidak valid!", "INFO");
+          } else {
+              document.getElementById('kirim').style.display = 'none';
+              document.getElementById('kode').disabled = true;
+  
+              if (json.status_disc == 1) {
+                alert('Tes disc Sedang Berlangsung.');
+                window.removeEventListener('beforeunload', confirmLeavePage);
+                window.location.reload();
+              } else if (json.status_disc == 2) {
+                alert('Tes disc Sudah Berakhir.');
+                window.removeEventListener('beforeunload', confirmLeavePage);
+                window.location.reload();
+              } else {
+                // document.getElementById('mulaidisc1').style.display = 'block';
+                // document.getElementById('button_modal1').style.display = 'block';
+                startQuiz();
+              } 
+          }
         }
       }
     });
@@ -58,17 +62,18 @@
       
     start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
     console.log(start_date);
+
+    document.getElementById('quiz1').style.display = 'block';
+    var timerDuration = 600;
+    startCountdown(timerDuration);
     
     // Show the quiz container
-    document.getElementById('quiz1').style.display = 'block';
     // document.getElementById('mulaidisc1').style.display = 'none';
 
     // Set the countdown duration in 3 seconds
     // var timerDuration = 20;
-    var timerDuration = 600;
 
     // Start the countdown
-    startCountdown(timerDuration);
 
     // var id_hcd = $('#id_hcd').val();
     // var tanggal = $('#tanggal').val();

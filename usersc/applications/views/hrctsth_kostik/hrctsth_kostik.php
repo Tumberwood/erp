@@ -11,6 +11,32 @@
 	$nama_tabels_d = [];
 ?>
 
+<style>
+  .grid-container {
+      width: 100%; /* Make the container width responsive to the parent */
+      display: grid;
+      grid-template-columns: repeat(7, 48px); /* Three columns of fixed size */
+      gap: 0; /* No gap between grid items */
+  }
+
+  .grid-item {
+      display: flex; /* Flexbox to center content */
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+  }
+
+  .grid-box {
+      border: 1px solid #000; /* Border for grid boxes */
+      width: 48px; /* Fixed width for each box */
+      height: 48px; /* Fixed height for each box */
+      display: flex; /* Flexbox to center text */
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+      cursor: pointer; /* Pointer on hover */
+      transition: background-color 0.3s; /* Smooth transition */
+  }
+</style>
+
 <div class="container">
 	<form id="kostikForm">
 		<div class="form-group row">

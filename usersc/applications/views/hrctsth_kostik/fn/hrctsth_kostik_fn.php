@@ -14,6 +14,8 @@
     function noKtp() {
         var kode = $('#kode').val();
         console.log(kode);
+        start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+
         $.ajax({
             url: '../../models/hrctsth_kostik/validate.php',
             dataType: 'json',
@@ -24,25 +26,30 @@
             success: function(json) {
                 $('#nama').val(json.nama);
                 $('#hetxxmh').val(json.hetxxmh);
-                if (!json.nama) {
-                        alert('Kode Yang Dimasukkan Salah!!!');
-                        document.getElementById('button_modal1').style.display = 'none';
-                } else {
-                    document.getElementById('kirim').style.display = 'none';
-                    document.getElementById('kode').disabled = true;
 
-                    if (json.status_kostik == 1) {
-                        alert('Tes kostik Sedang Berlangsung.');
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        window.location.reload();
-                    } else if (json.status_kostik == 2) {
-                        alert('Tes kostik Sudah Berakhir.');
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        window.location.reload();
+                if (start_date == 'Invalid date') {
+                    toastr.error("Tanggal wajib diisi!", "INFO");
+                } else {
+                    if (!json.nama) {
+                            toastr.error("Kode tes yang Anda masukkan tidak valid!", "INFO");
+                            // document.getElementById('button_modal1').style.display = 'none';
                     } else {
-                        document.getElementById('button_modal1').style.display = 'block';
-                        startQuiz();
-                    } 
+                        document.getElementById('kirim').style.display = 'none';
+                        document.getElementById('kode').disabled = true;
+    
+                        if (json.status_kostik == 1) {
+                            alert('Tes kostik Sedang Berlangsung.');
+                            window.removeEventListener('beforeunload', confirmLeavePage);
+                            window.location.reload();
+                        } else if (json.status_kostik == 2) {
+                            alert('Tes kostik Sudah Berakhir.');
+                            window.removeEventListener('beforeunload', confirmLeavePage);
+                            window.location.reload();
+                        } else {
+                            document.getElementById('button_modal1').style.display = 'block';
+                            startQuiz();
+                        } 
+                    }
                 }
             }
         });

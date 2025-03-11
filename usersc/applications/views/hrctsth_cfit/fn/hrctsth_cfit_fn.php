@@ -18,6 +18,8 @@
 
     function noKtp() {
         var kode = $('#kode').val();
+        start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+
         $.ajax({
             url: '../../models/hrctsth_cfit/validate.php',
             dataType: 'json',
@@ -29,44 +31,48 @@
                 $('#nama').val(json.nama);
                 $('#id_hcd').val(json.id_hcd);
                 $('#hetxxmh').val(json.hetxxmh);
-                if (!json.nama) {
-                    alert('Kode Yang Dimasukkan Salah!!!');
-                    document.getElementById('mulaiCFIT1').style.display = 'none';
-                    document.getElementById('button_modal1').style.display = 'none';
-
-                    document.getElementById('mulaiCFIT2').style.display = 'none';
-                    document.getElementById('button_modal2').style.display = 'none';
-
-                    document.getElementById('mulaiCFIT3').style.display = 'none';
-                    document.getElementById('button_modal3').style.display = 'none';
-
-                    document.getElementById('mulaiCFIT4').style.display = 'none';
-                    document.getElementById('button_modal4').style.display = 'none';
+                if (start_date == 'Invalid date') {
+                toastr.error("Tanggal wajib diisi!", "INFO");
                 } else {
-                    document.getElementById('kirim').style.display = 'none';
-                    document.getElementById('kode').disabled = true;
-
-                    if (json.status_cfit == 1) {
-                        alert('Tes CFIT Sedang Berlangsung.');
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        window.location.reload();
-                    } else if (json.status_cfit == 2) {
-                        alert('Tes CFIT Sudah Selesai, untuk kode CFIT tersebut hanya dapat digunakan sekali. Jika ingin tes lagi, silahkan hubungi admin!.');
-                        window.removeEventListener('beforeunload', confirmLeavePage);
-                        window.location.reload();
-                    } else {
-                        document.getElementById('mulaiCFIT1').style.display = 'block';
-                        document.getElementById('button_modal1').style.display = 'block';
-
+                    if (!json.nama) {
+                        toastr.error("Kode tes yang Anda masukkan tidak valid!", "INFO");
+                        document.getElementById('mulaiCFIT1').style.display = 'none';
+                        document.getElementById('button_modal1').style.display = 'none';
+    
                         document.getElementById('mulaiCFIT2').style.display = 'none';
                         document.getElementById('button_modal2').style.display = 'none';
-
+    
                         document.getElementById('mulaiCFIT3').style.display = 'none';
                         document.getElementById('button_modal3').style.display = 'none';
-
+    
                         document.getElementById('mulaiCFIT4').style.display = 'none';
                         document.getElementById('button_modal4').style.display = 'none';
-                    } 
+                    } else {
+                        document.getElementById('kirim').style.display = 'none';
+                        document.getElementById('kode').disabled = true;
+    
+                        if (json.status_cfit == 1) {
+                            alert('Tes CFIT Sedang Berlangsung.');
+                            window.removeEventListener('beforeunload', confirmLeavePage);
+                            window.location.reload();
+                        } else if (json.status_cfit == 2) {
+                            alert('Tes CFIT Sudah Selesai, untuk kode CFIT tersebut hanya dapat digunakan sekali. Jika ingin tes lagi, silahkan hubungi admin!.');
+                            window.removeEventListener('beforeunload', confirmLeavePage);
+                            window.location.reload();
+                        } else {
+                            document.getElementById('mulaiCFIT1').style.display = 'block';
+                            document.getElementById('button_modal1').style.display = 'block';
+    
+                            document.getElementById('mulaiCFIT2').style.display = 'none';
+                            document.getElementById('button_modal2').style.display = 'none';
+    
+                            document.getElementById('mulaiCFIT3').style.display = 'none';
+                            document.getElementById('button_modal3').style.display = 'none';
+    
+                            document.getElementById('mulaiCFIT4').style.display = 'none';
+                            document.getElementById('button_modal4').style.display = 'none';
+                        } 
+                    }
                 }
             }
         });
