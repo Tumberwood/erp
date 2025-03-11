@@ -1,4 +1,6 @@
 <script>
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+
   var finishdisc = false;
 
   //ALERT KETIKA RELOAD
@@ -51,6 +53,9 @@
   //SESI 1
 
   function startQuiz() {
+    $('#start_date').prop('disabled', true);
+    start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+      
     start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
     console.log(start_date);
     
@@ -233,7 +238,7 @@
         kode: kode
       },
       success: function (json) {
-        toastr.info("Tes DISC Sudah Selesai!", "INFO");
+        toastr.info("Tes DISC Sudah Selesai, untuk kode DISC tersebut hanya dapat digunakan sekali. Jika ingin tes lagi, silahkan hubungi admin!", "INFO");
         is_finish = 1;
       }
     });

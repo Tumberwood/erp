@@ -1,4 +1,6 @@
 <script>
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+    
     var finishKostik = false;
 
     //ALERT KETIKA RELOAD 
@@ -50,6 +52,11 @@
     //SESI 1
     
     function startQuiz() {
+        $('#start_date').prop('disabled', true);
+        start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+        
+        start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
+        console.log(start_date);
 
         // Show the quiz container
         document.getElementById('quiz1').style.display = 'block';

@@ -1,4 +1,6 @@
 <script>
+	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+    
     var finishSesi1 = false;
     var finishSesi2 = false;
     var finishSesi3 = false;
@@ -49,7 +51,7 @@
                         window.removeEventListener('beforeunload', confirmLeavePage);
                         window.location.reload();
                     } else if (json.status_cfit == 2) {
-                        alert('Tes CFIT Sudah Selesai.');
+                        alert('Tes CFIT Sudah Selesai, untuk kode CFIT tersebut hanya dapat digunakan sekali. Jika ingin tes lagi, silahkan hubungi admin!.');
                         window.removeEventListener('beforeunload', confirmLeavePage);
                         window.location.reload();
                     } else {
@@ -910,7 +912,7 @@
             },
             success: function(json) {
 
-                toastr.info("Tes CFIT Sudah Selesai!", "INFO");
+                toastr.info("Tes CFIT Sudah Selesai, untuk kode CFIT tersebut hanya dapat digunakan sekali. Jika ingin tes lagi, silahkan hubungi admin!", "INFO");
             }
         });
 
