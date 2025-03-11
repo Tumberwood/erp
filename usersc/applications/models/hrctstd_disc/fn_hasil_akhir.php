@@ -58,7 +58,30 @@
         
 	    $rs_line3 = $qs_line3->fetch();
 
+		//LINE Graph
+        $id_hrctstd_disc   = $_POST['id_hrctstd_disc'];
+        $qs_graph = $db
+		->raw()
+		->bind(':id_hrctstd_disc', $id_hrctstd_disc)
+		->exec(' SELECT
+					d_line1,
+					d_line2,
+					d_line3,
+					i_line1,
+					i_line2,
+					i_line3,
+					c_line1,
+					c_line2,
+					c_line3
+				FROM hrctstd_disc
+				WHERE id = :id_hrctstd_disc
+				'
+				);
+        
+	    $rs_graph = $qs_graph->fetch();
+
 		$data = array(
+			'rs_graph' => $rs_graph,
 			'rs_line1' => $rs_line1,
 			'rs_line2' => $rs_line2,
 			'rs_line3' => $rs_line3

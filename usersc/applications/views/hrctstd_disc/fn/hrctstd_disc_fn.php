@@ -1,11 +1,12 @@
 <script>
-    function hasil(hasil_line1, hasil_line2, hasil_line3) {
+    function hasil(hasil_line1, hasil_line2, hasil_line3, id_hrctstd_disc) {
         
         $.ajax({
             url: '../../models/hrctstd_disc/fn_hasil_akhir.php',
             dataType: 'json',
             type: 'POST',
             data: {
+                id_hrctstd_disc: id_hrctstd_disc,
                 hasil_line1: hasil_line1,
                 hasil_line2: hasil_line2,
                 hasil_line3: hasil_line3

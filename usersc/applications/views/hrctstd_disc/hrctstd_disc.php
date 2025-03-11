@@ -37,29 +37,36 @@
 </div>
 <div style="display: none;" id="hasil_akhir">
 	<div class="row">
-		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
-			<div class="ibox ">
+		<div class="col-12">
+			<div class="ibox">
 				<div class="ibox-content">
-					<h3 class="text-danger text-center">Mask Public Self</h3>
-					<div id="data-line1"></div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
-			<div class="ibox ">
-				<div class="ibox-content">
-					<h3 class="text-danger text-center">Core Private Self</h3>
-					<div id="data-line2"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+					<div class="row">
+						<div class="col-4">
+							<h3 class="text-danger text-center">Mask Public Self</h3>
+							<div id="data-line1"></div>
+						</div>
+						<div class="col-4">
+							<h3 class="text-danger text-center">Core Private Self</h3>
+							<div id="data-line2"></div>
+						</div>
+						<div class="col-4">
+							<h3 class="text-danger text-center">Mirror Perceived Self</h3>
+							<div id="data-line3"></div>
+						</div>
+					</div> 
+				</div> 
+			</div> 
+		</div> 
+	</div> 
+
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-w-xs">
-			<div class="ibox ">
-				<div class="ibox-content">
-					<h3 class="text-danger text-center">Mirror Perceived Self</h3>
-					<div id="data-line3"></div>
+			<div class="row">
+				<div class="ibox ">
+					<div class="ibox-content">
+						<h3 class="text-danger text-center">Deskripsi Kepribadian</h3>
+						<div id="data-keterangan"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -67,10 +74,7 @@
 			<div class="row">
 				<div class="ibox ">
 					<div class="ibox-content">
-						<h3 class="text-danger text-center">Keterangan</h3>
-						<div id="data-keterangan"></div>
-						<hr>
-						<h3 class="text-danger text-center">Job</h3>
+						<h3 class="text-danger text-center">Job Match</h3>
 						<div id="data-job"></div>
 					</div>
 				</div>
@@ -315,7 +319,8 @@
 			// atur hak akses
 			CekSelectHeaderH(tblhrctstd_disc);
 			$("#hasil_akhir").show();
-			hasil(hasil_line1, hasil_line2, hasil_line3);
+			hasil(hasil_line1, hasil_line2, hasil_line3, id_hrctstd_disc);
+			console.log(id_hrctstd_disc);
 		} );
 
 		tblhrctstd_disc.on( 'deselect', function () {
