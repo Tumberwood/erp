@@ -1,4 +1,23 @@
 <script>
+    
+    Highcharts.setOptions({
+        chart: {
+            height: 500
+        },
+        lang: {
+            thousandsSep: ','
+        },
+        colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        credits: {
+			enabled: false
+		},
+        legend:{
+            align: 'center',
+            verticalAlign: 'bottom'
+        }
+    })
+    // END highchart generate options
+
     function hasil(hasil_line1, hasil_line2, hasil_line3, id_hrctstd_disc) {
         
         $.ajax({
@@ -51,6 +70,93 @@
 
                 var keterangan = '<h4>' + json.rs_line3.keterangan + '</h4><br>';
                 $('#data-keterangan').html(keterangan);
+                
+                let dataGraph1 = [
+                    { y: Number(json.rs_graph.d_line1) || 0, color: '#0000ff' },
+                    { y: Number(json.rs_graph.i_line1) || 0, color: '#8d0073' },
+                    { y: Number(json.rs_graph.s_line1) || 0, color: '#ba0046' },
+                    { y: Number(json.rs_graph.c_line1) || 0, color: '#d60028' }
+                ];
+
+                Highcharts.chart('graph1', {
+                    title: { text: 'GRAPH 1 MOST' },
+                    subtitle: { text: 'Mask Public Self' },
+                    accessibility: {
+                        point: { valueDescriptionFormat: '{xDescription}{separator}{value} million(s)' }
+                    },
+                    xAxis: {
+                        categories: ['D', 'I', 'S', 'C']
+                    },
+                    yAxis: {
+                        type: 'linear',
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{series.name}</b><br />',
+                        pointFormat: '{point.y}'
+                    },
+                    series: [{
+                        name: 'DISC',
+                        data: dataGraph1
+                    }]
+                });
+                
+                let dataGraph2 = [
+                    { y: Number(json.rs_graph.d_line2) || 0, color: '#0000ff' },
+                    { y: Number(json.rs_graph.i_line2) || 0, color: '#8d0073' },
+                    { y: Number(json.rs_graph.s_line2) || 0, color: '#ba0046' },
+                    { y: Number(json.rs_graph.c_line2) || 0, color: '#d60028' }
+                ];
+
+                Highcharts.chart('graph2', {
+                    title: { text: 'GRAPH 2 LEAST' },
+                    subtitle: { text: 'Core Private Self' },
+                    accessibility: {
+                        point: { valueDescriptionFormat: '{xDescription}{separator}{value} million(s)' }
+                    },
+                    xAxis: {
+                        categories: ['D', 'I', 'S', 'C']
+                    },
+                    yAxis: {
+                        type: 'linear',
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{series.name}</b><br />',
+                        pointFormat: '{point.y}'
+                    },
+                    series: [{
+                        name: 'DISC',
+                        data: dataGraph2
+                    }]
+                });
+                
+                let dataGraph3 = [
+                    { y: Number(json.rs_graph.d_line3) || 0, color: '#0000ff' },
+                    { y: Number(json.rs_graph.i_line3) || 0, color: '#8d0073' },
+                    { y: Number(json.rs_graph.s_line3) || 0, color: '#ba0046' },
+                    { y: Number(json.rs_graph.c_line3) || 0, color: '#d60038' }
+                ];
+
+                Highcharts.chart('graph3', {
+                    title: { text: 'GRAPH 3 CHANGE' },
+                    subtitle: { text: 'Mirror Perceived Self' },
+                    accessibility: {
+                        point: { valueDescriptionFormat: '{xDescription}{separator}{value} million(s)' }
+                    },
+                    xAxis: {
+                        categories: ['D', 'I', 'S', 'C']
+                    },
+                    yAxis: {
+                        type: 'linear',
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{series.name}</b><br />',
+                        pointFormat: '{point.y}'
+                    },
+                    series: [{
+                        name: 'DISC',
+                        data: dataGraph3
+                    }]
+                });
             }
         });
     }

@@ -37,6 +37,35 @@
 </div>
 <div style="display: none;" id="hasil_akhir">
 	<div class="row">
+		<div class="col-4">
+			<div class="ibox">
+				<div class="ibox-content">
+					<figure class="highcharts-figure">
+						<div id="graph1"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="ibox">
+				<div class="ibox-content">
+					<figure class="highcharts-figure">
+						<div id="graph2"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="ibox">
+				<div class="ibox-content">
+					<figure class="highcharts-figure">
+						<div id="graph3"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-12">
 			<div class="ibox">
 				<div class="ibox-content">
@@ -99,6 +128,13 @@
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
+
+<!-- load highcharts -->
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/highcharts.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/drilldown.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/highcharts-more.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/exporting.js"></script>
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/highcharts/no-data-to-display.js"></script>
 
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/hrctstd_disc/fn/hrctstd_disc_fn.php'; ?>
 

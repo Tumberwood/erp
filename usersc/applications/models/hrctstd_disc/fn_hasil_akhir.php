@@ -70,6 +70,9 @@
 					i_line1,
 					i_line2,
 					i_line3,
+					s_line1,
+					s_line2,
+					s_line3,
 					c_line1,
 					c_line2,
 					c_line3
