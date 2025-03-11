@@ -15,7 +15,7 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
     $limitedResult = $_POST['limitedResult'];
     $tanggal = date('Y-m-d');
     $kode = $_POST['kode'];
-
+    
     try {
         $db->transaction();
 
@@ -174,7 +174,7 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
                 $p_tab1_i = $p_tab1_i +1;
             } else if ($limitedResult[8]['gambaran'] == 2) {
                 $p_tab1_d = $p_tab1_d +1;
-            } else if ($limitedResult[8]['gambaran'] == 1) {
+            } else if ($limitedResult[8]['gambaran'] == 3) {
                 $p_tab1_s = $p_tab1_s +1;
             } else if ($limitedResult[8]['gambaran'] == 4) {
                 $p_tab1_star = $p_tab1_star +1;
@@ -542,11 +542,11 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
         if (isset($limitedResult[13]['gambaran'])) {
             if ($limitedResult[13]['gambaran'] == 1) {
                 $k_tab1_star = $k_tab1_star +1;
-            } else if ($limitedResult[13]['gambaran'] == 1) {
-                $k_tab1_i = $k_tab1_i +1;
             } else if ($limitedResult[13]['gambaran'] == 2) {
-                $k_tab1_c = $k_tab1_c +1;
+                $k_tab1_i = $k_tab1_i +1;
             } else if ($limitedResult[13]['gambaran'] == 3) {
+                $k_tab1_c = $k_tab1_c +1;
+            } else if ($limitedResult[13]['gambaran'] == 4) {
                 $k_tab1_d = $k_tab1_d +1;
             } else {
                 $k_tab1_star = $k_tab1_star +1;
@@ -824,6 +824,7 @@ if (isset($_POST['limitedResult'], $_POST['kode'])) {
 
         //Line 2 Star
         $sum_k_star = $k_tab1_star + $k_tab2_star + $k_tab3_star;
+
 
         ////////// Mencari nilai Line 3 dengan parameter ///////////////
         
