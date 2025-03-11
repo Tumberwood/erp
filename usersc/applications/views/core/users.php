@@ -98,6 +98,7 @@
                                 <th>Nama</th>
                                 <th>Akses Data</th>
                                 <th>Keterangan</th>
+                                <th data-i18n='state'></th>
                             </tr>
                         </thead>
                     </table>
@@ -754,7 +755,11 @@
 						}
 					}
 				},
-				{ data: "udpxxsh.keterangan" }
+				{ data: "udpxxsh.keterangan" },
+				{ 
+					data: "udpxxsh.transaction_state" ,
+					...renderTransactionStatus()
+				},
 			],
 			buttons: [
 

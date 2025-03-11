@@ -30,6 +30,7 @@
                                 <th>Logged In</th>
                                 <th>Display Order</th>
                                 <th>Icon Class</th>
+                                <th data-i18n='state'></th>
                             </tr>
                         </thead>
                     </table>
@@ -314,7 +315,11 @@
 						}
 					},
 					{ data: "menus.display_order" },
-					{ data: "menus.icon_class" }
+					{ data: "menus.icon_class" },
+					{ 
+						data: "menus_extend.transaction_state" ,
+						...renderTransactionStatus()
+					},
 					
 				],
 				buttons: [

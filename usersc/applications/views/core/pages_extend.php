@@ -29,6 +29,7 @@
                                 <th>Hal Setting</th>
                                 <th>Private</th>
                                 <th>Permissions</th>
+                                <th data-i18n='state'></th>
                             </tr>
                         </thead>
                     </table>
@@ -228,6 +229,10 @@
 						...renderYaTidak()
 					},
 					{ data: "permissions[].name" },
+					{ 
+						data: "pages_extend.transaction_state" ,
+						...renderTransactionStatus()
+					},
 				],
 				buttons: [
 					// BEGIN breaking generate button
