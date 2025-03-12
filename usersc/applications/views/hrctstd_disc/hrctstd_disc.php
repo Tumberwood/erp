@@ -36,6 +36,30 @@
 	</div>
 </div>
 <div style="display: none;" id="hasil_akhir">
+		<!-- <div id="tabel_atas"></div>-->
+	<div class="row">
+		<div class="col">
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="table-responsive">
+						<table id="tbl_disc" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<thead>
+								<tr>
+									<th>Line</th>
+									<th>D</th>
+									<th>I</th>
+									<th>S</th>
+									<th>C</th>
+									<th>*</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-4">
 			<div class="ibox">

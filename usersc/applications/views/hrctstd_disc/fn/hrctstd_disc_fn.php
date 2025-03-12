@@ -157,6 +157,90 @@
                         data: dataGraph3
                     }]
                 });
+    
+                if ($.fn.dataTable.isDataTable('#tbl_disc')) {
+                    $('#tbl_disc').DataTable().clear();
+                    $('#tbl_disc').DataTable().destroy();
+                    $('#tbl_disc tbody').empty();
+                    $('#tbl_disc thead').empty();
+                }
+
+                $('#tbl_disc').DataTable({
+                    paging: false,
+                    searching: false,
+                    info: false,
+                    lengthChange: false,
+                    responsive: false,
+                    data: json.rs_table_hasil,
+                    columns: [
+                        { 
+                            title: "Line", 
+                            data: null, 
+                            render: function (data, type, row, meta) { 
+                                return `<span style="font-weight: bold;">${meta.row + 1}</span>`;
+                            } 
+                        },
+                        { title: "D", data: "d" },
+                        { title: "I", data: "i" },
+                        { title: "S", data: "s" },
+                        { title: "C", data: "c" },
+                        { title: "*", data: "star", defaultContent: "" },
+                        { 
+                            title: "Total", 
+                            data: "total", 
+                            render: function (data, type, row) {
+                                return `<span class="text-danger" style="font-weight: bold;">${data ?? ''}</span>`;
+                            }
+                        }
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [1,2,3,4,5,6], ...renderNumber()
+                        },
+                    ],
+                    buttons: [
+                        {
+                            extend: 'collection',
+                            name: 'btnSetTools',
+                            text: '<i class="fa fa-wrench"></i>',
+                            titleAttr: 'Tools',
+                            className: 'btn btn-sm btn-outline',
+                            autoClose: true,
+                            buttons: [
+                                    { 
+                                        extend: "copy", 
+                                        name: 'btnCopy',
+                                        text: '<i class="fa fa-copy"></i>&nbsp;Copy',
+                                        className: 'btn btn-sm',
+                                        titleAttr: 'Copy',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    },
+                                    { 
+                                    extend: "excel",
+                                    name: 'btnExcel', 
+                                    text: '<i class="fa fa-file-excel-o"></i>&nbsp;Excel',
+                                    className: 'btn btn-sm',
+                                    titleAttr: 'Export to Excel',
+                                    exportOptions: {
+                                        columns: ':visible',
+                                    }
+                                },
+                            ]
+                        }
+                    ],
+                    rowCallback: function( row, data, index ) {
+                        if ( data.star == null ) {
+                            $('td:eq(5)', row).addClass('bg-dark');
+                        }
+
+                        if ( data.total == null ) {
+                            $('td:eq(6)', row).addClass('bg-dark');
+                        }
+                    }
+                });
+
             }
         });
     }
