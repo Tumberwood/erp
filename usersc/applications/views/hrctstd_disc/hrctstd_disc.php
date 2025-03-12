@@ -42,6 +42,7 @@
 			<div class="ibox">
 				<div class="ibox-content">
 					<div class="table-responsive">
+						<h3>Personality System Graph Page</h3>
 						<table id="tbl_disc" class="table table-striped table-bordered table-hover nowrap" width="100%">
 							<thead>
 								<tr>

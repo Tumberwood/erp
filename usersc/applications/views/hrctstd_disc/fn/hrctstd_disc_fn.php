@@ -231,11 +231,11 @@
                         }
                     ],
                     rowCallback: function( row, data, index ) {
-                        if ( data.star == null ) {
+                        if ( data.d != null && data.star == null ) {
                             $('td:eq(5)', row).addClass('bg-dark');
                         }
 
-                        if ( data.total == null ) {
+                        if ( data.d != null && data.total == null ) {
                             $('td:eq(6)', row).addClass('bg-dark');
                         }
                     }
