@@ -55,7 +55,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th data-i18n='state'></th>
                             </tr>
                         </thead>
                     </table>
