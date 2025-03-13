@@ -25,6 +25,7 @@
       success: function (json) {
         $('#nama').val(json.nama);
         $('#hetxxmh').val(json.hetxxmh);
+        $('#ktp').val(json.ktp);
 
         if (start_date == 'Invalid date') {
           toastr.error("Tanggal wajib diisi!", "INFO");

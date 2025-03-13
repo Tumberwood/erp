@@ -25,6 +25,7 @@
             },
             success: function(json) {
                 $('#nama').val(json.nama);
+                $('#ktp').val(json.ktp);
                 $('#hetxxmh').val(json.hetxxmh);
 
                 if (start_date == 'Invalid date') {

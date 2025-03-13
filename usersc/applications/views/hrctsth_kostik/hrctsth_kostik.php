@@ -38,47 +38,65 @@
 </style>
 
 <div class="container">
-	<form id="kostikForm">
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Kode Kostik</label>
-			<div class="col-lg-5">
-				<input type="text" class="form-control" id="kode" name="kode" required>
-			</div>
-		</div>
-			
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Nama Kandidat</label>
-			<div class="col-lg-5">
-				<input type="text" class="form-control" id="nama" name="nama" disabled>
-			</div>
-		</div>
-		
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Tanggal</label>
-			<div class="col-lg-5">
-				<div class="input-group input-daterange" id="periode">
-					<input type="text" id="start_date" class="form-control">
-				</div>
-			</div>
-		</div>
-		
-		<div class="row" style="display: none">
-			<div class="col-md-12">
-				<div class="form-group">
-					<label for="id_hcd"></label>
-					<input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-2">
-				<button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
-			</div>
-			<button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
-			<button  style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()" >Mulai</button>
-		</div>
-	</form>
-</div>	
+    <form id="kostikForm">
+        <div class="row">
+            <!-- Kolom Kiri -->
+            <div class="col-6">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Kode Kostik</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="kode" name="kode" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Tanggal</label>
+                    <div class="col-lg-8">
+                        <div class="input-group input-daterange" id="periode">
+                            <input type="text" id="start_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan -->
+            <div class="col-6">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Nama Kandidat</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="nama" name="nama" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">No KTP</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="ktp" name="ktp" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Elemen yang disembunyikan -->
+        <div class="row" style="display: none">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="id_hcd"></label>
+                    <input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol -->
+        <div class="row mt-3">
+            <div class="col-2">
+                <button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
+            </div>
+            <div class="col-10">
+                <button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()">Kirim</button>
+                <button style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()">Mulai</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 
 <!-- Modal -->
@@ -92,6 +110,8 @@
         </button>
       </div>
       <div class="modal-body">
+	  	<p class="text-danger"> <b>WAKTU PENGERJAAN (12 Menit)</b></p>
+
 		<h3>INSTRUKSI PAPI KOSTIK</h3>
 			<br>
 			Dihadapan saudara ada persoalan yang didalamnya terdapat 90 nomor soal, dimana pada masing-masing nomor terdapat 2 pasang pernyataan. Tugas anda adalah memilih salah satu dari setiap pasangan pernyataan tersebut yang anda anggap paling menggambarkan kepribadian atau diri anda. Apabila kedua  pernyataan tersebut memiliki kemiripan dengan diri anda saat ini ataupun keduanya tidak satupun menggambarkan diri anda, maka cobalah pertimbangkan kembali secara teliti hingga anda dapat menemukan pernyataan yang paling menggambarkan diri anda.

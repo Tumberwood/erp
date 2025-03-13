@@ -35,30 +35,44 @@
       transition: background-color 0.3s; /* Smooth transition */
   }
 </style>
+
 <div class="container">
   <form id="cfitForm">
-    <div class="form-group row">
-      <label class="col-lg-2 col-form-label">Kode CFIT</label>
-      <div class="col-lg-5">
-        <input type="text" class="form-control" id="kode" name="kode" required>
-      </div>
-    </div>
+    <div class="row">
+        <!-- Kolom Kiri -->
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-lg-4 col-form-label">Kode CFIT</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="kode" name="kode" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-4 col-form-label">Tanggal</label>
+                <div class="col-lg-8">
+                    <div class="input-group input-daterange" id="periode">
+                        <input type="text" id="start_date" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="form-group row">
-      <label class="col-lg-2 col-form-label">Nama Kandidat</label>
-      <div class="col-lg-5">
-        <input type="text" class="form-control" id="nama" name="nama" disabled>
-      </div>
+        <!-- Kolom Kanan -->
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-lg-4 col-form-label">Nama Kandidat</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="nama" name="nama" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-4 col-form-label">No KTP</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="ktp" name="ktp" disabled>
+                </div>
+            </div>
+        </div>
     </div>
-
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Tanggal</label>
-			<div class="col-lg-5">
-				<div class="input-group input-daterange" id="periode">
-					<input type="text" id="start_date" class="form-control">
-				</div>
-			</div>
-		</div>
     
     <div class="form-group row">
       <div class="col-lg-3">
@@ -102,6 +116,7 @@
           <!-- Kolom Kiri: Instruksi -->
           <div class="col-md-6">
             <div class="instruction">
+              <p class="text-danger"> <b>WAKTU PENGERJAAN (3 Menit)</b></p>
               <h2><b>SUBTES 1</b></h2>
               <p>Mari kita mulai tes pertama. Perhatikan gambar-gambar contoh pada tes ini.</p>
               <p>Pada baris pertama, terdapat sebuah lingkaran di kotak pertama yang semakin ke kanan ukurannya semakin kecil.</p>
@@ -139,7 +154,9 @@
           <!-- Kolom Kiri: Instruksi -->
           <div class="col-md-6">
             <div class="instruction">
+              <p class="text-danger"> <b>WAKTU PENGERJAAN (4 Menit)</b></p>
               <h2><b>Subtes 2</b></h2>
+
               <p>Perhatikan contoh gambar berikut sebelum memulai tes.</p>
               <p>Pada setiap soal, terdapat lima gambar dalam kotak. Tiga gambar memiliki bentuk yang sama, sedangkan dua gambar lainnya memiliki bentuk yang berbeda.</p>
               <p>Tugas Anda adalah menemukan dua gambar yang berbeda dari lima gambar yang tersedia.</p>
@@ -177,6 +194,7 @@
           <!-- Kolom Kiri: Instruksi -->
           <div class="col-md-6">
             <div class="instruction">
+              <p class="text-danger"> <b>WAKTU PENGERJAAN (3 Menit)</b></p>
               <h2><b>SUBTES 3</b></h2>
               <p>Perhatikan contoh gambar berikut sebelum memulai tes.</p>
               <p>Pada bagian kiri, terdapat sebuah kotak besar yang berisi beberapa kotak kecil dengan gambar di dalamnya. Namun, salah satu kotak tidak memiliki gambar.</p>
@@ -214,6 +232,7 @@
           <!-- Kolom Kiri: Instruksi -->
           <div class="col-md-6">
             <div class="instruction">
+              <p class="text-danger"> <b>WAKTU PENGERJAAN (2 Menit 30 Detik)</b></p>
               <h2><b>SUBTES 4</b></h2>
               <p>Ini adalah subtes terakhir. Perhatikan contoh gambar berikut.</p>
               <p>Di bagian kiri, terdapat satu gambar sebagai acuan. Sementara di bagian kanan, terdapat lima gambar sebagai pilihan jawaban.</p>

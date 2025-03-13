@@ -12,47 +12,65 @@
 ?>
 
 <div class="container">
-	<form id="discForm">
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Kode DISC</label>
-			<div class="col-lg-5">
-				<input type="text" class="form-control" id="kode" name="kode" required>
-			</div>
-		</div>
-			
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Nama Kandidat</label>
-			<div class="col-lg-5">
-				<input type="text" class="form-control" id="nama" name="nama" disabled>
-			</div>
-		</div>
+    <form id="discForm">
+        <div class="row">
+            <!-- Kolom Kiri -->
+            <div class="col-6">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Kode DISC</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="kode" name="kode" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Tanggal</label>
+                    <div class="col-lg-8">
+                        <div class="input-group input-daterange" id="periode">
+                            <input type="text" id="start_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		<div class="form-group row">
-			<label class="col-lg-2 col-form-label">Tanggal</label>
-			<div class="col-lg-5">
-				<div class="input-group input-daterange" id="periode">
-					<input type="text" id="start_date" class="form-control">
-				</div>
-			</div>
-		</div>
-		
-		<div class="row" style="display: none">
-			<div class="col-md-12">
-				<div class="form-group">
-					<label for="id_hcd"></label>
-					<input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-2">
-				<button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
-			</div>
-			<button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
-			<button  style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()" >Mulai</button>
-		</div>
-	</form>
-</div>	
+            <!-- Kolom Kanan -->
+            <div class="col-6">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Nama Kandidat</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="nama" name="nama" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">No KTP</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="ktp" name="ktp" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Elemen yang disembunyikan -->
+        <div class="row" style="display: none">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="id_hcd"></label>
+                    <input type="text" class="form-control" id="id_hcd" name="id_hcd" disabled>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol -->
+        <div class="row mt-3">
+            <div class="col-2">
+                <button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
+            </div>
+            <div class="col-10">
+                <button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()">Kirim</button>
+                <button style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()">Mulai</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 
 <!-- Modal -->
@@ -66,12 +84,14 @@
         </button>
       </div>
       <div class="modal-body">
+	  	<p class="text-danger"> <b>WAKTU PENGERJAAN (10 Menit)</b></p>
+
         Setiap nomor dibawah ini memuat 4 (empat) kalimat. Tugas anda adalah:
         <ul>
           <li>Klik pada kolom dibawah huruf [<b>P</b>] di samping kalimat yang <b>PALING menggambarkan</b> diri anda</li>
           <li>Klik pada kolom dibawah huruf [<b>K</b>] di samping kalimat yang <b>PALING TIDAK menggambarkan</b> diri anda</li>
         </ul>
-        <p class="text-danger"> <b>PERHATIKAN</b>: Setiap nomor hanya ada 1 (satu) tanda dibawah masing-masing kolom <b>P</b> dan <b>K</b>.</p>
+        <p class="text-danger"> <b>PERHATIKAN</b>: (10 Menit) Setiap nomor hanya ada 1 (satu) tanda dibawah masing-masing kolom <b>P</b> dan <b>K</b>.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
