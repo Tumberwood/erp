@@ -79,8 +79,8 @@
 										<th>ID</th>
 										<th>id_hrccdth</th>
 										<th>Request</th>
-										<th>Jabatan</th>
 										<th>Nama Kandidat</th>
+										<th>Jabatan</th>
 										<th>Tempat</th>
 										<th>Agenda</th>
 									</tr>
