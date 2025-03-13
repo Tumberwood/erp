@@ -87,7 +87,8 @@
 					jumlah_unit,
 					jumlah_konversi,
 					jumlah_terkecil,
-					jumlah_default
+					jumlah_default,
+					harga_unit
 				)
 				SELECT
 					prcxxth_npo.id as id_transaksi_h,
@@ -127,7 +128,8 @@
 					prcittd_npo.jumlah_unit as jumlah_unit,
 					prcittd_npo.jumlah_konversi as jumlah_konversi,
 					prcittd_npo.jumlah_terkecil as jumlah_terkecil,
-					prcittd_npo.jumlah_default as jumlah_default
+					prcittd_npo.jumlah_default as jumlah_default,
+					prcittd_npo.harga_unit as harga_unit
 				FROM prcxxth_npo
 				LEFT JOIN gcpxxmh ON gcpxxmh.id = prcxxth_npo.id_gcpxxmh
 				LEFT JOIN gbrxxmh ON gbrxxmh.id = prcxxth_npo.id_gbrxxmh

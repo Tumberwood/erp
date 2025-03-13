@@ -55,6 +55,21 @@
 			Field::inst( 'prcxxth_npo.is_nextprocess' ),
 			Field::inst( 'prcxxth_npo.is_defaultprogram' ),
 
+			Field::inst( 'prcxxth_npo.subtotal' ),
+			Field::inst( 'prcxxth_npo.diskon_jenis' ),
+			Field::inst( 'prcxxth_npo.diskon_value' ),
+			Field::inst( 'prcxxth_npo.diskon_persen' ),
+			Field::inst( 'prcxxth_npo.diskon_final' ),
+			Field::inst( 'prcxxth_npo.dpp' ),
+			Field::inst( 'prcxxth_npo.dpp_final' ),
+
+			Field::inst( 'prcxxth_npo.is_pajak' ),
+			Field::inst( 'prcxxth_npo.pajak_in_ex' ),
+			Field::inst( 'prcxxth_npo.pajak_jenis' ),
+			Field::inst( 'prcxxth_npo.pajak_persen' ),
+			Field::inst( 'prcxxth_npo.pajak_final' ),
+			Field::inst( 'prcxxth_npo.grand_total' ),
+
 			Field::inst( 'prcxxth_npo.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){
