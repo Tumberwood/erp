@@ -70,8 +70,13 @@
 				</div>
 			</div>
 		</div>
-    <button type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
-		<button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
+		<div class="row">
+			<div class="col-2">
+				<button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
+			</div>
+			<button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()" >Kirim</button>
+			<button  style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()" >Mulai</button>
+		</div>
 	</form>
 </div>	
 

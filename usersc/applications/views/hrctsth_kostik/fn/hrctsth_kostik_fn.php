@@ -46,8 +46,9 @@
                             window.removeEventListener('beforeunload', confirmLeavePage);
                             window.location.reload();
                         } else {
+                            // startQuiz();
+                            document.getElementById('goToQuiz').style.display = 'block';
                             document.getElementById('button_modal1').style.display = 'block';
-                            startQuiz();
                         } 
                     }
                 }
@@ -59,6 +60,7 @@
     //SESI 1
     
     function startQuiz() {
+        document.getElementById('goToQuiz').style.display = 'none';
         $('#start_date').prop('disabled', true);
         start_at = moment().format('YYYY-MM-DD HH:mm:ss');
         
