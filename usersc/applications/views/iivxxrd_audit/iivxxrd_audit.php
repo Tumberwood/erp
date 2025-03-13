@@ -126,7 +126,6 @@
 					},
 					success: function ( json ) {
 						id_wlpxxmh_filter = json.data;
-						console.log(id_wlpxxmh_filter);
 
 						if (id_wlpxxmh_filter > 0) {
 							is_valid = 1;
@@ -152,7 +151,6 @@
 					},
 					success: function ( json ) {
 						id_wloxxmh_filter = json.data;
-						console.log(id_wloxxmh_filter);
 
 						if (id_wloxxmh_filter > 0) {
 							is_valid = 1;
@@ -184,7 +182,6 @@
 						id_wloxxmh_filter: id_wloxxmh_filter,
 					},
 					success: function ( json ) {
-						console.log(json.data);
 						dataKonten = json.data;
 						if (dataKonten.length >= 2 && dataKonten.length < 3) {
 							class_col = "col-lg-6";
@@ -193,7 +190,6 @@
 						} else {
 							class_col = "col-lg-12";
 						}
-						console.log(class_col);
 	
 						genKonten = '';
 						dataKonten.forEach(kontenData => {
@@ -247,7 +243,7 @@
 							} else {
 								kontenValid = '<p>Data Tidak Ditemukan!</p>';
 							}
-							console.log(kontenData);
+
 							if (kontenData.wlpxxmh_kode != '' && wloxxmh_nama != '') {
 								conct = '-';
 							} else {
@@ -273,7 +269,6 @@
 						$('.submit-button').on('click', function() {
 							var insertValue = $(this).attr('data-insert');
 							var is_iiv_valid = $(this).attr('data-cekValid');
-							console.log(is_iiv_valid);
 							
 							var statusAuditValue = $(this).closest('.ibox-content').find('input[name^="statusAudit"]:checked').val();
 							
@@ -334,6 +329,9 @@
 						alert('harus isi salah satu');
 						return false;
 					}
+					
+					$('#lpnInput').val('');
+					$('#locationInput').val('');
 				}
 			});
 
