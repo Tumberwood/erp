@@ -44,6 +44,7 @@
 				Field::inst( 'sdlittd_nso.is_defaultprogram' ),
 				Field::inst( 'sdlittd_nso.is_nextprocess' ),
 
+				Field::inst( 'sdlittd_nso.harga_unit' ),
 				Field::inst( 'sdlittd_nso.jumlah_unit' ),
 				Field::inst( 'sdlittd_nso.diskon_jenis' ),
 				Field::inst( 'sdlittd_nso.diskon_persen' ),

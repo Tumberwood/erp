@@ -26,11 +26,12 @@
 		->fields(
 			Field::inst( 'sdlxxth_nso.id' ),
 			Field::inst( 'sdlxxth_nso.id_gcpxxmh' )
-				->set( Field::SET_CREATE )
-				->setValue($s_id_gcpxxmh),
+			->set( Field::SET_CREATE )
+			->setValue($s_id_gcpxxmh),
 			Field::inst( 'sdlxxth_nso.id_gbrxxmh' )
-				->set( Field::SET_CREATE )
-				->setValue($s_id_gbrxxmh),
+			->set( Field::SET_CREATE )
+			->setValue($s_id_gbrxxmh),
+			Field::inst( 'sdlxxth_nso.id_iitxxmh' ),
 			Field::inst( 'sdlxxth_nso.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth_nso.id_imtxxmh' )
@@ -53,6 +54,21 @@
 			Field::inst( 'sdlxxth_nso.finish_at' ),
 			Field::inst( 'sdlxxth_nso.is_nextprocess' ),
 			Field::inst( 'sdlxxth_nso.is_defaultprogram' ),
+
+			Field::inst( 'sdlxxth_nso.subtotal' ),
+			Field::inst( 'sdlxxth_nso.diskon_jenis' ),
+			Field::inst( 'sdlxxth_nso.diskon_value' ),
+			Field::inst( 'sdlxxth_nso.diskon_persen' ),
+			Field::inst( 'sdlxxth_nso.diskon_final' ),
+			Field::inst( 'sdlxxth_nso.dpp' ),
+			Field::inst( 'sdlxxth_nso.dpp_final' ),
+
+			Field::inst( 'sdlxxth_nso.is_pajak' ),
+			Field::inst( 'sdlxxth_nso.pajak_in_ex' ),
+			Field::inst( 'sdlxxth_nso.pajak_jenis' ),
+			Field::inst( 'sdlxxth_nso.pajak_persen' ),
+			Field::inst( 'sdlxxth_nso.pajak_final' ),
+			Field::inst( 'sdlxxth_nso.grand_total' ),
 
 			Field::inst( 'sdlxxth_nso.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {

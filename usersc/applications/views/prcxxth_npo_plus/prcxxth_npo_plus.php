@@ -791,10 +791,10 @@
 			// event setelah Create atau Edit, dibedakan dari parameter action
 			// action : "create" | "edit"
 			// do something
-			edtpodxxth.field('podxxth.diskon_final').val(diskon_final_h);
-			edtpodxxth.field('podxxth.dpp_final').val(dpp_final_h);
-			edtpodxxth.field('podxxth.pajak_final').val(pajak_final_h);
-			edtpodxxth.field('podxxth.grand_total').val(grand_total_h);
+			edtprcxxth_npo.field('prcxxth_npo.diskon_final').val(diskon_final_h);
+			edtprcxxth_npo.field('prcxxth_npo.dpp_final').val(dpp_final_h);
+			edtprcxxth_npo.field('prcxxth_npo.pajak_final').val(pajak_final_h);
+			edtprcxxth_npo.field('prcxxth_npo.grand_total').val(grand_total_h);
 		} );
 
 		edtprcxxth_npo.on( 'close', function () {
