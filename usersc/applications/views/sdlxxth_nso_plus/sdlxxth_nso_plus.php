@@ -1130,7 +1130,7 @@
 		});
 
 		edtsdlittd_nso.on("open", function (e, mode, action) {
-			$(".modal-dialog").addClass("modal-lg");
+			$(".modal-dialog").addClass("modal-xl");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
 
