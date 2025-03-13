@@ -111,7 +111,7 @@
         </thead>
         <tbody>
             <tr>
-                <td rowspan="3" class="biru">WORK DIRECTION</td>
+                <td rowspan="3" style="font-size: 30px;" class="biru">WORK DIRECTION</td>
                 <td class="biru">Need to Personality Finish a Task</td>
                 <td>HIGH ANALYSIS</td>
                 <td class="code">N</td>
@@ -127,13 +127,13 @@
                     }
 
                     if ($results_select['work_direction'] < 2.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['work_direction'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['work_direction'] . "</td>";
                     } else if ($results_select['work_direction'] >= 2.5 && $results_select['work_direction'] < 4) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['work_direction'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['work_direction'] . "</td>";
                     } else if ($results_select['work_direction'] >= 4 && $results_select['work_direction'] < 5.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['work_direction'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['work_direction'] . "</td>";
                     } else {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['work_direction'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['work_direction'] . "</td>";
                     }
 
                     
@@ -173,7 +173,7 @@
                 ?>
             </tr>
             <tr>
-                <td rowspan="3" class="kuning">LEADERSHIP</td>
+                <td rowspan="3" style="font-size: 30px;" class="kuning">LEADERSHIP</td>
                 <td class="kuning">Leadership Role</td>
                 <td>LOW ANALISYS</td>
                 <td class="code">L</td>
@@ -189,13 +189,13 @@
                     }
                     
                     if ($results_select['leadership'] < 2.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['leadership'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['leadership'] . "</td>";
                     } else if ($results_select['leadership'] >= 2.5 && $results_select['leadership'] < 4) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['leadership'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['leadership'] . "</td>";
                     } else if ($results_select['leadership'] >= 4 && $results_select['leadership'] < 5.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['leadership'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['leadership'] . "</td>";
                     } else {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['leadership'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['leadership'] . "</td>";
                     }
                 ?>
             </tr>
@@ -248,13 +248,13 @@
                     }
                     
                     if ($results_select['activiti'] < 2.5) {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['activiti'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['activiti'] . "</td>";
                     } else if ($results_select['activiti'] >= 2.5 && $results_select['activiti'] < 4) {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['activiti'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['activiti'] . "</td>";
                     } else if ($results_select['activiti'] >= 4 && $results_select['activiti'] < 5.5) {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['activiti'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['activiti'] . "</td>";
                     } else {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['activiti'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['activiti'] . "</td>";
                     }
                 ?>
             </tr>
@@ -291,13 +291,13 @@
                     }
                     
                     if ($results_select['social_nature'] < 2.5) {
-                        echo '<td rowspan="4"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['social_nature'] . "</td>";
+                        echo '<td rowspan="4" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['social_nature'] . "</td>";
                     } else if ($results_select['social_nature'] >= 2.5 && $results_select['social_nature'] < 4) {
-                        echo '<td rowspan="4"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['social_nature'] . "</td>";
+                        echo '<td rowspan="4" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['social_nature'] . "</td>";
                     } else if ($results_select['social_nature'] >= 4 && $results_select['social_nature'] < 5.5) {
-                        echo '<td rowspan="4"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['social_nature'] . "</td>";
+                        echo '<td rowspan="4" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['social_nature'] . "</td>";
                     } else {
-                        echo '<td rowspan="4"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['social_nature'] . "</td>";
+                        echo '<td rowspan="4" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['social_nature'] . "</td>";
                     }
                 ?>
             </tr>
@@ -350,7 +350,7 @@
                 ?>
             </tr>
             <tr>
-                <td rowspan="3" class="biru">WORK STYLE</td>
+                <td rowspan="3" style="font-size: 30px;" class="biru">WORK STYLE</td>
                 <td class="biru">Theoretical type</td>
                 <td>MIDDLE RANGE</td>
                 <td class="code">R</td>
@@ -366,13 +366,13 @@
                     }
                     
                     if ($results_select['work_style'] < 2.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['work_style'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['work_style'] . "</td>";
                     } else if ($results_select['work_style'] >= 2.5 && $results_select['work_style'] < 4) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['work_style'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['work_style'] . "</td>";
                     } else if ($results_select['work_style'] >= 4 && $results_select['work_style'] < 5.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['work_style'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['work_style'] . "</td>";
                     } else {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['work_style'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['work_style'] . "</td>";
                     }
                 ?>
             </tr>
@@ -409,7 +409,7 @@
                 ?>
             </tr>
             <tr>
-                <td rowspan="3" class="kuning">TEMPERAMENT</td>
+                <td rowspan="3" style="font-size: 30px;" class="kuning">TEMPERAMENT</td>
                 <td class="kuning">Need for change</td>
                 <td>LOW ANALISYS</td>
                 <td class="code">Z</td>
@@ -425,13 +425,13 @@
                     }
                     
                     if ($results_select['temprament'] < 2.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['temprament'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['temprament'] . "</td>";
                     } else if ($results_select['temprament'] >= 2.5 && $results_select['temprament'] < 4) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['temprament'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['temprament'] . "</td>";
                     } else if ($results_select['temprament'] >= 4 && $results_select['temprament'] < 5.5) {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['temprament'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['temprament'] . "</td>";
                     } else {
-                        echo '<td rowspan="3"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['temprament'] . "</td>";
+                        echo '<td rowspan="3" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['temprament'] . "</td>";
                     }
                 ?>
             </tr>
@@ -484,13 +484,13 @@
                     }
                     
                     if ($results_select['follower'] < 2.5) {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['follower'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-down text-danger"></i> ' . $results_select['follower'] . "</td>";
                     } else if ($results_select['follower'] >= 2.5 && $results_select['follower'] < 4) {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['follower'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(135deg)"></i> ' . $results_select['follower'] . "</td>";
                     } else if ($results_select['follower'] >= 4 && $results_select['follower'] < 5.5) {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['follower'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-up text-warning" style="transform: rotate(45deg)"></i> ' . $results_select['follower'] . "</td>";
                     } else {
-                        echo '<td rowspan="2"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['follower'] . "</td>";
+                        echo '<td rowspan="2" style="font-size: 30px;"><i class="fas fa-arrow-up text-success" ></i> ' . $results_select['follower'] . "</td>";
                     }
                 ?>
             </tr>
