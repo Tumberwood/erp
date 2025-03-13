@@ -581,6 +581,9 @@
 					edtiimxxmh.field('iimxxmh.nama').disable();
 				}
 			}
+
+			//cek_is_need_generate_kode
+			cek_is_need_generate_kode('iimxxmh', edtiimxxmh, 1);
 		});
 
 		edtiimxxmh.on("open", function (e, mode, action) {

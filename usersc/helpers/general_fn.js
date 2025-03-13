@@ -1565,36 +1565,66 @@ function uploadDetail(id_header, nama_tabel, tbl, url) {
  * @param {nama tabel database} tbl_name 
  * @param {editor} edt 
  * @param {is_required} is_required = 1 maka wajib isi kode | is_required = 0, maka tidak wajib isi kode 
+ * @param {action} action = Kalau diisi akan ada disable enable kode
  * 
     cek_is_need_generate_kode('hemxxmh', edthemxxmh);
  */
-function cek_is_need_generate_kode(tbl_name, edt, is_required) {
+function cek_is_need_generate_kode(tbl_name, edt, is_required, action) {
     tableRelation(tbl_name);
     if (!is_required) {
         is_required = 0;
     }
 
     const fields = edt.fields();
+    // console.log(is_master_table);
+    
     //jika is_generate_kode = 1 di gtbrlsh
     if (is_need_generate_kode == 1) {
         //Jika fields kode di editor ada, maka dihide saja
         if (fields.includes(tbl_name + '.kode')) {
-            console.log('Field ditemukan.');
             edt.field(tbl_name+'.kode').hide();
         }
     } else {
         if (!fields.includes(tbl_name + '.kode')) {
             // Jika field tidak ditemukan, buat editor baru untuk "kode"
             edt.add({
-                label: 'Kode', // Label untuk editor
+                label: getTranslation('code'), // Label untuk editor
                 name: tbl_name + '.kode', // Nama field
                 type: 'text', // Jenis input (misalnya, teks)
                 placeholder: 'Masukkan kode', // Placeholder
             });
+
+            let reorderedFields = edt.fields();             
+
+            // Temukan posisi transaction_state
+            let index = reorderedFields.indexOf('iitxxmh.transaction_state');
+            
+            reorderedFields = reorderedFields.filter(f => f !== tbl_name + '.kode'); // Hapus dulu
+            reorderedFields.splice(index + 1, 0, tbl_name + '.kode'); // Masukkan setelahnya
+        
+            // Terapkan urutan baru
+            edt.order(reorderedFields);
+        }
+
+        if (action) {
+            console.log(is_master_table);
+            
+            if (is_master_table == 1) {
+                if(action == 'create'){
+                    edt.field(tbl_name + '.kode').enable();
+    
+                }else if(action == 'edit'){
+                    if(transaction_state == 0){
+                        edt.field(tbl_name + '.kode').enable();
+                    }else{
+                        edt.field(tbl_name + '.kode').disable();
+                    }
+                }
+            }
         }
 
         if (is_required == 1) {
-            edt.field(tbl_name + '.kode').label( "Kode  <sup class='text-danger'>*<sup>" );
+            edt.field(tbl_name + '.kode').label( getTranslation('code') + " <sup class='text-danger'>*<sup>");
             edt.on( 'preSubmit', function (e, data, action) {
                 if(action != 'remove'){
                     if(!edt.field(tbl_name + '.kode').val() || edt.field(tbl_name + '.kode').val() == ''){

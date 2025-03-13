@@ -166,6 +166,8 @@
 		edtiigx2mh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiigx2mh.field('iigx2mh.start_at').val(start_at);
+			//cek_is_need_generate_kode
+			cek_is_need_generate_kode('iigx2mh', edtiigx2mh, 1, action);
 			
 			if(action == 'create'){
 				tbliigx2mh.rows().deselect();

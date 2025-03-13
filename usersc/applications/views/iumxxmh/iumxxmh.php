@@ -117,6 +117,7 @@
 		edtiumxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiumxxmh.field('iumxxmh.start_at').val(start_at);
+			cek_is_need_generate_kode('iumxxmh', edtiumxxmh, 1, action);
 			
 			if(action == 'create'){
 				tbliumxxmh.rows().deselect();

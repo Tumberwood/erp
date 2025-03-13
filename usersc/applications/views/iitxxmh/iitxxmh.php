@@ -150,6 +150,8 @@
 		edtiitxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiitxxmh.field('iitxxmh.start_at').val(start_at);
+			//cek_is_need_generate_kode
+			cek_is_need_generate_kode('iitxxmh', edtiitxxmh, 1);
 
 			if(action == 'create'){
 				tbliitxxmh.rows().deselect();

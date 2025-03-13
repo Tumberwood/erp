@@ -110,6 +110,8 @@
 		edtiibprmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiibprmh.field('iibprmh.start_at').val(start_at);
+			//cek_is_need_generate_kode
+			cek_is_need_generate_kode('iibprmh', edtiibprmh, 1, action);
 			
 			if(action == 'create'){
 				tbliibprmh.rows().deselect();

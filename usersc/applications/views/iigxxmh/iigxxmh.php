@@ -155,6 +155,8 @@
 		edtiigxxmh.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtiigxxmh.field('iigxxmh.start_at').val(start_at);
+			//cek_is_need_generate_kode
+			cek_is_need_generate_kode('iigxxmh', edtiigxxmh, 1);
 
 			if(action == 'create'){
 				tbliigxxmh.rows().deselect();
