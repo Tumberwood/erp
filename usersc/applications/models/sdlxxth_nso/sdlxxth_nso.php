@@ -31,7 +31,8 @@
 			Field::inst( 'sdlxxth_nso.id_gbrxxmh' )
 			->set( Field::SET_CREATE )
 			->setValue($s_id_gbrxxmh),
-			Field::inst( 'sdlxxth_nso.id_iitxxmh' ),
+			Field::inst( 'sdlxxth_nso.id_iitxxmh' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth_nso.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'sdlxxth_nso.id_imtxxmh' )

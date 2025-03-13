@@ -67,6 +67,11 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="sdlxxth_nso.id_iitxxmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="sdlxxth_nso.referensi_nomor"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -350,7 +355,7 @@
 	// ------------- end of default variable
 
 	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_iitxxmh = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_iitxxmh = 0, id_iitxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('sdlxxth_nso');
@@ -495,12 +500,48 @@
 						},
 					}
 				},
-				{
-					label: "sdlxxth_nso.id_iitxxmh",
-					name: "sdlxxth_nso.id_iitxxmh",
-					type: "hidden"
-				},
+				// {
+				// 	label: "sdlxxth_nso.id_iitxxmh",
+				// 	name: "sdlxxth_nso.id_iitxxmh",
+				// 	type: "hidden"
+				// },
 
+				{
+					label: getTranslation('type') + " <sup class='text-danger'>*<sup>",
+					name: "sdlxxth_nso.id_iitxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iitxxmh/iitxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iitxxmh_old: id_iitxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},	
 				{
 					label: "sdlxxth_nso.id_fpytmmh",
 					name: "sdlxxth_nso.id_fpytmmh",
@@ -743,6 +784,7 @@
 			if(action != 'remove'){
 
 				tanggal         = edtsdlxxth_nso.field('sdlxxth_nso.tanggal').val();
+				id_iitxxmh         = edtsdlxxth_nso.field('sdlxxth_nso.id_iitxxmh').val();
 				id_iwhxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_iwhxxmh').val();
 				id_imtxxmh      = edtsdlxxth_nso.field('sdlxxth_nso.id_imtxxmh').val();
 				supir_nama      = edtsdlxxth_nso.field('sdlxxth_nso.supir_nama').val();
@@ -755,6 +797,7 @@
 					"sdlxxth_nso", 
 					{
 						"tanggal": tanggal, 
+						"id_iitxxmh": id_iitxxmh, 
 						"id_iwhxxmh": id_iwhxxmh, 
 						"id_imtxxmh": id_imtxxmh, 
 						"supir_nama": supir_nama, 
@@ -791,6 +834,8 @@
 			edtsdlxxth_nso.field('sdlxxth_nso.dpp_final').val(dpp_final_h);
 			edtsdlxxth_nso.field('sdlxxth_nso.pajak_final').val(pajak_final_h);
 			edtsdlxxth_nso.field('sdlxxth_nso.grand_total').val(grand_total_h);
+			tblsdlxxth_nso.ajax.reload(null, false);
+			tblsdlittd_nso.ajax.reload(null, false);
 		} );
 
 		edtsdlxxth_nso.on( 'close', function () {
@@ -900,6 +945,7 @@
 			id_grlxxmh_customer = sdlxxth_nso_data.id_grlxxmh_customer;
 			id_iwhxxmh_old      = sdlxxth_nso_data.id_iwhxxmh;
 			id_imtxxmh_old      = sdlxxth_nso_data.id_imtxxmh;
+			id_iitxxmh_old      = sdlxxth_nso_data.id_iitxxmh;
 			
 			// terkait footer
 			diskon_final_h = sdlxxth_nso_data.diskon_final;
@@ -921,7 +967,7 @@
 			dpp_final_h    = 0;
 			pajak_final_h  = 0;
 			grand_total_h  = 0;
-			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0, id_iitxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblsdlittd_nso];
@@ -988,7 +1034,7 @@
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
-									ids_iitxxmh: 1,
+									ids_iitxxmh: id_iitxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}

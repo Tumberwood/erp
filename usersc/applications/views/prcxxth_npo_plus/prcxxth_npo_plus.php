@@ -68,6 +68,11 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="prcxxth_npo.id_iitxxmh"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="prcxxth_npo.referensi_nomor"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -352,7 +357,7 @@
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, is_pajak;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_imtxxmh_old = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_imtxxmh_old = 0, id_iitxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('prcxxth_npo');
@@ -499,12 +504,47 @@
 						},
 					}
 				},
+				// {
+				// 	label: "prcxxth_npo.id_iitxxmh",
+				// 	name: "prcxxth_npo.id_iitxxmh",
+				// 	type: "hidden"
+				// },
 				{
-					label: "prcxxth_npo.id_iitxxmh",
+					label: getTranslation('type') + " <sup class='text-danger'>*<sup>",
 					name: "prcxxth_npo.id_iitxxmh",
-					type: "hidden"
-				},
-
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iitxxmh/iitxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iitxxmh_old: id_iitxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
 				{
 					label: "prcxxth_npo.id_fpytmmh",
 					name: "prcxxth_npo.id_fpytmmh",
@@ -747,6 +787,7 @@
 			if(action != 'remove'){
 
 				tanggal             = edtprcxxth_npo.field('prcxxth_npo.tanggal').val();
+				id_iitxxmh             = edtprcxxth_npo.field('prcxxth_npo.id_iitxxmh').val();
 				id_iwhxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_iwhxxmh').val();
 				id_imtxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_imtxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth_npo.field('prcxxth_npo.id_grlxxmh_supplier').val();
@@ -759,6 +800,7 @@
 					"prcxxth_npo", 
 					{
 						"tanggal": tanggal, 
+						"id_iitxxmh": id_iitxxmh, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_iwhxxmh": id_iwhxxmh,
 						"id_imtxxmh": id_imtxxmh,
@@ -795,6 +837,8 @@
 			edtprcxxth_npo.field('prcxxth_npo.dpp_final').val(dpp_final_h);
 			edtprcxxth_npo.field('prcxxth_npo.pajak_final').val(pajak_final_h);
 			edtprcxxth_npo.field('prcxxth_npo.grand_total').val(grand_total_h);
+			tblprcxxth_npo.ajax.reload(null, false);
+			tblprcittd_npo.ajax.reload(null, false);
 		} );
 
 		edtprcxxth_npo.on( 'close', function () {
@@ -893,6 +937,7 @@
 			id_grlxxmh_supplier = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_iwhxxmh_old      = prcxxth_npo_data.id_iwhxxmh;
 			id_imtxxmh_old      = prcxxth_npo_data.id_imtxxmh;
+			id_iitxxmh_old      = prcxxth_npo_data.id_iitxxmh;
 			
 			// terkait footer
 			diskon_final_h = prcxxth_npo_data.diskon_final;
@@ -913,7 +958,7 @@
 			dpp_final_h    = 0;
 			pajak_final_h  = 0;
 			grand_total_h  = 0;
-			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0, id_iitxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd_npo];
@@ -978,9 +1023,11 @@
 							url: "../../models/iimxxmh/iimxxmh_fn_opt_iitxxmh.php",
 							dataType: 'json',
 							data: function (params) {
+								console.log(id_iitxxmh_old);
+								
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_old,
-									ids_iitxxmh: 1,
+									ids_iitxxmh: id_iitxxmh_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
