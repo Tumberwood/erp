@@ -96,15 +96,15 @@
   <div class="col-lg-10">
     <div class="quiz-container">
       <div class="timer-container">
-        Time Left: <span id="timer4"></span>
+        Sisa Waktu: <span id="timer4"></span>
       </div>
 
       <div class="cfit4-question" id="question1">
-        <h3>Question 1</h3>
+        <h3>Pertanyaan 1</h3>
         <img src="part4/q1/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q1/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -123,11 +123,11 @@
       </div>
 
       <div class="cfit4-question" id="question2">
-        <h3>Question 2</h3>
+        <h3>Pertanyaan 2</h3>
         <img src="part4/q2/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q2/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -146,11 +146,11 @@
       </div>
 
       <div class="cfit4-question" id="question3">
-        <h3>Question 3</h3>
+        <h3>Pertanyaan 3</h3>
         <img src="part4/q3/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q3/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -169,11 +169,11 @@
       </div>
 
       <div class="cfit4-question" id="question4">
-        <h3>Question 4</h3>
+        <h3>Pertanyaan 4</h3>
         <img src="part4/q4/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q4/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -193,11 +193,11 @@
 
 
       <div class="cfit4-question" id="question5">
-        <h3>Question 5</h3>
+        <h3>Pertanyaan 5</h3>
         <img src="part4/q5/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q5/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -216,11 +216,11 @@
       </div>
 
       <div class="cfit4-question" id="question6">
-        <h3>Question 6</h3>
+        <h3>Pertanyaan 6</h3>
         <img src="part4/q6/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q6/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -239,11 +239,11 @@
       </div>
 
       <div class="cfit4-question" id="question7">
-        <h3>Question 7</h3>
+        <h3>Pertanyaan 7</h3>
         <img src="part4/q7/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q7/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -262,11 +262,11 @@
       </div>
 
       <div class="cfit4-question" id="question8">
-        <h3>Question 8</h3>
+        <h3>Pertanyaan 8</h3>
         <img src="part4/q8/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q8/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -285,11 +285,11 @@
       </div>
 
       <div class="cfit4-question" id="question9">
-        <h3>Question 9</h3>
+        <h3>Pertanyaan 9</h3>
         <img src="part4/q9/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q9/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -308,11 +308,11 @@
       </div>
 
       <div class="cfit4-question" id="question10">
-        <h3>Question 10</h3>
+        <h3>Pertanyaan 10</h3>
         <img src="part4/q10/1.jpg" class="soal">
         <br>
 
-        <h5>Answers:</h5>
+        <h5>Jawaban:</h5>
         <div class="cfit4-option">
           <img src="part4/q10/option1.jpg" alt="1" class="quiz-image4" onclick="selectImage4(this)">
         </div>
@@ -346,7 +346,7 @@
   <div class="col-lg-2">
     <div class="ibox">
         <div class="ibox-title">
-            <h5>Question</h5>
+            <h5>Question Box</h5>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>

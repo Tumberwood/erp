@@ -57,7 +57,7 @@
 
 <div class="quiz-container">
   <div class="timer-container">
-    Time Left: <span id="timer"></span>
+    Sisa Waktu: <span id="timer"></span>
   </div>
 
   <div class="row">

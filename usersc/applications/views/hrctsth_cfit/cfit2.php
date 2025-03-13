@@ -96,11 +96,11 @@
   <div class="col-lg-10">
     <div class="quiz-container">
       <div class="timer-container">
-        Time Left: <span id="timer2"></span>
+        Sisa Waktu: <span id="timer2"></span>
       </div>
 
       <div class="quiz-question2" id="question1">
-        <h4>Question 1:</h4>
+        <h4>Pertanyaan 1:</h4>
         <div class="quiz-image-container">
           <img src="part2/q1/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -119,7 +119,7 @@
       </div>
 
       <div class="quiz-question2" id="question2">
-        <h4>Question 2:</h4>
+        <h4>Pertanyaan 2:</h4>
         <div class="quiz-image-container">
           <img src="part2/q2/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -138,7 +138,7 @@
       </div>
 
       <div class="quiz-question2" id="question3">
-        <h4>Question 3:</h4>
+        <h4>Pertanyaan 3:</h4>
         <div class="quiz-image-container">
           <img src="part2/q3/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -157,7 +157,7 @@
       </div>
 
       <div class="quiz-question2" id="question4">
-        <h4>Question 4:</h4>
+        <h4>Pertanyaan 4:</h4>
         <div class="quiz-image-container">
           <img src="part2/q4/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -177,7 +177,7 @@
 
 
       <div class="quiz-question2" id="question5">
-        <h4>Question 5:</h4>
+        <h4>Pertanyaan 5:</h4>
         <div class="quiz-image-container">
           <img src="part2/q5/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -196,7 +196,7 @@
       </div>
 
       <div class="quiz-question2" id="question6">
-        <h4>Question 6:</h4>
+        <h4>Pertanyaan 6:</h4>
         <div class="quiz-image-container">
           <img src="part2/q6/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -215,7 +215,7 @@
       </div>
 
       <div class="quiz-question2" id="question7">
-        <h4>Question 7:</h4>
+        <h4>Pertanyaan 7:</h4>
         <div class="quiz-image-container">
           <img src="part2/q7/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -234,7 +234,7 @@
       </div>
 
       <div class="quiz-question2" id="question8">
-        <h4>Question 8:</h4>
+        <h4>Pertanyaan 8:</h4>
         <div class="quiz-image-container">
           <img src="part2/q8/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -253,7 +253,7 @@
       </div>
 
       <div class="quiz-question2" id="question9">
-        <h4>Question 9:</h4>
+        <h4>Pertanyaan 9:</h4>
         <div class="quiz-image-container">
           <img src="part2/q9/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -272,7 +272,7 @@
       </div>
 
       <div class="quiz-question2" id="question10">
-        <h4>Question 10:</h4>
+        <h4>Pertanyaan 10:</h4>
         <div class="quiz-image-container">
           <img src="part2/q10/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -291,7 +291,7 @@
       </div>
 
       <div class="quiz-question2" id="question11">
-        <h4>Question 11:</h4>
+        <h4>Pertanyaan 11:</h4>
         <div class="quiz-image-container">
           <img src="part2/q11/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -310,7 +310,7 @@
       </div>
 
       <div class="quiz-question2" id="question12">
-        <h4>Question 12:</h4>
+        <h4>Pertanyaan 12:</h4>
         <div class="quiz-image-container">
           <img src="part2/q12/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -329,7 +329,7 @@
       </div>
 
       <div class="quiz-question2" id="question13">
-        <h4>Question 13:</h4>
+        <h4>Pertanyaan 13:</h4>
         <div class="quiz-image-container">
           <img src="part2/q13/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -348,7 +348,7 @@
       </div>
 
       <div class="quiz-question2" id="question14">
-        <h4>Question 14:</h4>
+        <h4>Pertanyaan 14:</h4>
         <div class="quiz-image-container">
           <img src="part2/q14/option1.jpg" alt="1" class="quiz-image2" onclick="selectImage2(this)">
         </div>
@@ -382,7 +382,7 @@
   <div class="col-lg-2">
     <div class="ibox">
         <div class="ibox-title">
-            <h5>Question</h5>
+            <h5>Question Box</h5>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>

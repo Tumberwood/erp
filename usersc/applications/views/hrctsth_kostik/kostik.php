@@ -51,7 +51,7 @@
     <div class="row">
       <div class="col-8">
         <div class="timer-container">
-          Time Left: <span id="timer"></span>
+          Sisa Waktu: <span id="timer"></span>
         </div>
         <div class="table-wrapper" style="font-size: 14px;">
           <table class="table" id="table1">
@@ -915,7 +915,7 @@
       <div class="col-4">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Question</h5>
+                <h5>Question Box</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
