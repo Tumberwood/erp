@@ -172,7 +172,7 @@
         document.getElementById('button_modal1').style.display = 'none';
         
         window.removeEventListener('beforeunload', confirmLeavePage);
-        alert('Anda Telah Menyelesaikan Tes kostik');
+        alert('Tes Papi Kostik sudah selesai, untuk kode Papi Kostik tersebut hanya dapat digunakan sekali. Jika ingin tes lagi, silahkan hubungi admin!');
         window.location.reload();
         return;
     }
