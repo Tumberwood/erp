@@ -28,6 +28,14 @@
         $id_hrcemtd_old = 0;
     }
 
+    if(isset($_GET['id_hrccdth']) && $_GET['id_hrccdth'] > 0){
+        $id_hrccdth = '('.$_GET['id_hrccdth'].')';
+        $where_in = 'IN';
+    }else{
+        $id_hrccdth = '(-9)';
+        $where_in = 'NOT IN';
+    }
+
     // BEGIN query options self.
     // Hanya dipanggil jika field ada nilai id nya
     if($id_hrcemtd_old > 0){
@@ -58,6 +66,7 @@
         ->join('hcdxxmh','hcdxxmh.id = hrcemtd.id_hcdxxmh','LEFT' )
         ->where('hrcemtd.transaction_state',1)
         ->where('hrcemtd.id', $id_hrcemtd_old, '<>' )
+        ->where('hrcemtd.id_hrccdth', $id_hrccdth, $where_in,false)
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

@@ -53,8 +53,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-								<th>Kode</th>
 								<th>Tanggal</th>
+								<th>Kode</th>
+								<th>Panggilan Kandidat</th>
 								<th>State</th>
                             </tr>
                         </thead>
@@ -138,6 +139,7 @@
 	var edthrctstd, tblhrctstd, show_deleted_hrctstd = 0, id_hrctstd;
 	var id_hcdxxmh_old = 0, id_hetxxmh_ditawarkan_old = 0, id_hetxxmh_dilamar_old = 0, id_hrctsmh_old = 0;
 	var id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hesxxmh_old = 0, id_holxxmh_old = 0;
+	var id_hrcemtd_old = 0, id_hrccdth_old = 0;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -209,6 +211,42 @@
 					format: 'DD MMM YYYY'
 				},
 				{
+					label: "Panggilan Kandidat <sup class='text-danger'>*<sup>",
+					name: "hrctsth.id_hrccdth",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/hrccdth/hrccdth_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_hrccdth_old: id_hrccdth_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+								return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1
+						}
+					}
+				},
+				{
 					label: "Notes",
 					name: "hrctsth.keterangan",
 					type: "textarea",
@@ -233,12 +271,14 @@
 		edthrctsth.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				tanggal = edthrctsth.field('hrctsth.tanggal').val();
+				id_hrccdth = edthrctsth.field('hrctsth.id_hrccdth').val();
 				
 				validasiRequired(
 					edthrctsth,
 					'hrctsth',
 					{
 						'tanggal': tanggal,
+						'id_hrccdth': id_hrccdth,
 					}
 				);
 
@@ -295,8 +335,9 @@
 			],
 			columns: [
 				{ data: "hrctsth.id",visible:false },
-				{ data: "hrctsth.kode" },
 				{ data: "hrctsth.tanggal" },
+				{ data: "hrctsth.kode" },
+				{ data: "hrccdth.kode" },
 				{ 
 					data: "hrctsth.transaction_state",
 					...renderTransactionStatus()
@@ -343,6 +384,7 @@
 		tblhrctsth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('hrctsth');
+			id_hrccdth_old = hrctsth_data.id_hrccdth;
 			
 			// atur hak akses
 			tbl_details = [tblhrctstd];
@@ -353,6 +395,7 @@
 		tblhrctsth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hrctsth');
+			id_hrccdth_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblhrctstd];
@@ -407,17 +450,23 @@
 				{
 					label: "Nama Kandidat <sup class='text-danger'>*<sup>", 
 					name: "hrctstd.id_hcdxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Nama Kandidat <sup class='text-danger'>*<sup>", 
+					name: "hrctstd.id_hrcemtd",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/hcdxxmh/hcdxxmh_fn_opt.php",
+							url: "../../models/hrccdth/hrccdth_hrcemtd_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_hcdxxmh_old: id_hcdxxmh_old,
+									id_hrccdth: id_hrccdth_old,
+									id_hrcemtd_old: id_hrcemtd_old,
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -494,11 +543,23 @@
 			$(".modal-dialog").addClass("modal-lg");
 			$('div.DTE_Form_Buttons button:eq(2)').hide();
 		});
+
+		edthrctstd.dependent( 'hrctstd.id_hrcemtd', function ( val, data, callback ) {
+			if (val > 0) {
+				autofillField('hrcemtd', val, 'id_hcdxxmh');
+				id_hcdxxmh = autofillData.id_hcdxxmh;
+				console.log(id_hcdxxmh);
+				
+				edthrctstd.field('hrctstd.id_hcdxxmh').val(id_hcdxxmh);
+			}
+			return {}
+		}, {event: 'keyup change'});
 		
 		edthrctstd.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				id_hrctsmh = edthrctstd.field('hrctstd.id_hrctsmh').val();
 				id_hcdxxmh = edthrctstd.field('hrctstd.id_hcdxxmh').val();
+				id_hrcemtd = edthrctstd.field('hrctstd.id_hrcemtd').val();
 
 				validasiRequired(
 					edthrctstd,
@@ -506,6 +567,7 @@
 					{
 						'id_hrctsmh': id_hrctsmh,
 						'id_hcdxxmh': id_hcdxxmh,
+						'id_hrcemtd': id_hrcemtd,
 					}
 				);
 
@@ -594,6 +656,7 @@
 			siVarSetD('hrctstd');
 			id_hrctsmh_old = hrctstd_data.id_hrctsmh;
 			id_hcdxxmh_old = hrctstd_data.id_hcdxxmh;
+			id_hrcemtd_old = hrctstd_data.id_hrcemtd;
 			
 			// atur hak akses
 			CekSelectDetailHD( tblhrctstd );
@@ -604,6 +667,7 @@
 			siVarResetD('hrctstd');
 			id_hrctsmh_old = 0;
 			id_hcdxxmh_old = 0;
+			id_hrcemtd_old = 0;
 			// atur hak akses
 			CekDeselectDetailHD( tblhrctstd );
 		} );

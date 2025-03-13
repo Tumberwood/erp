@@ -33,6 +33,8 @@
 					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hrctstd.id_hrctsmh' )
 					->setFormatter( Format::ifEmpty( 0 ) ),
+				Field::inst( 'hrctstd.id_hrcemtd' )
+					->setFormatter( Format::ifEmpty( 0 ) ),
 				Field::inst( 'hrctstd.kode' ),
 				Field::inst( 'hrctstd.nama' ),
 				Field::inst( 'hrctstd.keterangan' ),

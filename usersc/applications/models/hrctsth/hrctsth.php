@@ -25,6 +25,8 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'hrctsth.id' ),
+			Field::inst( 'hrctsth.id_hrccdth' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'hrctsth.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -53,7 +55,9 @@
 					'from' => 'd M Y',
 					'to' =>   'Y-m-d'
 					) ),
+			Field::inst( 'hrccdth.kode' ),
 		)
+		->leftJoin( 'hrccdth','hrccdth.id','=','hrctsth.id_hrccdth' )
 		;
 	
 	if($_POST['start_date'] != ''){
