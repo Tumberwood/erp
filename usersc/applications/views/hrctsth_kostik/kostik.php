@@ -1069,7 +1069,6 @@
 
                 // Ambil elemen grid sesuai format grid1_tableX_questionY
                 var gridItem1 = document.getElementById(`grid1_table${tableNumber}_question${questionNumber}`);
-                console.log(gridItem1);
                 
                 if (gridItem1) {  
                     // if (tableNumber === currentTableIndex + 1 && questionNumber === currentQuestionIndex + 1) {
