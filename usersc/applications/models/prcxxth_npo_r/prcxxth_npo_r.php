@@ -56,6 +56,10 @@
 					'to' =>   'Y-m-d'
 				) )
 			,
+			Field::inst( 'prcittd_npo.harga_unit' ),
+			Field::inst( 'prcittd_npo.subtotal' ),
+			Field::inst( 'prcittd_npo.diskon_final' ),
+			Field::inst( 'prcittd_npo.dpp' ),
 			
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),

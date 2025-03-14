@@ -109,24 +109,24 @@
 				{ data: "iimxxmh.nama" },
 				{ 
 					data: "sdlittd_nso.jumlah_unit",
-					...renderNumber()
+					...renderNumber(2)
 				},
 				{ data: "iumxxmh_unit.kode" },
 				{ 
 					data: "sdlittd_nso.harga_unit",
-					...renderNumber( 0, "")
+					...renderNumber(2)
 				},
 				{ 
 					data: "sdlittd_nso.subtotal",
-					...renderNumber( 0, "")
+					...renderNumber(2)
 				},
 				{ 
 					data: "sdlittd_nso.diskon_final",
-					...renderNumber( 0, "")
+					...renderNumber(2)
 				},
 				{ 
 					data: "sdlittd_nso.dpp",
-					...renderNumber( 0, "")
+					...renderNumber(2)
 				},
 			],
 			buttons: [
