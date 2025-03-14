@@ -231,9 +231,6 @@
 								</div>
 								<div class="row">
 									<div class="col-lg-6">
-										<editor-field name="prcittd_npo.tanggal_dibutuhkan"></editor-field>
-									</div>
-									<div class="col-lg-6">
 										<editor-field name="prcittd_npo.keterangan"></editor-field>
 									</div>
 								</div>
@@ -1136,19 +1133,6 @@
 					label: "Total",
 					name: "prcittd_npo.dpp",
 					type: "readonly"
-				},
-				{
-					label: "Tanggal Dibutuhkan",
-					name: "prcittd_npo.tanggal_dibutuhkan",
-					type: "datetime",
-					def: function () { 
-						return new Date(); 
-					},
-					opts:{
-						minDate: new Date('1900-01-01'),
-						firstDay: 0
-					},
-					format: 'DD MMM YYYY'
 				},
 			]
 		} );
