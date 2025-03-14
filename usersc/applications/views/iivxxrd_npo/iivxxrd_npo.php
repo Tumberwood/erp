@@ -154,7 +154,7 @@
 					d.id_iwhxxmh = id_iwhxxmh;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 0, "asc" ],[ 1, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
