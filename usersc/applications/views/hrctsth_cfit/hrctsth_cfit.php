@@ -34,6 +34,20 @@
       cursor: pointer; /* Pointer on hover */
       transition: background-color 0.3s; /* Smooth transition */
   }
+
+  /* body::before {
+      content: "SOLUSI INDONESIA";
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      color: rgba(255, 0, 0, 0.3);
+      font-weight: bold;
+      pointer-events: none;
+      z-index: 9999;
+  } */
+
 </style>
 
 <div class="container">
@@ -297,24 +311,12 @@
 <!-- end content here -->
 
 <script>
-	// document.getElementById('id_hcd').style.display = 'none';
-	// //hide sesi 1
-	// document.getElementById('mulaiCFIT1').style.display = 'none';
-	// document.getElementById('button_modal1').style.display = 'none';
-	// document.getElementById('quiz1').style.display = 'none';
-	// //hide sesi 2
-	// document.getElementById('mulaiCFIT2').style.display = 'none';
-	// document.getElementById('button_modal2').style.display = 'none';
-	// document.getElementById('quiz2').style.display = 'none';
-	// //hide sesi 3
-	// document.getElementById('mulaiCFIT3').style.display = 'none';
-	// document.getElementById('button_modal3').style.display = 'none';
-	// document.getElementById('quiz3').style.display = 'none';
-	// //hide sesi 4
-	// document.getElementById('mulaiCFIT4').style.display = 'none';
-	// document.getElementById('button_modal4').style.display = 'none';
-	// document.getElementById('quiz4').style.display = 'none';
-
+  //function untuk img agar tidak bisa disimpan gambarnya
+  document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll("img").forEach(img => {
+          img.oncontextmenu = () => false;
+      });
+  });
 </script>
 <!-- do not erase -->
 <?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
