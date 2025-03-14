@@ -9,13 +9,13 @@
 		})
 		->on('postCreate',function( $editor, $id, $values, $row ) {
 			General::konversiUom( $editor->db(), 'prcittd_npo', $id );
-			General::konversiBuy( $editor->db(), 'prcittd_npo', $id );
+			// General::konversiBuy( $editor->db(), 'prcittd_npo', $id );
 		})
 		->on('preEdit',function( $editor, $id, $values ) {
 		})
 		->on('postEdit',function( $editor, $id, $values, $row ) {
 			General::konversiUom( $editor->db(), 'prcittd_npo', $id );
-			General::konversiBuy( $editor->db(), 'prcittd_npo', $id );
+			// General::konversiBuy( $editor->db(), 'prcittd_npo', $id );
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
