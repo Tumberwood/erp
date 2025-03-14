@@ -1,5 +1,5 @@
 <script>
-	$('#start_date').datepicker('setDate', tanggal_hariini_dmy);
+	$('#start_date').datepicker('setDate', moment().format('DD MMM YYYY'));
 
   var finishdisc = false;
 
@@ -65,7 +65,7 @@
     start_at = moment().format('YYYY-MM-DD HH:mm:ss');
       
     start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
-    console.log(start_date);
+    // console.log(start_date);
 
     document.getElementById('quiz1').style.display = 'block';
     var timerDuration = 600;
