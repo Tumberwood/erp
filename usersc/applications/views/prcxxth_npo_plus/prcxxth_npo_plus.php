@@ -161,8 +161,8 @@
                         <thead>
                             <tr>
 								<th>ID</th>
-								<th>Tanggal</th>
                                 <th>Kode</th>
+								<th>Tanggal</th>
                                 <th>Transaction Type</th>
 								<th>Supplier</th>
 								<th>Warehouse</th>
@@ -856,8 +856,8 @@
 					d.end_date = end_date;
 				}
 			},
-			order: [[ 1, "desc" ]],
-			orderFixed: [2, 'asc'],
+			order: [[ 2, "desc" ],[ 1, "asc" ]],
+			// orderFixed: [2, 'asc'],
 			columnDefs:[
 				{
 					searchPanes:{
@@ -874,8 +874,8 @@
 			],
 			columns: [
 				{ data: "prcxxth_npo.id",visible:false },
-				{ data: "prcxxth_npo.tanggal" },
 				{ data: "prcxxth_npo.kode" },
+				{ data: "prcxxth_npo.tanggal" },
 				{ data: "imtxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
@@ -1298,7 +1298,7 @@
 				}
 			},
 			responsive: false,
-			order: [[ 2, "desc" ]],
+			order: [[ 0, "asc" ]],
 			columns: [
 				{ data: "prcittd_npo.id",visible:false },
 				{ data: "prcittd_npo.id_prcxxth_npo",visible:false },
