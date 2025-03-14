@@ -79,7 +79,7 @@
 					d.show_deleted_sdlxxth_nso = show_deleted_sdlxxth_nso;
 				}
 			},
-			order: [[ 1, "asc" ]],
+			order: [[ 2, "desc" ],[ 1, "asc" ],[ 0, "asc" ]],
 			columnDefs:[
 				{
 					searchPanes:{
