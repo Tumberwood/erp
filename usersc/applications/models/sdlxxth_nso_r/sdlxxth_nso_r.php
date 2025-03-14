@@ -57,6 +57,11 @@
 				) )
 			,
 			
+			Field::inst( 'sdlittd_nso.harga_unit' ),
+			Field::inst( 'sdlittd_nso.subtotal' ),
+			Field::inst( 'sdlittd_nso.diskon_final' ),
+			Field::inst( 'sdlittd_nso.dpp' ),
+
 			Field::inst( 'iimxxmh.kode' ),
 			Field::inst( 'iimxxmh.nama' ),
 			Field::inst( 'iumxxmh_unit.kode' ),
