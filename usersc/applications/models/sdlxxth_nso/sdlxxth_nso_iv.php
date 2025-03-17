@@ -22,8 +22,6 @@
 		$db->transaction();
 		
 		// ganti movement type sesuai jenis transaksi
-		$imtxxmh_kode = 201;
-
 		$id    = $_POST['id_transaksi_h'];
 		$state = $_POST['state'];
 
@@ -117,7 +115,7 @@
 					iumxxmh_terkecil.nama,
 					iumxxmh_default.kode,
 					iumxxmh_default.nama,
-					'.$imtxxmh_kode.' as imtxxmh_kode,
+					sdlxxth_nso.imtxxmh_kode as imtxxmh_kode,
 					imtxxmh.movement_type,
 					sdlxxth_nso.tanggal,
 					1 as is_fisik,
@@ -136,7 +134,7 @@
 				LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = sdlittd_nso.id_iumxxmh_unit
 				LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = sdlittd_nso.id_iumxxmh_terkecil
 				LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = sdlittd_nso.id_iumxxmh_default
-				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.module = "SIG"
+				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = sdlxxth_nso.imtxxmh_kode AND imtxxmh.module = "SIG"
 				WHERE sdlxxth_nso.id = :id
 			');
 
