@@ -114,7 +114,7 @@
 							data: function (params) {
 								var query = {
 									imtxxmh_kode_old: imtxxmh_kode_old,
-									module: 'WMS',
+									module: 'SIG',
 									search: params.term || '',
 									page: params.page || 1
 								}
