@@ -35,7 +35,7 @@
             ->query('select', 'imtxxmh')
             ->get([
                 'id as id',
-                'nama as text'
+                'movement_type as text'
                 // 'CONCAT(kode," - ",nama) as text'
             ])
             ->where('id', $id_imtxxmh_old )
@@ -53,7 +53,7 @@
         ->query('select', 'imtxxmh')
         ->get([
             'id as id',
-            'nama as text'
+            'movement_type as text'
             // 'CONCAT(kode," - ",nama) as text'
         ])
         ->order('kode')
@@ -62,7 +62,7 @@
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r
-                ->where('nama', '%' . $q . '%', 'LIKE' )
+                ->where('movement_type', '%' . $q . '%', 'LIKE' )
                 ;
         } )
         ->limit($resultCount)
