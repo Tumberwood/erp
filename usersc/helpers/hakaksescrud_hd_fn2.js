@@ -178,6 +178,22 @@ function CekBtnNoActionD(tbl_header){
 function CekInitHeaderH(tbl_header){
     c_btnSetAction = 0;
 
+    //debug, ini unutk cek apakah button edit ada atau tidak di tbl_header.
+    //bisa dicek dengan hapus 'edit' pada array $arr_buttons_action 	= ['create', 'edit'];
+    //Jika ditemukan name: 'btnCreate' maka log 123, atau action button display block dsb.
+    
+    // if (tbl_header.button('btnCreate:name').any()) {
+    //     console.log(123);
+    // } else {
+    //     console.log(999);
+    // }
+
+    // if (tbl_header.button('btnEdit:name').any()) {
+    //     console.log(123);
+    // } else {
+    //     console.log(999);
+    // }
+    
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
         console.log('CekInitHeaderH');
@@ -201,10 +217,12 @@ function CekInitHeaderH(tbl_header){
 
     // BEGIN btnCreate
     if(hak_c == 1){
-        tbl_header.button( 'btnCreate:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnCreate:name').any()) {
+            tbl_header.button( 'btnCreate:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnCreate:name' )
             .nodes()
@@ -340,10 +358,12 @@ function CekSelectHeaderH(tbl_header){
             // bukan master table
             // cek status transaksi
             if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
-                tbl_header.button( 'btnEdit:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetAction = c_btnSetAction + 1;
+                if (tbl_header.button('btnEdit:name').any()) {
+                    tbl_header.button( 'btnEdit:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetAction = c_btnSetAction + 1;
+                }
             }else{
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
@@ -366,10 +386,12 @@ function CekSelectHeaderH(tbl_header){
 
             //ditambahkan pengecekan hak akses udp crud - 26 Juli 2024
             if(transaction_state != -9 && hak_u == 1){
-                tbl_header.button( 'btnEdit:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetAction = c_btnSetAction + 1;
+                if (tbl_header.button('btnEdit:name').any()) {
+                    tbl_header.button( 'btnEdit:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetAction = c_btnSetAction + 1;
+                }
             }else{
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
@@ -405,10 +427,12 @@ function CekSelectHeaderH(tbl_header){
             .css( 'display', 'none' );
     }else{
         if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
-            tbl_header.button( 'btnRemove:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
+            if (tbl_header.button('btnRemove:name').any()) {
+                tbl_header.button( 'btnRemove:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
         }else{
             tbl_header.button( 'btnRemove:name' )
                 .nodes()
@@ -426,10 +450,12 @@ function CekSelectHeaderH(tbl_header){
      *  hak_c = 1
      */
     if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0){
-        tbl_header.button( 'btnConfirm:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnConfirm:name').any()) {
+            tbl_header.button( 'btnConfirm:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnConfirm:name' )
             .nodes()
@@ -444,10 +470,12 @@ function CekSelectHeaderH(tbl_header){
      *  
      */
     if( (is_nextprocess == null || is_nextprocess == 0 ) && transaction_state == 1 && hak_d == 1){
-        tbl_header.button( 'btnNonAktif:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnNonAktif:name').any()) {
+            tbl_header.button( 'btnNonAktif:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnNonAktif:name' )
             .nodes()
@@ -468,10 +496,12 @@ function CekSelectHeaderH(tbl_header){
             console.log('----------');
         }
         
-        tbl_header.button( 'btnClose:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnClose:name').any()) {
+            tbl_header.button( 'btnClose:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnClose:name' )
             .nodes()
@@ -481,18 +511,22 @@ function CekSelectHeaderH(tbl_header){
 
     // BEGIN btnView
     // Boleh tanpa syarat
-    tbl_header.button( 'btnView:name' )
-        .nodes()
-        .css( 'display', 'block' );
-    c_btnSetAction = c_btnSetAction + 1;
+    if (tbl_header.button('btnView:name').any()) {
+        tbl_header.button( 'btnView:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetAction = c_btnSetAction + 1;
+    }
     // END btnView
     
     // BEGIN btnLog
     // Boleh tanpa syarat
-    tbl_header.button( 'btnLog:name' )
-        .nodes()
-        .css( 'display', 'block' );
-    c_btnSetAction = c_btnSetAction + 1;
+    if (tbl_header.button('btnLog:name').any()) {
+        tbl_header.button( 'btnLog:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetAction = c_btnSetAction + 1;
+    }
     // END btnLog
 
     CekBtnNoAction(tbl_header);
@@ -521,10 +555,12 @@ function CekDeselectHeaderH(tbl_header){
     // BEGIN Set Action
     // BEGIN btnCreate
     if(hak_c == 1){
-        tbl_header.button( 'btnCreate:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnCreate:name').any()) {
+            tbl_header.button( 'btnCreate:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
 
     }else{
         tbl_header.button( 'btnCreate:name' )
@@ -635,10 +671,12 @@ function CekInitHeaderHD(tbl_header, tbl_details){
     // BEGIN Set Action
     // BEGIN btnCreate
     if(hak_c == 1){
-        tbl_header.button( 'btnCreate:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnCreate:name').any()) {
+            tbl_header.button( 'btnCreate:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
 
     }else{
         tbl_header.button( 'btnCreate:name' )
@@ -813,10 +851,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
     }else{
         if(is_master_table == 0){
             if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 ){
-                tbl_header.button( 'btnEdit:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetAction = c_btnSetAction + 1;
+                if (tbl_header.button('btnEdit:name').any()) {
+                    tbl_header.button( 'btnEdit:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetAction = c_btnSetAction + 1;
+                }
             }else{
                 tbl_header.button( 'btnEdit:name' )
                     .nodes()
@@ -829,10 +869,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
                     .nodes()
                     .css( 'display', 'none' );
             }else{
-                tbl_header.button( 'btnEdit:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetAction = c_btnSetAction + 1;
+                if (tbl_header.button('btnEdit:name').any()) {
+                    tbl_header.button( 'btnEdit:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetAction = c_btnSetAction + 1;
+                }
             }
         }else{
             // master table
@@ -852,10 +894,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
      * 
      */
     if( transaction_state == 0 && hak_d == 1 ){
-        tbl_header.button( 'btnRemoveHD:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnRemoveHD:name').any()) {
+            tbl_header.button( 'btnRemoveHD:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnRemoveHD:name' )
             .nodes()
@@ -884,10 +928,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
             .css( 'display', 'none' );
     }else{
         if( transaction_state == 1 && hak_d == 1 && is_final_approve == 0 ){
-            tbl_header.button( 'btnNonAktifHD:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
+            if (tbl_header.button('btnNonAktifHD:name').any()) {
+                tbl_header.button( 'btnNonAktifHD:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
         }else{
             tbl_header.button( 'btnNonAktifHD:name' )
                 .nodes()
@@ -904,10 +950,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
      * - is_final_approve == 1 && hak_l == 1 
      */
     if(is_final_approve == 1 && hak_l == 1 ){
-        tbl_header.button( 'btnClose:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnClose:name').any()) {
+            tbl_header.button( 'btnClose:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnClose:name' )
             .nodes()
@@ -917,18 +965,22 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
 
     // BEGIN btnView
     // Boleh tanpa syarat
-    tbl_header.button( 'btnView:name' )
-        .nodes()
-        .css( 'display', 'block' );
-    c_btnSetAction = c_btnSetAction + 1;
+    if (tbl_header.button('btnView:name').any()) {
+        tbl_header.button( 'btnView:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetAction = c_btnSetAction + 1;
+    }
     // END btnView
 
     // BEGIN btnLog
     // Boleh tanpa syarat
-    tbl_header.button( 'btnLog:name' )
-        .nodes()
-        .css( 'display', 'block' );
-    c_btnSetAction = c_btnSetAction + 1;
+    if (tbl_header.button('btnLog:name').any()) {
+        tbl_header.button( 'btnLog:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetAction = c_btnSetAction + 1;
+    }
     // END btnLog
 
     CekBtnNoAction(tbl_header);
@@ -946,10 +998,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
         //  - hak_c = 1
         if(is_master_table == 0){
             if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0){
-                tbl_details[i].button( 'btnCreate:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetActionD = c_btnSetActionD + 1;
+                if (tbl_details[i].button('btnCreate:name').any()) {
+                    tbl_details[i].button( 'btnCreate:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetActionD = c_btnSetActionD + 1;
+                }
     
             }else{
                 tbl_details[i].button( 'btnCreate:name' )
@@ -962,10 +1016,12 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
                     .nodes()
                     .css( 'display', 'none' );
             }else{
-                tbl_details[i].button( 'btnCreate:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetActionD = c_btnSetActionD + 1;
+                if (tbl_details[i].button('btnCreate:name').any()) {
+                    tbl_details[i].button( 'btnCreate:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetActionD = c_btnSetActionD + 1;
+                }
             }
         }else{
             tbl_details[i].button( 'btnCreate:name' )
@@ -1005,10 +1061,12 @@ function CekDeselectHeaderHD(tbl_header, tbl_details){
 
    // BEGIN btnCreate
    if(hak_c == 1){
-        tbl_header.button( 'btnCreate:name' )    
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnCreate:name').any()) {
+            tbl_header.button( 'btnCreate:name' )    
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         tbl_header.button( 'btnCreate:name' )    
             .nodes()
@@ -1143,10 +1201,12 @@ function CekDrawDetailHDFinal(tbl_header){
     //  - hak_c = 1
     if( (transaction_state == 0 || transaction_state == -1 ) && hak_c == 1 && approval_state == 0 && arr_is_valid_cek_detail.length != 0 && arr_is_valid_cek_detail.includes(0) == false){
         final = 'Bisa Confirm';
-        tbl_header.button( 'btnConfirm:name' )
-            .nodes()
-            .css( 'display', 'block' );
-        c_btnSetAction = c_btnSetAction + 1;
+        if (tbl_header.button('btnConfirm:name').any()) {
+            tbl_header.button( 'btnConfirm:name' )
+                .nodes()
+                .css( 'display', 'block' );
+            c_btnSetAction = c_btnSetAction + 1;
+        }
     }else{
         final = 'Tidak bisa Confirm';
         tbl_header.button( 'btnConfirm:name' )
@@ -1181,11 +1241,13 @@ function CekSelectDetailHD( tbl_detail ){
     //  - hak_u = 1
     if(is_master_table == 0){
         if( (transaction_state == 0 || transaction_state == -1 ) && hak_u == 1 && approval_state == 0){
-            tbl_detail.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetActionD = c_btnSetActionD + 1;
-    
+            if (tbl_detail.button('btnEdit:name').any()) {
+                tbl_detail.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetActionD = c_btnSetActionD + 1;
+            }
+            // console.log(c_btnSetActionD);
         }else{
             tbl_detail.button( 'btnEdit:name' )
                 .nodes()
@@ -1198,10 +1260,12 @@ function CekSelectDetailHD( tbl_detail ){
                 .nodes()
                 .css( 'display', 'none' );
         }else{
-            tbl_detail.button( 'btnEdit:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
+            if (tbl_detail.button('btnEdit:name').any()) {
+                tbl_detail.button( 'btnEdit:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
         }
     }else{
         tbl_detail.button( 'btnEdit:name' )
@@ -1219,10 +1283,12 @@ function CekSelectDetailHD( tbl_detail ){
     if(is_master_table == 0){
         console.log('a');
         if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
-            tbl_detail.button( 'btnRemove:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetActionD = c_btnSetActionD + 1;
+            if (tbl_detail.button('btnRemove:name').any()) {
+                tbl_detail.button( 'btnRemove:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetActionD = c_btnSetActionD + 1;
+            }
     
         }else{
             tbl_detail.button( 'btnRemove:name' )
@@ -1238,10 +1304,12 @@ function CekSelectDetailHD( tbl_detail ){
                 .nodes()
                 .css( 'display', 'none' );
         }else{
-            tbl_detail.button( 'btnRemove:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
+            if (tbl_detail.button('btnRemove:name').any()) {
+                tbl_detail.button( 'btnRemove:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
         }
     }else{
         console.log('c');
@@ -1253,18 +1321,24 @@ function CekSelectDetailHD( tbl_detail ){
     // END btnRemove
 
     // BEGIN btnView
-    tbl_detail.button( 'btnView:name' )    
-        .nodes()
-        .css( 'display', 'block' );
-    c_btnSetActionD = c_btnSetActionD + 1;
+    if (tbl_detail.button('btnView:name').any()) {
+        tbl_detail.button( 'btnView:name' )    
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetActionD = c_btnSetActionD + 1;
+    }
     // END btnView
 
     // BEGIN btnLog
-    tbl_detail.button( 'btnLog:name' )
-        .nodes()
-        .css( 'display', 'block' );
-    c_btnSetActionD = c_btnSetActionD + 1;
+    if (tbl_detail.button('btnLog:name').any()) {
+        tbl_detail.button( 'btnLog:name' )
+            .nodes()
+            .css( 'display', 'block' );
+        c_btnSetActionD = c_btnSetActionD + 1;
+    }
     // END btnLog
+
+    // console.log(c_btnSetActionD);
 
     // debug purpose
     if (is_debug_hakakses_hd == 1) {
