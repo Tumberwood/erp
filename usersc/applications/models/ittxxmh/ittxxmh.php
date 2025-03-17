@@ -47,6 +47,7 @@
 			Field::inst( 'imtxxmh.nama' ),
 		)
 		->leftJoin( 'imtxxmh','imtxxmh.kode','=','ittxxmh.imtxxmh_kode' )
+		->where( 'imtxxmh.module','SIG');
 		;
 	
 	// do not erase
