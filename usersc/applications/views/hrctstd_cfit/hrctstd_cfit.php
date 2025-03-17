@@ -16,6 +16,20 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
+				<div class="alert alert-info alert-dismissable">
+					<strong>IQ Categories:</strong>
+					<ul>
+						<li>IQ ≥ 170: <strong>GENIUS</strong></li>
+						<li>IQ 140 - 169: <strong>VERY SUPERIOR</strong></li>
+						<li>IQ 120 - 139: <strong>SUPERIOR</strong></li>
+						<li>IQ 110 - 119: <strong>HIGH AVERAGE</strong></li>
+						<li>IQ 90 - 109: <strong>AVERAGE</strong></li>
+						<li>IQ 84 - 89: <strong>LOW AVERAGE</strong></li>
+						<li>IQ 75 - 83: <strong>BORDERLINE MENTAL RETARDATION</strong></li>
+						<li>IQ < 75: <strong>UNKNOWN</strong></li>
+					</ul>
+				</div>
+
 				<div class="table-responsive">
                     <table id="tblhrctstd_cfit" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
