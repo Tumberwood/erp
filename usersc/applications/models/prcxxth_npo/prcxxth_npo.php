@@ -35,8 +35,9 @@
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth_npo.id_iwhxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
-			Field::inst( 'prcxxth_npo.id_imtxxmh' )
+			Field::inst( 'prcxxth_npo.id_ittxxmh' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
+			Field::inst( 'prcxxth_npo.imtxxmh_kode' ),
 			Field::inst( 'prcxxth_npo.id_grlxxmh_supplier' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'prcxxth_npo.kode' )
@@ -90,12 +91,12 @@
 			Field::inst( 'prcxxth_npo.plat_nomor' ),
 
 			Field::inst( 'iwhxxmh.nama' ),
-			Field::inst( 'imtxxmh.nama' ),
+			Field::inst( 'ittxxmh.nama' ),
 			Field::inst( 'grlxxmh.nama' ),
 
 		)
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','prcxxth_npo.id_iwhxxmh' )
-		->leftJoin( 'imtxxmh','imtxxmh.id','=','prcxxth_npo.id_imtxxmh' )
+		->leftJoin( 'ittxxmh','ittxxmh.id','=','prcxxth_npo.id_ittxxmh' )
 		->leftJoin( 'grlxxmh','grlxxmh.id','=','prcxxth_npo.id_grlxxmh_supplier' )
 		->where( 'prcxxth_npo.tanggal', $_POST['start_date'], '>=' )
 		->where( 'prcxxth_npo.tanggal', $_POST['end_date'], '<=' )

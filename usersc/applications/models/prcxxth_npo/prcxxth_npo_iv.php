@@ -23,7 +23,6 @@
 	// END definisi variable untuk fn_ajax_results.php
 
 	// ganti movement type sesuai jenis transaksi
-	$imtxxmh_kode = 101;
 
 	$id    = $_POST['id_transaksi_h'];
 	$state = $_POST['state'];
@@ -121,7 +120,7 @@
 					iumxxmh_terkecil.nama,
 					iumxxmh_default.kode,
 					iumxxmh_default.nama,
-					'.$imtxxmh_kode.' as imtxxmh_kode,
+					prcxxth_npo.imtxxmh_kode as imtxxmh_kode,
 					imtxxmh.movement_type,
 					prcxxth_npo.tanggal,
 					1 as is_fisik,
@@ -140,7 +139,7 @@
 				LEFT JOIN iumxxmh AS iumxxmh_unit ON iumxxmh_unit.id = prcittd_npo.id_iumxxmh_unit
 				LEFT JOIN iumxxmh AS iumxxmh_terkecil ON iumxxmh_terkecil.id = prcittd_npo.id_iumxxmh_terkecil
 				LEFT JOIN iumxxmh AS iumxxmh_default ON iumxxmh_default.id = prcittd_npo.id_iumxxmh_default
-				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.module = "SIG"
+				LEFT JOIN imtxxmh as imtxxmh ON imtxxmh.kode = prcxxth_npo.imtxxmh_kode AND imtxxmh.module = "SIG"
 				WHERE prcxxth_npo.id = :id
 			');
 

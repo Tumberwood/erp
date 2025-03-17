@@ -28,11 +28,11 @@
         $id_ittxxmh_old = 0;
     }
 
-    if(isset($_GET['movement_type_group'])){
-        $movement_type_group = '('.$_GET['movement_type_group'].')';
+    if(isset($_GET['module'])){
+        $module = '('.$_GET['module'].')';
         $w_like = 'IN';
     }else{
-        $movement_type_group = '(-9)';
+        $module = '(-9)';
         $w_like = 'NOT IN';
     }
 
@@ -67,7 +67,7 @@
         ->order('ittxxmh.kode')
         ->where('ittxxmh.transaction_state',1)
         ->where('ittxxmh.id', $id_ittxxmh_old, '<>' )
-        ->where('imtxxmh.movement_type_group', $movement_type_group, $w_like, false )
+        ->where('imtxxmh.module', $module, $w_like, false )
         ->where( function ( $r ) {
             $q = $_GET['search'];
             $r

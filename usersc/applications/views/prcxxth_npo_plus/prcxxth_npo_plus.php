@@ -54,7 +54,7 @@
 								<editor-field name="prcxxth_npo.tanggal"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="prcxxth_npo.id_imtxxmh"></editor-field>
+								<editor-field name="prcxxth_npo.id_ittxxmh"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -354,7 +354,7 @@
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, is_pajak;
-	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_imtxxmh_old = 0, id_iitxxmh_old = 0;
+	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_iumxxmh_unit_old = 0, id_ittxxmh_old = 0, id_iitxxmh_old = 0;
 
 	// get tableRelation
 	tableRelation('prcxxth_npo');
@@ -467,18 +467,19 @@
 				},
 				{
 					label: "Transaction Type <sup class='text-danger'>*<sup>",
-					name: "prcxxth_npo.id_imtxxmh",
+					name: "prcxxth_npo.id_ittxxmh",
 					type: "select2",
 					opts: {
 						placeholder : "Select",
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/imtxxmh/imtxxmh_fn_opt.php",
+							url: "../../models/ittxxmh/ittxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
-									id_imtxxmh_old: id_imtxxmh_old,
+									id_ittxxmh_old: id_ittxxmh_old,
+									module: '"SIG"',
 									search: params.term || '',
 									page: params.page || 1
 								}
@@ -689,7 +690,12 @@
 					label: "Keterangan",
 					name: "prcxxth_npo.keterangan",
 					type: "textarea"
-				}
+				},
+				{
+					label: "prcxxth_npo.imtxxmh_kode",
+					name: "prcxxth_npo.imtxxmh_kode",
+					type: "hidden"
+				},
 			]
 		} );
 		
@@ -723,6 +729,16 @@
 			$(".modal-dialog").addClass("modal-xl");
 			edtFormButtonSaveConfirmHD();
 		});
+		
+		edtprcxxth_npo.dependent( 'prcxxth_npo.id_ittxxmh', function ( val, data, callback ) {
+			if (val > 0) {
+				autofillField('ittxxmh', val, 'imtxxmh_kode');
+				imtxxmh_kode = autofillData.imtxxmh_kode;
+				
+				edtprcxxth_npo.field('prcxxth_npo.imtxxmh_kode').val(imtxxmh_kode);
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtprcxxth_npo.dependent( 'prcxxth_npo.diskon_jenis', function ( val, data, callback ) {
 			if (val == 1) {
@@ -786,7 +802,7 @@
 				tanggal             = edtprcxxth_npo.field('prcxxth_npo.tanggal').val();
 				id_iitxxmh             = edtprcxxth_npo.field('prcxxth_npo.id_iitxxmh').val();
 				id_iwhxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_iwhxxmh').val();
-				id_imtxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_imtxxmh').val();
+				id_ittxxmh          = edtprcxxth_npo.field('prcxxth_npo.id_ittxxmh').val();
 				id_grlxxmh_supplier = edtprcxxth_npo.field('prcxxth_npo.id_grlxxmh_supplier').val();
 				referensi_nomor     = edtprcxxth_npo.field('prcxxth_npo.referensi_nomor').val();
 				plat_nomor     = edtprcxxth_npo.field('prcxxth_npo.plat_nomor').val();
@@ -800,7 +816,7 @@
 						"id_iitxxmh": id_iitxxmh, 
 						"id_grlxxmh_supplier": id_grlxxmh_supplier,
 						"id_iwhxxmh": id_iwhxxmh,
-						"id_imtxxmh": id_imtxxmh,
+						"id_ittxxmh": id_ittxxmh,
 						"referensi_nomor": referensi_nomor,
 						"plat_nomor": plat_nomor,
 						"referensi": referensi,
@@ -876,7 +892,7 @@
 				{ data: "prcxxth_npo.id",visible:false },
 				{ data: "prcxxth_npo.kode" },
 				{ data: "prcxxth_npo.tanggal" },
-				{ data: "imtxxmh.nama" },
+				{ data: "ittxxmh.nama" },
 				{ data: "grlxxmh.nama" },
 				{ data: "iwhxxmh.nama" },
 				{ 
@@ -933,7 +949,7 @@
 			id_grlxxmh_old      = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_grlxxmh_supplier = prcxxth_npo_data.id_grlxxmh_supplier;
 			id_iwhxxmh_old      = prcxxth_npo_data.id_iwhxxmh;
-			id_imtxxmh_old      = prcxxth_npo_data.id_imtxxmh;
+			id_ittxxmh_old      = prcxxth_npo_data.id_ittxxmh;
 			id_iitxxmh_old      = prcxxth_npo_data.id_iitxxmh;
 			
 			// terkait footer
@@ -955,7 +971,7 @@
 			dpp_final_h    = 0;
 			pajak_final_h  = 0;
 			grand_total_h  = 0;
-			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_imtxxmh_old = 0, id_iitxxmh_old = 0;
+			id_grlxxmh_old = 0, id_grlxxmh_supplier = 0, id_iwhxxmh_old = 0, id_ittxxmh_old = 0, id_iitxxmh_old = 0;
 
 			// atur hak akses
 			tbl_details = [tblprcittd_npo];
