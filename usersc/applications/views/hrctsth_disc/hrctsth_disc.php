@@ -156,9 +156,6 @@ $.extend( true, $.fn.dataTable.Editor.defaults, {
 	}
 } );
 
-// dom
-// P: SearchPanes 
-// Q: SearchBuilder 
 var dom0 = 
 	"<'row'<'col-lg-12 col-md-12 col-sm-12 col-xs-12'l>>" +
 	"<'row'<'col-lg-6 col-md-12 col-sm-12 col-xs-12'B><'col-lg-6 col-md-6 col-sm-12 col-xs-12'f>>" +
@@ -209,37 +206,9 @@ $.extend( true, $.fn.dataTable.defaults, {
 	processing: true,
 	responsive: true,
 	
-	/**
-	 * searchpanes 
-	 * disetting di masing-masing halaman
-	 */
-	// searchPanes: {},	
-	
-	/**
-	 * scroller
-	 * di off kan sementara, karena ada bugs pada tab
-	 */
-	// scrollCollapse: true,
-	// scrollY: 300,
-    // scroller: {
-    //     displayBuffer: 2,
-	// 	loadingIndicator: true
-    // },
-	// scroller: true,
-	// deferRender: true,
-	
-	// colReorder: true,
-	// fixedColumns: true,
-	// fixedHeader: {
-	// 	header: true
-	// },
-	
 } );
 
 	document.getElementById('id_hcd').style.display = 'none';
-	//hide sesi 1
-	// document.getElementById('mulaidisc1').style.display = 'none';
-	// document.getElementById('button_modal1').style.display = 'none';
 	document.getElementById('quiz1').style.display = 'none';
 </script>
 

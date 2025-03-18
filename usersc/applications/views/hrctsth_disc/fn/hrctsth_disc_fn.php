@@ -71,12 +71,6 @@
     var timerDuration = 600;
     startCountdown(timerDuration);
     
-    // Show the quiz container
-    // document.getElementById('mulaidisc1').style.display = 'none';
-
-    // Set the countdown duration in 3 seconds
-    // var timerDuration = 20;
-
     // Start the countdown
 
     // var id_hcd = $('#id_hcd').val();
@@ -251,9 +245,7 @@
         is_finish = 1;
       }
     });
-    // document.getElementById('mulaidisc1').style.display = 'none';
     document.getElementById('quiz1').style.display = 'none';
-    // document.getElementById('button_modal1').style.display = 'none';
 
     window.removeEventListener('beforeunload', confirmLeavePage);
     alert('Anda Telah Menyelesaikan Tes DISC');
