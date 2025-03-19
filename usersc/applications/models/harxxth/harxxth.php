@@ -79,8 +79,16 @@
 				) ),
 			Field::inst( 'CONCAT(hemxxmh.kode," - ",hemxxmh.nama) as hemxxmh_data' )
 	)
-	->leftJoin( 'hemxxmh','hemxxmh.id','=','harxxth.id_hemxxmh' );
+	->leftJoin( 'hemxxmh','hemxxmh.id','=','harxxth.id_hemxxmh' )
+	;
 	
+	if($_POST['start_date'] != ''){
+		$editor->where( 'harxxth.tanggal_efektif',$_POST['start_date'], '>=' );
+	}
+	if($_POST['end_date'] != ''){
+		$editor->where( 'harxxth.tanggal_efektif', $_POST['end_date'], '<=' );
+	}
+
 	// do not erase
 	// function show / hide inactive document
 	if ( $_POST['show_deleted_harxxth'] == 0){
