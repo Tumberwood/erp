@@ -49,62 +49,62 @@
 				</div>
 
 				<div id="frmharxxth">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="harxxth.tanggal_efektif"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="harxxth.id_hemxxmh"></editor-field>
-								</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="harxxth.tanggal_efektif"></editor-field>
 							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="hovxxmh_awal_nama"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="harxxth.id_hovxxmh_akhir"></editor-field>
-								</div>
+							<div class="col-lg-6">
+								<editor-field name="harxxth.id_hemxxmh"></editor-field>
 							</div>
-
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="hodxxmh_awal_nama"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="harxxth.id_hodxxmh_akhir"></editor-field>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="hosxxmh_awal_nama"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="harxxth.id_hosxxmh_akhir"></editor-field>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="hevxxmh_awal_nama"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="harxxth.id_hevxxmh_akhir"></editor-field>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-lg-6">
-									<editor-field name="hetxxmh_awal_nama"></editor-field>
-								</div>
-								<div class="col-lg-6">
-									<editor-field name="harxxth.id_hetxxmh_akhir"></editor-field>
-								</div>
-							</div>
-
 						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="hovxxmh_awal_nama"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="harxxth.id_hovxxmh_akhir"></editor-field>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="hodxxmh_awal_nama"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="harxxth.id_hodxxmh_akhir"></editor-field>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="hosxxmh_awal_nama"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="harxxth.id_hosxxmh_akhir"></editor-field>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="hevxxmh_awal_nama"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="harxxth.id_hevxxmh_akhir"></editor-field>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6">
+								<editor-field name="hetxxmh_awal_nama"></editor-field>
+							</div>
+							<div class="col-lg-6">
+								<editor-field name="harxxth.id_hetxxmh_akhir"></editor-field>
+							</div>
+						</div>
+
 					</div>
+				</div>
 				<div class="table-responsive">
                     <table id="tblharxxth" class="table table-striped table-bordered table-hover nowrap" width="100%">
                         <thead>
