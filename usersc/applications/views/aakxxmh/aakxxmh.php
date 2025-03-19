@@ -223,11 +223,11 @@
 					}
 				},
 				{
-					label: getTranslation('beginningBalance'),
+					label: getTranslation('beginningBalance') + "<sup class='text-danger'>*<sup>",
 					name: "aakxxmh.saldo_awal"
 				},
 				{
-					label: getTranslation('beginningBalanceDate'),
+					label: getTranslation('beginningBalanceDate') + "<sup class='text-danger'>*<sup>",
 					name: "aakxxmh.saldo_awal_tanggal",
 					type: "datetime",
 					def: function () { 
@@ -292,6 +292,7 @@
 				kode = edtaakxxmh.field('aakxxmh.kode').val();
 				id_aatxxmh = edtaakxxmh.field('aakxxmh.id_aatxxmh').val();
 				nama = edtaakxxmh.field('aakxxmh.nama').val();
+				saldo_awal_tanggal = edtaakxxmh.field('aakxxmh.saldo_awal_tanggal').val();
 
 				validasiRequired(
 					edtaakxxmh,
@@ -299,7 +300,8 @@
 					{
 						'kode': kode,
 						'id_aatxxmh': id_aatxxmh,
-						'nama': nama
+						'nama': nama,
+						'saldo_awal_tanggal': saldo_awal_tanggal,
 					}
 				);
 
