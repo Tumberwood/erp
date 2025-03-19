@@ -18,6 +18,8 @@
 	$nama_tabels_d[8]  = 'hemedmd';
 	$nama_tabels_d[9]  = 'hemwrmd';
 	$nama_tabels_d[10] = 'hemlgmd';
+	$nama_tabels_d[11] = 'hacemtd';
+	$nama_tabels_d[12] = 'kisemtd';
 ?>
 <div class="row">
 	<div class="col">
@@ -270,6 +272,8 @@
 						<li><a class="nav-link" data-toggle="tab" href="#tabhemjbrd"> Job History</a></li>
 						<li><a class="nav-link" data-toggle="tab" href="#tabhttlptd"> Leave & Permission</a></li>
 						<li><a class="nav-link" data-toggle="tab" href="#tabhadxxtd "> Pelanggaran</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabhacemtd">Medical Record</a></li>
+						<li><a class="nav-link" data-toggle="tab" href="#tabkisemtd">Insiden Record</a></li>
 					</ul>
 					<div class="tab-content">
 						<div role="tabpanel" id="tabhemfmmd" class="tab-pane active">
@@ -507,6 +511,44 @@
 
 							</div>
 						</div>
+						<div role="tabpanel" id="tabhacemtd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+								<table id="tblhacemtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>id_hemxxmh</th>
+											<th data-i18n="code"></th>
+											<th data-i18n="date"></th>
+											<th data-i18n="Med Exam Type"></th>
+											<th data-i18n="employee"></th>
+											<th data-i18n="state"></th>
+										</tr>
+									</thead>
+								</table>
+								</div> <!-- end of table -->
+							</div>
+						</div>
+						<div role="tabpanel" id="tabkisemtd" class="tab-pane">
+							<div class="panel-body">
+								<div class="table-responsive">
+								<table id="tblkisemtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>id_hemxxmh</th>
+											<th data-i18n="code"></th>
+											<th data-i18n="date"></th>
+											<th data-i18n="Med Exam Type"></th>
+											<th data-i18n="employee"></th>
+											<th data-i18n="state"></th>
+										</tr>
+									</thead>
+								</table>
+								</div> <!-- end of table -->
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -548,6 +590,8 @@
 	var edthemtrmd, tblhemtrmd, show_deleted_hemtrmd = 0, id_hemtrmd;
 	var edthesxxtd, tblhesxxtd, show_deleted_hesxxtd = 0, id_hesxxtd;
 	var edthemjbrd, tblhemjbrd, show_deleted_hemjbrd = 0, id_hemjbrd;
+	var edthacemtd, tblhacemtd, show_deleted_hacemtd = 0, id_hacemtd;
+	var edtkisemtd, tblkisemtd, show_deleted_kisemtd = 0, id_kisemtd;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -1637,6 +1681,8 @@
 				, tblhemedmd
 				, tblhemwrmd
 				, tblhemlgmd
+				, tblhacemtd
+				, tblkisemtd
 			];
 			CekInitHeaderHD(tblhemxxmh, tbl_details);
 		} );
@@ -1680,6 +1726,8 @@
 				, tblhemedmd
 				, tblhemwrmd
 				, tblhemlgmd
+				, tblhacemtd
+				, tblkisemtd
 			];
 			CekSelectHeaderHD(tblhemxxmh, tbl_details);
 
@@ -1719,6 +1767,8 @@
 				, tblhemedmd
 				, tblhemwrmd
 				, tblhemlgmd
+				, tblhacemtd
+				, tblkisemtd
 			];
 			CekDeselectHeaderHD(tblhemxxmh, tbl_details);
 			$('#sisa_cuti_text').empty();
@@ -3808,6 +3858,132 @@
 			
 			// atur hak akses
 			CekDeselectDetailHD(tblhemxxmh, tblhemjbrd );
+		} );
+
+		tblhacemtd = $('#tblhacemtd').DataTable( {
+			dom: dom0,
+			ajax: {
+				url: "../../models/hemxxmh/hacemtd_hemxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_hacemtd = show_deleted_hacemtd;
+					d.id_hemxxmh = id_hemxxmh;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			responsive: false,
+			// scrollX: true,
+			
+			columns: [
+				{ data: "hacemtd.id",visible:false },
+				{ data: "hacemtd.id_hemxxmh",visible:false },
+				{ data: "hacemtd.kode" },
+				{ data: "hacemtd.tanggal" },
+				{ data: "hactpmh.nama" },
+				{ data: "hemxxmh_fullname" },
+				{ 
+					data: "hacemtd.transaction_state" ,
+					...renderTransactionStatus()
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_hacemtd';
+					$table       = 'tblhacemtd';
+					$edt         = 'edthacemtd';
+					$show_status = '_hacemtd';
+					$table_name  = $nama_tabels_d[11];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+			}
+		} );
+
+		tblhacemtd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD(tblhacemtd, 0 );
+			CekDrawDetailHDFinal(tblhemxxmh);
+		} );
+
+		tblhacemtd.on( 'select', function( e, dt, type, indexes ) {
+			CekSelectDetailHD(tblhemxxmh, tblhacemtd );
+		} );
+
+		tblhacemtd.on( 'deselect', function() {
+			id_hacemtd = 0;
+			id_hadxxmh_old = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD(tblhemxxmh, tblhacemtd );
+		} );
+
+		tblkisemtd = $('#tblkisemtd').DataTable( {
+			dom: dom0,
+			ajax: {
+				url: "../../models/hemxxmh/kisemtd_hemxxmh.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_kisemtd = show_deleted_kisemtd;
+					d.id_hemxxmh = id_hemxxmh;
+				}
+			},
+			order: [[ 2, "desc" ]],
+			responsive: false,
+			// scrollX: true,
+			
+			columns: [
+				{ data: "kisemtd.id",visible:false },
+				{ data: "kisemtd.id_hemxxmh",visible:false },
+				{ data: "kisemtd.kode" },
+				{ data: "kisemtd.tanggal" },
+				{ data: "kisctmh.nama" },
+				{ data: "hemxxmh_fullname" },
+				{ 
+					data: "kisemtd.transaction_state" ,
+					...renderTransactionStatus()
+				}
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_kisemtd';
+					$table       = 'tblkisemtd';
+					$edt         = 'edtkisemtd';
+					$show_status = '_kisemtd';
+					$table_name  = $nama_tabels_d[12];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+			}
+		} );
+
+		tblkisemtd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD(tblkisemtd, 0 );
+			CekDrawDetailHDFinal(tblhemxxmh);
+		} );
+
+		tblkisemtd.on( 'select', function( e, dt, type, indexes ) {
+			CekSelectDetailHD(tblhemxxmh, tblkisemtd );
+		} );
+
+		tblkisemtd.on( 'deselect', function() {
+			id_kisemtd = 0;
+			id_hadxxmh_old = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD(tblhemxxmh, tblkisemtd );
 		} );
 
 	} );// end of document.ready
