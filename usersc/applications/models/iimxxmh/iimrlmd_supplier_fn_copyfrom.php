@@ -58,9 +58,9 @@
 						FROM iimrlmd_supplier
 						WHERE 1
 							AND id_iimxxmh = :id_iimxxmh_source 
-							AND id_iimxxmh NOT IN (
+							AND id_grlxxmh_supplier NOT IN (
 								SELECT
-									id_iimxxmh
+									id_grlxxmh_supplier
 								FROM iimrlmd_supplier
 								WHERE 
 									id_iimxxmh = :id_iimxxmh_target

@@ -74,9 +74,9 @@
 						FROM iimummd
 						WHERE 1
 							AND id_iimxxmh = :id_iimxxmh_source 
-							AND id_iimxxmh NOT IN (
+							AND id_iumxxmh NOT IN (
 								SELECT
-									id_iimxxmh
+									id_iumxxmh
 								FROM iimummd
 								WHERE 
 									id_iimxxmh = :id_iimxxmh_target

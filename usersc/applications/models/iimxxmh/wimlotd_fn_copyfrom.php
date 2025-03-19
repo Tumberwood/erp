@@ -56,9 +56,9 @@
 						FROM wimlotd
 						WHERE 1
                             AND id_iimxxmh = :id_iimxxmh_source 
-							AND id_iimxxmh NOT IN (
+							AND id_wloxxmh NOT IN (
 								SELECT
-									id_iimxxmh
+									id_wloxxmh
 								FROM wimlotd
 								WHERE
 									id_iimxxmh = :id_iimxxmh_target
