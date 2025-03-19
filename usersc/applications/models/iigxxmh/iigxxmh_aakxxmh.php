@@ -47,7 +47,7 @@
 
 				Field::inst( 'concat(aakxxmh_persediaan.kode," - ",aakxxmh_persediaan.nama) as aakxxmh_persediaan' ),
 				Field::inst( 'concat(aakxxmh_biaya.kode," - ",aakxxmh_biaya.nama) as aakxxmh_biaya' ),
-				Field::inst( 'concat(aakxxmh_penjualan.kode," - ",aakxxmh_penjualan.nama) as aakxxmh_biaya' ),
+				Field::inst( 'concat(aakxxmh_penjualan.kode," - ",aakxxmh_penjualan.nama) as aakxxmh_penjualan' ),
 				
 			)
 			->leftJoin( 'aakxxmh as aakxxmh_persediaan','aakxxmh_persediaan.id','=','iigxxmh_aakxxmh.id_aakxxmh_persediaan' )
