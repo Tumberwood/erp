@@ -107,11 +107,11 @@
 				->exec('UPDATE hemjbmh AS a
 						LEFT JOIN harxxth AS b ON b.id_hemxxmh = a.id_hemxxmh 
 						SET 
-							a.id_hovxxmh = b.id_hovxxmh_akhir,
-							a.id_hodxxmh = b.id_hodxxmh_akhir,
-							a.id_hosxxmh = b.id_hosxxmh_akhir,
-							a.id_hevxxmh = b.id_hevxxmh_akhir,
-							a.id_hetxxmh = b.id_hetxxmh_akhir
+							a.id_hovxxmh = IF(b.id_hovxxmh_akhir = 0, a.id_hovxxmh, b.id_hovxxmh_akhir),
+							a.id_hodxxmh = IF(b.id_hodxxmh_akhir = 0, a.id_hodxxmh, b.id_hodxxmh_akhir),
+							a.id_hosxxmh = IF(b.id_hosxxmh_akhir = 0, a.id_hosxxmh, b.id_hosxxmh_akhir),
+							a.id_hevxxmh = IF(b.id_hevxxmh_akhir = 0, a.id_hevxxmh, b.id_hevxxmh_akhir),
+							a.id_hetxxmh = IF(b.id_hetxxmh_akhir = 0, a.id_hetxxmh, b.id_hetxxmh_akhir)
 						WHERE b.id = :id;
 						'
 						);
