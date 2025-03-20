@@ -599,7 +599,12 @@
     var timer3Interval = setInterval(function() {
     var minutes = Math.floor(duration3 / 60);
     var seconds = duration3 % 60;
-    
+      
+    if (finishSesi3) {
+        clearInterval(timer3Interval);
+        console.log("Countdown dihentikan karena finishSesi3 = true");
+        return;
+    }
 
     // Display the remaining time in the timer2 element
     timer3Element.textContent = minutes + 'm ' + seconds + 's';

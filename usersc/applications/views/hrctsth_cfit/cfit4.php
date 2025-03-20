@@ -493,6 +493,15 @@
     var minutes = Math.floor(duration4 / 60);
     var seconds = duration4 % 60;
     
+    if (finishSesi4) {
+        clearInterval(timer4Interval);
+        console.log("Countdown dihentikan karena finishSesi4 = true");
+        // Disable or hide the quiz if needed
+        document.getElementById('quiz4').style.display = 'none';
+        document.getElementById('button_modal4').style.display = 'none';
+        document.getElementById('mulaiCFIT4').style.display = 'none';
+        return;
+    }
 
     // Display the remaining time in the timer2 element
     timer4Element.textContent = minutes + 'm ' + seconds + 's';
@@ -511,7 +520,7 @@
         // Disable or hide the quiz if needed
         document.getElementById('quiz4').style.display = 'none';
         document.getElementById('button_modal4').style.display = 'none';
-        document.getElementById('mulaiCFIT4').style.display = 'block';
+        document.getElementById('mulaiCFIT4').style.display = 'none';
 
         if (!finishSesi4) {
           finishGet4();

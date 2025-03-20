@@ -597,6 +597,12 @@
             var minutes = Math.floor(duration / 60);
             var seconds = duration % 60;
 
+            if (finishSesi1) {
+                clearInterval(timerInterval);
+                console.log("Countdown dihentikan karena finishSesi1 = true");
+                return;
+            }
+            
             // Display the remaining time in the timer element
             timerElement.textContent = minutes + 'm ' + seconds + 's';
 

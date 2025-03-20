@@ -532,6 +532,12 @@
       var minutes = Math.floor(duration2 / 60);
       var seconds = duration2 % 60;
 
+      if (finishSesi2) {
+          clearInterval(timer2Interval);
+          console.log("Countdown dihentikan karena finishSesi2 = true");
+          return;
+      }
+      
       timer2Element2.textContent = minutes + 'm ' + seconds + 's';
       duration2--;
 
