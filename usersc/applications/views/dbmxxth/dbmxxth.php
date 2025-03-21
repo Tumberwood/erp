@@ -469,7 +469,7 @@
 							data: function (params) {
 								var query = {
 									id_iimxxmh_old: id_iimxxmh_rm_old,
-									ids_iicxxmh: 1,
+									ids_iicxxmh: '1,2',
 									search: params.term || '',
 									page: params.page || 1
 								}
