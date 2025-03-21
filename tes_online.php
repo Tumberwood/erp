@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-12">
                     <form action="../../../../hcdxxmh.php" target="_blank">
-                        <button type="submit" class="btn btn-info btn btn-primary block full-width m-b"><i class="fa fa-file-text"></i> Form Kandidat</button>
+                        <button type="submit" class="btn btn-info btn btn-primary block full-width m-b">Form Kandidat</button>
                     </form>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12">

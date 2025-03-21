@@ -160,6 +160,9 @@
 
 			if(action == 'create'){
 				tbliigxxmh.rows().deselect();
+				edtiigxxmh.field('iigxxmh.nama').enable();
+			} else if(action == 'edit') {
+				edtiigxxmh.field('iigxxmh.nama').disable();
 			}
 		});
 
