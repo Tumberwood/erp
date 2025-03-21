@@ -137,7 +137,7 @@
                 <input type="hidden" name="redirect" value="<?=Input::get('redirect')?>" />
                 <button class="submit  btn btn-primary block full-width m-b" id="next_button" type="submit"><i class="fa fa-sign-in"></i> <?=lang("SIGNIN_BUTTONTEXT","");?></button>
             </form>
-            <form action="../../../../tes_online.php">
+            <form action="../../../../tes_online.php" target="_blank">
                 <button type="submit" class="btn btn-info btn btn-primary block full-width m-b"><i class="fa fa-file-text"></i> Form Kandidat & Tes Online</button>
             </form>
             </div>
