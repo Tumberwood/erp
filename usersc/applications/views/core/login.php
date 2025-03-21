@@ -136,7 +136,9 @@
                 <input type="hidden" name="csrf" value="<?=$token?>">
                 <input type="hidden" name="redirect" value="<?=Input::get('redirect')?>" />
                 <button class="submit  btn btn-primary block full-width m-b" id="next_button" type="submit"><i class="fa fa-sign-in"></i> <?=lang("SIGNIN_BUTTONTEXT","");?></button>
-
+            </form>
+            <form action="../../../../psikotes.php">
+                <button type="submit" class="btn btn-info btn btn-primary block full-width m-b"><i class="fa fa-file-text"></i> Psikotes</button>
             </form>
             </div>
           </div>
