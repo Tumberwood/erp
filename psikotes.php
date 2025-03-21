@@ -18,7 +18,7 @@
 <div class="container-fluid mt-4">
     <div class="ibox">
         <div class="ibox-title">
-            <h3><i class="fa fa-file-text"></i> Psikotes</h3>
+            <h3><i class="fa fa-file-text"></i> Tes Online</h3>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="ibox-content" style="padding: 15px">
-            <h1>Welcome to Psikotes by <b>Solusi Indonesia</b> </h1>
+            <h1>Welcome to Tes Online by <b>Solusi Indonesia</b> </h1>
             <p>Silahkan klik tombol di bawah ini untuk mengikuti tes</p>
             <div class="row">
                 <div class="col-4">
