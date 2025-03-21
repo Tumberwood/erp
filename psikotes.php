@@ -30,17 +30,17 @@
             <p>Silahkan klik tombol di bawah ini untuk mengikuti tes</p>
             <div class="row">
                 <div class="col-4">
-                    <form action="usersc/applications/views/hrctsth_kostik/hrctsth_kostik_public.php">
+                    <form action="usersc/applications/views/hrctsth_kostik/hrctsth_kostik_public.php" target="_blank">
                         <button type="submit" class="btn btn-primary btn btn-primary block full-width m-b">Tes Papi Kostik</button>
                     </form>
                 </div>
                 <div class="col-4">
-                    <form action="usersc/applications/views/hrctsth_cfit/hrctsth_cfit_public.php">
+                    <form action="usersc/applications/views/hrctsth_cfit/hrctsth_cfit_public.php" target="_blank">
                         <button type="submit" class="btn btn-primary btn btn-primary block full-width m-b">Tes CFIT</button>
                     </form>
                 </div>
                 <div class="col-4">
-                    <form action="usersc/applications/views/hrctsth_disc/hrctsth_disc_public.php">
+                    <form action="usersc/applications/views/hrctsth_disc/hrctsth_disc_public.php" target="_blank">
                         <button type="submit" class="btn btn-primary btn btn-primary block full-width m-b">Tes DISC</button>
                     </form>
                 </div>
