@@ -50,7 +50,7 @@
                   <div class="ibox-content">
                      <!-- start Custom Form Datatables Editor -->
                      <div class="container" style="min-height:550px">
-                        <h1>Data Kandidat</h1>
+                        <h1>From Kandidat</h1>
                            <form id="myForm">
                               <hr>
                               <h3>Personal</h3>
