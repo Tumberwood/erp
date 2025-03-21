@@ -456,7 +456,7 @@
 					type: "hidden"
 				},	
 				{
-					label: getTranslation('rawMaterial') + "<sup class='text-danger'>*<sup>",
+					label: getTranslation('Component') + "<sup class='text-danger'>*<sup>",
 					name: "dbmittd.id_iimxxmh",
 					type: "select2",
 					opts: {
