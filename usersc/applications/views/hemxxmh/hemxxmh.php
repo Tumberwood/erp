@@ -522,7 +522,6 @@
 											<th data-i18n="code"></th>
 											<th data-i18n="date"></th>
 											<th data-i18n="Med Exam Type"></th>
-											<th data-i18n="employee"></th>
 											<th data-i18n="state"></th>
 										</tr>
 									</thead>
@@ -540,8 +539,7 @@
 											<th>id_hemxxmh</th>
 											<th data-i18n="code"></th>
 											<th data-i18n="date"></th>
-											<th data-i18n="Med Exam Type"></th>
-											<th data-i18n="employee"></th>
+                                			<th data-i18n="Insiden Category"></th>
 											<th data-i18n="state"></th>
 										</tr>
 									</thead>
@@ -3880,7 +3878,6 @@
 				{ data: "hacemtd.kode" },
 				{ data: "hacemtd.tanggal" },
 				{ data: "hactpmh.nama" },
-				{ data: "hemxxmh_fullname" },
 				{ 
 					data: "hacemtd.transaction_state" ,
 					...renderTransactionStatus()
@@ -3943,7 +3940,6 @@
 				{ data: "kisemtd.kode" },
 				{ data: "kisemtd.tanggal" },
 				{ data: "kisctmh.nama" },
-				{ data: "hemxxmh_fullname" },
 				{ 
 					data: "kisemtd.transaction_state" ,
 					...renderTransactionStatus()
