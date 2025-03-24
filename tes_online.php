@@ -18,7 +18,9 @@
 <div class="container-fluid mt-4">
     <div class="ibox">
         <div class="ibox-title">
-            <h3><i class="fa fa-file-text"></i> Tes Online</h3>
+            <h3>
+                <!-- <i class="fa fa-file-text"></i>  -->
+                Tes Online</h3>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>
