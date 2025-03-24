@@ -92,10 +92,10 @@
 
                 <!-- Tombol -->
                 <div class="row mt-3">
-                    <div class="col-2">
+                    <div class="col-lg-2 col-md-2 col-sm-12">
                         <button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
                     </div>
-                    <div class="col-10">
+                    <div class="col-lg-10 col-md-10 col-sm-12">
                         <button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()">Kirim</button>
                         <button style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()">Mulai</button>
                     </div>

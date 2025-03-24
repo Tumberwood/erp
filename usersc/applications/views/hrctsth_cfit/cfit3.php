@@ -438,12 +438,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-9">
+        <div class="col-6">
           <button onclick="previousQuestion3()" class="btn btn-primary" id="prevButton3">Previous</button>
         </div>
-        <div class="col-md-2">
+        <div class="col-6 d-flex justify-content-end">
           <button onclick="nextQuestion3()" class="btn btn-primary" id="nextButton3">Next</button>
           <button onclick="finishQuiz3()" class="btn btn-success" id="finishButton3" style="display: none;">Finish</button>
         </div>

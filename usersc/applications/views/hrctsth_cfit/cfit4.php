@@ -331,12 +331,10 @@
       </div>
 
       <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-9">
+        <div class="col-6">
           <button onclick="previousQuestion4()" class="btn btn-primary" id="prevButton4">Previous</button>
         </div>
-        <div class="col-md-2">
+        <div class="col-6 d-flex justify-content-end">
           <button onclick="nextQuestion4()" class="btn btn-primary" id="nextButton4">Next</button>
           <button onclick="finishQuiz4()" class="btn btn-success" id="finishButton4" style="display: none;">Finish</button>
         </div>

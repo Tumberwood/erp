@@ -34,7 +34,57 @@
       cursor: pointer; /* Pointer on hover */
       transition: background-color 0.3s; /* Smooth transition */
   }
+  
+  /* Tampilan Mobile, Ferry 24 Mar 2025 */
+  @media (max-width: 400px) {
+    .quiz-option {
+      display: inline-block;
+      width: calc(33.3% - 5px); /* 3 kolom per baris */
+      text-align: center;
+    }
 
+    .quiz-option img {
+      width: 100%;
+      height: auto;
+    }
+
+    .soal {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
+
+    .col-lg-2 {  
+      order: -1; /* Biar Question Box naik ke atas */  
+    }  
+
+    .grid-container {
+        grid-template-columns: repeat(6, 48px); /* Three columns of fixed size */
+    }
+    
+    .quiz-image-container {
+      display: inline-block;
+      width: calc(33.3% - 5px); /* 3 kolom per baris */
+      text-align: center;
+    }
+
+    .quiz-image-container img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .cfit4-option {
+      display: inline-block;
+      width: calc(33.3% - 5px); /* 3 kolom per baris */
+      text-align: center;
+    }
+
+    .cfit4-option img {
+      width: 100%;
+      height: auto;
+    }
+  }
   /* body::before {
       content: "SOLUSI INDONESIA";
       position: fixed;
@@ -89,13 +139,13 @@
     </div>
     
     <div class="form-group row">
-      <div class="col-lg-3">
+      <div class="col-6">
         <button type="button" style="display: none" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Petunjuk Sesi 1</button>
         <button type="button" style="display: none" id="button_modal2" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Petunjuk Sesi 2</button>
         <button type="button" style="display: none" id="button_modal3" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Petunjuk Sesi 3</button>
         <button type="button" style="display: none" id="button_modal4" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Petunjuk Sesi 4</button>
       </div>
-      <div class="col-lg-3">
+        <div class="col-6 d-flex justify-content-end">
         <button type="button" style="display: none" id="mulaiCFIT1" class="btn btn-primary" onclick="startQuiz()">Mulai Sesi 1</button>
         <button type="button" style="display: none" id="mulaiCFIT2" class="btn btn-primary" onclick="startQuiz2()">Mulai Sesi 2</button>
         <button type="button" style="display: none" id="mulaiCFIT3" class="btn btn-primary" onclick="startQuiz3()">Mulai Sesi 3</button>
