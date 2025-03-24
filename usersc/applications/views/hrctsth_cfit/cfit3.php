@@ -523,12 +523,6 @@
         // Clear the selectedImages array and add the new selection
         selected3Images = [];
         selected3Images.push(image3);
-    } else {
-        // Remove the deselected image from the selectedImages array
-        var index = selected3Images.indexOf(image3);
-        if (index > -1) {
-            selected3Images.splice(index, 1);
-        }
     }
 
     // Mark selected3 images
@@ -587,8 +581,8 @@
   }
 
   function startCountdown3(duration3) {
-      var btnFilter = document.getElementById("btnFilterFloating");
-      if (btnFilter) {
+    var btnFilter = document.getElementById("btnFilterFloating");
+    if (btnFilter) {
       var timerDiv = document.createElement("div");
       timerDiv.className = "timer-container";
       timerDiv.innerHTML = 'Sisa Waktu: <span id="timer3"></span>';
@@ -596,43 +590,42 @@
     }
 
     var timer3Element = document.getElementById('timer3');
-    var timer3Interval = setInterval(function() {
-    var minutes = Math.floor(duration3 / 60);
-    var seconds = duration3 % 60;
-      
-    if (finishSesi3) {
-        clearInterval(timer3Interval);
-        document.querySelectorAll(".timer-container").forEach(el => el.remove());
-        console.log("Countdown dihentikan karena finishSesi3 = true");
-        return;
+    var endTime = Date.now() + duration3 * 1000; // Hitung waktu selesai berdasarkan timestamp
+
+    function updateTimer() {
+      var remainingTime = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+      var minutes = Math.floor(remainingTime / 60);
+      var seconds = remainingTime % 60;
+
+      if (finishSesi3) {
+          clearInterval(timer3Interval);
+          document.querySelectorAll(".timer-container").forEach(el => el.remove());
+          console.log("Countdown dihentikan karena finishSesi3 = true");
+          return;
+      }
+
+      // Update tampilan timer
+      timer3Element.textContent = minutes + 'm ' + seconds + 's';
+
+      // Jika waktu habis
+      if (remainingTime <= 0) {
+          clearInterval(timer3Interval);
+          document.querySelectorAll(".timer-container").forEach(el => el.remove());
+          timer3Element.textContent = 'Time is up!';
+
+          // Sembunyikan elemen setelah waktu habis
+          document.getElementById('quiz3').style.display = 'none';
+          document.getElementById('button_modal3').style.display = 'none';
+          document.getElementById('mulaiCFIT4').style.display = 'block';
+
+          if (!finishSesi3) {
+              finishGet3();
+          }
+      }
     }
 
-    // Display the remaining time in the timer2 element
-    timer3Element.textContent = minutes + 'm ' + seconds + 's';
-
-    // Decrement the duration3
-    duration3--;
-
-    // Check if the countdown is finished
-    if (duration3 < 0) {
-        clearInterval(timer3Interval);
-          document.querySelectorAll(".timer-container").forEach(el => el.remove());
-        timer3Element.textContent = 'Time is up!';
-
-        // Additional actions when the countdown ends
-        // ...
-
-        // Disable or hide the quiz if needed
-        document.getElementById('quiz3').style.display = 'none';
-        document.getElementById('button_modal3').style.display = 'none';
-        document.getElementById('mulaiCFIT4').style.display = 'block';
-
-        if (!finishSesi3) {
-          finishGet3();
-        }
-      }
-    }, 1000);
-    return;
+    updateTimer(); // Jalankan langsung agar tidak delay 1 detik
+    var timer3Interval = setInterval(updateTimer, 1000);
   }
 
   showCurrentQuestion3();

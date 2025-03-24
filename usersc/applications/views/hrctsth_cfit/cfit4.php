@@ -422,12 +422,6 @@
         // Clear the selectedImages array and add the new selection
         selected4Images = [];
         selected4Images.push(image4);
-    } else {
-        // Remove the deselected image from the selectedImages array
-        var index = selected4Images.indexOf(image4);
-        if (index > -1) {
-            selected4Images.splice(index, 1);
-        }
     }
 
     // Mark selected4 images
@@ -484,7 +478,7 @@
       }
     }
   }
-
+  
   function startCountdown4(duration4) {
     var btnFilter = document.getElementById("btnFilterFloating");
     if (btnFilter) {
@@ -493,50 +487,51 @@
       timerDiv.innerHTML = 'Sisa Waktu: <span id="timer4"></span>';
       btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
     }
-    
+
     var timer4Element = document.getElementById('timer4');
-    var timer4Interval = setInterval(function() {
-    var minutes = Math.floor(duration4 / 60);
-    var seconds = duration4 % 60;
-    
-    if (finishSesi4) {
-        clearInterval(timer4Interval);
-            document.querySelectorAll(".timer-container").forEach(el => el.remove());
-        console.log("Countdown dihentikan karena finishSesi4 = true");
-        // Disable or hide the quiz if needed
-        document.getElementById('quiz4').style.display = 'none';
-        document.getElementById('button_modal4').style.display = 'none';
-        document.getElementById('mulaiCFIT4').style.display = 'none';
-        return;
+    var endTime = Date.now() + duration4 * 1000; // Hitung waktu selesai berdasarkan timestamp
+
+    function updateTimer() {
+        var remainingTime = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        var minutes = Math.floor(remainingTime / 60);
+        var seconds = remainingTime % 60;
+
+        if (finishSesi4) {
+          clearInterval(timer4Interval);
+          document.querySelectorAll(".timer-container").forEach(el => el.remove());
+          console.log("Countdown dihentikan karena finishSesi4 = true");
+
+          // Sembunyikan elemen setelah sesi selesai
+          document.getElementById('quiz4').style.display = 'none';
+          document.getElementById('button_modal4').style.display = 'none';
+          document.getElementById('mulaiCFIT4').style.display = 'none';
+          return;
+        }
+
+        // Update tampilan timer
+        timer4Element.textContent = minutes + 'm ' + seconds + 's';
+
+        // Jika waktu habis
+        if (remainingTime <= 0) {
+          clearInterval(timer4Interval);
+          document.querySelectorAll(".timer-container").forEach(el => el.remove());
+          timer4Element.textContent = 'Time is up!';
+
+          // Sembunyikan elemen setelah waktu habis
+          document.getElementById('quiz4').style.display = 'none';
+          document.getElementById('button_modal4').style.display = 'none';
+          document.getElementById('mulaiCFIT4').style.display = 'none';
+
+          if (!finishSesi4) {
+              finishGet4();
+          }
+        }
     }
 
-    // Display the remaining time in the timer2 element
-    timer4Element.textContent = minutes + 'm ' + seconds + 's';
-
-    // Decrement the duration4
-    duration4--;
-
-    // Check if the countdown is finished
-    if (duration4 < 0) {
-        clearInterval(timer4Interval);
-          document.querySelectorAll(".timer-container").forEach(el => el.remove());
-        timer4Element.textContent = 'Time is up!';
-
-        // Additional actions when the countdown ends
-        // ...
-
-        // Disable or hide the quiz if needed
-        document.getElementById('quiz4').style.display = 'none';
-        document.getElementById('button_modal4').style.display = 'none';
-        document.getElementById('mulaiCFIT4').style.display = 'none';
-
-        if (!finishSesi4) {
-          finishGet4();
-        }
-      }
-    }, 1000);
-    return;
+    updateTimer(); // Jalankan langsung agar tidak delay 1 detik
+    var timer4Interval = setInterval(updateTimer, 1000);
   }
+
 
   showCurrentQuestion4();
   updateGridColors4();

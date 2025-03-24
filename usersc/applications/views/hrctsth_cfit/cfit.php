@@ -613,46 +613,47 @@
         timerDiv.innerHTML = 'Sisa Waktu: <span id="timer"></span>';
         btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
       }
-      
+
       var timerElement = document.getElementById('timer');
-      var timerInterval = setInterval(function() {
-          var minutes = Math.floor(duration / 60);
-          var seconds = duration % 60;
+      var endTime = Date.now() + duration * 1000; // Hitung waktu selesai berdasarkan timestamp
 
-          if (finishSesi1) {
-              clearInterval(timerInterval);
-              document.querySelectorAll(".timer-container").forEach(el => el.remove());
-              console.log("Countdown dihentikan karena finishSesi1 = true");
-              return;
-          }
-          
-          // Display the remaining time in the timer element
-          timerElement.textContent = minutes + 'm ' + seconds + 's';
+      function updateTimer() {
+        var remainingTime = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        var minutes = Math.floor(remainingTime / 60);
+        var seconds = remainingTime % 60;
 
-          // Decrement the duration
-          duration--;
+        if (finishSesi1) {
+            clearInterval(timerInterval);
+            document.querySelectorAll(".timer-container").forEach(el => el.remove());
+            console.log("Countdown dihentikan karena finishSesi1 = true");
+            return;
+        }
 
-          // Check if the countdown is finished
-          if (duration < 0) {
-              clearInterval(timerInterval);
-              document.querySelectorAll(".timer-container").forEach(el => el.remove());
-              timerElement.textContent = 'Time is up!';
+        // Update tampilan timer
+        timerElement.textContent = minutes + 'm ' + seconds + 's';
 
-              // Additional actions when the countdown ends
-              // ...
-              // Disable or hide the quiz if needed
-              document.getElementById('quiz1').style.display = 'none';
-              document.getElementById('button_modal1').style.display = 'none';
-              document.getElementById('mulaiCFIT2').style.display = 'block';
-              document.getElementById('button_modal2').style.display = 'block';
-              if (!finishSesi1) {
-                  finishGet();
-              }
-          }
-      }, 1000);
-      return;
+        // Jika waktu habis
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+            document.querySelectorAll(".timer-container").forEach(el => el.remove());
+            timerElement.textContent = 'Time is up!';
+
+            // Sembunyikan elemen setelah waktu habis
+            document.getElementById('quiz1').style.display = 'none';
+            document.getElementById('button_modal1').style.display = 'none';
+            document.getElementById('mulaiCFIT2').style.display = 'block';
+            document.getElementById('button_modal2').style.display = 'block';
+
+            if (!finishSesi1) {
+                finishGet();
+            }
+        }
+      }
+
+      updateTimer(); // Jalankan langsung agar tidak delay 1 detik
+      var timerInterval = setInterval(updateTimer, 1000);
     }
-
+    
     showCurrentQuestion();
     updateGridColors1();
 </script>

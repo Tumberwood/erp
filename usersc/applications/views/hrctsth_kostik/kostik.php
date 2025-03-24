@@ -1103,40 +1103,41 @@
         }
     }
 
-
     function startCountdown(duration) {
       var btnFilter = document.getElementById("btnFilterFloating");
-        if (btnFilter) {
+      if (btnFilter) {
           var timerDiv = document.createElement("div");
           timerDiv.className = "timer-container";
           timerDiv.innerHTML = 'Sisa Waktu: <span id="timer"></span>';
           btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
-        }
-        
-        var timerElement = document.getElementById('timer');
-        var timerInterval = setInterval(function() {
-        var minutes = Math.floor(duration / 60);
-        var seconds = duration % 60;
+      }
 
-        // Display the remaining time in the timer element
-        timerElement.textContent = minutes + 'm ' + seconds + 's';
+      var timerElement = document.getElementById('timer');
+      var endTime = Date.now() + duration * 1000; // Hitung waktu selesai
 
-        // Decrement the duration
-        duration--;
+      function updateTimer() {
+          var remainingTime = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+          var minutes = Math.floor(remainingTime / 60);
+          var seconds = remainingTime % 60;
 
-        // Check if the countdown is finished
-        if (duration < 0) {
-            clearInterval(timerInterval);
-            document.querySelectorAll(".timer-container").forEach(el => el.remove());
-            timerElement.textContent = 'Time is up!';
+          timerElement.textContent = minutes + 'm ' + seconds + 's';
 
-            if (!finishKostik) {
-            finishGet();
-            }
-        }
-        }, 1000);
-        return;
+          if (remainingTime <= 0) {
+              clearInterval(timerInterval);
+              document.querySelectorAll(".timer-container").forEach(el => el.remove());
+              timerElement.textContent = 'Time is up!';
+
+              if (!finishKostik) {
+                  finishGet();
+              }
+          }
+      }
+
+      updateTimer(); // Jalankan sekali agar tidak delay 1 detik
+      var timerInterval = setInterval(updateTimer, 1000);
     }
+
+
     // var timerDuration = 180; // Change this value to set the desired countdown time
 
     // Start the countdown
