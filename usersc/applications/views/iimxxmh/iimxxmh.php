@@ -2109,11 +2109,13 @@
 				},
 				{
 					label: "Leadtime (Hari) <sup class='text-danger'>*<sup>",
-					name: "iimrlmd_supplier.leadtime_hari"
+					name: "iimrlmd_supplier.leadtime_hari",
+					fieldInfo: "Leadtime pemenuhan stok dalam satuan Hari"
 				},
 				{
-					label: "MOQ <sup class='text-danger'>*<sup>",
-					name: "iimrlmd_supplier.moq"
+					label: "MOQ (Buying UoM)<sup class='text-danger'>*<sup>",
+					name: "iimrlmd_supplier.moq",
+					fieldInfo: "Minimum Order Quantity dalam Buying UoM"
 				},
 			]
 		} );
