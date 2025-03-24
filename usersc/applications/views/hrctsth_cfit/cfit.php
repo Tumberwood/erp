@@ -71,10 +71,25 @@
     border-color: #0d6efd;
   }
   
-  .timer-container {
+  /* .timer-container {
     margin-top: 20px;
     font-size: 24px;
     font-weight: bold;
+  } */
+  
+  .timer-container {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 1000;
+    text-align: center;
   }
 
   .quiz-image-container {
@@ -95,10 +110,10 @@
 <div class="row">
   <div class="col-lg-10">
     <div class="quiz-container">
-      <div class="timer-container">
+      <!-- <div class="timer-container">
         Sisa Waktu: <span id="timer"></span>
       </div>
-      
+       -->
       <div class="quiz-question" id="question1">
         <h3>Pertanyaan 1</h3>
         <img src="part1/q1/1.jpg" class="soal">
@@ -591,41 +606,51 @@
     }
     
     function startCountdown(duration) {
-        var timerElement = document.getElementById('timer');
-        var timerInterval = setInterval(function() {
-            var minutes = Math.floor(duration / 60);
-            var seconds = duration % 60;
+      var btnFilter = document.getElementById("btnFilterFloating");
+      if (btnFilter) {
+        var timerDiv = document.createElement("div");
+        timerDiv.className = "timer-container";
+        timerDiv.innerHTML = 'Sisa Waktu: <span id="timer"></span>';
+        btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
+      }
+      
+      var timerElement = document.getElementById('timer');
+      var timerInterval = setInterval(function() {
+          var minutes = Math.floor(duration / 60);
+          var seconds = duration % 60;
 
-            if (finishSesi1) {
-                clearInterval(timerInterval);
-                console.log("Countdown dihentikan karena finishSesi1 = true");
-                return;
-            }
-            
-            // Display the remaining time in the timer element
-            timerElement.textContent = minutes + 'm ' + seconds + 's';
+          if (finishSesi1) {
+              clearInterval(timerInterval);
+              document.querySelectorAll(".timer-container").forEach(el => el.remove());
+              console.log("Countdown dihentikan karena finishSesi1 = true");
+              return;
+          }
+          
+          // Display the remaining time in the timer element
+          timerElement.textContent = minutes + 'm ' + seconds + 's';
 
-            // Decrement the duration
-            duration--;
+          // Decrement the duration
+          duration--;
 
-            // Check if the countdown is finished
-            if (duration < 0) {
-                clearInterval(timerInterval);
-                timerElement.textContent = 'Time is up!';
+          // Check if the countdown is finished
+          if (duration < 0) {
+              clearInterval(timerInterval);
+              document.querySelectorAll(".timer-container").forEach(el => el.remove());
+              timerElement.textContent = 'Time is up!';
 
-                // Additional actions when the countdown ends
-                // ...
-                // Disable or hide the quiz if needed
-                document.getElementById('quiz1').style.display = 'none';
-                document.getElementById('button_modal1').style.display = 'none';
-                document.getElementById('mulaiCFIT2').style.display = 'block';
-                document.getElementById('button_modal2').style.display = 'block';
-                if (!finishSesi1) {
-                    finishGet();
-                }
-            }
-        }, 1000);
-        return;
+              // Additional actions when the countdown ends
+              // ...
+              // Disable or hide the quiz if needed
+              document.getElementById('quiz1').style.display = 'none';
+              document.getElementById('button_modal1').style.display = 'none';
+              document.getElementById('mulaiCFIT2').style.display = 'block';
+              document.getElementById('button_modal2').style.display = 'block';
+              if (!finishSesi1) {
+                  finishGet();
+              }
+          }
+      }, 1000);
+      return;
     }
 
     showCurrentQuestion();

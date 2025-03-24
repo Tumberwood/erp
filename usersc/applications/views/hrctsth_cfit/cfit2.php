@@ -70,12 +70,6 @@
   .quiz-option.selected2 .quiz-image2 {
     border-color: #0d6efd;
   }
-  
-  .timer-container {
-    margin-top: 20px;
-    font-size: 24px;
-    font-weight: bold;
-  }
 
   .quiz-image-container {
     position: relative;
@@ -95,9 +89,9 @@
 <div class="row">
   <div class="col-lg-10">
     <div class="quiz-container">
-      <div class="timer-container">
+      <!-- <div class="timer-container">
         Sisa Waktu: <span id="timer2"></span>
-      </div>
+      </div> -->
 
       <div class="quiz-question2" id="question1">
         <h4>Pertanyaan 1:</h4>
@@ -525,6 +519,14 @@
 
 
   function startCountdown2(duration2) {
+    var btnFilter = document.getElementById("btnFilterFloating");
+    if (btnFilter) {
+      var timerDiv = document.createElement("div");
+      timerDiv.className = "timer-container";
+      timerDiv.innerHTML = 'Sisa Waktu: <span id="timer2"></span>';
+      btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
+    }
+
     var timer2Element2 = document.getElementById('timer2');
     var timer2Interval = setInterval(function() {
       var minutes = Math.floor(duration2 / 60);
@@ -532,6 +534,7 @@
 
       if (finishSesi2) {
           clearInterval(timer2Interval);
+            document.querySelectorAll(".timer-container").forEach(el => el.remove());
           console.log("Countdown dihentikan karena finishSesi2 = true");
           return;
       }
@@ -541,6 +544,7 @@
 
       if (duration2 < 0) {
         clearInterval(timer2Interval);
+            document.querySelectorAll(".timer-container").forEach(el => el.remove());
         timer2Element2.textContent = 'Time is up!';
         document.getElementById('quiz2').style.display = 'none';
         document.getElementById('button_modal2').style.display = 'none';

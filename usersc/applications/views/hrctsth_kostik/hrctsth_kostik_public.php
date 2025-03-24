@@ -36,6 +36,23 @@
     body {
         background-color: rgb(243,243,244);
     }
+
+    
+  /* Tampilan Mobile, Ferry 24 Mar 2025 */
+  @media (max-width: 400px) {
+    .grid-container {
+        grid-template-columns: repeat(10, 30px); /* Three columns of fixed size */
+    }
+    
+    .grid-box {
+        width: 30px; /* Fixed width for each box */
+        height: 30px; /* Fixed height for each box */
+    }
+    
+    .qb {  
+      order: -1; /* Biar Question Box naik ke atas */  
+    } 
+  }
 </style>
 
 <div class="container-fluid mt-4">
@@ -92,10 +109,10 @@
 
                 <!-- Tombol -->
                 <div class="row mt-3">
-                    <div class="col-lg-2 col-md-2 col-sm-12">
+                    <div class="col-6">
                         <button style="display:none" type="button" id="button_modal1" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Instruksi</button>
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-12">
+                    <div class="col-6 d-flex justify-content-end">
                         <button type="button" id="kirim" class="btn btn-primary" onclick="noKtp()">Kirim</button>
                         <button style="display:none" type="button" id="goToQuiz" class="btn btn-primary" onclick="startQuiz()">Mulai</button>
                     </div>

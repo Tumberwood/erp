@@ -27,12 +27,28 @@
         }
       }
 
-    .timer-container {
+    /* .timer-container {
         margin-top: 20px;
         font-size: 24px;
         font-weight: bold;
         text-align: center;
+    } */
+    
+    .timer-container {
+      position: fixed;
+      top: 5%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 1000;
+      text-align: center;
     }
+    
     .highlight {
         background-color: #ffeb3b !important; /* Warna kuning terang */
         transition: background-color 0.5s ease-in-out;
@@ -49,10 +65,10 @@
 <body>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-8">
-        <div class="timer-container">
+      <div class="col-lg-8">
+        <!-- <div class="timer-container">
           Sisa Waktu: <span id="timer"></span>
-        </div>
+        </div> -->
         <div class="table-wrapper" style="font-size: 14px;">
           <table class="table" id="table1">
             <thead>
@@ -912,7 +928,7 @@
             </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-lg-4 qb">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Question Box</h5>
@@ -1089,6 +1105,14 @@
 
 
     function startCountdown(duration) {
+      var btnFilter = document.getElementById("btnFilterFloating");
+        if (btnFilter) {
+          var timerDiv = document.createElement("div");
+          timerDiv.className = "timer-container";
+          timerDiv.innerHTML = 'Sisa Waktu: <span id="timer"></span>';
+          btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
+        }
+        
         var timerElement = document.getElementById('timer');
         var timerInterval = setInterval(function() {
         var minutes = Math.floor(duration / 60);
@@ -1103,6 +1127,7 @@
         // Check if the countdown is finished
         if (duration < 0) {
             clearInterval(timerInterval);
+            document.querySelectorAll(".timer-container").forEach(el => el.remove());
             timerElement.textContent = 'Time is up!';
 
             if (!finishKostik) {

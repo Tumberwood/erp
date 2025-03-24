@@ -38,11 +38,26 @@
   .kiri {
     text-align: left;
   }
-
+/* 
   .timer-container {
     margin-top: 20px;
     font-size: 24px;
     font-weight: bold;
+    text-align: center;
+  } */
+  
+  .timer-container {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 1000;
     text-align: center;
   }
   
@@ -56,9 +71,9 @@
 </head>
 
 <div class="quiz-container">
-  <div class="timer-container">
+  <!-- <div class="timer-container">
     Sisa Waktu: <span id="timer"></span>
-  </div>
+  </div> -->
 
   <div class="row">
     <div class="col-md-6 col-sm-12 col-lg-4">
@@ -1749,6 +1764,14 @@
   }
 
   function startCountdown(duration) {
+    var btnFilter = document.getElementById("btnFilterFloating");
+    if (btnFilter) {
+      var timerDiv = document.createElement("div");
+      timerDiv.className = "timer-container";
+      timerDiv.innerHTML = 'Sisa Waktu: <span id="timer"></span>';
+      btnFilter.parentNode.insertBefore(timerDiv, btnFilter);
+    }
+
     var timerElement = document.getElementById('timer');
     var timerInterval = setInterval(function () {
       var minutes = Math.floor(duration / 60);
@@ -1763,6 +1786,7 @@
       // Check if the countdown is finished
       if (duration < 0) {
         clearInterval(timerInterval);
+        document.querySelectorAll(".timer-container").forEach(el => el.remove());
         timerElement.textContent = 'Time is up!';
 
         if (!finishdisc) {
