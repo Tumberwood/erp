@@ -43,6 +43,7 @@
 			Field::inst( 'hrctsth.finish_at' ),
 			Field::inst( 'hrctsth.is_nextprocess' ),
 			Field::inst( 'hrctsth.is_defaultprogram' ),
+			Field::inst( 'hrctsth.is_email' ),
 			Field::inst( 'hrctsth.tanggal' )
 			->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){

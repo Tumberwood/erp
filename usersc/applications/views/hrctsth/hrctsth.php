@@ -56,6 +56,7 @@
 								<th>Tanggal</th>
 								<th>Kode</th>
 								<th>Panggilan Kandidat</th>
+								<th>Email Terkirim</th>
 								<th>State</th>
                             </tr>
                         </thead>
@@ -139,7 +140,7 @@
 	var edthrctstd, tblhrctstd, show_deleted_hrctstd = 0, id_hrctstd;
 	var id_hcdxxmh_old = 0, id_hetxxmh_ditawarkan_old = 0, id_hetxxmh_dilamar_old = 0, id_hrctsmh_old = 0;
 	var id_hovxxmh_old = 0, id_hodxxmh_old = 0, id_hosxxmh_old = 0, id_hetxxmh_old = 0, id_hevxxmh_old = 0, id_heyxxmh_old = 0, id_hesxxmh_old = 0, id_holxxmh_old = 0;
-	var id_hrcemtd_old = 0, id_hrccdth_old = 0;
+	var id_hrcemtd_old = 0, id_hrccdth_old = 0, is_email = 0;
 	// ------------- end of default variable
 
 	// get tableRelation
@@ -339,9 +340,13 @@
 				{ data: "hrctsth.kode" },
 				{ data: "hrccdth.kode" },
 				{ 
+					data: "hrctsth.is_email",
+					...renderYaTidak()
+				},
+				{ 
 					data: "hrctsth.transaction_state",
 					...renderTransactionStatus()
-				}
+				},
 			],
 			buttons: [
 
@@ -359,6 +364,29 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-envelope"></i>',
+					name: 'btnEmail',
+					className: 'btn btn-xs btn-outline',
+					titleAttr: 'Kirim Email',
+					action: function ( e, dt, node, config ) {
+						e.preventDefault(); 
+						// Notif 
+						$.ajax( {
+							url: "../../models/hrctsth/hrctsth_fn_email.php",
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+							},
+							success: function ( json ) {
+								toastr[json.data.type_message](json.data.message,"INFO");
+								tblhrctsth.ajax.reload(null, false);
+							}
+						} );
+						tblhrctsth.ajax.reload(null, false);
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -374,32 +402,45 @@
 
 		tblhrctsth.searchPanes.container().appendTo('#sphrctsth');
 		tblhrctsth.searchBuilder.container().appendTo( '#sbhrctsth' );
+		tblhrctsth.button('btnEmail:name').disable();
 		
 		tblhrctsth.on( 'init', function () {
 			// atur hak akses
 			tbl_details = [tblhrctstd];
 			CekInitHeaderHD(tblhrctsth, tbl_details);
+			tblhrctsth.button('btnEmail:name').disable();
 		} );
 		
 		tblhrctsth.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('hrctsth');
 			id_hrccdth_old = hrctsth_data.id_hrccdth;
-			
+			is_email = hrctsth_data.is_email;
+			// console.log(transaction_state);
 			// atur hak akses
 			tbl_details = [tblhrctstd];
 			CekSelectHeaderHD(tblhrctsth, tbl_details);
-
+			if (transaction_state == 1) {
+				if (is_email == 1) {
+					tblhrctsth.button('btnEmail:name').disable();
+				} else {
+					tblhrctsth.button('btnEmail:name').enable();
+				}
+			} else {
+				tblhrctsth.button('btnEmail:name').disable();
+			}
 		} );
 		
 		tblhrctsth.on( 'deselect', function () {
 			// reset variable standar framework
 			siVarReset('hrctsth');
 			id_hrccdth_old = 0;
+			is_email = 0;
 
 			// atur hak akses
 			tbl_details = [tblhrctstd];
 			CekDeselectHeaderHD(tblhrctsth, tbl_details);
+			tblhrctsth.button('btnEmail:name').disable();
 		} );
 		// END hrctsth
 

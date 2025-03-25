@@ -54,6 +54,14 @@
       display: block;
       margin: 10px auto;
     }
+    
+    .soal3 {
+      width: 70%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+      transform: translateY(30px);
+    }
 
     .col-lg-2 {  
       order: -1; /* Biar Question Box naik ke atas */  
