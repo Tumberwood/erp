@@ -27,7 +27,7 @@
     require_once( "../../../../users/init.php" );
 	require_once( "../../../../usersc/lib/DataTables.php" );
 	require_once( "../../../../usersc/vendor/autoload.php" );
-	require_once( "../../../../usersc/helpers/fn_Email_setting.php" );
+	require_once( "../../../../usersc/helpers/fn_email_setting.php" );
 	require_once( "../../../../usersc/helpers/datatables_fn_debug.php" );
 
     // BEGIN definisi variable untuk fn_ajax_results.php
