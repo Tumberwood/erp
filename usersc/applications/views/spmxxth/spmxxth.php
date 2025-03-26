@@ -533,7 +533,7 @@
 					action: function ( e, dt, node, config ) {
 						e.preventDefault(); 
 						var url = $(this).attr('href'); 
-						window.open('../../views/core/jv_print.php?jenis_transaksi=Sales Payment&id_transaksi='+id_spmxxth, '_blank');
+						window.open('../../views/core/jv_print.php?jenis_transaksi=Sales Receive&id_transaksi='+id_spmxxth, '_blank');
 					}
 				}
 			],
