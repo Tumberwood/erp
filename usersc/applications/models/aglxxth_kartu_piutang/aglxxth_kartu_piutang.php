@@ -83,7 +83,7 @@
 					FROM aglxxth a
 					LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
 					WHERE a.tanggal < :start_date
-						AND jenis_transaksi IN ("Sales Payment", "Sales Invoice")
+						AND jenis_transaksi IN ("Sales Receive", "Sales Invoice")
 				)
 				SELECT
 					0 id,
@@ -149,7 +149,7 @@
 				FROM aglxxth a
 				LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
 				WHERE a.tanggal BETWEEN :start_date AND :end_date
-					AND jenis_transaksi IN ("Sales Payment", "Sales Invoice")
+					AND jenis_transaksi IN ("Sales Receive", "Sales Invoice")
 					AND NOT EXISTS (SELECT 1 FROM saldo_awal WHERE is_valid = 1)
 				GROUP BY customer 
 				'.$having.'
@@ -167,7 +167,7 @@
 						b.kredit,
 						CASE 
 							WHEN a.jenis_transaksi = "Sales Invoice" AND b.debit > 0 THEN 1
-							WHEN a.jenis_transaksi = "Sales Payment" AND b.kredit > 0 THEN 1
+							WHEN a.jenis_transaksi = "Sales Receive" AND b.kredit > 0 THEN 1
 							ELSE 0
 						END is_valid,
 						CASE 
@@ -189,7 +189,7 @@
 					FROM aglxxth a
 					LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
 					WHERE a.tanggal < :start_date
-						AND jenis_transaksi IN ("Sales Payment", "Sales Invoice")
+						AND jenis_transaksi IN ("Sales Receive", "Sales Invoice")
 				),
 				saldo_awal_cte AS (
 					SELECT
@@ -238,7 +238,7 @@
 						END AS customer,
                         CASE 
 							WHEN a.jenis_transaksi = "Sales Invoice" THEN b.keterangan
-							WHEN a.jenis_transaksi = "Sales Payment" THEN 
+							WHEN a.jenis_transaksi = "Sales Receive" THEN 
                             (
                                 SELECT
                                     GROUP_CONCAT(p.kode) keterangan
@@ -252,7 +252,7 @@
 						END keterangan,
 						CASE 
 							WHEN a.jenis_transaksi = "Sales Invoice" AND b.debit > 0 THEN 1
-							WHEN a.jenis_transaksi = "Sales Payment" AND b.kredit > 0 THEN 1
+							WHEN a.jenis_transaksi = "Sales Receive" AND b.kredit > 0 THEN 1
 							ELSE 0
 						END is_valid,
 						b.debit,
@@ -278,7 +278,7 @@
 					FROM aglxxth a
 					LEFT JOIN aglaktd b ON b.id_aglxxth = a.id
 					WHERE a.tanggal BETWEEN :start_date AND :end_date
-						AND jenis_transaksi IN ("Sales Payment", "Sales Invoice")
+						AND jenis_transaksi IN ("Sales Receive", "Sales Invoice")
 				)
 				SELECT 
 					t.id,

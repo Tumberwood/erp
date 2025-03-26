@@ -24,7 +24,7 @@
 	
 	$id_transaksi_h  = $_POST['id_transaksi_h'];
 	$state           = $_POST['state'];
-	$jenis_transaksi = 'Sales Payment';
+	$jenis_transaksi = 'Sales Receive';
 	try{
 		$db->transaction();
 
