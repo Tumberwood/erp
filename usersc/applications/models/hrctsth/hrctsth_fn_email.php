@@ -75,11 +75,12 @@
 			$email_personal = $kandidat['email_personal'];
 
 			$body =  '<b>Yth. Saudara/i '.$nama.'</b><br><br>';
+			$body .= '<p>Terima kasih telah mendaftar untuk tes online Junior Programmer di Solusi Indonesia.</p>';  
 			$body = $body . 'Berikut kami informasikan Test Online PT Solusi Indonesia Persada:<br><br>
 			Mohon bantuannya untuk segera menyelesaikan test ini agar bisa segera kami proses lebih lanjut.<br><br>';
 			$body = $body . 'Link Tes: <a href="https://erpx.solusiprogram.top/tes_online.php">Klik di sini untuk mengikuti tes</a><br><br>';
 			$body = $body . 'Dikerjakan Paling Lambat <b>'.$tanggal.' pukul 23:59</b>.<br>';
-			$body = $body . 'Demikian disampaikan dan terima kasih atas kerjasamanya<br>';
+			
 			$body = $body . '<table style="border-collapse: collapse; width:100%">';
 				$body = $body .  '<thead>';
 					$body = $body .  '<tr>';
@@ -115,7 +116,7 @@
 						
 				$body = $body .  '</tbody>';
 			$body = $body .  '</table>';
-			$body = $body .  '<br> <p>Terkirim otomatis dari ERPX - Solusi Indonesia </p>';
+			$body = $body . 'Demikian disampaikan dan terima kasih atas kerjasamanya. Semoga Sukses.<br>';
 			echo $body;
 
 			// build table
