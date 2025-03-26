@@ -74,9 +74,12 @@
 			$id_hcdxxmh = $kandidat['id_hcdxxmh'];
 			$email_personal = $kandidat['email_personal'];
 
-			$body =  '<b>Dear. '.$nama.'</b><br><br>';
-			$body = $body . 'Terima kasih telah mendaftar untuk tes online ERPX-Solusi Indonesia. Berikut adalah detail akses Anda:<br><br>';
-			$body = $body . 'Link Tes: <a href="https://erpx.solusiprogram.top/tes_online.php">Klik di sini untuk mengikuti tes</a><br>';
+			$body =  '<b>Yth. Saudara/i '.$nama.'</b><br><br>';
+			$body = $body . 'Berikut kami informasikan Test Online PT Solusi Indonesia Persada:<br><br>
+			Mohon bantuannya untuk segera menyelesaikan test ini agar bisa segera kami proses lebih lanjut.<br><br>';
+			$body = $body . 'Link Tes: <a href="https://erpx.solusiprogram.top/tes_online.php">Klik di sini untuk mengikuti tes</a><br><br>';
+			$body = $body . 'Dikerjakan Paling Lambat <b>'.$tanggal.' pukul 23:59</b>.<br>';
+			$body = $body . 'Demikian disampaikan dan terima kasih atas kerjasamanya<br>';
 			$body = $body . '<table style="border-collapse: collapse; width:100%">';
 				$body = $body .  '<thead>';
 					$body = $body .  '<tr>';
@@ -125,7 +128,7 @@
 	
 					
 			$mail->isHTML(true);
-			$mail->Subject = 'Undangan Tes Online ERPX ' . $tanggal;
+			$mail->Subject = 'Undangan Tes Online - ' . $tanggal;
 			$mail->Body    = $body;
 			
 			// sending email
