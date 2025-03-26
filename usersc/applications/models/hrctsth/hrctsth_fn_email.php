@@ -74,9 +74,9 @@
 			$id_hcdxxmh = $kandidat['id_hcdxxmh'];
 			$email_personal = $kandidat['email_personal'];
 
-			$body =  '<b>Dear. '.$nama.'</b></br></br>';
-			$body = $body . 'Terima kasih telah mendaftar untuk tes online ERPX-Solusi Indonesia. Berikut adalah detail akses Anda:</br></br>';
-			$body = $body . 'Link Tes: <a href="https://erpx.solusiprogram.top/tes_online.php">Klik di sini untuk mengikuti tes</a></br>';
+			$body =  '<b>Dear. '.$nama.'</b><br><br>';
+			$body = $body . 'Terima kasih telah mendaftar untuk tes online ERPX-Solusi Indonesia. Berikut adalah detail akses Anda:<br><br>';
+			$body = $body . 'Link Tes: <a href="https://erpx.solusiprogram.top/tes_online.php">Klik di sini untuk mengikuti tes</a><br>';
 			$body = $body . '<table style="border-collapse: collapse; width:100%">';
 				$body = $body .  '<thead>';
 					$body = $body .  '<tr>';
@@ -119,7 +119,7 @@
 			
 			// generate email
 			//Testing by Ferry
-			$mail->setFrom('noreply@solusi-indonesia.com', 'ERPX');
+			$mail->setFrom('noreply@solusi-indonesia.com', 'HR - Solusi Indonesia Persada');
 			$mail->addAddress($email_personal);
 			// $mail->addBCC('danny.harjono@solusi-indonesia.com');
 	
@@ -145,11 +145,11 @@
 				'type_message' => 'success'
 			);
 
-			$qu_hrctsth = $db
-				->query('update', 'hrctsth')
-				->set('is_email',1)
-				->where('id',$id_transaksi_h)
-				->exec();
+			// $qu_hrctsth = $db
+			// 	->query('update', 'hrctsth')
+			// 	->set('is_email',1)
+			// 	->where('id',$id_transaksi_h)
+			// 	->exec();
 		}
 
 		$mail->smtpClose();
