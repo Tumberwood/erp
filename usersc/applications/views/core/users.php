@@ -125,6 +125,7 @@
 									<tr>
 										<th>ID</th>
 										<th>id_udpxxsh</th>
+										<th>Display Order</th>
 										<th>Pages</th>
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Create dan Confirm">C</th>
 										<th data-toggle="tooltip" data-placement="top" title="" data-original-title="Hak Akses Edit / Update">U</th>
@@ -1143,10 +1144,11 @@
 					d.id_udpxxsh = id_udpxxsh;
 				}
 			},
-			order: [[ 2, "desc" ]],
+			order: [[ 2, "asc" ]],
 			columns: [
 				{ data: "ucudasd.id",visible:false },
 				{ data: "ucudasd.id_udpxxsh",visible:false },
+				{ data: "menus.display_order"},
 				{ data: "pages.title"},
 				{ 
 					data: "ucudasd.hak_c",

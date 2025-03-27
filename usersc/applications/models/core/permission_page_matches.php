@@ -38,10 +38,12 @@
 				Field::inst( 'permission_page_matches_extend.approval_state' ),
 				Field::inst( 'permission_page_matches_extend.start_at' ),
 				Field::inst( 'permission_page_matches_extend.finish_at' ),
-				Field::inst( 'permission_page_matches_extend.is_defaultprogram' )
+				Field::inst( 'permission_page_matches_extend.is_defaultprogram' ),
+				Field::inst( 'menus.display_order' ),
 			)
 			->leftJoin( 'pages','pages.id','=','permission_page_matches.page_id' )
 			->leftJoin( 'permission_page_matches_extend','permission_page_matches_extend.id','=','permission_page_matches.id' )
+			->leftJoin( 'menus','menus.link','=','SUBSTRING_INDEX(pages.page, "views/", -1)' )
 			->where('permission_page_matches.permission_id',$_POST['permission_id']);
 		
 		// do not erase

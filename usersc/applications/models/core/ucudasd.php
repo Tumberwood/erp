@@ -59,9 +59,11 @@
 				Field::inst( 'ucudasd.hak_l' ),
 				Field::inst( 'ucudasd.hak_e' ),
 				Field::inst( 'ucudasd.hak_p' ),
-				Field::inst( 'pages.title' )
+				Field::inst( 'pages.title' ),
+				Field::inst( 'menus.display_order' ),
 			)
 			->leftJoin( 'pages','pages.id','=','ucudasd.id_pages' )
+			->leftJoin( 'menus','menus.link','=','SUBSTRING_INDEX(pages.page, "views/", -1)' )
 			->where('ucudasd.id_udpxxsh',$_POST['id_udpxxsh']);
 		
 		// do not erase

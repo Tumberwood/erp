@@ -95,6 +95,7 @@
 									<tr>
 										<th>ID</th>
 										<th>permission_id</th>
+										<th>Display Order</th>
 										<th>Pages</th>
 										<th>Link</th>
 									</tr>
@@ -658,10 +659,11 @@
 					d.permission_id = permission_id;
 				}
 			},
-			order: [[ 2, "desc" ]],
+			order: [[ 2, "asc" ]],
 			columns: [
 				{ data: "permission_page_matches.id",visible:false },
 				{ data: "permission_page_matches.permission_id",visible:false },
+				{ data: "menus.display_order" },
 				{ data: "pages.title" },
 				{ data: "pages.page" },
 			],
