@@ -71,8 +71,8 @@
                     $tgl = substr($str_tanggal, 0, 2);
                     $tanggal = $tahun . '-' . $bulan . '-' . $tgl;
                     $jam = $dt[1];
-        
-                    if ($i == 1) {
+                    
+                    if ($arr_kode == "") {
                         $arr_kode = 'SELECT "' . $id_hemxxmh . ' ' . $id_users . ' ' . $username . ' ' . $kode . ' ' . $nama . ' ' . $tanggal . ' ' . $jam . '" AS excel_value ';
                     } else {
                         $arr_kode .= 'UNION ALL SELECT "' . $id_hemxxmh . ' ' . $id_users . ' ' . $username . ' ' . $kode . ' ' . $nama . ' ' . $tanggal . ' ' . $jam . '" ';
