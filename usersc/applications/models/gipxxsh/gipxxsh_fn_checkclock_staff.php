@@ -52,24 +52,31 @@
 			$datakembar = 0;
 			$dataupload = 0;
 			$arr_kode = "";
-			processSheetData($sheetData, $db, $dataupload, $datakembar, "STAFF");
+			if ($sheetData[0]['0'] == "NIP") {
+				processSheetData($sheetData, $db, $dataupload, $datakembar, "STAFF");
 
-			$db->commit();
-			$data = array(
-				"message" => "Upload Staff Berhasil.</br>" .$dataupload. " data berhasil di import.</br>" . $datakembar. " data kembar TIDAK di import.",
-				"type_message" => "success"
-			);
+				$db->commit();
+				$data = array(
+					"message" => "Upload Chekclock Berhasil.</br>" .$dataupload. " data berhasil di import.</br>" . $datakembar. " data kembar TIDAK di import.",
+					"type_message" => "success"
+				);
+			} else {
+				$data = array(
+					"message" => "Upload Chekclock gagal, template file salah!",
+					"type_message" => "danger"
+				);
+			}
 			
 		}catch (PDOException $e){
 			$db->rollback();
 			$data = array(
-				"message" => "Upload Staff gagal," . $e,
+				"message" => "Upload Chekclock gagal," . $e,
 				"type_message" => "danger"
 			);
 		}
 	}else{
 		$data = array(
-			"message" => "Upload Staff gagal, format file salah!",
+			"message" => "Upload Chekclock gagal, format file salah!",
 			"type_message" => "danger"
 		);
 	}
