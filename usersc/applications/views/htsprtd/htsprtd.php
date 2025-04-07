@@ -23,8 +23,8 @@
                                 <th>ID</th>
                                 <th>Tanggal</th>
                                 <th>Jam</th>
-                                <th>In / Out</th>
-                                <th>NRP</th>
+                                <!-- <th>In / Out</th> -->
+                                <th>NIP</th>
                                 <th>Nama</th>
                                 <th>TX</th>
                             </tr>
@@ -267,7 +267,7 @@
 				{ data: "htsprtd.id",visible:false },
 				{ data: "htsprtd.tanggal" },
 				{ data: "htsprtd.jam" },
-				{ data: "htsprtd.checkinout" },
+				// { data: "htsprtd.checkinout" },
 				{ data: "hemxxmh.kode" },
 				{ data: "hemxxmh.nama" },
 				{ 

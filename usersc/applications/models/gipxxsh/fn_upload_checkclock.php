@@ -88,7 +88,7 @@
             ->raw()
             ->bind(':tanggal', $tanggal)
             ->bind(':nama', $nama)
-            ->exec('    INSERT INTO htsprtd (id_hemxxmh,id_users,username,kode, nama, tipe, tanggal, jam)
+            ->exec('    INSERT INTO htsprtd (id_hemxxmh,id_users,username,kode, nama, tipe, tanggal, jam, transaction_state)
                         WITH ada AS (
                             SELECT
                                 CONCAT(id_hemxxmh," ", id_users," ", username," ", kode," ", nama, " ", tanggal, " " ,DATE_FORMAT(jam, "%H:%i")) AS conc_ada
@@ -106,7 +106,8 @@
                             SUBSTRING_INDEX(SUBSTRING_INDEX(excel_value, " ", 5), " ", -1) AS nama,
                             "upload",
                             SUBSTRING_INDEX(SUBSTRING_INDEX(excel_value, " ", 6), " ", -1) AS tanggal,
-                            SUBSTRING_INDEX(SUBSTRING_INDEX(excel_value, " ", 7), " ", -1) AS jam
+                            SUBSTRING_INDEX(SUBSTRING_INDEX(excel_value, " ", 7), " ", -1) AS jam,
+                            1
                         FROM excel_data
                         WHERE excel_value NOT IN (SELECT conc_ada FROM ada);
 
