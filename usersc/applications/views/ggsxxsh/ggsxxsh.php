@@ -66,7 +66,7 @@
 			// BEGIN ggsxxsh
 			edtggsxxsh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/core/ggsxxsh.php",
+					url: "../../models/ggsxxsh/ggsxxsh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_ggsxxsh = show_deleted_ggsxxsh;
@@ -238,7 +238,7 @@
 			
 			tblggsxxsh = $('#tblggsxxsh').DataTable( {
 				ajax: {
-					url: "../../models/core/ggsxxsh.php",
+					url: "../../models/ggsxxsh/ggsxxsh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_ggsxxsh = show_deleted_ggsxxsh;

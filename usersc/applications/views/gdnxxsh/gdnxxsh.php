@@ -124,7 +124,7 @@
 			// BEGIN gdnxxsh
 			edtgdnxxsh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/core/gdnxxsh.php",
+					url: "../../models/gdnxxsh/gdnxxsh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_gdnxxsh = show_deleted_gdnxxsh;
@@ -334,7 +334,7 @@
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/core/gdnxxsh.php",
+					url: "../../models/gdnxxsh/gdnxxsh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_gdnxxsh = show_deleted_gdnxxsh;

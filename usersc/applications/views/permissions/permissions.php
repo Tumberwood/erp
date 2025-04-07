@@ -147,7 +147,7 @@
 		// BEGIN permissions
 		edtpermissions = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/permissions.php",
+				url: "../../models/permission/permissions.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_permissions = show_deleted_permissions;
@@ -240,7 +240,7 @@
 		tblpermissions = $('#tblpermissions').DataTable( {
 			dom: dom0,
 			ajax: {
-				url: "../../models/core/permissions.php",
+				url: "../../models/permission/permissions.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_permissions = show_deleted_permissions;
@@ -312,7 +312,7 @@
 		// BEGIN user_permission_matches
 		edtuser_permission_matches = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/user_permission_matches.php",
+				url: "../../models/users/user_permission_matches.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_user_permission_matches = show_deleted_user_permission_matches;
@@ -356,7 +356,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/users_fn_opt.php",
+							url: "../../models/users/users_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -449,7 +449,7 @@
 		
 		tbluser_permission_matches = $('#tbluser_permission_matches').DataTable( {
 			ajax: {
-				url: "../../models/core/user_permission_matches.php",
+				url: "../../models/users/user_permission_matches.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_user_permission_matches = show_deleted_user_permission_matches;
@@ -515,7 +515,7 @@
 		// BEGIN permission_page_matches
 		edtpermission_page_matches = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/permission_page_matches.php",
+				url: "../../models/permission/permission_page_matches.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_permission_page_matches = show_deleted_permission_page_matches;
@@ -559,7 +559,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/pages_fn_opt.php",
+							url: "../../models/pages/pages_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -652,7 +652,7 @@
 		
 		tblpermission_page_matches = $('#tblpermission_page_matches').DataTable( {
 			ajax: {
-				url: "../../models/core/permission_page_matches.php",
+				url: "../../models/permission/permission_page_matches.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_permission_page_matches = show_deleted_permission_page_matches;

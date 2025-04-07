@@ -73,7 +73,7 @@
 			//start datatables editor
 			edtmenus = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/core/menus.php",
+					url: "../../models/menus/menus.php",
 					type: 'POST',
 					data: function (d){
 					}
@@ -111,7 +111,7 @@
 							allowClear: true,
 							multiple: false,
 							ajax: {
-								url: "../../models/core/menus_fn_opt.php",
+								url: "../../models/menus/menus_fn_opt.php",
 								dataType: 'json',
 								data: function (params) {
 									var query = {
@@ -257,7 +257,7 @@
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/core/menus.php",
+					url: "../../models/menus/menus.php",
 					type: 'POST',
 					data: function (d){
 					}

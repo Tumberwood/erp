@@ -151,7 +151,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gbrxxmh_fn_opt.php",
+							url: "../../models/gbrxxmh/gbrxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {

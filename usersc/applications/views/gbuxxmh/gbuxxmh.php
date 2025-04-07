@@ -65,7 +65,7 @@
 			// BEGIN gbuxxmh
 			edtgbuxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/core/gbuxxmh.php",
+					url: "../../models/gbuxxmh/gbuxxmh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_gbuxxmh = show_deleted_gbuxxmh;
@@ -189,7 +189,7 @@
 			
 			tblgbuxxmh = $('#tblgbuxxmh').DataTable( {
 				ajax: {
-					url: "../../models/core/gbuxxmh.php",
+					url: "../../models/gbuxxmh/gbuxxmh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_gbuxxmh = show_deleted_gbuxxmh;

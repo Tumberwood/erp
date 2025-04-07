@@ -66,7 +66,7 @@
 			// BEGIN gctxxmh
 			edtgctxxmh = new $.fn.dataTable.Editor( {
 				ajax: {
-					url: "../../models/core/gctxxmh.php",
+					url: "../../models/gctxxmh/gctxxmh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_gctxxmh = show_deleted_gctxxmh;
@@ -109,7 +109,7 @@
 							allowClear: true,
 							multiple: false,
 							ajax: {
-								url: "../../models/core/gpvxxmh_fn_opt.php",
+								url: "../../models/gpvxxmh/gpvxxmh_fn_opt.php",
 								dataType: 'json',
 								data: function (params) {
 									var query = {
@@ -201,7 +201,7 @@
 			
 			tblgctxxmh = $('#tblgctxxmh').DataTable( {
 				ajax: {
-					url: "../../models/core/gctxxmh.php",
+					url: "../../models/gctxxmh/gctxxmh.php",
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_gctxxmh = show_deleted_gctxxmh;

@@ -74,7 +74,7 @@
 					}
 				},
 				ajax: {
-					url: "../../models/core/pages_extend.php",
+					url: "../../models/pages/pages_extend.php",
 					type: 'POST',
 					data: function (d){
 					}
@@ -191,7 +191,7 @@
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/core/pages_extend.php",
+					url: "../../models/pages/pages_extend.php",
 					type: 'POST',
 					data: function (d){
 					}

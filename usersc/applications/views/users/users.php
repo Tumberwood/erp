@@ -256,7 +256,7 @@
 		// BEGIN udpxxsh
 		edtudpxxsh = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/users.php",
+				url: "../../models/users/users.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpxxsh = show_deleted_udpxxsh;
@@ -360,7 +360,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gcpxxmh_fn_opt.php",
+							url: "../../models/gcpxxmh/gcpxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -396,7 +396,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gbrxxmh_fn_opt.php",
+							url: "../../models/gbrxxmh/gbrxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -719,7 +719,7 @@
 				layout: 'columns-4',
 			},
 			ajax: {
-				url: "../../models/core/users.php",
+				url: "../../models/users/users.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpxxsh = show_deleted_udpxxsh;
@@ -854,7 +854,7 @@
 		// BEGIN ucudasd
 		edtucudasd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/ucudasd.php",
+				url: "../../models/users/ucudasd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_ucudasd = show_deleted_ucudasd;
@@ -1012,7 +1012,7 @@
 		edtucudasd_copyfrom = new $.fn.dataTable.Editor( {
 
 			ajax: {
-				url: "../../models/core/ucudasd_copyfrom.php",
+				url: "../../models/users/ucudasd_copyfrom.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_ucudasd = show_deleted_ucudasd;
@@ -1062,7 +1062,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/udpxxsh_fn_opt.php",
+							url: "../../models/users/udpxxsh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -1137,7 +1137,7 @@
 		
 		tblucudasd = $('#tblucudasd').DataTable( {
 			ajax: {
-				url: "../../models/core/ucudasd.php",
+				url: "../../models/users/ucudasd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_ucudasd = show_deleted_ucudasd;
@@ -1233,7 +1233,7 @@
 					titleAttr: 'Recheck',
 					action: function ( e, dt, node, config ) {
 						$.ajax( {
-							url: '../../models/core/ucudasd_fn_generate.php',
+							url: '../../models/users/ucudasd_fn_generate.php',
 							dataType: 'json',
 							type: 'POST',
 							data: {
@@ -1296,7 +1296,7 @@
 		edtudpbrsd_copyfrom = new $.fn.dataTable.Editor( {
 
 			ajax: {
-				url: "../../models/core/udpbrsd_copyfrom.php",
+				url: "../../models/users/udpbrsd_copyfrom.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpbrsd = show_deleted_udpbrsd;
@@ -1346,7 +1346,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/udpxxsh_fn_opt.php",
+							url: "../../models/users/udpxxsh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -1422,7 +1422,7 @@
 		// BEGIN udpbrsd
 		edtudpbrsd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/udpbrsd.php",
+				url: "../../models/users/udpbrsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpbrsd = show_deleted_udpbrsd;
@@ -1473,7 +1473,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gbrxxmh_fn_opt.php",
+							url: "../../models/gbrxxmh/gbrxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -1572,7 +1572,7 @@
 		
 		tbludpbrsd = $('#tbludpbrsd').DataTable( {
 			ajax: {
-				url: "../../models/core/udpbrsd.php",
+				url: "../../models/users/udpbrsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpbrsd = show_deleted_udpbrsd;
@@ -1645,7 +1645,7 @@
 		edtudpovsd_copyfrom = new $.fn.dataTable.Editor( {
 
 			ajax: {
-				url: "../../models/core/udpovsd_copyfrom.php",
+				url: "../../models/users/udpovsd_copyfrom.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpovsd = show_deleted_udpovsd;
@@ -1695,7 +1695,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/udpxxsh_fn_opt.php",
+							url: "../../models/users/udpxxsh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -1771,7 +1771,7 @@
 		// BEGIN udpovsd
 		edtudpovsd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/udpovsd.php",
+				url: "../../models/users/udpovsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpovsd = show_deleted_udpovsd;
@@ -1920,7 +1920,7 @@
 		
 		tbludpovsd = $('#tbludpovsd').DataTable( {
 			ajax: {
-				url: "../../models/core/udpovsd.php",
+				url: "../../models/users/udpovsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpovsd = show_deleted_udpovsd;
@@ -1993,7 +1993,7 @@
 		edtudpodsd_copyfrom = new $.fn.dataTable.Editor( {
 
 			ajax: {
-				url: "../../models/core/udpodsd_copyfrom.php",
+				url: "../../models/users/udpodsd_copyfrom.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpodsd = show_deleted_udpodsd;
@@ -2043,7 +2043,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/udpxxsh_fn_opt.php",
+							url: "../../models/users/udpxxsh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -2119,7 +2119,7 @@
 		// BEGIN udpodsd
 		edtudpodsd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/udpodsd.php",
+				url: "../../models/users/udpodsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpodsd = show_deleted_udpodsd;
@@ -2268,7 +2268,7 @@
 		
 		tbludpodsd = $('#tbludpodsd').DataTable( {
 			ajax: {
-				url: "../../models/core/udpodsd.php",
+				url: "../../models/users/udpodsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpodsd = show_deleted_udpodsd;
@@ -2341,7 +2341,7 @@
 		edtudpwhsd_copyfrom = new $.fn.dataTable.Editor( {
 
 			ajax: {
-				url: "../../models/core/udpwhsd_copyfrom.php",
+				url: "../../models/users/udpwhsd_copyfrom.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpwhsd = show_deleted_udpwhsd;
@@ -2391,7 +2391,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/udpxxsh_fn_opt.php",
+							url: "../../models/users/udpxxsh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -2467,7 +2467,7 @@
 		// BEGIN udpwhsd
 		edtudpwhsd = new $.fn.dataTable.Editor( {
 			ajax: {
-				url: "../../models/core/udpwhsd.php",
+				url: "../../models/users/udpwhsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpwhsd = show_deleted_udpwhsd;
@@ -2617,7 +2617,7 @@
 		
 		tbludpwhsd = $('#tbludpwhsd').DataTable( {
 			ajax: {
-				url: "../../models/core/udpwhsd.php",
+				url: "../../models/users/udpwhsd.php",
 				type: 'POST',
 				data: function (d){
 					d.show_deleted_udpwhsd = show_deleted_udpwhsd;

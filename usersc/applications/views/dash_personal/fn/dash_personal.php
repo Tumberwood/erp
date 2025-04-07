@@ -1,7 +1,7 @@
 <script>
     function loadFoto(){
         $.ajax( {
-            url: "../../models/core/dashboard_foto.php",
+            url: "../../models/dash_personal/dashboard_foto.php",
             dataType: 'json',
             type: 'POST',
             data: {
@@ -27,7 +27,7 @@
     
     function loadKehadiran(){
         $.ajax( {
-            url: "../../models/core/dashboard_kehadiran.php",
+            url: "../../models/dash_personal/dashboard_kehadiran.php",
             dataType: 'json',
             type: 'POST',
             data: {
@@ -66,7 +66,7 @@
     
     function loadKedisiplinan(){
         $.ajax( {
-            url: "../../models/core/dashboard_kedisiplinan.php",
+            url: "../../models/dash_personal/dashboard_kedisiplinan.php",
             dataType: 'json',
             type: 'POST',
             data: {
@@ -90,7 +90,7 @@
 
     function loadProfile (){
         $.ajax( {
-            url: "../../models/core/d_dashboard_hemxxmh.php",
+            url: "../../models/dash_personal/d_dashboard_hemxxmh.php",
             dataType: 'json',
             type: 'POST',
             data: {

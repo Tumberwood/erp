@@ -412,7 +412,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/users_fn_opt.php",
+							url: "../../models/users/users_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {

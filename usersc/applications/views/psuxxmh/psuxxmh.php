@@ -240,7 +240,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gctxxmh_fn_opt.php",
+							url: "../../models/gctxxmh/gctxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {
@@ -276,7 +276,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/core/gbuxxmh_fn_opt.php",
+							url: "../../models/gbuxxmh/gbuxxmh_fn_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {

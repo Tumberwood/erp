@@ -65,7 +65,7 @@
 					layout: 'columns-4',
 				},
 				ajax: {
-					url: "../../models/core/users_r_permissions.php",
+					url: "../../models/users/users_r_permissions.php",
 					type: 'POST',
 					data: function (d){
 					}
