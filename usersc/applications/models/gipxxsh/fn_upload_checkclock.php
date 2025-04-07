@@ -59,24 +59,27 @@
                 ');
                 $rs_hem = $qs_hem->fetch();
 
-                $id_hemxxmh = $rs_hem['id_hemxxmh'];
-                $id_users = $rs_hem['id_users'];
-                $username = $rs_hem['username'];
-
-                $dt = explode(" ", $sheetData[$i]['1']);
-                $str_tanggal = $dt[0];
-                $tahun = substr($str_tanggal, 6, 4);
-                $bulan = substr($str_tanggal, 3, 2);
-                $tgl = substr($str_tanggal, 0, 2);
-                $tanggal = $tahun . '-' . $bulan . '-' . $tgl;
-                $jam = $dt[1];
+                if (!empty($rs_hem)) {
+                    $id_hemxxmh = $rs_hem['id_hemxxmh'];
+                    $id_users = $rs_hem['id_users'];
+                    $username = $rs_hem['username'];
     
-                if ($i == 1) {
-                    $arr_kode = 'SELECT "' . $id_hemxxmh . ' ' . $id_users . ' ' . $username . ' ' . $kode . ' ' . $nama . ' ' . $tanggal . ' ' . $jam . '" AS excel_value ';
-                } else {
-                    $arr_kode .= 'UNION ALL SELECT "' . $id_hemxxmh . ' ' . $id_users . ' ' . $username . ' ' . $kode . ' ' . $nama . ' ' . $tanggal . ' ' . $jam . '" ';
+                    $dt = explode(" ", $sheetData[$i]['1']);
+                    $str_tanggal = $dt[0];
+                    $tahun = substr($str_tanggal, 6, 4);
+                    $bulan = substr($str_tanggal, 3, 2);
+                    $tgl = substr($str_tanggal, 0, 2);
+                    $tanggal = $tahun . '-' . $bulan . '-' . $tgl;
+                    $jam = $dt[1];
+        
+                    if ($i == 1) {
+                        $arr_kode = 'SELECT "' . $id_hemxxmh . ' ' . $id_users . ' ' . $username . ' ' . $kode . ' ' . $nama . ' ' . $tanggal . ' ' . $jam . '" AS excel_value ';
+                    } else {
+                        $arr_kode .= 'UNION ALL SELECT "' . $id_hemxxmh . ' ' . $id_users . ' ' . $username . ' ' . $kode . ' ' . $nama . ' ' . $tanggal . ' ' . $jam . '" ';
+                    }
+                    $data_sheet = $i;
                 }
-                $data_sheet = $i;
+                
             }
         }
         
