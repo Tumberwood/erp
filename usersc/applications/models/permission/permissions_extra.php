@@ -13,7 +13,17 @@
 			// script diletakkan disini
 		})
 		->on('preRemove',function( $editor, $id, $values ) {
-			// script diletakkan disini
+			$qd_user_permission_matches = $editor->db()
+				->query('delete', 'user_permission_matches')
+				->where('permission_id',$id)
+				->exec()
+			;
+
+			$qd_permission_page_matches = $editor->db()
+				->query('delete', 'permission_page_matches')
+				->where('permission_id',$id)
+				->exec()
+			;
 		})
 		->on('postRemove',function( $editor, $id, $values ) {
 			// script diletakkan disini
