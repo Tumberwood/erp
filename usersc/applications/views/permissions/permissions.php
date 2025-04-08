@@ -263,7 +263,7 @@
 
 					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
 					$arr_buttons_tools2 	= [];
-					$arr_buttons_action 	= ['create', 'edit', 'remove_hd', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
+					$arr_buttons_action 	= ['create', 'edit', 'remove', 'confirm', 'nonaktif_hd', 'close', 'view', 'log','noaction'];
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
@@ -281,24 +281,32 @@
 			, tblpermission_page_matches
 		];
 			CekInitHeaderHD(tblpermissions, tbl_details);
+			tblpermissions.button('btnRemove:name')
+            .nodes()
+            .css( 'display', 'none' );
 		} );
 		
 		tblpermissions.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			permissions_data    = tblpermissions.row( { selected: true } ).data().permissions;
 			permission_id      = permissions_data.id;
-			console.log(permission_id);
+			id_transaksi_h      = permissions_data.id;
+			// console.log(permission_id);
 			
 			// atur hak akses
 			tbl_details = [tbluser_permission_matches
 			, tblpermission_page_matches
 		];
 			CekSelectHeaderHD(tblpermissions, tbl_details);
+			tblpermissions.button('btnRemove:name')
+            .nodes()
+            .css( 'display', 'block' );
 
 		} );
 		
 		tblpermissions.on( 'deselect', function () {
 			// reset variable standar framework
+			id_transaksi_h = 0;
 			permission_id = 0;
 
 			// atur hak akses
@@ -306,6 +314,9 @@
 			, tblpermission_page_matches
 		];
 			CekDeselectHeaderHD(tblpermissions, tbl_details);
+			tblpermissions.button('btnRemove:name')
+            .nodes()
+            .css( 'display', 'none' );
 		} );
 		// END permissions
 
@@ -414,8 +425,8 @@
 					}
 				);
 
-				console.log(user_permission_matches_id);
-				console.log(permission_id);
+				// console.log(user_permission_matches_id);
+				// console.log(permission_id);
 				validasiUnique(
 					action,
 					edtuser_permission_matches,
@@ -617,8 +628,8 @@
 					}
 				);
 
-				console.log(permission_page_matches_id);
-				console.log(permission_id);
+				// console.log(permission_page_matches_id);
+				// console.log(permission_id);
 				validasiUnique(
 					action,
 					edtpermission_page_matches,
