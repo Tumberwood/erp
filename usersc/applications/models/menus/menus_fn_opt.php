@@ -54,8 +54,10 @@
             'menus.id as id',
             'CONCAT(menus.display_order, " - ",menus.label) as text'
         ])
+        ->join('menus_extend','menus_extend.id = menus.id','LEFT' )
         ->where('menus.id', $id_menus_old, '<>' )
         ->where( 'menus.dropdown', 1 )
+        ->where( 'menus_extend.transaction_state', 1)
         ->where( 'menus.menu_title', 'side' )
         ->where( function ( $r ) {
             $q = $_GET['search'];
