@@ -183,7 +183,7 @@
 						}
 					},
 					{
-						label: "NPWP",
+						label: "NPWP <sup class='text-danger'>*<sup>",
 						name: "gcpxxmh.npwp"
 					},	
 					{
