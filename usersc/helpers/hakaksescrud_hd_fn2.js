@@ -421,22 +421,29 @@ function CekSelectHeaderH(tbl_header){
      *  hak_d = 1
      */
     
-    if( is_nextprocess == 1 ){
+    //Update 9 Apr 2025, is_defaultprogram = 1 tidak bisa remove
+    if (is_defaultprogram == 1) {
         tbl_header.button( 'btnRemove:name' )
             .nodes()
             .css( 'display', 'none' );
-    }else{
-        if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
-            if (tbl_header.button('btnRemove:name').any()) {
-                tbl_header.button( 'btnRemove:name' )
-                    .nodes()
-                    .css( 'display', 'block' );
-                c_btnSetAction = c_btnSetAction + 1;
-            }
-        }else{
+    } else {
+        if( is_nextprocess == 1 ){
             tbl_header.button( 'btnRemove:name' )
                 .nodes()
                 .css( 'display', 'none' );
+        }else{
+            if( (transaction_state == 0 || transaction_state == -1 ) && hak_d == 1 && approval_state == 0){
+                if (tbl_header.button('btnRemove:name').any()) {
+                    tbl_header.button( 'btnRemove:name' )
+                        .nodes()
+                        .css( 'display', 'block' );
+                    c_btnSetAction = c_btnSetAction + 1;
+                }
+            }else{
+                tbl_header.button( 'btnRemove:name' )
+                    .nodes()
+                    .css( 'display', 'none' );
+            }
         }
     }
     
@@ -469,17 +476,23 @@ function CekSelectHeaderH(tbl_header){
      *  is_nextprocess == 0 && transaction_state == 1 && hak_d == 1
      *  
      */
-    if( (is_nextprocess == null || is_nextprocess == 0 ) && transaction_state == 1 && hak_d == 1){
-        if (tbl_header.button('btnNonAktif:name').any()) {
-            tbl_header.button( 'btnNonAktif:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
-        }
-    }else{
+    if (is_defaultprogram == 1) {
         tbl_header.button( 'btnNonAktif:name' )
             .nodes()
             .css( 'display', 'none' );
+    } else {
+        if( (is_nextprocess == null || is_nextprocess == 0 ) && transaction_state == 1 && hak_d == 1){
+            if (tbl_header.button('btnNonAktif:name').any()) {
+                tbl_header.button( 'btnNonAktif:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
+        }else{
+            tbl_header.button( 'btnNonAktif:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
     }
 
     // BEGIN btnClose
@@ -893,17 +906,25 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
      * - transaction_state == 1 && hak_d == 1 && is_final_approve == 0
      * 
      */
-    if( transaction_state == 0 && hak_d == 1 ){
-        if (tbl_header.button('btnRemoveHD:name').any()) {
-            tbl_header.button( 'btnRemoveHD:name' )
-                .nodes()
-                .css( 'display', 'block' );
-            c_btnSetAction = c_btnSetAction + 1;
-        }
-    }else{
+    if(is_defaultprogram == 1){
+        // data default program, tidak boleh di edit dengan alasan apapun
         tbl_header.button( 'btnRemoveHD:name' )
             .nodes()
             .css( 'display', 'none' );
+
+    } else {
+        if( transaction_state == 0 && hak_d == 1 ){
+            if (tbl_header.button('btnRemoveHD:name').any()) {
+                tbl_header.button( 'btnRemoveHD:name' )
+                    .nodes()
+                    .css( 'display', 'block' );
+                c_btnSetAction = c_btnSetAction + 1;
+            }
+        }else{
+            tbl_header.button( 'btnRemoveHD:name' )
+                .nodes()
+                .css( 'display', 'none' );
+        }
     }
     // END btnRemoveHD
 
