@@ -233,6 +233,11 @@
 			// do something
 		} );
 
+		edtpermissions.on('postRemove', function (e, json, data) {
+			tbluser_permission_matches.ajax.reload(null,false);
+			tblpermission_page_matches.ajax.reload(null,false);
+		});
+
 		edtpermissions.on( 'close', function () {
 			edtpermissions.enable();
 		} );
