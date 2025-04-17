@@ -44,6 +44,7 @@
 			Field::inst( 'gcpxxmh.start_at' ),
 			Field::inst( 'gcpxxmh.finish_at' ),
 			Field::inst( 'gcpxxmh.is_defaultprogram' ),
+			Field::inst( 'gcpxxmh.is_default' ),
 			Field::inst( 'gcpxxmh.is_nextprocess' ),
 			
 			Field::inst( 'gcpxxmh.alamat' ),

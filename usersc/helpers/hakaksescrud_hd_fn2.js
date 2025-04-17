@@ -422,7 +422,8 @@ function CekSelectHeaderH(tbl_header){
      */
     
     //Update 9 Apr 2025, is_defaultprogram = 1 tidak bisa remove
-    if (is_defaultprogram == 1) {
+    //Update 17 Apr 2025, is_default == 1 tidak bisa remove
+    if (is_defaultprogram == 1 || is_default == 1) {
         tbl_header.button( 'btnRemove:name' )
             .nodes()
             .css( 'display', 'none' );
@@ -476,7 +477,8 @@ function CekSelectHeaderH(tbl_header){
      *  is_nextprocess == 0 && transaction_state == 1 && hak_d == 1
      *  
      */
-    if (is_defaultprogram == 1) {
+    // console.log(is_default);
+    if (is_defaultprogram == 1 || is_default == 1) {
         tbl_header.button( 'btnNonAktif:name' )
             .nodes()
             .css( 'display', 'none' );
@@ -906,7 +908,7 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
      * - transaction_state == 1 && hak_d == 1 && is_final_approve == 0
      * 
      */
-    if(is_defaultprogram == 1){
+    if(is_defaultprogram == 1 || is_default == 1){
         // data default program, tidak boleh di edit dengan alasan apapun
         tbl_header.button( 'btnRemoveHD:name' )
             .nodes()

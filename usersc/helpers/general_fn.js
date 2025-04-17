@@ -51,6 +51,7 @@ function siVarSet(tbl_name){
     approval_state             = rowData[tbl_name].approval_state;
     is_nextprocess             = rowData[tbl_name].is_nextprocess;
     is_defaultprogram          = rowData[tbl_name].is_defaultprogram;
+    is_default                 = rowData[tbl_name].is_default;
 
     
     window['tbl' + tbl_name].button( 'btnPrint:name' )
@@ -92,6 +93,7 @@ function siVarReset(tbl_name){
     approval_state             = 0;
     is_nextprocess             = 0;
     is_defaultprogram          = 0;
+    is_default                 = 0;
 
     window['tbl' + tbl_name].button( 'btnPrintJurnal:name' )
         .nodes()
