@@ -10,8 +10,6 @@
 	$nama_tabel    = 'wpcxxth';
 	$nama_tabels_d = [];
 ?>
-<!-- Datetimepicker CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 
 <!-- begin content here -->
 <div class="row">
@@ -28,13 +26,13 @@
 								<div class="modal-body">
 									<div class="form-group row">
 										<label class="col-lg-2 col-form-label">Periode</label>
-										<div class="col-lg-8">
-											<div class="input-group input-daterange" id="periodeDatetime">
-												<input type="text" id="start_dateDatetime" class="form-control datetimepicker">
+										<div class="col-lg-5">
+											<div class="input-group input-daterange" id="periode">
+												<input type="text" id="start_date" class="form-control">
 												<div class="input-group-addon">
 													<span class="fa fa-calendar"></span>
 												</div>
-												<input type="text" id="end_dateDatetime" class="form-control datetimepicker">
+												<input type="text" id="end_date" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -91,8 +89,8 @@
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn2.js"></script>
-<script src="<?=$us_url_root?>usersc/helpers/language.js"></script><!-- Datetimepicker JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<?=$us_url_root?>usersc/helpers/language.js"></script>
+
 <?php require_once $abs_us_root . $us_url_root . 'usersc/applications/views/wpkxxth/fn/wpkxxth_fn.php'; ?>
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
@@ -104,22 +102,12 @@
 		var finish_at;
 		// ------------- end of default variable
 
-		$('.datetimepicker').datetimepicker({
-			format: 'DD MMM YYYY HH:mm',
-			useCurrent: false,
-			sideBySide: true,
-		});
-
-		$('#start_dateDatetime').data('DateTimePicker').date(moment(awal_bulan_dmy, 'DD MMM YYYY HH:mm'));
-		var lastDayOfMonthHour = moment().endOf('month').set({ hour: 23, minute: 59, second: 0, millisecond: 0 });
-    	$('#end_dateDatetime').data('DateTimePicker').date(lastDayOfMonthHour);
-
 		// get tableRelation
 		tableRelation('wpcxxth');
 		
 		$(document).ready(function() {
-			start_date = moment($('#start_dateDatetime').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
-			end_date = moment($('#end_dateDatetime').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
+			start_date = moment($('#start_date').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
+			end_date = moment($('#end_date').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
 		
 			//start datatables
 			tblwpcxxth = $('#tblwpcxxth').DataTable( {
@@ -280,8 +268,8 @@
 				rules: {
 				},
 				submitHandler: function(frmFilter) {
-					start_date = moment($('#start_dateDatetime').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
-					end_date = moment($('#end_dateDatetime').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
+					start_date = moment($('#start_date').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
+					end_date = moment($('#end_date').val(), 'DD MMM YYYY HH:mm').format('YYYY-MM-DD HH:mm');
 					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
 					// console.log(start_date);
 					// console.log(end_date);
