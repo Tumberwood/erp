@@ -820,6 +820,24 @@
                                                 transaction_state : -9
                                             },
                                             success: function ( json ) {
+                                                //Action post_nonaktif, 17 Apr 2025
+                                                <?php 
+                                                    if(file_exists("../../models/" . $table_name . '/' . $table_name . "_post_nonaktif.php")) {
+                                                ?>
+                                                    $.ajax( {
+                                                        url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_post_nonaktif.php',
+                                                        dataType: 'json',
+                                                        type: 'POST',
+                                                        data: {
+                                                            id_transaksi : id_transaksi_h,
+                                                            transaction_state : -9
+                                                        },
+                                                        success: function ( json ) {
+                                                        }
+                                                    } );
+                                                <?php
+                                                    }
+                                                ?>
                                                 full_message = json.data.message;
                                                 toast_type   = json.data.type_message;
                                                 toastr[toast_type](full_message, 'INFO');
