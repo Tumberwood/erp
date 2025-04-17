@@ -62,7 +62,7 @@
 		// ------------- end of default variable
 
 		// get tableRelation
-		tableRelation('pages');		
+		tableRelation('pages_extend');		
 		
 		$(document).ready(function() {
 			
