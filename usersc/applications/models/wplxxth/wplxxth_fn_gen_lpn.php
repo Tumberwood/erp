@@ -120,12 +120,12 @@
 				$keterangan_validasi = 'Item '.$rs_det['item']. ' <b>Kosong atau tidak ditemukan di Inventory';
 				$pesan .= '<br>'.$keterangan_validasi. '</b><br>';
 			} else {
-				// $is_valid_ed = $rs_valid['is_valid_ed'];
-				// // echo $is_valid_ed;
-				// if ($is_valid_ed == 0) {
-				// 	$keterangan_validasi = 'Item '.$rs_det['item']. ' <b>Tidak bisa terpenuhi karena batas Expired Date';
-				// 	$pesan .= '<br>'.$keterangan_validasi. '</b><br>';
-				// }
+				$is_valid_ed = $rs_valid['is_valid_ed'];
+				// echo $is_valid_ed;
+				if ($is_valid_ed == 0) {
+					$keterangan_validasi = 'Item '.$rs_det['item']. ' <b>Tidak bisa terpenuhi karena batas Expired Date';
+					$pesan .= '<br>'.$keterangan_validasi. '</b><br>';
+				}
 			}
 			
 			$qu_wplittd = $db
@@ -511,8 +511,8 @@
 			$type_message = 'success';
 			
 		}else{
-			$db->rollback();
-			// $db->commit();
+			// $db->rollback();
+			$db->commit();
 			$status_code  = 500;
 			$message      = 'Job Picking Gagal di Generate!'. '<br>' . $pesan;
 			$type_message = 'error';
