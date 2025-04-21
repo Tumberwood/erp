@@ -45,7 +45,7 @@
 							a.id_wloctmh,
 							e.id_iimxxmh item_pl,
 							f.batas_expired_date,
-							if(expired_date >= DATE_ADD(CURDATE(), INTERVAL f.batas_expired_date MONTH), 1, 0) is_valid_ed,
+							if(max(expired_date) >= DATE_ADD(CURDATE(), INTERVAL if(f.batas_expired_date == 0, 999, f.batas_expired_date) MONTH), 1, 0) is_valid_ed,
 							a.iwhxxmh_kode,
 							a.wloxxmh_nama,
 							a.iimxxmh_kode,
