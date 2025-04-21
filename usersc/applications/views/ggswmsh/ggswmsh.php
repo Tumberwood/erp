@@ -20,6 +20,14 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.id_iumxxmh_panjang"></editor-field>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.id_iumxxmh_berat"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="ggswmsh.is_ganti_lokasi_putaway"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -62,6 +70,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>UoM Berat</th>
+                                <th>UoM Panjang</th>
 								<th>Ganti Lokasi Putaway</th>
 								<th>Hapus Draft Ketika Reload</th>
 								<th>Replenishment</th>
@@ -103,6 +113,8 @@
 <script type="text/javascript">
 	// ------------- default variable, do not erase
 	var edtggswmsh, tblggswmsh, show_deleted_ggswmsh = 0, id_ggswmsh;
+	var id_iumxxmh_panjang_old = 0;
+	var id_iumxxmh_berat_old = 0;
 	// ------------- end of default variable
 	
 	// get tableRelation
@@ -143,6 +155,78 @@
 					type: "hidden",
 					def: 0
 				},	
+				{
+					label: "UoM Panjang",  
+					name: "ggswmsh.id_iumxxmh_panjang",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iumxxmh_old: id_iumxxmh_panjang_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "UoM Berat",
+					name: "ggswmsh.id_iumxxmh_berat",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iumxxmh_old: id_iumxxmh_berat_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 				{
 					label: "Ganti Lokasi Putaway",
 					name: "ggswmsh.is_ganti_lokasi_putaway",
@@ -313,6 +397,8 @@
 			],
 			columns: [
 				{ data: "ggswmsh.id",visible:false },
+				{ data: "berat.nama"},
+				{ data: "panjang.nama" },
 				{ data: "ggswmsh.is_ganti_lokasi_putaway", ...renderYaTidak() },
 				{ data: "ggswmsh.is_delete_reload", ...renderYaTidak() },
 				{ data: "ggswmsh.is_replenishment", ...renderYaTidak() },
@@ -384,6 +470,8 @@
 		tblggswmsh.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			siVarSet('ggswmsh');
+			id_iumxxmh_berat_old   = ggswmsh_data.id_iumxxmh_berat;
+			id_iumxxmh_panjang_old = ggswmsh_data.id_iumxxmh_panjang;
 
 			// atur hak akses
 			CekSelectHeaderH(tblggswmsh);
@@ -391,7 +479,9 @@
 
 		tblggswmsh.on( 'deselect', function () {
 			// reset variable standar framework
-			siVarReset('ggswmsh');
+		siVarReset('ggswmsh');
+			id_iumxxmh_berat = 0;
+			id_iumxxmh_panjang = 0;
 
 			// atur hak akses
 			CekDeselectHeaderH(tblggswmsh);

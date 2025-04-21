@@ -25,6 +25,12 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'ggswmsh.id' ),
+			Field::inst( 'ggswmsh.id_iumxxmh_panjang' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+
+			Field::inst( 'ggswmsh.id_iumxxmh_berat' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
+
 			Field::inst( 'ggswmsh.kode' )
 				->setFormatter( function ( $val ) {
 					return strtoupper($val);
@@ -50,7 +56,12 @@
 			Field::inst( 'ggswmsh.is_koordinat' ),
 			Field::inst( 'ggswmsh.koefisien_level' ),
 			Field::inst( 'ggswmsh.vehicle_capacity' ),
-		);
+			Field::inst( 'berat.nama' ),
+			Field::inst( 'panjang.nama' )
+		)
+		->leftJoin( 'iumxxmh AS panjang','panjang.id','=','ggswmsh.id_iumxxmh_panjang' )
+		->leftJoin( 'iumxxmh AS berat','berat.id','=','ggswmsh.id_iumxxmh_berat' )
+		;
 	
 	// do not erase
 	// function show / hide inactive document

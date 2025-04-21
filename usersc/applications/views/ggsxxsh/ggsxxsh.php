@@ -23,8 +23,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Posisi Logo</th>
-                                <th>UoM Berat</th>
-                                <th>UoM Panjang</th>
                             </tr>
                         </thead>
                     </table>
@@ -124,78 +122,6 @@
 						type: "textarea"
 					},
 					{
-						label: "UoM Panjang",  
-						name: "ggsxxsh.id_iumxxmh_panjang",
-						type: "select2",
-						opts: {
-							placeholder : "Select",
-							allowClear: true,
-							multiple: false,
-							ajax: {
-								url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
-								dataType: 'json',
-								data: function (params) {
-									var query = {
-										id_iumxxmh_old: id_iumxxmh_panjang_old,
-										search: params.term || '',
-										page: params.page || 1
-									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
-								},
-								cache: true,
-								minimumInputLength: 1,
-								maximum: 10,
-								delay: 500,
-								maximumSelectionLength: 5,
-								minimumResultsForSearch: -1,
-							},
-						}
-					},
-					{
-						label: "UoM Berat",
-						name: "ggsxxsh.id_iumxxmh_berat",
-						type: "select2",
-						opts: {
-							placeholder : "Select",
-							allowClear: true,
-							multiple: false,
-							ajax: {
-								url: "../../models/iumxxmh/iumxxmh_fn_opt.php",
-								dataType: 'json',
-								data: function (params) {
-									var query = {
-										id_iumxxmh_old: id_iumxxmh_berat_old,
-										search: params.term || '',
-										page: params.page || 1
-									}
-										return query;
-								},
-								processResults: function (data, params) {
-									return {
-										results: data.results,
-										pagination: {
-											more: true
-										}
-									};
-								},
-								cache: true,
-								minimumInputLength: 1,
-								maximum: 10,
-								delay: 500,
-								maximumSelectionLength: 5,
-								minimumResultsForSearch: -1,
-							},
-						}
-					},
-					{
 						label: getTranslation('language'),
 						name: "ggsxxsh.language",
 						type: "select",
@@ -259,8 +185,6 @@
                             }
 						}
                     },
-					{ data: "berat.nama"},
-					{ data: "panjang.nama" },
 				],
 				buttons: [
 					// BEGIN breaking generate button
@@ -293,8 +217,6 @@
 				transaction_state      = ggsxxsh_data.transaction_state;
 				approval_state         = ggsxxsh_data.approval_state;
 				is_nextprocess         = ggsxxsh_data.is_nextprocess;
-				id_iumxxmh_berat_old   = ggsxxsh_data.id_iumxxmh_berat;
-				id_iumxxmh_panjang_old = ggsxxsh_data.id_iumxxmh_panjang;
 
 				// atur hak akses
 				CekSelectHeaderH(tblggsxxsh);
@@ -303,8 +225,6 @@
 			tblggsxxsh.on( 'deselect', function () {
 				// reload dipanggil di function CekDeselectHeader
 				id_ggsxxsh = '';
-				id_iumxxmh_berat = 0;
-				id_iumxxmh_panjang = 0;
 
 				// atur hak akses
 				CekDeselectHeaderH(tblggsxxsh);

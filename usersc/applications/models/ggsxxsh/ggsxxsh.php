@@ -25,12 +25,6 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'ggsxxsh.id' ),
-			Field::inst( 'ggsxxsh.id_iumxxmh_panjang' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
-
-			Field::inst( 'ggsxxsh.id_iumxxmh_berat' )
-				->setFormatter( Format::ifEmpty( 0 ) ),
-
 			Field::inst( 'ggsxxsh.keterangan' ),
 			Field::inst( 'ggsxxsh.created_by' ),
 			Field::inst( 'ggsxxsh.transaction_state' ),
