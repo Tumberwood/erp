@@ -83,11 +83,17 @@
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'wloxxmh.nama' ),
+				Field::inst( 'wloznmh.nama' ),
+				// Field::inst( 'wpkxxmh.nama' ),
+				Field::inst( 'grlxxmh.nama' ),
 			)
 			->leftJoin( 'iumxxmh as uom_default','uom_default.id','=','wpllptd.id_iumxxmh_default' )
 			->leftJoin( 'iumxxmh as uom_terkecil','uom_terkecil.id','=','wpllptd.id_iumxxmh_terkecil' )
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','wpllptd.id_iimxxmh' )
 			->leftJoin( 'wloxxmh','wloxxmh.id','=','wpllptd.id_wloxxmh' )
+			->leftJoin( 'wloznmh','wloznmh.id','=','wpllptd.id_wloznmh' )
+			// ->leftJoin( 'wpkxxmh','wpkxxmh.id','=','wpllptd.id_wpkxxmh' )
+			->leftJoin( 'grlxxmh','grlxxmh.id','=','wpllptd.id_grlxxmh_customer' )
 			->leftJoin( 'wpcxxth','wpcxxth.id','=','wpllptd.id_wpcxxth' )
 			->where('wpllptd.id_wplxxth',$_POST['id_wplxxth']);
 		

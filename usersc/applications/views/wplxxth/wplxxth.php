@@ -162,9 +162,12 @@
 									<tr>
 										<th rowspan="2">ID</th>
 										<th rowspan="2">id_wplxxth</th>
+										<th rowspan="2">Customer</th>
 										<th rowspan="2">Kode PC</th>
 										<th rowspan="2">LPN</th>
 										<th rowspan="2">Location</th>
+										<th rowspan="2">Zone</th>
+										<!-- <th rowspan="2">Packing</th> -->
 										<th rowspan="2">Item Code</th>
 										<th rowspan="2">Item Name</th>
 										<th colspan="2">Terkecil</th>
@@ -187,9 +190,11 @@
 									<th></th>
 									<th></th>
 									<th></th>
-									<th id="s_7"></th>
+									<th></th>
 									<th></th>
 									<th id="s_9"></th>
+									<th></th>
+									<th id="s_11"></th>
 									<th></th>
 									<th></th>
 									<th></th>
@@ -1739,13 +1744,16 @@
 				}
 			},
 			responsive: false,
-			order: [[ 5, "asc" ]],
+			order: [[ 6, "asc" ]],
 			columns: [
 				{ data: "wpllptd.id",visible:false },
 				{ data: "wpllptd.id_wplxxth",visible:false },
+				{ data: "grlxxmh.nama" },
 				{ data: "wpcxxth.kode" },
 				{ data: "wpllptd.wlpxxmh_kode" },
 				{ data: "wloxxmh.nama" },
+				{ data: "wloznmh.nama" },
+				// { data: "wpkxxmh.nama" },
 				{ data: "iimxxmh.kode",visible:false },
 				{ data: "iimxxmh.nama",visible:false },
 				{ 
@@ -1794,8 +1802,8 @@
 						.append('<td class="font-bold text-success">Total</td>')
 						.append('<td></td>')
 						.append('<td></td>')
-						// .append('<td></td>')
-						// .append('<td></td>')
+						.append('<td></td>')
+						.append('<td></td>')
 						.append('<td class="text-right font-bold bg-success">' + sum_terkecil + '</td>')
 						.append('<td></td>')
 						.append('<td class="text-right font-bold bg-success">' + sum_default + '</td>')
@@ -1830,8 +1838,8 @@
 				var api = this.api();
 				var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 				
-				for (var i = 7; i <= 9; i+=2) {
-					if (i == 9) {
+				for (var i = 9; i <= 11; i+=2) {
+					if (i == 11) {
 						numFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display; 
 					}
 					var columnIndex = i;
