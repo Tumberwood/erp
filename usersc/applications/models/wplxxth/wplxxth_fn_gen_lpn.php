@@ -518,9 +518,15 @@
 			
 			$db->commit();
 			$status_code  = 200;
-			// $message      = 'Job Picking Berhasil di Generate';
-			$message      = 'Job Picking Berhasil di Generate!'. '<br>' . $pesan;
-			$type_message = 'success';
+			
+			if ($pesan == '') {
+				$message      = 'Job Picking Berhasil di Generate';
+				$type_message = 'success';
+			} else {
+				$message      = 'Job Picking Gagal di Generate!'. '<br>' . $pesan;
+				$type_message = 'error';
+			}
+			
 			
 		// }else{
 		// 	$db->rollback();
