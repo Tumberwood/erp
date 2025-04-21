@@ -254,6 +254,9 @@
 					->bind(':id_transaksi_h', $id_transaksi_h)
 					->exec('SELECT
 								:id_transaksi_h,
+								a.id_grlxxmh_customer,
+								tujuan.id_wloznmh,
+								0 id_wpkxxmh, -- packaging
 								if(is_koordinat = 0, 
 									ifnull(h.urutan,0), -- kalo urutan maka ambil dari urutan di loc pref
 									ABS(tujuan.koord_x - asal.koord_x) + ABS(tujuan.koord_y - asal.koord_y) + (ABS(tujuan.koord_z - asal.koord_z) * koefisien_level)
@@ -405,7 +408,10 @@
 							->query('insert', 'wpllptd')
 							->set('id_wplxxth',$id_transaksi_h)
 							->set('id_wjtxxmh',1)
-							->set('id_wplittd',$id_wplittd)
+							->set('id_wloznmh',$id_wloznmh)
+							->set('id_grlxxmh_customer',$iiv['id_grlxxmh_customer'])
+							->set('id_wpkxxmh',$iiv['id_wpkxxmh'])
+							->set('id_wplittd',$iiv['id_wplittd'])
 							->set('total_koordinat',$total_koordinat)
 							->set('id_iimxxmh',$iiv['id_iimxxmh'])
 							->set('id_wloxxmh',$iiv['id_wloxxmh'])
