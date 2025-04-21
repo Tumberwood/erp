@@ -35,15 +35,19 @@
 		$id_transaksi_h    = $_POST['id_transaksi_h'];
 		$pesan = "";
 		
-		// $qs_ggswmsh = $db
-		// 	->query('select', 'ggswmsh' )
-		// 	->get([
-		// 		'vehicle_capacity',
-		// 	] )
-		// 	->where('id', 1 )
-		// 	->exec();
-		// $rs_ggswmsh = $qs_ggswmsh->fetch();
-		// $vehicle_capacity = $rs_ggswmsh['vehicle_capacity'];
+		$qs_ggswmsh = $db
+			->raw()
+			->exec('SELECT
+						b.kode berat,
+						p.kode panjang
+					FROM ggswmsh a
+					LEFT JOIN iumxxmh b on b.id = id_iumxxmh_berat
+					LEFT JOIN iumxxmh p on p.id = id_iumxxmh_panjang
+					WHERE id = 1
+		');
+		$rs_ggswmsh = $qs_ggswmsh->fetch();
+		$berat = $rs_ggswmsh['berat'];
+		$panjang = $rs_ggswmsh['panjang'];
 				
 		$qs_pl = $db
 			->raw()
@@ -57,7 +61,8 @@
 						-- b.panjang * b.lebar * b.tinggi dimensi,
 						SUM(a.jumlah_unit * b.gw) weight,
 						-- SUM(a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) dimension_cm,
-						SUM((a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) / 100) dimension_meter,
+						-- SUM((a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) / 100) dimension_meter, -- ini yang lama
+						SUM((a.jumlah_unit * (b.panjang * b.lebar * b.tinggi)) ) dimension_meter,
 						SUM(a.jumlah_default) sum_jumlah_default, -- untuk uom vehicle = Unit
 						c.uom_vehicle,
 						c.jumlah_unit_vehicle,
@@ -89,7 +94,7 @@
 			$pesan = '';
 		} else if ($vehicle_capacity == 'Weight') {
 			if ($weight > $jumlah_unit_vehicle) {
-				$pesan = "Weight Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle kg\nPicking List: $weight kg\n\nApakah Anda Tetap Ingin Melanjutkan?";
+				$pesan = "Weight Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle $berat\nPicking List: $weight kg\n\nApakah Anda Tetap Ingin Melanjutkan?";
 			} else {
 				$pesan = '';
 			}
@@ -101,7 +106,7 @@
 			}
 		} else {
 			if ($dimension_meter > $jumlah_unit_vehicle) {
-				$pesan = "Dimensi Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle m³\nPicking List: $dimension_meter m³\n\nApakah Anda Tetap Ingin Melanjutkan?";
+				$pesan = "Dimensi Picking List Melebihi Kapasitas Kendaraan.\n\n$nama: $jumlah_unit_vehicle $panjang³\nPicking List: $dimension_meter m³\n\nApakah Anda Tetap Ingin Melanjutkan?";
 			} else {
 				$pesan = '';
 			}
