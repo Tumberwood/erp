@@ -44,6 +44,7 @@
 				->exec('SELECT
 							a.id_wloctmh,
 							e.id_iimxxmh item_pl,
+							f.nama customer,
 							f.batas_expired_date,
 							if(max(expired_date) >= DATE_ADD(CURDATE(), INTERVAL if(f.batas_expired_date = 0, 0, f.batas_expired_date) MONTH), 1, 0) is_valid_ed,
 							a.iwhxxmh_kode,
@@ -122,7 +123,7 @@
 				$is_valid_ed = $rs_valid['is_valid_ed'];
 				// echo $is_valid_ed;
 				if ($is_valid_ed == 0) {
-					$keterangan_validasi = 'Item '.$rs_det['item']. ' <b>Tidak bisa terpenuhi karena batas Expired Date';
+					$keterangan_validasi = $rs_det['customer'] .' - Item '.$rs_det['item']. ' <b>Tidak bisa terpenuhi karena batas Expired Date';
 					$pesan .= '<br>'.$keterangan_validasi. '</b><br>';
 				}
 			}
