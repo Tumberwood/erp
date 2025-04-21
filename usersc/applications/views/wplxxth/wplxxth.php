@@ -156,6 +156,12 @@
 				</div>
 				<div role="tabpanel" id="tabwpllptd" class="tab-pane">
 					<div class="panel-body">
+				
+						<button class="btn btn-primary group-by-item" data-column="item">Item</button>
+						<button class="btn btn-primary group-by-customer" data-column="customer">Customer</button>
+						<button class="btn btn-primary group-by-zone" data-column="zone">Zone</button>
+						<button class="btn btn-secondary disable-group">Clear</button>
+						
 						<div class="table-responsive">
 							<table id="tblwpllptd" class="table table-striped table-bordered table-hover nowrap" width="100%">
 								<thead>
@@ -1744,18 +1750,18 @@
 				}
 			},
 			responsive: false,
-			order: [[ 6, "asc" ]],
+			order: [[ 8, "asc" ]],
 			columns: [
 				{ data: "wpllptd.id",visible:false },
 				{ data: "wpllptd.id_wplxxth",visible:false },
-				{ data: "grlxxmh.nama" },
+				{ data: "customer" },
 				{ data: "wpcxxth.kode" },
 				{ data: "wpllptd.wlpxxmh_kode" },
 				{ data: "wloxxmh.nama" },
-				{ data: "wloznmh.nama" },
+				{ data: "zone" },
 				// { data: "wpkxxmh.nama" },
 				{ data: "iimxxmh.kode",visible:false },
-				{ data: "iimxxmh.nama",visible:false },
+				{ data: "item",visible:false },
 				{ 
 					data: "wpllptd.jumlah_terkecil",
 					...renderNumber( 0, "")
@@ -1771,7 +1777,7 @@
 			],
 			rowGroup: {
 				dataSrc: function (row) {
-					return  row.iimxxmh.kode+' - '+row.iimxxmh.nama
+					return  row.item
 				},
 				endRender: function (rows, group) {
 					var sum_terkecil = rows
@@ -1852,7 +1858,60 @@
 				}
 			}
 		} );
+		
+		tblwpllptd.on('rowgroup-datasrc', function (e, dt, val) {
+			console.log(val);
+			var column = tblwpllptd.column(val);
+			var colIndex = column.index();
+			tblwpllptd.order.fixed(val).draw();
+		});
 
+
+		$('.group-by-item').on('click', function (e) {
+			e.preventDefault();
+			// console.log($(this).data('column'));
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('item');
+			tblwpllptd.order([[8, 'asc']]).draw();
+
+			tblwpllptd.columns(8).visible(false);
+			tblwpllptd.columns(2).visible(true);
+			tblwpllptd.columns(6).visible(true);
+		});
+
+		$('.disable-group').on('click', function (e) {
+			e.preventDefault();
+			tblwpllptd.rowGroup().disable().draw();
+			
+			tblwpllptd.columns(2).visible(true);
+			tblwpllptd.columns(8).visible(true);
+			tblwpllptd.columns(6).visible(true);
+		});
+
+		$('.group-by-customer').on('click', function (e) {
+			e.preventDefault();
+			console.log("Click:", $(this).data('column'));
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('customer');
+			tblwpllptd.order([[2, 'asc']]).draw();
+
+			tblwpllptd.columns(2).visible(false);
+			tblwpllptd.columns(8).visible(true);
+			tblwpllptd.columns(6).visible(true);
+		});
+
+		$('.group-by-zone').on('click', function (e) {
+			e.preventDefault();
+			console.log("Click:", $(this).data('column'));
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('zone');
+			tblwpllptd.order([[6, 'asc']]).draw();
+
+			tblwpllptd.columns(2).visible(true);
+			tblwpllptd.columns(8).visible(true);
+			tblwpllptd.columns(6).visible(false);
+		});
+		
 		tblwpllptd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
 			CekDrawDetailHD( tblwpllptd, 1 );

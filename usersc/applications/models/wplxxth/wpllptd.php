@@ -83,9 +83,10 @@
 				Field::inst( 'iimxxmh.kode' ),
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'wloxxmh.nama' ),
-				Field::inst( 'wloznmh.nama' ),
+				Field::inst( 'wloznmh.nama as zone' ),
 				// Field::inst( 'wpkxxmh.nama' ),
-				Field::inst( 'grlxxmh.nama' ),
+				Field::inst( 'concat(iimxxmh.kode," - ",iimxxmh.nama) as item' ),
+				Field::inst( 'grlxxmh.nama as customer' ),
 			)
 			->leftJoin( 'iumxxmh as uom_default','uom_default.id','=','wpllptd.id_iumxxmh_default' )
 			->leftJoin( 'iumxxmh as uom_terkecil','uom_terkecil.id','=','wpllptd.id_iumxxmh_terkecil' )
