@@ -1739,7 +1739,7 @@
 				}
 			},
 			responsive: false,
-			order: [[ 1, "asc" ]],
+			// order: [[ 1, "asc" ]],
 			columns: [
 				{ data: "wpllptd.id",visible:false },
 				{ data: "wpllptd.id_wplxxth",visible:false },
