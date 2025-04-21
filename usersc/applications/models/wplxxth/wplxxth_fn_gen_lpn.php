@@ -95,7 +95,8 @@
 							a.id_iimxxmh,
 							a.id_wloxxmh,
 							a.wlpxxmh_kode
-						having jumlah_terkecil > 0  AND is_valid_ed = 1
+						having jumlah_terkecil > 0  
+						-- AND is_valid_ed = 1
 						AND id_iimxxmh = item_pl
 						ORDER BY expired_date DESC
 			');
