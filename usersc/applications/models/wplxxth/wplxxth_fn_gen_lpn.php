@@ -101,7 +101,7 @@
 						ORDER BY expired_date DESC
 			');
 			
-			$rs_valid = $qs_valid->fetch();
+			$rs_valid = $qs_valid->fetchAll();
 
 			$qs_det = $db
 				->raw()
@@ -120,10 +120,13 @@
 				$keterangan_validasi = 'Item '.$rs_det['item']. ' <b>Kosong atau tidak ditemukan di Inventory';
 				$pesan .= '<br>'.$keterangan_validasi. '</b><br>';
 			} else {
-				$is_valid_ed = $rs_valid['is_valid_ed'];
-				// echo $is_valid_ed;
-				if ($is_valid_ed == 0) {
-					$keterangan_validasi = $rs_valid['customer'] .' - Item '.$rs_det['item']. ' <b>Tidak bisa terpenuhi karena batas Expired Date';
+				$sum_is_valid_ed = 0;
+				foreach ($rs_valid as $row) {
+					$sum_is_valid_ed += (int)$row['is_valid_ed'];
+				}
+
+				if ($sum_is_valid_ed == 0) {
+					$keterangan_validasi = $rs_valid[0]['customer'] .' - Item '.$rs_det['item']. ' <b>Tidak bisa terpenuhi karena batas Expired Date';
 					$pesan .= '<br>'.$keterangan_validasi. '</b><br>';
 				}
 			}
