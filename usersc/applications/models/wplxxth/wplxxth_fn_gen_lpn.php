@@ -411,7 +411,7 @@
 							->set('id_wloznmh',$iiv['id_wloznmh'])
 							->set('id_grlxxmh_customer',$iiv['id_grlxxmh_customer'])
 							->set('id_wpkxxmh',$iiv['id_wpkxxmh'])
-							->set('id_wplittd',$iiv['id_wplittd'])
+							->set('id_wplittd',$id_wplittd)
 							->set('total_koordinat',$total_koordinat)
 							->set('id_iimxxmh',$iiv['id_iimxxmh'])
 							->set('id_wloxxmh',$iiv['id_wloxxmh'])
