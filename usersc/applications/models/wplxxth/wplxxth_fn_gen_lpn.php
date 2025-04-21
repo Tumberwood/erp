@@ -408,7 +408,7 @@
 							->query('insert', 'wpllptd')
 							->set('id_wplxxth',$id_transaksi_h)
 							->set('id_wjtxxmh',1)
-							->set('id_wloznmh',$id_wloznmh)
+							->set('id_wloznmh',$iiv['id_wloznmh'])
 							->set('id_grlxxmh_customer',$iiv['id_grlxxmh_customer'])
 							->set('id_wpkxxmh',$iiv['id_wpkxxmh'])
 							->set('id_wplittd',$iiv['id_wplittd'])
