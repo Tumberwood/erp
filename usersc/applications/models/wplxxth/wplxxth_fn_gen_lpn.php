@@ -245,6 +245,7 @@
 				//select di inventory
 				$qs_iivxxrd = $db
 					->raw()
+					->bind(':id_wplittd', $id_wplittd)
 					->bind(':id_iimxxmh', $id_iimxxmh)
 					->bind(':uniqueToken', $uniqueToken)
 					->bind(':id_transaksi_h', $id_transaksi_h)
@@ -304,7 +305,8 @@
 							LEFT JOIN wloxxmh tujuan ON tujuan.id = b.id_wloxxmh
 							LEFT JOIN ggswmsh gg on gg.id = 1
 							WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
-							'.$where_wh.' AND
+							'.$where_wh.' AND a.id = :id_wplittd
+							AND
 							(
 								(c.is_crossdocking = 1 AND b.id_wloctmh IN (1, 3))
 								OR
@@ -511,8 +513,8 @@
 			$type_message = 'success';
 			
 		}else{
-			// $db->rollback();
-			$db->commit();
+			$db->rollback();
+			// $db->commit();
 			$status_code  = 500;
 			$message      = 'Job Picking Gagal di Generate!'. '<br>' . $pesan;
 			$type_message = 'error';
