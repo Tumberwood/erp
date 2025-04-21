@@ -270,6 +270,15 @@
 	tableRelation('iimxxmh');
 
 	$(document).ready(function() {
+		autofillField('ggswmsh', 1, 'id_iumxxmh_berat,id_iumxxmh_panjang');
+		var id_iumxxmh_panjang = autofillData.id_iumxxmh_panjang;
+		var id_iumxxmh_berat = autofillData.id_iumxxmh_berat;
+		
+		autofillField('iumxxmh', id_iumxxmh_panjang, 'kode');
+		var uom_panjang = "("+autofillData.kode+")";
+
+		autofillField('iumxxmh', id_iumxxmh_berat, 'kode');
+		var uom_berat =  "("+autofillData.kode+")";
 		// BEGIN iimxxmh
 		
 		edtiimxxmh = new $.fn.dataTable.Editor( {
@@ -1024,23 +1033,23 @@
 					type: "textarea"
 				},
 				{
-					label: "Net Weight (kg)",
+					label: "Net Weight "+uom_berat,
 					name: "iimummd.nw"
 				},
 				{
-					label: "Gross Weight (kg)",
+					label: "Gross Weight "+uom_berat,
 					name: "iimummd.gw"
 				},
 				{
-					label: "Length (cm)",
+					label: "Length "+uom_panjang,
 					name: "iimummd.panjang"
 				},
 				{
-					label: "Width (cm)",
+					label: "Width "+uom_panjang,
 					name: "iimummd.lebar"
 				},
 				{
-					label: "Height (cm)",
+					label: "Height "+uom_panjang,
 					name: "iimummd.tinggi"
 				},
 				{
