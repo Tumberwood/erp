@@ -932,7 +932,16 @@
 					tblwplxxth.button('btnEdit:name').enable();
 				}
 			}
+
 			cekBelumConfirm();
+
+			if (id_wpmxxmh_old == 3) {
+				// Jika id_wpmxxmh_old = Zone, auto click rowgroup button group-by-zone
+				$('.group-by-zone').click();
+			} else {
+				// else, auto click rowgroup button group-by-item
+				$('.group-by-item').click();
+			}
 		} );
 		
 		tblwplxxth.on( 'deselect', function () {
