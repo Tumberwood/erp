@@ -95,11 +95,31 @@
 			$where = " WHERE activity_log_ml.kode = 'CREATE' AND activity_log_ml.nama = '" . $nama_tabel . "' ";
 			$where = $where . " AND YEAR(".$nama_field_tanggal.") = YEAR('" . $tanggal . "') AND MONTH(".$nama_field_tanggal.") = MONTH('" . $tanggal . "') ";
 
+			$qs_wplxxth = $db
+				->raw()
+				->bind(':id', $id)
+				->exec('SELECT
+							id_wpmxxmh
+						FROM wplxxth
+						WHERE id = :id
+			');
+			$rs_wplxxth = $qs_wplxxth->fetch();
+			$id_wpmxxmh = $rs_wplxxth['id_wpmxxmh'];
+
+			//kalau Zone Picking, maka group per zona
+			if ($id_wpmxxmh == 3) {
+				$group_by = 'GROUP BY a.id_wloznmh';
+			} else {
+				$group_by = 'GROUP BY a.id_wjtxxmh';
+			}
+			
+
 			//select detail LPN, lihat job type nya apa aja
 			$qs_lpn_d = $db
 				->raw()
 				->bind(':id', $id)
 				->exec('SELECT
+							a.id id_wpllptd,
 							a.id_wjtxxmh,
 							b.id_grlxxmh_customer,
 							id_wloxxmh_out
@@ -107,8 +127,7 @@
 						LEFT JOIN wplittd b on b.id = a.id_wplittd
 						LEFT JOIN wplxxth c on c.id = a.id_wplxxth
 						WHERE a.id_wplxxth = :id
-						GROUP BY 
-							a.id_wjtxxmh
+						'.$group_by.'
 							-- , b.id_grlxxmh_customer
 				'
 				);
@@ -116,6 +135,7 @@
 			$rs_lpn_d = $qs_lpn_d->fetchAll();
 
 			foreach ($rs_lpn_d as $key => $lpn) {
+				$id_wpllptd = $lpn['id_wpllptd']; //id PL detail LPN
 				$id_wjtxxmh = $lpn['id_wjtxxmh'];
 				$id_wloxxmh_out = $lpn['id_wloxxmh_out'];
 				$id_grlxxmh_customer = $lpn['id_grlxxmh_customer'];
@@ -184,7 +204,8 @@
 					->set('id_wpcxxth',$id_transaksi)
 					->where('id_wjtxxmh',$id_wjtxxmh)
 					// ->where('id_grlxxmh_customer',$id_grlxxmh_customer)
-					->where('id_wplxxth',$id)
+					// ->where('id_wplxxth',$id)
+					->where('id',$id_wpllptd)
 				->exec();
 			}
 		} // end if($state == 1)
