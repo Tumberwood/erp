@@ -294,8 +294,10 @@
 		tblpermissions.on( 'select', function( e, dt, type, indexes ) {
 			// set variable standar framework
 			permissions_data    = tblpermissions.row( { selected: true } ).data().permissions;
+			permissions_data    = tblpermissions.row( { selected: true } ).data().permissions;
 			permission_id      = permissions_data.id;
 			id_transaksi_h      = permissions_data.id;
+			is_default      = 0;
 			// console.log(permission_id);
 			
 			// atur hak akses
@@ -313,6 +315,7 @@
 			// reset variable standar framework
 			id_transaksi_h = 0;
 			permission_id = 0;
+			is_default      = 0;
 
 			// atur hak akses
 			tbl_details = [tbluser_permission_matches
