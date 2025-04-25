@@ -66,7 +66,7 @@
                                 <th>Receive Entry</th>
                                 <th>Sisa</th>
                                 <th data-toggle="tooltip" data-placement="top" title="" data-original-title="Dihitung dari Konfirmasi Receive Order hingga pelunasan di Receive Entry">Pemenuhan</th>
-                                <th>Status</th>
+                                <th>Status RO</th>
                             </tr>
                         </thead>
                     </table>
