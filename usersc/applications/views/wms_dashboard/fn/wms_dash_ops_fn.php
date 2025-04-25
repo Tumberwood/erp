@@ -622,7 +622,7 @@
                         <br>
                         <div class="row">
                             <div class="col-12">
-                                <h4 class="font-bold text-center">${invetory_turnover}</h4>
+                                <h2 class="font-bold text-center">${invetory_turnover}</h2>
                             </div>
                         </div>
                         <br>

@@ -86,10 +86,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
 						<div id="average_inventory"></div>
 					</div>
-					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
 						<div id="inventory_turnover"></div>
 					</div>
 				</div>
