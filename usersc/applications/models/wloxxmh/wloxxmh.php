@@ -53,6 +53,7 @@
 			Field::inst( 'wloxxmh.is_nextprocess' ),
 			Field::inst( 'wloxxmh.is_generate_nama' ),
 			Field::inst( 'wloxxmh.is_smaller' ),
+			Field::inst( 'wloxxmh.depth' ),
 
 			Field::inst( 'wloxxmh.kapasitas' ),
 			Field::inst( 'wloxxmh.rack' ),

@@ -84,10 +84,13 @@
 								<editor-field name="wloxxmh.koord_z"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="wloxxmh.is_default"></editor-field>
+								<editor-field name="wloxxmh.depth"></editor-field>
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wloxxmh.is_default"></editor-field>
+							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wloxxmh.keterangan"></editor-field>
 							</div>
@@ -312,7 +315,7 @@
 					}
 				},
 				{
-					label: "Location Type",
+					label: "Location Type  <sup class='text-danger'>*<sup>",
 					name: "wloxxmh.id_wlotpmh",
 					type: "select2",
 					opts: {
@@ -478,6 +481,10 @@
 					name: "wloxxmh.koord_z"
 				},
 				{
+					label: "Depth",
+					name: "wloxxmh.depth"
+				},
+				{
 					label: "Default Location <sup class='text-danger'>*<sup>",
 					name: "wloxxmh.is_default",
 					type: "select",
@@ -554,6 +561,15 @@
 			return {}
 		}, {event: 'keyup change'});
 
+		edtwloxxmh.dependent( 'wloxxmh.id_wlotpmh', function ( val, data, callback ) {
+			if (val == 3 || val == 4) {
+				edtwloxxmh.field('wloxxmh.depth').label("Depth <sup class='text-danger'>*<sup>");  
+			} else {
+				edtwloxxmh.field('wloxxmh.depth').label('Depth');
+			}
+			return {}
+		}, {event: 'keyup change'});
+
 		edtwloxxmh.dependent( 'wloxxmh.rack_name', function ( val, data, callback ) {
 			rack_name = val;
 			
@@ -609,17 +625,32 @@
 				koord_y            = edtwloxxmh.field('wloxxmh.koord_y').val();
 				koord_z            = edtwloxxmh.field('wloxxmh.koord_z').val();
 				bay_name             = edtwloxxmh.field('wloxxmh.bay_name').val();
+				id_wlotpmh             = edtwloxxmh.field('wloxxmh.id_wlotpmh').val();
+				depth             = edtwloxxmh.field('wloxxmh.depth').val();
 
 				validasiRequired(
 					edtwloxxmh,
 					'wloxxmh',
 					{
+						'id_wlotpmh': id_wlotpmh,
 						'id_iwhxxmh': id_iwhxxmh,
 						'id_iumxxmh_kapasitas': id_iumxxmh_kapasitas,
 						'rack_name': rack_name,
 						'nama': nama
 					}
 				);
+
+				//depth wajib diisi kalau double deep, drive in, pallet flow
+				if (id_wlotpmh == 3 || id_wlotpmh == 4) {
+					validasiRequired(
+						edtwloxxmh,
+						'wloxxmh',
+						{
+							'depth': depth,
+						}
+					);
+					
+				}
 
 				autofillField('ggswmsh', 1, 'is_koordinat');
 				is_koordinat = autofillData.is_koordinat;
