@@ -972,7 +972,9 @@ function CekSelectHeaderHD(tbl_header, tbl_details){
      * Yes
      * - is_final_approve == 1 && hak_l == 1 
      */
-    if(is_final_approve == 1 && hak_l == 1 ){
+    // if(is_final_approve == 1 && hak_l == 1 ){ //ini yang lama
+    
+    if((transaction_state == 1) && hak_l == 1 ){
         if (tbl_header.button('btnClose:name').any()) {
             tbl_header.button( 'btnClose:name' )
                 .nodes()
