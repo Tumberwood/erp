@@ -79,11 +79,17 @@
 		->where( 'wktxxth.is_backdate', 0 );
 		;
 	
-	if($_POST['start_date'] != ''){
-		$editor->where( 'wktxxth.tanggal',$_POST['start_date'], '>=' );
-	}
-	if($_POST['end_date'] != ''){
-		$editor->where( 'wktxxth.tanggal', $_POST['end_date'], '<=' );
+	if (isset($_POST['rowId']) && $_POST['rowId'] > 0) {
+		$rowId = $_POST['rowId'];
+		$editor
+			->where( 'wktxxth.id', $rowId);
+	} else {
+		if($_POST['start_date'] != ''){
+			$editor->where( 'wktxxth.tanggal',$_POST['start_date'], '>=' );
+		}
+		if($_POST['end_date'] != ''){
+			$editor->where( 'wktxxth.tanggal', $_POST['end_date'], '<=' );
+		}
 	}
 
 	// do not erase

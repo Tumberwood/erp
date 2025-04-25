@@ -11,6 +11,12 @@
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'wplittd';
     $nama_tabels_d[1] = 'wpllptd';
+	
+	if (isset($_GET['rowId']) && $_GET['rowId'] > 0) {
+		$rowId = $_GET['rowId'];
+	} else {
+		$rowId = 0;
+	}
 ?>
 
 <!-- begin content here -->
@@ -253,6 +259,7 @@
 	
 	uniqueToken = '';
 	var c_id = 0, jumlah_konversi = 0;
+	var rowId = <?php echo $rowId; ?>;
 
 	$(document).ready(function() {
 		cekBelumConfirm();
@@ -269,6 +276,7 @@
 					d.show_deleted_wplxxth = show_deleted_wplxxth;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.rowId = rowId;
 				}
 			},
 			template: "#frmwplxxth",
@@ -722,6 +730,7 @@
 					d.show_deleted_wplxxth = show_deleted_wplxxth;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.rowId = rowId;
 				}
 			},
 			order: [[ 1, "desc" ]],

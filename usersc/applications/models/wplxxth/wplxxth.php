@@ -86,11 +86,17 @@
 		->where( 'wplxxth.is_backdate',0 )
 		;
 	
-	if($_POST['start_date'] != ''){
-		$editor->where( 'wplxxth.tanggal',$_POST['start_date'], '>=' );
-	}
-	if($_POST['end_date'] != ''){
-		$editor->where( 'wplxxth.tanggal', $_POST['end_date'], '<=' );
+	if (isset($_POST['rowId']) && $_POST['rowId'] > 0) {
+		$rowId = $_POST['rowId'];
+		$editor
+			->where( 'wplxxth.id', $rowId);
+	} else {
+		if($_POST['start_date'] != ''){
+			$editor->where( 'wplxxth.tanggal',$_POST['start_date'], '>=' );
+		}
+		if($_POST['end_date'] != ''){
+			$editor->where( 'wplxxth.tanggal', $_POST['end_date'], '<=' );
+		}
 	}
 
 	// do not erase

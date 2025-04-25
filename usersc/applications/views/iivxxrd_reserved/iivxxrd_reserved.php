@@ -53,6 +53,7 @@
 						<th style="vertical-align: middle" rowspan="3">Warehouse</th>
 						<th style="vertical-align: middle" rowspan="3">Location</th>
 						<th style="vertical-align: middle" rowspan="3">Movement Type</th>
+						<th style="vertical-align: middle" rowspan="3">Tanggal Transaksi</th>
 						<th style="vertical-align: middle" rowspan="3">Kode Transaksi</th>
 						<th style="vertical-align: middle" rowspan="3">Username</th>
 						<th style="vertical-align: middle" rowspan="3">LPN</th>
@@ -143,7 +144,16 @@
 				{ data: "iwhxxmh_kode" },
 				{ data: "wloxxmh_nama" },
 				{ data: "imtxxmh_movement_type" },
-				{ data: "kode_transaksi" },
+				{ data: "tanggal_transaksi" },
+				{ 
+					data: "kode_transaksi" ,
+					render: function (data, type, row) {
+						var kode_transaksi = row.kode_transaksi;
+						var url = row.url;
+						var link = '<a href="' + url + '" target="_blank">'+kode_transaksi+'</a>';
+						return link;
+					}
+				},
 				{ data: "username" },
 				{ data: "wlpxxmh_kode" },
 				{ data: "iimxxmh_kode" },

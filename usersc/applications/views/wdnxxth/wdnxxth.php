@@ -11,6 +11,12 @@
     $nama_tabels_d 	= [];
     $nama_tabels_d[0] = 'wdnittd';
     $nama_tabels_d[1] = 'wdnlptd';
+	
+	if (isset($_GET['rowId']) && $_GET['rowId'] > 0) {
+		$rowId = $_GET['rowId'];
+	} else {
+		$rowId = 0;
+	}
 ?>
 
 <!-- begin content here -->
@@ -227,6 +233,7 @@
 
 	var id_grlxxmh_old = 0, id_grlxxmh_customer = 0, id_grlxxmh_expedition = 0, id_wdoxxth_old = 0, id_iwhxxmh_old = 0, id_wdoxxth = 0;
 	var id_iimxxmh_old = 0, id_iimxxmh = 0, id_grlxxmh_expedition_old = 0, id_iumxxmh_unit_old = 0, id_wdplptd_old = 0, ids_wdpxxth_old = '';
+	var rowId = <?php echo $rowId; ?>;
 
 	// get tableRelation
 	tableRelation('wdnxxth');
@@ -244,6 +251,7 @@
 					d.show_deleted_wdnxxth = show_deleted_wdnxxth;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.rowId = rowId;
 				}
 			},
 			template: "#frmwdnxxth",
@@ -684,6 +692,7 @@
 					d.show_deleted_wdnxxth = show_deleted_wdnxxth;
 					d.start_date = start_date;
 					d.end_date = end_date;
+					d.rowId = rowId;
 				}
 			},
 			order: [[ 1, "desc" ]],
