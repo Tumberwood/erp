@@ -14,18 +14,20 @@
 		DataTables\Editor\Query,
 		DataTables\Editor\Result;
 
-	$kondisi = 'HAVING sisa > 0';
-	if (isset($_POST['kondisi'])) {
-		if ($_POST['kondisi'] == 0) {
-			//ini belum lunas
-			$kondisi = 'HAVING sisa > 0';
-		} else if($_POST['kondisi'] == 1) {
-			//ini lunas
-			$kondisi = 'HAVING sisa = 0';
-		} else {
-			$kondisi = '';
-		}
-	}
+	// $kondisi = 'HAVING sisa > 0';
+	// if (isset($_POST['kondisi'])) {
+	// 	if ($_POST['kondisi'] == 0) {
+	// 		//ini belum lunas
+	// 		$kondisi = 'HAVING sisa > 0';
+	// 	} else if($_POST['kondisi'] == 1) {
+	// 		//ini lunas
+	// 		$kondisi = 'HAVING sisa = 0';
+	// 	} else {
+	// 		$kondisi = '';
+	// 	}
+	// }
+
+	$kondisi = 'HAVING transaction_state = '.$_POST['kondisi'];
 
 	// echo $kondisi;
 	$qs_wroxxth = $db
@@ -37,6 +39,7 @@
 					c.nama iimxxmh_nama,
 					d.kode iumxxmh_kode,
 					b.jumlah_unit jumlah_unit_ro,
+					a.transaction_state,
 					f.nama supplier,
 					SUM(IFNULL(e.jumlah_terkecil / uo.jumlah_konversi,0)) jumlah_unit_re,
 					b.jumlah_unit - SUM(IFNULL(e.jumlah_terkecil / uo.jumlah_konversi,0)) sisa,

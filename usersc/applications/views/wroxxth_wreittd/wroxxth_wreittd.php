@@ -24,13 +24,22 @@
 									<h4 class="modal-title">Filter</h4>
 								</div>
 								<div class="modal-body">
-									<div class="form-group row">
+									<!-- <div class="form-group row">
 										<label class="col-lg-2 col-form-label">Filter Sisa</label>
 										<div class="col-lg-5">
 											<select class="form-control" id="kondisi" name="kondisi">
 												<option value="0" selected>Belum Lunas</option>
 												<option value="99">Semua</option>
 												<option value="1">Lunas</option>
+											</select>
+										</div>
+									</div> -->
+									<div class="form-group row">
+										<label class="col-lg-3 col-form-label">Status Receive Order</label>
+										<div class="col-lg-5">
+											<select class="form-control" id="kondisi" name="kondisi">
+												<option value="1" selected>Confirm</option>
+												<option value="9">Closed</option>
 											</select>
 										</div>
 									</div>
@@ -57,6 +66,7 @@
                                 <th>Receive Entry</th>
                                 <th>Sisa</th>
                                 <th data-toggle="tooltip" data-placement="top" title="" data-original-title="Dihitung dari Konfirmasi Receive Order hingga pelunasan di Receive Entry">Pemenuhan</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                     </table>
@@ -148,6 +158,10 @@
 							}
 						} 
 					},
+					{ 
+						data: "transaction_state" ,
+						...renderTransactionStatus()
+					}
 				],
 				buttons: [
 					// BEGIN breaking generate button
