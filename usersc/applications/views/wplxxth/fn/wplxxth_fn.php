@@ -93,5 +93,50 @@
         	}
         } );
     }
-    
+
+    function rowGroupConfig(dataSrc) {
+        return {
+            dataSrc: function (row) {
+                return row[dataSrc];
+            },
+            endRender: function (rows, group) {
+                var sum_terkecil = rows
+                    .data()
+                    .pluck('wpllptd.jumlah_terkecil')
+                    .map(function (terkecil) {
+                        return parseFloat(terkecil) || 0;
+                    })
+                    .reduce(function (a, b) {
+                        return a + b;
+                    }, 0);
+
+                var sum_default = rows
+                    .data()
+                    .pluck('wpllptd.jumlah_default')
+                    .map(function (def) {
+                        return parseFloat(def) || 0;
+                    })
+                    .reduce(function (a, b) {
+                        return a + b;
+                    }, 0);
+
+                sum_terkecil = $.fn.dataTable.render.number(',', '.', 0, '').display(sum_terkecil);
+                sum_default = $.fn.dataTable.render.number(',', '.', 2, '').display(sum_default);
+
+                return $('<tr/>')
+                    .append('<td class="font-bold text-success">Total</td>')
+                    .append('<td></td>')
+                    .append('<td></td>')
+                    .append('<td></td>')
+                    .append('<td></td>')
+                    .append('<td class="text-right font-bold bg-success">' + sum_terkecil + '</td>')
+                    .append('<td></td>')
+                    .append('<td class="text-right font-bold bg-success">' + sum_default + '</td>')
+                    .append('<td></td>')
+                    .append('<td></td>')
+                    .append('<td></td>');
+            }
+        };
+    }
+
 </script>

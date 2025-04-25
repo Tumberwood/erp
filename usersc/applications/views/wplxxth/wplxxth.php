@@ -1879,46 +1879,49 @@
 		$('.group-by-item').on('click', function (e) {
 			e.preventDefault();
 			// console.log($(this).data('column'));
-			tblwpllptd.rowGroup().enable().draw();
-			tblwpllptd.rowGroup().dataSrc('item');
-			tblwpllptd.order([[8, 'asc']]).draw();
 
 			tblwpllptd.columns(8).visible(false);
 			tblwpllptd.columns(2).visible(true);
 			tblwpllptd.columns(6).visible(true);
+
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('item');
+			tblwpllptd.order([[8, 'asc']]).draw();
 		});
 
 		$('.disable-group').on('click', function (e) {
 			e.preventDefault();
-			tblwpllptd.rowGroup().disable().draw();
-			
 			tblwpllptd.columns(2).visible(true);
 			tblwpllptd.columns(8).visible(true);
 			tblwpllptd.columns(6).visible(true);
+
+			tblwpllptd.rowGroup().disable().draw();
 		});
 
 		$('.group-by-customer').on('click', function (e) {
 			e.preventDefault();
-			console.log("Click:", $(this).data('column'));
-			tblwpllptd.rowGroup().enable().draw();
-			tblwpllptd.rowGroup().dataSrc('customer');
-			tblwpllptd.order([[2, 'asc']]).draw();
+			// console.log("Click:", $(this).data('column'));
 
 			tblwpllptd.columns(2).visible(false);
 			tblwpllptd.columns(8).visible(true);
 			tblwpllptd.columns(6).visible(true);
+
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('customer');
+			tblwpllptd.order([[2, 'asc']]).draw();
 		});
 
 		$('.group-by-zone').on('click', function (e) {
 			e.preventDefault();
-			console.log("Click:", $(this).data('column'));
-			tblwpllptd.rowGroup().enable().draw();
-			tblwpllptd.rowGroup().dataSrc('zone');
-			tblwpllptd.order([[6, 'asc']]).draw();
+			// console.log("Click:", $(this).data('column'));
 
 			tblwpllptd.columns(2).visible(true);
 			tblwpllptd.columns(8).visible(true);
 			tblwpllptd.columns(6).visible(false);
+			
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('zone');
+			tblwpllptd.order([[6, 'asc']]).draw();
 		});
 		
 		tblwpllptd.on( 'draw', function( e, settings ) { 
