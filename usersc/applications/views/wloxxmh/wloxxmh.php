@@ -1086,7 +1086,7 @@
 					d.show_deleted_wloxxmh = show_deleted_wloxxmh;
 				}
 			},
-			serverSide: true,
+			// serverSide: true,
 			order: [[ 1, "asc" ]],
 			columnDefs:[
 				{
