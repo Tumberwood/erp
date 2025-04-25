@@ -607,9 +607,9 @@
 			// script diletakkan disini
 		})
 		->on('preRemove', function($editor, $id, $values) {
-			try {
+			// try {
 				// Debugging untuk melihat ID yang dikirim
-				print_r($id);
+				// print_r($id);
 		
 				$qs_dispatch = $editor->db()
 					->raw()
@@ -644,9 +644,9 @@
 					->where('keterangan', 'id_wdnxxth='.$id)
 					->exec();
 		
-			} catch (\Exception $e) {
-				error_log("Error in preRemove: " . $e->getMessage());
-			}
+			// } catch (\Exception $e) {
+			// 	error_log("Error in preRemove: " . $e->getMessage());
+			// }
 		})
 		
 		->on('postRemove',function( $editor, $id, $values ) {
