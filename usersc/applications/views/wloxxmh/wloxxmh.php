@@ -9,11 +9,12 @@
 <?php
 	$nama_tabel    = 'wloxxmh';
 	$nama_tabels_d = [];
+    $nama_tabels_d[0] = 'wimlotd';
 ?>
 
 <!-- begin content here -->
 <div class="row">
-	<div class="col">
+	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-w-xs">
 		<div class="ibox ">
 			<div class="ibox-content">
 				<div id="frmwloxxmh">
@@ -170,6 +171,32 @@
 			</div>
 		</div>
 	</div>
+	
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-w-xs">
+		<div class="tabs-container">
+			<ul class="nav nav-tabs" role="tablist">
+				<li><a class="nav-link active" data-toggle="tab" href="#tabwimlotd_1"> Item</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" id="tabwimlotd_1" class="tab-pane active">
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table id="tblwimlotd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+								<thead>
+									<tr>
+										<th>Item Code</th>
+										<th>Item Name</th>
+									</tr>
+								</thead>
+							</table>
+						</div> <!-- end of table -->
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div> <!-- end of right col -->
 </div>
 
 <?php
@@ -196,7 +223,8 @@
 <!-- BEGIN javascript here -->
 <script type="text/javascript">
 	// ------------- default variable, do not erase
-	var edtwloxxmh, tblwloxxmh, show_deleted_wloxxmh = 0, id_wloxxmh;
+	var edtwloxxmh, tblwloxxmh, show_deleted_wloxxmh = 0, id_wloxxmh = 0;
+	var edtwimlotd, tblwimlotd, show_deleted_wimlotd = 0, id_wimlotd;
 	// ------------- end of default variable
 
 	var id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0;
@@ -1172,7 +1200,8 @@
 		
 		tblwloxxmh.on( 'init', function () {
 			// atur hak akses
-			CekInitHeaderH(tblwloxxmh);
+			tbl_details = [tblwimlotd];
+			CekInitHeaderHD(tblwloxxmh, tbl_details);
 			tblwloxxmh.button('btnEdit:name').nodes()
             .css( 'display', 'none' );
 		} );
@@ -1189,7 +1218,9 @@
 			id_iumxxmh_kapasitas_old = wloxxmh_data.id_iumxxmh_kapasitas;
 			id_iwhxxmh               = wloxxmh_data.id_iwhxxmh;
 			// atur hak akses
-			CekSelectHeaderH(tblwloxxmh);
+			tbl_details = [tblwimlotd];
+			CekSelectHeaderHD(tblwloxxmh, tbl_details);
+
 			tblwloxxmh.button('btnEdit:name').nodes()
             .css( 'display', 'block' );
 		} );
@@ -1201,12 +1232,51 @@
 			id_iwhxxmh_old = 0, id_wloctmh_old = 0, id_wlotpmh_old = 0, id_wloznmh_old = 0, id_iumxxmh_kapasitas_old = 0, id_iwhxxmh = 0;
 
 			// atur hak akses
-			CekDeselectHeaderH(tblwloxxmh);
+			tbl_details = [tblwimlotd];
+			CekDeselectHeaderHD(tblwloxxmh, tbl_details);
+
 			tblwloxxmh.button('btnEdit:name').nodes()
             .css( 'display', 'none' );
 		} );
 		
 		// END wloxxmh
+		
+		tblwimlotd = $('#tblwimlotd').DataTable( {
+			ajax: {
+				url: "../../models/wloxxmh/wloxxmh_wimlotd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wimlotd = show_deleted_wimlotd;
+					d.id_wloxxmh = id_wloxxmh;
+				},
+			},
+			order: [[ 1, "asc" ]],
+			columns: [
+				{ data: "iimxxmh_kode" },
+				{ data: "iimxxmh_nama" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_wimlotd';
+					$table       = 'tblwimlotd';
+					$edt         = 'edtwimlotd';
+					$show_status = '_wimlotd';
+					$table_name  = $nama_tabels_d[0];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= [];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				// END breaking generate button
+			],
+			initComplete: function() {
+				this.api().searchPanes.rebuildPane();
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
 
 	} );// end of document.ready
 
