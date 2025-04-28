@@ -883,6 +883,23 @@
                                         // fnDelete
                                         full_message = '';
 
+                                        <?php 
+                                            if(file_exists("../../models/" . $table_name . '/' . $table_name . "_pre_remove.php")) {
+                                        ?>
+                                            $.ajax( {
+                                                url: '../../models/'+ "<?php echo $table_name . '/' . $table_name;?>" +'_pre_remove.php',
+                                                dataType: 'json',
+                                                type: 'POST',
+                                                data: {
+                                                    id_transaksi : id_transaksi_h,
+                                                },
+                                                success: function ( json ) {
+                                                }
+                                            } );
+                                        <?php
+                                            }
+                                        ?>
+                                        
                                         $.ajax( {
                                             url: '../../../helpers/tr_fn_transaction_state.php',
                                             dataType: 'json',

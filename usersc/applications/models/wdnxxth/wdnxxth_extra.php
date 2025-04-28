@@ -611,38 +611,38 @@
 				// Debugging untuk melihat ID yang dikirim
 				// print_r($id);
 		
-				$qs_dispatch = $editor->db()
-					->raw()
-					->bind(':id', $id)
-					->exec('SELECT
-								a.id_wdplptd,
-								a.jumlah_terkecil
-							FROM wdnlptd a
-							WHERE a.id_wdnxxth = :id'
-					);
+				// $qs_dispatch = $editor->db()
+				// 	->raw()
+				// 	->bind(':id', $id)
+				// 	->exec('SELECT
+				// 				a.id_wdplptd,
+				// 				a.jumlah_terkecil
+				// 			FROM wdnlptd a
+				// 			WHERE a.id_wdnxxth = :id'
+				// 	);
 		
-				$rs_dispatch = $qs_dispatch->fetchAll();
+				// $rs_dispatch = $qs_dispatch->fetchAll();
 		
-				foreach ($rs_dispatch as $dispatch) {
-					$id_wdplptd = $dispatch['id_wdplptd'];
-					$jumlah_terkecil = $dispatch['jumlah_terkecil'];
+				// foreach ($rs_dispatch as $dispatch) {
+				// 	$id_wdplptd = $dispatch['id_wdplptd'];
+				// 	$jumlah_terkecil = $dispatch['jumlah_terkecil'];
 		
-					$editor->db()
-						->raw()
-						->bind(':id_wdplptd', $id_wdplptd)
-						->bind(':jumlah_terkecil', $jumlah_terkecil)
-						->exec('UPDATE wdplptd
-								SET
-									jumlah_terkecil_os = jumlah_terkecil_os + :jumlah_terkecil,
-									jumlah_terkecil_next = jumlah_terkecil_next - :jumlah_terkecil
-								WHERE id = :id_wdplptd'
-						);
-				}
+				// 	$editor->db()
+				// 		->raw()
+				// 		->bind(':id_wdplptd', $id_wdplptd)
+				// 		->bind(':jumlah_terkecil', $jumlah_terkecil)
+				// 		->exec('UPDATE wdplptd
+				// 				SET
+				// 					jumlah_terkecil_os = jumlah_terkecil_os + :jumlah_terkecil,
+				// 					jumlah_terkecil_next = jumlah_terkecil_next - :jumlah_terkecil
+				// 				WHERE id = :id_wdplptd'
+				// 		);
+				// }
 		
-				$editor->db()
-					->query('delete', 'iivxxrd')
-					->where('keterangan', 'id_wdnxxth='.$id)
-					->exec();
+				// $editor->db()
+				// 	->query('delete', 'iivxxrd')
+				// 	->where('keterangan', 'id_wdnxxth='.$id)
+				// 	->exec();
 		
 			// } catch (\Exception $e) {
 			// 	error_log("Error in preRemove: " . $e->getMessage());
