@@ -83,6 +83,7 @@
 			Field::inst( 'iwhxxmh.kode' ),
 			Field::inst( 'asal.nama' ),
 			Field::inst( 'tujuan.nama' ),
+			Field::inst( 'grlxxmh.nama' ),
 			Field::inst( 'activity_log_ml_confirm.username as username' ),
 		)
 		->leftJoin( 'wpcxxth','wpcxxth.id','=','wpclptd.id_wpcxxth' )
@@ -91,6 +92,7 @@
 		->leftJoin( 'iwhxxmh','iwhxxmh.id','=','wpclptd.id_iwhxxmh' )
 		->leftJoin( 'wloxxmh asal','asal.id','=','wpclptd.id_wloxxmh_asal' )
 		->leftJoin( 'wloxxmh tujuan','tujuan.id','=','wpclptd.id_wloxxmh_tujuan' )
+		->leftJoin( 'grlxxmh','grlxxmh.id','=','wpcxxth.id_grlxxmh_customer' )
 		->leftJoin(
 			'activity_log_ml as activity_log_ml_confirm', 
 			'activity_log_ml_confirm.id_transaksi = wpclptd.id AND activity_log_ml_confirm.kode = "CONFIRM" AND activity_log_ml_confirm.nama = "wpclptd"', '', '' )

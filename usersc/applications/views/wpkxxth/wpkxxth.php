@@ -55,6 +55,7 @@
 								<th>Kode</th>
 								<th>User</th>
 								<th>Warehouse</th>
+								<th>Customer</th>
 								<th>Lokasi Asal</th>
 								<th>Lokasi Tujuan</th>
 								<th>LPN</th>
@@ -148,6 +149,7 @@
 					{ data: "wpclptd.kode" },
 					{ data: "username" },
 					{ data: "iwhxxmh.kode" },
+					{ data: "grlxxmh.kode" },
 					{ data: "asal.nama" },
 					{ data: "tujuan.nama" },
 					{ data: "wpclptd.wlpxxmh_kode" },
