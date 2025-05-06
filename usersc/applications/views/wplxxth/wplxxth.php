@@ -547,6 +547,7 @@
 					label: "Packing?",
 					name: "wplxxth.is_packing",
 					type: "select",
+					fieldInfo: "Ya: Packaging otomatis by sistem. <br>Tidak: Packaging kosong.",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
