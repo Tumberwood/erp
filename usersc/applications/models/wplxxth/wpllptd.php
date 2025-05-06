@@ -84,7 +84,7 @@
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'wloxxmh.nama' ),
 				Field::inst( 'wloznmh.nama as zone' ),
-				// Field::inst( 'wpkxxmh.nama' ),
+				Field::inst( 'wpkxxmh.nama' ),
 				Field::inst( 'concat(iimxxmh.kode," - ",iimxxmh.nama) as item' ),
 				Field::inst( 'grlxxmh.nama as customer' ),
 			)
@@ -93,7 +93,7 @@
 			->leftJoin( 'iimxxmh','iimxxmh.id','=','wpllptd.id_iimxxmh' )
 			->leftJoin( 'wloxxmh','wloxxmh.id','=','wpllptd.id_wloxxmh' )
 			->leftJoin( 'wloznmh','wloznmh.id','=','wpllptd.id_wloznmh' )
-			// ->leftJoin( 'wpkxxmh','wpkxxmh.id','=','wpllptd.id_wpkxxmh' )
+			->leftJoin( 'wpkxxmh','wpkxxmh.id','=','wpllptd.id_wpkxxmh' )
 			->leftJoin( 'grlxxmh','grlxxmh.id','=','wpllptd.id_grlxxmh_customer' )
 			->leftJoin( 'wpcxxth','wpcxxth.id','=','wpllptd.id_wpcxxth' )
 			->where('wpllptd.id_wplxxth',$_POST['id_wplxxth']);

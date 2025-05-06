@@ -91,6 +91,11 @@
 								<editor-field name="wplxxth.is_crossdocking"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.is_packing"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wplxxth.keterangan"></editor-field>
 							</div>
 						</div>
@@ -179,11 +184,11 @@
 										<th rowspan="2">LPN</th>
 										<th rowspan="2">Location</th>
 										<th rowspan="2">Zone</th>
-										<!-- <th rowspan="2">Packing</th> -->
 										<th rowspan="2">Item Code</th>
 										<th rowspan="2">Item Name</th>
 										<th colspan="2">Terkecil</th>
 										<th colspan="2">Default</th>
+										<th rowspan="2">Packaging</th>
 										<th rowspan="2">Batch Number</th>
 										<th rowspan="2">Expired Date</th>
 									</tr>
@@ -533,6 +538,15 @@
 					name: "wplxxth.is_crossdocking",
 					type: "select",
 					def: 1,
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
+					label: "Packing?",
+					name: "wplxxth.is_packing",
+					type: "select",
 					options: [
 						{ "label": "Ya", "value": 1 },
 						{ "label": "Tidak", "value": 0 }
@@ -1777,7 +1791,6 @@
 				{ data: "wpllptd.wlpxxmh_kode" },
 				{ data: "wloxxmh.nama" },
 				{ data: "zone" },
-				// { data: "wpkxxmh.nama" },
 				{ data: "iimxxmh.kode",visible:false },
 				{ data: "item",visible:false },
 				{ 
@@ -1790,6 +1803,7 @@
 					...renderNumber(2)
 				},
 				{ data: "uom_default.kode" },
+				{ data: "wpkxxmh.nama" },
 				{ data: "wpllptd.batch_number" },
 				{ data: "wpllptd.expired_date" },
 			],

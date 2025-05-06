@@ -40,7 +40,6 @@
 					:id_transaksi_h,
 					a.id_grlxxmh_customer,
 					tujuan.id_wloznmh,
-					0 id_wpkxxmh, -- packaging
 					if(is_koordinat = 0, 
 						ifnull(h.urutan,0), -- kalo urutan maka ambil dari urutan di loc pref
 						ABS(tujuan.koord_x - asal.koord_x) + ABS(tujuan.koord_y - asal.koord_y) + (ABS(tujuan.koord_z - asal.koord_z) * koefisien_level)
@@ -90,7 +89,20 @@
 					SUM(b.jumlah_default) AS jumlah_default_iv,
 					max(batch_number) batch_number,
 					max(expired_date) as expired_date,
-					i.`level` level_loc
+					i.`level` level_loc,
+					CASE 
+						WHEN c.is_packing = 1 THEN
+						(
+							SELECT
+								wpk.id
+							FROM wpkxxmh wpk
+							WHERE ((wpk.panjang * wpk.lebar * wpk.tinggi) + (wpk.gw)) >= ((a.jumlah_unit * (uom.panjang * uom.lebar * uom.tinggi)) + (a.jumlah_unit * uom.gw))
+							AND wpk.transaction_state = 1
+							LIMIT 1
+						)
+						ELSE 0
+					END 
+					id_wpkxxmh
 				FROM wplittd a
 				LEFT JOIN iivxxrd b ON b.id_iimxxmh = a.id_iimxxmh
 				LEFT JOIN wplxxth c ON c.id = a.id_wplxxth
@@ -102,6 +114,7 @@
 				LEFT JOIN wloxxmh asal ON asal.id = c.id_wloxxmh_out
 				LEFT JOIN wloxxmh tujuan ON tujuan.id = b.id_wloxxmh
 				LEFT JOIN ggswmsh gg on gg.id = 1
+				LEFT JOIN iimummd uom ON uom.id_iimxxmh = a.id_iimxxmh AND uom.id_iumxxmh = a.id_iumxxmh_unit
 				WHERE c.id = :id_transaksi_h 
 				AND b.keterangan <> :uniqueToken 
 				AND a.id_iimxxmh = :id_iimxxmh
