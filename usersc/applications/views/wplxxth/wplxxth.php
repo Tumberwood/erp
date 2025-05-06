@@ -1804,7 +1804,7 @@
 					...renderNumber(2)
 				},
 				{ data: "uom_default.kode" },
-				{ data: "wpkxxmh.nama" },
+				{ data: "packaging" },
 				{ data: "wpllptd.batch_number" },
 				{ data: "wpllptd.expired_date" },
 			],

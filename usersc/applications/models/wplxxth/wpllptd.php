@@ -84,7 +84,7 @@
 				Field::inst( 'iimxxmh.nama' ),
 				Field::inst( 'wloxxmh.nama' ),
 				Field::inst( 'wloznmh.nama as zone' ),
-				Field::inst( 'wpkxxmh.nama' ),
+				Field::inst( 'wpkxxmh.nama as packaging' ),
 				Field::inst( 'concat(iimxxmh.kode," - ",iimxxmh.nama) as item' ),
 				Field::inst( 'grlxxmh.nama as customer' ),
 			)
