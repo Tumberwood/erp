@@ -171,6 +171,7 @@
 						<button class="btn btn-primary group-by-item" data-column="item">Item</button>
 						<button class="btn btn-primary group-by-customer" data-column="customer">Customer</button>
 						<button class="btn btn-primary group-by-zone" data-column="zone">Zone</button>
+						<button class="btn btn-primary group-by-packaging" data-column="packaging">Packaging</button>
 						<button class="btn btn-secondary disable-group">Clear</button>
 						
 						<div class="table-responsive">
@@ -184,11 +185,10 @@
 										<th rowspan="2">LPN</th>
 										<th rowspan="2">Location</th>
 										<th rowspan="2">Zone</th>
-										<th rowspan="2">Item Code</th>
+										<th rowspan="2">Packaging</th>
 										<th rowspan="2">Item Name</th>
 										<th colspan="2">Terkecil</th>
 										<th colspan="2">Default</th>
-										<th rowspan="2">Packaging</th>
 										<th rowspan="2">Batch Number</th>
 										<th rowspan="2">Expired Date</th>
 									</tr>
@@ -1792,7 +1792,7 @@
 				{ data: "wpllptd.wlpxxmh_kode" },
 				{ data: "wloxxmh.nama" },
 				{ data: "zone" },
-				{ data: "iimxxmh.kode",visible:false },
+				{ data: "packaging",visible:false },
 				{ data: "item",visible:false },
 				{ 
 					data: "wpllptd.jumlah_terkecil",
@@ -1804,7 +1804,6 @@
 					...renderNumber(2)
 				},
 				{ data: "uom_default.kode" },
-				{ data: "packaging" },
 				{ data: "wpllptd.batch_number" },
 				{ data: "wpllptd.expired_date" },
 			],
@@ -1839,6 +1838,7 @@
 
 					return $('<tr/>')
 						.append('<td class="font-bold text-success">Total</td>')
+						.append('<td></td>')
 						.append('<td></td>')
 						.append('<td></td>')
 						.append('<td></td>')
@@ -1904,9 +1904,10 @@
 			e.preventDefault();
 			// console.log($(this).data('column'));
 
-			tblwpllptd.columns(8).visible(false);
 			tblwpllptd.columns(2).visible(true);
 			tblwpllptd.columns(6).visible(true);
+			tblwpllptd.columns(7).visible(true);
+			tblwpllptd.columns(8).visible(false);
 
 			tblwpllptd.rowGroup().enable().draw();
 			tblwpllptd.rowGroup().dataSrc('item');
@@ -1916,8 +1917,9 @@
 		$('.disable-group').on('click', function (e) {
 			e.preventDefault();
 			tblwpllptd.columns(2).visible(true);
-			tblwpllptd.columns(8).visible(true);
 			tblwpllptd.columns(6).visible(true);
+			tblwpllptd.columns(7).visible(true);
+			tblwpllptd.columns(8).visible(true);
 
 			tblwpllptd.rowGroup().disable().draw();
 		});
@@ -1927,8 +1929,9 @@
 			// console.log("Click:", $(this).data('column'));
 
 			tblwpllptd.columns(2).visible(false);
-			tblwpllptd.columns(8).visible(true);
 			tblwpllptd.columns(6).visible(true);
+			tblwpllptd.columns(7).visible(true);
+			tblwpllptd.columns(8).visible(true);
 
 			tblwpllptd.rowGroup().enable().draw();
 			tblwpllptd.rowGroup().dataSrc('customer');
@@ -1940,12 +1943,27 @@
 			// console.log("Click:", $(this).data('column'));
 
 			tblwpllptd.columns(2).visible(true);
-			tblwpllptd.columns(8).visible(true);
 			tblwpllptd.columns(6).visible(false);
+			tblwpllptd.columns(7).visible(true);
+			tblwpllptd.columns(8).visible(true);
 			
 			tblwpllptd.rowGroup().enable().draw();
 			tblwpllptd.rowGroup().dataSrc('zone');
 			tblwpllptd.order([[6, 'asc']]).draw();
+		});
+
+		$('.group-by-packaging').on('click', function (e) {
+			e.preventDefault();
+			// console.log("Click:", $(this).data('column'));
+
+			tblwpllptd.columns(2).visible(true);
+			tblwpllptd.columns(6).visible(true);
+			tblwpllptd.columns(7).visible(false);
+			tblwpllptd.columns(8).visible(true);
+			
+			tblwpllptd.rowGroup().enable().draw();
+			tblwpllptd.rowGroup().dataSrc('packaging');
+			tblwpllptd.order([[7, 'asc']]).draw();
 		});
 		
 		tblwpllptd.on( 'draw', function( e, settings ) { 
