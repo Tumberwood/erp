@@ -64,7 +64,7 @@
                             </tr>
                             <tr>
                                 <td class="text-center">
-                                    '. str_replace(' ', '<br>', htmlspecialchars($row_wloxxmh['nama'])) .'
+                                    '. str_replace(' ', '<br>', $row_wloxxmh['nama']) .'
                                 </td>
                             </tr>
                         </tbody>
