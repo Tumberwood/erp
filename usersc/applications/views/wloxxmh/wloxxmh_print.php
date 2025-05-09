@@ -43,34 +43,44 @@
         
         foreach ($rs_wloxxmh as $row_wloxxmh) {
 
-            // generate tampilan
             $html = '
             <html>
-                <head>
-                    <style>
-                        .barcode {
-                            padding: 1.5mm;
-                            margin: 0;
-                            vertical-align: top;
-                            color: #000000;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <table width="100%">
-                        <tbody>
-                            <tr>
-                                <td class="text-center"><barcode code="'. $row_wloxxmh['nama'] .'" disableborder="1" type="qr" size="1.3" class="barcode" /></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    '. str_replace(' ', '<br>', $row_wloxxmh['nama']) .'
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </body>
-            </html>';            
+            <head>
+                <style>
+                    .container {
+                        width: 100%;
+                        text-align: center;
+                    }
+            
+                    .barcode {
+                        padding: 1.5mm;
+                        margin: 0;
+                        vertical-align: top;
+                        color: #000000;
+                    }
+
+                    .nama-container {
+                        width: 50%;
+                        font-size: 11px;
+                        margin-top: 2px;
+                        margin-left: auto;  
+                        margin-right: auto; 
+                    }
+                    
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="barcode">
+                        <barcode code="'. $row_wloxxmh['nama'] .'" disableborder="1" type="qr" size="1.3" />
+                    </div>
+                    <div class="nama-container">
+                        '. $row_wloxxmh['nama'] .'
+                    </div>
+                </div>
+            </body>
+            </html>';
+                    
 
             $mpdf->AddPage();
             $mpdf->SetProtection(array('print'));
