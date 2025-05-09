@@ -45,40 +45,40 @@
 
             $html = '
             <html>
-            <head>
-                <style>
-                    .container {
-                        width: 100%;
-                        text-align: center;
-                    }
-            
-                    .barcode {
-                        padding: 1.5mm;
-                        margin: 0;
-                        vertical-align: top;
-                        color: #000000;
-                    }
+                <head>
+                    <style>
+                        .container {
+                            width: 100%;
+                            text-align: center;
+                        }
+                
+                        .barcode {
+                            padding: 1.5mm;
+                            margin: 0;
+                            vertical-align: top;
+                            color: #000000;
+                        }
 
-                    .nama-container {
-                        width: 50%;
-                        font-size: 11px;
-                        margin-top: 2px;
-                        margin-left: auto;  
-                        margin-right: auto; 
-                    }
-                    
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="barcode">
-                        <barcode code="'. $row_wloxxmh['nama'] .'" disableborder="1" type="qr" size="1.3" />
+                        .nama-container {
+                            width: 50%;
+                            font-size: 11px;
+                            margin-top: 2px;
+                            margin-left: auto;  
+                            margin-right: auto; 
+                        }
+                        
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="barcode">
+                            <barcode code="'. $row_wloxxmh['nama'] .'" disableborder="1" type="qr" size="1.3" />
+                        </div>
+                        <div class="nama-container">
+                            '. $row_wloxxmh['nama'] .'
+                        </div>
                     </div>
-                    <div class="nama-container">
-                        '. $row_wloxxmh['nama'] .'
-                    </div>
-                </div>
-            </body>
+                </body>
             </html>';
                     
 
