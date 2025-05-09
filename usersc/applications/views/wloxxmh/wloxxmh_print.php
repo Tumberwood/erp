@@ -63,7 +63,7 @@
                                 <td class="text-center"><barcode code="'. $row_wloxxmh['nama'] .'" disableborder="1" type="qr" size="1.3" class="barcode" /></td>
                             </tr>
                             <tr>
-                                <td class="text-center">'. $row_wloxxmh['nama'] .'</td>
+                                <td class="text-center" style="word-break: break-word; white-space: normal;">'. $row_wloxxmh['nama'] .'</td>
                             </tr>
                         </tbody>
                     </table>
