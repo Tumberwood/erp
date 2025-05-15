@@ -920,6 +920,16 @@
 			id_wloxxmh_old = wplxxth_data.id_wloxxmh_out;
 			id_lvtxxmh_old = wplxxth_data.id_lvtxxmh;
 			// atur hak akses
+			
+			//2025-05-15 dipindah sebelum CekSelectHeaderHD agar confirm nyala.
+			if (id_wpmxxmh_old == 3) {
+				// Jika id_wpmxxmh_old = Zone, auto click rowgroup button group-by-zone
+				$('.group-by-zone').click();
+			} else {
+				// else, auto click rowgroup button group-by-item
+				$('.group-by-item').click();
+			}
+
 			tbl_details = [tblwplittd, tblwpllptd];
 			CekSelectHeaderHD(tblwplxxth, tbl_details);
 			uniqueToken = 'wplxxth_id_'+id_transaksi_h;
@@ -958,14 +968,6 @@
 			}
 
 			cekBelumConfirm();
-
-			if (id_wpmxxmh_old == 3) {
-				// Jika id_wpmxxmh_old = Zone, auto click rowgroup button group-by-zone
-				$('.group-by-zone').click();
-			} else {
-				// else, auto click rowgroup button group-by-item
-				$('.group-by-item').click();
-			}
 		} );
 		
 		tblwplxxth.on( 'deselect', function () {
