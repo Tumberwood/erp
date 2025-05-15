@@ -198,15 +198,24 @@
 				// '
 				// );
 
-				$qu_wpllptd = $db
-					->query('update', 'wpllptd')
-					->set('kode',$formatted_kode)
-					->set('id_wpcxxth',$id_transaksi)
-					->where('id_wjtxxmh',$id_wjtxxmh)
-					// ->where('id_grlxxmh_customer',$id_grlxxmh_customer)
-					// ->where('id_wplxxth',$id)
-					->where('id',$id_wpllptd)
-				->exec();
+				if ($id_wpmxxmh == 3) {
+					$qu_wpllptd = $db
+						->query('update', 'wpllptd')
+						->set('kode',$formatted_kode)
+						->set('id_wpcxxth',$id_transaksi)
+						->where('id_wjtxxmh',$id_wjtxxmh)
+						->where('id',$id_wpllptd)
+					->exec();
+				} else {
+					$qu_wpllptd = $db
+						->query('update', 'wpllptd')
+						->set('kode',$formatted_kode)
+						->set('id_wpcxxth',$id_transaksi)
+						->where('id_wjtxxmh',$id_wjtxxmh)
+						->where('id_wplxxth',$id)
+					->exec();
+				}
+				
 			}
 		} // end if($state == 1)
 
