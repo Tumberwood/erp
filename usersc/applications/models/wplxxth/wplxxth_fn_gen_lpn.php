@@ -266,7 +266,7 @@
 							        FROM iivxxrd a_inner
 							        WHERE a_inner.id = MAX(b.id) -- Correlates with the outer query
 							    ) AS iimxxmh_status_max_id,
-								b.id AS id_iiv,
+								id_iiv_fifo AS id_iiv,
 								b.id_wloctmh,
 								wlpxxmh_kode,
 								b.id_iwhxxmh,
@@ -323,6 +323,13 @@
 							LEFT JOIN wloxxmh tujuan ON tujuan.id = b.id_wloxxmh
 							LEFT JOIN ggswmsh gg on gg.id = 1
 							LEFT JOIN iimummd uom ON uom.id_iimxxmh = a.id_iimxxmh AND uom.id_iumxxmh = a.id_iumxxmh_unit
+							LEFT JOIN (
+								SELECT
+									fifo.id id_iiv_fifo,
+									wlpxxmh_kode lpn
+								FROM iivxxrd fifo
+								GROUP BY fifo.wlpxxmh_kode
+							) fifo ON fifo.lpn = b.wlpxxmh_kode
 							WHERE c.id = :id_transaksi_h AND b.keterangan <> :uniqueToken AND a.id_iimxxmh = :id_iimxxmh
 							'.$where_wh.' AND a.id = :id_wplittd
 							AND
@@ -342,20 +349,36 @@
 
 				//Aturan Movement Method Order, sesuai master items
 				$movementMethodOrder = function ($a, $b) use ($movement_method, $movement_method2) {
-					//Jika movement method pertama adalah FEFO
+					// FEFO utama
 					if ($movement_method == 1) {
-						$dateComparison = strtotime($a['expired_date']) - strtotime($b['expired_date']);
-			
-						//jika movement method 2 adalah FIFO
+						$dateComparison = strtotime($a['expired_date']) <=> strtotime($b['expired_date']);
+						if ($dateComparison !== 0) return $dateComparison;
+				
+						// FIFO sekunder
 						if ($movement_method2 == 2) {
-							if ($dateComparison == 0) {
-								// Jika tanggal kedaluwarsa sama, bandingkan id_iiv secara ascending
-								// return intval($a['id_iiv']) - intval($b['id_iiv']);
-								return intval($a['urutan']) - intval($b['urutan']);
-							}
+							$idComparison = intval($a['id_iiv']) <=> intval($b['id_iiv']);
+							if ($idComparison !== 0) return $idComparison;
 						}
-						return $dateComparison;
+				
+						return intval($a['urutan']) <=> intval($b['urutan']);
 					}
+				
+					// FIFO utama
+					elseif ($movement_method == 2) {
+						$idComparison = intval($a['id_iiv']) <=> intval($b['id_iiv']);
+						if ($idComparison !== 0) return $idComparison;
+				
+						// FEFO sekunder
+						if ($movement_method2 == 1) {
+							$dateComparison = strtotime($a['expired_date']) <=> strtotime($b['expired_date']);
+							if ($dateComparison !== 0) return $dateComparison;
+						}
+				
+						return intval($a['urutan']) <=> intval($b['urutan']);
+					}
+				
+					// Default jika movement_method tidak dikenali
+					return 0;
 				};
 			
 				usort($rs_iivxxrd, $movementMethodOrder);
