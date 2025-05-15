@@ -96,6 +96,11 @@
 						</div>
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="wplxxth.is_priority"></editor-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="wplxxth.keterangan"></editor-field>
 							</div>
 						</div>
@@ -112,6 +117,7 @@
                                 <th>Tanggal</th>
                                 <th>Picking Method</th>
                                 <th>Cross Docking</th>
+                                <th>Prioritas Picking</th>
                                 <th>TX</th>
                             </tr>
                         </thead>
@@ -554,6 +560,15 @@
 					]
 				},
 				{
+					label: "Prioritas Picking",
+					name: "wplxxth.is_priority",
+					type: "select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 }
+					]
+				},
+				{
 					label: "Keterangan",
 					name: "wplxxth.keterangan",
 					type: "textarea"
@@ -775,6 +790,10 @@
 				{ data: "wpmxxmh.nama" },
 				{ 
 					data: "wplxxth.is_crossdocking",
+					...renderYaTidak()
+				},
+				{ 
+					data: "wplxxth.is_priority",
 					...renderYaTidak()
 				},
 				{ 

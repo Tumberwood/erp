@@ -58,6 +58,7 @@
 			Field::inst( 'wplxxth.uom_vehicle' ),
 			Field::inst( 'wplxxth.jumlah_unit_vehicle' ),
 			Field::inst( 'wplxxth.is_packing' ),
+			Field::inst( 'wplxxth.is_priority' ),
 			Field::inst( 'wplxxth.tanggal' )
 				->getFormatter( function ( $val, $data, $opts ) {
 					if ($val === '0000-00-00' || $val === null){

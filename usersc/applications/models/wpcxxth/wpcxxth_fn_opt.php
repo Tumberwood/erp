@@ -107,6 +107,7 @@
                 ->where('wpcxxth.kode', '%' . $q . '%', 'LIKE' )
                 ;
         } )
+        ->order('wpcxxth.is_priority desc')
         ->limit($resultCount)
         ->offset($offset)
         ->exec();

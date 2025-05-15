@@ -99,12 +99,14 @@
 				->raw()
 				->bind(':id', $id)
 				->exec('SELECT
+							is_priority,
 							id_wpmxxmh
 						FROM wplxxth
 						WHERE id = :id
 			');
 			$rs_wplxxth = $qs_wplxxth->fetch();
 			$id_wpmxxmh = $rs_wplxxth['id_wpmxxmh'];
+			$is_priority = $rs_wplxxth['is_priority'];
 
 			//kalau Zone Picking, maka group per zona
 			if ($id_wpmxxmh == 3) {
@@ -147,6 +149,7 @@
 					->set('id_wplxxth',$id)
 					->set('id_wjtxxmh',$id_wjtxxmh)
 					->set('id_wloxxmh_out',$id_wloxxmh_out)
+					->set('is_priority',$is_priority)
 					->exec();
 				$id_picking = $qi_wpcxxth->insertId();
 				
