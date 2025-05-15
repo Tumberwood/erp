@@ -228,7 +228,7 @@
 						allowClear: true,
 						multiple: false,
 						ajax: {
-							url: "../../models/wttxxmh/wttxxmh_fn_opt.php",
+							url: "../../models/wttxxmh/wttxxmh_fn_wms_opt.php",
 							dataType: 'json',
 							data: function (params) {
 								var query = {

@@ -45,7 +45,6 @@
                 'wttxxmh.id as id',
                 'CONCAT(wttxxmh.kode," - ",wttxxmh.nama) as text'
             ])
-            ->join('imtxxmh','imtxxmh.kode = wttxxmh.imtxxmh_kode','LEFT' )
             ->where('wttxxmh.id', $id_wttxxmh_old )
             ->limit($resultCount)
             ->offset($offset)
