@@ -49,6 +49,8 @@
 									<tr>
 										<th>id_wdoxxth</th>
 										<th>Delivery Order</th>
+										<th data-i18n='itemCode'></th>
+										<th data-i18n='itemName'></th>
 										<th>Jumlah PL</th>
 										<th>Jumlah PC</th>
 										<th>Jumlah DP</th>
@@ -201,7 +203,9 @@
 			],
 			columns: [
 				{ data: "id_wdoxxth",visible:false },
-				{ data: "wdoxxth_kode" },
+				{ data: "wdoxxth_kode",visible:false },
+				{ data: "kode" },
+				{ data: "nama" },
 				{ 
 					data: "jumlah_unit_pl" ,visible:false,
 					render: $.fn.dataTable.render.number( ',', '.', 0,'','' ),
@@ -244,6 +248,43 @@
 					},
 				},
 			],
+			rowGroup: {
+				dataSrc: function (row) {
+					return row.wdoxxth_kode + 
+						`
+						<br>
+						<br>
+						<div class="row">
+							<div class="col-2">
+								% Picking
+							</div>
+							<div class="col-10">
+								<div class="progress progress">
+									<div style="width: ${row.persen_total_pc}%;" class="progress-bar" title="${row.persen_total_pc}%">
+										${row.persen_total_pc}%
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-2">
+								% Dispatch
+							</div>
+							<div class="col-10">
+								<div class="progress progress">
+									<div style="width: ${row.persen_total_dp}%;" class="progress-bar" title="${row.persen_total_dp}%">
+										${row.persen_total_dp}%
+									</div>
+								</div>
+							</div>
+						</div>
+						`;
+
+				},
+				endRender: function (rows, group) {
+				
+				}
+			},
 			buttons: [
 				// BEGIN breaking generate button
 				<?php
