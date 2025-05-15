@@ -227,6 +227,7 @@
 						// Ensure data is a float and round it to 2 decimal places
 						const roundedData = parseFloat(parseFloat(data).toFixed(2));
 
+						//buat persen kalau dibawah 50 itu merah, orange di antara 50 - 75, hijau kalau 75 keatas.
 						return `<div class="progress progress-small">
 									<div style="width: ${roundedData}%;" class="progress-bar" title="${roundedData}%">
 										${roundedData}%
@@ -250,28 +251,20 @@
 			],
 			rowGroup: {
 				dataSrc: function (row) {
-					return row.wdoxxth_kode + 
+					return  row.wdoxxth_kode +
 						`
-						<br>
-						<br>
 						<div class="row">
-							<div class="col-2">
-								% Picking
+							<div class="col-6  m-r-md">
 							</div>
-							<div class="col-10">
-								<div class="progress progress">
+							<div class="col-3 m-r-n-md">
+								<div class="progress progress-small">
 									<div style="width: ${row.persen_total_pc}%;" class="progress-bar" title="${row.persen_total_pc}%">
 										${row.persen_total_pc}%
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-2">
-								% Dispatch
-							</div>
-							<div class="col-10">
-								<div class="progress progress">
+							<div class="col-3">
+								<div class="progress progress-small">
 									<div style="width: ${row.persen_total_dp}%;" class="progress-bar" title="${row.persen_total_dp}%">
 										${row.persen_total_dp}%
 									</div>
