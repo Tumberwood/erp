@@ -49,6 +49,7 @@
                 'kode'
             ] )
             ->where('transaction_state', 1 )
+            ->where('id', 13, '<>' ) //pinjaman
             ->exec();
         $rs_hpcxxmh = $qs_hpcxxmh->fetchAll();
 
