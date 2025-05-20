@@ -347,7 +347,8 @@
 						toastr.info("Processing ...\nJangan tutup halaman sampai notifikasi ini hilang!", "INFO");
 
 						$.ajax( {
-							url: "../../models/hpyxxth/hpyxxth_fn_gen_payroll_dinamis.php",
+							// url: "../../models/hpyxxth/hpyxxth_fn_gen_payroll_dinamis.php",
+							url: "../../models/hpyxxth/hpyxxth_fn_gen_payroll_rumus_dinamis.php",
 							dataType: 'json',
 							type: 'POST',
 							data: {
