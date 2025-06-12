@@ -1693,6 +1693,7 @@
 			transaction_state   = hemxxmh_data.transaction_state;
 			approval_state   	= hemxxmh_data.approval_state;
 			is_nextprocess 		= hemxxmh_data.is_nextprocess;
+			is_default 		= hemxxmh_data.is_default;
 			id_gctxxmh_lahir_old 		= hemxxmh_data.id_gctxxmh_lahir;
 			
 			data_hemjbmh = tblhemxxmh.row( { selected: true } ).data().hemjbmh;
