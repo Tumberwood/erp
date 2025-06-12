@@ -385,21 +385,101 @@
 
 </script>
 
-
 <!-- chatbot -->
 <script>
+	// Toggle tampilan chatbox saat tombol diklik
 	document.getElementById("btnChatbot").addEventListener("click", function () {
-	document.getElementById("chatPopup").classList.toggle("d-none");
+		document.getElementById("chatPopup").classList.toggle("d-none");
 	});
 
+	// Tutup chatbox saat tombol close diklik
 	document.getElementById("closeChat").addEventListener("click", function () {
-	document.getElementById("chatPopup").classList.add("d-none");
+		document.getElementById("chatPopup").classList.add("d-none");
 	});
 
+	// Kirim pesan saat tombol klik atau tekan Enter
 	document.getElementById("sendBtn").addEventListener("click", sendMessage);
 	document.getElementById("userInput").addEventListener("keydown", function (e) {
-	if (e.key === "Enter") sendMessage();
+		if (e.key === "Enter") sendMessage();
 	});
+
+	// Fungsi kirim pesan sederhana
+	function sendMessage() {
+		const userInput = document.getElementById("userInput");
+		const chatBody = document.getElementById("chatBody");
+		const message = userInput.value.trim();
+		if (message === "") return;
+
+		// Tambah pesan user
+		const userMsg = document.createElement("div");
+		userMsg.className = "msg user";
+		userMsg.textContent = message;
+		chatBody.appendChild(userMsg);
+
+		// Clear input
+		userInput.value = "";
+
+		// Scroll ke bawah
+		chatBody.scrollTop = chatBody.scrollHeight;
+
+		// Simulasi balasan bot
+		const botMsg = document.createElement("div");
+		botMsg.className = "msg bot";
+		botMsg.textContent = "Terima kasih! Saya menerima pesan Anda.";
+		setTimeout(() => {
+			chatBody.appendChild(botMsg);
+			chatBody.scrollTop = chatBody.scrollHeight;
+		}, 500);
+	}
+
+	// --------------------------
+	// DRAGGABLE CHATBOX
+	// --------------------------
+	dragElement(document.getElementById("chatPopup"), document.querySelector(".chatbox-header"));
+
+	function dragElement(elmnt, dragHandle) {
+		let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+		dragHandle.style.cursor = "move";
+		dragHandle.onmousedown = dragMouseDown;
+
+		function dragMouseDown(e) {
+			e.preventDefault();
+			// Ambil posisi awal cursor
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			document.onmouseup = closeDragElement;
+			document.onmousemove = elementDrag;
+		}
+
+		function elementDrag(e) {
+			e.preventDefault();
+
+			// Pertama kali geser, ubah posisi dari bottom/right ke top/left
+			if (elmnt.style.top === "" || elmnt.style.left === "") {
+				const rect = elmnt.getBoundingClientRect();
+				elmnt.style.top = rect.top + "px";
+				elmnt.style.left = rect.left + "px";
+				elmnt.style.bottom = "auto";
+				elmnt.style.right = "auto";
+			}
+
+			// Hitung pergerakan cursor
+			pos1 = pos3 - e.clientX;
+			pos2 = pos4 - e.clientY;
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+
+			// Set posisi baru
+			elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+			elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+		}
+
+		function closeDragElement() {
+			document.onmouseup = null;
+			document.onmousemove = null;
+		}
+	}
 
 	function sendMessage() {
 		const input = document.getElementById("userInput");

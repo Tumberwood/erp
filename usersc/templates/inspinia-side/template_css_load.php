@@ -84,6 +84,9 @@
 	/* Chatbox Popup */
 	.chatbox {
 		position: fixed;
+		/* top: auto;  */
+		/* left: auto;  */
+
 		bottom: 85px;
 		right: 20px;
 		width: 320px;
