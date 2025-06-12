@@ -1323,6 +1323,7 @@
 			transaction_state   = hcdxxmh_data.transaction_state;
 			approval_state   	= hcdxxmh_data.approval_state;
 			is_nextprocess 		= hcdxxmh_data.is_nextprocess;
+			is_default 		= hcdxxmh_data.is_default;
 			
 			id_gctxxmh_lahir_old        = hcdxxmh_data.id_gctxxmh_lahir;
 			

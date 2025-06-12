@@ -273,6 +273,7 @@
 				transaction_state   = pages_extend_data.transaction_state;
 				approval_state   	= pages_extend_data.approval_state;
 				is_nextprocess 		= pages_extend_data.is_nextprocess;
+				is_default 		= pages_extend_data.is_default;
 
 				// atur hak akses
 				CekSelectHeaderH(tblpages);

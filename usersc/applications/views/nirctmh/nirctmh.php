@@ -255,6 +255,7 @@
 			transaction_state   = nirctmh_data.transaction_state;
 			approval_state   	= nirctmh_data.approval_state;
 			is_nextprocess 		= nirctmh_data.is_nextprocess;
+			is_default 		= nirctmh_data.is_default;
 
 			// atur hak akses
 			CekSelectHeaderH(tblnirctmh);
