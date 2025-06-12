@@ -122,6 +122,10 @@
 						type: "textarea"
 					},
 					{
+						label: "API Key Gemini AI",
+						name: "ggsxxsh.gemini_api_key",
+					},
+					{
 						label: getTranslation('language'),
 						name: "ggsxxsh.language",
 						type: "select",
@@ -145,6 +149,8 @@
 
 			edtggsxxsh.on("open", function (e, mode, action) {
 				$(".modal-dialog").addClass("modal-lg");
+				
+				$('div.DTE_Form_Buttons button:eq(2)').hide();
 			});
 
             edtggsxxsh.on( 'preSubmit', function (e, data, action) {
@@ -217,6 +223,7 @@
 				transaction_state      = ggsxxsh_data.transaction_state;
 				approval_state         = ggsxxsh_data.approval_state;
 				is_nextprocess         = ggsxxsh_data.is_nextprocess;
+				is_default         	   = ggsxxsh_data.is_default;
 
 				// atur hak akses
 				CekSelectHeaderH(tblggsxxsh);

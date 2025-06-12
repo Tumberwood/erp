@@ -49,6 +49,7 @@
 			
 			Field::inst( 'ggsxxsh.posisi_logo_login' ),
 			Field::inst( 'ggsxxsh.language' ),
+			Field::inst( 'ggsxxsh.gemini_api_key' ),
 			Field::inst( 'files.web_path' ),
 			Field::inst( 'berat.nama' ),
 			Field::inst( 'panjang.nama' )

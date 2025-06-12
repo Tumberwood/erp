@@ -384,3 +384,85 @@
 	} );// end of document.ready global
 
 </script>
+
+
+<!-- chatbot -->
+<script>
+	document.getElementById("btnChatbot").addEventListener("click", function () {
+	document.getElementById("chatPopup").classList.toggle("d-none");
+	});
+
+	document.getElementById("closeChat").addEventListener("click", function () {
+	document.getElementById("chatPopup").classList.add("d-none");
+	});
+
+	document.getElementById("sendBtn").addEventListener("click", sendMessage);
+	document.getElementById("userInput").addEventListener("keydown", function (e) {
+	if (e.key === "Enter") sendMessage();
+	});
+
+	function sendMessage() {
+		const input = document.getElementById("userInput");
+		const text = input.value.trim();
+		if (!text) return;
+
+		const chatBody = document.getElementById("chatBody");
+
+		// Tambahkan pesan user
+		const userMsg = document.createElement("div");
+		userMsg.className = "msg user";
+		userMsg.innerText = text;
+		chatBody.appendChild(userMsg);
+		input.value = "";
+		chatBody.scrollTop = chatBody.scrollHeight;
+
+		// Tambahkan indikator "bot sedang mengetik..."
+		const typingMsg = document.createElement("div");
+		typingMsg.className = "msg bot";
+		typingMsg.id = "typing-indicator";
+
+		typingMsg.innerHTML = `
+			<div class="typing-indicator">
+				<span class="dot"></span>
+				<span class="dot"></span>
+				<span class="dot"></span>
+			</div>
+		`;
+		chatBody.appendChild(typingMsg);
+		chatBody.scrollTop = chatBody.scrollHeight;
+
+		// Kirim ke server
+		$.ajax({
+			url: '../../../helpers/fn_chatbot.php',
+			dataType: 'json',
+			type: 'POST',
+			data: { message: text },
+			success: function (json) {
+				// Hapus typing indicator
+				const typingEl = document.getElementById("typing-indicator");
+				if (typingEl) typingEl.remove();
+
+				// Tambahkan pesan bot
+				const botMsg = document.createElement("div");
+				botMsg.className = "msg bot";
+				let formattedReply = json.data.reply
+					.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+					.replace(/\n/g, '<br>');
+				botMsg.innerHTML = formattedReply;
+				chatBody.appendChild(botMsg);
+				chatBody.scrollTop = chatBody.scrollHeight;
+			},
+			error: function () {
+				const typingEl = document.getElementById("typing-indicator");
+				if (typingEl) typingEl.remove();
+
+				const botMsg = document.createElement("div");
+				botMsg.className = "msg bot";
+				botMsg.innerHTML = "Maaf, terjadi kesalahan saat menghubungi server.";
+				chatBody.appendChild(botMsg);
+				chatBody.scrollTop = chatBody.scrollHeight;
+			}
+		});
+	}
+
+</script>
