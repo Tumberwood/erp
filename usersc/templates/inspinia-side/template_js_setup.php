@@ -403,34 +403,12 @@
 		if (e.key === "Enter") sendMessage();
 	});
 
-	// Fungsi kirim pesan sederhana
-	function sendMessage() {
-		const userInput = document.getElementById("userInput");
-		const chatBody = document.getElementById("chatBody");
-		const message = userInput.value.trim();
-		if (message === "") return;
+	const textarea = document.getElementById("userInput");
 
-		// Tambah pesan user
-		const userMsg = document.createElement("div");
-		userMsg.className = "msg user";
-		userMsg.textContent = message;
-		chatBody.appendChild(userMsg);
-
-		// Clear input
-		userInput.value = "";
-
-		// Scroll ke bawah
-		chatBody.scrollTop = chatBody.scrollHeight;
-
-		// Simulasi balasan bot
-		const botMsg = document.createElement("div");
-		botMsg.className = "msg bot";
-		botMsg.textContent = "Terima kasih! Saya menerima pesan Anda.";
-		setTimeout(() => {
-			chatBody.appendChild(botMsg);
-			chatBody.scrollTop = chatBody.scrollHeight;
-		}, 500);
-	}
+	textarea.addEventListener("input", function () {
+		this.style.height = "auto"; // reset dulu
+		this.style.height = this.scrollHeight + "px"; // sesuaikan tinggi
+	});
 
 	// --------------------------
 	// DRAGGABLE CHATBOX
@@ -493,7 +471,14 @@
 		userMsg.className = "msg user";
 		userMsg.innerText = text;
 		chatBody.appendChild(userMsg);
-		input.value = "";
+
+		setTimeout(() => {
+			input.value = '';
+			input.innerText = '';
+			input.innerHTML = '';
+			input.style.height = 'auto';
+		}, 0);
+
 		chatBody.scrollTop = chatBody.scrollHeight;
 
 		// Tambahkan indikator "bot sedang mengetik..."

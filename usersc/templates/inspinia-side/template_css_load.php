@@ -131,15 +131,20 @@
 		background: #fff;
 		padding: 8px;
 	}
-	.chatbox-footer input {
+	.chatbox-footer textarea {
 		flex: 1;
+		resize: none;
 		border: none;
 		padding: 8px 10px;
 		border-radius: 20px;
 		background-color: #f1f1f1;
 		font-size: 14px;
 		outline: none;
+		line-height: 1.4;
+		max-height: 100px; /* batas maksimal tinggi */
+		overflow-y: auto;
 	}
+
 	.chatbox-footer button {
 		border: none;
 		background: none;
@@ -221,7 +226,8 @@
 
   </div>
   <div class="chatbox-footer">
-    <input type="text" id="userInput" placeholder="Tulis pesan..." />
+    <!-- <input type="text" id="userInput" placeholder="Tulis pesan..." /> -->
+	<textarea id="userInput" placeholder="Tulis pesan..." rows="1"></textarea>
     <button id="sendBtn"><i class="fa fa-paper-plane"></i></button>
   </div>
 </div>
