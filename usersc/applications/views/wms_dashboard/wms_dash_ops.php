@@ -268,19 +268,6 @@
 	</div>
 </div>
 
-<div class="row">
-  <div class="col-12">
-    <div class="ibox">
-      <div class="ibox-content">
-        <h3>3D Storage Locations</h3>
-        <!-- Container untuk Three.js -->
-        <div id="threejs-container"></div>
-		<div id="tooltip_3d"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
@@ -368,7 +355,6 @@
 		averageInventory(start_date,end_date,id_iwhxxmh);
 		inventoryTurnover(start_date,end_date,id_iwhxxmh);
 		inboundData(end_date, id_iwhxxmh);
-		location_3d(end_date, id_iwhxxmh);
 		paretoChart(start_date,end_date,id_iwhxxmh);
 	}
 
