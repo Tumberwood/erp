@@ -794,7 +794,7 @@
                     var xMid = b * bayWidth + bayWidth / 2;
 
                     // Sisi kiri (L) di z - rackDepth/2
-                    var labelL = `${rackName}-${String(l).padStart(2,'0')}-${String(b+1).padStart(2,'0')}-L`;
+                    var labelL = `${rackName}-${String(b+1).padStart(2,'0')}-${String(l).padStart(2,'0')}-L`;
                     var shelfL = new THREE.Mesh(shelfGeo, woodMaterial);
                     shelfL.position.set(xMid, y, z - rackDepth / 2);
                     shelfL.userData.label = labelL;
@@ -802,7 +802,7 @@
                     rackGroup.add(shelfL);
 
                     // Sisi kanan (R) di z + rackDepth/2
-                    var labelR = `${rackName}-${String(l).padStart(2,'0')}-${String(b+1).padStart(2,'0')}-R`;
+                    var labelR = `${rackName}-${String(b+1).padStart(2,'0')}-${String(l).padStart(2,'0')}-R`;
                     var shelfR = new THREE.Mesh(shelfGeo, woodMaterial);
                     shelfR.position.set(xMid, y, z + rackDepth / 2);
                     shelfR.userData.label = labelR;
@@ -831,7 +831,8 @@
 
                     var boxMesh = new THREE.Mesh(boxGeo, material);
                     boxMesh.position.set(xPos, yPos, z + zOffset);
-                    boxMesh.userData.label = nama || 'Terisi';
+                    boxMesh.userData.label = nama + "\n\nTotal Entry: " + (is_fill ? is_fill : 'Terisi');
+                    // boxMesh.userData.label = nama || 'Terisi';
                     interactiveBoxes.push(boxMesh);
                     rackGroup.add(boxMesh);
                 });
