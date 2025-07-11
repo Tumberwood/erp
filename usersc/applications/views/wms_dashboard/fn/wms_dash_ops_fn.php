@@ -835,6 +835,12 @@
                     // boxMesh.userData.label = nama || 'Terisi';
                     interactiveBoxes.push(boxMesh);
                     rackGroup.add(boxMesh);
+
+                    // Tambahkan garis tepi (outline hitam)
+                    var edges = new THREE.EdgesGeometry(boxGeo);
+                    var edgeLines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x000000 }));
+                    edgeLines.position.copy(boxMesh.position);
+                    rackGroup.add(edgeLines);
                 });
             };
 
@@ -956,6 +962,41 @@
                     tooltip_3d.innerText = label;
                 } else {
                     tooltip_3d.style.display = 'none';
+                }
+            });
+
+            container.addEventListener('dblclick', function(event) {
+                const rect = container.getBoundingClientRect();
+                mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(interactiveBoxes, true);
+
+                if (intersects.length > 0) {
+                    const point = intersects[0].point;
+
+                    // Lerp kamera dan target ke point
+                    const camDir = new THREE.Vector3().subVectors(camera.position, controls.target);
+                    const newCamPos = new THREE.Vector3().addVectors(point, camDir.multiplyScalar(0.4));
+
+                    gsap.to(camera.position, {
+                        duration: 1,
+                        x: newCamPos.x,
+                        y: newCamPos.y,
+                        z: newCamPos.z,
+                        onUpdate: () => {
+                            camera.lookAt(point);
+                            controls.update();
+                        }
+                    });
+
+                    gsap.to(controls.target, {
+                        duration: 1,
+                        x: point.x,
+                        y: point.y,
+                        z: point.z
+                    });
                 }
             });
         }
