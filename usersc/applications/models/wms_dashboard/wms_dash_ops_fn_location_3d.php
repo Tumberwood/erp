@@ -28,18 +28,16 @@
 		$end_date = $_POST['end_date'];
 		
         if (empty($_POST['id_iwhxxmh'])) {
-            // $id_iwhxxmh = 0;
-            $id_iwhxxmh = ' ';
+            $id_iwhxxmh = 0;
         }else{
-            $id_iwhxxmh = ' AND a.id_iwhxxmh = '.$_POST['id_iwhxxmh'] ;
-            // $id_iwhxxmh = $_POST['id_iwhxxmh'];
+            $id_iwhxxmh = $_POST['id_iwhxxmh'];
         }
 
         // kapasitas gudang tanpa overflow
 		$qs_wloxxmh = $db
             ->raw()
             ->bind(':end_date', $end_date)
-            // ->bind(':id_iwhxxmh', $id_iwhxxmh)
+            ->bind(':id_iwhxxmh', $id_iwhxxmh)
             ->exec('SELECT
                         a.id,
                         a.nama,
@@ -84,8 +82,9 @@
                         ) inventory
                         GROUP BY id_wloxxmh
                     ) iv on iv.id_wloxxmh = a.id
-                    WHERE a.id_wloctmh = 3 AND a.transaction_state = 1 AND a.koord_x IS NOT NULL 
-                    '.$id_iwhxxmh.'
+                    WHERE a.id_wloctmh = 3 AND a.transaction_state = 1 
+                    -- AND a.koord_x IS NOT NULL 
+                    AND a.id_iwhxxmh = :id_iwhxxmh
             ');
         $rs_wloxxmh = $qs_wloxxmh->fetchAll();
 
