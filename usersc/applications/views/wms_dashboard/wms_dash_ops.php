@@ -10,7 +10,42 @@
 	$nama_tabel    = 'wms_log_r';
 	$nama_tabels_d = [];
 ?>
+<style>
 
+    #threejs-container {
+      position: relative;
+      height: 600px;
+      border: 1px solid #ddd;
+      background-color: #f0f0f0;
+      cursor: grab;
+      overflow: hidden;
+    }
+    #threejs-container:active {
+      cursor: grabbing;
+    }
+
+    canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      /* supaya canvas mengikuti container */
+    }
+
+    #tooltip_3d {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      font-family: sans-serif;
+      font-size: 12px;
+      display: none;
+      z-index: 10;
+      user-select: none;
+      white-space: nowrap;
+    }
+  </style>
 <!-- begin content here -->
 
 <div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
@@ -233,6 +268,26 @@
 	</div>
 </div>
 
+<div class="row">
+  <div class="col-12">
+    <div class="ibox">
+      <div class="ibox-content">
+        <h3>3D Storage Locations</h3>
+        <!-- Container untuk Three.js -->
+        <div id="threejs-container"></div>
+		<div id="tooltip_3d"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
+
+
 <?php
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_log.php';
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_modal_dt_fs.php';
@@ -312,6 +367,7 @@
 		averageInventory(start_date,end_date,id_iwhxxmh);
 		inventoryTurnover(start_date,end_date,id_iwhxxmh);
 		inboundData(end_date, id_iwhxxmh);
+		location_3d(end_date, id_iwhxxmh);
 		paretoChart(start_date,end_date,id_iwhxxmh);
 	}
 
