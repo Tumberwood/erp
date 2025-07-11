@@ -838,7 +838,7 @@
 
                     // Tambahkan garis tepi (outline hitam)
                     var edges = new THREE.EdgesGeometry(boxGeo);
-                    var edgeLines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x000000 }));
+                    var edgeLines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x4B2E1D }));
                     edgeLines.position.copy(boxMesh.position);
                     rackGroup.add(edgeLines);
                 });
