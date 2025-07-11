@@ -820,7 +820,7 @@
                 if (!boxDataPerSide[side] || boxDataPerSide[side].length === 0) return;
 
                 boxDataPerSide[side].forEach(boxInfo => {
-                    var { nama, is_fill, bay, level } = boxInfo;
+                    var { nama, is_fill, bay, level, str } = boxInfo;
                     // console.log('BOX INFO:', nama, 'is_fill:', is_fill);
 
                     if (is_fill === 0) return;
@@ -831,7 +831,7 @@
 
                     var boxMesh = new THREE.Mesh(boxGeo, material);
                     boxMesh.position.set(xPos, yPos, z + zOffset);
-                    boxMesh.userData.label = nama + "\n\nTotal Entry: " + (is_fill ? is_fill : 'Terisi');
+                    boxMesh.userData.label = nama + "\nTotal Entry: " + (is_fill ? is_fill : 'Terisi') + '\n\n' + str;
                     // boxMesh.userData.label = nama || 'Terisi';
                     interactiveBoxes.push(boxMesh);
                     rackGroup.add(boxMesh);

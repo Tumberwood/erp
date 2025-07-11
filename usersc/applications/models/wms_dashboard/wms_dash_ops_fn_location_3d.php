@@ -50,7 +50,8 @@
                         a.koord_x,
                         a.koord_y,
                         a.koord_z,
-                        IFNULL(occurance,0) AS is_fill
+                        IFNULL(occurance,0) AS is_fill,
+                        str
                     FROM wloxxmh a
                     LEFT JOIN (
                         SELECT
@@ -58,7 +59,8 @@
                         FROM (
                             SELECT
                                 iivxxrd.id_wloxxmh AS id_wloxxmh,
-                                COUNT(*) AS occurance
+                                COUNT(*) AS occurance,
+                                GROUP_CONCAT(iivxxrd.kode , " - ", iivxxrd.wlpxxmh_kode , " (", iivxxrd.imtxxmh_movement_type ,")" SEPARATOR "\n") AS str
                             FROM iivxxrd
                             LEFT JOIN wloxxmh ON wloxxmh.id = iivxxrd.id_wloxxmh
                             WHERE 1
