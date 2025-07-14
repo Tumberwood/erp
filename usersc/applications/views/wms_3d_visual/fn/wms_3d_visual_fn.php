@@ -65,9 +65,9 @@
             var frameThickness = 0.4;
             var frameHeightStep = 3.5;
             var shelfThickness = 0.3;
-            var bayWidth = 5;
+            var bayWidth = 5; 
             var sideWidth = totalBays * bayWidth;
-            var rackDepth = depth * 4;
+            var rackDepth = depth * 4; //Lebar rack dari depan
             var rackHeight = (levels) * frameHeightStep;
 
             var verticalPostGeo = new THREE.BoxGeometry(frameThickness, rackHeight + 0.2, frameThickness);
@@ -273,7 +273,7 @@
 
         function generateRacks() {
             let zOffset = 0;
-            var spacing = 30; // jarak antar rack vertikal
+            var spacing = 30; // jarak antar rack
             let minZ = Infinity;
             let maxZ = -Infinity;
             let maxSideWidth = 0;
