@@ -67,7 +67,7 @@
             var shelfThickness = 0.3;
             var bayWidth = 5; 
             var sideWidth = totalBays * bayWidth;
-            var rackDepth = depth * 4; //Lebar rack dari depan
+            var rackDepth = depth * 2; //Lebar rack dari depan
             var rackHeight = (levels) * frameHeightStep;
 
             var verticalPostGeo = new THREE.BoxGeometry(frameThickness, rackHeight + 0.2, frameThickness);
@@ -224,7 +224,7 @@
                 textGeo.computeBoundingBox();
                 var textWidth = textGeo.boundingBox.max.x - textGeo.boundingBox.min.x;
                 var textMesh = new THREE.Mesh(textGeo, new THREE.MeshStandardMaterial({ color: 0xFF3333 }));
-                textMesh.position.set(sideWidth / 2 - textWidth / 2, rackHeight + 2, z);
+                textMesh.position.set(sideWidth / 2 - textWidth / 2, rackHeight + 2, z - 4);
                 textMesh.rotation.y = -Math.PI / 2;
                 rackGroup.add(textMesh);
             }
@@ -273,7 +273,7 @@
 
         function generateRacks() {
             let zOffset = 0;
-            var spacing = 30; // jarak antar rack
+            var spacing = 17; // jarak antar rack
             let minZ = Infinity;
             let maxZ = -Infinity;
             let maxSideWidth = 0;
