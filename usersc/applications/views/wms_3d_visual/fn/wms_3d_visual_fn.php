@@ -121,17 +121,36 @@
                 }
             }
 
+            // ------------------ BOX HEATMAP ---------------------//
             var boxGeo = new THREE.BoxGeometry(4.5, 2.5, 3.5);
-            var boxMaterialL = new THREE.MeshStandardMaterial({ color: 0x6b4f2a });
-            var boxMaterialR = new THREE.MeshStandardMaterial({ color: 0x7a5c38 });
 
+            function getHeatmapColor(ratio) {
+                ratio = Math.min(Math.max(ratio, 0), 1);
 
-            var placeBoxes = (side, zOffset, material) => {
+                let r, g, b;
+
+                if (ratio < 0.5) {
+                    // dari hijau (0,255,0) ke kuning (255,255,0)
+                    const t = ratio / 0.5;
+                    r = Math.floor(255 * t);
+                    g = 255;
+                    b = 0;
+                } else {
+                    // dari kuning (255,255,0) ke merah (255,0,0)
+                    const t = (ratio - 0.5) / 0.5;
+                    r = 255;
+                    g = Math.floor(255 * (1 - t));
+                    b = 0;
+                }
+
+                return new THREE.Color(`rgb(${r},${g},${b})`);
+            }
+
+            var placeBoxes = (side, zOffset) => {
                 if (!boxDataPerSide[side] || boxDataPerSide[side].length === 0) return;
 
                 boxDataPerSide[side].forEach(boxInfo => {
-                    var { nama, is_fill, bay, level, str } = boxInfo;
-                    // console.log('BOX INFO:', nama, 'is_fill:', is_fill);
+                    var { nama, is_fill, bay, max_input, level, str } = boxInfo;
 
                     if (is_fill === 0) return;
 
@@ -139,14 +158,17 @@
                     var xPos = bayIndex * bayWidth + bayWidth / 2;
                     var yPos = ((level || 1) - 1) * frameHeightStep + 1.25;
 
-                    var boxMesh = new THREE.Mesh(boxGeo, material);
+                    // Hitung ratio is_fill / max_input
+                    var ratio = is_fill / max_input;
+                    var boxColor = getHeatmapColor(ratio);
+                    var boxMaterial = new THREE.MeshStandardMaterial({ color: boxColor });
+
+                    var boxMesh = new THREE.Mesh(boxGeo, boxMaterial);
                     boxMesh.position.set(xPos, yPos, z + zOffset);
                     boxMesh.userData.label = nama + "\nTotal Entry: " + (is_fill ? is_fill : 'Terisi') + '\n\n' + str;
-                    // boxMesh.userData.label = nama || 'Terisi';
                     interactiveBoxes.push(boxMesh);
                     rackGroup.add(boxMesh);
 
-                    // Tambahkan garis tepi (outline hitam)
                     var edges = new THREE.EdgesGeometry(boxGeo);
                     var edgeLines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x4B2E1D }));
                     edgeLines.position.copy(boxMesh.position);
@@ -154,8 +176,44 @@
                 });
             };
 
-            placeBoxes("L", -rackDepth / 2, boxMaterialL); // kiri
-            placeBoxes("R", rackDepth / 2, boxMaterialR);  // kanan
+            placeBoxes("L", -rackDepth / 2); // sisi kiri
+            placeBoxes("R", rackDepth / 2);  // sisi kanan
+
+            // var boxGeo = new THREE.BoxGeometry(4.5, 2.5, 3.5);
+            // var boxMaterialL = new THREE.MeshStandardMaterial({ color: 0x6b4f2a });
+            // var boxMaterialR = new THREE.MeshStandardMaterial({ color: 0x7a5c38 });
+
+
+            // var placeBoxes = (side, zOffset, material) => {
+            //     if (!boxDataPerSide[side] || boxDataPerSide[side].length === 0) return;
+
+            //     boxDataPerSide[side].forEach(boxInfo => {
+            //         var { nama, is_fill, bay, level, str } = boxInfo;
+            //         // console.log('BOX INFO:', nama, 'is_fill:', is_fill);
+
+            //         if (is_fill === 0) return;
+
+            //         var bayIndex = (bay || 1) - 1;
+            //         var xPos = bayIndex * bayWidth + bayWidth / 2;
+            //         var yPos = ((level || 1) - 1) * frameHeightStep + 1.25;
+
+            //         var boxMesh = new THREE.Mesh(boxGeo, material);
+            //         boxMesh.position.set(xPos, yPos, z + zOffset);
+            //         boxMesh.userData.label = nama + "\nTotal Entry: " + (is_fill ? is_fill : 'Terisi') + '\n\n' + str;
+            //         // boxMesh.userData.label = nama || 'Terisi';
+            //         interactiveBoxes.push(boxMesh);
+            //         rackGroup.add(boxMesh);
+
+            //         // Tambahkan garis tepi (outline hitam)
+            //         var edges = new THREE.EdgesGeometry(boxGeo);
+            //         var edgeLines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x4B2E1D }));
+            //         edgeLines.position.copy(boxMesh.position);
+            //         rackGroup.add(edgeLines);
+            //     });
+            // };
+
+            // placeBoxes("L", -rackDepth / 2, boxMaterialL); // kiri
+            // placeBoxes("R", rackDepth / 2, boxMaterialR);  // kanan
 
             if (font && rackName) {
                 var textGeo = new THREE.TextGeometry(rackName, {

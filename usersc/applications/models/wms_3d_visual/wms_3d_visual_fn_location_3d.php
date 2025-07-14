@@ -51,6 +51,7 @@
                         a.koord_y,
                         a.koord_z,
                         IF(IFNULL(jumlah_terkecil,0) > 0, IFNULL(occurance,0), 0) AS is_fill,
+                        MAX(IFNULL(occurance,0)) OVER() AS max_input,
                         str
                     FROM wloxxmh a
                     LEFT JOIN (
@@ -133,6 +134,7 @@
                     WHERE a.id_wloctmh = 3 
                     AND a.transaction_state = 1 
                     AND a.id_iwhxxmh = :id_iwhxxmh
+                    ORDER BY nama
             ');
         $rs_wloxxmh = $qs_wloxxmh->fetchAll();
 
