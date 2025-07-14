@@ -59,8 +59,8 @@
                         FROM (
                             SELECT
                                 iivxxrd.id_wloxxmh AS id_wloxxmh,
-                                COUNT(*) AS occurance,
-                                GROUP_CONCAT(iivxxrd.kode , " - ", iivxxrd.wlpxxmh_kode , " (", iivxxrd.imtxxmh_movement_type ,")" SEPARATOR "\n") AS str
+                                COUNT(*) AS occurance
+                                -- GROUP_CONCAT(iivxxrd.kode , " - ", iivxxrd.wlpxxmh_kode , " (", iivxxrd.imtxxmh_movement_type ,")" SEPARATOR "\n") AS str
                             FROM iivxxrd
                             LEFT JOIN wloxxmh ON wloxxmh.id = iivxxrd.id_wloxxmh
                             WHERE 1
@@ -77,7 +77,12 @@
                     -- stok
                     LEFT JOIN (
                         SELECT
-                        *
+                        *,
+                        CONCAT(
+                            "On Hand: ", jumlah_terkecil, " ", iumxxmh_terkecil_kode, "\n",
+                            "Booking: ", jumlah_terkecil_booking, " ", iumxxmh_terkecil_kode, "\n",
+                            "Availaible: ", jumlah_terkecil_ava, " ", iumxxmh_terkecil_kode
+                        ) AS str
                         FROM (
                         SELECT
                                 a.id_wloctmh,
@@ -89,11 +94,31 @@
                                 a.iumxxmh_default_kode,
                                 a.iumxxmh_terkecil_kode,
                                 SUM(jumlah_default * is_fisik) as jumlah_default,
-                                SUM(jumlah_terkecil * is_fisik) as jumlah_terkecil,
+                                ROUND( SUM(jumlah_terkecil * is_fisik) ) as jumlah_terkecil,
+                                ifnull(jumlah_default_booking,0) as jumlah_default_booking,
+                                ROUND( ifnull(jumlah_terkecil_booking,0) ) as jumlah_terkecil_booking,
+                                (SUM(jumlah_default * is_fisik)) - ifnull(jumlah_default_booking,0) as jumlah_default_ava,
+                                ROUND( (SUM(jumlah_terkecil * is_fisik)) - ifnull(jumlah_terkecil_booking,0) ) as jumlah_terkecil_ava,
                                 a.wlpxxmh_kode,
                                 max(batch_number) batch_number,
                                 max(date_format(expired_date,"%d %b %Y")) as expired_date
                             FROM iivxxrd a
+                            LEFT JOIN (
+                                SELECT
+                                    wloxxmh_nama,
+                                    iimxxmh_kode,
+                                    SUM(jumlah_default) * -1 as jumlah_default_booking,
+                                    SUM(jumlah_terkecil) * -1 as jumlah_terkecil_booking,
+                                    wlpxxmh_kode
+                                FROM iivxxrd
+                                WHERE tanggal <= :end_date AND is_fisik = 0
+                                GROUP BY 
+                                    -- id_gbrxxmh, 
+                                    id_iwhxxmh,
+                                    id_iimxxmh,
+                                    id_wloxxmh,
+                                    wlpxxmh_kode
+                            ) AS b ON b.wloxxmh_nama = a.wloxxmh_nama AND b.iimxxmh_kode = a.iimxxmh_kode AND b.wlpxxmh_kode = a.wlpxxmh_kode
                             WHERE tanggal <= :end_date AND a.id_wloctmh = 3
                             GROUP BY 
                                 -- id_gbrxxmh, 
