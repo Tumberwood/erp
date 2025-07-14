@@ -83,7 +83,7 @@
                             iimxxmh_nama, "\n",
                             wlpxxmh_kode, "\n\n",
                             "On Hand: ", jumlah_terkecil, " ", iumxxmh_terkecil_kode, "\n",
-                            "Booking: ", jumlah_terkecil_booking, " ", iumxxmh_terkecil_kode, "\n",
+                            "Reserved: ", jumlah_terkecil_booking, " ", iumxxmh_terkecil_kode, "\n",
                             "Availaible: ", jumlah_terkecil_ava, " ", iumxxmh_terkecil_kode
                         ) AS str
                         FROM (
