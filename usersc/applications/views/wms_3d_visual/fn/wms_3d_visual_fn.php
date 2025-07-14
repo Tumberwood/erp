@@ -65,7 +65,7 @@
             var frameThickness = 0.4;
             var frameHeightStep = 3.5;
             var shelfThickness = 0.3;
-            var bayWidth = 5; 
+            var bayWidth = 6; // Lebar rack dari samping
             var sideWidth = totalBays * bayWidth;
             var rackDepth = depth * 2; //Lebar rack dari depan
             var rackHeight = (levels) * frameHeightStep;
