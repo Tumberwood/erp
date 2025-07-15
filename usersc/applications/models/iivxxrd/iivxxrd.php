@@ -40,7 +40,7 @@
 				AND tanggal <= :end_date '
 				.$where_iwhxxmh.
 			'GROUP BY 
-				id_gbrxxmh, 
+				-- id_gbrxxmh, 
 				id_iwhxxmh,
 				id_iimxxmh
 			HAVING jumlah_terkecil <> 0
