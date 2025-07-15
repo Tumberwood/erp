@@ -12,6 +12,7 @@
     $nama_tabels_d[0] = 'iimummd';
     $nama_tabels_d[1] = 'wimlotd';
     $nama_tabels_d[2] = 'iimrlmd_supplier';
+    $nama_tabels_d[3] = 'wimivtd';
 ?>
 
 <!-- begin content here -->
@@ -99,6 +100,7 @@
 				<li><a class="nav-link active" data-toggle="tab" href="#tabiimummd"> UoM</a></li>
 				<li><a class="nav-link" data-toggle="tab" href="#tabwimlotd"> Loc Pref &nbsp<small class="label label-info">WMS</small></a></li>
 				<li><a class="nav-link" data-toggle="tab" href="#tabiimrlmd_supplier"> Supplier</a></li>
+				<li><a class="nav-link" data-toggle="tab" href="#tabwimivtd"> Inventory &nbsp<small class="label label-info">WMS</small></a></li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" id="tabiimummd" class="tab-pane active">
@@ -217,6 +219,29 @@
 					</div>
 				</div>
 
+				<div role="tabpanel" id="tabwimivtd" class="tab-pane">
+					<div class="panel-body">
+
+						<table id="tblwimivtd" class="table table-striped table-bordered table-hover nowrap" width="100%">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>id_iimxxmh</th>
+									<th>Warehouse</th>
+									<th>Min Stock</th>
+									<th>Max Stock</th>
+									<th data-toggle="tooltip" 
+										data-placement="top" 
+										title="Stok Item sekarang sesuai WH dan UoM">
+										Current Stock
+									</th>
+									<th>UoM</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
@@ -253,14 +278,17 @@
 	var edtwimlotd, tblwimlotd, show_deleted_wimlotd = 0, id_wimlotd;
 	var edtwimlotd_copyfrom;
 	var edtwimlotd_generate;
-
+	
 	var edtiimrlmd_supplier, tbliimrlmd_supplier, show_deleted_iimrlmd_supplier = 0, id_iimrlmd_supplier;
 	var edtiimrlmd_supplier_copyfrom;
+	
+	var edtwimivtd, tblwimivtd, show_deleted_wimivtd = 0, id_wimivtd;
+	var edtwimivtd_copyfrom;
 	// ------------- end of default variable
 
 	var id_iitxxmh = 0, id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iibxxmh_old = 0, id_iimxxmh_old = 0;
 	
-	var id_iumxxmh_old = 0;
+	var id_iumxxmh_old = 0, id_iwhxxmh_old = 0, id_iumxxmh_iv = 0;
 	var is_default_old = 0;
 	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0, is_replenishment_old = 0;
 	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
@@ -831,12 +859,13 @@
 
 		tbliimxxmh.on( 'init', function () {
 			// atur hak akses
-			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier];
+			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier, tblwimivtd];
 			CekInitHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnIimummdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
+			tblwimivtd.button( 'btnWimivtdCopyFrom:name' ).disable();
 			tbliimrlmd_supplier.button( 'btnIimrlmd_supplierCopyFrom:name' ).disable();
 		} );
 		
@@ -851,13 +880,14 @@
 			id_iimxxmh_old = iimxxmh_data.id;
 			
 			// atur hak akses
-			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier];
+			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier, tblwimivtd];
 			CekSelectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnIimummdCopyFrom:name' ).enable();
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).enable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).enable();
 			tbliimrlmd_supplier.button( 'btnIimrlmd_supplierCopyFrom:name' ).enable();
+			tblwimivtd.button( 'btnWimivtdCopyFrom:name' ).enable();
 
 			//cek detail UoM default
 			cekUoMDefault(id_iimxxmh);
@@ -878,13 +908,14 @@
 			id_iitxxmh_old = 0, id_iicxxmh_old = 0, id_iigxxmh = 0, id_iigxxmh_old = 0, id_iigx2mh_old = 0, id_iimxxmh_old = 0;
 
 			// atur hak akses
-			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier];
+			tbl_details = [tbliimummd, tblwimlotd, tbliimrlmd_supplier, tblwimivtd];
 			CekDeselectHeaderHD(tbliimxxmh, tbl_details);
 
 			tbliimummd.button( 'btnIimummdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnWimlotdCopyFrom:name' ).disable();
 			tblwimlotd.button( 'btnGenerateLocPref:name' ).disable();
 			tbliimrlmd_supplier.button( 'btnIimrlmd_supplierCopyFrom:name' ).disable();
+			tblwimivtd.button( 'btnWimivtdCopyFrom:name' ).disable();
 		} );
 
 		// END iimxxmh
@@ -2608,6 +2639,410 @@
 		} );
 
 		// END iimrlmd_supplier
+		
+		// BEGIN wimivtd
+
+		edtwimivtd = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/wimivtd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wimivtd = show_deleted_wimivtd;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tblwimivtd",
+			formOptions: {
+				main: {
+					focus: 5
+				}
+			},
+			fields: [ 
+				{
+					label: "wimivtd.start_at",
+					name: "wimivtd.start_at",
+					type: "hidden"
+				},	
+				{
+					label: "wimivtd.finish_at",
+					name: "wimivtd.finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "nama_tabel",
+					name: "nama_tabel",
+					def: "wimivtd",
+					type: "hidden"
+				},	
+				{
+					label: "wimivtd.transaction_state",
+					name: "wimivtd.transaction_state",
+					type: "hidden",
+					def: 0
+				},	
+				{
+					label: "id_iimxxmh",
+					name: "wimivtd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Warehouse <sup class='text-danger'>*<sup>",
+					name: "wimivtd.id_iwhxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iwhxxmh_old: id_iwhxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "UoM <sup class='text-danger'>*<sup>",  
+					name: "wimivtd.id_iumxxmh",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iumxxmh/iumxxmh_fn_opt_iimummd.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh: id_iimxxmh,
+									id_iumxxmh_unit_old: id_iumxxmh_iv,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
+				{
+					label: "Min Stock <sup class='text-danger'>*<sup>",
+					name: "wimivtd.min_stock"
+				},
+				{
+					label: "Max Stock <sup class='text-danger'>*<sup>",
+					name: "wimivtd.max_stock"
+				},
+				
+			]
+		} );
+			
+		edtwimivtd.on( 'preOpen', function( e, mode, action ) {
+			edtwimivtd.field('wimivtd.id_iimxxmh').val(id_iimxxmh);
+			
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimivtd.field('wimivtd.start_at').val(start_at);
+			
+			if(action == 'create'){
+				tblwimivtd.rows().deselect();
+			}
+		});
+
+		edtwimivtd.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+			$('div.DTE_Form_Buttons button:eq(2)').hide();
+		});
+
+		edtwimivtd.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				// set variable
+				id_iwhxxmh = edtwimivtd.field('wimivtd.id_iwhxxmh').val();
+				id_iumxxmh = edtwimivtd.field('wimivtd.id_iumxxmh').val();
+				min_stock     = edtwimivtd.field('wimivtd.min_stock').val();
+				max_stock     = edtwimivtd.field('wimivtd.max_stock').val();
+
+				validasiRequired(
+					edtwimivtd,
+					'wimivtd',
+					{
+						'id_iwhxxmh': id_iwhxxmh,
+						'id_iumxxmh': id_iumxxmh,
+					}
+				);
+
+				var unik_field = ['id_iumxxmh', 'id_iwhxxmh'];
+				unik_field.forEach(unik_fld => {
+					validasiUnique(
+						action,
+						edtwimivtd,
+						'wimivtd',
+						unik_fld,
+						'id_iimxxmh, id_iwhxxmh, id_iumxxmh',
+						id_iimxxmh + ',' + id_iwhxxmh + ',' + id_iumxxmh,
+						id_wimivtd
+					);
+				});
+				
+				validasiNumber(
+					edtwimivtd,
+					'wimivtd',
+					{
+						'min_stock': min_stock,
+						'max_stock': max_stock,
+					},
+					0,
+					'>'
+				);
+			}
+			
+			if ( edtwimivtd.inError() ) {
+				return false;
+			}
+		});
+
+		edtwimivtd.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimivtd.field('wimivtd.finish_at').val(finish_at);
+		});
+			
+		edtwimivtd.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tblwimivtd.ajax.reload(null, false);
+			tbliimxxmh.ajax.reload(null, false);
+		} );
+
+		edtwimivtd.on( 'close', function () {
+			edtwimivtd.enable();
+		} );
+
+		//Copyfrom
+		
+		edtwimivtd_copyfrom = new $.fn.dataTable.Editor( {
+			ajax: {
+				url: "../../models/iimxxmh/wimivtd_fn_copyfrom.php",
+				type: 'POST',
+				data: function (d){
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			table: "#tblwimivtd",
+			fields: [ 
+				{
+					label: "start_at",
+					name: "start_at",
+					type: "hidden"
+				},	
+				{
+					label: "finish_at",
+					name: "finish_at",
+					type: "hidden"
+				},	
+				{
+					label: "id_iimxxmh",
+					name: "wimivtd.id_iimxxmh",
+					type: "hidden"
+				},
+				{
+					label: "Copy From Item",
+					name: "id_iimxxmh_source",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/iimxxmh/iimxxmh_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_iimxxmh_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								return {
+									results: data.results,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				}
+			]
+		} );
+			
+		edtwimivtd_copyfrom.on( 'preOpen', function( e, mode, action ) {
+			edtwimivtd_copyfrom.field('wimivtd.id_iimxxmh').val(id_iimxxmh);
+			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimivtd_copyfrom.field('start_at').val(start_at);
+
+			if(action == 'create'){
+				tblwimivtd.rows().deselect();
+			}
+		});
+
+		edtwimivtd_copyfrom.on("open", function (e, mode, action) {
+			$(".modal-dialog").addClass("modal-lg");
+		});
+
+
+		edtwimivtd_copyfrom.on( 'preSubmit', function (e, data, action) {
+			if(action != 'remove'){
+
+				id_iimxxmh_source = edtwimivtd_copyfrom.field('id_iimxxmh_source').val();
+				if(id_iimxxmh_source == null || id_iimxxmh_source == ''){
+					edtwimivtd_copyfrom.field('id_iimxxmh_source').error( 'Wajib diisi!' );
+				}
+				
+			}
+			
+			if ( edtwimivtd_copyfrom.inError() ) {
+				return false;
+			}
+		});
+
+		edtwimivtd_copyfrom.on('initSubmit', function(e, action) {
+			finish_at = moment().format('YYYY-MM-DD HH:mm:ss');
+			edtwimivtd_copyfrom.field('finish_at').val(finish_at);
+		});
+
+		edtwimivtd_copyfrom.on( 'postSubmit', function (e, json, data, action, xhr) {
+			tbliimxxmh.ajax.reload(null, false);
+			tblwimivtd.ajax.reload(null, false);
+		} );
+		
+		tblwimivtd = $('#tblwimivtd').DataTable( {
+			ajax: {
+				url: "../../models/iimxxmh/wimivtd.php",
+				type: 'POST',
+				data: function (d){
+					d.show_deleted_wimivtd = show_deleted_wimivtd;
+					d.id_iimxxmh = id_iimxxmh;
+				}
+			},
+			order: [[ 2, "asc" ]],
+			columns: [
+				{ data: "wimivtd.id",visible:false },
+				{ data: "wimivtd.id_iimxxmh",visible:false },
+				{ data: "iwhxxmh.nama" },
+				{ 
+					data: "wimivtd.min_stock" ,
+					...renderNumber(0)
+				},
+				{ 
+					data: "wimivtd.max_stock" ,
+					...renderNumber(0)
+				},
+				{ 
+					data: "current_stock" ,
+					...renderNumber(2)
+				},
+				{ data: "iumxxmh.kode" },
+			],
+			buttons: [
+				// BEGIN breaking generate button
+				<?php
+					$id_table    = 'id_wimivtd';
+					$table       = 'tblwimivtd';
+					$edt         = 'edtwimivtd';
+					$show_status = '_wimivtd';
+					$table_name  = $nama_tabels_d[1];
+
+					$arr_buttons_tools 		= ['show_hide','copy','excel','colvis'];
+					$arr_buttons_tools2 	= [];
+					$arr_buttons_action 	= ['create', 'edit', 'remove','view', 'log','noactionD'];
+					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php';
+				?>
+				{ 
+					extend: 'create',
+					name: 'btnWimivtdCopyFrom', 
+					editor: edtwimivtd_copyfrom, 
+					text: '<i class="fa fa-copy"></i>', 
+					className: 'btn btn-outline', 
+					titleAttr: 'Copy From'
+				},
+				// END breaking generate button
+			],
+			initComplete: function() {
+
+			},
+			rowCallback: function( row, data, index ) {
+			}
+		} );
+
+		tblwimivtd.on( 'draw', function( e, settings ) { 
+			// atur hak akses
+			CekDrawDetailHD( tblwimivtd, 1 );
+			CekDrawDetailHDFinal(tbliimxxmh);
+
+		} );
+
+		tblwimivtd.on( 'select', function( e, dt, type, indexes ) {
+			// set variable standar framework
+			siVarSetD('wimivtd');
+			id_iwhxxmh_old      = wimivtd_data.id_iwhxxmh;
+			id_iumxxmh_iv      = wimivtd_data.id_iumxxmh;
+			// atur hak akses
+			CekSelectDetailHD( tblwimivtd );
+
+		} );
+
+		tblwimivtd.on( 'deselect', function() {
+			// reset variable standar framework
+			siVarResetD('wimivtd');
+			id_wimivtd = 0;
+			id_iwhxxmh_old = 0;
+			id_iumxxmh_iv = 0;
+			
+			// atur hak akses
+			CekDeselectDetailHD( tblwimivtd );
+
+		} );
+
+		// END wimivtd
 
 	} );// end of document.ready
 	
