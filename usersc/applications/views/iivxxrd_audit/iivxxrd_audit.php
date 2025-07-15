@@ -217,6 +217,7 @@
 											<button class="btn btn-primary submit-button" data-cekValid="${is_iiv_valid}" data-insert="${kontenData.id_iimxxmh},${kontenData.batch_number},${kontenData.expired_date_ymd},${kontenData.wlpxxmh_kode},${kontenData.id_wloxxmh}">Submit</button>
 								`;	
 							if (is_iiv_valid == 1) {
+								var numFormat = $.fn.dataTable.render.number( '\,', '.', 0, '' ).display; 
 								kontenValid = `<p>
 												<b>${kontenData.iimxxmh_kode} - ${kontenData.iimxxmh_nama}</b>
 											</p>
@@ -225,20 +226,17 @@
 												<br>
 												Expired Date : ${kontenData.expired_date}
 												<br>
-												
-												On Hand Terkecil : ${kontenData.jumlah_terkecil.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
+												On Hand Terkecil : ${numFormat(kontenData.jumlah_terkecil)} ${kontenData.iumxxmh_terkecil_kode}
 												<br>
-												On Hand Default : ${kontenData.jumlah_default.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
-												
+												On Hand Default : ${numFormat(kontenData.jumlah_default)} ${kontenData.iumxxmh_default_kode}
 												<br>
-												Reserved Terkecil : ${kontenData.jumlah_terkecil_booking.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}
+												Reserved Terkecil : ${numFormat(kontenData.jumlah_terkecil_booking)} ${kontenData.iumxxmh_terkecil_kode}
 												<br>
-												Reserved Default : ${kontenData.jumlah_default_booking.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}
-												
+												Reserved Default : ${numFormat(kontenData.jumlah_default_booking)} ${kontenData.iumxxmh_default_kode}
 												<br>
-												<b>Available Terkecil : ${kontenData.jumlah_terkecil_ava.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_terkecil_kode}</b>
+												<b>Available Terkecil : ${numFormat(kontenData.jumlah_terkecil_ava)} ${kontenData.iumxxmh_terkecil_kode}</b>
 												<br>
-												<b>Available Default : ${kontenData.jumlah_default_ava.toString().replace(/\.?0+$/, '')} ${kontenData.iumxxmh_default_kode}</b>
+												<b>Available Default : ${numFormat(kontenData.jumlah_default_ava)} ${kontenData.iumxxmh_default_kode}</b>
 											</p>`;
 							} else {
 								kontenValid = '<p>Data Tidak Ditemukan!</p>';
