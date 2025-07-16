@@ -149,6 +149,7 @@
 					INNER JOIN wloxxmh ON wloxxmh.id = a.id_wloxxmh
 					INNER JOIN iumxxmh iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
 					INNER JOIN iumxxmh iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
+					LEFT JOIN wlpxxmh c ON c.kode = a.wlpxxmh_kode
 					WHERE a.transaction_state = 0 '.$where.'
 		');
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
