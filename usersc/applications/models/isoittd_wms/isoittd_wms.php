@@ -25,6 +25,8 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'isoittd_wms.id' ),
+			Field::inst( 'isoittd_wms.id_isoxxth_wms' )
+				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'isoittd_wms.id_iumxxmh_unit' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'isoittd_wms.id_iumxxmh_default' )
@@ -95,7 +97,13 @@
 				) ),
 			Field::inst( 'isoittd_wms.is_nextprocess' ),
 			Field::inst( 'isoittd_wms.is_defaultprogram' ),
+			Field::inst( 'iimxxmh.nama' ),
+			Field::inst( 'wloxxmh.nama' ),
+			Field::inst( 'iumxxmh_unit.kode' ),
 		)
+		->leftJoin( 'iimxxmh','iimxxmh.id','=','isoittd_wms.id_iimxxmh' )
+		->leftJoin( 'wloxxmh','wloxxmh.id','=','isoittd_wms.id_wloxxmh' )
+		->leftJoin( 'iumxxmh iumxxmh_unit','iumxxmh_unit.id','=','isoittd_wms.id_iumxxmh_unit' )
 		;
 
 	// do not erase

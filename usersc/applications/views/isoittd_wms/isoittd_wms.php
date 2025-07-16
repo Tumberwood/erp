@@ -321,6 +321,16 @@
 				return {}
 			}, {event: 'keyup change'});
 
+			edtisoittd_wms.dependent( 'isoittd_wms.wlpxxmh_kode', function ( val, data, callback ) {
+				is_add_new = edtisoittd_wms.field('isoittd_wms.is_add_new').val();
+				console.log(is_add_new);
+
+				if (is_add_new == 1) {
+					findIdLpn(val);
+				}
+				return {}
+			}, {event: 'keyup change'});
+
 			edtisoittd_wms.dependent( 'isoittd_wms.id_wloxxmh', function ( val, data, callback ) {
 					console.log(val);
 				if (val > 0) {

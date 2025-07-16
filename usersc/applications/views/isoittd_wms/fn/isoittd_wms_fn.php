@@ -211,6 +211,7 @@
                             ]
                         });
 
+                        id_iimxxmh_old = id_iimxxmh;
                         id_wloxxmh_old = id_wloxxmh;
                         edtisoittd_wms.set({
                             "isoittd_wms.id_iimxxmh": id_iimxxmh,
@@ -257,6 +258,7 @@
                             ]
                         });
 
+                        id_iimxxmh_old = id_iimxxmh;
                         id_wloxxmh_old = id_wloxxmh;
                         id_iumxxmh_unit_old = id_iumxxmh_unit;
                         edtisoittd_wms.set({
@@ -307,4 +309,45 @@
             });
         });
     }
+
+    function wlpxxmh_kode_validasi (){
+        wlpxxmh_kode = edtisoittd_wms.field('isoittd_wms.wlpxxmh_kode').val();
+        if(wlpxxmh_kode != ""){
+            // cek apakah master LPN ada
+            $.ajax( {
+                url: "../../models/wreittd/wreittd_fn_wlpxxmh.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    wlpxxmh_kode: wlpxxmh_kode
+                },
+                success: function ( json ) {
+                    if(json.data.status_code == 500){
+                        edtisoittd_wms.field('isoittd_wms.wlpxxmh_kode').error( json.data.message );
+                        edtisoittd_wms.field('isoittd_wms.wlpxxmh_kode').val('');
+                    }
+                }
+            } );
+            
+        }
+    };
+    
+    function findIdLpn (wlpxxmh_kode){
+        if(wlpxxmh_kode != ""){
+            // cek apakah master LPN ada
+            $.ajax( {
+                url: "../../models/wreittd/wreittd_fn_find_id_wlpxxmh.php",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    wlpxxmh_kode: wlpxxmh_kode
+                },
+                success: function ( json ) {
+                    id_wlpxxmh = json.data.id_wlpxxmh;
+                    wlpxxmh_kode_validasi ();
+                }
+            } );
+            
+        }
+    };
 </script>
