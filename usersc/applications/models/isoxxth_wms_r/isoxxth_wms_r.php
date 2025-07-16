@@ -23,6 +23,13 @@
 	
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
+	$id_iwhxxmh = $_POST['id_iwhxxmh'];
+
+	$where_wh = '';
+
+	if ($id_iwhxxmh > 0) {
+		$where_wh = ' AND a.id_iwhxxmh = '.$id_iwhxxmh;
+	}
 
 	$qs_wpllptd = $db
 		->raw()
@@ -49,8 +56,7 @@
 				INNER JOIN iumxxmh f ON f.id = a.id_iumxxmh_terkecil
 				WHERE b.transaction_state = 1 AND a.transaction_state = 1
 				AND b.tanggal BETWEEN :start_date AND :end_date
-	'
-				
+				' . $where_wh
 		);
 	$rs_wpllptd = $qs_wpllptd->fetchAll();
 	if (!empty($rs_wpllptd)) {

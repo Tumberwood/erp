@@ -47,6 +47,11 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group row">												
+										<div class="col-sm-6">
+											<select class="form-control" id="select_id_iwhxxmh" name="select_id_iwhxxmh"></select>
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -104,13 +109,47 @@
 		cekNotification();
 		// ------------- default variable, do not erase
 		var edtisoxxth_wms, tblisoxxth_wms, show_deleted_isoxxth_wms = 0, id_isoxxth_wms;
+		var id_iwhxxmh_old = 0;
 		// ------------- end of default variable
 
 		// get tableRelation
 		tableRelation('isoxxth_wms');
 		
+		$("#select_id_iwhxxmh").select2({
+			placeholder : "Warehouse",
+			allowClear: true,
+			multiple: false,
+			ajax: {
+				url: "../../models/iwhxxmh/iwhxxmh_fn_opt.php",
+				dataType: 'json',
+				data: function (params) {
+					var query = {
+						id_iwhxxmh_old: id_iwhxxmh_old,
+						search: params.term || '',
+						page: params.page || 1
+					}
+						return query;
+				},
+				processResults: function (data, params) {
+					return {
+						results: data.results,
+						pagination: {
+							more: true
+						}
+					};
+				},
+				cache: true,
+				minimumInputLength: 1,
+				maximum: 10,
+				delay: 500,
+				maximumSelectionLength: 5,
+				minimumResultsForSearch: -1,
+			},
+		});
+		
 		$(document).ready(function() {
 			
+			id_iwhxxmh = $('#select_id_iwhxxmh').val();
 			start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 			end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
@@ -127,6 +166,7 @@
 					data: function (d){
 						d.start_date = start_date;
 						d.end_date = end_date;
+						d.id_iwhxxmh = id_iwhxxmh;
 					}
 				},
 				order: [[ 1, "asc" ], [ 0, "asc" ]],
@@ -226,6 +266,7 @@
 				rules: {
 				},
 				submitHandler: function(frmFilter) {
+					id_iwhxxmh = $('#select_id_iwhxxmh').val();
 					start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 					toastr["info"]("Processing ...</br> Jangan tutup halaman sampai notifikasi ini hilang!","INFO")
