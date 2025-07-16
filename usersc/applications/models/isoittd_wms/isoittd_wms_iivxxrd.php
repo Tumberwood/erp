@@ -109,7 +109,7 @@
 						id_iimxxmh,
 						id_wloxxmh,
 						wlpxxmh_kode
-					HAVING jumlah_terkecil > 0 AND is_audit = 0
+					HAVING jumlah_terkecil > 0 AND is_audit = 0 AND wlpxxmh_kode IS NOT NULL
 
 					UNION all
 

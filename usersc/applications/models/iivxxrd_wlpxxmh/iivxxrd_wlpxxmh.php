@@ -68,7 +68,7 @@
 					id_iimxxmh,
 					id_wloxxmh,
 					wlpxxmh_kode
-				having jumlah_terkecil > 0
+				having jumlah_terkecil > 0 AND wlpxxmh_kode IS NOT NULL
 			' . $kondisi_wloctmh);
 	$rs_iivxxrd = $qs_iivxxrd->fetchAll();
 	if (!empty($rs_iivxxrd)) {
