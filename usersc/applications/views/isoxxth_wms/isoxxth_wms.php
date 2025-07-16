@@ -335,6 +335,30 @@
 					include $abs_us_root.$us_url_root. 'usersc/helpers/button_fn_generate.php'; 
 				?>
 				// END breaking generate button
+				{
+					text: '<i class="fa fa-google"></i>',
+					name: 'btnCutOff',
+					className: 'btn btn-xs btn-outline',
+					titleAttr: 'Cut OFF',
+					action: function ( e, dt, node, config ) {
+						$.ajax( {
+							url: "../../models/isoxxth_wms/isoxxth_wms_cut_off.php",
+							dataType: 'json',
+							type: 'POST',
+							data: {
+								id_transaksi_h: id_transaksi_h,
+								id_iwhxxmh_old: id_iwhxxmh_old,
+							},
+							success: function ( json ) {
+        						toastr[json.data.type_message](json.data.message,"INFO");
+								tblisoxxth_wms.ajax.reload(null, false);
+								tblisoxxth_wms.rows().deselect();
+								tblisoittd_wms.ajax.reload(null, false);
+							}
+						} );
+
+					}
+				},
 			],
 			initComplete: function() {
 				this.api().searchPanes.rebuildPane();
@@ -355,7 +379,7 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_wms];
 			CekInitHeaderHD(tblisoxxth_wms, tbl_details);
-			tblisoxxth_wms.button('btnPrintSlip:name').disable();
+			tblisoxxth_wms.button('btnCutOff:name').disable();
 		} );
 		
 		tblisoxxth_wms.on( 'select', function( e, dt, type, indexes ) {
@@ -368,7 +392,12 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_wms];
 			CekSelectHeaderHD(tblisoxxth_wms, tbl_details);
-			tblisoxxth_wms.button('btnPrintSlip:name').enable();
+
+			if (transaction_state == 0) {
+				tblisoxxth_wms.button('btnCutOff:name').enable();
+			} else {
+				tblisoxxth_wms.button('btnCutOff:name').disable();
+			}
 		} );
 		
 		tblisoxxth_wms.on( 'deselect', function () {
@@ -380,7 +409,7 @@
 			// atur hak akses
 			tbl_details = [tblisoittd_wms];
 			CekDeselectHeaderHD(tblisoxxth_wms, tbl_details);
-			tblisoxxth_wms.button('btnPrintSlip:name').disable();
+			tblisoxxth_wms.button('btnCutOff:name').disable();
 		} );
 		// END isoxxth_wms
 

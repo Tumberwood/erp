@@ -52,6 +52,7 @@
 			->exec('SELECT
 						0 id_audit,
 						0 is_add_new,
+						0 is_cut_off,
 						1 is_iiv_valid,
 						0 id_files_pointer,
 						"" keterangan,
@@ -116,6 +117,7 @@
 					SELECT
 						a.id AS id_audit,
 						is_add_new,
+						is_cut_off,
 						1 AS is_iiv_valid,
 						id_files_pointer,
 						IFNULL(a.keterangan, "") keterangan,

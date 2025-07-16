@@ -99,6 +99,7 @@
                         let is_audit = kontenData.is_audit;
                         let id_audit = kontenData.id_audit;
                         let is_add_new = kontenData.is_add_new;
+                        let is_cut_off = kontenData.is_cut_off;
                         let id_iumxxmh_unit = kontenData.id_iumxxmh_unit;
                         let jumlah_unit = kontenData.jumlah_unit;
                         let id_files_pointer = kontenData.id_files_pointer;
@@ -163,17 +164,24 @@
                         }
 
                         let conct = (kontenData.wlpxxmh_kode !== '' && wloxxmh_nama !== '') ? '-' : '';
+                        
                         let badge_is_add_new = '';
 
                         if (is_add_new == 1) {
                             badge_is_add_new = `<span class="badge badge-danger m-l-xs">NEW</span>`;
                         }
 
+                        let badge_is_cut_off = '';
+
+                        if (is_cut_off == 1) {
+                            badge_is_cut_off = `<span class="badge badge-info m-l-xs">Cut OFF</span>`;
+                        }
+
                         genKonten += `
                             <div class="${class_col}">
                                 <div class="ibox">
                                     <div class="ibox-content">
-                                        <h3>${kontenData.wlpxxmh_kode} ${conct} ${wloxxmh_nama} ${badge_is_add_new}</h3> 
+                                        <h3>${kontenData.wlpxxmh_kode} ${conct} ${wloxxmh_nama} ${badge_is_add_new} ${badge_is_cut_off}</h3> 
                                         ${kontenValid}
                                         ${btnAudit}
                                     </div>
