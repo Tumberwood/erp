@@ -143,15 +143,15 @@
 						type: "hidden"
 					},
 					{
-						label: "LPN",
+						label: "LPN <sup class='text-danger'>*<sup>",
 						name: "isoittd_wms.wlpxxmh_kode",
 					},
 					{
-						label: "Batch Number",
+						label: "Batch Number <sup class='text-danger'>*<sup>",
 						name: "isoittd_wms.batch_number",
 					},
 					{
-						label: "Expired Date",
+						label: "Expired Date <sup class='text-danger'>*<sup>",
 						name: "isoittd_wms.expired_date",
 						type: "datetime",
 						opts:{
@@ -340,15 +340,25 @@
 				if(action != 'remove'){
 					jumlah_unit = edtisoittd_wms.field('isoittd_wms.jumlah_unit').val();
 					id_iumxxmh_unit = edtisoittd_wms.field('isoittd_wms.id_iumxxmh_unit').val();
+					id_iimxxmh = edtisoittd_wms.field('isoittd_wms.id_iimxxmh').val();
+					id_wloxxmh = edtisoittd_wms.field('isoittd_wms.id_wloxxmh').val();
+					wlpxxmh_kode = edtisoittd_wms.field('isoittd_wms.wlpxxmh_kode').val();
+					batch_number = edtisoittd_wms.field('isoittd_wms.batch_number').val();
+					expired_date = edtisoittd_wms.field('isoittd_wms.expired_date').val();
 
 					is_add_new = edtisoittd_wms.field('isoittd_wms.is_add_new').val();
-				console.log(is_add_new);
+					console.log(is_add_new);
 					
 					validasiRequired(
 						edtisoittd_wms, 
 						"isoittd_wms", 
 						{
 							"id_iumxxmh_unit": id_iumxxmh_unit,
+							"id_iimxxmh": id_iimxxmh,
+							"id_wloxxmh": id_wloxxmh,
+							"wlpxxmh_kode": wlpxxmh_kode,
+							"batch_number": batch_number,
+							"expired_date": expired_date,
 						}
 					);
 					
