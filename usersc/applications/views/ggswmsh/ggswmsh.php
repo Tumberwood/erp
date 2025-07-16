@@ -62,6 +62,9 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="ggswmsh.vehicle_capacity"></editor-field>
 							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.is_tampil_stok"></editor-field>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -319,6 +322,17 @@
 						{ "label": "Dimension", "value": "Dimension" },
 						{ "label": "Weight", "value": "Weight" },
 						{ "label": "Unit", "value": "Unit" },
+					]
+				},
+				{
+					label: "Tampilkan Jumlah Stok",
+					name: "ggswmsh.is_tampil_stok",
+					fieldInfo: "Tampilkan Jumlah Stok untuk Stock Opname Mobile",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Ya", "value": 1 },
+						{ "label": "Tidak", "value": 0 },
 					]
 				},
 			]

@@ -56,6 +56,7 @@
 			Field::inst( 'ggswmsh.is_koordinat' ),
 			Field::inst( 'ggswmsh.koefisien_level' ),
 			Field::inst( 'ggswmsh.vehicle_capacity' ),
+			Field::inst( 'ggswmsh.is_tampil_stok' ),
 			Field::inst( 'berat.nama' ),
 			Field::inst( 'panjang.nama' )
 		)
