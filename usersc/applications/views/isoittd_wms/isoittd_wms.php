@@ -79,9 +79,6 @@
 		//Aktivasi Filter Floating
 		filterFloating();
 
-		
-
-
 		$(document).ready(function() {
 			
 		/////////// ADD DETAIL ISO ////////////
@@ -285,6 +282,31 @@
 							firstDay: 0
 						},
 						format: 'DD MMM YYYY'
+					},
+					{
+						label: "Foto",
+						name: "isoittd_wms.id_files_pointer",
+						type: "upload",
+						display: function ( fileId, counter ) {
+							if (fileId == 0){
+								return 'Belum ada lampiran';
+							}else{
+								id_files_pointer = edtisoittd_wms.field('isoittd_wms.id_files_pointer').val();
+								console.log('id_files_pointer: '+id_files_pointer);
+								if (id_files_pointer) {
+    								autofillField('files', id_files_pointer, 'web_path, filename');
+									return '<a href="'+autofillData.web_path+'" target="_blank">'+ autofillData.filename + '</a>'; 
+								} else {
+									return '<a href="'+edtisoittd_wms.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_wms.file( 'files', fileId ).filename + '</a>'; 
+								}
+							}
+						},
+						noFileText: 'Belum ada gambar'
+					},
+					{
+						label: "Keterangan",
+						name: "isoittd_wms.keterangan",
+						type: "textarea"
 					},
 				]
 			} );

@@ -101,6 +101,8 @@
                         let is_add_new = kontenData.is_add_new;
                         let id_iumxxmh_unit = kontenData.id_iumxxmh_unit;
                         let jumlah_unit = kontenData.jumlah_unit;
+                        let id_files_pointer = kontenData.id_files_pointer;
+                        let keterangan = kontenData.keterangan;
 
                         let btnAudit = '';
                         if (id_audit == 0) {
@@ -120,7 +122,7 @@
                                     data-cekvalid="${is_iiv_valid}" 
                                     data-id="${id_audit}" 
                                     data-editor-id = row_${id_audit}
-                                    data-insert="${kontenData.id_iimxxmh},${kontenData.batch_number},${kontenData.expired_date_ymd},${kontenData.wlpxxmh_kode},${kontenData.id_wloxxmh}, ${kontenData.jumlah_iiv_terkecil},${kontenData.id_iumxxmh_unit},${kontenData.jumlah_unit}
+                                    data-insert="${kontenData.id_iimxxmh},${kontenData.batch_number},${kontenData.expired_date_ymd},${kontenData.wlpxxmh_kode},${kontenData.id_wloxxmh}, ${kontenData.jumlah_iiv_terkecil},${kontenData.id_iumxxmh_unit},${kontenData.jumlah_unit}, ${kontenData.id_files_pointer},${kontenData.keterangan}
                                     ">
                                     Edit
                                 </button>
@@ -229,7 +231,7 @@
                         const isValid = $(this).data('cekvalid');
                         const insertStr = $(this).data('insert');
                         const rowId = $(this).data('id'); // ID baris yang akan diedit (pastikan ada di HTML)
-                        const [id_iimxxmh, batch, expired, kode, id_wloxxmh, jumlah_iiv_terkecil, id_iumxxmh_unit, jumlah_unit] = insertStr.split(',');
+                        const [id_iimxxmh, batch, expired, kode, id_wloxxmh, jumlah_iiv_terkecil, id_iumxxmh_unit, jumlah_unit,id_files_pointer, keterangan] = insertStr.split(',');
                         // console.log('id_iumxxmh_unit: '+id_iumxxmh_unit);
                         // console.log('id_wloxxmh: '+id_wloxxmh);
                         if (isValid != 1) {
@@ -269,7 +271,9 @@
                             "isoittd_wms.batch_number": batch,
                             "isoittd_wms.expired_date": moment(expired, 'YYYY-MM-DD').format('DD MMM YYYY'),
                             "isoittd_wms.wlpxxmh_kode": kode,
-                            "isoittd_wms.id_wloxxmh": id_wloxxmh
+                            "isoittd_wms.id_wloxxmh": id_wloxxmh,
+                            "isoittd_wms.id_files_pointer": id_files_pointer,
+                            "isoittd_wms.keterangan": keterangan,
                         });
                     });
 

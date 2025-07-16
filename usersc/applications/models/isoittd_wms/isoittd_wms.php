@@ -25,6 +25,19 @@
 		->debug(true)
 		->fields(
 			Field::inst( 'isoittd_wms.id' ),
+			Field::inst( 'isoittd_wms.id_files_pointer' )
+			->setFormatter( Format::ifEmpty( 0 ) )
+			->upload( Upload::inst(  $abs_us_root.$us_url_root.'usersc/files/isoxxth_wms/__ID__.__EXTN__' )
+				->db( 'files', 'id', array(
+					'filename'		=> Upload::DB_FILE_NAME,
+					'filesize'		=> Upload::DB_FILE_SIZE,
+					'web_path'		=> Upload::DB_WEB_PATH,
+					'system_path'	=> Upload::DB_SYSTEM_PATH,
+					'extn'		=> Upload::DB_EXTN
+				) )
+				->validator( Validate::fileSize( 5000000, 'Ukuran lampiran maksimal 5Mb' ) )
+				->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg'), "Hanya boleh format png, jpg, dan jpeg" ) )
+			),
 			Field::inst( 'isoittd_wms.id_isoxxth_wms' )
 				->setFormatter( Format::ifEmpty( 0 ) ),
 			Field::inst( 'isoittd_wms.id_iumxxmh_unit' )

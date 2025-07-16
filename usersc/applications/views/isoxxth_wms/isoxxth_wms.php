@@ -559,6 +559,24 @@
 					label: "Fisik <sup class='text-danger'>*<sup>",  
 					name: "isoittd_wms.jumlah_unit",
 				},
+				{
+					label: "Foto",
+					name: "isoittd_wms.id_files_pointer",
+					type: "upload",
+					display: function ( fileId, counter ) {
+						if (fileId == 0){
+							return 'Belum ada lampiran';
+						}else{
+							return '<a href="'+edtisoittd_wms.file( 'files', fileId ).web_path+'" target="_blank">'+ edtisoittd_wms.file( 'files', fileId ).filename + '</a>'; 
+						}
+					},
+					noFileText: 'Belum ada gambar'
+				},
+				{
+					label: "Keterangan",
+					name: "isoittd_wms.keterangan",
+					type: "textarea"
+				},
 			]
 		} );
 			
