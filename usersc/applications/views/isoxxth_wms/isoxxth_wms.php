@@ -84,6 +84,7 @@
 										<th>Expired Date</th>
 										<th>UoM</th>
 										<th>Fisik</th>
+										<th>Cut OFF</th>
 									</tr>
 								</thead>
 							</table>
@@ -713,6 +714,7 @@
 				{ data: "isoittd_wms.expired_date" },
 				{ data: "iumxxmh_unit.kode" },
 				{ data: "isoittd_wms.jumlah_unit", ...renderNumber(2) },
+				{ data: "isoittd_wms.is_cut_off", ...renderYaTidak() },
 			],
 			buttons: [
 				// BEGIN breaking generate button

@@ -82,6 +82,7 @@
 				Field::inst( 'isoittd_wms.wlpxxmh_kode' ),
 				Field::inst( 'isoittd_wms.batch_number' ),
 				Field::inst( 'isoittd_wms.jumlah_iiv_terkecil' ),
+				Field::inst( 'isoittd_wms.is_cut_off' ),
 				Field::inst( 'isoittd_wms.is_add_new' )
 				->set( Field::SET_CREATE ),
 				Field::inst( 'isoittd_wms.is_scan' )
