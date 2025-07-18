@@ -90,7 +90,6 @@
 <!-- DataTables Editor QR Plugin -->
 <!-- <script src="https://datatables.net/media/blog/2020-07-10/editor.qr.js"></script> -->
 <script>
-	
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
@@ -110,7 +109,6 @@
 }(function( $, DataTable ) {
 'use strict';
 
-
 if ( ! DataTable.ext.editorFields ) {
 	DataTable.ext.editorFields = {};
 }
@@ -125,7 +123,7 @@ _fieldTypes.qr = {
 		var video = $('<video/>').css({
 			display: 'none',
 			'max-width': '100%',
-			padding: '2% 0%',
+			padding: '2% 0%'
 		});
 		var input = $('<input id="' + safeId + '"/>');
 		var scan = $('<button>Scan</button>').css({ margin: '0% 1%' });
@@ -147,22 +145,24 @@ _fieldTypes.qr = {
 
 		// Section 3 - Toggle control
 		scan.on('click', function () {
-			if (this.innerHTML === 'Scan') {
+			const button = this;
+			if (button.innerHTML === 'Scan') {
 				Instascan.Camera.getCameras()
 					.then(function (cameras) {
 						if (cameras.length > 0) {
-							video.css({ display: 'block' });
-							 // Pilih kamera berdasarkan perangkat
-							 var isMobile = /Android|iPhone|iPad|iPod|iOS/i.test(navigator.userAgent);
+							var isMobile = /Android|iPhone|iPad|iPod|iOS/i.test(navigator.userAgent);
+							var selectedCamera = isMobile && cameras[1] ? cameras[1] : cameras[0];
 
-							if (isMobile && cameras[1]) {
-								scanner.start(cameras[1]);
-								console.log('Using mobile back camera:', cameras[1].name);
+							scanner.start(selectedCamera);
+
+							// Mirror atau tidak tergantung jenis kamera
+							if (selectedCamera.name.toLowerCase().includes('back')) {
+								video.css({ display: 'block', transform: 'scaleX(1)' });
+								console.log('Using back camera (no mirror):', selectedCamera.name);
 							} else {
-								scanner.start(cameras[0]);
-								console.log('Using default camera:', cameras[0].name);
+								video.css({ display: 'block', transform: 'scaleX(-1)' });
+								console.log('Using front camera (mirror):', selectedCamera.name);
 							}
-
 						} else {
 							console.error('No cameras found.');
 						}
@@ -171,19 +171,19 @@ _fieldTypes.qr = {
 						console.error(e);
 					});
 
-				this.innerHTML = 'Stop';
-			} else if (this.innerHTML === 'Stop') {
-				video.css({ display: 'none' });
+				button.innerHTML = 'Stop';
+			} else {
+				video.css({ display: 'none', transform: 'none' });
 				scanner.stop();
-				this.innerHTML = 'Scan';
+				button.innerHTML = 'Scan';
 			}
 		});
 
 		// Section 4 - Close behaviour
 		this.on('close', function () {
-			video.css({ display: 'none' });
+			video.css({ display: 'none', transform: 'none' });
 			scanner.stop();
-			this.innerHTML = 'Scan';
+			scan.text('Scan');
 		});
 
 		return container;
@@ -204,6 +204,7 @@ _fieldTypes.qr = {
 
 }));
 </script>
+
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
