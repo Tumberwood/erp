@@ -279,11 +279,11 @@ _fieldTypes.qr = {
     scanner.start(selectedCamera);
 
     // Mirror tergantung kamera
-    if (/back|rear/i.test(selectedCamera.name)) {
-      video.css({ display: 'block', transform: 'scaleX(1)' }); // kamera belakang = normal
-    } else {
-      video.css({ display: 'block', transform: 'scaleX(-1)' }); // kamera depan = mirror
-    }
+    // if (/back|rear/i.test(selectedCamera.name)) {
+    //   video.css({ display: 'block', transform: 'scaleX(1)' }); // kamera belakang = normal
+    // } else {
+    //   video.css({ display: 'block', transform: 'scaleX(-1)' }); // kamera depan = mirror
+    // }
 						} else {
 							console.error('No cameras found.');
 						}
