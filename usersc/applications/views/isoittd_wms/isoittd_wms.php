@@ -426,10 +426,10 @@
 				if (action != 'remove') {
 					id_transaksi = json.data[0].isoittd_wms.id;
 					konversiUom('isoittd_wms', id_transaksi );
-					// generateKonten();
-        			$('#konten').empty();
-        			$('#add_button').hide();
 					setTimeout(function () {
+						// generateKonten();
+						$('#konten').empty();
+						$('#add_button').hide();
 						$('#btnFilterFloating').trigger('click');
 					}, 500);
 				}
