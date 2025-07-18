@@ -52,7 +52,8 @@
 		font-size: 24px;
 		cursor: pointer;
 		transition: background-color 0.3s ease;
-		z-index: 9999 !important; /* Ensures the button is on top of all elements */
+		/* z-index: 9999 !important; */
+		z-index: 500 !important; /* pastikan lebih rendah dari modal */
 	}
 
 	.floating-button:hover {
@@ -209,7 +210,7 @@
 
 
 <!-- Floating Chat Button -->
-<div class="chatbot-button" id="btnChatbot" data-toggle="tooltip" data-placement="left" title="Chatbot">
+<div class="chatbot-button" id="btnChatbot" data-toggle="tooltip" data-placement="left" title="Chatbot" style="display: none">
   <i class="fa fa-comment"></i>
 </div>
 

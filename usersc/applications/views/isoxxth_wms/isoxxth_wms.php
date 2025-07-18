@@ -427,7 +427,7 @@
 			table: "#tblisoittd_wms",
 			formOptions: {
 				main: {
-					focus: 3
+					focus: 10
 				}
 			},
 			fields: [ 
@@ -549,6 +549,10 @@
 					}
 				},
 				{
+					label: "Quantity <sup class='text-danger'>*<sup>",  
+					name: "isoittd_wms.jumlah_unit",
+				},
+				{
 					label: "UoM <sup class='text-danger'>*<sup>",  
 					name: "isoittd_wms.id_iumxxmh_unit",
 					type: "select2",
@@ -584,10 +588,6 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},
-				{
-					label: "Fisik <sup class='text-danger'>*<sup>",  
-					name: "isoittd_wms.jumlah_unit",
 				},
 				{
 					label: "Foto",

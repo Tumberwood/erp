@@ -42,7 +42,8 @@
 <button class="btn btn-primary add-button" id="add_button" style="display:none">
   <i class="fa fa-plus"></i> Add New
 </button>
-
+<br>
+<br>
 <div class="row" id="konten">
 </div>
 
@@ -89,6 +90,11 @@
 					type: 'POST',
 					data: function (d){
 						d.show_deleted_isoittd_wms = show_deleted_isoittd_wms
+					}
+				},
+				formOptions: {
+					main: {
+						focus: 14
 					}
 				},
 				fields: [ 
@@ -230,6 +236,10 @@
 						}
 					},
 					{
+						label: "Quantity <sup class='text-danger'>*<sup>",  
+						name: "isoittd_wms.jumlah_unit",
+					},
+					{
 						label: "UoM <sup class='text-danger'>*<sup>",  
 						name: "isoittd_wms.id_iumxxmh_unit",
 						type: "select2",
@@ -265,10 +275,6 @@
 								minimumResultsForSearch: -1,
 							},
 						}
-					},
-					{
-						label: "Fisik <sup class='text-danger'>*<sup>",  
-						name: "isoittd_wms.jumlah_unit",
 					},
 					{
 						label: "Tanggal",
@@ -420,7 +426,12 @@
 				if (action != 'remove') {
 					id_transaksi = json.data[0].isoittd_wms.id;
 					konversiUom('isoittd_wms', id_transaksi );
-					generateKonten();
+					// generateKonten();
+        			$('#konten').empty();
+        			$('#add_button').hide();
+					setTimeout(function () {
+						$('#btnFilterFloating').trigger('click');
+					}, 500);
 				}
 			});
 

@@ -113,7 +113,7 @@
                                     class="btn btn-primary submit-button" 
                                     data-cekvalid="${is_iiv_valid}" 
                                     data-insert="${kontenData.id_iimxxmh},${kontenData.batch_number},${kontenData.expired_date_ymd},${kontenData.wlpxxmh_kode},${kontenData.id_wloxxmh}, ${kontenData.jumlah_iiv_terkecil}">
-                                    Submit
+                                    Next
                                 </button>
                             `;
                         } else {
