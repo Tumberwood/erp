@@ -365,7 +365,7 @@ _fieldTypes.qr = {
 				{
 					label: "LPN <sup class='text-danger'>*<sup>",
 					name: "wreittd.wlpxxmh_kode",
-					type: "qr"
+					type: scannerDinamis()
 				}, 	
 				{
 					label: "wreittd.id_wlpxxmh",
