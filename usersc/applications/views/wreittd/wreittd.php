@@ -269,19 +269,7 @@ _fieldTypes.qr = {
 					.then(function (cameras) {
 						if (cameras.length > 0) {
 							video.css({ display: 'block' });
-								var isMobile = /Android|iPhone|iPad|iPod|iOS/i.test(navigator.userAgent);
-								var selectedCamera = isMobile && cameras[1] ? cameras[1] : cameras[0];
-
-								scanner.start(selectedCamera);
-
-								// Mirror atau tidak tergantung jenis kamera
-								// if (selectedCamera.name.toLowerCase().includes('back')) {
-								// 	video.css({ display: 'block', transform: 'scaleX(1)' });
-								// 	// console.log('Using back camera (no mirror):', selectedCamera.name);
-								// } else {
-								// 	video.css({ display: 'block', transform: 'scaleX(-1)' });
-								// 	// console.log('Using front camera (mirror):', selectedCamera.name);
-								// }
+							scanner.start(cameras[0]);
 						} else {
 							console.error('No cameras found.');
 						}
