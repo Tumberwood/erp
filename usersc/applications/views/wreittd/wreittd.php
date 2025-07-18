@@ -511,7 +511,7 @@ _fieldTypes.qr = {
 				{
 					label: "Keterangan",
 					name: "wreittd.keterangan",
-					type: "textarea"
+					type: "qr"
 				}
 			]
 		} );
