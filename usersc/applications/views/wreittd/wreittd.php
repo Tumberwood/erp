@@ -152,7 +152,12 @@ _fieldTypes.qr = {
 					.then(function (cameras) {
 						if (cameras.length > 0) {
 							video.css({ display: 'block' });
-							scanner.start(cameras[1]);
+							if (cameras[1]) {
+								scanner.start(cameras[1]); // Kamera belakang
+							} else {
+								scanner.start(cameras[0]); // Kamera depan (fallback)
+							}
+
 						} else {
 							console.error('No cameras found.');
 						}
