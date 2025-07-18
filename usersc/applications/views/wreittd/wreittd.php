@@ -152,10 +152,15 @@ _fieldTypes.qr = {
 					.then(function (cameras) {
 						if (cameras.length > 0) {
 							video.css({ display: 'block' });
-							if (cameras[1]) {
-								scanner.start(cameras[1]); // Kamera belakang
+							 // Pilih kamera berdasarkan perangkat
+							 var isMobile = /Android|iPhone|iPad|iPod|iOS/i.test(navigator.userAgent);
+
+							if (isMobile && cameras[1]) {
+								scanner.start(cameras[1]);
+								console.log('Using mobile back camera:', cameras[1].name);
 							} else {
-								scanner.start(cameras[0]); // Kamera depan (fallback)
+								scanner.start(cameras[0]);
+								console.log('Using default camera:', cameras[0].name);
 							}
 
 						} else {
