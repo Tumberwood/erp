@@ -1835,3 +1835,10 @@ function maskingPhone(edt, tabel, fields) {
         });
     });
 }
+
+function scannerDinamis() {
+    autofillField('ggswmsh', 1, "scanner");
+    var scanner_setting = autofillData.scanner;
+    return scanner_setting == "Camera" ? "qr" : "text";
+}
+  
