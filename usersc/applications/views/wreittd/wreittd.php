@@ -269,7 +269,21 @@ _fieldTypes.qr = {
 					.then(function (cameras) {
 						if (cameras.length > 0) {
 							video.css({ display: 'block' });
-							scanner.start(cameras[0]);
+							// Deteksi kamera belakang
+    let backCamera = cameras.find(cam =>
+      /back|rear/i.test(cam.name)
+    );
+
+    let selectedCamera = backCamera || cameras[0]; // fallback kalau gak nemu
+
+    scanner.start(selectedCamera);
+
+    // Mirror tergantung kamera
+    if (/back|rear/i.test(selectedCamera.name)) {
+      video.css({ display: 'block', transform: 'scaleX(1)' }); // kamera belakang = normal
+    } else {
+      video.css({ display: 'block', transform: 'scaleX(-1)' }); // kamera depan = mirror
+    }
 						} else {
 							console.error('No cameras found.');
 						}
