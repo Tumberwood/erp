@@ -66,6 +66,11 @@
 								<editor-field name="ggswmsh.is_tampil_stok"></editor-field>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<editor-field name="ggswmsh.scanner"></editor-field>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="table-responsive">
@@ -322,6 +327,16 @@
 						{ "label": "Dimension", "value": "Dimension" },
 						{ "label": "Weight", "value": "Weight" },
 						{ "label": "Unit", "value": "Unit" },
+					]
+				},
+				{
+					label: "Scanner",  
+					name: "ggswmsh.scanner",
+					type: "select",
+					placeholder : "Select",
+					options: [
+						{ "label": "Infrared", "value": "Infrared" },
+						{ "label": "Camera", "value": "Camera" },
 					]
 				},
 				{

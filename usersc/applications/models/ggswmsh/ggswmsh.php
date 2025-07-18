@@ -57,6 +57,7 @@
 			Field::inst( 'ggswmsh.koefisien_level' ),
 			Field::inst( 'ggswmsh.vehicle_capacity' ),
 			Field::inst( 'ggswmsh.is_tampil_stok' ),
+			Field::inst( 'ggswmsh.scanner' ),
 			Field::inst( 'berat.nama' ),
 			Field::inst( 'panjang.nama' )
 		)
