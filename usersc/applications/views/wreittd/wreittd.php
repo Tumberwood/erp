@@ -88,9 +88,9 @@
 <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 <!-- DataTables Editor QR Plugin -->
-<script src="https://datatables.net/media/blog/2020-07-10/editor.qr.js"></script>
+<!-- <script src="https://datatables.net/media/blog/2020-07-10/editor.qr.js"></script> -->
 
-<!-- <script>
+<script>
 	(function( factory ){
 		if ( typeof define === 'function' && define.amd ) {
 			// AMD
@@ -159,10 +159,10 @@
 								// Mirror atau tidak tergantung jenis kamera
 								if (selectedCamera.name.toLowerCase().includes('back')) {
 									video.css({ display: 'block', transform: 'scaleX(1)' });
-									console.log('Using back camera (no mirror):', selectedCamera.name);
+									// console.log('Using back camera (no mirror):', selectedCamera.name);
 								} else {
 									video.css({ display: 'block', transform: 'scaleX(-1)' });
-									console.log('Using front camera (mirror):', selectedCamera.name);
+									// console.log('Using front camera (mirror):', selectedCamera.name);
 								}
 							} else {
 								console.error('No cameras found.');
@@ -173,10 +173,10 @@
 						});
 
 					button.innerHTML = 'Stop';
-				} else {
-					video.css({ display: 'none', transform: 'none' });
+				} else if (this.innerHTML === 'Stop') {
+					video.css({ display: 'none' });
 					scanner.stop();
-					button.innerHTML = 'Scan';
+					this.innerHTML = 'Scan';
 				}
 			});
 
@@ -204,7 +204,7 @@
 	};
 
 	}));
-</script> -->
+</script>
 
 <script src="<?=$us_url_root?>usersc/helpers/general_fn.js"></script>
 <script src="<?=$us_url_root?>usersc/helpers/validation_fn.js"></script>
