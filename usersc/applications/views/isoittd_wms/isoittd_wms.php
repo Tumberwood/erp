@@ -61,7 +61,6 @@
 					<div class="form-group row">
 						<div class="col-lg-4 col-sm-4">
 							<button type="submit" class="btn btn-primary">Submit</button>
-							<button type="button" class="btn btn-warning" onclick="resetForm()">Close</button>
 						</div>
 					</div>
 				</form>
