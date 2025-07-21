@@ -149,7 +149,7 @@
 					{ data: "wpclptd.kode" },
 					{ data: "username" },
 					{ data: "iwhxxmh.kode" },
-					{ data: "grlxxmh.kode" },
+					{ data: "grlxxmh.nama" },
 					{ data: "asal.nama" },
 					{ data: "tujuan.nama" },
 					{ data: "wpclptd.wlpxxmh_kode" },
