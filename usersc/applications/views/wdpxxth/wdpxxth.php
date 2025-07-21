@@ -11,7 +11,7 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content animated bounceInRight">
 			<form class="form-horizontal" id="frmFilter">
@@ -71,6 +71,69 @@
 					<button class="btn btn-primary" type="submit" id="submit_form">Submit</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div> -->
+
+<div class="row" id="awal">
+	<div class="col">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<form class="form-horizontal" id="frmFilter" name="frmFilter">
+					<h4>Filter</h4>
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Kode Picking</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Ekspedisi</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectEkspedisi" name="selectEkspedisi" multiple="multiple"></select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Plat Nomor</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="select_lvhxxmh" name="select_lvhxxmh" multiple="multiple"></select>
+						</div>
+					</div>
+
+					<div class="form-group row" style="display: none" id="div_mobil_nomor">
+						<label class="col-lg-2 col-md-2">Plat Nomor</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="mobil_nomor" name="mobil_nomor">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Nama Supir</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="supir_nama" name="supir_nama">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">No. Container</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="no_container" name="no_container">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">No. Seal</label>
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="no_seal" name="no_seal">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-lg-4 col-sm-4">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
@@ -177,7 +240,7 @@
 		tableRelation('wdpxxth');
 		
 		//Aktivasi Filter Floating
-		filterFloating();
+		// filterFloating();
 		
 		$("#selectKode").select2({
 			placeholder : "Select",
@@ -499,7 +562,8 @@
 					isDispatchUsed(id_wpcxxth_old, 1, uniqueToken);
 					$('#tableLPN').show();
 					// generateKonten();
-					$('#modalFloatingFilter').modal('toggle');
+					// $('#modalFloatingFilter').modal('toggle');
+        			$('#awal').hide();
 					
 					//event jika direload, maka flag used jadi 0 lagi
 					$(window).on('unload', function() {

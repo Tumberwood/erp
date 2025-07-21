@@ -49,14 +49,14 @@
 
                     if (id_wjtxxmh == 2) {
                         btnSubmit = `
-                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
                             <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" style="display: none">Submit & Confirm</button>
                         `;
                         $('#confirmBtn').hide();
                     } else {
                         $('#confirmBtn').show();
                         btnSubmit = `
-                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
                             <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})">Submit</button>
                         `;
                     }
@@ -135,6 +135,12 @@
             }
         } );
     }
+
+    $(document).on('click', '.btn-close-modal', function () {
+        if (tblwdpxxth) {
+            tblwdpxxth.rows().deselect();
+        }
+    });
 
     function jumlahSatuan(itemId) {
         var unitSelect = $('#uom_select' + itemId).val();
