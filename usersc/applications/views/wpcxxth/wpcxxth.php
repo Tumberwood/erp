@@ -11,7 +11,7 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content animated bounceInRight">
 			<form class="form-horizontal" id="frmFilter">
@@ -31,6 +31,25 @@
 					<button class="btn btn-primary" type="submit">Submit</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div> -->
+
+<div class="row" id="awal">
+	<div class="col">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<form class="form-horizontal" id="frmFilter" name="frmFilter">
+					<h4>Filter</h4>
+
+					<div class="form-group row">
+						<label class="col-lg-2 col-md-2">Kode Picking</label>
+						<div class="col-lg-4 col-sm-4">
+							<select class="form-control" id="selectKode" name="selectKode" multiple="multiple"></select>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
@@ -158,7 +177,7 @@
 		tableRelation('wpcxxth');
 		
 		//Aktivasi Filter Floating
-		filterFloating();
+		// filterFloating();
 		
 		$("#selectKode").select2({
 			placeholder : "Select",
@@ -392,6 +411,7 @@
 				// Get selected values
 				uniqueToken = "wpcxxth_" + generateUniqueToken();
 				selectedValues = $(this).val();
+        		$('#awal').hide();
 				
 				$('#selectKode').prop('disabled', true);
 				// Log selected values
@@ -418,7 +438,7 @@
 				isPickingUsed(id_wpcxxth_old, 1, uniqueToken);
 				$('#tableLPN').show();
 				// generateKonten();
-				$('#modalFloatingFilter').modal('toggle');
+				// $('#modalFloatingFilter').modal('toggle');
 				
 				//event jika direload, maka flag used jadi 0 lagi
 				$(window).on('unload', function() {
