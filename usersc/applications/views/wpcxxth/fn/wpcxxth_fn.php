@@ -56,7 +56,7 @@
 				is_replenishment = autofillData.is_replenishment;
                 cekDataInventory(dataKonten[0].id_wplxxth, dataKonten[0].wlpxxmh_kode, dataKonten[0].id_wloxxmh, dataKonten[0].jumlah_pl);
                 if (is_replenishment == 1 && status_code_rep == 500) {
-                    $('.btnLPN').append(`<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`);
+                    $('.btnLPN').append(`<button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>`);
                     $('#konten').html(`<h3>${message_rep}</h3>`);
                 } else {
 
@@ -122,7 +122,7 @@
     
                         if (id_wjtxxmh == 2) {
                             btnSubmit = `
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
                                 <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit & Confirm</button>
                                 `
                                 ;
@@ -130,7 +130,7 @@
                         } else {
                             $('#confirmBtn').show();
                             btnSubmit = `
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
                                     <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit</button>
                                 `;
                         }
@@ -269,7 +269,7 @@
 				is_replenishment = autofillData.is_replenishment;
                 cekDataInventory(dataKonten[0].id_wktxxth, dataKonten[0].wlpxxmh_kode, dataKonten[0].id_wloxxmh, dataKonten[0].jumlah_pl);
                 if (is_replenishment == 1 && status_code_rep == 500) {
-                    $('.btnLPN').append(`<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>`);
+                    $('.btnLPN').append(`<button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>`);
                     $('#konten').html(`<h3>${message_rep}</h3>`);
                 } else {
 
@@ -335,7 +335,7 @@
     
                         if (id_wjtxxmh == 2) {
                             btnSubmit = `
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
                                 <button class="btn btn-warning submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit & Confirm</button>
                                 `
                                 ;
@@ -343,7 +343,7 @@
                         } else {
                             $('#confirmBtn').show();
                             btnSubmit = `
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
                                     <button class="btn btn-primary submit-button" id="submit${kontenData.id}" onClick="validasiJumlah(${kontenData.id})" ${displaySubmitBtn}>Submit</button>
                                 `;
                         }
@@ -450,6 +450,12 @@
             }
         } );
     }
+    
+    $(document).on('click', '.btn-close-modal', function () {
+        if (tblwpcxxth) {
+            tblwpcxxth.rows().deselect();
+        }
+    });
 
     var wloxxmh_out = '';
 
