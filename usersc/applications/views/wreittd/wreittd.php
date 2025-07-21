@@ -84,11 +84,7 @@
 	require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php'; 
 ?>
 
-<!-- Instascan QR Scanner -->
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
-<!-- DataTables Editor QR Plugin -->
-<script src="https://datatables.net/media/blog/2020-07-10/editor.qr.js"></script>
+<!-- Custom QR -->
 
 <!-- <script>
 	(function( factory ){

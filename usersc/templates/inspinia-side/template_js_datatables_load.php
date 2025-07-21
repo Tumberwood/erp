@@ -16,6 +16,12 @@
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/editor/editor.mask.js"></script>
 <script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/editor/editor.quill.js"></script>
 
+<!-- Instascan QR Scanner -->
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/editor_qr/instascan.min.js"></script>
+
+<!-- DataTables Editor QR Plugin -->
+<script src="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/js/plugins/editor_qr/editor.qr.js"></script>
+
 <script>
 // Setup Default for Datatables
 // If you want to change the setup, please write individually on each page
