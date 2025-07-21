@@ -11,7 +11,7 @@
 	$nama_tabels_d = [];
 ?>
 
-<div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal" id="modalFloatingFilter" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content animated bounceInRight">
 			<form class="form-horizontal" id="frmFilter">
@@ -35,6 +35,37 @@
 					<button class="btn btn-primary" type="submit">Submit</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div> -->
+
+<div class="row" id="awal">
+	<div class="col">
+		<div class="ibox ">
+			<div class="ibox-content">
+				<form class="form-horizontal" id="frmFilter" name="frmFilter">
+					<h4>Filter</h4>
+
+					<div class="form-group row">
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="lpnInput" name="lpnInput" placeholder="LPN">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-lg-4 col-sm-4">
+							<input type="text" class="form-control" id="locationInput" name="locationInput" placeholder="Location">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-lg-4 col-sm-4">
+							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="button" class="btn btn-warning" onclick="resetForm()">Close</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
@@ -78,7 +109,7 @@
 		// get tableRelation
 		tableRelation('isoittd_wms');
 		//Aktivasi Filter Floating
-		filterFloating();
+		// filterFloating();
 
 		$(document).ready(function() {
 			
@@ -430,7 +461,8 @@
 						// generateKonten();
 						$('#konten').empty();
 						$('#add_button').hide();
-						$('#btnFilterFloating').trigger('click');
+						$('#awal').show();
+						// $('#btnFilterFloating').trigger('click');
 					}, 500);
 				}
 			});
@@ -450,7 +482,7 @@
 					if (wlpxxmh_filter != '' || wloxxmh_filter != '') {
 						generateKonten();
 						// $('#iboxfilter').addClass('collapsed');
-						$('#modalFloatingFilter').modal('toggle');
+						// $('#modalFloatingFilter').modal('toggle');
 
 						//start at itu saat submit filter
 						start_at = moment().format("YYYY-MM-DD HH:mm:ss");

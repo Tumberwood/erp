@@ -4,6 +4,7 @@
 
     function generateKonten() {
         $('#konten').empty();
+        $('#awal').hide();
         $('#add_button').show();
         id_wlpxxmh_filter = 0;
         id_wloxxmh_filter = 0;
