@@ -170,7 +170,9 @@
                                             edtwptittd.field('wloxxmh_nama_scan').error('');
 
                                             // edtwptittd.field('wptittd.id_wpttpmh').disable();
-                                            edtwptittd.field('wptittd.wlpxxmh_kode').disable();
+                                            // edtwptittd.field('wptittd.wlpxxmh_kode').disable();
+                                            $(edtwptittd.field('wptittd.wlpxxmh_kode').node()).find('input').prop('disabled', true);
+
                                             edtwptittd.field('wptittd.id_iumxxmh_unit').show();
                                             edtwptittd.field('wptittd.keterangan').show();
                                             edtwptittd.field('wptittd.jumlah_unit').show();
