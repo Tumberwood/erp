@@ -1836,9 +1836,100 @@ function maskingPhone(edt, tabel, fields) {
     });
 }
 
+/**
+ * 
+ * pANGGIL DI DATATABLES EDITOR DENGAN
+ * type: scannerDinamis()
+ */
 function scannerDinamis() {
     autofillField('ggswmsh', 1, "scanner");
     var scanner_setting = autofillData.scanner;
     return scanner_setting == "Camera" ? "qr" : "text";
 }
-  
+
+/**
+ * 
+ * @param {id_inputan lpn/location} inputSelector 
+ * 
+ * PASTIKAN PUNYA HTML INPUTAN SEPERTI:
+ * 
+ * <div class="form-group row">
+        <div class="col-lg-4 col-sm-4">
+            <input type="text" class="form-control" id="locationInput" name="locationInput" placeholder="Location">
+        </div>
+    </div>
+
+ * CARA KERJA CUKUP PASANG DI DOKUMEN READY
+ * scanQRFilter('#lpnInput');
+ */
+function scanQRFilter(inputSelector) {
+	const input = $(inputSelector);
+	const inputId = input.attr('id');
+	const scanBtnId = `scan_${inputId}`;
+
+    autofillField('ggswmsh', 1, "scanner");
+    var scanner_setting = autofillData.scanner;
+    if (scanner_setting == "Camera") {
+        // Tambahkan tombol Scan hanya jika belum ada
+        if ($(`#${scanBtnId}`).length === 0) {
+            const formGroupRow = input.closest('.form-group.row');
+            const scanBtn = $(`
+                <div class="col-auto">
+                    <button type="button" class="btn btn-info" id="${scanBtnId}">Scan</button>
+                </div>
+            `);
+            formGroupRow.append(scanBtn);
+        }
+    
+        // Generate modal hanya sekali
+        if ($('#qrScannerModal').length === 0) {
+            const modalHTML = `
+            <div class="modal fade" id="qrScannerModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">QR Scanner</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <video id="qrScannerVideo" style="width: 100%; border:1px solid #ccc;"></video>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            $('body').append(modalHTML);
+        }
+    
+        const videoEl = $('#qrScannerVideo');
+        const modal = $('#qrScannerModal');
+        const scanner = new Instascan.Scanner({ video: videoEl[0] });
+    
+        scanner.addListener('scan', function (content) {
+            input.val(content).trigger('input').trigger('change').trigger('keyup');
+            scanner.stop();
+            modal.modal('hide');
+        });
+    
+        $(`#${scanBtnId}`).on('click', function () {
+            input.val('').trigger('input').trigger('change').trigger('keyup');
+    
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                    modal.modal('show');
+                } else {
+                    alert('No cameras found.');
+                }
+            }).catch(function (e) {
+                console.error(e);
+                alert('Camera error: ' + e);
+            });
+        });
+    
+        modal.on('hidden.bs.modal', function () {
+            scanner.stop();
+        });
+    }
+}

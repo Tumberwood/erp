@@ -32,6 +32,9 @@
                     } else {
                         is_valid_lpn = 0;
                         alert('LPN Tidak Terdaftar di master LPN!');
+						$('#konten').empty();
+						$('#add_button').hide();
+						$('#awal').show();
                     }
                 }
             } );
@@ -57,6 +60,9 @@
                     } else {
                         is_valid_loc = 0;
                         alert('Location Tidak Terdaftar di master Location!');
+						$('#konten').empty();
+						$('#add_button').hide();
+						$('#awal').show();
                     }
                 }
             } );

@@ -111,7 +111,11 @@
 		// filterFloating();
 
 		$(document).ready(function() {
-			
+
+			//Scan QR untuk non datatables editor
+			scanQRFilter('#lpnInput');
+			scanQRFilter('#locationInput');
+
 		/////////// ADD DETAIL ISO ////////////
 
 			edtisoittd_wms = new $.fn.dataTable.Editor( {
