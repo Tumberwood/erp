@@ -173,9 +173,7 @@
                                             
                                             // edtwptittd.field('wptittd.wlpxxmh_kode').disable();
 
-                                            $(edtwptittd.field('wptittd.wlpxxmh_kode').node()).find('input').prop('disabled', true);
-                                            var fieldNode = edtwptittd.field('wptittd.wlpxxmh_kode').node();
-                                            $(fieldNode).find('button.btn.btn-outline-info').hide();
+                                            showHideCameraQR(edtwptittd, 'wptittd.wlpxxmh_kode', 'hide');
 
                                             edtwptittd.field('wptittd.id_iumxxmh_unit').show();
                                             edtwptittd.field('wptittd.keterangan').show();

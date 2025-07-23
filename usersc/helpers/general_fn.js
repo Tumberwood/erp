@@ -1935,3 +1935,21 @@ function scanQRFilter(inputSelector) {
         });
     }
 }
+
+/**
+ * 
+ * @param {editor} edt 
+ * @param {'wptittd.wlpxxmh_kode'} field
+ * @param {'show' / 'hide'} status
+ */
+function showHideCameraQR(edt, field, status) {
+    if (status == "hide") {
+        $(edt.field(field).node()).find('input').prop('disabled', true);
+        var fieldNode = edt.field(field).node();
+        $(fieldNode).find('button.btn.btn-outline-info').hide();
+    } else {
+        $(edt.field(field).node()).find('input').prop('disabled', false);
+        var fieldNode = edt.field(field).node();
+        $(fieldNode).find('button.btn.btn-outline-info').show();
+    }
+}

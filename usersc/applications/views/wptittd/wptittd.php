@@ -605,9 +605,7 @@
 		edtwptittd.on( 'close', function () {
 			edtwptittd.enable();
 			
-			$(edtwptittd.field('wptittd.wlpxxmh_kode').node()).find('input').prop('disabled', false);
-			var fieldNode = edtwptittd.field('wptittd.wlpxxmh_kode').node();
-			$(fieldNode).find('button.btn.btn-outline-info').show();
+			showHideCameraQR(edtwptittd, 'wptittd.wlpxxmh_kode', 'show');
 
 			//delete iiv fisik 0 atau booking
 			window.removeEventListener('beforeunload', confirmLeavePage);
