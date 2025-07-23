@@ -36,7 +36,7 @@ _fieldTypes.qr = {
 			padding: '2% 0%',
 		});
 		var input = $('<input id="' + safeId + '"/>');
-		var scan = $('<button>Scan</button>').css({ margin: '0% 1%' });
+		var scan = $('<button type="button" class="btn btn-outline-info">Scan</button>').css({ margin: '0% 1%' });
 		var container = $('<div/>').append(input).append(scan).append(video);
 
 		conf.qrInput = input;

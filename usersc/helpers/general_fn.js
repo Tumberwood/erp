@@ -1875,7 +1875,9 @@ function scanQRFilter(inputSelector) {
             const formGroupRow = input.closest('.form-group.row');
             const scanBtn = $(`
                 <div class="col-auto">
-                    <button type="button" class="btn btn-info" id="${scanBtnId}">Scan</button>
+                    <button type="button" class="btn btn-outline-info" id="${scanBtnId}">
+                        <i class="fa fa-camera fa-lg"></i>
+                    </button>              
                 </div>
             `);
             formGroupRow.append(scanBtn);
