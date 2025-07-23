@@ -158,7 +158,8 @@
 				},	
 				{
 					label: "LPN <sup class='text-danger'>*<sup>",
-					name: "wptittd.wlpxxmh_kode"
+					name: "wptittd.wlpxxmh_kode",
+					type: scannerDinamis()
 				},
 				{
 					label: "Jenis Putaway <sup class='text-danger'>*<sup>",
@@ -351,7 +352,8 @@
 				},
 				{
 					label: "Location <sup class='text-danger'>*<sup>",
-					name: "wloxxmh_nama_scan"
+					name: "wloxxmh_nama_scan",
+					type: scannerDinamis()
 				},
 			]
 		} );

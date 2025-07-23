@@ -44,9 +44,18 @@ _fieldTypes.qr = {
 		// Section 2 - Instascan setup
 		var scanner = new Instascan.Scanner({ video: video[0] });
 		scanner.addListener('scan', function (content) {
-			input.val(content).css({ border: 'blue 2px solid' });
+			input.val(content)
+				.css({ border: 'blue 2px solid' })
+				.trigger('input')
+				.trigger('change')
+				.trigger('keyup'); // penting agar dependent() aktif
+		
 			video.css({ border: 'blue 2px solid' });
-
+		
+			scanner.stop();
+			video.css({ display: 'none' });
+			scan.html('Scan');
+		
 			setTimeout(() => {
 				input.css({ border: 'none' });
 				video.css({ border: 'none' });
@@ -56,6 +65,12 @@ _fieldTypes.qr = {
 		// Section 3 - Toggle control
 		scan.on('click', function () {
 			if (this.innerHTML === 'Scan') {
+				// Kosongkan input sebelum mulai scan
+				input.val('')
+					.trigger('input')
+					.trigger('change')
+					.trigger('keyup'); // optional: trigger dependent()
+		
 				Instascan.Camera.getCameras()
 					.then(function (cameras) {
 						if (cameras.length > 0) {
@@ -68,14 +83,14 @@ _fieldTypes.qr = {
 					.catch(function (e) {
 						console.error(e);
 					});
-
+		
 				this.innerHTML = 'Stop';
 			} else if (this.innerHTML === 'Stop') {
 				video.css({ display: 'none' });
 				scanner.stop();
 				this.innerHTML = 'Scan';
 			}
-		});
+		});		
 
 		// Section 4 - Close behaviour
 		this.on('close', function () {
