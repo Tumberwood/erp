@@ -156,11 +156,13 @@
 				},	
 				{
 					label: "Lokasi Asal <sup class='text-danger'>*<sup>",
-					name: "wloxxmh_nama_asal"
+					name: "wloxxmh_nama_asal",
+					type: scannerDinamis()
 				},
 				{
 					label: "LPN Asal<sup class='text-danger'>*<sup>",
-					name: "wtrittd.wlpxxmh_kode"
+					name: "wtrittd.wlpxxmh_kode",
+					type: scannerDinamis()
 				},
 				{
 					label: "wtrittd.id_iimxxmh",
@@ -252,7 +254,8 @@
 				},
 				{
 					label: "Lokasi Tujuan <sup class='text-danger'>*<sup>",
-					name: "wloxxmh_nama_scan"
+					name: "wloxxmh_nama_scan",
+					type: scannerDinamis()
 				},
 				{
 					label: "Gabung LPN <sup class='text-danger'>*<sup>",
@@ -265,7 +268,8 @@
 				},
 				{
 					label: "LPN Tujuan <sup class='text-danger'>*<sup>",
-					name: "wtrittd.wlpxxmh_kode_tujuan"
+					name: "wtrittd.wlpxxmh_kode_tujuan",
+					type: scannerDinamis()
 				},
 				{
 					label: "Gabung ke LPN<sup class='text-danger'>*<sup>",
@@ -297,6 +301,18 @@
 				},
 			]
 		} );
+
+		//masking
+		unmaskedData = maskingNumber(
+			edtwtrittd, 
+			"wtrittd", 
+			[
+				"jumlah_unit", 
+			],
+			0, //digit belakang koma
+			0, //validasiNumber 
+			'>' // val >= 0
+		);
 
 		edtwtrittd.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -441,7 +457,7 @@
 
 				wlpxxmh_kode = edtwtrittd.field('wtrittd.wlpxxmh_kode').val();
 				id_iumxxmh_unit = edtwtrittd.field('wtrittd.id_iumxxmh_unit').val();
-				jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').val();
+				jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').input().inputmask('unmaskedvalue');
 				wloxxmh_nama_scan = edtwtrittd.field('wloxxmh_nama_scan').val();
 				wloxxmh_nama_asal = edtwtrittd.field('wloxxmh_nama_asal').val();
 				is_gabung_lpn = edtwtrittd.field('wtrittd.is_gabung_lpn').val();
@@ -658,7 +674,7 @@
 							action: function () {
 								// this.close();
 								outstandingItem();
-								jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').val();
+								jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').input().inputmask('unmaskedvalue');
 
 								// console.log('sisa = '+sisa); //10.00
 								jumlah_unit = parseFloat(jumlah_unit);

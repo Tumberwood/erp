@@ -156,7 +156,9 @@
         id_iimxxmh = edtwtrittd.field('wtrittd.id_iimxxmh').val();
         id_iwhxxmh = edtwtrittd.field('wtrittd.id_iwhxxmh').val();
         id_iumxxmh_unit = edtwtrittd.field('wtrittd.id_iumxxmh_unit').val();
-        jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').val();
+        // jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').val();
+        
+        jumlah_unit = edtwtrittd.field('wtrittd.jumlah_unit').input().inputmask('unmaskedvalue');
         id_wloxxmh_asal = edtwtrittd.field('wtrittd.id_wloxxmh_asal').val();
         id_wloxxmh_tujuan = edtwtrittd.field('wtrittd.id_wloxxmh_tujuan').val();
         // console.log("state = "+state);

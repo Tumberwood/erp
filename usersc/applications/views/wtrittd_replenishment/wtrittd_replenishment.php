@@ -156,11 +156,13 @@
 				},	
 				{
 					label: "Lokasi Asal <sup class='text-danger'>*<sup>",
-					name: "wloxxmh_nama_asal"
+					name: "wloxxmh_nama_asal",
+					type: scannerDinamis()
 				},
 				{
 					label: "LPN Asal<sup class='text-danger'>*<sup>",
-					name: "wtrittd.wlpxxmh_kode"
+					name: "wtrittd.wlpxxmh_kode",
+					type: scannerDinamis()
 				},
 				{
 					label: "wtrittd.id_iimxxmh",
@@ -243,7 +245,8 @@
 				},
 				{
 					label: "Lokasi Tujuan <sup class='text-danger'>*<sup>",
-					name: "wloxxmh_nama_scan"
+					name: "wloxxmh_nama_scan",
+					type: scannerDinamis()
 				},
 				{
 					label: "Gabung LPN <sup class='text-danger'>*<sup>",
@@ -256,7 +259,8 @@
 				},
 				{
 					label: "LPN Tujuan <sup class='text-danger'>*<sup>",
-					name: "wtrittd.wlpxxmh_kode_tujuan"
+					name: "wtrittd.wlpxxmh_kode_tujuan",
+					type: scannerDinamis()
 				},
 				{
 					label: "Gabung ke LPN<sup class='text-danger'>*<sup>",

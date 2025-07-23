@@ -186,7 +186,7 @@
 				LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 				LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 				LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-				LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+				LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 				WHERE a.id = :id
 		');
 
@@ -298,7 +298,7 @@
 				LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 				LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 				LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-				LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+				LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 				WHERE a.id = :id
 		');
 
@@ -414,7 +414,7 @@
 					LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 					LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-					LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+					LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 					WHERE a.id = :id
 			');
 	
@@ -527,7 +527,7 @@
 					LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 					LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 					LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-					LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+					LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 					WHERE a.id = :id
 			');
 		} else {
@@ -643,7 +643,7 @@
 							LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 							LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 							LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 							WHERE a.id = :id
 					');
 			
@@ -756,7 +756,7 @@
 							LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 							LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 							LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 							WHERE a.id = :id
 					');
 				} else {
@@ -1149,7 +1149,7 @@
 							LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 							LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 							LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 							WHERE a.id = :id
 					');
 			
@@ -1263,7 +1263,7 @@
 							LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 							LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 							LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+							LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 							WHERE a.id = :id
 					');
 				}
@@ -1377,7 +1377,7 @@
 						LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 						LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 						LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-						LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+						LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 						WHERE a.id = :id
 				');
 		
@@ -1490,7 +1490,7 @@
 						LEFT JOIN iumxxmh as iumxxmh_unit ON iumxxmh_unit.id = a.id_iumxxmh_unit
 						LEFT JOIN iumxxmh as iumxxmh_terkecil ON iumxxmh_terkecil.id = a.id_iumxxmh_terkecil
 						LEFT JOIN iumxxmh as iumxxmh_default ON iumxxmh_default.id = a.id_iumxxmh_default
-						LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1
+						LEFT JOIN imtxxmh imtxxmh ON imtxxmh.kode = '.$imtxxmh_kode.' AND imtxxmh.transaction_state = 1 AND module = "WMS"
 						WHERE a.id = :id
 				');
 			}
