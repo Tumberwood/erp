@@ -562,7 +562,7 @@
 				{
 					label: "Prioritas Picking",
 					name: "wplxxth.is_priority",
-					// fieldInfo: "Ya: berarti URGENT",
+					fieldInfo: "Ya: berarti URGENT",
 					type: "select",
 					options: [
 						{ "label": "Ya", "value": 1 },
