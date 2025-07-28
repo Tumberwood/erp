@@ -128,7 +128,11 @@
 						-- a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
 						def.kode AS iumxxmh_default_kode,
 						d.nama AS wloxxmh_out_nama,
-						ifnull(e.urutan, 0) AS urutan,
+						-- ifnull(e.urutan, 0) AS urutan,
+						if(is_koordinat = 0, 
+							ifnull(e.urutan,0), -- kalo urutan maka ambil dari urutan di loc pref
+							ABS(d.koord_x - asal.koord_x) + ABS(d.koord_y - asal.koord_y) + (ABS(d.koord_z - asal.koord_z) * koefisien_level)
+						) AS urutan,
 						a.status_picking,
 						c.id_wjtxxmh
 					FROM wpllptd a
@@ -147,6 +151,9 @@
 						GROUP BY id_wpllptd
 					) f ON f.id_wpllptd = a.id
 					LEFT JOIN wpclptd book on book.id_wpllptd = a.id AND book.keterangan = :uniqueToken
+					-- Koordinat
+					LEFT JOIN ggswmsh gg on gg.id = 1
+					LEFT JOIN wloxxmh asal ON asal.id = a.id_wloxxmh
 					WHERE 
 						-- a.jumlah_terkecil_os > 0 AND
 						a.id_wpcxxth = '.$id_wpcxxth_old .'
@@ -190,7 +197,11 @@
 						-- a.jumlah_terkecil_os / a.jumlah_konversi AS jumlah_default_os,
 						def.kode AS iumxxmh_default_kode,
 						d.nama AS wloxxmh_out_nama,
-						ifnull(e.urutan, 0) AS urutan,
+						-- ifnull(e.urutan, 0) AS urutan,
+						if(is_koordinat = 0, 
+							ifnull(e.urutan,0), -- kalo urutan maka ambil dari urutan di loc pref
+							ABS(d.koord_x - asal.koord_x) + ABS(d.koord_y - asal.koord_y) + (ABS(d.koord_z - asal.koord_z) * koefisien_level)
+						) AS urutan,
 						a.status_picking,
 						c.id_wjtxxmh
 					FROM wktlptd a
@@ -209,6 +220,9 @@
 						GROUP BY id_wktlptd
 					) f ON f.id_wktlptd = a.id
 					LEFT JOIN wpclptd book on book.id_wktlptd = a.id AND book.keterangan = :uniqueToken
+					-- Koordinat
+					LEFT JOIN ggswmsh gg on gg.id = 1
+					LEFT JOIN wloxxmh asal ON asal.id = a.id_wloxxmh
 					WHERE 
 						-- a.jumlah_terkecil_os > 0 AND
 						a.id_wpcxxth = '.$id_wpcxxth_old .'
