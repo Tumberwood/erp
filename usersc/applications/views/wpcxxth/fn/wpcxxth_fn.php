@@ -209,7 +209,7 @@
                                     <div class="d-flex align-items-center justify-content-between m-t-n-sm">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
+                                                <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity camera_scan" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
                                             </div>
                                         </div>
                                     </div>
@@ -423,7 +423,7 @@
                                     <div class="d-flex align-items-center justify-content-between m-t-n-sm">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
+                                                <input type="text" id="dispatch${kontenData.id}" class="form-control form-control-sm quantity camera_scan" placeholder="Dispatch Location" style="display: none" onchange="validasiDispatch(${kontenData.id}, '${kontenData.wloxxmh_out_nama}')">
                                             </div>
                                         </div>
                                     </div>
@@ -468,7 +468,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="d-flex align-items-center">
                         <div class="quantity-input">
-                            <input type="text" id="locDispatch" onkeyup="confirmDispatch()" class="form-control form-control-sm quantity" placeholder="${wloxxmh_out}">
+                            <input type="text" id="locDispatch" onkeyup="confirmDispatch()" class="form-control form-control-sm quantity camera_scan" placeholder="${wloxxmh_out}">
                         </div>
                     </div>
                 </div>
