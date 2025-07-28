@@ -1960,136 +1960,141 @@ function showHideCameraQR(edt, field, status) {
  * Contoh di menu Picking, wpcxxth_fn.php
  */
 function initCameraScannerForClass(className = 'camera_scan') {
-    const inputs = document.querySelectorAll(`input.${className}`);
-
-    function isInputVisible(input) {
-        // Cek apakah input visible (display tidak none, visibility tidak hidden)
-        const style = getComputedStyle(input);
-        return style.display !== 'none' && style.visibility !== 'hidden';
-    }
-
-    function isInputEnabled(input) {
-        return !input.disabled && !input.readOnly;
-    }
-
-    function updateScanButtonVisibility(input, wrapper) {
-        if (isInputVisible(input) && isInputEnabled(input)) {
-            wrapper.style.display = 'inline-flex';
-        } else {
-            wrapper.style.display = 'none';
+    
+    autofillField('ggswmsh', 1, "scanner");
+    var scanner_setting = autofillData.scanner;
+    if (scanner_setting == "Camera") {
+        const inputs = document.querySelectorAll(`input.${className}`);
+    
+        function isInputVisible(input) {
+            // Cek apakah input visible (display tidak none, visibility tidak hidden)
+            const style = getComputedStyle(input);
+            return style.display !== 'none' && style.visibility !== 'hidden';
         }
-    }
-
-    inputs.forEach(input => {
-        const parentDiv = input.parentNode;
-
-        if (parentDiv.querySelector('.btn-scan-wrapper')) {
-            return; // sudah ada tombol scan
+    
+        function isInputEnabled(input) {
+            return !input.disabled && !input.readOnly;
         }
-
-        // Container input + button (flex row)
-        const inputBtnContainer = document.createElement('div');
-        inputBtnContainer.style.display = 'flex';
-        inputBtnContainer.style.alignItems = 'center';
-        inputBtnContainer.style.gap = '8px';
-
-        inputBtnContainer.appendChild(input);
-
-        // Wrapper tombol scan
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('btn-scan-wrapper');
-        wrapper.style.alignItems = 'center';
-        wrapper.style.gap = '8px';
-        wrapper.style.marginLeft = '8px';
-
-        // Tombol scan
-        const scanBtn = document.createElement('button');
-        scanBtn.type = 'button';
-        scanBtn.textContent = 'Scan';
-        scanBtn.classList.add('btn', 'btn-outline-info', 'btn-sm');
-
-        wrapper.appendChild(scanBtn);
-        inputBtnContainer.appendChild(wrapper);
-
-        parentDiv.appendChild(inputBtnContainer);
-
-        // Video di bawah input+button
-        const video = document.createElement('video');
-        video.style.display = 'none';
-        video.style.width = '100%';
-        video.style.maxWidth = '100%';
-        video.style.height = 'auto';
-        video.style.marginTop = '8px';
-        video.style.border = '1px solid #ccc';
-        video.style.borderRadius = '4px';
-
-        parentDiv.appendChild(video);
-
-        // Set initial visibility tombol scan
-        updateScanButtonVisibility(input, wrapper);
-
-        // Setup scanner
-        const scanner = new Instascan.Scanner({ video: video });
-
-        scanner.addListener('scan', content => {
-            input.value = content;
-            input.style.border = '2px solid blue';
-            ['input', 'change', 'keyup'].forEach(e => input.dispatchEvent(new Event(e)));
-            scanner.stop();
-            video.style.display = 'none';
-            scanBtn.textContent = 'Scan';
-            setTimeout(() => {
-                input.style.border = '';
-            }, 1000);
-        });
-
-        scanBtn.addEventListener('click', () => {
-            if (!isInputVisible(input) || !isInputEnabled(input)) {
-                alert('Input tidak terlihat atau tidak bisa diedit, scan tidak bisa dijalankan.');
-                return;
-            }
-
-            if (scanBtn.textContent === 'Scan') {
-                input.value = '';
-                ['input', 'change', 'keyup'].forEach(e => input.dispatchEvent(new Event(e)));
-
-                Instascan.Camera.getCameras()
-                    .then(cameras => {
-                        if (cameras.length > 0) {
-                            video.style.display = 'block';
-                            scanner.start(cameras[0]);
-                        } else {
-                            alert('No cameras found.');
-                        }
-                    })
-                    .catch(e => alert('Error getting cameras: ' + e));
-
-                scanBtn.textContent = 'Stop';
+    
+        function updateScanButtonVisibility(input, wrapper) {
+            if (isInputVisible(input) && isInputEnabled(input)) {
+                wrapper.style.display = 'inline-flex';
             } else {
+                wrapper.style.display = 'none';
+            }
+        }
+    
+        inputs.forEach(input => {
+            const parentDiv = input.parentNode;
+    
+            if (parentDiv.querySelector('.btn-scan-wrapper')) {
+                return; // sudah ada tombol scan
+            }
+    
+            // Container input + button (flex row)
+            const inputBtnContainer = document.createElement('div');
+            inputBtnContainer.style.display = 'flex';
+            inputBtnContainer.style.alignItems = 'center';
+            inputBtnContainer.style.gap = '8px';
+    
+            inputBtnContainer.appendChild(input);
+    
+            // Wrapper tombol scan
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('btn-scan-wrapper');
+            wrapper.style.alignItems = 'center';
+            wrapper.style.gap = '8px';
+            wrapper.style.marginLeft = '8px';
+    
+            // Tombol scan
+            const scanBtn = document.createElement('button');
+            scanBtn.type = 'button';
+            scanBtn.textContent = 'Scan';
+            scanBtn.classList.add('btn', 'btn-outline-info', 'btn-sm');
+    
+            wrapper.appendChild(scanBtn);
+            inputBtnContainer.appendChild(wrapper);
+    
+            parentDiv.appendChild(inputBtnContainer);
+    
+            // Video di bawah input+button
+            const video = document.createElement('video');
+            video.style.display = 'none';
+            video.style.width = '100%';
+            video.style.maxWidth = '100%';
+            video.style.height = 'auto';
+            video.style.marginTop = '8px';
+            video.style.border = '1px solid #ccc';
+            video.style.borderRadius = '4px';
+    
+            parentDiv.appendChild(video);
+    
+            // Set initial visibility tombol scan
+            updateScanButtonVisibility(input, wrapper);
+    
+            // Setup scanner
+            const scanner = new Instascan.Scanner({ video: video });
+    
+            scanner.addListener('scan', content => {
+                input.value = content;
+                input.style.border = '2px solid blue';
+                ['input', 'change', 'keyup'].forEach(e => input.dispatchEvent(new Event(e)));
                 scanner.stop();
                 video.style.display = 'none';
                 scanBtn.textContent = 'Scan';
-            }
-        });
-
-        // MutationObserver untuk pantau perubahan atribut yang bisa mempengaruhi visibilitas dan enabled
-        const observer = new MutationObserver(() => {
-            updateScanButtonVisibility(input, wrapper);
-
-            // Jika tombol sedang stop (video aktif), cek juga video visibility
-            if (scanBtn.textContent === 'Stop') {
-                if (isInputVisible(input) && isInputEnabled(input)) {
-                    video.style.display = 'block';
+                setTimeout(() => {
+                    input.style.border = '';
+                }, 1000);
+            });
+    
+            scanBtn.addEventListener('click', () => {
+                if (!isInputVisible(input) || !isInputEnabled(input)) {
+                    alert('Input tidak terlihat atau tidak bisa diedit, scan tidak bisa dijalankan.');
+                    return;
+                }
+    
+                if (scanBtn.textContent === 'Scan') {
+                    input.value = '';
+                    ['input', 'change', 'keyup'].forEach(e => input.dispatchEvent(new Event(e)));
+    
+                    Instascan.Camera.getCameras()
+                        .then(cameras => {
+                            if (cameras.length > 0) {
+                                video.style.display = 'block';
+                                scanner.start(cameras[0]);
+                            } else {
+                                alert('No cameras found.');
+                            }
+                        })
+                        .catch(e => alert('Error getting cameras: ' + e));
+    
+                    scanBtn.textContent = 'Stop';
                 } else {
                     scanner.stop();
                     video.style.display = 'none';
                     scanBtn.textContent = 'Scan';
                 }
-            } else {
-                video.style.display = 'none';
-            }
+            });
+    
+            // MutationObserver untuk pantau perubahan atribut yang bisa mempengaruhi visibilitas dan enabled
+            const observer = new MutationObserver(() => {
+                updateScanButtonVisibility(input, wrapper);
+    
+                // Jika tombol sedang stop (video aktif), cek juga video visibility
+                if (scanBtn.textContent === 'Stop') {
+                    if (isInputVisible(input) && isInputEnabled(input)) {
+                        video.style.display = 'block';
+                    } else {
+                        scanner.stop();
+                        video.style.display = 'none';
+                        scanBtn.textContent = 'Scan';
+                    }
+                } else {
+                    video.style.display = 'none';
+                }
+            });
+    
+            observer.observe(input, { attributes: true, attributeFilter: ['style', 'class', 'disabled', 'readonly', 'hidden'] });
         });
-
-        observer.observe(input, { attributes: true, attributeFilter: ['style', 'class', 'disabled', 'readonly', 'hidden'] });
-    });
+    }
 }
