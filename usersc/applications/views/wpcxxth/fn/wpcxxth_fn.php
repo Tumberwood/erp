@@ -162,7 +162,7 @@
                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
+                                                <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity camera_scan" placeholder="Location" ${displayInputan}>
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +172,7 @@
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
+                                                <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity camera_scan" placeholder="LPN" style="display: none">
                                             </div>
                                         </div>
                                     </div>
@@ -232,6 +232,7 @@
 
                     $('.btnLPN').append(btnSubmit);
                     $('#konten').html(genKonten);
+                    initCameraScannerForClass('camera_scan');
                 }
 
                 // $(`#locAsal${dataKonten[0].id}`).focus();
@@ -375,7 +376,7 @@
                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity" placeholder="Location" ${displayInputan}>
+                                                <input type="text" id="locAsal${kontenData.id}" onkeyup="validasiLocation(${kontenData.id}, '${wloxxmh_nama}')" class="form-control form-control-sm quantity camera_scan" placeholder="Location" ${displayInputan}>
                                             </div>
                                         </div>
                                     </div>
@@ -385,7 +386,7 @@
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center">
                                             <div class="quantity-input">
-                                                <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity" placeholder="LPN" style="display: none">
+                                                <input type="text" id="lpn${kontenData.id}" onkeyup="validasiLPN(${kontenData.id}, '${kontenData.wlpxxmh_kode}', ${id_submit_d})" class="form-control form-control-sm quantity camera_scan" placeholder="LPN" style="display: none">
                                             </div>
                                         </div>
                                     </div>
@@ -444,6 +445,8 @@
                     });
                     $('.btnLPN').append(btnSubmit);
                     $('#konten').html(genKonten);
+                    initCameraScannerForClass('camera_scan');
+
                 }
 
                 // $(`#locAsal${dataKonten[0].id}`).focus();
