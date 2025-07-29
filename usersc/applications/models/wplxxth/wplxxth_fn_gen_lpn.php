@@ -359,6 +359,7 @@
 						return 1; // b duluan
 					}
 
+					//IF DRIVE IN
 					if ($a['id_wlotpmh'] == 4 && $b['id_wlotpmh'] == 4) {
 						// Urutkan rack ASC
 						$rackCompare = strcmp($a['rack'], $b['rack']);
