@@ -267,6 +267,10 @@
 							        WHERE a_inner.id = MAX(b.id) -- Correlates with the outer query
 							    ) AS iimxxmh_status_max_id,
 								id_iiv_fifo AS id_iiv,
+								tujuan.id_wlotpmh,
+								tujuan.depth,
+								tujuan.level,
+								tujuan.rack,
 								b.id_wloctmh,
 								wlpxxmh_kode,
 								b.id_iwhxxmh,
@@ -349,8 +353,33 @@
 
 				//Aturan Movement Method Order, sesuai master items
 				$movementMethodOrder = function ($a, $b) use ($movement_method, $movement_method2) {
+					if ($a['id_wlotpmh'] == 4 && $b['id_wlotpmh'] != 4) {
+						return -1; // a duluan
+					} elseif ($b['id_wlotpmh'] == 4 && $a['id_wlotpmh'] != 4) {
+						return 1; // b duluan
+					}
+
+					if ($a['id_wlotpmh'] == 4 && $b['id_wlotpmh'] == 4) {
+						// Urutkan rack ASC
+						$rackCompare = strcmp($a['rack'], $b['rack']);
+						if ($rackCompare !== 0) return $rackCompare;
+					
+						// Depth DESC (paling dekat pintu dulu)
+						if ($a['depth'] != $b['depth']) return $b['depth'] <=> $a['depth'];
+					
+						// Level DESC (level atas dulu)
+						if ($a['level'] != $b['level']) return $b['level'] <=> $a['level'];
+					
+						// Expired date ASC (tanggal expired terdekat dulu)
+						$dateA = strtotime($a['expired_date']);
+						$dateB = strtotime($b['expired_date']);
+						if ($dateA != $dateB) return $dateA <=> $dateB;
+					
+						return 0;
+					}
+
 					// FEFO utama
-					if ($movement_method == 1) {
+					else if ($movement_method == 1) {
 						$dateComparison = strtotime($a['expired_date']) <=> strtotime($b['expired_date']);
 						if ($dateComparison !== 0) return $dateComparison;
 				
