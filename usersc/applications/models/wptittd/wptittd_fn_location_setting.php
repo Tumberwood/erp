@@ -32,6 +32,7 @@
         ->bind(':id_iwhxxmh', $id_iwhxxmh)
         ->exec('SELECT
                     b.id id_wloxxmh_tujuan,
+                    b.id_wlotpmh,
                     b.nama,
                     b.id_wloctmh,
                     a.urutan,
@@ -61,10 +62,12 @@
         $message = 'Lokasi tidak terdaftar di Location Preference!';
         $type_message = 'error';
         $id_wloxxmh_tujuan = 0;
+        $id_wlotpmh = 0;
         
     }else{
         //jika ada di location preference, maka dilihat di inventory, apakah masih ada ruang
         
+        $id_wlotpmh = $rs_loc_pref['id_wlotpmh'];
         $id_wloxxmh_tujuan = $rs_loc_pref['id_wloxxmh_tujuan'];
         $id_iumxxmh_kapasitas = $rs_loc_pref['id_iumxxmh_kapasitas'];
         $kode = $rs_loc_pref['kode'];
@@ -210,8 +213,9 @@
         'message'           => $message,
         'type_message'      => $type_message,
 
-        'id_wloxxmh_tujuan'        => $id_wloxxmh_tujuan,
-        'is_inventory'        => $is_inventory,
+        'id_wlotpmh'        => $id_wlotpmh,
+        'id_wloxxmh_tujuan' => $id_wloxxmh_tujuan,
+        'is_inventory'      => $is_inventory,
     );
 
     // tampilkan results

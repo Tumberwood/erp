@@ -348,13 +348,17 @@
             success: function ( json ) {
                 status_code = json.data.status_code;
                 id_wloxxmh_tujuan = json.data.id_wloxxmh_tujuan;
+                id_wlotpmh = json.data.id_wlotpmh;
                 // console.log(id_wloxxmh_tujuan);
 
                 //ini code jika is_ganti_lokasi_putaway == 1
                 //cek apakah lokasi yang discan sama dengan yang di detail/keterangan
                 if(wloxxmh_nama_scan != wloxxmh_nama_target){
-                    //jika tidak sama maka akan ada confirm
-                        
+                    if (id_wlotpmh == 4) {
+                        edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Drive In Tidak Sesuai!' );
+                        edtwptittd.field('wloxxmh_nama_scan').val('');
+                    } else {
+                        //jika tidak sama maka akan ada confirm
                         if (status_code == 500) {
                             edtwptittd.field('wloxxmh_nama_scan').error( json.data.message );
                             edtwptittd.field('wloxxmh_nama_scan').val('');
@@ -370,23 +374,7 @@
                                 edtwptittd.field('wloxxmh_nama_scan').val('');
                             }
                         }
-
-                        // if(id_wloxxmh_tujuan == 0){
-                        //     edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
-                        //     edtwptittd.field('wloxxmh_nama_scan').val('');
-                        //     // console.log('xx');
-                        // }else{
-                        //     const confirm_loc = confirm('Apakah anda ingin mengganti lokasi simpan?');
-                        //     if (confirm_loc) {
-                        //         edtwptittd.field('wloxxmh_nama_scan').error( '' );
-                        //         // console.log('lokasi ok');
-                        //         edtwptittd.field('wptittd.id_wloxxmh_tujuan').val(id_wloxxmh_tujuan);     
-                        //     } else {
-                        //         edtwptittd.field('wloxxmh_nama_scan').error( 'Lokasi Tidak Sesuai!' );
-                        //         edtwptittd.field('wloxxmh_nama_scan').val('');
-                        //         // console.log('xx');
-                        //     }
-                        // }
+                    }
                 }else{
                     //meskipun kalo is_ganti_lokasi_putaway == 1 tapi nama scan sesui dengan yang detail maka pakai coding ini untuk OK
                     edtwptittd.field('wloxxmh_nama_scan').error( '' );
