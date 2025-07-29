@@ -86,6 +86,17 @@
                     $w_position_name = '';
                 }
 
+                if (!empty($values['depth_name'])) {
+                    $depth_name_values = array_map(function($value) {
+                        return "'" . $value . "'";
+                    }, $values['depth_name']);
+                    $depth_name_placeholders = implode(',', $depth_name_values);
+                    $w_depth_name = 'AND depth_name IN (' . $depth_name_placeholders . ') ';
+
+                }else{
+                    $w_depth_name = '';
+                }
+
                 // select existing wimlotd.id_wloxxmh berdasarkan id_iimxxmh
                 $qs_wimlotd = $editor->db()
                     ->query('select', 'wimlotd' )
@@ -136,6 +147,7 @@
                             . $w_bay_name 
                             . $w_level_name 
                             . $w_position_name 
+                            . $w_depth_name 
                             . $w_wimlotd . ';'
                     );
 

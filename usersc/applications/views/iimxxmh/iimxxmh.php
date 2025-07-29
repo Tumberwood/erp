@@ -292,7 +292,7 @@
 	var is_default_old = 0;
 	var is_iumxxmh_beli = 0, is_iumxxmh_beli_old = 0, is_iumxxmh_jual = 0, is_iumxxmh_jual_old = 0, is_replenishment_old = 0;
 	var is_update_iumxxmh_default = 0, is_update_iumxxmh_beli = 0, is_update_iumxxmh_jual  = 0;
-	var id_wloxxmh_old = 0, id_grlxxmh_old = 0;
+	var id_wloxxmh_old = 0, id_grlxxmh_old = 0,id_wloxxmh_depth_old = 0;
 
 	// get tableRelation
 	tableRelation('iimxxmh');
@@ -1948,6 +1948,48 @@
 						},
 					}
 				},
+				{
+					label: "Depth",
+					name: "depth_name",
+					type: "select2",
+					fieldInfo: "Dapat pilih lebih dari satu, atau kosongkan jika ingin generate untuk semua depth.",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: true,
+						ajax: {
+							url: "../../models/wloxxmh/wloxxmh_fn_opt_depth.php",
+							dataType: 'json',
+							data: function (params) {
+								var query = {
+									id_wloxxmh_depth_old: 0,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+								results = data.results;
+								transformedResults = results.map(item => ({
+									id: item.text,
+									text: item.text
+								}));								
+								return {
+									results: transformedResults,
+									pagination: {
+										more: true
+									}
+								};
+							},
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},
 
 			]
 		} );
@@ -2613,7 +2655,7 @@
 
 		tbliimrlmd_supplier.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			CekDrawDetailHD( tbliimrlmd_supplier, 1 );
+			CekDrawDetailHD( tbliimrlmd_supplier, 0 );
 			CekDrawDetailHDFinal(tbliimxxmh);
 
 		} );
@@ -3015,7 +3057,7 @@
 
 		tblwimivtd.on( 'draw', function( e, settings ) { 
 			// atur hak akses
-			CekDrawDetailHD( tblwimivtd, 1 );
+			CekDrawDetailHD( tblwimivtd, 0 );
 			CekDrawDetailHDFinal(tbliimxxmh);
 
 		} );
