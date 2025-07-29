@@ -40,17 +40,17 @@
 									</div>
 									<div class="form-group row">
 										<div class="col-lg-4 col-sm-4">
-											<input type="text" class="form-control" id="wlpxxmh_kode" name="wlpxxmh_kode" placeholder="LPN">
+											<input type="text" class="form-control camera_scan" id="wlpxxmh_kode" name="wlpxxmh_kode" placeholder="LPN">
 										</div>
 									</div>
 									<div class="form-group row">
 										<div class="col-lg-4 col-sm-4">
-											<input type="text" class="form-control" id="wloxxmh_nama" name="wloxxmh_nama" placeholder="Location">
+											<input type="text" class="form-control camera_scan" id="wloxxmh_nama" name="wloxxmh_nama" placeholder="Location">
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-warning btn-close-modal" data-dismiss="modal">Close</button>
 									<button class="btn btn-primary" type="submit">Submit</button>
 								</div>
 							</form>
@@ -101,6 +101,8 @@
 	
 
 	$(document).ready(function() {
+		initCameraScannerForClass('camera_scan');
+		
 		start_date = moment($('#start_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 		end_date = moment($('#end_date').val(), 'DD MMM YYYY').format('YYYY-MM-DD');
 
