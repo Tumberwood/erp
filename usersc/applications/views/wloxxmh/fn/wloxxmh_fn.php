@@ -1,10 +1,21 @@
 <script>
     function wloxxmh_generate_nama (){
-        if(iwhxxmh_kode != '' && rack_name !='' && bay_name != '' && level_name != '' && position_name != ''){
-            wloxxmh_nama = iwhxxmh_kode + '-' + rack_name + '-' + bay_name + '-' + level_name + '-' + position_name;
-        }else{
-            wloxxmh_nama = '';
+        id_wlotpmh = edtwloxxmh.field('wloxxmh.id_wlotpmh').val();
+
+        if (id_wlotpmh == 4) {
+            if(iwhxxmh_kode != '' && rack_name !='' && bay_name != '' && depth_name != '' && level_name != ''){
+                wloxxmh_nama = iwhxxmh_kode + '-' + rack_name + '-' + bay_name + '-' + depth_name + '-' + level_name;
+            }else{
+                wloxxmh_nama = '';
+            }
+        } else {
+            if(iwhxxmh_kode != '' && rack_name !='' && bay_name != '' && level_name != '' && position_name != ''){
+                wloxxmh_nama = iwhxxmh_kode + '-' + rack_name + '-' + bay_name + '-' + level_name + '-' + position_name;
+            }else{
+                wloxxmh_nama = '';
+            }
         }
+
         edtwloxxmh.field('wloxxmh.nama').val(wloxxmh_nama);
     };
 

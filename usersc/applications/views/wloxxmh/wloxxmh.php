@@ -85,7 +85,7 @@
 								<editor-field name="wloxxmh.koord_z"></editor-field>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<editor-field name="wloxxmh.depth"></editor-field>
+								<editor-field name="wloxxmh.depth_name"></editor-field>
 							</div>
 						</div>
 						<div class="row">
@@ -511,7 +511,7 @@
 				},
 				{
 					label: "Depth",
-					name: "wloxxmh.depth"
+					name: "wloxxmh.depth_name"
 				},
 				{
 					label: "Default Location <sup class='text-danger'>*<sup>",
@@ -592,9 +592,9 @@
 
 		edtwloxxmh.dependent( 'wloxxmh.id_wlotpmh', function ( val, data, callback ) {
 			if (val == 3 || val == 4) {
-				edtwloxxmh.field('wloxxmh.depth').label("Depth <sup class='text-danger'>*<sup>");  
+				edtwloxxmh.field('wloxxmh.depth_name').label("Depth <sup class='text-danger'>*<sup>");  
 			} else {
-				edtwloxxmh.field('wloxxmh.depth').label('Depth');
+				edtwloxxmh.field('wloxxmh.depth_name').label('Depth');
 			}
 			return {}
 		}, {event: 'keyup change'});
@@ -643,6 +643,17 @@
 			return {}
 		}, {event: 'keyup change'});
 
+		edtwloxxmh.dependent( 'wloxxmh.depth_name', function ( val, data, callback ) {
+			depth_name = val;
+			
+			is_generate_nama = edtwloxxmh.field('wloxxmh.is_generate_nama').val();
+			if(is_generate_nama == 1){
+				wloxxmh_generate_nama();
+			}
+
+			return {}
+		}, {event: 'keyup change'});
+
 		edtwloxxmh.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
 				id_iwhxxmh           = edtwloxxmh.field('wloxxmh.id_iwhxxmh').val();
@@ -655,7 +666,7 @@
 				koord_z            = edtwloxxmh.field('wloxxmh.koord_z').val();
 				bay_name             = edtwloxxmh.field('wloxxmh.bay_name').val();
 				id_wlotpmh             = edtwloxxmh.field('wloxxmh.id_wlotpmh').val();
-				depth             = edtwloxxmh.field('wloxxmh.depth').val();
+				depth             = edtwloxxmh.field('wloxxmh.depth_name').val();
 
 				validasiRequired(
 					edtwloxxmh,
