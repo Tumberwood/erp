@@ -141,6 +141,7 @@
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<editor-field name="position_name"></editor-field>
+								<editor-field name="depth_name"></editor-field>
 							</div>
 						</div>
 					</div>
@@ -1004,19 +1005,36 @@
 					label: "Position <sup class='text-danger'>*<sup>",
 					name: "position_name",
 					fieldInfo: "Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal L,R"
-				}
+				},
+				{
+					label: "Depth <sup class='text-danger'>*<sup>",
+					name: "depth_name",
+					fieldInfo: "Kedalaman Drive In, Gunakan Huruf atau Angka. Jika lebih dari satu, pisahkan dengan koma (,) Misal 01-04 atau 01,03"
+				},
 			]
 		} );
 
 		edtwloxxmh_generate.on( 'preOpen', function( e, mode, action ) {
 			start_at = moment().format('YYYY-MM-DD HH:mm:ss');
 			edtwloxxmh_generate.field('start_at').val(start_at);
+			edtwloxxmh_generate.field('depth_name').hide();
 		} );
 
 		edtwloxxmh_generate.on("open", function (e, mode, action) {
 			$(".modal-dialog").addClass("modal-xl");
 		
 		});
+
+		edtwloxxmh_generate.dependent( 'id_wlotpmh', function ( val, data, callback ) {
+			if (val == 4) {
+				edtwloxxmh_generate.field('depth_name').show();
+				edtwloxxmh_generate.field('position_name').hide();
+			} else {
+				edtwloxxmh_generate.field('depth_name').hide();
+				edtwloxxmh_generate.field('position_name').show();
+			}
+			return {}
+		}, {event: 'keyup change'});
 
 		edtwloxxmh_generate.on( 'preSubmit', function (e, data, action) {
 			if(action != 'remove'){
@@ -1029,6 +1047,7 @@
 				bay_name             = edtwloxxmh_generate.field('bay_name').val();
 				level_name           = edtwloxxmh_generate.field('level_name').val();
 				position_name        = edtwloxxmh_generate.field('position_name').val();
+				depth_name        		 = edtwloxxmh_generate.field('depth_name').val();
 
 				if(!id_iwhxxmh || id_iwhxxmh == ''){
 					edtwloxxmh_generate.field('id_iwhxxmh').error( 'Wajib diisi!' );
@@ -1054,8 +1073,15 @@
 				if(!level_name || level_name == ''){
 					edtwloxxmh_generate.field('level_name').error( 'Wajib diisi!' );
 				}
-				if(!position_name || position_name == ''){
-					edtwloxxmh_generate.field('position_name').error( 'Wajib diisi!' );
+
+				if (id_wlotpmh == 4) {
+					if(!depth_name || depth_name == ''){
+						edtwloxxmh_generate.field('depth_name').error( 'Wajib diisi!' );
+					}
+				} else {
+					if(!position_name || position_name == ''){
+						edtwloxxmh_generate.field('position_name').error( 'Wajib diisi!' );
+					}
 				}
 
 			}
