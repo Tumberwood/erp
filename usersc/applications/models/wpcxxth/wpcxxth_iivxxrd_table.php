@@ -120,6 +120,10 @@
 						b.kode AS iimxxmh_kode,
 						b.nama AS iimxxmh_nama,
 						a.wloxxmh_nama,
+						lo.id_wlotpmh,
+						lo.rack,
+						lo.depth,
+						lo.level,
 						terkecil.kode AS iumxxmh_terkecil_kode,
 						a.jumlah_terkecil_os,
 						a.jumlah_terkecil_next,
@@ -142,6 +146,7 @@
 					LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 					LEFT JOIN wpcxxth c ON c.id = a.id_wpcxxth
 					LEFT JOIN wloxxmh d ON d.id = c.id_wloxxmh_out
+					LEFT JOIN wloxxmh lo ON lo.id = a.id_wloxxmh
 					LEFT JOIN wimlotd e ON e.id_iimxxmh = a.id_iimxxmh AND e.id_wloxxmh = a.id_wloxxmh
 					LEFT JOIN (
 						SELECT
@@ -189,6 +194,10 @@
 						b.kode AS iimxxmh_kode,
 						b.nama AS iimxxmh_nama,
 						a.wloxxmh_nama,
+						lo.id_wlotpmh,
+						lo.rack,
+						lo.depth,
+						lo.level,
 						terkecil.kode AS iumxxmh_terkecil_kode,
 						a.jumlah_terkecil_os,
 						a.jumlah_terkecil_next,
@@ -211,6 +220,7 @@
 					LEFT JOIN iumxxmh unit ON unit.id = a.id_iumxxmh_unit
 					LEFT JOIN wpcxxth c ON c.id = a.id_wpcxxth
 					LEFT JOIN wloxxmh d ON d.id = c.id_wloxxmh_out
+					LEFT JOIN wloxxmh lo ON lo.id = a.id_wloxxmh
 					LEFT JOIN wimlotd e ON e.id_iimxxmh = a.id_iimxxmh AND e.id_wloxxmh = a.id_wloxxmh
 					LEFT JOIN (
 						SELECT
@@ -227,8 +237,12 @@
 						-- a.jumlah_terkecil_os > 0 AND
 						a.id_wpcxxth = '.$id_wpcxxth_old .'
 					HAVING sisa_terkecil_now > 0
+					ORDER BY 
+						CASE WHEN id_wlotpmh = 4 THEN 0 ELSE 1 END,
+						CASE WHEN id_wlotpmh = 4 THEN id_wpllptd END ASC,
+						CASE WHEN id_wlotpmh != 4 THEN urutan END
 
-					ORDER BY urutan'
+					'
 					
 			);
 		$rs_wpllptd = $qs_wpllptd->fetchAll();

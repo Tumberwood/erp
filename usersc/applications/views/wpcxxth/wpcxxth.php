@@ -229,7 +229,7 @@
 						d.uniqueToken = uniqueToken;
 					}
 				},
-				order: [[ 2, "asc" ], [4, "asc"]],
+				// order: [[ 2, "asc" ], [4, "asc"]],
 				columns: [
 					{ data: "id_wpllptd",visible:false },
 					{ data: "id_wktlptd",visible:false },
