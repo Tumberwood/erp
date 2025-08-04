@@ -33,6 +33,7 @@
                     loc.id_iwhxxmh,
                     loc.wloxxmh_nama
                 FROM (
+                    -- bukan drive in
                     SELECT 
                         id_wloxxmh,
                         id_iwhxxmh,
@@ -41,7 +42,63 @@
                         SELECT 
                             wimlotd.id_wloxxmh as id_wloxxmh,
                             wloxxmh.id_iwhxxmh as id_iwhxxmh,
-                            wloxxmh.nama as wloxxmh_nama
+                            wloxxmh.nama as wloxxmh_nama,
+                            wloxxmh.id_wlotpmh
+                        FROM wimlotd
+                        LEFT JOIN wloxxmh ON wloxxmh.id = wimlotd.id_wloxxmh
+                        LEFT JOIN 
+                            iivxxrd ON iivxxrd.id_wloxxmh = wimlotd.id_wloxxmh AND 
+                            wimlotd.id_iimxxmh = iivxxrd.id_iimxxmh
+                        WHERE 1
+                            AND id_wlotpmh <> 4
+                            AND wimlotd.id_iimxxmh = 
+                            (
+                                SELECT 
+                                    wreittd.id_iimxxmh
+                                FROM wreittd
+                                WHERE wreittd.wlpxxmh_kode = :wlpxxmh_kode
+                            )
+                            AND 
+                                CASE 
+                                WHEN wloxxmh.id_iumxxmh_kapasitas = 14 then 
+                                    wimlotd.id_wloxxmh NOT IN ( -- yang location tidak termasuk dalam select dibawah ini
+                                        SELECT -- select lokasi yang sudah masuk storage dan fisik 1 dan jumlah terkecil > 0
+                                            a.id_wloxxmh
+                                        FROM iivxxrd a
+                                        WHERE a.id_wloctmh = 3 AND a.is_fisik = 1 AND a.wlpxxmh_kode <> :wlpxxmh_kode
+                                        GROUP BY a.id_wloxxmh
+                                        HAVING SUM(a.jumlah_terkecil) > 0
+                                    )
+                                ELSE 1
+                            END
+                            
+                            AND wimlotd.id_wloxxmh NOT IN 
+                            (
+                                    SELECT
+                                    c.id_wloxxmh_tujuan
+                                FROM wreittd a
+                                LEFT JOIN wimlotd b ON b.id_iimxxmh = a.id_iimxxmh
+                                LEFT JOIN iivxxrd c ON c.id_iimxxmh = a.id_iimxxmh AND c.id_wloxxmh_tujuan = b.id_wloxxmh
+                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> ":uniqueToken"
+                            )
+
+                        ORDER BY wimlotd.urutan
+                        LIMIT 1
+                    ) location
+                    
+                    UNION all
+                    
+                    -- drive in
+                    SELECT 
+                        id_wloxxmh,
+                        id_iwhxxmh,
+                        wloxxmh_nama
+                    FROM (
+                        SELECT 
+                            wimlotd.id_wloxxmh as id_wloxxmh,
+                            wloxxmh.id_iwhxxmh as id_iwhxxmh,
+                            wloxxmh.nama as wloxxmh_nama,
+                            wloxxmh.id_wlotpmh
                         FROM wimlotd
                         LEFT JOIN wloxxmh ON wloxxmh.id = wimlotd.id_wloxxmh
                         LEFT JOIN 
@@ -76,15 +133,33 @@
                                 FROM wreittd a
                                 LEFT JOIN wimlotd b ON b.id_iimxxmh = a.id_iimxxmh
                                 LEFT JOIN iivxxrd c ON c.id_iimxxmh = a.id_iimxxmh AND c.id_wloxxmh_tujuan = b.id_wloxxmh
-                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> :uniqueToken
+                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> ":uniqueToken"
+                            )
+
+                            AND CONCAT(wloxxmh.rack_name,"-",wloxxmh.bay_name) NOT IN 
+                            (
+                                SELECT DISTINCT
+                                    CONCAT(b.rack_name,"-",b.bay_name) item_udah_terisi
+                                FROM iivxxrd a
+                                LEFT JOIN wloxxmh b ON b.id = a.id_wloxxmh OR b.id = a.id_wloxxmh_tujuan
+                                LEFT JOIN iimxxmh i ON i.id = a.id_iimxxmh
+                                WHERE b.id_wlotpmh = 4
+                                AND a.id_iimxxmh NOT IN (
+                                    SELECT 
+                                        wreittd.id_iimxxmh
+                                    FROM wreittd
+                                    WHERE wreittd.wlpxxmh_kode = :wlpxxmh_kode
+                                )
+                                ORDER BY a.id DESC
                             )
 
                         ORDER BY wimlotd.urutan
                         LIMIT 1
-                    ) location
+                    ) drive_in
                     
                     UNION all
                     
+                    -- OVERFLOW
                     SELECT
                         id_wloxxmh,
                         id_iwhxxmh,

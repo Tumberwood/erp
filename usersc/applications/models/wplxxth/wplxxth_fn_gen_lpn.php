@@ -270,6 +270,7 @@
 								tujuan.id_wlotpmh,
 								tujuan.depth,
 								tujuan.level,
+								tujuan.bay,
 								tujuan.rack,
 								b.id_wloctmh,
 								wlpxxmh_kode,
@@ -364,6 +365,9 @@
 						// Urutkan rack ASC
 						$rackCompare = strcmp($a['rack'], $b['rack']);
 						if ($rackCompare !== 0) return $rackCompare;
+						
+						$bayCompare = strcmp($a['bay'], $b['bay']);
+						if ($bayCompare !== 0) return $bayCompare;
 					
 						// Depth DESC (paling dekat pintu dulu)
 						if ($a['depth'] != $b['depth']) return $b['depth'] <=> $a['depth'];
