@@ -272,6 +272,7 @@
 								tujuan.level,
 								tujuan.bay,
 								tujuan.rack,
+								tujuan.status_drive_in,
 								b.id_wloctmh,
 								wlpxxmh_kode,
 								b.id_iwhxxmh,
@@ -362,6 +363,13 @@
 
 					//IF DRIVE IN
 					if ($a['id_wlotpmh'] == 4 && $b['id_wlotpmh'] == 4) {
+						// 1. Prioritas status_drive_in: out < netral < in
+						$statusPriority = ['out', 'netral', 'in'];
+						$statusA = array_search($a['status_drive_in'], $statusPriority);
+						$statusB = array_search($b['status_drive_in'], $statusPriority);
+
+						if ($statusA !== $statusB) return $statusA <=> $statusB;
+						
 						// Urutkan rack ASC
 						$rackCompare = strcmp($a['rack'], $b['rack']);
 						if ($rackCompare !== 0) return $rackCompare;
@@ -563,10 +571,34 @@
 						$finish_at = new Carbon();
 						General::logChange( $db , 'wpllptd', $s_id_users, $s_username, 'CREATE', $id_lpn_d, "", $timestamp , $finish_at );
 						General::logChange( $db , 'wpllptd', $s_id_users, $s_username, 'CONFIRM', $id_lpn_d, "", $timestamp , $finish_at );
+
+						// Update drive in
+						$qu_netral = $db
+							->raw()
+							->bind(':id_wloxxmh', $iiv['id_wloxxmh'])
+							->exec('UPDATE wloxxmh b
+									JOIN (
+										SELECT DISTINCT
+											b2.id_iwhxxmh,
+											b2.id_wlotpmh,
+											b2.id_wloznmh,
+											b2.rack_name,
+											b2.bay_name
+										FROM wloxxmh b2
+										WHERE id = :id_wloxxmh
+									) AS temp
+									ON b.id_iwhxxmh = temp.id_iwhxxmh
+										AND b.id_wlotpmh = temp.id_wlotpmh
+										AND b.id_wloznmh = temp.id_wloznmh
+										AND b.rack_name = temp.rack_name
+										AND b.bay_name = temp.bay_name
+									SET b.status_drive_in = "out"
+									WHERE b.id_wlotpmh = 4
+						');
+						
 					} else {
 						// echo $subtotal_jumlah_terkecil;
 					}
-					
 				}
 			}
 		}

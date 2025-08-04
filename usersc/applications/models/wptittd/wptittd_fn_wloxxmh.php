@@ -79,7 +79,7 @@
                                 FROM wreittd a
                                 LEFT JOIN wimlotd b ON b.id_iimxxmh = a.id_iimxxmh
                                 LEFT JOIN iivxxrd c ON c.id_iimxxmh = a.id_iimxxmh AND c.id_wloxxmh_tujuan = b.id_wloxxmh
-                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> ":uniqueToken"
+                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> :uniqueToken
                             )
 
                         ORDER BY wimlotd.urutan
@@ -133,7 +133,7 @@
                                 FROM wreittd a
                                 LEFT JOIN wimlotd b ON b.id_iimxxmh = a.id_iimxxmh
                                 LEFT JOIN iivxxrd c ON c.id_iimxxmh = a.id_iimxxmh AND c.id_wloxxmh_tujuan = b.id_wloxxmh
-                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> ":uniqueToken"
+                                WHERE a.wlpxxmh_kode = :wlpxxmh_kode  AND c.id_wloxxmh_tujuan > 0 AND c.keterangan <> :uniqueToken
                             )
 
                             AND CONCAT(wloxxmh.rack_name,"-",wloxxmh.bay_name) NOT IN 
@@ -152,8 +152,10 @@
                                 )
                                 ORDER BY a.id DESC
                             )
-
-                        ORDER BY wimlotd.urutan
+                            AND wloxxmh.status_drive_in IN ("in", "netral")
+                        ORDER BY 
+                            FIELD(wloxxmh.status_drive_in, "in", "netral"), 
+                            wimlotd.urutan
                         LIMIT 1
                     ) drive_in
                     

@@ -50,6 +50,30 @@
 				->where('keterangan',$uniqueToken)
 				->exec();
 		}
+
+		$qu_netral = $db
+			->raw()
+			->bind(':id_transaksi_h', $id_transaksi_h)
+			->exec('UPDATE wloxxmh b
+					JOIN (
+						SELECT DISTINCT
+							b2.id_iwhxxmh,
+							b2.id_wlotpmh,
+							b2.id_wloznmh,
+							b2.rack_name,
+							b2.bay_name
+						FROM wpllptd a
+						INNER JOIN wloxxmh b2 ON b2.id = a.id_wloxxmh
+						WHERE a.id_wplxxth = :id_transaksi_h
+					) AS temp
+					ON b.id_iwhxxmh = temp.id_iwhxxmh
+						AND b.id_wlotpmh = temp.id_wlotpmh
+						AND b.id_wloznmh = temp.id_wloznmh
+						AND b.rack_name = temp.rack_name
+						AND b.bay_name = temp.bay_name
+					SET b.status_drive_in = "netral"
+					WHERE b.id_wlotpmh = 4
+		');
 		
 		$qd_lpn_d = $db
 			->query('delete', 'wpllptd')
