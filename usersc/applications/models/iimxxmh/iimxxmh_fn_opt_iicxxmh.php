@@ -32,7 +32,7 @@
         $id_iicxxmh = '('.$_GET['ids_iicxxmh'].')';
         $w_iitp = 'IN';
     }else{
-        $id_iicxxmh = -9;
+        $id_iicxxmh = (-9);
         $w_iitp = 'NOT IN';
     }
 
