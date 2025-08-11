@@ -127,7 +127,7 @@
 	var edtwdoittd, tblwdoittd, show_deleted_wdoittd = 0, id_wdoittd;
 	// ------------- end of default variable
 
-	var id_grlxxmh_old = 0, id_wttxxmh_old = 0;
+	var id_grlxxmh_old = 0, id_wttxxmh_old = 0, id_grllomd_old = 0;
 	var id_iimxxmh_old = 0, id_iumxxmh_unit_old = 0, id_iumxxmh_unit  = 0;
 
 	// get tableRelation
@@ -217,7 +217,60 @@
 							minimumResultsForSearch: -1,
 						},
 					}
-				},			
+				},	
+				{
+					label: "Lokasi Kirim <sup class='text-danger'>*<sup>",
+					name: "wdoxxth.id_grllomd",
+					id: "select_grllomd",
+					type: "select2",
+					opts: {
+						placeholder : "Select",
+						allowClear: true,
+						multiple: false,
+						ajax: {
+							url: "../../models/scuxxmh/grllomd_fn_opt.php",
+							dataType: 'json',
+							data: function (params) {
+								id_grlxxmh_old = edtwdoxxth.field('wdoxxth.id_grlxxmh_customer').val();
+								var query = {
+									id_grllomd_old: id_grllomd_old,
+									id_grlxxmh_old: id_grlxxmh_old,
+									search: params.term || '',
+									page: params.page || 1
+								}
+									return query;
+							},
+							processResults: function (data, params) {
+                                var options = data.results.map(function (result) {
+									return {
+										id: result.id,
+										text: result.text
+									};
+								});
+
+								//add by ferry agar auto select 07 sep 23
+								if (params.page && params.page === 1) {
+									$('#select_grllomd').empty().select2({ data: options });
+								} else {
+									$('#select_grllomd').append(new Option(options[0].text, options[0].id, false, false)).trigger('change');
+								}
+
+								return {
+									results: options,
+									pagination: {
+										more: true
+									}
+								};
+                            },
+							cache: true,
+							minimumInputLength: 1,
+							maximum: 10,
+							delay: 500,
+							maximumSelectionLength: 5,
+							minimumResultsForSearch: -1,
+						},
+					}
+				},		
 				{
 					label: "Transaction Type <sup class='text-danger'>*<sup>",
 					name: "wdoxxth.id_wttxxmh",
