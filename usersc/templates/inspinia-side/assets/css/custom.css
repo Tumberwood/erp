@@ -41,6 +41,10 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   width: 280px;
 }
 
+body {
+  background-color: #FFFFFF !important;
+}
+
 table.dataTable tbody th, table.dataTable tbody td {
   padding: 4px 6px; /* e.g. change 8x to 4px here */
 }
@@ -115,3 +119,4 @@ table.dataTable td {
   max-width: 1250px;
   top: -10px;
 }
+
