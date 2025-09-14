@@ -94,7 +94,7 @@
     }
   }
   /* body::before {
-      content: "SOLUSI INDONESIA";
+      content: "WISE360";
       position: fixed;
       top: 40%;
       left: 50%;

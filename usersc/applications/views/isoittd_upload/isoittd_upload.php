@@ -2178,7 +2178,7 @@
 
 							// Check if the filePath does not contain "erpx"
 							if (!filePath.includes('erpx')) {
-								filePath = 'https://erpx.solusiprogram.top/' + filePath;
+								filePath = 'https://erpx.wise360.id/' + filePath;
 							}
 
 							return '<a href="' + filePath + '" target="_blank">' + fileName + '</a>'; 

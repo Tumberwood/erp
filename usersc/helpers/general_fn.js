@@ -21,7 +21,7 @@
  */
  function copyError() {
     navigator.clipboard.writeText(full_message.replace(/<br>/g, " ")).then(function () {
-        alert('Silakan hubungi tim Solusi Indonesia dan paste pesan error yang sudah di copy tadi.')
+        alert('Silakan hubungi tim WISE360 dan paste pesan error yang sudah di copy tadi.')
     }, function () {
         alert('Failure to copy. Check permissions for clipboard')
     });

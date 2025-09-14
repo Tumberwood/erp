@@ -46,7 +46,7 @@
         $s_username = $rs_users['username'];
         
         if($s_id_users < 101){
-            // Jika Tim Solusi Indonesia
+            // Jika Tim WISE360
             $s_where_data_permission = 0;
 
             $hak_c = 1;
@@ -104,7 +104,7 @@
             // END gbrxxmh default
 
         }else{
-            // Jika selain Tim Solusi Indonesia
+            // Jika selain Tim WISE360
             
             //Untuk mendapatkan id_hemxxmh, ditempatkan disini agar Semua akun bisa tahu id_hemxxmh nya berapa
             //Untuk keperluan testing admin juga.
