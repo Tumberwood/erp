@@ -10,7 +10,7 @@
                 <?=$settings->site_name?>
             </div>
             <div>
-                <strong>Brewed with <i class="fa fa-heart text-danger"></i></strong> <a href="http://www.solusi-indonesia.com" target="_blank">Solusi Indonesia</a>
+                <strong>Brewed with <i class="fa fa-heart text-danger"></i></strong> <a href="https://www.wise360.id" target="_blank">WISE360 | Warehouse & Integrated System Expert </a>
             </div>
         </div>
     
