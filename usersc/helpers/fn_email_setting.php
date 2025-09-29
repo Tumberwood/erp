@@ -52,7 +52,7 @@
     $mail->isHTML(true);
 
     // optional BCC wajib untuk keperluan testing cek email terkirim atau tidak
-    // $mail->addBCC('omfrans.solusi@solusi-indonesia.com');
+    // $mail->addBCC('');
 
     // parameter lain ditambahkan di masing-masing halaman yang mau di emailkan
     // parameter yang bisa digunakan
