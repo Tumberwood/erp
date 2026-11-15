@@ -145,24 +145,17 @@ $token = Token::generate();
 ===================================================== */
 
 :root {
-    /* Tombol utama */
     --login-button: #7654CF;
     --login-button-hover: #6242B5;
 
-    /* Background */
     --login-bg: #F7F5FC;
-
-    /* Card */
     --login-surface: #FFFFFF;
 
-    /* Text */
     --login-text: #34313A;
     --login-muted: #77717F;
 
-    /* Border */
     --login-border: #E8E4EC;
 
-    /* Shadow */
     --login-shadow:
         0 15px 45px rgba(73, 48, 120, .10),
         0 3px 12px rgba(73, 48, 120, .04);
@@ -175,14 +168,16 @@ $token = Token::generate();
 html {
     min-height: 100%;
     margin: 0;
-
     background: #F7F5FC !important;
 }
 
 body,
 body.gray-bg {
+    position: relative;
+
     min-height: 100vh;
     min-height: 100svh;
+
     margin: 0 !important;
 
     color: var(--login-text) !important;
@@ -196,6 +191,23 @@ body.gray-bg {
         Arial,
         sans-serif !important;
 
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Gradient memenuhi seluruh viewport */
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 0;
+    pointer-events: none;
+
     background:
         linear-gradient(
             125deg,
@@ -204,9 +216,7 @@ body.gray-bg {
             #EDE7FA 58%,
             #D8C9F4 82%,
             #BBA5E9 100%
-        ) !important;
-
-    background-attachment: fixed !important;
+        );
 }
 
 /* =====================================================
@@ -215,8 +225,10 @@ body.gray-bg {
 
 .login-wrapper {
     position: relative;
+    z-index: 1;
 
     width: 100%;
+
     min-height: 100vh;
     min-height: 100svh;
 
@@ -295,7 +307,6 @@ body.gray-bg {
     height: auto;
 
     object-fit: contain;
-
     margin: 0 auto 18px;
 }
 
@@ -309,7 +320,6 @@ body.gray-bg {
     line-height: 1.3;
 
     letter-spacing: -.5px;
-
     overflow-wrap: anywhere;
 }
 
@@ -317,7 +327,6 @@ body.gray-bg {
     margin: 0;
 
     color: var(--login-muted) !important;
-
     font-size: 13px;
 }
 
@@ -332,7 +341,6 @@ body.gray-bg {
 
     font-size: 17px;
     font-weight: 600;
-
     text-align: left;
 }
 
@@ -376,7 +384,6 @@ body.gray-bg {
 
 .login-card .form-control:focus {
     color: var(--login-text) !important;
-
     background: #FFFFFF !important;
 
     border-color: #BDB6C9 !important;
@@ -422,7 +429,6 @@ body.gray-bg {
 
     font-size: 13px;
     font-weight: 600;
-
     letter-spacing: 0;
 
     box-shadow: none !important;
@@ -517,7 +523,6 @@ body.gray-bg {
 
     font-size: 11px;
     font-weight: 600;
-
     letter-spacing: .5px;
 }
 
@@ -598,9 +603,7 @@ body.gray-bg {
 
     .login-card {
         max-width: 100%;
-
         padding: 30px 22px 24px;
-
         border-radius: 10px;
     }
 
