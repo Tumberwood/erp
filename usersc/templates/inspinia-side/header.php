@@ -380,6 +380,87 @@ body:not(.user-dark-mode) hr {
     border-color: var(--light-border) !important;
 }
 
+
+/* =====================================================
+   DATATABLES - PURPLE SELECTED ROW
+   IMPORTANT: Override DataTables box-shadow
+===================================================== */
+
+body:not(.user-dark-mode) table.dataTable {
+    --dt-row-selected: 139, 92, 246;
+    --dt-row-selected-text: 255, 255, 255;
+    --dt-row-hover: 139, 92, 246;
+    --dt-row-hover-text: 32, 33, 42;
+}
+
+/* Selected row */
+
+body:not(.user-dark-mode) table.dataTable tbody tr.selected > td,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected > th,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected:hover > td,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected:hover > th,
+body:not(.user-dark-mode) .table tbody tr.selected > td,
+body:not(.user-dark-mode) .table tbody tr.selected > th {
+
+    background: #8B5CF6 !important;
+    background-color: #8B5CF6 !important;
+    background-image: none !important;
+
+    /* Override DataTables default selected color */
+    box-shadow: inset 0 0 0 9999px #8B5CF6 !important;
+
+    color: #FFFFFF !important;
+}
+
+/* All selected row text */
+
+body:not(.user-dark-mode) table.dataTable tbody tr.selected,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected *,
+body:not(.user-dark-mode) .table tbody tr.selected,
+body:not(.user-dark-mode) .table tbody tr.selected * {
+    color: #FFFFFF !important;
+}
+
+/* Selected links */
+
+body:not(.user-dark-mode) table.dataTable tbody tr.selected a,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected i,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected span,
+body:not(.user-dark-mode) .table tbody tr.selected a,
+body:not(.user-dark-mode) .table tbody tr.selected i,
+body:not(.user-dark-mode) .table tbody tr.selected span {
+    color: #FFFFFF !important;
+}
+
+/* Selected row hover */
+
+body:not(.user-dark-mode) table.dataTable tbody tr.selected:hover > td,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected:hover > th,
+body:not(.user-dark-mode) .table tbody tr.selected:hover > td,
+body:not(.user-dark-mode) .table tbody tr.selected:hover > th {
+
+    background: #7C3AED !important;
+    background-color: #7C3AED !important;
+    box-shadow: inset 0 0 0 9999px #7C3AED !important;
+
+    color: #FFFFFF !important;
+}
+
+/* Normal row hover */
+
+body:not(.user-dark-mode) table.dataTable tbody tr:not(.selected):hover > td,
+body:not(.user-dark-mode) table.dataTable tbody tr:not(.selected):hover > th {
+    background-color: #F5F3FF !important;
+    color: #20212A !important;
+}
+
+/* Keep badges readable */
+
+body:not(.user-dark-mode) table.dataTable tbody tr.selected .label,
+body:not(.user-dark-mode) table.dataTable tbody tr.selected .badge {
+    color: #FFFFFF !important;
+}
+
 <?php } ?>
 
 
