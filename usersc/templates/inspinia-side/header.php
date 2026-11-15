@@ -744,6 +744,128 @@ body.user-dark-mode .select2-results__option--highlighted {
     background: #553C86 !important;
 }
 
+body.user-dark-mode .select2-search--dropdown .select2-search__field,
+body.user-dark-mode .select2-search--inline .select2-search__field,
+body.user-dark-mode .select2-container--bootstrap .select2-search__field,
+body.user-dark-mode .select2-container--bootstrap4 .select2-search__field {
+    color: var(--dark-text) !important;
+    background: #111117 !important;
+    border-color: #454554 !important;
+    box-shadow: none !important;
+}
+
+body.user-dark-mode .select2-container--bootstrap .select2-results__option,
+body.user-dark-mode .select2-container--bootstrap4 .select2-results__option,
+body.user-dark-mode .select2-container--default .select2-results__option {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface-2) !important;
+}
+
+body.user-dark-mode .select2-container--bootstrap .select2-results__option--highlighted,
+body.user-dark-mode .select2-container--bootstrap4 .select2-results__option--highlighted,
+body.user-dark-mode .select2-container--default .select2-results__option--highlighted {
+    color: #fff !important;
+    background: #553C86 !important;
+}
+
+body.user-dark-mode .select2-container--bootstrap .select2-selection__choice,
+body.user-dark-mode .select2-container--bootstrap4 .select2-selection__choice,
+body.user-dark-mode .select2-container--default .select2-selection__choice {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface-3) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.user-dark-mode .select2-container--bootstrap .select2-selection__choice__remove,
+body.user-dark-mode .select2-container--bootstrap4 .select2-selection__choice__remove,
+body.user-dark-mode .select2-container--default .select2-selection__choice__remove {
+    color: var(--dark-muted) !important;
+}
+
+body.user-dark-mode .select2-results__options::-webkit-scrollbar {
+    width: 10px;
+    background: #111117;
+}
+
+body.user-dark-mode .select2-results__options::-webkit-scrollbar-thumb {
+    background: #454554;
+    border-radius: 6px;
+}
+
+/* Bootstrap Datepicker popup and all calendar states */
+body.user-dark-mode .datepicker.dropdown-menu,
+body.user-dark-mode .datepicker.datepicker-dropdown {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface) !important;
+    border: 1px solid #454554 !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.55) !important;
+}
+
+body.user-dark-mode .datepicker table,
+body.user-dark-mode .datepicker table tr td,
+body.user-dark-mode .datepicker table tr th,
+body.user-dark-mode .datepicker table tr td span {
+    color: #E4E4EA !important;
+    background: transparent !important;
+}
+
+body.user-dark-mode .datepicker th.datepicker-switch,
+body.user-dark-mode .datepicker .prev,
+body.user-dark-mode .datepicker .next,
+body.user-dark-mode .datepicker tfoot th,
+body.user-dark-mode .datepicker table tr th.dow {
+    color: #C4B5FD !important;
+}
+
+body.user-dark-mode .datepicker table tr td.old,
+body.user-dark-mode .datepicker table tr td.new,
+body.user-dark-mode .datepicker table tr td.disabled,
+body.user-dark-mode .datepicker table tr td span.disabled {
+    color: #9292A1 !important;
+}
+
+body.user-dark-mode .datepicker table tr td.day:hover,
+body.user-dark-mode .datepicker table tr td.day.focused,
+body.user-dark-mode .datepicker table tr td span:hover,
+body.user-dark-mode .datepicker th.datepicker-switch:hover,
+body.user-dark-mode .datepicker thead tr:first-child th:hover,
+body.user-dark-mode .datepicker tfoot tr th:hover {
+    color: #fff !important;
+    background: #343442 !important;
+}
+
+body.user-dark-mode .datepicker table tr td.active,
+body.user-dark-mode .datepicker table tr td.active:hover,
+body.user-dark-mode .datepicker table tr td span.active,
+body.user-dark-mode .datepicker table tr td span.active:hover {
+    color: #fff !important;
+    background: #7C3AED !important;
+}
+
+body.user-dark-mode .datepicker table tr td.today,
+body.user-dark-mode .datepicker table tr td.today:hover {
+    color: #fff !important;
+    background: #553C86 !important;
+}
+
+body.user-dark-mode .datepicker-dropdown:after {
+    border-bottom-color: var(--dark-surface) !important;
+}
+
+body.user-dark-mode .datepicker-dropdown.datepicker-orient-bottom:after {
+    border-bottom: 0 !important;
+    border-top-color: var(--dark-surface) !important;
+}
+
+body.user-dark-mode .datepicker-dropdown:before {
+    border-bottom-color: #454554 !important;
+}
+
+body.user-dark-mode .datepicker-dropdown.datepicker-orient-bottom:before {
+    border-bottom: 0 !important;
+    border-top-color: #454554 !important;
+}
+
 /* Dropdown */
 
 body.user-dark-mode .dropdown-menu {
