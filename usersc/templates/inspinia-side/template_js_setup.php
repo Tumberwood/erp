@@ -1,5 +1,13 @@
 <script>
 	$(function () {
+		$('#appearance-theme-toggle').on('click', function () {
+			var $toggle = $(this);
+			var isLight = $toggle.attr('aria-checked') !== 'true';
+			$toggle.attr('aria-checked', isLight ? 'true' : 'false')
+				.toggleClass('is-light', isLight).toggleClass('is-dark', !isLight);
+			$('#appearance-theme-name').text(isLight ? 'Terang' : 'Gelap');
+		});
+
 		$('#save-appearance').on('click', function () {
 			var $button = $(this);
 			var $message = $('#appearance-message');
@@ -11,7 +19,7 @@
 				dataType: 'json',
 				data: {
 					csrf: $button.data('csrf'),
-					is_light_mode: $('#appearance-light-mode').is(':checked') ? 1 : 0,
+					is_light_mode: $('#appearance-theme-toggle').attr('aria-checked') === 'true' ? 1 : 0,
 					color_1: $('#appearance-color-1').val(),
 					color_2: $('#appearance-color-2').val()
 				}

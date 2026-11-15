@@ -139,7 +139,14 @@
     <div class="modal-dialog" role="document"><div class="modal-content">
         <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="appearanceModalTitle">Pengaturan Tampilan</h4></div>
         <div class="modal-body">
-            <div class="checkbox"><label><input type="checkbox" id="appearance-light-mode" <?=(!isset($appearance->is_light_mode) || (int)$appearance->is_light_mode === 1) ? 'checked' : ''?>> Mode terang</label></div>
+            <?php $appearanceIsLight = !isset($appearance->is_light_mode) || (int)$appearance->is_light_mode === 1; ?>
+            <div class="form-group appearance-theme-control">
+                <label class="appearance-theme-label">Tema</label>
+                <button type="button" id="appearance-theme-toggle" class="appearance-theme-switch <?=$appearanceIsLight ? 'is-light' : 'is-dark'?>" role="switch" aria-checked="<?=$appearanceIsLight ? 'true' : 'false'?>" aria-label="Ganti mode terang atau gelap">
+                    <span class="fa fa-moon" aria-hidden="true"></span><span class="fa fa-sun" aria-hidden="true"></span><span class="appearance-theme-thumb" aria-hidden="true"></span>
+                </button>
+                <span id="appearance-theme-name"><?=$appearanceIsLight ? 'Terang' : 'Gelap'?></span>
+            </div>
             <div class="form-group"><label for="appearance-color-1">Warna sidebar pertama</label><input type="color" class="form-control" id="appearance-color-1" value="<?=htmlspecialchars(isset($appearance->color_1) && preg_match('/^#[0-9A-Fa-f]{6}$/', $appearance->color_1) ? $appearance->color_1 : '#1f2937', ENT_QUOTES, 'UTF-8')?>"></div>
             <div class="form-group"><label for="appearance-color-2">Warna sidebar kedua</label><input type="color" class="form-control" id="appearance-color-2" value="<?=htmlspecialchars(isset($appearance->color_2) && preg_match('/^#[0-9A-Fa-f]{6}$/', $appearance->color_2) ? $appearance->color_2 : '#111827', ENT_QUOTES, 'UTF-8')?>"></div>
             <div id="appearance-message" role="status" aria-live="polite"></div>
