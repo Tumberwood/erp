@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="ibox-content" style="padding: 15px">
-            <h1>Welcome to Tes Online by <b>WISE360</b> </h1>
+            <h1>Welcome to Tes Online by <b>Ferry Ibnu</b> </h1>
             <p>Silahkan klik tombol di bawah ini untuk mengikuti tes</p>
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-12">

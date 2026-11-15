@@ -46,7 +46,7 @@
         $s_username = $rs_users['username'];
         
         if($s_id_users < 101){
-            // Jika Tim WISE360
+            // Jika Tim Ferry Ibnu
             $s_where_data_permission = 0;
 
             $hak_c = 1;
@@ -104,7 +104,7 @@
             // END gbrxxmh default
 
         }else{
-            // Jika selain Tim WISE360
+            // Jika selain Tim Ferry Ibnu
             
             //Untuk mendapatkan id_hemxxmh, ditempatkan disini agar Semua akun bisa tahu id_hemxxmh nya berapa
             //Untuk keperluan testing admin juga.

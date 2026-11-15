@@ -75,10 +75,10 @@
 			$email_personal = $kandidat['email_personal'];
 
 			$body =  '<b>Yth. Saudara/i '.$nama.'</b><br><br>';
-			$body .= '<p>Terima kasih telah mendaftar untuk tes online Junior Programmer di WISE360.</p>';  
-			$body = $body . 'Berikut kami informasikan Test Online PT WISE360 Persada:<br><br>
+			$body .= '<p>Terima kasih telah mendaftar untuk tes online Junior Programmer di Ferry Ibnu.</p>';  
+			$body = $body . 'Berikut kami informasikan Test Online PT Ferry Ibnu Persada:<br><br>
 			Mohon bantuannya untuk segera menyelesaikan test ini agar bisa segera kami proses lebih lanjut.<br><br>';
-			$body = $body . 'Link Tes: <a href="https://erpx.wise360.id/tes_online.php">Klik di sini untuk mengikuti tes</a><br><br>';
+			$body = $body . 'Link Tes: <a href="https://erpx.Ferry Ibnu.id/tes_online.php">Klik di sini untuk mengikuti tes</a><br><br>';
 			$body = $body . 'Dikerjakan Paling Lambat <b>'.$tanggal.' pukul 23:59</b>.<br>';
 			
 			$body = $body . '<table style="border-collapse: collapse; width:100%">';
@@ -123,9 +123,9 @@
 			
 			// generate email
 			//Testing by Ferry
-			$mail->setFrom('noreply@wise360.id', 'HR - WISE360');
+			$mail->setFrom('noreply@Ferry Ibnu.id', 'HR - Ferry Ibnu');
 			$mail->addAddress($email_personal);
-			// $mail->addBCC('danny.harjono@wise360.id');
+			// $mail->addBCC('danny.harjono@Ferry Ibnu.id');
 	
 					
 			$mail->isHTML(true);

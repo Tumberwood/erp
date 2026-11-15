@@ -52,7 +52,7 @@
 				$id_gbrxxmh       = $rs_hemxxmh['id_gbrxxmh'] ;
 				$fname       = $rs_hemxxmh['fname'] ;
 				$lname       = $rs_hemxxmh['lname'] ;
-				$email      = $kode . '@wise360.id';
+				$email      = $kode . '@Ferry Ibnu.id';
 	
 				$harini = new Carbon();
 	

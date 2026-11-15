@@ -10,7 +10,7 @@
                 <?=$settings->site_name?>
             </div>
             <div>
-                <strong>Brewed with <i class="fa fa-heart text-danger"></i></strong> <a href="https://www.wise360.id" target="_blank">WISE360 | Warehouse & Integrated System Expert </a>
+                <strong>Brewed with <i class="fa fa-heart text-danger"></i></strong> <a href="https://www.Ferry Ibnu.id" target="_blank">Ferry Ibnu | Warehouse & Integrated System Expert </a>
             </div>
         </div>
     

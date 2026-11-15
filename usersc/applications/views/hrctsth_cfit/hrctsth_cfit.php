@@ -94,7 +94,7 @@
     }
   }
   /* body::before {
-      content: "WISE360";
+      content: "Ferry Ibnu";
       position: fixed;
       top: 40%;
       left: 50%;
