@@ -29,11 +29,15 @@
         Redirect::to($us_url_root . $settings->redirect_uri_after_login);
     }
 
+    // Resolve the requested destination before processing a successful POST.
+    $dest = sanitizedDest('dest');
+
     if (!empty($_POST['login_hook'])) {
         $token = Input::get('csrf');
 
         if (!Token::check($token)) {
             include($abs_us_root . $us_url_root . 'usersc/scripts/token_error.php');
+            exit;
         }
 
         $validate = new Validate();
@@ -46,7 +50,8 @@
         $validated = $validation->passed();
 
         $username = Input::get('username');
-        $password = trim(Input::get('password'));
+        // Passwords are opaque strings; trimming changes valid credentials.
+        $password = isset($_POST['password']) && is_string($_POST['password']) ? $_POST['password'] : '';
         $remember = false;
 
         includeHook($hooks, 'post');
@@ -66,13 +71,7 @@
                 $_SESSION['last_confirm'] = date("Y-m-d H:i:s");
 
                 if (!empty($dest)) {
-                    $redirect = Input::get('redirect');
-
-                    if (!empty($redirect) || $redirect !== '') {
-                        Redirect::to($redirect);
-                    } else {
-                        Redirect::to($dest);
-                    }
+                    Redirect::to($dest);
                 } elseif (file_exists($abs_us_root . $us_url_root . 'usersc/scripts/custom_login_script.php')) {
                     require_once $abs_us_root . $us_url_root . 'usersc/scripts/custom_login_script.php';
                 } else {
@@ -99,7 +98,7 @@
         sessionValMessages($errors, $successes, NULL);
     }
 
-    if (empty($dest = sanitizedDest('dest'))) {
+    if (empty($dest)) {
         $dest = '';
     }
 
@@ -118,7 +117,6 @@
     html {
         min-height: 100%;
         margin: 0;
-        background: #dce8f7;
     }
 
     body {
@@ -129,10 +127,8 @@
             "Helvetica Neue", Arial, sans-serif !important;
         background: linear-gradient(
             180deg,
-            #edf4ff 0%,
-            #edf4ff 52%,
-            #dce8f7 52%,
-            #dce8f7 100%
+            #EDE9FE 0%,
+            #C4B5FD 100%
         ) !important;
     }
 
@@ -431,7 +427,7 @@
                     </div>
                 <?php } ?>
 
-                <input type="hidden" name="dest" value="<?= $dest ?>" />
+                <input type="hidden" name="dest" value="<?= htmlspecialchars($dest, ENT_QUOTES, 'UTF-8') ?>" />
 
                 <div class="form-group">
                     <input
@@ -459,11 +455,6 @@
 
                 <input type="hidden" name="login_hook" value="1">
                 <input type="hidden" name="csrf" value="<?= $token ?>">
-
-                <input
-                    type="hidden"
-                    name="redirect"
-                    value="<?= Input::get('redirect') ?>" />
 
                 <button
                     class="submit btn btn-primary block full-width m-b"

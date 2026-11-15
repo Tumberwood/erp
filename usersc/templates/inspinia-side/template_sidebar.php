@@ -105,6 +105,7 @@
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <!-- <li><a class="dropdown-item" href="profile.html">Dashboard</a></li> -->
                         <li><a class="dropdown-item" href="../../../applications/views/core/account.php">Account</a></li>
+                        <li><a class="dropdown-item" href="#appearanceModal" data-toggle="modal"><i class="fa fa-paint-brush"></i> Tampilan</a></li>
                         <li class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../../../../users/logout.php">Logout</a></li>
                     </ul>
@@ -133,3 +134,17 @@
 
     </div>
 </nav>
+<?php if ($user->isLoggedIn()) { $appearance = $user->data(); ?>
+<div class="modal fade" id="appearanceModal" tabindex="-1" role="dialog" aria-labelledby="appearanceModalTitle">
+    <div class="modal-dialog" role="document"><div class="modal-content">
+        <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="appearanceModalTitle">Pengaturan Tampilan</h4></div>
+        <div class="modal-body">
+            <div class="checkbox"><label><input type="checkbox" id="appearance-light-mode" <?=(!isset($appearance->is_light_mode) || (int)$appearance->is_light_mode === 1) ? 'checked' : ''?>> Mode terang</label></div>
+            <div class="form-group"><label for="appearance-color-1">Warna sidebar pertama</label><input type="color" class="form-control" id="appearance-color-1" value="<?=htmlspecialchars(isset($appearance->color_1) && preg_match('/^#[0-9A-Fa-f]{6}$/', $appearance->color_1) ? $appearance->color_1 : '#1f2937', ENT_QUOTES, 'UTF-8')?>"></div>
+            <div class="form-group"><label for="appearance-color-2">Warna sidebar kedua</label><input type="color" class="form-control" id="appearance-color-2" value="<?=htmlspecialchars(isset($appearance->color_2) && preg_match('/^#[0-9A-Fa-f]{6}$/', $appearance->color_2) ? $appearance->color_2 : '#111827', ENT_QUOTES, 'UTF-8')?>"></div>
+            <div id="appearance-message" role="status" aria-live="polite"></div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button><button type="button" class="btn btn-primary" id="save-appearance" data-csrf="<?=htmlspecialchars(Token::generate(), ENT_QUOTES, 'UTF-8')?>">Simpan</button></div>
+    </div></div>
+</div>
+<?php } ?>

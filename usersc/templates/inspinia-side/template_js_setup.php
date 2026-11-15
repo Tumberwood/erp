@@ -1,4 +1,34 @@
 <script>
+	$(function () {
+		$('#save-appearance').on('click', function () {
+			var $button = $(this);
+			var $message = $('#appearance-message');
+			$button.prop('disabled', true);
+			$message.removeClass('text-danger text-success').text('Menyimpan...');
+			$.ajax({
+				url: '<?=$us_url_root?>usersc/helpers/fn_user_appearance.php',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					csrf: $button.data('csrf'),
+					is_light_mode: $('#appearance-light-mode').is(':checked') ? 1 : 0,
+					color_1: $('#appearance-color-1').val(),
+					color_2: $('#appearance-color-2').val()
+				}
+			}).done(function (response) {
+				if (response.ok) {
+					$message.addClass('text-success').text('Preferensi tersimpan. Memuat ulang halaman...');
+					window.location.reload();
+				} else {
+					$message.addClass('text-danger').text(response.message || 'Gagal menyimpan preferensi.');
+				}
+			}).fail(function (xhr) {
+				var response = xhr.responseJSON || {};
+				$message.addClass('text-danger').text(response.message || 'Gagal menyimpan preferensi. Coba muat ulang halaman.');
+			}).always(function () { $button.prop('disabled', false); });
+		});
+	});
+
 	// bug fix datatables tidak aligned antara header dan body saat dipasang di multitab
 	// $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
 	// 	$($.fn.dataTable.tables(true)).DataTable()
