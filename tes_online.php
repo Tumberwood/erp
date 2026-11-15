@@ -1,38 +1,31 @@
 
 <?php
-    require_once 'users/init.php';
-    require_once $abs_us_root.$us_url_root.'usersc/templates/'.$settings->template.'/template_css_load.php';
-    require_once($abs_us_root.$us_url_root.'users/includes/template/header1_must_include.php');
+require_once 'users/init.php';
+require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_css_load.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/header1_must_include.php';
 
-    $nama_tabel = 'hrctsth_kostik';
-    $nama_tabels_d = [];
+$nama_tabel = 'hrctsth_kostik';
+$nama_tabels_d = [];
 ?>
 
 <style>
-
 /* =====================================================
-   TES ONLINE - FULL PURPLE GLASSMORPHISM
+   TES ONLINE - MINIMAL PROFESSIONAL THEME
 ===================================================== */
 
 :root {
-    --purple-dark: #4C1D95;
-    --purple-deep: #5B21B6;
-    --purple-main: #7C3AED;
-    --purple-light: #A78BFA;
-    --purple-lighter: #C4B5FD;
+    /* Button color */
+    --tes-button: #7654CF;
+    --tes-button-hover: #6242B5;
 
-    --purple-text: #FFFFFF;
-    --purple-muted: #DDD6FE;
+    /* Neutral colors */
+    --tes-bg: #F7F6F9;
+    --tes-surface: #FFFFFF;
+    --tes-text: #34313A;
+    --tes-muted: #77717F;
+    --tes-border: #E8E4EC;
 
-    --purple-border: rgba(255,255,255,.18);
-
-    --purple-card:
-        linear-gradient(
-            145deg,
-            rgba(76,29,149,.88),
-            rgba(91,33,182,.86),
-            rgba(109,40,217,.88)
-        );
+    --tes-shadow: 0 2px 10px rgba(40, 30, 55, 0.04);
 }
 
 /* =====================================================
@@ -41,25 +34,14 @@
 
 html {
     min-height: 100%;
-    background: #6D28D9 !important;
+    background: var(--tes-bg) !important;
 }
 
 body {
     min-height: 100vh;
     margin: 0 !important;
-
-    color: var(--purple-text) !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #4C1D95 0%,
-            #6D28D9 32%,
-            #7C3AED 65%,
-            #A78BFA 100%
-        ) !important;
-
-    background-attachment: fixed !important;
+    background: var(--tes-bg) !important;
+    color: var(--tes-text) !important;
 }
 
 /* =====================================================
@@ -68,85 +50,25 @@ body {
 
 .tes-online-page {
     position: relative;
-
     min-height: calc(100vh - 20px);
-
     padding: 35px 25px 50px;
-
-    overflow: hidden;
-
     background: transparent !important;
 }
 
-/* Decorative glow */
-
-.tes-online-page::before {
-    content: "";
-
-    position: absolute;
-
-    width: 400px;
-    height: 400px;
-
-    top: -180px;
-    right: -100px;
-
-    border-radius: 50%;
-
-    background: rgba(221,214,254,.16);
-
-    filter: blur(90px);
-
-    pointer-events: none;
-}
-
-.tes-online-page::after {
-    content: "";
-
-    position: absolute;
-
-    width: 400px;
-    height: 400px;
-
-    bottom: -180px;
-    left: -100px;
-
-    border-radius: 50%;
-
-    background: rgba(167,139,250,.18);
-
-    filter: blur(100px);
-
-    pointer-events: none;
-}
-
 /* =====================================================
-   MAIN IB0X
+   MAIN CARD
 ===================================================== */
 
 .tes-online-page .ibox {
-    position: relative;
-    z-index: 1;
-
-    background: var(--purple-card) !important;
-
-    border: 1px solid var(--purple-border) !important;
-
-    border-radius: 20px !important;
-
+    background: var(--tes-surface) !important;
+    border: 1px solid var(--tes-border) !important;
+    border-radius: 10px !important;
     overflow: hidden;
-
-    box-shadow:
-        0 25px 70px rgba(35,10,80,.25),
-        0 8px 25px rgba(35,10,80,.12),
-        inset 0 1px 0 rgba(255,255,255,.10);
-
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--tes-shadow);
 }
 
 /* =====================================================
-   IB0X HEADER
+   CARD HEADER
 ===================================================== */
 
 .tes-online-page .ibox-title {
@@ -154,71 +76,65 @@ body {
     align-items: center;
     justify-content: space-between;
 
-    padding: 20px 25px !important;
+    padding: 18px 24px !important;
 
-    background: rgba(46,16,101,.22) !important;
-
-    border-bottom: 1px solid var(--purple-border) !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--tes-border) !important;
 }
 
 .tes-online-page .ibox-title h3 {
     margin: 0;
+    color: var(--tes-text) !important;
+    font-size: 17px;
+    font-weight: 600;
+}
 
-    color: #FFFFFF !important;
-
-    font-size: 19px;
-    font-weight: 700;
+.tes-online-page .ibox-title h3 i {
+    color: var(--tes-muted) !important;
+    margin-right: 7px;
 }
 
 .tes-online-page .ibox-tools a {
-    color: #DDD6FE !important;
+    color: var(--tes-muted) !important;
 }
 
 .tes-online-page .ibox-tools a:hover {
-    color: #FFFFFF !important;
+    color: var(--tes-text) !important;
 }
 
 /* =====================================================
-   IB0X CONTENT
+   CARD CONTENT
 ===================================================== */
 
 .tes-online-page .ibox-content {
-    padding: 35px !important;
-
-    background: transparent !important;
-
+    padding: 32px !important;
+    background: #FFFFFF !important;
     border: none !important;
-
-    color: #FFFFFF !important;
+    color: var(--tes-text) !important;
 }
 
 /* =====================================================
-   CONTENT TYPOGRAPHY
+   TYPOGRAPHY
 ===================================================== */
 
 .tes-online-page h1 {
-    margin: 0 0 15px;
-
-    color: #FFFFFF !important;
-
-    font-size: 30px;
-    font-weight: 750;
-
-    letter-spacing: -.7px;
-    line-height: 1.3;
+    margin: 0 0 12px;
+    color: var(--tes-text) !important;
+    font-size: 27px;
+    font-weight: 650;
+    letter-spacing: -0.5px;
+    line-height: 1.4;
 }
 
 .tes-online-page h1 b {
-    color: #DDD6FE !important;
-    font-weight: 800;
+    color: var(--tes-text) !important;
+    font-weight: 700;
 }
 
 .tes-online-page p {
-    margin-bottom: 30px;
-
-    color: #DDD6FE !important;
-
-    font-size: 15px;
+    margin-bottom: 28px;
+    color: var(--tes-muted) !important;
+    font-size: 14px;
     line-height: 1.7;
 }
 
@@ -227,7 +143,7 @@ body {
 ===================================================== */
 
 .tes-online-page .test-button {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .tes-online-page .test-button form {
@@ -240,29 +156,26 @@ body {
 
 .tes-online-page .btn {
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     width: 100%;
-    min-height: 52px;
+    min-height: 46px;
+    padding: 10px 14px;
 
-    padding: 12px 16px;
+    border-radius: 6px !important;
 
-    border-radius: 12px !important;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    letter-spacing: .1px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
 
     white-space: normal;
+    box-shadow: none !important;
 
     transition:
-        transform .2s ease,
-        background .2s ease,
-        box-shadow .2s ease,
-        border-color .2s ease;
+        background-color .2s ease,
+        border-color .2s ease,
+        color .2s ease;
 }
 
 /* =====================================================
@@ -270,48 +183,28 @@ body {
 ===================================================== */
 
 .tes-online-page .btn-primary {
-    color: #4C1D95 !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #DDD6FE 0%,
-            #C4B5FD 50%,
-            #A78BFA 100%
-        ) !important;
-
-    border: 1px solid rgba(255,255,255,.28) !important;
-
-    box-shadow:
-        0 8px 18px rgba(35,10,80,.20),
-        inset 0 1px 0 rgba(255,255,255,.30);
+    color: #FFFFFF !important;
+    background: var(--tes-button) !important;
+    border: 1px solid var(--tes-button) !important;
 }
 
 .tes-online-page .btn-primary:hover,
 .tes-online-page .btn-primary:focus {
-    color: #3B0764 !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #EDE9FE 0%,
-            #DDD6FE 50%,
-            #C4B5FD 100%
-        ) !important;
-
-    border-color: rgba(255,255,255,.5) !important;
-
-    box-shadow:
-        0 12px 25px rgba(35,10,80,.28);
-
-    transform: translateY(-3px);
+    color: #FFFFFF !important;
+    background: var(--tes-button-hover) !important;
+    border-color: var(--tes-button-hover) !important;
 }
 
-/* Active */
-
 .tes-online-page .btn-primary:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 10px rgba(35,10,80,.2);
+    color: #FFFFFF !important;
+    background: var(--tes-button-hover) !important;
+    border-color: var(--tes-button-hover) !important;
+}
+
+/* Button icons */
+.tes-online-page .btn i {
+    margin-right: 7px;
+    font-size: 13px;
 }
 
 /* =====================================================
@@ -319,61 +212,53 @@ body {
 ===================================================== */
 
 @media (max-width: 991px) {
-
     .tes-online-page {
         padding: 25px 18px 35px;
     }
 
     .tes-online-page .ibox-content {
-        padding: 28px !important;
+        padding: 26px !important;
     }
 
     .tes-online-page h1 {
-        font-size: 26px;
+        font-size: 24px;
     }
 }
 
 @media (max-width: 767px) {
-
     .tes-online-page {
         padding: 18px 12px 30px;
     }
 
     .tes-online-page .ibox {
-        border-radius: 16px !important;
+        border-radius: 8px !important;
     }
 
     .tes-online-page .ibox-title {
-        padding: 17px 18px !important;
+        padding: 16px 18px !important;
     }
 
     .tes-online-page .ibox-content {
-        padding: 23px 18px !important;
+        padding: 22px 18px !important;
     }
 
     .tes-online-page h1 {
-        font-size: 23px;
+        font-size: 22px;
     }
 
     .tes-online-page p {
-        font-size: 14px;
-        margin-bottom: 22px;
+        font-size: 13px;
+        margin-bottom: 20px;
     }
 }
 
-/* =====================================================
-   REDUCED MOTION
-===================================================== */
-
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
     .tes-online-page .btn {
         transition: none;
     }
 }
-
 </style>
-
 
 <!-- =====================================================
      TES ONLINE CONTENT
@@ -402,7 +287,6 @@ body {
 
             </div>
 
-
             <div class="ibox-content">
 
                 <h1>
@@ -413,7 +297,6 @@ body {
                 <p>
                     Silakan klik tombol di bawah ini untuk mengikuti tes.
                 </p>
-
 
                 <div class="row">
 
@@ -436,7 +319,6 @@ body {
 
                     </div>
 
-
                     <!-- PAPI KOSTICK -->
 
                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 test-button">
@@ -456,7 +338,6 @@ body {
 
                     </div>
 
-
                     <!-- CFIT -->
 
                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 test-button">
@@ -475,7 +356,6 @@ body {
                         </form>
 
                     </div>
-
 
                     <!-- DISC -->
 
@@ -506,15 +386,14 @@ body {
 
 </div>
 
-
 <!-- =====================================================
      JAVASCRIPT
 ===================================================== -->
 
 <?php
-    require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
+require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_load.php';
 
-    require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php';
+require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/template_js_datatables_load.php';
 ?>
 
 <script src="<?=$us_url_root?>usersc/helpers/hakaksescrud_hd_fn.js"></script>
@@ -526,5 +405,5 @@ body {
 
 <!-- do not erase -->
 <?php
-    // require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php';
+// require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php';
 ?>

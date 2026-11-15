@@ -1,135 +1,171 @@
 
 <?php
-    ini_set("allow_url_fopen", 1);
-    require_once '../../../../users/init.php';
-    require_once $abs_us_root.$us_url_root.'usersc/templates/' . $settings->template . '/header.php';
+ini_set("allow_url_fopen", 1);
 
-    $hooks = getMyHooks();
-    includeHook($hooks, 'pre');
+require_once '../../../../users/init.php';
+require_once $abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/header.php';
 
-    if (!securePage($_SERVER['PHP_SELF'])) {
-        die();
-    }
+$hooks = getMyHooks();
+includeHook($hooks, 'pre');
 
-    $qs_ggsxxsh = $db->query("SELECT files.web_path as url_logo, posisi_logo_login FROM ggsxxsh LEFT JOIN files ON files.id = ggsxxsh.id_files_company_logo");
-    $rs_ggsxxsh = $qs_ggsxxsh->first();
+if (!securePage($_SERVER['PHP_SELF'])) {
+    die();
+}
 
-    $_SESSION['company_logo'] = $rs_ggsxxsh->url_logo;
+$qs_ggsxxsh = $db->query("
+    SELECT
+        files.web_path AS url_logo,
+        posisi_logo_login
+    FROM ggsxxsh
+    LEFT JOIN files ON files.id = ggsxxsh.id_files_company_logo
+");
+
+$rs_ggsxxsh = $qs_ggsxxsh->first();
+
+$_SESSION['company_logo'] = $rs_ggsxxsh->url_logo;
 ?>
 
 <?php
-    $errors = $successes = [];
+$errors = $successes = [];
 
-    if (Input::get('err') != '') {
-        $errors[] = Input::get('err');
+if (Input::get('err') != '') {
+    $errors[] = Input::get('err');
+}
+
+if ($user->isLoggedIn()) {
+    Redirect::to($us_url_root . $settings->redirect_uri_after_login);
+}
+
+$dest = sanitizedDest('dest');
+
+if (!empty($_POST['login_hook'])) {
+
+    $token = Input::get('csrf');
+
+    if (!Token::check($token)) {
+        include($abs_us_root . $us_url_root . 'usersc/scripts/token_error.php');
+        exit;
     }
 
-    if ($user->isLoggedIn()) {
-        Redirect::to($us_url_root . $settings->redirect_uri_after_login);
-    }
+    $validate = new Validate();
 
-    $dest = sanitizedDest('dest');
+    $validation = $validate->check($_POST, array(
+        'username' => array(
+            'display' => lang('GEN_UNAME'),
+            'required' => true
+        ),
+        'password' => array(
+            'display' => lang('GEN_PASS'),
+            'required' => true
+        )
+    ));
 
-    if (!empty($_POST['login_hook'])) {
-        $token = Input::get('csrf');
+    $validated = $validation->passed();
 
-        if (!Token::check($token)) {
-            include($abs_us_root . $us_url_root . 'usersc/scripts/token_error.php');
-            exit;
-        }
+    $username = Input::get('username');
 
-        $validate = new Validate();
+    $password = isset($_POST['password']) && is_string($_POST['password'])
+        ? $_POST['password']
+        : '';
 
-        $validation = $validate->check($_POST, array(
-            'username' => array('display' => lang('GEN_UNAME'), 'required' => true),
-            'password' => array('display' => lang('GEN_PASS'), 'required' => true)
-        ));
+    $remember = false;
 
-        $validated = $validation->passed();
+    includeHook($hooks, 'post');
 
-        $username = Input::get('username');
-        $password = isset($_POST['password']) && is_string($_POST['password']) ? $_POST['password'] : '';
-        $remember = false;
+    if ($validated) {
 
-        includeHook($hooks, 'post');
+        $user = new User();
+        $login = $user->loginEmail($username, $password, $remember);
 
-        if ($validated) {
-            $user = new User();
-            $login = $user->loginEmail($username, $password, $remember);
+        if ($login) {
 
-            if ($login) {
-                $errors = [];
+            $errors = [];
 
-                $hooks = getMyHooks(['page' => 'loginSuccess']);
-                includeHook($hooks, 'body');
+            $hooks = getMyHooks(['page' => 'loginSuccess']);
+            includeHook($hooks, 'body');
 
-                $dest = sanitizedDest('dest');
+            $dest = sanitizedDest('dest');
 
-                $_SESSION['last_confirm'] = date("Y-m-d H:i:s");
+            $_SESSION['last_confirm'] = date("Y-m-d H:i:s");
 
-                if (!empty($dest)) {
-                    Redirect::to($dest);
-                } elseif (file_exists($abs_us_root . $us_url_root . 'usersc/scripts/custom_login_script.php')) {
-                    require_once $abs_us_root . $us_url_root . 'usersc/scripts/custom_login_script.php';
-                } else {
-                    if (($dest = Config::get('homepage')) ||
-                        ($dest = 'account.php')) {
-                        Redirect::to($dest);
-                    }
-                }
+            if (!empty($dest)) {
+
+                Redirect::to($dest);
+
+            } elseif (
+                file_exists(
+                    $abs_us_root . $us_url_root . 'usersc/scripts/custom_login_script.php'
+                )
+            ) {
+
+                require_once $abs_us_root . $us_url_root . 'usersc/scripts/custom_login_script.php';
+
             } else {
-                $eventhooks = getMyHooks(['page' => 'loginFail']);
-                includeHook($eventhooks, 'body');
 
-                logger("0", "Login Fail", "A failed login on login.php");
-
-                $msg = lang("SIGNIN_FAIL");
-                $msg2 = lang("SIGNIN_PLEASE_CHK");
-
-                $errors[] = '<strong>' . $msg . '</strong><br>' . $msg2;
+                if (
+                    ($dest = Config::get('homepage')) ||
+                    ($dest = 'account.php')
+                ) {
+                    Redirect::to($dest);
+                }
             }
+
         } else {
-            $errors = $validation->errors();
+
+            $eventhooks = getMyHooks(['page' => 'loginFail']);
+            includeHook($eventhooks, 'body');
+
+            logger("0", "Login Fail", "A failed login on login.php");
+
+            $msg = lang("SIGNIN_FAIL");
+            $msg2 = lang("SIGNIN_PLEASE_CHK");
+
+            $errors[] = '<strong>' . $msg . '</strong><br>' . $msg2;
         }
 
-        sessionValMessages($errors, $successes, NULL);
+    } else {
+
+        $errors = $validation->errors();
     }
 
-    if (empty($dest)) {
-        $dest = '';
-    }
+    sessionValMessages($errors, $successes, NULL);
+}
 
-    $token = Token::generate();
+if (empty($dest)) {
+    $dest = '';
+}
+
+$token = Token::generate();
 ?>
 
 <style>
 
 /* =====================================================
-   FULL PURPLE GRADIENT LOGIN
-   MODERN GLASS PURPLE DESIGN
+   LOGIN - SOFT PURPLE GRADIENT
 ===================================================== */
 
 :root {
-    --login-primary: #A78BFA;
-    --login-primary-dark: #8B5CF6;
-    --login-primary-hover: #C4B5FD;
+    /* Tombol utama */
+    --login-button: #7654CF;
+    --login-button-hover: #6242B5;
 
-    --login-bg-dark: #4C1D95;
-    --login-bg-mid: #6D28D9;
-    --login-bg-light: #8B5CF6;
+    /* Background */
+    --login-bg: #F7F5FC;
 
-    --login-text: #FFFFFF;
-    --login-muted: #DDD6FE;
+    /* Card */
+    --login-surface: #FFFFFF;
 
-    --login-border: rgba(255,255,255,.16);
+    /* Text */
+    --login-text: #34313A;
+    --login-muted: #77717F;
 
-    --login-card:
-        linear-gradient(
-            145deg,
-            rgba(76,29,149,.88) 0%,
-            rgba(91,33,182,.86) 48%,
-            rgba(109,40,217,.88) 100%
-        );
+    /* Border */
+    --login-border: #E8E4EC;
+
+    /* Shadow */
+    --login-shadow:
+        0 15px 45px rgba(73, 48, 120, .10),
+        0 3px 12px rgba(73, 48, 120, .04);
 }
 
 /* =====================================================
@@ -139,7 +175,8 @@
 html {
     min-height: 100%;
     margin: 0;
-    background: #6D28D9 !important;
+
+    background: #F7F5FC !important;
 }
 
 body,
@@ -161,11 +198,12 @@ body.gray-bg {
 
     background:
         linear-gradient(
-            135deg,
-            #4C1D95 0%,
-            #6D28D9 32%,
-            #7C3AED 65%,
-            #A78BFA 100%
+            125deg,
+            #FFFFFF 0%,
+            #F8F6FC 28%,
+            #EDE7FA 58%,
+            #D8C9F4 82%,
+            #BBA5E9 100%
         ) !important;
 
     background-attachment: fixed !important;
@@ -187,54 +225,9 @@ body.gray-bg {
     justify-content: center;
 
     box-sizing: border-box;
-
     padding: 28px 20px;
 
     background: transparent !important;
-
-    overflow: hidden;
-}
-
-/* Decorative gradient glow */
-
-.login-wrapper::before {
-    content: "";
-
-    position: fixed;
-
-    width: 500px;
-    height: 500px;
-
-    top: -220px;
-    right: -120px;
-
-    border-radius: 50%;
-
-    background: rgba(196,181,253,.16);
-
-    filter: blur(90px);
-
-    pointer-events: none;
-}
-
-.login-wrapper::after {
-    content: "";
-
-    position: fixed;
-
-    width: 450px;
-    height: 450px;
-
-    bottom: -220px;
-    left: -120px;
-
-    border-radius: 50%;
-
-    background: rgba(167,139,250,.20);
-
-    filter: blur(100px);
-
-    pointer-events: none;
 }
 
 /* =====================================================
@@ -249,30 +242,22 @@ body.gray-bg {
     max-width: 460px;
 
     box-sizing: border-box;
-
     padding: 38px 40px 30px;
 
-    background: var(--login-card) !important;
+    background: #FFFFFF !important;
 
-    border: 1px solid rgba(255,255,255,.20);
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 13px;
 
-    border-radius: 22px;
+    box-shadow: var(--login-shadow);
 
-    box-shadow:
-        0 25px 70px rgba(35,10,80,.30),
-        0 8px 25px rgba(35,10,80,.15),
-        inset 0 1px 0 rgba(255,255,255,.12);
-
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-
-    animation: loginFadeIn .4s ease both;
+    animation: loginFadeIn .35s ease both;
 }
 
 @keyframes loginFadeIn {
     from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(10px);
     }
 
     to {
@@ -293,11 +278,11 @@ body.gray-bg {
 .login-welcome {
     margin: 0 0 16px;
 
-    color: #DDD6FE !important;
+    color: var(--login-muted) !important;
 
     font-size: 14px;
     font-weight: 500;
-    letter-spacing: .4px;
+    letter-spacing: .2px;
 }
 
 .login-logo,
@@ -317,13 +302,13 @@ body.gray-bg {
 .login-title {
     margin: 0 0 7px;
 
-    color: #FFFFFF !important;
+    color: var(--login-text) !important;
 
     font-size: 25px;
-    font-weight: 750;
+    font-weight: 700;
     line-height: 1.3;
 
-    letter-spacing: -.6px;
+    letter-spacing: -.5px;
 
     overflow-wrap: anywhere;
 }
@@ -331,7 +316,7 @@ body.gray-bg {
 .login-subtitle {
     margin: 0;
 
-    color: #DDD6FE !important;
+    color: var(--login-muted) !important;
 
     font-size: 13px;
 }
@@ -343,10 +328,10 @@ body.gray-bg {
 .login-form-title {
     margin: 0 0 18px;
 
-    color: #FFFFFF !important;
+    color: var(--login-text) !important;
 
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 600;
 
     text-align: left;
 }
@@ -363,44 +348,41 @@ body.gray-bg {
     display: block;
 
     width: 100%;
-    height: 52px;
+    height: 50px;
 
     box-sizing: border-box;
+    padding: 11px 15px;
 
-    padding: 11px 16px;
+    color: var(--login-text) !important;
 
-    color: #FFFFFF !important;
+    background: #FFFFFF !important;
 
-    background: rgba(46,16,101,.40) !important;
-
-    border: 1px solid rgba(221,214,254,.24) !important;
-
-    border-radius: 11px;
+    border: 1px solid #DED9E5 !important;
+    border-radius: 6px;
 
     box-shadow: none !important;
 
     font-size: 14px;
 
     transition:
-        background .2s,
         border-color .2s,
         box-shadow .2s;
 }
 
 .login-card .form-control::placeholder {
-    color: #C4B5FD !important;
-    opacity: .85;
+    color: #A19BA8 !important;
+    opacity: 1;
 }
 
 .login-card .form-control:focus {
-    color: #FFFFFF !important;
+    color: var(--login-text) !important;
 
-    background: rgba(46,16,101,.60) !important;
+    background: #FFFFFF !important;
 
-    border-color: #C4B5FD !important;
+    border-color: #BDB6C9 !important;
 
     box-shadow:
-        0 0 0 4px rgba(196,181,253,.15) !important;
+        0 0 0 3px rgba(80, 70, 95, .07) !important;
 
     outline: none;
 }
@@ -410,10 +392,10 @@ body.gray-bg {
 .login-card .form-control:-webkit-autofill,
 .login-card .form-control:-webkit-autofill:hover,
 .login-card .form-control:-webkit-autofill:focus {
-    -webkit-text-fill-color: #FFFFFF !important;
+    -webkit-text-fill-color: var(--login-text) !important;
 
     -webkit-box-shadow:
-        0 0 0 1000px #5425A0 inset !important;
+        0 0 0 1000px #FFFFFF inset !important;
 
     transition: background-color 5000s ease-in-out 0s;
 }
@@ -431,64 +413,53 @@ body.gray-bg {
     gap: 9px;
 
     width: 100%;
-    min-height: 51px;
+    min-height: 48px;
 
     box-sizing: border-box;
+    padding: 10px 15px;
 
-    border-radius: 11px;
+    border-radius: 6px;
 
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
 
-    letter-spacing: .1px;
+    letter-spacing: 0;
+
+    box-shadow: none !important;
 
     transition:
-        background .2s,
+        background-color .2s,
         border-color .2s,
-        box-shadow .2s,
-        transform .2s;
+        color .2s;
 }
 
 /* =====================================================
-   PRIMARY BUTTON
+   PRIMARY BUTTON - #7654CF
 ===================================================== */
 
 .login-card .btn-primary {
-    color: #4C1D95 !important;
+    color: #FFFFFF !important;
 
-    background:
-        linear-gradient(
-            135deg,
-            #DDD6FE 0%,
-            #C4B5FD 50%,
-            #A78BFA 100%
-        ) !important;
+    background: var(--login-button) !important;
 
-    border: 1px solid rgba(255,255,255,.25) !important;
-
-    box-shadow:
-        0 8px 20px rgba(35,10,80,.22),
-        inset 0 1px 0 rgba(255,255,255,.35);
+    border: 1px solid var(--login-button) !important;
 }
 
 .login-card .btn-primary:hover,
 .login-card .btn-primary:focus {
-    color: #3B0764 !important;
+    color: #FFFFFF !important;
 
-    background:
-        linear-gradient(
-            135deg,
-            #EDE9FE 0%,
-            #DDD6FE 50%,
-            #C4B5FD 100%
-        ) !important;
+    background: var(--login-button-hover) !important;
 
-    border-color: rgba(255,255,255,.45) !important;
+    border-color: var(--login-button-hover) !important;
+}
 
-    box-shadow:
-        0 10px 24px rgba(35,10,80,.28);
+.login-card .btn-primary:active {
+    color: #FFFFFF !important;
 
-    transform: translateY(-1px);
+    background: var(--login-button-hover) !important;
+
+    border-color: var(--login-button-hover) !important;
 }
 
 /* =====================================================
@@ -496,22 +467,20 @@ body.gray-bg {
 ===================================================== */
 
 .login-card .btn-info {
-    color: #F5F3FF !important;
+    color: #514B59 !important;
 
-    background: rgba(46,16,101,.30) !important;
+    background: #F5F4F7 !important;
 
-    border: 1px solid rgba(221,214,254,.28) !important;
-
-    box-shadow: none !important;
+    border: 1px solid var(--login-border) !important;
 }
 
 .login-card .btn-info:hover,
 .login-card .btn-info:focus {
-    color: #FFFFFF !important;
+    color: var(--login-text) !important;
 
-    background: rgba(46,16,101,.55) !important;
+    background: #ECEAF0 !important;
 
-    border-color: #C4B5FD !important;
+    border-color: #D8D3DF !important;
 }
 
 /* =====================================================
@@ -520,16 +489,14 @@ body.gray-bg {
 
 .login-error {
     margin-bottom: 17px;
-
     padding: 12px 14px;
 
-    color: #FEE2E2 !important;
+    color: #9B454D !important;
 
-    background: rgba(153,27,27,.25) !important;
+    background: #FAF0F1 !important;
 
-    border: 1px solid rgba(252,165,165,.35);
-
-    border-radius: 10px;
+    border: 1px solid #EEDBDD;
+    border-radius: 6px;
 
     font-size: 13px;
     line-height: 1.6;
@@ -541,14 +508,12 @@ body.gray-bg {
 
 .login-divider {
     display: flex;
-
     align-items: center;
 
     gap: 12px;
-
     margin: 22px 0 17px;
 
-    color: #DDD6FE !important;
+    color: var(--login-muted) !important;
 
     font-size: 11px;
     font-weight: 600;
@@ -561,10 +526,9 @@ body.gray-bg {
     content: "";
 
     flex: 1;
-
     height: 1px;
 
-    background: rgba(221,214,254,.25);
+    background: var(--login-border);
 }
 
 /* =====================================================
@@ -586,28 +550,25 @@ body.gray-bg {
 
 .login-footer {
     margin-top: 24px;
-
     padding-top: 18px;
 
-    border-top: 1px solid rgba(221,214,254,.20);
+    border-top: 1px solid var(--login-border);
 
-    color: #DDD6FE !important;
+    color: var(--login-muted) !important;
 
     font-size: 12px;
-
     text-align: center;
 }
 
 .login-footer a {
-    color: #FFFFFF !important;
+    color: var(--login-muted) !important;
 
     font-weight: 600;
-
     text-decoration: none;
 }
 
 .login-footer a:hover {
-    color: #DDD6FE !important;
+    color: var(--login-text) !important;
     text-decoration: underline;
 }
 
@@ -617,11 +578,11 @@ body.gray-bg {
 
 .login-footer select,
 .login-footer .form-control {
-    color: #FFFFFF !important;
+    color: var(--login-text) !important;
 
-    background: rgba(46,16,101,.40) !important;
+    background: #FFFFFF !important;
 
-    border: 1px solid rgba(221,214,254,.25) !important;
+    border: 1px solid var(--login-border) !important;
 }
 
 /* =====================================================
@@ -640,7 +601,7 @@ body.gray-bg {
 
         padding: 30px 22px 24px;
 
-        border-radius: 17px;
+        border-radius: 10px;
     }
 
     .login-title {
@@ -681,15 +642,19 @@ body.gray-bg {
 
             <div class="login-header">
 
-                <p class="login-welcome">Welcome to</p>
+                <p class="login-welcome">
+                    Welcome to
+                </p>
 
                 <?php
                     if ($rs_ggsxxsh->posisi_logo_login == 1) {
                 ?>
+
                     <img
                         class="login-logo"
                         src="<?php echo $rs_ggsxxsh->url_logo; ?>"
                         alt="Company Logo">
+
                 <?php
                     }
                 ?>
@@ -706,22 +671,31 @@ body.gray-bg {
 
             <div class="row">
                 <div class="col-sm-12">
+
                     <?php
                         includeHook($hooks, 'body');
                     ?>
+
                 </div>
             </div>
 
-            <form name="login" id="login-form" class="m-t" action="" method="post">
+            <form
+                name="login"
+                id="login-form"
+                class="m-t"
+                action=""
+                method="post">
 
                 <h2 class="login-form-title">
                     <?= lang("SIGNIN_TITLE", ""); ?>
                 </h2>
 
                 <?php if (count($errors) > 0) { ?>
+
                     <div class="login-error">
                         <?= $errors[0]; ?>
                     </div>
+
                 <?php } ?>
 
                 <input
@@ -730,6 +704,7 @@ body.gray-bg {
                     value="<?= htmlspecialchars($dest, ENT_QUOTES, 'UTF-8') ?>" />
 
                 <div class="form-group">
+
                     <input
                         class="form-control"
                         type="text"
@@ -738,9 +713,11 @@ body.gray-bg {
                         placeholder="<?= lang("SIGNIN_UORE") ?>"
                         required
                         autocomplete="username">
+
                 </div>
 
                 <div class="form-group">
+
                     <input
                         type="password"
                         class="form-control"
@@ -749,12 +726,20 @@ body.gray-bg {
                         placeholder="<?= lang("SIGNIN_PASS") ?>"
                         required
                         autocomplete="current-password">
+
                 </div>
 
                 <?php includeHook($hooks, 'form'); ?>
 
-                <input type="hidden" name="login_hook" value="1">
-                <input type="hidden" name="csrf" value="<?= $token ?>">
+                <input
+                    type="hidden"
+                    name="login_hook"
+                    value="1">
+
+                <input
+                    type="hidden"
+                    name="csrf"
+                    value="<?= $token ?>">
 
                 <button
                     class="submit btn btn-primary block full-width m-b"
@@ -762,6 +747,7 @@ body.gray-bg {
                     type="submit">
 
                     <i class="fa fa-sign-in"></i>
+
                     <?= lang("SIGNIN_BUTTONTEXT", ""); ?>
 
                 </button>
@@ -772,13 +758,16 @@ body.gray-bg {
                 AKSES LAINNYA
             </div>
 
-            <form action="../../../../tes_online.php" target="_blank">
+            <form
+                action="../../../../tes_online.php"
+                target="_blank">
 
                 <button
                     type="submit"
                     class="btn btn-info block full-width m-b">
 
                     <i class="fa fa-file-text"></i>
+
                     Form Kandidat & Tes Online
 
                 </button>
@@ -790,9 +779,11 @@ body.gray-bg {
             ?>
 
                 <div class="login-extra-logo">
+
                     <img
                         src="<?php echo $rs_ggsxxsh->url_logo; ?>"
                         alt="Company Logo">
+
                 </div>
 
             <?php
@@ -804,8 +795,11 @@ body.gray-bg {
                 <?php if ($settings->registration == 1) { ?>
 
                     <a href="../../../users/join.php">
+
                         <i class="fa fa-plus-circle"></i>
+
                         <?= lang("SIGNUP_TEXT", ""); ?>
+
                     </a>
 
                 <?php } ?>
