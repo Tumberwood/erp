@@ -103,11 +103,29 @@
                         <span class="text-muted text-xs block">Title <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <!-- <li><a class="dropdown-item" href="profile.html">Dashboard</a></li> -->
-                        <li><a class="dropdown-item" href="../../../applications/views/core/account.php">Account</a></li>
-                        <li><a class="dropdown-item" href="#appearanceModal" data-toggle="modal"><i class="fa fa-paint-brush"></i> Tampilan</a></li>
+                        <li>
+                            <a class="dropdown-item" href="../../../applications/views/core/account.php">
+                                <i class="fa fa-user-circle"></i>
+                                Account
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#appearanceModal" data-toggle="modal">
+                                <i class="fa fa-sliders"></i>
+                                Tampilan
+                            </a>
+                        </li>
+
                         <li class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../../../../users/logout.php">Logout</a></li>
+
+                        <li>
+                            <a class="dropdown-item" href="../../../../users/logout.php">
+                                <i class="fa fa-sign-out"></i>
+                                Logout
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </li>
