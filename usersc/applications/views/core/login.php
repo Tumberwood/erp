@@ -112,123 +112,123 @@
         --login-primary-dark: #1d4ed8;
         --login-text: #172033;
         --login-muted: #64748b;
-        --login-border: #e2e8f0;
-        --login-background: #f1f5f9;
+        --login-border: #dbe3ef;
     }
 
-    html,
-    body {
+    html {
         min-height: 100%;
         margin: 0;
+        background: #dce8f7;
     }
 
     body {
-        background:
-            radial-gradient(circle at 10% 10%, rgba(59, 130, 246, .13), transparent 30%),
-            radial-gradient(circle at 90% 90%, rgba(99, 102, 241, .12), transparent 30%),
-            var(--login-background) !important;
+        min-height: 100vh;
+        margin: 0 !important;
+        color: var(--login-text);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
             "Helvetica Neue", Arial, sans-serif !important;
-        color: var(--login-text);
+        background: linear-gradient(
+            180deg,
+            #edf4ff 0%,
+            #edf4ff 52%,
+            #dce8f7 52%,
+            #dce8f7 100%
+        ) !important;
     }
 
     .login-wrapper {
-        min-height: 100vh;
         width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 35px 20px;
         box-sizing: border-box;
+        padding: 28px 20px;
     }
 
     .login-card {
         width: 100%;
-        max-width: 440px;
-        background: #ffffff;
-        border: 1px solid rgba(226, 232, 240, .9);
-        border-radius: 20px;
-        padding: 42px 38px;
-        box-shadow:
-            0 20px 50px rgba(15, 23, 42, .07),
-            0 3px 10px rgba(15, 23, 42, .025);
-        animation: loginFadeIn .5s ease;
+        max-width: 460px;
+        box-sizing: border-box;
+        padding: 38px 40px 30px;
+        background: #fff;
+        border: 1px solid rgba(255, 255, 255, .85);
+        border-radius: 22px;
+        box-shadow: 0 22px 60px rgba(30, 58, 95, .13);
+        animation: loginFadeIn .35s ease both;
     }
 
     @keyframes loginFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .login-header {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 28px;
     }
 
     .login-welcome {
-        font-size: 14px;
-        color: var(--login-muted);
-        font-weight: 500;
         margin: 0 0 16px;
-        letter-spacing: .4px;
+        color: var(--login-muted);
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: .2px;
     }
 
-    .login-logo {
+    .login-logo,
+    .login-extra-logo img {
         display: block;
-        max-width: 230px;
-        max-height: 110px;
         width: auto;
+        max-width: 220px;
+        max-height: 95px;
         height: auto;
         object-fit: contain;
-        margin: 0 auto 20px;
+        margin: 0 auto 18px;
     }
 
     .login-title {
+        margin: 0 0 7px;
+        color: var(--login-text);
         font-size: 25px;
         font-weight: 750;
-        letter-spacing: -.7px;
-        color: var(--login-text);
-        margin: 0 0 8px;
         line-height: 1.3;
+        letter-spacing: -.6px;
+        overflow-wrap: anywhere;
     }
 
     .login-subtitle {
+        margin: 0;
         color: var(--login-muted);
         font-size: 13px;
-        margin: 0;
     }
 
     .login-form-title {
+        margin: 0 0 18px;
+        color: var(--login-text);
         font-size: 17px;
         font-weight: 700;
-        color: var(--login-text);
-        margin: 0 0 22px;
         text-align: left;
     }
 
     .login-card .form-group {
-        margin-bottom: 17px;
+        margin-bottom: 15px;
     }
 
     .login-card .form-control {
+        display: block;
         width: 100%;
-        height: 49px;
-        border: 1px solid var(--login-border);
-        border-radius: 10px;
-        padding: 10px 15px;
-        font-size: 14px;
-        color: var(--login-text);
-        background: #ffffff;
-        box-shadow: none;
-        transition: border-color .2s, box-shadow .2s;
+        height: 52px;
         box-sizing: border-box;
+        padding: 11px 16px;
+        color: var(--login-text);
+        background: #f8fafc;
+        border: 1px solid var(--login-border);
+        border-radius: 11px;
+        box-shadow: none;
+        font-size: 14px;
+        transition: background .2s, border-color .2s, box-shadow .2s;
     }
 
     .login-card .form-control::placeholder {
@@ -236,61 +236,65 @@
     }
 
     .login-card .form-control:focus {
+        background: #fff;
         border-color: var(--login-primary);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, .11);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, .10);
         outline: none;
     }
 
     .login-card .btn {
-        height: 49px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 650;
-        letter-spacing: .2px;
-        transition: all .2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 9px;
         width: 100%;
+        min-height: 51px;
+        box-sizing: border-box;
+        border-radius: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: .1px;
+        transition: background .2s, border-color .2s, box-shadow .2s, transform .2s;
     }
 
     .login-card .btn-primary {
+        color: #fff;
         background: var(--login-primary);
         border: 1px solid var(--login-primary);
-        color: #ffffff;
-        box-shadow: 0 5px 12px rgba(37, 99, 235, .18);
+        box-shadow: 0 7px 16px rgba(37, 99, 235, .20);
     }
 
     .login-card .btn-primary:hover,
     .login-card .btn-primary:focus {
+        color: #fff;
         background: var(--login-primary-dark);
         border-color: var(--login-primary-dark);
-        color: #ffffff;
+        box-shadow: 0 9px 20px rgba(37, 99, 235, .25);
         transform: translateY(-1px);
-        box-shadow: 0 7px 16px rgba(37, 99, 235, .25);
     }
 
     .login-card .btn-info {
-        background: #f1f5f9;
-        border: 1px solid #e2e8f0;
         color: #334155;
+        background: #eef3fa;
+        border: 1px solid #dce5f1;
         box-shadow: none;
     }
 
-    .login-card .btn-info:hover {
-        background: #e2e8f0;
+    .login-card .btn-info:hover,
+    .login-card .btn-info:focus {
         color: #1e293b;
+        background: #e2eaf5;
+        border-color: #cbd8e8;
     }
 
     .login-error {
-        padding: 12px 15px;
-        border-radius: 9px;
+        margin-bottom: 17px;
+        padding: 12px 14px;
+        color: #b91c1c;
         background: #fef2f2;
         border: 1px solid #fecaca;
-        color: #b91c1c;
+        border-radius: 10px;
         font-size: 13px;
-        margin-bottom: 18px;
         line-height: 1.6;
     }
 
@@ -298,9 +302,11 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        margin: 20px 0;
+        margin: 22px 0 17px;
         color: #94a3b8;
         font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .5px;
     }
 
     .login-divider::before,
@@ -311,13 +317,22 @@
         background: #e2e8f0;
     }
 
-    .login-footer {
+    .login-extra-logo {
+        margin-top: 22px;
         text-align: center;
+    }
+
+    .login-extra-logo img {
+        margin-bottom: 0;
+    }
+
+    .login-footer {
+        margin-top: 24px;
+        padding-top: 18px;
+        border-top: 1px solid #edf1f6;
         color: var(--login-muted);
         font-size: 12px;
-        margin-top: 28px;
-        padding-top: 20px;
-        border-top: 1px solid #f1f5f9;
+        text-align: center;
     }
 
     .login-footer a {
@@ -330,31 +345,37 @@
         text-decoration: underline;
     }
 
-    .login-extra-logo {
-        margin-top: 25px;
-        text-align: center;
-    }
-
-    .login-extra-logo img {
-        max-width: 230px;
-        max-height: 110px;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-    }
-
-    @media (max-width: 480px) {
+    @media (max-width: 520px) {
         .login-wrapper {
-            padding: 20px 14px;
+            align-items: flex-start;
+            padding: 18px 13px;
         }
 
         .login-card {
-            padding: 32px 23px;
-            border-radius: 16px;
+            max-width: 100%;
+            padding: 30px 22px 24px;
+            border-radius: 17px;
         }
 
         .login-title {
             font-size: 22px;
+        }
+    }
+
+    @media (max-height: 700px) and (min-width: 521px) {
+        .login-wrapper {
+            align-items: flex-start;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .login-card {
+            animation: none;
+        }
+
+        .login-card .btn,
+        .login-card .form-control {
+            transition: none;
         }
     }
 </style>
@@ -420,7 +441,6 @@
                         id="username"
                         placeholder="<?= lang("SIGNIN_UORE") ?>"
                         required
-                        autofocus
                         autocomplete="username">
                 </div>
 
