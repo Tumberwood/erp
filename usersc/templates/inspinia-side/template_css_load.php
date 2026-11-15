@@ -210,7 +210,8 @@
 
 
 <!-- Floating Chat Button -->
-<div class="chatbot-button" id="btnChatbot" data-toggle="tooltip" data-placement="left" title="Chatbot" style="display: none">
+<!-- <div class="chatbot-button" id="btnChatbot" data-toggle="tooltip" data-placement="left" title="Chatbot" style="display: none"> -->
+<div class="chatbot-button" id="btnChatbot" data-toggle="tooltip" data-placement="left" title="Chatbot">
   <i class="fa fa-comment"></i>
 </div>
 
